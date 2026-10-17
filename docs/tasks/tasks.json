@@ -2311,11 +2311,11 @@
         "wotr-client:docs/ui/UX_SPEC.md",
         "docs/ROADMAP.md"
       ],
-      "status": "in_progress",
+      "status": "blocked",
       "assignee": "claude-opus",
       "started_at": "2026-10-17T10:41:46Z",
       "finished_at": null,
-      "blocked_reason": null,
+      "blocked_reason": "Code done (client 822b272, EditMode 922/922); the visual check of long names waits for the next release (rc.4), which the owner installs through the in-game update.",
       "checks": [],
       "documentation": [],
       "history": [
@@ -2330,8 +2330,331 @@
           "event": "note",
           "agent": "claude-opus",
           "note": "Client 822b272: CardTitleFit + HandCard fit, PlayMode title check fixed. EditMode CI 922/922 (run 39026019112, CardTitleFitTests 5/5). PlayMode not run (no self-hosted runner); visual check pending in rc.3 on the owner's Linux PC."
+        },
+        {
+          "at": "2026-10-17T11:04:07Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Code done (client 822b272, EditMode 922/922); the visual check of long names waits for the next release (rc.4), which the owner installs through the in-game update."
         }
       ]
+    },
+    {
+      "id": "UI-218",
+      "title": "Political map view",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 969,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R22"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/ui/MAP_CONTOURS_UX.md"
+      ],
+      "spec": "docs/tasks/UI-218.md",
+      "update_docs": [
+        "docs/tasks/UI-218.md",
+        "wotr-client:docs/ui/MAP_CONTOURS_UX.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/release/PLAYER-GUIDE.md",
+        "docs/ROADMAP.md"
+      ],
+      "status": "blocked",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T11:04:07Z",
+      "finished_at": null,
+      "blocked_reason": "Code done (client c6b1413, EditMode 927/927); the visual check (nation colours, captor stripes, toggle, P) waits for rc.4 on the owner's PC.",
+      "checks": [],
+      "documentation": [],
+      "history": [
+        {
+          "at": "2026-10-17T11:04:07Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: political map view (nation colours, captor stripes, subdued terrain), button + P, stored on the device. Verify: EditMode stripe/captor/preference tests, EditMode CI, visual check in rc.4."
+        },
+        {
+          "at": "2026-10-17T11:20:29Z",
+          "event": "note",
+          "agent": "claude-opus",
+          "note": "Client ce6b8af + c6b1413: MapPoliticalView/MapHatching/MapViewPreference, toggle + P, legend, docs. EditMode CI 927/927 (run 39027963891; PoliticalViewTests 5/5). PlayMode not run (no runner)."
+        },
+        {
+          "at": "2026-10-17T11:20:29Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Code done (client c6b1413, EditMode 927/927); the visual check (nation colours, captor stripes, toggle, P) waits for rc.4 on the owner's PC."
+        }
+      ]
+    },
+    {
+      "id": "UI-219",
+      "title": "Fellowship route without the second click",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 970,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R15",
+        "R22"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/ui/FELLOWSHIP_UX.md"
+      ],
+      "spec": "docs/tasks/UI-219.md",
+      "update_docs": [
+        "docs/tasks/UI-219.md",
+        "wotr-client:docs/ui/FELLOWSHIP_UX.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/ui/BOARD_INTERACTION_UX.md",
+        "wotr-client:docs/release/PLAYER-GUIDE.md",
+        "docs/ROADMAP.md"
+      ],
+      "status": "in_progress",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T11:20:29Z",
+      "finished_at": null,
+      "blocked_reason": null,
+      "checks": [],
+      "documentation": [],
+      "history": [
+        {
+          "at": "2026-10-17T11:20:29Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: Fellowship declaration/reveal route sends at full Progress on its last step, a shorter one with ✓; no second click. Verify: EditMode completeness tests, EditMode CI, PlayMode helpers updated, visual check in rc.4."
+        }
+      ]
+    },
+    {
+      "id": "UI-220",
+      "title": "Hide the Fellowship from its status plaque",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 971,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R15",
+        "R22"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/ui/FELLOWSHIP_UX.md"
+      ],
+      "spec": "docs/tasks/UI-220.md",
+      "update_docs": [
+        "docs/tasks/UI-220.md",
+        "wotr-client:docs/ui/FELLOWSHIP_UX.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/release/PLAYER-GUIDE.md",
+        "docs/ROADMAP.md"
+      ],
+      "status": "planned",
+      "assignee": null,
+      "started_at": null,
+      "finished_at": null,
+      "blocked_reason": null,
+      "checks": [],
+      "documentation": [],
+      "history": []
+    },
+    {
+      "id": "UI-221",
+      "title": "Table effects unroll on hover like the hand",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 972,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R22"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/ui/CARD_CHOICES_UX.md"
+      ],
+      "spec": "docs/tasks/UI-221.md",
+      "update_docs": [
+        "docs/tasks/UI-221.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/ui/CARD_CHOICES_UX.md",
+        "docs/ROADMAP.md"
+      ],
+      "status": "planned",
+      "assignee": null,
+      "started_at": null,
+      "finished_at": null,
+      "blocked_reason": null,
+      "checks": [],
+      "documentation": [],
+      "history": []
+    },
+    {
+      "id": "TEST-08",
+      "title": "Test scenarios for every account on production",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 973,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R31"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/ARCHITECTURE.md",
+        "infra/README.md"
+      ],
+      "spec": "docs/tasks/TEST-08.md",
+      "update_docs": [
+        "docs/tasks/TEST-08.md",
+        "docs/DECISIONS.md",
+        "docs/ARCHITECTURE.md",
+        "infra/README.md",
+        "infra/.env.example",
+        "infra/production.env.example",
+        "docs/ROADMAP.md"
+      ],
+      "status": "planned",
+      "assignee": null,
+      "started_at": null,
+      "finished_at": null,
+      "blocked_reason": null,
+      "checks": [],
+      "documentation": [],
+      "history": []
+    },
+    {
+      "id": "UI-222",
+      "title": "Discard hand cards by clicking them, marked in red",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 974,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R18",
+        "R22"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/ui/CARD_CHOICES_UX.md"
+      ],
+      "spec": "docs/tasks/UI-222.md",
+      "update_docs": [
+        "docs/tasks/UI-222.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/ui/CARD_CHOICES_UX.md",
+        "AGENTS.md",
+        "docs/ROADMAP.md"
+      ],
+      "status": "planned",
+      "assignee": null,
+      "started_at": null,
+      "finished_at": null,
+      "blocked_reason": null,
+      "checks": [],
+      "documentation": [],
+      "history": []
+    },
+    {
+      "id": "UI-223",
+      "title": "Left rail tabs stand out from the map",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 975,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R22",
+        "R23"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "wotr-client:docs/ui/UX_SPEC.md"
+      ],
+      "spec": "docs/tasks/UI-223.md",
+      "update_docs": [
+        "docs/tasks/UI-223.md",
+        "wotr-client:graphicalassets/ui/README.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "docs/ROADMAP.md"
+      ],
+      "status": "planned",
+      "assignee": null,
+      "started_at": null,
+      "finished_at": null,
+      "blocked_reason": null,
+      "checks": [],
+      "documentation": [],
+      "history": []
+    },
+    {
+      "id": "UI-224",
+      "title": "Enterable regions pulse with a green glow",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 976,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R22",
+        "R23"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "wotr-client:docs/ui/UX_SPEC.md"
+      ],
+      "spec": "docs/tasks/UI-224.md",
+      "update_docs": [
+        "docs/tasks/UI-224.md",
+        "wotr-client:docs/ui/MAP_CONTOURS_UX.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "docs/ROADMAP.md"
+      ],
+      "status": "planned",
+      "assignee": null,
+      "started_at": null,
+      "finished_at": null,
+      "blocked_reason": null,
+      "checks": [],
+      "documentation": [],
+      "history": []
     }
   ]
 }

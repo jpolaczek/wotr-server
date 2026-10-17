@@ -34,6 +34,14 @@ The shared desktop icon is configured in the client. English documentation and t
 | [LNX-02](tasks/LNX-02.md) | Linux client build, AppImage installer and CI | `planned` |
 | [DECK-01](tasks/DECK-01.md) | Steam Deck playability of the Linux build | `planned` |
 | [UI-217](tasks/UI-217.md) | Readable card names in the hand tiles | `planned` |
+| [UI-218](tasks/UI-218.md) | Political map view | `planned` |
+| [UI-219](tasks/UI-219.md) | Fellowship route without the second click | `planned` |
+| [UI-220](tasks/UI-220.md) | Hide the Fellowship from its status plaque | `planned` |
+| [UI-221](tasks/UI-221.md) | Table effects unroll on hover like the hand | `planned` |
+| [TEST-08](tasks/TEST-08.md) | Test scenarios for every account on production | `planned` |
+| [UI-222](tasks/UI-222.md) | Discard hand cards by clicking them, marked in red | `planned` |
+| [UI-223](tasks/UI-223.md) | Left rail tabs stand out from the map | `planned` |
+| [UI-224](tasks/UI-224.md) | Enterable regions pulse with a green glow | `planned` |
 | [AUDIO-11](tasks/AUDIO-11.md) | New battle-start sound | `blocked` |
 
 ## Order and acceptance
