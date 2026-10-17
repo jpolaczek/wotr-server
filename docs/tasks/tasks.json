@@ -2552,19 +2552,43 @@
         "infra/production.env.example",
         "docs/ROADMAP.md"
       ],
-      "status": "in_progress",
+      "status": "done",
       "assignee": "claude-opus",
       "started_at": "2026-10-17T11:29:46Z",
-      "finished_at": null,
+      "finished_at": "2026-10-17T11:55:36Z",
       "blocked_reason": null,
-      "checks": [],
-      "documentation": [],
+      "checks": [
+        "PASS: dotnet test --filter TestScenario|GameRateLimit|Demo 51/51 (new StartsFasterThanTheRoomBudgetAreRefusedForThatAccountOnly)",
+        "PASS: GitHub Actions Verify server 39029135330 checks + backend success",
+        "PASS: production GET/POST /api/test-scenarios with client headers -> 401 (routes mapped), unknown route -> 404; server healthy, Wotr__Testing__Scenarios=true"
+      ],
+      "documentation": [
+        "docs/DECISIONS.md",
+        "infra/README.md",
+        "docs/ARCHITECTURE.md"
+      ],
       "history": [
         {
           "at": "2026-10-17T11:29:46Z",
           "event": "start",
           "agent": "claude-opus",
           "note": "Goal: R31 test scenarios for every signed-in account on production, start endpoint rate-limited. Verify: dotnet test (scenario + rate limit), backup, deploy, catalog check on production."
+        },
+        {
+          "at": "2026-10-17T11:55:36Z",
+          "event": "finish",
+          "agent": "claude-opus",
+          "note": "Production offers the R31 test scenarios (45 base-game scenarios) to every signed-in account (D19); a scenario start counts against the account's room budget (429 beyond it). Deployed 133526f with WOTR_TEST_SCENARIOS=true after a backup (/srv/wotr/backups/2026-10-17-before-test08).",
+          "checks": [
+            "PASS: dotnet test --filter TestScenario|GameRateLimit|Demo 51/51 (new StartsFasterThanTheRoomBudgetAreRefusedForThatAccountOnly)",
+            "PASS: GitHub Actions Verify server 39029135330 checks + backend success",
+            "PASS: production GET/POST /api/test-scenarios with client headers -> 401 (routes mapped), unknown route -> 404; server healthy, Wotr__Testing__Scenarios=true"
+          ],
+          "documentation": [
+            "docs/DECISIONS.md",
+            "infra/README.md",
+            "docs/ARCHITECTURE.md"
+          ]
         }
       ]
     },
