@@ -6,7 +6,8 @@ public sealed record RoomChatResult(RoomChatView? View = null, string Error = ""
 
 // MENU-24: a plain chat for the participants of a room (OBS-01: observers too), held only in this process's memory
 // (no history is stored, a restart clears it): the latest messages of each room, numbered within the room; rooms
-// silent for a while drop out.
+// silent for a while drop out. CHAT-01: observers read every message, players only the players'; the game reaches
+// its room's chat through the game's id.
 public sealed class RoomChat(RoomStore rooms, TimeProvider clock)
 {
     public const int Kept = 50;
@@ -17,10 +18,19 @@ public sealed class RoomChat(RoomStore rooms, TimeProvider clock)
 
     public async Task<RoomChatResult> Read(string roomId, string account, long after, CancellationToken cancellation = default)
     {
-        if (await Member(roomId, account, cancellation) is null)
+        if (await Member(roomId, account, cancellation) is not { } member)
             return new(Error: "RoomNotFound");
-        return new(View(roomId, after));
+        return new(View(roomId, after, member.Room.Role));
     }
+
+    // CHAT-01: the chat of the room that started this game, for its players and observers.
+    public async Task<RoomChatResult> ReadGame(string matchId, string account, long after, CancellationToken cancellation = default) =>
+        await rooms.RoomOfMatch(matchId, cancellation) is { } roomId
+            ? await Read(roomId, account, after, cancellation) : new(Error: "RoomNotFound");
+
+    public async Task<RoomChatResult> PostGame(string matchId, string account, string? text, CancellationToken cancellation = default) =>
+        await rooms.RoomOfMatch(matchId, cancellation) is { } roomId
+            ? await Post(roomId, account, text, cancellation) : new(Error: "RoomNotFound");
 
     public async Task<RoomChatResult> Post(string roomId, string account, string? text, CancellationToken cancellation = default)
     {
@@ -33,7 +43,7 @@ public sealed class RoomChat(RoomStore rooms, TimeProvider clock)
         {
             Author = member.Name, Role = member.Room.Role, Side = member.Room.You, Text = clean
         });
-        return new(View(roomId, 0));
+        return new(View(roomId, 0, member.Room.Role));
     }
 
     // MENU-27: a deleted room takes its chat with it.
@@ -72,7 +82,7 @@ public sealed class RoomChat(RoomStore rooms, TimeProvider clock)
     }
 
     // A number beyond the latest belongs to messages lost in a restart: the reader gets what there is now.
-    private RoomChatView View(string roomId, long after)
+    private RoomChatView View(string roomId, long after, RoomRole reader)
     {
         lock (gate)
         {
@@ -82,10 +92,14 @@ public sealed class RoomChat(RoomStore rooms, TimeProvider clock)
             return new RoomChatView
             {
                 Latest = log.Latest,
-                Messages = log.Messages.Where(m => m.Sequence > from).Select(Copy).ToList()
+                Messages = log.Messages.Where(m => m.Sequence > from && Visible(m, reader)).Select(Copy).ToList()
             };
         }
     }
+
+    // CHAT-01: an observer reads everyone; a player reads the players only.
+    private static bool Visible(RoomChatMessage message, RoomRole reader) =>
+        reader == RoomRole.Observer || message.Role == RoomRole.Player;
 
     private void DropIdle()
     {

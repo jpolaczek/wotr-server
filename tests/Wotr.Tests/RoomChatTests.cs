@@ -84,6 +84,49 @@ public sealed class RoomChatTests
         Assert.Equal("anyone here?", Assert.Single(view.Messages).Text);
     }
 
+    // CHAT-01: on the board the game's chat is its room's; an observer reads everyone, a player only the players.
+    [PostgresFact]
+    public async Task ObserversReadEveryoneAndPlayersOnlyThePlayersAlsoThroughTheGame()
+    {
+        using var host = new AccountHost(extra: TestBudgets.Stress);
+        var alice = await MenuAccounts.Register(host);
+        var bob = await MenuAccounts.Register(host);
+        var carol = await MenuAccounts.Register(host);
+        var rooms = host.Services.GetRequiredService<RoomStore>();
+        var room = await rooms.Create(alice.AccountId, Side.FreePeoples);
+        await rooms.Join(room.JoinCode, bob.AccountId);
+        Assert.Equal(RoomRole.Observer, (await rooms.Join(room.JoinCode, carol.AccountId, RoomRole.Observer)).Room!.Role);
+        var version = (await rooms.Read(room.Id, alice.AccountId))!.Version;
+        RoomView? ready = null;
+        foreach (var seat in new[] { alice.AccountId, bob.AccountId })
+            ready = (await rooms.Confirm(room.Id, seat, version)).Room!;
+        var started = await rooms.Start(room.Id, alice.AccountId, ready!.Version);
+        Assert.Equal("", started.Error);
+        var match = started.Room!.MatchId;
+        using var a = MenuAccounts.Client(host, alice);
+        using var b = MenuAccounts.Client(host, bob);
+        using var c = MenuAccounts.Client(host, carol);
+
+        await Send(a, room.Id, "from the free peoples");
+        using (var observed = await c.PostAsJsonAsync(GameChat(match), new RoomChatRequest { Text = "from the audience" }, BoardCatalog.Json))
+            observed.EnsureSuccessStatusCode();
+        var player = (await b.GetFromJsonAsync<RoomChatView>(GameChat(match), BoardCatalog.Json))!;
+        Assert.Equal(new[] { "from the free peoples" }, player.Messages.Select(m => m.Text));
+        var observer = (await c.GetFromJsonAsync<RoomChatView>(GameChat(match), BoardCatalog.Json))!;
+        Assert.Equal(new[] { "from the free peoples", "from the audience" }, observer.Messages.Select(m => m.Text));
+        Assert.Equal(RoomRole.Observer, observer.Messages[1].Role);
+        var waiting = (await a.GetFromJsonAsync<RoomChatView>(Chat(room.Id), BoardCatalog.Json))!;
+        Assert.Equal(new[] { "from the free peoples" }, waiting.Messages.Select(m => m.Text));
+
+        var outsider = MenuAccounts.Client(host, await MenuAccounts.Register(host));
+        using (var foreign = await outsider.GetAsync(GameChat(match)))
+            Assert.Equal(HttpStatusCode.NotFound, foreign.StatusCode);
+        using (var unknown = await a.GetAsync(GameChat("no-such-game")))
+            Assert.Equal(HttpStatusCode.NotFound, unknown.StatusCode);
+    }
+
+    private static string GameChat(string match) => "/api/matches/" + match + "/chat";
+
     private static async Task<(HttpClient Alice, HttpClient Bob, string Room, string AliceAccount)> Table(AccountHost host)
     {
         var alice = await MenuAccounts.Register(host);

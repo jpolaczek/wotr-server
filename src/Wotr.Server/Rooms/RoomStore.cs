@@ -80,6 +80,14 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
     public async Task<RoomView?> Read(string id, string account, CancellationToken cancellation = default) =>
         (await Participant(id, account, cancellation))?.Room;
 
+    // CHAT-01: the room that started a game; the caller still checks that the reader takes part in it.
+    public async Task<string?> RoomOfMatch(string matchId, CancellationToken cancellation = default)
+    {
+        await using var connection = await database.Source.OpenConnectionAsync(cancellation);
+        await using var command = Database.Command(connection, null, "SELECT id FROM rooms WHERE match_id=$1 AND NOT closed LIMIT 1", matchId);
+        return await command.ExecuteScalarAsync(cancellation) as string;
+    }
+
     public async Task<RoomParticipant?> Participant(string id, string account, CancellationToken cancellation = default)
     {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);

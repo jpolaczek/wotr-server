@@ -193,3 +193,12 @@ The `wotr_restore_20261016obs` database stays to acceptance; it can be removed l
   - the page switch shows the hand and knowledge of the selected page.
 - The files are in `<persistentDataPath>/Replays` (MACOS: `~/Library/Application
   Support/<firma>/<produkt>/Replays`), together for all accounts on this computer.
+
+## Chat on the board — CHAT-01 (2026-10-17)
+
+The room's chat (MENU-24) continues on the board: `GET/POST /api/matches/{id}/chat` resolve the room that started the
+game and answer its participants (players and observers) under the rooms' request budget; anyone else, or an
+unknown game, gets 404. What a reader sees depends on the reader's role, in the waiting room and on the board alike:
+an observer reads every message, a player reads only the players' messages, so the audience never talks into the
+game. Messages stay in the server's memory only (the latest 50 per room, 1–200 characters of plain text, no history
+after a restart). Tests: `RoomChatTests.ObserversReadEveryoneAndPlayersOnlyThePlayersAlsoThroughTheGame`.

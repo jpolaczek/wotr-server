@@ -102,6 +102,7 @@ BattleReportEndpoints.Map(app);
 ObserverEndpoints.Map(app);
 ReplayEndpoints.Map(app);
 LobbyEndpoints.Map(app);
+RoomChatEndpoints.MapGames(app);
 TestScenarioEndpoints.Map(app);
 AccountEndpoints.Map(app);
 DemoEndpoints.Map(app);
