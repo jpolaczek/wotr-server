@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "parameters": "--vulnerable --include-transitive",
+  "sources": [
+    "https://api.nuget.org/v3/index.json"
+  ],
+  "projects": [
+    {
+      "path": "wotr-server/src/Wotr.Contracts/Wotr.Contracts.csproj"
+    },
+    {
+      "path": "wotr-server/src/Wotr.Domain/Wotr.Domain.csproj"
+    },
+    {
+      "path": "wotr-server/src/Wotr.Releases/Wotr.Releases.csproj"
+    },
+    {
+      "path": "wotr-server/src/Wotr.ReleaseTool/Wotr.ReleaseTool.csproj"
+    },
+    {
+      "path": "wotr-server/src/Wotr.Server/Wotr.Server.csproj"
+    },
+    {
+      "path": "wotr-server/tests/Wotr.Scenarios/Wotr.Scenarios.csproj"
+    },
+    {
+      "path": "wotr-server/tests/Wotr.Tests/Wotr.Tests.csproj"
+    }
+  ]
+}

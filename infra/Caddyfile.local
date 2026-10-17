@@ -1,0 +1,5 @@
+{$WOTR_DOMAIN} {
+    tls internal
+    reverse_proxy server:8080
+    header -Server
+}

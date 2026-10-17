@@ -1,0 +1,2 @@
+# Test-only WSS client; deployment scripts use the Python standard library.
+websockets==15.0.1

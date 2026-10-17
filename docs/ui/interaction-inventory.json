@@ -1,0 +1,1179 @@
+{
+  "schema_version": 2,
+  "viewport": [
+    1366,
+    768
+  ],
+  "families": [
+    {
+      "id": "Configuration",
+      "start": "Room",
+      "selection": "Module chips and legal variants",
+      "preview": "Two seats, same configuration seal",
+      "normal": "Base, two players",
+      "difficult": "All modules and dependency conflict",
+      "click_path": "module → variant → Accept",
+      "confirmations_per_decision": 1,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "PortraitVersions",
+      "start": "Own Lords setup decision",
+      "selection": "Portrait compares; card chooses a server-provided version; Guide is separate",
+      "preview": "Two version cards with shared ability tooltips and chosen-version markers",
+      "normal": "One alternate",
+      "difficult": "Four alternates, only guide public",
+      "click_path": "portrait → version card; Starting Guide → one ✓ for the complete set",
+      "confirmations_per_decision": 1,
+      "cancel": "Esc/Close preserves the private draft; tab or decision notice reopens the same host. Reconnect uses the existing persisted command and receipt.",
+      "cost": "No action die: this is the server-owned setup decision.",
+      "implementation_task": "UI-68",
+      "hover": "Ability label or keyboard focus shows full reviewed text and source without changing choices."
+    },
+    {
+      "id": "PortraitDestination",
+      "start": "Portrait",
+      "selection": "Group portraits then map destination",
+      "preview": "Ghost portraits and remaining group",
+      "normal": "One companion",
+      "difficult": "Mixed eligible versions and paths",
+      "click_path": "portrait group → successive region clicks → double-click endpoint",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-21",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "TokenChoice",
+      "start": "Token rack",
+      "selection": "Choose eligible token",
+      "preview": "Token transferred to own rack",
+      "normal": "One awarded token",
+      "difficult": "Two tokens awarded automatically, no artificial choice",
+      "click_path": "hover token → click to take it",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "CardGrid",
+      "start": "Hand fan",
+      "selection": "Click individual excess cards",
+      "preview": "Selected backs move to discard slots",
+      "normal": "Seven cards, select one",
+      "difficult": "Eight cards, select two; eight 112px cards in two rows if scaled",
+      "click_path": "hover cards → select set → ✓",
+      "confirmations_per_decision": 1,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-18",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "MapPortrait",
+      "start": "Fellowship marker",
+      "selection": "Declare location or choose eligible guide",
+      "preview": "Known position, healing, active nation",
+      "normal": "Remain without declaration",
+      "difficult": "Several routes with different consequences; guide change remains optional",
+      "click_path": "hover Fellowship → marker/portrait → required target; final click commits",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-21",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "DiceTransfer",
+      "start": "Own dice",
+      "selection": "Click dice into Hunt lane",
+      "preview": "Chosen dice, minimum and maximum pips",
+      "normal": "Allocate one of seven",
+      "difficult": "No companions but one allowed; forced minimum one",
+      "click_path": "click/drag dice between pools → ✓",
+      "confirmations_per_decision": 1,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "DiceComparison",
+      "start": "Rolled dice",
+      "selection": "Click candidate with source badge",
+      "preview": "Chosen, removed and Hunt lanes",
+      "normal": "Two candidates",
+      "difficult": "Several different Eyes, removal marks, provenance",
+      "click_path": "hover to compare provenance → click the exact die",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "TokenDie",
+      "start": "Dismay token",
+      "selection": "Choose eligible die to reroll",
+      "preview": "Token removed, result unknown",
+      "normal": "Single eligible Ruler",
+      "difficult": "Cannot preview future face",
+      "click_path": "token → eligible die; final click commits, or Decline",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "ObjectIntentCost",
+      "start": "Specific die",
+      "selection": "Die face symbol, then highlighted object and target",
+      "preview": "Known effect and concrete active die",
+      "normal": "Whole army to neighbor",
+      "difficult": "Second army and three non-equivalent costs",
+      "click_path": "specific die → symbol when needed → highlighted object → final target gesture",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-15",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "RingDieFace",
+      "start": "Ring rack",
+      "selection": "Ring, die and new face",
+      "preview": "Ring transfer/removal and changed die",
+      "normal": "Army to Event",
+      "difficult": "Shadow Eye goes Hunt; later action uses another die",
+      "click_path": "ring → die → face; final click commits",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "MapUnits",
+      "start": "Specific Army/Character die",
+      "selection": "Hover army, toggle pieces, target; next army or Finish",
+      "preview": "Current selection and already committed first march",
+      "normal": "One full army",
+      "difficult": "This one. units, mixed nations, leaders and characters; expanded groups",
+      "click_path": "die → hover army → pieces → click/drop target; repeat for second army or ✓ to finish early",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-17",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "ReservePlacement",
+      "start": "Specific Muster die",
+      "selection": "Hover settlement then double-click/drop eligible reserve figure",
+      "preview": "Known placement effect and remaining action budget",
+      "normal": "One elite",
+      "difficult": "Two nations and distinct settlements; missing reserves",
+      "click_path": "Muster → hover/click settlement → double-click/drop reserve piece; next placement or ✓ to finish early",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-20",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "NationTrack",
+      "start": "Nation crest",
+      "selection": "Eligible political step",
+      "preview": "Current and destination slot, activation lock",
+      "normal": "One voluntary step",
+      "difficult": "Passive nation cannot cross At War; reasons on focus",
+      "click_path": "Muster → crest → next track slot, or drag",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-20",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "CardMapTargets",
+      "start": "Specific die then own card",
+      "selection": "Double-click/drop card then required targets",
+      "preview": "Pinned card, target markers and selected cost",
+      "normal": "One target",
+      "difficult": "Several targets and subsequent committed reaction; keep previous choices as chips",
+      "click_path": "die → double-click/drag card → required object targets; final gesture commits",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-18",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "CardOrDecline",
+      "start": "Regional reaction/combat context",
+      "selection": "Double-click/drop own card or Decline",
+      "preview": "Own face, opponent committed back",
+      "normal": "One card or none",
+      "difficult": "Hand of six, pinned full text, opponent secret card",
+      "click_path": "hover card → double-click/drop card, or Decline",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-18",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "HitsUnits",
+      "start": "Hit pips",
+      "selection": "Regular remove or elite Downgrade/Remove",
+      "preview": "Remaining hits and aftermath, last-unit consequences",
+      "normal": "Two hits and three units",
+      "difficult": "This one. units, two nations, no regular for replacement",
+      "click_path": "click pieces to cycle casualty operation → ✓",
+      "confirmations_per_decision": 1,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-19",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "UnitsToReserve",
+      "start": "Excess pips",
+      "selection": "Click actual pieces to return",
+      "preview": "Final force, returned reserve pieces",
+      "normal": "Eleven field units remove one",
+      "difficult": "Five-unit garrison limit; grouped units stay in stable positions",
+      "click_path": "select pieces → ✓",
+      "confirmations_per_decision": 1,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-20",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "ContinueStopElite",
+      "start": "Battle region panel",
+      "selection": "Stop or Continue; select elite for siege",
+      "preview": "One more round and required downgrade",
+      "normal": "Ordinary Continue/Stop",
+      "difficult": "Siege needs eligible elite and available replacement",
+      "click_path": "Continue/Stop directly, or select elite → ✓",
+      "confirmations_per_decision": 1,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-19",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "MapStayShelter",
+      "start": "Defending army",
+      "selection": "Stay, shelter or legal map retreat",
+      "preview": "Surviving destination force and garrison limit",
+      "normal": "One legal retreat",
+      "difficult": "No retreat; shelter creates separate mandatory excess decision",
+      "click_path": "click/drop destination, Stay or shelter",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-19",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "MapRoute",
+      "start": "Fellowship marker or selected character group",
+      "selection": "Successive region clicks, double-click endpoint",
+      "preview": "Explicit route consequences and remaining range",
+      "normal": "One equivalent route",
+      "difficult": "Several Shadow strongholds; no automatic best route",
+      "click_path": "marker → successive region clicks → double-click endpoint",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-21",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "GuideRandomCorruption",
+      "start": "Drawn Hunt tile",
+      "selection": "Guide sacrifice, random companion or take corruption",
+      "preview": "Known residual damage; random backs only",
+      "normal": "Take corruption",
+      "difficult": "Guide removal changes ability; random result not previewed",
+      "click_path": "Guide/Random/Ring → required selection → final gesture commits",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-21",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "PortraitChoice",
+      "start": "Guide portrait",
+      "selection": "Eligible portrait",
+      "preview": "New guide and any immediate ability",
+      "normal": "Two eligible guides",
+      "difficult": "Council version becomes public only after commit",
+      "click_path": "hover portrait → select → ✓",
+      "confirmations_per_decision": 1,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-21",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "TileCardOrDecline",
+      "start": "Mordor tile",
+      "selection": "Intervention or Decline",
+      "preview": "Known tile flags, corruption and pending movement",
+      "normal": "Decline",
+      "difficult": "Last step with corruption near twelve, no premature win",
+      "click_path": "hover tile/card → double-click/drop response or Decline",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-21",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "EyePortraitTile",
+      "start": "Eligible Eye die",
+      "selection": "Sovereign then eligible private tiles",
+      "preview": "Chosen tile back for opponent, other tiles returned",
+      "normal": "Two candidates",
+      "difficult": "Captain Eye excluded; Visible variant exposes value",
+      "click_path": "Eye → sovereign → Draw if required → tile; each final click commits",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "TileDrawStop",
+      "start": "Current corruption tile",
+      "selection": "Draw or Stop",
+      "preview": "Only last tile can be retained",
+      "normal": "Stop after first",
+      "difficult": "Kings tile interrupts draw automatically; earlier tiles unavailable",
+      "click_path": "Draw or Stop directly",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "PortraitTargetCost",
+      "start": "Sovereign portrait",
+      "selection": "Ability, target, matching icon and cost",
+      "preview": "Known status change, returned tiles",
+      "normal": "Awaken one sovereign",
+      "difficult": "Corrupted target, wrong nation icon unavailable",
+      "click_path": "exact die/token → hover owner region → ability symbol → required target; optional recruit set → ✓",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "DieTokenTarget",
+      "start": "Ruler die",
+      "selection": "Normal/second ability; optional eligible token",
+      "preview": "Cost, mandatory ability and ring exclusion",
+      "normal": "Ruler normal effect",
+      "difficult": "Token cannot coexist with used ring, source-specific effect",
+      "click_path": "die → ability/token symbol → target",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "MapArmyGroupRoute",
+      "start": "Army on map",
+      "selection": "Explicit groups, figures and ordered region steps",
+      "preview": "All routes and one already-paid event cost",
+      "normal": "One army follows a two-edge march",
+      "difficult": "Four groups, mandatory maximum moves, garrison and arrival before battle",
+      "click_path": "hover army → figures → successive region clicks → double-click endpoint",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-22",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "PortraitRoute",
+      "start": "Character portrait",
+      "selection": "Explicit independent groups and map destinations",
+      "preview": "Ghost portraits and retained legal paths",
+      "normal": "One Nazgul flies to a legal region",
+      "difficult": "Multiple groups, optional stay, Fellowship reveal owned by opponent",
+      "click_path": "hover portraits → group → successive region clicks → double-click endpoint, or Stay all",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only uncommitted local selection. Closing hover preserves selection. Committed steps cannot be undone; optional decline is a committed answer.",
+      "cost": "Concrete selected die/token remains visible at the active die; free reactions do not acquire a die cost.",
+      "implementation_task": "UI-21",
+      "hover": "Read-only inspection without clicks; interactive visible objects use the same legal selection. Region/panel union opens after 200 ms and closes 150 ms after exit."
+    },
+    {
+      "id": "PaidActionSteps",
+      "start": "Active paid die",
+      "selection": "One remaining army, reserve figure or character group",
+      "preview": "Saved step, remaining budget and legal unused figures",
+      "normal": "One army moved; another may move or finish",
+      "difficult": "Merge, temporary excess, spent Ruler token and resumed Far-sighted route",
+      "click_path": "figure → destination commits step; optional ✓ finishes",
+      "confirmations_per_decision": 0,
+      "cancel": "Esc changes only the unsent selection; saved steps cannot be undone.",
+      "cost": "Already paid once; resolving die remains visible.",
+      "implementation_task": "UI-16",
+      "hover": "Hover inspects without modifying sequence progress."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "Configure",
+      "rules": [
+        "B01"
+      ],
+      "owner": "Both seats",
+      "visibility": "Public configuration",
+      "presentation": "Configuration",
+      "next_window": "Setup",
+      "scenarios": [
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "CouncilVersions",
+      "rules": [
+        "L03"
+      ],
+      "owner": "FP",
+      "visibility": "Owner; guide public",
+      "presentation": "PortraitVersions",
+      "next_window": "CouncilOutside",
+      "scenarios": [
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "CouncilOutside",
+      "rules": [
+        "L03"
+      ],
+      "owner": "FP",
+      "visibility": "Reveal chosen outsiders",
+      "presentation": "PortraitDestination",
+      "next_window": "CouncilToken",
+      "scenarios": [
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "CouncilToken",
+      "rules": [
+        "L03"
+      ],
+      "owner": "SH",
+      "visibility": "Public selected token",
+      "presentation": "TokenChoice",
+      "next_window": "Fellowship",
+      "scenarios": [
+        "S17",
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "DiscardCards",
+      "rules": [
+        "B06"
+      ],
+      "owner": "Hand owner",
+      "visibility": "Owner identities; public count",
+      "presentation": "CardGrid",
+      "next_window": "Saved continuation",
+      "scenarios": [
+        "S07"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "FellowshipPhase",
+      "rules": [
+        "B15",
+        "B16"
+      ],
+      "owner": "FP",
+      "visibility": "Public declaration; Council versions remain private",
+      "presentation": "MapPortrait",
+      "next_window": "AllocateHunt",
+      "scenarios": [
+        "S14",
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "AllocateHunt",
+      "rules": [
+        "B17"
+      ],
+      "owner": "SH",
+      "visibility": "Public selected dice",
+      "presentation": "DiceTransfer",
+      "next_window": "Roll",
+      "scenarios": [
+        "S17"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "SpecialDieChoice",
+      "rules": [
+        "L01",
+        "X01"
+      ],
+      "owner": "Rule-ordered side",
+      "visibility": "Public",
+      "presentation": "DiceComparison",
+      "next_window": "RulerDiscard",
+      "scenarios": [
+        "S05",
+        "S17"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "RulerDiscard",
+      "rules": [
+        "K01",
+        "X01"
+      ],
+      "owner": "SH then FP",
+      "visibility": "Public",
+      "presentation": "DiceComparison",
+      "next_window": "Dismay",
+      "scenarios": [
+        "S17"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Dismay",
+      "rules": [
+        "X02"
+      ],
+      "owner": "SH",
+      "visibility": "Public",
+      "presentation": "TokenDie",
+      "next_window": "Another Dismay, optional Lore or first FP action; SH chooses Lore/Dismay order",
+      "scenarios": [
+        "S17"
+      ],
+      "checkpoint": "Persist token removal, one recorded reroll, die result/location and next decision together; decline stores turn. Retry never rerolls.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Action",
+      "rules": [
+        "B03",
+        "B04"
+      ],
+      "owner": "Alternating actor",
+      "visibility": "Public intentions after commit only",
+      "presentation": "ObjectIntentCost",
+      "next_window": "Effect resolution",
+      "scenarios": [
+        "S01",
+        "S05"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Ring",
+      "rules": [
+        "B05",
+        "L02"
+      ],
+      "owner": "Current actor",
+      "visibility": "Public",
+      "presentation": "RingDieFace",
+      "next_window": "Same Action",
+      "scenarios": [
+        "S05",
+        "S17"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "MoveArmies",
+      "rules": [
+        "B09"
+      ],
+      "owner": "Current actor",
+      "visibility": "Public after commit",
+      "presentation": "MapUnits",
+      "next_window": "Excess",
+      "scenarios": [
+        "S01",
+        "S02",
+        "S03",
+        "S04"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Recruit",
+      "rules": [
+        "B08"
+      ],
+      "owner": "Current actor",
+      "visibility": "Public",
+      "presentation": "ReservePlacement",
+      "next_window": "Action",
+      "scenarios": [
+        "S06"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Politics",
+      "rules": [
+        "B07"
+      ],
+      "owner": "Current actor",
+      "visibility": "Public",
+      "presentation": "NationTrack",
+      "next_window": "Action",
+      "scenarios": [
+        "S06"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Characters",
+      "rules": [
+        "B10",
+        "B16"
+      ],
+      "owner": "Owner",
+      "visibility": "Public entry/active ability; own available costs; Council versions reveal when required",
+      "presentation": "PortraitDestination",
+      "next_window": "Ability or Action",
+      "scenarios": [
+        "S14",
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "EventTargets",
+      "rules": [
+        "B06"
+      ],
+      "owner": "Effect-designated side",
+      "visibility": "Own card; reveal on play",
+      "presentation": "CardMapTargets",
+      "next_window": "Effect continuation",
+      "scenarios": [
+        "S07",
+        "S08"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Reaction",
+      "rules": [
+        "B06",
+        "B18",
+        "B10",
+        "B12",
+        "B16",
+        "B15",
+        "L02",
+        "L03"
+      ],
+      "owner": "Effect-designated side",
+      "visibility": "Own legal cards only; private window presence does not depend on hand. Public character windows depend only on public source and condition.",
+      "presentation": "CardOrDecline",
+      "next_window": "Saved frame",
+      "scenarios": [
+        "S08",
+        "S15",
+        "LordsWeShallGetItTests",
+        "LordsCards03PersistenceTests"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer.",
+      "continuations": "Includes hunt.roll before server RNG, hunt.casualty after guide replacement and fellowship.declared with its complete stored route. Each resumes the same persisted frame. Lords hunt.shadow-replace is offered after each draw and before FP replacement/protection, only with public We Shall Get It and Gollum; decline retains the card."
+    },
+    {
+      "id": "CombatCard",
+      "rules": [
+        "B11",
+        "K03"
+      ],
+      "owner": "Attacker then defender",
+      "visibility": "Owner front; other sees committed back until reveal",
+      "presentation": "CardOrDecline",
+      "next_window": "Reveal",
+      "scenarios": [
+        "S09",
+        "S13"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Losses",
+      "rules": [
+        "B12"
+      ],
+      "owner": "Attacker then defender",
+      "visibility": "Public",
+      "presentation": "HitsUnits",
+      "next_window": "BattleContinue",
+      "scenarios": [
+        "S10",
+        "S11"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Excess",
+      "rules": [
+        "B09",
+        "B14"
+      ],
+      "owner": "Army owner",
+      "visibility": "Public",
+      "presentation": "UnitsToReserve",
+      "next_window": "Saved frame",
+      "scenarios": [
+        "S04",
+        "S12"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "BattleContinue",
+      "rules": [
+        "B13",
+        "B14"
+      ],
+      "owner": "Attacker",
+      "visibility": "Public",
+      "presentation": "ContinueStopElite",
+      "next_window": "DefenderRetreat or end",
+      "scenarios": [
+        "S12"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "DefenderRetreat",
+      "rules": [
+        "B13",
+        "B14"
+      ],
+      "owner": "Defender",
+      "visibility": "Public",
+      "presentation": "MapStayShelter",
+      "next_window": "Next round or end",
+      "scenarios": [
+        "S12"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Advance",
+      "rules": [
+        "B13"
+      ],
+      "owner": "Attacker",
+      "visibility": "Public",
+      "presentation": "MapUnits",
+      "next_window": "Action",
+      "scenarios": [
+        "S01",
+        "S12"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "FellowshipRoute",
+      "rules": [
+        "B15"
+      ],
+      "owner": "FP",
+      "visibility": "Public committed location/route required by rule",
+      "presentation": "MapRoute",
+      "next_window": "Hunt or Action",
+      "scenarios": [
+        "S14"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "HuntDamage",
+      "rules": [
+        "B18"
+      ],
+      "owner": "FP",
+      "visibility": "Guide public; random candidate versions protected",
+      "presentation": "GuideRandomCorruption",
+      "next_window": "Reveal/Guide/Continuation",
+      "scenarios": [
+        "S15"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Guide",
+      "rules": [
+        "B16",
+        "B18"
+      ],
+      "owner": "FP",
+      "visibility": "Selected guide public",
+      "presentation": "PortraitChoice",
+      "next_window": "Ability/Continuation",
+      "scenarios": [
+        "S14",
+        "S15"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "MordorIntervention",
+      "rules": [
+        "B19"
+      ],
+      "owner": "Effect-designated side",
+      "visibility": "Own cards only",
+      "presentation": "TileCardOrDecline",
+      "next_window": "Damage and progress",
+      "scenarios": [
+        "S16"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "CorruptionAttempt",
+      "rules": [
+        "K02",
+        "X01"
+      ],
+      "owner": "SH",
+      "visibility": "Private candidates and chosen value unless Visible",
+      "presentation": "EyePortraitTile",
+      "next_window": "Return unchosen/Action",
+      "scenarios": [
+        "S18"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "SequentialCorruption",
+      "rules": [
+        "K02",
+        "X02"
+      ],
+      "owner": "SH",
+      "visibility": "Private current tile unless Visible",
+      "presentation": "TileDrawStop",
+      "next_window": "Action",
+      "scenarios": [
+        "S18"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "SovereignAbility",
+      "rules": [
+        "K02",
+        "K03"
+      ],
+      "owner": "Owner",
+      "visibility": "Public except explicit hidden tile data",
+      "presentation": "PortraitTargetCost",
+      "next_window": "Effect continuation",
+      "scenarios": [
+        "S18"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "RulerAbility",
+      "rules": [
+        "K01"
+      ],
+      "owner": "Current actor",
+      "visibility": "Public",
+      "presentation": "DieTokenTarget",
+      "next_window": "Action",
+      "scenarios": [
+        "S17"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "ArmyEvent",
+      "rules": [
+        "B06",
+        "B09",
+        "B11",
+        "B14"
+      ],
+      "owner": "Event owner",
+      "visibility": "Public figures and results; choices only to the owner",
+      "presentation": "MapArmyGroupRoute",
+      "next_window": "Parent event or nested relief battle; excess before event completion",
+      "scenarios": [
+        "V16",
+        "ArmyEventMovementTests",
+        "HelpUnlookedForTests",
+        "WosesCardTests"
+      ],
+      "checkpoint": "Persist ArmyEventOrder, paid event face and parent cursor; commit one fixed group and explicit route atomically. Relief persists a parent-return battle with CombatDiceReduction.",
+      "cancel": "Undo changes the local group/route; the already played event is committed and its mandatory decision cannot be skipped."
+    },
+    {
+      "id": "CharacterEvent",
+      "rules": [
+        "B06"
+      ],
+      "owner": "Shadow event owner",
+      "visibility": "Public Nazgûl and destinations; current draft only to its owner",
+      "presentation": "PortraitRoute",
+      "next_window": "Parent event: Fellowship revelation, Hunt or table-card choice",
+      "scenarios": [
+        "V16",
+        "Shadow02TravelTests",
+        "Shadow02PersistenceTests",
+        "Shadow02NetworkTests"
+      ],
+      "checkpoint": "Persist EffectWait.NazgulTravel, paid event and parent cursor. Commit all flight groups or an explicit empty selection once; no second die. Validate against live figures and legal flight destinations.",
+      "cancel": "Back changes the local draft. Stay all clears planned groups; confirming ends movement and resumes the already committed event."
+    },
+    {
+      "id": "ActionSequence",
+      "rules": [
+        "B03",
+        "B04",
+        "B08",
+        "B09",
+        "B10"
+      ],
+      "owner": "Owner of the paid action",
+      "visibility": "Public paid cost and completed steps; decision and legal options only to owner",
+      "presentation": "PaidActionSteps",
+      "next_window": "Next step, final excess/political/cost reaction, or next action",
+      "scenarios": [
+        "D04",
+        "D05",
+        "ArmySequenceTests",
+        "RecruitSequenceTests",
+        "TravelSequenceTests",
+        "ActionSequencePersistenceTests"
+      ],
+      "checkpoint": "Persist every Stepwise commit with paid cost, used figure IDs/settlements, remaining budget and initial character candidates. FinishActionSequence resolves end-of-action effects once.",
+      "cancel": "Only unsent local choices can change. A committed step cannot be undone; explicit Finish forfeits the remaining budget."
+    }
+  ],
+  "interaction_revision": 2,
+  "specification": "docs/ui/UX_SPEC.md",
+  "delivery_tasks": [
+    "UI-14",
+    "UI-15",
+    "UI-16",
+    "UI-17",
+    "UI-18",
+    "UI-19",
+    "UI-20",
+    "UI-21",
+    "UI-22",
+    "UI-23",
+    "UI-24"
+  ],
+  "planned_sequences": {},
+  "layout": {
+    "source": "unity/Wotr.Client/Assets/Wotr/Resources/Wotr.uss",
+    "viewports": [
+      [
+        1366,
+        768
+      ],
+      [
+        1920,
+        1080
+      ]
+    ],
+    "scales": [
+      1,
+      1.25
+    ],
+    "map": "Fills the stage above the resource dock. Context panels avoid existing overlays; opening them never pans the camera.",
+    "dock": "Stable exact die, symbol and remaining budget; widths and height adapt to available resources and decision context.",
+    "context": "One shared decision tray moves to the regional battle or Fellowship panel. Hover, pin and close preserve uncommitted choices.",
+    "regional_route": "Compact Fellowship route panel; every neighboring region has a reachable handle. Mass flight uses highlighted regions and the selected endpoint handle.",
+    "navigation": "Compact map controls with at least 32-point targets; Fellowship and last battle use symbols with tooltips. The decision notice keeps its label and fits beside a pinned card.",
+    "tooltips": "One read-only Player overlay: 200 ms hover, immediate focus, safe projected text only. Rich previews suppress duplicate hints; pointer gestures, detach and scale changes dismiss them. No input interception or text-field values.",
+    "accessibility": "Click alternative for every drag; no mandatory number entry or decision scrolling; reduced motion preserves rules and input. Elided portrait labels retain the full safe projection tooltip."
+  },
+  "map_contour_coverage": {
+    "task": "MAP-15",
+    "geometry_version": "contours-2",
+    "report": "docs/ui/MAP15_INTERACTION_COVERAGE.md",
+    "terrain_target_families": [
+      "ObjectIntentCost",
+      "MapUnits",
+      "PaidActionSteps",
+      "ReservePlacement",
+      "MapStayShelter",
+      "CardMapTargets",
+      "MapPortrait",
+      "MapRoute",
+      "PortraitDestination",
+      "PortraitRoute",
+      "MapArmyGroupRoute",
+      "PortraitTargetCost",
+      "DieTokenTarget"
+    ],
+    "required_tests": [
+      "MapContourInteractionTests",
+      "MapContourNavigationTests"
+    ],
+    "edge_policy": "First regionId in ordinal order on an exact shared edge; water and inner rings return no region.",
+    "legal_targets": "Projected server options; physical polygon contact never authorizes a move."
+  },
+  "character_actions": {
+    "task": "UI-67",
+    "acceptance": "37 unique Play methods, 10 required Editor cases and 168 domain cases passed; exact evidence and visual acceptance in docs/tasks/UI-67.md",
+    "source": "OwnCharacterRoster identity plus existing server-projected ComponentActions and travel options",
+    "draft": "One TurnDraft shared by roster portraits and map gestures; same sender and receipt journal",
+    "host": "CharacterInspector.DecisionHost for EnterCharacter and UseCharacterAbility only",
+    "gestures": "Legal portrait selects travel with exact current cost; selected combat units retain army membership. Hover and Pin inspect without choosing. Drop is a shortcut for the same click route.",
+    "costs": "Explicit physical die, Ruler token, Council token and special ability remain distinct. Collective recruitment has one final commit.",
+    "lifecycle": "Close and same-decision reconnect preserve the draft; another inspected figure offers Resume without retargeting. Reactions link to the existing Hunt/Battle/Fellowship host.",
+    "privacy": "Only own figures expose executable actions; public enemy inspection has none",
+    "tests": [
+      "CharacterRosterActionTests",
+      "CharacterRosterActionNetworkTests",
+      "CharacterNetworkTests",
+      "TravelGestureNetworkTests",
+      "ExpansionAbilityNetworkTests"
+    ]
+  },
+  "character_inspection": {
+    "task": "UI-66",
+    "sources": [
+      "OwnCharacterRoster",
+      "public Characters",
+      "Sovereigns.Awakened"
+    ],
+    "stable_key": "FigureId",
+    "shared_panel": "CharacterInspector",
+    "gestures": "200 ms hover / immediate focus / click pins without legal action context / explicit Pin / 150 ms exit; Locate explicit; drag does not open",
+    "privacy": "Own candidates only; public enemy figures have no foreign action controls",
+    "ability_catalog": "content/character-ability-text.json",
+    "execution_task": "UI-67"
+  },
+  "board_menu": {
+    "task": "UI-70",
+    "entry": "Top-right Menu",
+    "items": [
+      "Resume",
+      "Settings",
+      "Help",
+      "Games"
+    ],
+    "escape": "One press: gesture, visible window, local choice, then Menu",
+    "outside_click": "Shield owns press and release; underlying map is unchanged",
+    "settings": "Existing 100/125%, Reduced motion and session window reset",
+    "games": "Wait for stable local writes and check draft/action/policy Error before disposing session",
+    "retry": "Local recovery I/O only, exact commandId/payload preserved",
+    "cancel_wait": "Resume/Settings/Help invalidate navigation but let I/O finish",
+    "tests": [
+      "BoardMenuTests",
+      "BoardMenuNetworkTests",
+      "BoardMenuLayoutTests"
+    ],
+    "acceptance": "20/20 Play PASS (11 Menu + 5 Return/Settings + 4 FloatingWindow); 15/15 required Editor in full 516/516; four final layouts visually reviewed. Exact evidence and failed-attempt history: docs/tasks/UI-70.md."
+  },
+  "council_homelands": {
+    "task": "UI-69",
+    "entry": "Own first Fellowship Phase → Homelands tab; same private host with a new decision ID",
+    "selection": "Stable own-version portraits select server-projected homeland targets; click terrain or drop edits one aggregate local draft",
+    "undo": "Fellowship removes only the selected figure's uncommitted placement; Close/Esc preserves the draft and camera",
+    "confirmation": "One ✓ for ChooseCouncilHomelands, including no eligible figures or an empty placement list",
+    "tokens": "0 departures: none; 1: separate Shadow ResourceDecision final-click choice; 2+: both, no artificial choice",
+    "privacy": "No opponent candidates, progress or special empty window; reveal and political arrival only after the server command",
+    "variants": "Actual OwnCompanions DefinitionId/NationIcon; Fate Gimli Iron Hills or Ered Luin with New Cities on or off; no icon means no activation",
+    "recovery": "Persisted private draft and independent command journal/receipt for both stages; no automatic opponent choice or repeated tokens",
+    "tests": [
+      "CouncilHomelandPanelTests",
+      "CouncilHomelandPanelNetworkTests",
+      "ExpansionDecisionNetworkTests",
+      "FateGimliNetworkTests"
+    ],
+    "acceptance": "Actual checks and remaining limitations are recorded in docs/tasks/UI-69.md"
+  },
+  "character_context_integration": {
+    "task": "UI-71",
+    "history": "Recorded Before/After versions, own explicit setup choices and recorded Guide; no current roster reconstruction",
+    "host": "Fellowship for setup/public guide; existing Hunt/Battle owners retained; one current tray through DecisionHostNavigation",
+    "alerts": "Existing red action-version boundary and gold current owner; own automatic steps retain Actor=null semantics",
+    "recovery": "Exact Council token and die, local draft, Games, process restart, same commandId receipt, stale pointer invalidation",
+    "privacy": "Only returned own setup choices; public reveal does not reconstruct or backfill hidden versions",
+    "tests": [
+      "BoardCompletionContextTests",
+      "BoardCompletionContextNetworkTests"
+    ],
+    "acceptance": "33/33 required unique Play methods PASS (6 new, 8 fresh overlapping UI63 and 19 remaining regressions); 13/13 Editor in full542, 399/399 unchanged domain in full3726, 7 PNG reviewed; fresh separate Python HTTPS/WSS with trusted CA. Exact evidence and transport boundary: docs/tasks/UI-71.md."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "suite": "legacy",
+  "diagnostic_lines": [
+    "WOTR_AUDIT_SCREEN 1366x768",
+    "WOTR_PROFILE_FAILED System.InvalidOperationException: The Player did not render the requested card."
+  ]
+}

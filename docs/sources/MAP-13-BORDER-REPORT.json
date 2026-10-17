@@ -1,0 +1,31 @@
+{
+  "version": "borders-1",
+  "geometryHash": "b1ed10e22091b22ea602df1d1b017387f7c5bf071d8ec5c1140a2c8721f4801a",
+  "auditHash": "ddc423213c456ac22fb4554dc850fe5e3b18ade0152bfba6ae7eff800354e835",
+  "sourcePaths": 323,
+  "classifiedParts": 360,
+  "partKinds": {
+    "Coast": 17,
+    "Frame": 13,
+    "Impassable": 86,
+    "Lake": 11,
+    "Passage": 225,
+    "River": 8
+  },
+  "movementPairs": 232,
+  "physicalLandPairs": 282,
+  "additionalImpassablePairs": 50,
+  "splitSourcePaths": 33,
+  "barrierLandContrast": 9.066,
+  "passageKeylineContrast": 8.62,
+  "nationSeparatorContrast": {
+    "dwarves": 6.331,
+    "elves": 2.049,
+    "gondor": 8.017,
+    "north": 2.566,
+    "rohan": 6.541,
+    "isengard": 1.92,
+    "sauron": 5.32,
+    "southrons": 3.099
+  }
+}

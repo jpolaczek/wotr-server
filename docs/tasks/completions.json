@@ -1,0 +1,6791 @@
+{
+  "schema_version": 1,
+  "note": "Completion identifiers and technical coverage only. Full completed task records and specifications were removed at the user's request; original evidence remains in Git history before the documentation cleanup.",
+  "completions": [
+    {
+      "id": "T00",
+      "stage": "A",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R09",
+        "R15",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "T01",
+      "stage": "A",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "T02",
+      "stage": "A",
+      "requirements": [
+        "R06",
+        "R09",
+        "R13",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "T03",
+      "stage": "A",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R11",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-01",
+      "stage": "A",
+      "requirements": [
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20"
+      ]
+    },
+    {
+      "id": "T04",
+      "stage": "A",
+      "requirements": [
+        "R01",
+        "R08",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "T05",
+      "stage": "A",
+      "requirements": [
+        "R09",
+        "R10",
+        "R13",
+        "R14",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-02",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R15",
+        "R19",
+        "R22"
+      ]
+    },
+    {
+      "id": "T06",
+      "stage": "B",
+      "requirements": [
+        "R09",
+        "R11",
+        "R19",
+        "R25"
+      ]
+    },
+    {
+      "id": "T07",
+      "stage": "B",
+      "requirements": [
+        "R05",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R14",
+        "R25"
+      ]
+    },
+    {
+      "id": "T08",
+      "stage": "B",
+      "requirements": [
+        "R02",
+        "R03",
+        "R04",
+        "R07",
+        "R11",
+        "R13"
+      ]
+    },
+    {
+      "id": "UI-03",
+      "stage": "B",
+      "requirements": [
+        "R16",
+        "R17",
+        "R19",
+        "R20",
+        "R23"
+      ]
+    },
+    {
+      "id": "UI-04",
+      "stage": "B",
+      "requirements": [
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20"
+      ]
+    },
+    {
+      "id": "UI-05",
+      "stage": "B",
+      "requirements": [
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R22"
+      ]
+    },
+    {
+      "id": "T09",
+      "stage": "B",
+      "requirements": [
+        "R04",
+        "R06",
+        "R08",
+        "R15",
+        "R21"
+      ]
+    },
+    {
+      "id": "T10",
+      "stage": "B",
+      "requirements": [
+        "R01",
+        "R09",
+        "R13",
+        "R14",
+        "R25"
+      ]
+    },
+    {
+      "id": "T11",
+      "stage": "B",
+      "requirements": [
+        "R01",
+        "R09",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "T12",
+      "stage": "B",
+      "requirements": [
+        "R01",
+        "R09",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "T13",
+      "stage": "B",
+      "requirements": [
+        "R04",
+        "R09",
+        "R10",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R21"
+      ]
+    },
+    {
+      "id": "T14",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R09",
+        "R11",
+        "R12",
+        "R13",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-06",
+      "stage": "C",
+      "requirements": [
+        "R11",
+        "R17",
+        "R18",
+        "R19"
+      ]
+    },
+    {
+      "id": "T15",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R09",
+        "R11",
+        "R13",
+        "R20"
+      ]
+    },
+    {
+      "id": "T16",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R09",
+        "R11",
+        "R13",
+        "R14",
+        "R20"
+      ]
+    },
+    {
+      "id": "T17",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R09",
+        "R13",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-08",
+      "stage": "C",
+      "requirements": [
+        "R11",
+        "R17",
+        "R18",
+        "R19",
+        "R20"
+      ]
+    },
+    {
+      "id": "T18",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R09",
+        "R11",
+        "R13",
+        "R14",
+        "R25"
+      ]
+    },
+    {
+      "id": "T19",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R09",
+        "R13",
+        "R19",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-07",
+      "stage": "C",
+      "requirements": [
+        "R11",
+        "R17",
+        "R18",
+        "R19",
+        "R20"
+      ]
+    },
+    {
+      "id": "UI-11",
+      "stage": "C",
+      "requirements": [
+        "R10",
+        "R11",
+        "R13",
+        "R20"
+      ]
+    },
+    {
+      "id": "T20",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R09",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "T21",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "T21-FP-CHAR-01",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.character.01",
+        "base.fp.character.02",
+        "base.fp.character.03",
+        "base.fp.character.04",
+        "base.fp.character.05",
+        "base.fp.character.06"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-CHAR-02",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.character.07",
+        "base.fp.character.08",
+        "base.fp.character.09",
+        "base.fp.character.10",
+        "base.fp.character.11",
+        "base.fp.character.12"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-CHAR-03",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.character.13",
+        "base.fp.character.14",
+        "base.fp.character.15",
+        "base.fp.character.16",
+        "base.fp.character.17",
+        "base.fp.character.18"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-CHAR-04",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.character.19",
+        "base.fp.character.20",
+        "base.fp.character.21",
+        "base.fp.character.22",
+        "base.fp.character.23",
+        "base.fp.character.24"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-STR-01",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.strategy.01",
+        "base.fp.strategy.02",
+        "base.fp.strategy.03",
+        "base.fp.strategy.04",
+        "base.fp.strategy.05",
+        "base.fp.strategy.06"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-STR-02",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.strategy.07",
+        "base.fp.strategy.08",
+        "base.fp.strategy.09",
+        "base.fp.strategy.10",
+        "base.fp.strategy.11",
+        "base.fp.strategy.12"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-STR-03",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.strategy.13",
+        "base.fp.strategy.14",
+        "base.fp.strategy.15",
+        "base.fp.strategy.16",
+        "base.fp.strategy.17",
+        "base.fp.strategy.18"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-STR-04",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.strategy.19",
+        "base.fp.strategy.20",
+        "base.fp.strategy.21",
+        "base.fp.strategy.22",
+        "base.fp.strategy.23",
+        "base.fp.strategy.24"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-CHAR-01",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.character.01",
+        "base.sh.character.02",
+        "base.sh.character.03",
+        "base.sh.character.04",
+        "base.sh.character.05",
+        "base.sh.character.06"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "UI-10",
+      "stage": "C",
+      "requirements": [
+        "R09",
+        "R10",
+        "R11",
+        "R16",
+        "R17",
+        "R19",
+        "R21"
+      ]
+    },
+    {
+      "id": "T21-SH-CHAR-02",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.character.07",
+        "base.sh.character.08",
+        "base.sh.character.09",
+        "base.sh.character.10",
+        "base.sh.character.11",
+        "base.sh.character.12"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T22",
+      "stage": "C",
+      "requirements": [
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21"
+      ]
+    },
+    {
+      "id": "T21-SH-CHAR-03",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.character.13",
+        "base.sh.character.14",
+        "base.sh.character.15",
+        "base.sh.character.16",
+        "base.sh.character.17",
+        "base.sh.character.18"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-CHAR-04",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.character.19",
+        "base.sh.character.20",
+        "base.sh.character.21",
+        "base.sh.character.22",
+        "base.sh.character.23",
+        "base.sh.character.24"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-STR-01",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.strategy.01",
+        "base.sh.strategy.02",
+        "base.sh.strategy.03",
+        "base.sh.strategy.04",
+        "base.sh.strategy.05",
+        "base.sh.strategy.06"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-STR-02",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.strategy.07",
+        "base.sh.strategy.08",
+        "base.sh.strategy.09",
+        "base.sh.strategy.10",
+        "base.sh.strategy.11",
+        "base.sh.strategy.12"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-STR-03",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.strategy.13",
+        "base.sh.strategy.14",
+        "base.sh.strategy.15",
+        "base.sh.strategy.16",
+        "base.sh.strategy.17",
+        "base.sh.strategy.18"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-STR-04",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.strategy.19",
+        "base.sh.strategy.20",
+        "base.sh.strategy.21",
+        "base.sh.strategy.22",
+        "base.sh.strategy.23",
+        "base.sh.strategy.24"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T23",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R05",
+        "R09",
+        "R11",
+        "R13",
+        "R25"
+      ]
+    },
+    {
+      "id": "T24",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R09",
+        "R12",
+        "R13",
+        "R20"
+      ]
+    },
+    {
+      "id": "T25",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "character_count": 8,
+      "character_ids": [
+        "lords.character.elrond",
+        "lords.character.galadriel",
+        "lords.character.gandalf-grey",
+        "lords.character.smeagol",
+        "lords.character.balrog",
+        "lords.character.gothmog",
+        "lords.character.mouth-of-sauron",
+        "lords.character.witch-king"
+      ]
+    },
+    {
+      "id": "T26",
+      "stage": "D",
+      "requirements": [
+        "R03",
+        "R09",
+        "R11",
+        "R13",
+        "R20"
+      ],
+      "character_count": 6,
+      "character_ids": [
+        "lords.character.boromir",
+        "lords.character.gimli",
+        "lords.character.legolas",
+        "lords.character.merry",
+        "lords.character.pippin",
+        "lords.character.strider"
+      ]
+    },
+    {
+      "id": "T27",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "T27-CARDS-01",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "lords",
+      "content_ids": [
+        "lords.fp.character.25",
+        "lords.fp.character.26",
+        "lords.fp.character.27",
+        "lords.fp.character.28",
+        "lords.fp.strategy.25",
+        "lords.fp.strategy.26"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-03-AUDIT.md",
+        "docs/sources/lords-card-index.json"
+      ]
+    },
+    {
+      "id": "T27-CARDS-02",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "lords",
+      "content_ids": [
+        "lords.sh.character.17",
+        "lords.sh.character.25",
+        "lords.sh.character.26",
+        "lords.sh.character.27",
+        "lords.sh.character.28",
+        "lords.sh.strategy.25"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-03-AUDIT.md",
+        "docs/sources/lords-card-index.json"
+      ]
+    },
+    {
+      "id": "T27-CARDS-03",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 2,
+      "content_group": "lords",
+      "content_ids": [
+        "lords.sh.strategy.26",
+        "lords.sh.special.05"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-03-AUDIT.md",
+        "docs/sources/lords-card-index.json"
+      ]
+    },
+    {
+      "id": "T28",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R09",
+        "R11",
+        "R13",
+        "R14",
+        "R25"
+      ],
+      "character_count": 10,
+      "character_ids": [
+        "kings.character.brand.awakened",
+        "kings.character.brand.corrupted",
+        "kings.character.dain.awakened",
+        "kings.character.dain.corrupted",
+        "kings.character.denethor.awakened",
+        "kings.character.denethor.corrupted",
+        "kings.character.theoden.awakened",
+        "kings.character.theoden.corrupted",
+        "kings.character.thranduil.awakened",
+        "kings.character.thranduil.corrupted"
+      ]
+    },
+    {
+      "id": "T29",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R09",
+        "R12",
+        "R13",
+        "R20"
+      ],
+      "character_count": 3,
+      "character_ids": [
+        "kings.character.black-serpent",
+        "kings.character.shadow-of-mirkwood",
+        "kings.character.ugluk"
+      ]
+    },
+    {
+      "id": "T30",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "T30-CARDS-01",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "kings",
+      "content_ids": [
+        "kings.fp.character.23",
+        "kings.fp.character.25",
+        "kings.fp.character.26",
+        "kings.fp.strategy.08",
+        "kings.fp.strategy.16",
+        "kings.fp.strategy.19"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-05-AUDIT.md",
+        "docs/sources/kings-card-index.json"
+      ]
+    },
+    {
+      "id": "T30-CARDS-02",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "kings",
+      "content_ids": [
+        "kings.fp.strategy.22",
+        "kings.fp.strategy.24",
+        "kings.fp.strategy.25",
+        "kings.fp.strategy.26",
+        "kings.sh.character.25",
+        "kings.sh.character.26"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-05-AUDIT.md",
+        "docs/sources/kings-card-index.json"
+      ]
+    },
+    {
+      "id": "T30-CARDS-03",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "kings",
+      "content_ids": [
+        "kings.sh.strategy.01",
+        "kings.sh.strategy.03",
+        "kings.sh.strategy.05",
+        "kings.sh.strategy.06",
+        "kings.sh.strategy.18",
+        "kings.sh.strategy.25"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-05-AUDIT.md",
+        "docs/sources/kings-card-index.json"
+      ]
+    },
+    {
+      "id": "T30-CARDS-04",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 1,
+      "content_group": "kings",
+      "content_ids": [
+        "kings.sh.strategy.26"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-05-AUDIT.md",
+        "docs/sources/kings-card-index.json"
+      ]
+    },
+    {
+      "id": "T31",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R03",
+        "R09",
+        "R11",
+        "R13",
+        "R25"
+      ]
+    },
+    {
+      "id": "T32",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R03",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "T32-CARDS",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "fate-event",
+      "content_ids": [
+        "fate.fp.character.17",
+        "fate.fp.strategy.04",
+        "fate.fp.strategy.19",
+        "fate.fp.strategy.22",
+        "fate.sh.strategy.20",
+        "fate.sh.strategy.22"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-07-AUDIT.md",
+        "docs/sources/fate-index.json"
+      ]
+    },
+    {
+      "id": "T32-GIMLI",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 2,
+      "content_group": "fate-character",
+      "content_ids": [
+        "fate.character.gimli",
+        "fate.character.gimli-dwarven-lord"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-07-AUDIT.md",
+        "docs/sources/fate-index.json"
+      ]
+    },
+    {
+      "id": "T32-SETUP",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R03",
+        "R09",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "T33",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R03",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-09",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R03",
+        "R11",
+        "R17",
+        "R18",
+        "R19",
+        "R20"
+      ]
+    },
+    {
+      "id": "T34",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R03",
+        "R15",
+        "R17",
+        "R18",
+        "R19",
+        "R20"
+      ]
+    },
+    {
+      "id": "T35",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R07",
+        "R11",
+        "R13",
+        "R21"
+      ]
+    },
+    {
+      "id": "UI-12",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R07",
+        "R10",
+        "R13",
+        "R21"
+      ]
+    },
+    {
+      "id": "UI-13",
+      "stage": "E",
+      "requirements": [
+        "R16",
+        "R18",
+        "R22",
+        "R23"
+      ]
+    },
+    {
+      "id": "T36",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23"
+      ]
+    },
+    {
+      "id": "T37",
+      "stage": "E",
+      "requirements": [
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R14",
+        "R25"
+      ]
+    },
+    {
+      "id": "T38",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R13",
+        "R26"
+      ]
+    },
+    {
+      "id": "T39",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R26"
+      ]
+    },
+    {
+      "id": "SRC-01",
+      "stage": "C",
+      "requirements": [
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "SRC-02",
+      "stage": "C",
+      "requirements": [
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "SRC-03",
+      "stage": "D",
+      "requirements": [
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "SRC-04",
+      "stage": "D",
+      "requirements": [
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "SRC-05",
+      "stage": "D",
+      "requirements": [
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "SRC-06",
+      "stage": "D",
+      "requirements": [
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "SRC-07",
+      "stage": "D",
+      "requirements": [
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "SRC-08",
+      "stage": "C",
+      "requirements": [
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "MAP-01",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "MAP-02",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "MAP-03",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "MAP-04",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "MAP-05",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "AUTH-01",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R06",
+        "R09",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MAP-06",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "UI-14",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-15",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-16",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-17",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-18",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-19",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-20",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-21",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-22",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-23",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-24",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MAP-07",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "MAP-08",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "MAP-09",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "BUILD-01",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R11",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-25",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-26",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-27",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-28",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-29",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-30",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-31",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-32",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-33",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-34",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-35",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-36",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-34-PANEL",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-34-ROUTES",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-34-GUIDES",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-34-HUNT",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-34-RESPONSES",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-34-MORDOR",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-37",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-38",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-39",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-40",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-41",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-42",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-43",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-44",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-45",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-46",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-47",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-47-CONTEXT",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-48",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-49",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-50",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-51",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-52",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-53",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-54",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-55",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-56",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-57",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-58",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-59",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-60",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-61",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-62",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-63",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-64",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-65",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-66",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-67",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-68",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-69",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-70",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-71",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-72",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MAP-10",
+      "stage": "A",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "MAP-11",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R12",
+        "R24"
+      ]
+    },
+    {
+      "id": "MAP-12",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R12",
+        "R13",
+        "R23",
+        "R25"
+      ]
+    },
+    {
+      "id": "MAP-13",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R08",
+        "R12",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "MAP-14",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R15",
+        "R22",
+        "R23",
+        "R25"
+      ]
+    },
+    {
+      "id": "MAP-15",
+      "stage": "E",
+      "requirements": [
+        "R09",
+        "R10",
+        "R11",
+        "R16",
+        "R17",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R25"
+      ]
+    },
+    {
+      "id": "MAP-16",
+      "stage": "E",
+      "requirements": [
+        "R02",
+        "R03",
+        "R09",
+        "R11",
+        "R13",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "MAP-17",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R15",
+        "R16",
+        "R17",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-73",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-74",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-75",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-76",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-77",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-78",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-79",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-80",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-81",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R15",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-82",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R16",
+        "R17",
+        "R19",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "BUILD-02",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R24"
+      ]
+    },
+    {
+      "id": "UI-83",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R16",
+        "R17",
+        "R19",
+        "R21",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-84",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R15",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-85",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-86",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-87",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-88",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-89",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-90",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-91",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-92",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-93",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-94",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-95",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-96",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-97",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-98",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-99",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-100",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-101",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-102",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-103",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-104",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-105",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-106",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-107",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R15",
+        "R16",
+        "R17"
+      ]
+    },
+    {
+      "id": "UI-108",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17"
+      ]
+    },
+    {
+      "id": "UI-109",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R15",
+        "R16",
+        "R17"
+      ]
+    },
+    {
+      "id": "UI-110",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R15",
+        "R16",
+        "R17"
+      ]
+    },
+    {
+      "id": "UI-111",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R15",
+        "R16",
+        "R17"
+      ]
+    },
+    {
+      "id": "UI-112",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R15",
+        "R16",
+        "R17"
+      ]
+    },
+    {
+      "id": "TEST-01",
+      "stage": "E",
+      "requirements": [
+        "R31",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R25"
+      ]
+    },
+    {
+      "id": "TEST-02",
+      "stage": "E",
+      "requirements": [
+        "R31",
+        "R01",
+        "R12",
+        "R14",
+        "R25"
+      ]
+    },
+    {
+      "id": "TEST-03",
+      "stage": "E",
+      "requirements": [
+        "R31",
+        "R06",
+        "R08",
+        "R15",
+        "R16",
+        "R21"
+      ]
+    },
+    {
+      "id": "TEST-04",
+      "stage": "E",
+      "requirements": [
+        "R31",
+        "R02",
+        "R03",
+        "R12",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-01",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R21",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-02",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R21",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-03",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R21",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-04",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R21",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-05",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R21",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-06",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R21",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-07",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R21",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-08",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R21",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-09",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R21",
+        "R22",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "DIST-00",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R10",
+        "R13",
+        "R24",
+        "R25",
+        "R26",
+        "R27",
+        "R28",
+        "R29",
+        "R30"
+      ]
+    },
+    {
+      "id": "DIST-01",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R06",
+        "R10",
+        "R13",
+        "R24",
+        "R25",
+        "R27"
+      ]
+    },
+    {
+      "id": "DIST-02",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R09",
+        "R11",
+        "R13",
+        "R25",
+        "R27"
+      ]
+    },
+    {
+      "id": "DIST-03",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R09",
+        "R11",
+        "R24",
+        "R25",
+        "R27"
+      ]
+    },
+    {
+      "id": "DIST-04",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R06",
+        "R10",
+        "R11",
+        "R13",
+        "R26",
+        "R30"
+      ]
+    },
+    {
+      "id": "DIST-05",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R25",
+        "R27",
+        "R29"
+      ]
+    },
+    {
+      "id": "DIST-06",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R10",
+        "R13",
+        "R25",
+        "R28"
+      ]
+    },
+    {
+      "id": "DIST-09",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R09",
+        "R10",
+        "R13",
+        "R25",
+        "R27",
+        "R29"
+      ]
+    },
+    {
+      "id": "DIST-10",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R13",
+        "R25",
+        "R27",
+        "R28"
+      ]
+    },
+    {
+      "id": "UI-113",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-114",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-115",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-116",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-117",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-118",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-119",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-120",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-121",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R11",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-122",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R16",
+        "R19",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-123",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-124",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-125",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-126",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-127",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-128",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-129",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-130",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-131",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-132",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-10",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R06",
+        "R24",
+        "R25",
+        "R26"
+      ]
+    },
+    {
+      "id": "UI-133",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "QUAL-00",
+      "stage": "E",
+      "requirements": [
+        "R24",
+        "R25",
+        "R27"
+      ]
+    },
+    {
+      "id": "QUAL-01",
+      "stage": "E",
+      "requirements": [
+        "R09",
+        "R10",
+        "R11",
+        "R25",
+        "R24"
+      ]
+    },
+    {
+      "id": "QUAL-02",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R09",
+        "R10",
+        "R23",
+        "R25",
+        "R24"
+      ]
+    },
+    {
+      "id": "QUAL-03",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R25",
+        "R24"
+      ]
+    },
+    {
+      "id": "QUAL-04",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R02",
+        "R03",
+        "R09",
+        "R10",
+        "R12",
+        "R13",
+        "R14",
+        "R25",
+        "R24"
+      ]
+    },
+    {
+      "id": "QUAL-05",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R10",
+        "R13",
+        "R23",
+        "R25",
+        "R26",
+        "R24"
+      ]
+    },
+    {
+      "id": "QUAL-09",
+      "stage": "E",
+      "requirements": [
+        "R09",
+        "R10",
+        "R11",
+        "R13",
+        "R21",
+        "R25",
+        "R24"
+      ]
+    },
+    {
+      "id": "UI-134",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-135",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-136",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-137",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-138",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-139",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-140",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-141",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-142",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-143",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-144",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-145",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-146",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-147",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-148",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-149",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-150",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-151",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-152",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-153",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-154",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-155",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-156",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-157",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "TEST-05",
+      "stage": "E",
+      "requirements": [
+        "R31"
+      ]
+    },
+    {
+      "id": "TEST-06",
+      "stage": "E",
+      "requirements": [
+        "R31"
+      ]
+    },
+    {
+      "id": "UI-158",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-159",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-160",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-161",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-162",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-165",
+      "stage": "E",
+      "requirements": [
+        "R07",
+        "R08",
+        "R15",
+        "R19",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R31"
+      ]
+    },
+    {
+      "id": "UI-166",
+      "stage": "E",
+      "requirements": [
+        "R07",
+        "R11",
+        "R15",
+        "R18",
+        "R19",
+        "R21",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-167",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R15",
+        "R22",
+        "R23",
+        "R25"
+      ]
+    },
+    {
+      "id": "TEST-07",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R31"
+      ]
+    },
+    {
+      "id": "UI-169",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R08",
+        "R15",
+        "R21",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-168",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R19",
+        "R21",
+        "R23",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-170",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R07",
+        "R15",
+        "R19",
+        "R21",
+        "R23",
+        "R25",
+        "R31"
+      ]
+    },
+    {
+      "id": "MAP-18",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R15",
+        "R22"
+      ]
+    },
+    {
+      "id": "MAP-19",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R15",
+        "R22"
+      ]
+    },
+    {
+      "id": "UI-171",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-172",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R22",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "TYPO-01",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R22",
+        "R23",
+        "R24",
+        "R25",
+        "R27"
+      ]
+    },
+    {
+      "id": "ART-01",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R15",
+        "R22"
+      ]
+    },
+    {
+      "id": "ART-02",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R15",
+        "R22"
+      ]
+    },
+    {
+      "id": "MENU-11",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R06",
+        "R24",
+        "R25",
+        "R26"
+      ]
+    },
+    {
+      "id": "MENU-12",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R06",
+        "R24",
+        "R25",
+        "R26"
+      ]
+    },
+    {
+      "id": "MENU-13",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-173",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R18",
+        "R19",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-174",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-14",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-15",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-16",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-175",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-176",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-177",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-178",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R16",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-179",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R16",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-17",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-180",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-181",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-18",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-19",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "BUILD-03",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R24"
+      ]
+    },
+    {
+      "id": "UI-182",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-183",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-20",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-21",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-22",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-184",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-185",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-186",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-187",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "AUDIO-00",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R19",
+        "R21",
+        "R23",
+        "R24",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-188",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "AUDIO-01",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R23",
+        "R25"
+      ]
+    },
+    {
+      "id": "AUDIO-02",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R21",
+        "R23",
+        "R25"
+      ]
+    },
+    {
+      "id": "AUDIO-03",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R07",
+        "R08",
+        "R21",
+        "R22",
+        "R23",
+        "R25"
+      ]
+    },
+    {
+      "id": "AUDIO-04",
+      "stage": "E",
+      "requirements": [
+        "R08",
+        "R16",
+        "R19",
+        "R23",
+        "R25"
+      ]
+    },
+    {
+      "id": "AUDIO-05",
+      "stage": "E",
+      "requirements": [
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R16",
+        "R21",
+        "R25"
+      ]
+    },
+    {
+      "id": "AUDIO-06",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R14",
+        "R21",
+        "R23",
+        "R25"
+      ]
+    },
+    {
+      "id": "AUDIO-07",
+      "stage": "E",
+      "requirements": [
+        "R07",
+        "R09",
+        "R10",
+        "R11",
+        "R21",
+        "R25"
+      ]
+    },
+    {
+      "id": "DEMO-00",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R09",
+        "R24",
+        "R32"
+      ]
+    },
+    {
+      "id": "DEMO-01",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R09",
+        "R13",
+        "R25",
+        "R32"
+      ]
+    },
+    {
+      "id": "DEMO-02",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R09",
+        "R11",
+        "R14",
+        "R25",
+        "R32"
+      ]
+    },
+    {
+      "id": "DEMO-03",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R09",
+        "R10",
+        "R13",
+        "R14",
+        "R25",
+        "R32"
+      ]
+    },
+    {
+      "id": "DEMO-04",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R06",
+        "R16",
+        "R21",
+        "R32"
+      ]
+    },
+    {
+      "id": "DEMO-05",
+      "stage": "E",
+      "requirements": [
+        "R01",
+        "R04",
+        "R05",
+        "R25",
+        "R32"
+      ]
+    },
+    {
+      "id": "AUDIO-09",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R23",
+        "R25",
+        "R28"
+      ]
+    },
+    {
+      "id": "UI-189",
+      "stage": "E",
+      "requirements": [
+        "R18",
+        "R19",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-23",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R07",
+        "R18",
+        "R24"
+      ]
+    },
+    {
+      "id": "MENU-24",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R07",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-25",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R18",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-26",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R07",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-190",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-27",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R13",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-28",
+      "stage": "E",
+      "requirements": [
+        "R26",
+        "R27",
+        "R28"
+      ]
+    },
+    {
+      "id": "AUTH-02",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R07",
+        "R09",
+        "R25"
+      ]
+    },
+    {
+      "id": "AUTH-03",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R06",
+        "R22"
+      ]
+    },
+    {
+      "id": "UI-191",
+      "stage": "E",
+      "requirements": [
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-192",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-193",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-194",
+      "stage": "E",
+      "requirements": [
+        "R18",
+        "R19",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-195",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-196",
+      "stage": "E",
+      "requirements": [
+        "R19",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-29",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R07",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-197",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-30",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R07",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-31",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R07",
+        "R25"
+      ]
+    },
+    {
+      "id": "MENU-32",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R07",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-198",
+      "stage": "E",
+      "requirements": [
+        "R19",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-199",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-200",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-201",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "OBS-00",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R05",
+        "R06",
+        "R09",
+        "R11",
+        "R13",
+        "R21",
+        "R24",
+        "R25",
+        "R33",
+        "R34"
+      ]
+    },
+    {
+      "id": "UI-202",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "OBS-01",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R09",
+        "R10",
+        "R21",
+        "R25",
+        "R33"
+      ]
+    },
+    {
+      "id": "OBS-02",
+      "stage": "E",
+      "requirements": [
+        "R09",
+        "R11",
+        "R21",
+        "R25",
+        "R27",
+        "R33"
+      ]
+    },
+    {
+      "id": "OBS-03",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R15",
+        "R19",
+        "R21",
+        "R22",
+        "R25",
+        "R33",
+        "R34"
+      ]
+    },
+    {
+      "id": "OBS-04",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R06",
+        "R19",
+        "R22",
+        "R25",
+        "R33"
+      ]
+    },
+    {
+      "id": "OBS-05",
+      "stage": "E",
+      "requirements": [
+        "R09",
+        "R11",
+        "R19",
+        "R21",
+        "R25",
+        "R33"
+      ]
+    },
+    {
+      "id": "OBS-06",
+      "stage": "E",
+      "requirements": [
+        "R09",
+        "R11",
+        "R21",
+        "R23",
+        "R25",
+        "R33"
+      ]
+    },
+    {
+      "id": "REPLAY-01",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R10",
+        "R13",
+        "R14",
+        "R25",
+        "R32",
+        "R34"
+      ]
+    },
+    {
+      "id": "REPLAY-02",
+      "stage": "E",
+      "requirements": [
+        "R09",
+        "R11",
+        "R13",
+        "R25",
+        "R27",
+        "R34"
+      ]
+    },
+    {
+      "id": "REPLAY-03",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R13",
+        "R23",
+        "R25",
+        "R28",
+        "R34"
+      ]
+    },
+    {
+      "id": "REPLAY-04",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R19",
+        "R21",
+        "R22",
+        "R25",
+        "R34"
+      ]
+    },
+    {
+      "id": "REPLAY-05",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R13",
+        "R19",
+        "R22",
+        "R23",
+        "R25",
+        "R34"
+      ]
+    },
+    {
+      "id": "REPLAY-06",
+      "stage": "E",
+      "requirements": [
+        "R07",
+        "R14",
+        "R21",
+        "R23",
+        "R25",
+        "R33",
+        "R34"
+      ]
+    },
+    {
+      "id": "REPLAY-07",
+      "stage": "E",
+      "requirements": [
+        "R05",
+        "R06",
+        "R09",
+        "R11",
+        "R13",
+        "R21",
+        "R23",
+        "R25",
+        "R27",
+        "R28",
+        "R32",
+        "R33",
+        "R34"
+      ]
+    },
+    {
+      "id": "UI-203",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-204",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-205",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "AUTH-04",
+      "stage": "E",
+      "requirements": [
+        "R04",
+        "R06",
+        "R24",
+        "R25",
+        "R28"
+      ]
+    },
+    {
+      "id": "UI-206",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-207",
+      "stage": "E",
+      "requirements": [
+        "R18",
+        "R22",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-208",
+      "stage": "E",
+      "requirements": [
+        "R17",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "UI-209",
+      "stage": "E",
+      "requirements": [
+        "R15",
+        "R18",
+        "R25"
+      ]
+    },
+    {
+      "id": "ART-03",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R08",
+        "R24",
+        "R25",
+        "R28"
+      ]
+    },
+    {
+      "id": "DOC-01",
+      "stage": "E",
+      "requirements": [
+        "R06",
+        "R12",
+        "R24",
+        "R25",
+        "R27"
+      ]
+    }
+  ]
+}

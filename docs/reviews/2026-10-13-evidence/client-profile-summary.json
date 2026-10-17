@@ -1,0 +1,90 @@
+[
+  {
+    "suite": "board",
+    "workloads": 40,
+    "minimum_average_fps": 113.0786242310493,
+    "maximum_handler_ms": 7.9628,
+    "maximum_render_end_ms": 16.662,
+    "maximum_frame_p99_ms": 17.150163650512695,
+    "gc_mean_bytes_range": [
+      357.1777777777778,
+      5579.0361111111115
+    ],
+    "widths": [
+      1366,
+      1920
+    ],
+    "scales": [
+      1.0,
+      1.25
+    ],
+    "recorded_at": "2026-10-13T22:53:46.342257Z",
+    "input_sha256": "11339fada5db17c38b2771cdda6655bb1305c89693826a2b35ddceafffd366f3",
+    "complete_and_validated": true
+  },
+  {
+    "suite": "figure-motion",
+    "workloads": 32,
+    "minimum_average_fps": 114.13079372429075,
+    "maximum_handler_ms": 16.4242,
+    "maximum_render_end_ms": 24.596,
+    "maximum_frame_p99_ms": 17.464207485318184,
+    "gc_mean_bytes_range": [
+      5956.772222222222,
+      9092.611111111111
+    ],
+    "widths": [
+      1366,
+      1920
+    ],
+    "scales": [
+      1.0,
+      1.25
+    ],
+    "recorded_at": "2026-10-13T22:56:55.757936Z",
+    "input_sha256": "6b06dd8dd14c8cdfa49508640defd82e2285bb64574456b4dcff591a02fc31c1",
+    "complete_and_validated": true
+  },
+  {
+    "suite": "in-game",
+    "workloads": 4,
+    "minimum_average_fps": 115.85174671192111,
+    "maximum_handler_ms": 5.4806,
+    "maximum_render_end_ms": 21.6786,
+    "maximum_frame_p99_ms": 17.20108464360237,
+    "gc_mean_bytes_range": [
+      2135.8972222222224,
+      3681.1555555555556
+    ],
+    "widths": [
+      1366
+    ],
+    "scales": [
+      1.0
+    ],
+    "recorded_at": "2026-10-13T22:50:53.945705Z",
+    "input_sha256": "d4868da2272024609fcf03fbe377ef252b4bfd101dcec80e8b82874c30c616f4",
+    "complete_and_validated": false
+  },
+  {
+    "suite": "legacy",
+    "workloads": 5,
+    "minimum_average_fps": 115.21989919629803,
+    "maximum_handler_ms": 6.3887,
+    "maximum_render_end_ms": 12.4516,
+    "maximum_frame_p99_ms": 17.34466478228569,
+    "gc_mean_bytes_range": [
+      42.272222222222226,
+      5664.622222222222
+    ],
+    "widths": [
+      1366
+    ],
+    "scales": [
+      1.0
+    ],
+    "recorded_at": "2026-10-13T22:50:32.750831Z",
+    "input_sha256": "1888e6298a96a0e27260c13cb48d405985f8bea5b98b9056e289567f0fe14769",
+    "complete_and_validated": false
+  }
+]

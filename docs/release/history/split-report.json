@@ -1,0 +1,29 @@
+{
+  "revision": "614c898c0765ec4ff64278059b88a0c2c13fbfb1",
+  "current": {
+    "server": 1463,
+    "client": 2094,
+    "both": 9
+  },
+  "history": {
+    "server": 1471,
+    "client": 2130,
+    "both": 9
+  },
+  "server": {
+    "head": "64492f373e24218b8a7e8103956d10df6aa3594d",
+    "files": 1472,
+    "commits": 421,
+    "tree_matches_monorepo": true,
+    "missing": [],
+    "extra": []
+  },
+  "client": {
+    "head": "a6c1b901f10ea68d6f8066fd27e366579c615b47",
+    "files": 2103,
+    "commits": 343,
+    "tree_matches_monorepo": true,
+    "missing": [],
+    "extra": []
+  }
+}

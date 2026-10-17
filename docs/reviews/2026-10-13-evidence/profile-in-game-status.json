@@ -1,0 +1,7 @@
+{
+  "suite": "in-game",
+  "diagnostic_lines": [
+    "WOTR_AUDIT_SCREEN 1366x768",
+    "WOTR_PROFILE_FAILED System.InvalidOperationException: Unavailable benchmark control: board-menu-victory, enabled=True, bounds=(x:0.00, y:0.00, width:0.00, height:0.00), handOpen=True"
+  ]
+}

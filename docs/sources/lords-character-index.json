@@ -1,0 +1,928 @@
+{
+  "status": "sources_reviewed_not_implemented",
+  "audit": "docs/sources/SRC-04-AUDIT.md",
+  "reviewedAt": "2026-10-05",
+  "composition": {
+    "characterCards": 14,
+    "freePeoples": 10,
+    "shadow": 4,
+    "newIdentities": 5,
+    "alternateVersions": 9,
+    "councilOnlyVersions": 6,
+    "gandalfOptionalWithoutCouncil": true,
+    "shadowPrintedDenominator": 5,
+    "shadowFifthComponent": "lords.sh.special.05"
+  },
+  "implementationGroups": [
+    {
+      "task": "T25",
+      "content_ids": [
+        "lords.character.elrond",
+        "lords.character.galadriel",
+        "lords.character.gandalf-grey",
+        "lords.character.smeagol",
+        "lords.character.balrog",
+        "lords.character.gothmog",
+        "lords.character.mouth-of-sauron",
+        "lords.character.witch-king"
+      ]
+    },
+    {
+      "task": "T26",
+      "content_ids": [
+        "lords.character.boromir",
+        "lords.character.gimli",
+        "lords.character.legolas",
+        "lords.character.merry",
+        "lords.character.pippin",
+        "lords.character.strider"
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "id": "lords.character.elrond",
+      "title": "Lord Elrond",
+      "subtitle": "Keeper of Vilya",
+      "side": "FreePeoples",
+      "number": 1,
+      "numberOfCards": 10,
+      "printedNumber": "LM 1/10",
+      "identity": "elrond",
+      "role": "Companion",
+      "level": 0,
+      "movementLevel": 0,
+      "combatCardLevel": 3,
+      "unlimitedMovement": false,
+      "leadership": 2,
+      "nationIcon": "elves",
+      "extraActionDice": 0,
+      "specialDie": "vilya",
+      "requiredVariant": null,
+      "baseAlternative": null,
+      "entry": [
+        "Muster; Sauron or Elves At War; Rivendell unconquered; place in Rivendell."
+      ],
+      "abilities": [
+        "Vilya: oddaj konkretny Pierścień Cieniowi i zachowaj właśnie użyty wynik kości inny niż Will of the West; nie odkładaj tej kości ani nie przenoś do Hunt.",
+        "Household of Elrond: elitarne Elfy w tym samym regionie są także dowódcami dla wszystkich celów walki. Nie jest to dodatkowa jednostka ani dowódca poza walką."
+      ],
+      "removal": [
+        "It does not leave Rivendell; Shadow's acquisition removes the form. The usual rules for character elimination are still in force.",
+        "Vilya die removed in Recover when Elrond is not in the game or the runed Army/Eye and Gandalf White were selected then in the game."
+      ],
+      "verificationCases": [
+        "Wejście podczas oblężenia własnej twierdzy oraz po jej odbiciu; odmowa przy wrogiej kontroli.",
+        "Poziom 0 dla ruchu, 3 dla karty bojowej.",
+        "Elven Elite daje dowodzenie w walce; downgrade traci ten przywilej.",
+        "Vilya zatrzymuje kość ruchu Drużyny przed Hunt; Will of the West odrzucony.",
+        "Śmierć Elronda nie usuwa natychmiast dostępnej kości; Recover usuwa ją we właściwej fazie."
+      ],
+      "rulebookPages": [
+        9,
+        10,
+        14,
+        15,
+        16,
+        17
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          2718,
+          0,
+          3624,
+          1638
+        ]
+      },
+      "implementationManifest": "content/lords-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.galadriel",
+      "title": "Lady Galadriel",
+      "subtitle": "Keeper of Nenya",
+      "side": "FreePeoples",
+      "number": 2,
+      "numberOfCards": 10,
+      "printedNumber": "LM 2/10",
+      "identity": "galadriel",
+      "role": "Companion",
+      "level": 0,
+      "movementLevel": 0,
+      "combatCardLevel": 3,
+      "unlimitedMovement": false,
+      "leadership": 2,
+      "nationIcon": "elves",
+      "extraActionDice": 0,
+      "specialDie": "nenya",
+      "requiredVariant": null,
+      "baseAlternative": null,
+      "entry": [
+        "Muster; Sauron or Elves At War; Lórien unconquered; place in Lórien."
+      ],
+      "abilities": [
+        "Nenya: po dobraniu standardowego kafla Eye oddaj ten Pierścień Cieniowi, anuluj kafel, usuń go na resztę partii i dobierz zastępczy.",
+        "Valour of the Elven People: pozwala rekrutować w Lórien także podczas oblężenia. Pozostałe wymagania rekrutacji nie są zniesione."
+      ],
+      "removal": [
+        "It does not leave Lórien; Shadow's acquisition removes the form. The usual rules for character elimination are still in force.",
+        "Nenya die removed in Recovery when Galadriel is not in the game or the runed Character/Eye and Gandalf White were selected then in the game."
+      ],
+      "verificationCases": [
+        "Wejście do własnego oblężonego Lórien i usunięcie po przejęciu.",
+        "Poziom 3 wyłącznie dla efektu karty bojowej.",
+        "Nenya jest wyborem tylko dla standardowego Eye; zapis po koszcie nie dobiera dwa razy.",
+        "Anulowany Eye nie wraca przy budowaniu puli Mordoru.",
+        "Rekrutacja podczas oblężenia nadal uwzględnia rezerwy, koszt, politykę i stos."
+      ],
+      "rulebookPages": [
+        9,
+        10,
+        14,
+        15,
+        18,
+        19
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          1812,
+          1638,
+          2718,
+          3276
+        ]
+      },
+      "implementationManifest": "content/lords-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.gandalf-grey",
+      "title": "Gandalf the Grey",
+      "subtitle": "Keeper of Narya",
+      "side": "FreePeoples",
+      "number": 3,
+      "numberOfCards": 10,
+      "printedNumber": "LM 3/10",
+      "identity": "gandalf",
+      "role": "Companion",
+      "level": 3,
+      "movementLevel": 3,
+      "combatCardLevel": 3,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "any",
+      "extraActionDice": 0,
+      "specialDie": "narya",
+      "requiredVariant": null,
+      "baseAlternative": "base.character.gandalf-grey",
+      "entry": [
+        "Private replacement of base Grey at the setup, also without the Council; the initial Guide is public."
+      ],
+      "abilities": [
+        "Guide: przy Recover musi być przewodnikiem i FP odzyskuje co najmniej jedną własną kość z Hunt; wtedy dodaj Narya die. Samo Keeper Eye w Hunt nie spełnia warunku.",
+        "Wyjątek: początkowy Guide daje Narya już w turze 1; objęcie przewodnictwa dopiero w Fellowship Phase nie daje kości w tej turze.",
+        "Narya: w unconquered osadzie FP oddaj Narya i wydaj dowolną kość; aktywuj jej naród i przesuń bezpośrednio At War.",
+        "Emissary from the West: po opuszczeniu Drużyny może zostać zastąpiony bazowym White na jego warunkach. Ta karta nie ma Captain of the West."
+      ],
+      "removal": [
+        "Elimination and replacement of White according to Gandalf's base identity; there are no two versions tho-exist.",
+        "Narya is not an unconditionally additional standard dice; its availability results from the Guide on Recovery."
+      ],
+      "verificationCases": [
+        "Wybór Grey ukryty również przy Council off; ujawnienie przy objęciu Guide.",
+        "Tura 1 z Guide versus późna zmiana Guide.",
+        "Odzysk tylko Keeper Eye nie daje Narya.",
+        "Narya wymaga własnej kontroli osady i właściwego tokenu.",
+        "Brak automatycznego +1 Combat z bazowego Grey; transformacja zachowuje tożsamość."
+      ],
+      "rulebookPages": [
+        9,
+        10,
+        14,
+        15,
+        19,
+        20
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          5436,
+          0,
+          6342,
+          1638
+        ]
+      },
+      "transformsTo": "base.character.gandalf-white",
+      "implementationManifest": "content/lords-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.smeagol",
+      "title": "Sméagol",
+      "subtitle": "Tamed Wretch",
+      "side": "FreePeoples",
+      "number": 4,
+      "numberOfCards": 10,
+      "printedNumber": "LM 4/10",
+      "identity": "smeagol",
+      "role": "Companion",
+      "level": "X",
+      "movementLevel": null,
+      "combatCardLevel": null,
+      "unlimitedMovement": false,
+      "leadership": 0,
+      "nationIcon": null,
+      "extraActionDice": 0,
+      "specialDie": null,
+      "requiredVariant": null,
+      "baseAlternative": null,
+      "entry": [
+        "Select Sméagol tile if Gollum has not yet entered and Sméagol has not been removed earlier: 0 injuries, remove the tile, add Sméagol to Fellowship as a mandatory Guide. Effect before Hunt sequence according FAQ."
+      ],
+      "abilities": [
+        "Poziom X równy najwyższemu poziomowi innego Towarzysza w Drużynie; dodaje Towarzysza do limitu przydzielanych kości Hunt i może być ofiarą Hunt.",
+        "Kolejny Sméagol tile podczas jego obecności ma 0 obrażeń i jest usuwany; nie można anulować tego wejścia/efektu Mithril Coat and Sting.",
+        "Sméagol nie jest Gollumem dla warunków wydarzeń. Nigdy nie dowodzi armią ani nie ma figury na mapie."
+      ],
+      "removal": [
+        "The separation removes Sméagol; Fellowship declaration in unconquered city/Stronghold FP also.",
+        "Each Elimination/discard, apart from being replaced by Golluma, introduces lords.sh.special.05 to the table.",
+        "As the only remaining Companion is immediately replaced by Gollum without We Shall Get It.",
+        "After leaving the game or earlier entering Golluma Sméagol tile reject and select another; do not enter Sméagol again."
+      ],
+      "verificationCases": [
+        "Pierwszy kafel działa przed ochroną Hunt; Mithril nie blokuje wejścia.",
+        "Poziom X zmienia się po odejściu najwyższego Towarzysza.",
+        "Samotny Sméagol daje Golluma bez wydarzenia; zwykła strata daje wydarzenie.",
+        "Deklaracja versus reveal do osady i kontrola unconquered.",
+        "Ponowne kafle po odejściu nie tworzą drugiej postaci; zapis zachowuje wcześniejszą obecność."
+      ],
+      "rulebookPages": [
+        3,
+        21,
+        22
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          3624,
+          3276,
+          4530,
+          4915
+        ]
+      },
+      "faqPages": [
+        3
+      ],
+      "excludesIdentity": "gollum",
+      "transformsTo": "base.character.gollum",
+      "implementationManifest": "content/lords-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.boromir",
+      "title": "Boromir",
+      "subtitle": "Captain General of Gondor",
+      "side": "FreePeoples",
+      "number": 5,
+      "numberOfCards": 10,
+      "printedNumber": "LM 5/10",
+      "identity": "boromir",
+      "role": "Companion",
+      "level": 1,
+      "movementLevel": 2,
+      "combatCardLevel": 1,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": null,
+      "extraActionDice": 0,
+      "specialDie": null,
+      "requiredVariant": "Council",
+      "baseAlternative": "base.character.boromir",
+      "entry": [
+        "Privately choose instead of the base version on Council setup.",
+        "In the first Fellowship Phase optionally declare a start outside Fellowship in Minas Tirith; treated as separated."
+      ],
+      "abilities": [
+        "Guide: opcjonalne oddzielenie podczas Hunt zmniejsza obrażenia o 1, minimum 0. Kilku takich przewodników oddzielanych z jednego kafla tworzy jedną grupę.",
+        "Champion: jeśli uczestniczy w bitwie, a armia obrońcy jest w regionie Gondor lub Osgiliath, +1 Combat Strength FP, nadal maksymalnie 5 kości.",
+        "Dowolna kość w mieście lub twierdzy Gondoru: aktywuj Gondor i przesuń o jeden krok polityczny.",
+        "Poziom 2 tylko do ruchu; poza tym wydrukowany poziom 1."
+      ],
+      "removal": [
+        "Normal elimination of Companion; no additional return or transformation."
+      ],
+      "verificationCases": [
+        "Start Minas Tirith ujawnia wersję i liczy się do Council tokenów.",
+        "Hunt po oddzieleniu i restart podczas kolejnego Guide; grupa ma jeden wspólny cel.",
+        "Champion działa po obu stronach bitwy wyłącznie w Gondor lub Osgiliath; limit 5.",
+        "Poziom 1 do Hunt/kart; 2 tylko do ruchu.",
+        "Nie kopiuj ikony narodu ani kontroli unconquered z bazowej wersji."
+      ],
+      "rulebookPages": [
+        30,
+        31
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          1812,
+          0,
+          2718,
+          1638
+        ]
+      },
+      "councilStart": "Minas Tirith",
+      "faqPages": [
+        3
+      ],
+      "implementationManifest": "content/council-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.gimli",
+      "title": "Gimli",
+      "subtitle": "Dwarven Lord",
+      "side": "FreePeoples",
+      "number": 6,
+      "numberOfCards": 10,
+      "printedNumber": "LM 6/10",
+      "identity": "gimli",
+      "role": "Companion",
+      "level": 1,
+      "movementLevel": 2,
+      "combatCardLevel": 1,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": null,
+      "extraActionDice": 0,
+      "specialDie": null,
+      "requiredVariant": "Council",
+      "baseAlternative": "base.character.gimli",
+      "entry": [
+        "Privately choose instead of the base version on Council setup.",
+        "In the first Fellowship Phase optionally declare a start outside Fellowship in Erebor; treated as separated."
+      ],
+      "abilities": [
+        "Guide: opcjonalne oddzielenie podczas Hunt zmniejsza obrażenia o 1, minimum 0. Kilku takich przewodników oddzielanych z jednego kafla tworzy jedną grupę.",
+        "Champion: jeśli uczestniczy w bitwie, a armia obrońcy jest w regionie Dwarves, +1 Combat Strength FP, nadal maksymalnie 5 kości.",
+        "Dowolna kość w Ereborze: aktywuj Dwarves i przesuń o jeden krok polityczny.",
+        "Poziom 2 tylko do ruchu; poza tym wydrukowany poziom 1."
+      ],
+      "removal": [
+        "Normal elimination of Companion; no additional return or transformation."
+      ],
+      "verificationCases": [
+        "Start Erebor ujawnia wersję i liczy się do Council tokenów.",
+        "Hunt po oddzieleniu i restart podczas kolejnego Guide; grupa ma jeden wspólny cel.",
+        "Champion działa po obu stronach bitwy wyłącznie w Dwarves; limit 5.",
+        "Poziom 1 do Hunt/kart; 2 tylko do ruchu.",
+        "Nie kopiuj ikony narodu ani kontroli unconquered z bazowej wersji."
+      ],
+      "rulebookPages": [
+        30,
+        31
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          7248,
+          0,
+          8154,
+          1638
+        ]
+      },
+      "councilStart": "Erebor",
+      "faqPages": [
+        3
+      ],
+      "implementationManifest": "content/council-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.legolas",
+      "title": "Legolas",
+      "subtitle": "Elven Prince",
+      "side": "FreePeoples",
+      "number": 7,
+      "numberOfCards": 10,
+      "printedNumber": "LM 7/10",
+      "identity": "legolas",
+      "role": "Companion",
+      "level": 1,
+      "movementLevel": 2,
+      "combatCardLevel": 1,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "elves",
+      "extraActionDice": 0,
+      "specialDie": null,
+      "requiredVariant": "Council",
+      "baseAlternative": "base.character.legolas",
+      "entry": [
+        "Privately choose instead of the base version on Council setup.",
+        "In the first Fellowship Phase optionally declare a start outside Fellowship in Woodland Realm; treated as separated."
+      ],
+      "abilities": [
+        "Guide: opcjonalne oddzielenie podczas Hunt zmniejsza obrażenia o 1, minimum 0. Kilku takich przewodników oddzielanych z jednego kafla tworzy jedną grupę.",
+        "Champion: jeśli uczestniczy w bitwie, a armia obrońcy jest w regionie Elves, +1 Combat Strength FP, nadal maksymalnie 5 kości.",
+        "Dowolna kość w twierdzy Elfów: przesuń Elves o jeden krok polityczny. Aktywacja narodu wynika osobno z ikony Elfów, nie z dodatkowego tekstu tej zdolności.",
+        "Poziom 2 tylko do ruchu; poza tym wydrukowany poziom 1."
+      ],
+      "removal": [
+        "Normal elimination of Companion; no additional return or transformation."
+      ],
+      "verificationCases": [
+        "Start Woodland Realm ujawnia wersję i liczy się do Council tokenów.",
+        "Hunt po oddzieleniu i restart podczas kolejnego Guide; grupa ma jeden wspólny cel.",
+        "Champion działa po obu stronach bitwy wyłącznie w Elves; limit 5.",
+        "Poziom 1 do Hunt/kart; 2 tylko do ruchu.",
+        "Nie kopiuj ikony narodu ani kontroli unconquered z bazowej wersji."
+      ],
+      "rulebookPages": [
+        30,
+        31
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          2718,
+          1638,
+          3624,
+          3276
+        ]
+      },
+      "councilStart": "Woodland Realm",
+      "faqPages": [
+        3
+      ],
+      "implementationManifest": "content/council-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.merry",
+      "title": "Meriadoc",
+      "subtitle": "Hobbit of the Shire",
+      "side": "FreePeoples",
+      "number": 8,
+      "numberOfCards": 10,
+      "printedNumber": "LM 8/10",
+      "identity": "merry",
+      "role": "Companion",
+      "level": 1,
+      "movementLevel": 1,
+      "combatCardLevel": 1,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": null,
+      "extraActionDice": 0,
+      "specialDie": null,
+      "requiredVariant": "Council",
+      "baseAlternative": "base.character.merry",
+      "entry": [
+        "Privately choose instead of the base version on Council setup.",
+        "In the first Fellowship Phase optionally launch in The Shire, as separation."
+      ],
+      "abilities": [
+        "Guide: podczas Hunt można wyeliminować Meriadoc i Peregrin, oboje w wersji Hobbit of the Shire i oboje w Drużynie, aby anulować standardowy kafel Hunt.",
+        "Champion of the Shire: udział w bitwie z armią obrońcy w regionie North daje +1 Combat Strength FP, do maksimum 5 kości.",
+        "Art of Disappearing: po eliminacji w bitwie wraca do sąsiedniego regionu według normalnego ruchu Towarzyszy; FAQ wyklucza oblężoną twierdzę.",
+        "Messenger of Elrond: dowolna kość w North City aktywuje North i przesuwa o jeden krok polityczny. Brak ikony narodu."
+      ],
+      "removal": [
+        "Return from battle only by Art of Disappearing; elimination as a cost Guide does not trigger a combat return."
+      ],
+      "verificationCases": [
+        "Obaj alternatywni Hobbitowie mogą anulować standardowy Eye lub kafel z reveal; wersja bazowa partnera nie spełnia warunku.",
+        "Nie anuluje specjalnego kafla Hunt.",
+        "Koszt eliminuje obu i nie wskrzesza ich przez zdolność bojową.",
+        "Po bitwie wybór sąsiedniego legalnego regionu; oblężona twierdza i nieprzekraczalna granica odrzucone.",
+        "Samo wejście do North City nie aktywuje narodu bez dodatkowej płatnej zdolności."
+      ],
+      "rulebookPages": [
+        30,
+        31
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          6342,
+          1638,
+          7248,
+          3276
+        ]
+      },
+      "councilStart": "The Shire",
+      "faqPages": [
+        3
+      ],
+      "implementationManifest": "content/council-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.pippin",
+      "title": "Peregrin",
+      "subtitle": "Hobbit of the Shire",
+      "side": "FreePeoples",
+      "number": 9,
+      "numberOfCards": 10,
+      "printedNumber": "LM 9/10",
+      "identity": "pippin",
+      "role": "Companion",
+      "level": 1,
+      "movementLevel": 1,
+      "combatCardLevel": 1,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": null,
+      "extraActionDice": 0,
+      "specialDie": null,
+      "requiredVariant": "Council",
+      "baseAlternative": "base.character.pippin",
+      "entry": [
+        "Privately choose instead of the base version on Council setup.",
+        "In the first Fellowship Phase optionally launch in The Shire, as separation."
+      ],
+      "abilities": [
+        "Guide: podczas Hunt można wyeliminować Peregrin i Meriadoc, oboje w wersji Hobbit of the Shire i oboje w Drużynie, aby anulować standardowy kafel Hunt.",
+        "Champion of the Shire: udział w bitwie z armią obrońcy w regionie North daje +1 Combat Strength FP, do maksimum 5 kości.",
+        "Art of Disappearing: po eliminacji w bitwie wraca do sąsiedniego regionu według normalnego ruchu Towarzyszy; FAQ wyklucza oblężoną twierdzę.",
+        "Messenger of Elrond: dowolna kość w North City aktywuje North i przesuwa o jeden krok polityczny. Brak ikony narodu."
+      ],
+      "removal": [
+        "Return from battle only by Art of Disappearing; elimination as a cost Guide does not trigger a combat return."
+      ],
+      "verificationCases": [
+        "Obaj alternatywni Hobbitowie mogą anulować standardowy Eye lub kafel z reveal; wersja bazowa partnera nie spełnia warunku.",
+        "Nie anuluje specjalnego kafla Hunt.",
+        "Koszt eliminuje obu i nie wskrzesza ich przez zdolność bojową.",
+        "Po bitwie wybór sąsiedniego legalnego regionu; oblężona twierdza i nieprzekraczalna granica odrzucone.",
+        "Samo wejście do North City nie aktywuje narodu bez dodatkowej płatnej zdolności."
+      ],
+      "rulebookPages": [
+        30,
+        31
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          0,
+          3276,
+          906,
+          4915
+        ]
+      },
+      "councilStart": "The Shire",
+      "faqPages": [
+        3
+      ],
+      "implementationManifest": "content/council-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.strider",
+      "title": "Strider",
+      "subtitle": "Dúnadan",
+      "side": "FreePeoples",
+      "number": 10,
+      "numberOfCards": 10,
+      "printedNumber": "LM 10/10",
+      "identity": "aragorn",
+      "role": "Companion",
+      "level": 3,
+      "movementLevel": 3,
+      "combatCardLevel": 3,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "north",
+      "extraActionDice": 0,
+      "specialDie": null,
+      "requiredVariant": "Council",
+      "baseAlternative": "base.character.strider",
+      "entry": [
+        "Private Strider base alternative in Council setup; no start-up right outside Fellowship."
+      ],
+      "abilities": [
+        "Guide: gdy postęp Drużyny wynosi co najmniej 1, pierwsza kość użyta do jej ruchu w tej turze trafia do Fellowship Box zamiast Hunt; odzyskiwana normalnie w następnej turze.",
+        "Captain of the West: udział w bitwie daje +1 Combat Strength FP, maksymalnie 5 kości.",
+        "Heir to Isildur: poza Drużyną może zostać zastąpiony Aragornem na warunkach bazowej karty Aragorna."
+      ],
+      "removal": [
+        "A simple elimination or transformation to Aragorn; a common identity excludes a duplicate."
+      ],
+      "verificationCases": [
+        "Pierwszy ruch przy postępie 0 nie spełnia warunku; drugi w tej turze nie staje się pierwszym.",
+        "Pierwszy ruch przy postępie 1 pomija Hunt Box, ale nie sam Hunt.",
+        "Powtórne zostanie Guide nie resetuje znaczenia pierwszej kości ruchu w turze.",
+        "Kość w Fellowship Box nie liczy się jak FP die odzyskana z Hunt.",
+        "Brak bazowej zdolności Hide dowolną kością; transformacja poza Drużyną."
+      ],
+      "rulebookPages": [
+        30,
+        31
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          4530,
+          3276,
+          5436,
+          4915
+        ]
+      },
+      "transformsTo": "base.character.aragorn",
+      "implementationManifest": "content/council-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.balrog",
+      "title": "The Balrog of Moria",
+      "subtitle": "Evil of the Ancient World",
+      "side": "Shadow",
+      "number": 1,
+      "numberOfCards": 5,
+      "printedNumber": "LM 1/5",
+      "identity": "balrog",
+      "role": "Minion",
+      "level": 0,
+      "movementLevel": 0,
+      "combatCardLevel": 0,
+      "unlimitedMovement": false,
+      "leadership": 3,
+      "nationIcon": "sauron",
+      "extraActionDice": 0,
+      "specialDie": "balrog",
+      "requiredVariant": null,
+      "baseAlternative": null,
+      "entry": [
+        "The Muster in Moria, initially inactive; the entrance itself does not require unconquered.",
+        "If Moria unconquered and is not besieged, optionally recruit there 1 Sauron Regular or Elite. Elves and Dwarves move after 1 political step."
+      ],
+      "abilities": [
+        "Fire and Shadow: po declared/revealed trasa wchodzi, wychodzi, przechodzi lub pozostaje w regionie Balroga → dodatkowy Hunt tile, ignoruj reveal.",
+        "Eye z tej zdolności eliminuje Balroga i Guide; przy Gollumie zamiast obu skutków odrzuć Eye.",
+        "Flame of Udûn: +2 Combat Strength w bitwie, maksymalnie 5 kości.",
+        "Wybrany Use Balrog lub A Balrog is Come! aktywuje Balroga do poziomu 2. Gdy jest już aktywny, Use Balrog wybiera jeden: ruch jego armii, atak jego armii lub ruch samego Balroga.",
+        "Nielatający Sługus; nie liczy się jako Sługus dla wejścia Gandalf White."
+      ],
+      "removal": [
+        "FP can deactivate by Will of the West or Character if any Gandalf is in the Balroga region. Outside Moria, remove the character; in Moria, return to 0 level.",
+        "Balrog die removed in Recovery after death or after the selected runed Character/Eye if any Witch-king is then in play."
+      ],
+      "verificationCases": [
+        "Wejście w zdobytej/oblężonej Morii bez rekruta versus legalna opcja Regular/Elite.",
+        "Sama aktywacja nie daje od razu ruchu; późniejszy Use Balrog wymaga wyboru.",
+        "Nielatający ruch 2, granice i własna oblężona twierdza.",
+        "Eye przy zwykłym Guide versus Gollum; zapis po doborze.",
+        "Dezaktywacja w/poza Morią i obie dopuszczalne kości FP."
+      ],
+      "rulebookPages": [
+        6,
+        11,
+        23,
+        24,
+        25
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          6342,
+          3276,
+          7248,
+          4915
+        ]
+      },
+      "activeLevel": 2,
+      "countsForGandalfWhiteEntry": false,
+      "implementationManifest": "content/lords-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.gothmog",
+      "title": "Gothmog",
+      "subtitle": "Lieutenant of Morgul",
+      "side": "Shadow",
+      "number": 2,
+      "numberOfCards": 5,
+      "printedNumber": "LM 2/5",
+      "identity": "gothmog",
+      "role": "Minion",
+      "level": 3,
+      "movementLevel": 3,
+      "combatCardLevel": 3,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "sauron",
+      "extraActionDice": 0,
+      "specialDie": "gothmog",
+      "requiredVariant": null,
+      "baseAlternative": null,
+      "entry": [
+        "Muster; Sauron At War, Minas Morgul unconquered, Black Captain is not in the game; place in Minas Morgul."
+      ],
+      "abilities": [
+        "Fling them into the Fray: z armią SH w wolnym regionie Muster daje wybór 1 Sauron Regular albo zamianę 1 obecnego Sauron Regular na Elite.",
+        "Nielatający Sługus; nie liczy się jako Sługus dla wejścia Gandalf White."
+      ],
+      "removal": [
+        "A simple Minion elimination; Black Captain input does not remove Gothmog himself.",
+        "die removed in Recovery after removing Gothmog, at Black Captain in the game, or after selected runed Army/Eye with any Witch-king in the game. Shortcut of the obverse at the Black Captain input does not change the recovery phase from the instructions."
+      ],
+      "verificationCases": [
+        "Chief nie blokuje wejścia, Black Captain blokuje.",
+        "Regular lub upgrade wymaga rezerw i odpowiednich figur, region musi być wolny.",
+        "Mouth nie ma tej samej zdolności mimo podobnego ruchu.",
+        "Black Captain wchodzi w środku tury: Gothmog zostaje, usunięcie kości w Recover.",
+        "Wybrany runed wynik i obecność dowolnej wersji WK ocenione we właściwej fazie."
+      ],
+      "rulebookPages": [
+        6,
+        11,
+        25,
+        26
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          906,
+          1638,
+          1812,
+          3276
+        ]
+      },
+      "countsForGandalfWhiteEntry": false,
+      "implementationManifest": "content/lords-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.mouth-of-sauron",
+      "title": "The Mouth of Sauron",
+      "subtitle": "Black Númenorean",
+      "side": "Shadow",
+      "number": 3,
+      "numberOfCards": 5,
+      "printedNumber": "LM 3/5",
+      "identity": "mouth-of-sauron",
+      "role": "Minion",
+      "level": 3,
+      "movementLevel": 3,
+      "combatCardLevel": 3,
+      "unlimitedMovement": false,
+      "leadership": 2,
+      "nationIcon": "sauron",
+      "extraActionDice": 1,
+      "specialDie": null,
+      "requiredVariant": null,
+      "baseAlternative": "base.character.mouth-of-sauron",
+      "entry": [
+        "Muster, when FP has at least 1 VP or Fellowship is on Mordor Track; any unconquered Stronghold Saurona.",
+        "It cannot enter if another version of Mouth is in the game or has been eliminated earlier."
+      ],
+      "abilities": [
+        "Evil Knowledge: z armią oblegającą można przedłużyć szturm o jedną rundę bez downgrade Elite, raz na akcję.",
+        "Great Sorcery: z armią SH można raz na turę użyć Muster jak Character do ruchu lub ataku tą konkretną armią.",
+        "Porusza się jak nielatający Sługus; dodaje 1 standardową kość."
+      ],
+      "removal": [
+        "Just a simple elimination; no Mouth comes back through the second version."
+      ],
+      "verificationCases": [
+        "FP 0/1 VP i Mordor poza/na torze, także odbita twierdza Saurona.",
+        "Brak współistnienia albo zastąpienia wyeliminowanego Mouth.",
+        "Evil Knowledge raz na akcję, także po zapisie pomiędzy rundami; potem Elite koszt wymagany.",
+        "Great Sorcery raz na turę, tylko własna armia Mouth; nowa tura resetuje.",
+        "Nie pomyl liczników per action i per turn."
+      ],
+      "rulebookPages": [
+        6,
+        27
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          4530,
+          1638,
+          5436,
+          3276
+        ]
+      },
+      "implementationManifest": "content/lords-character-implementation-manifest.json"
+    },
+    {
+      "id": "lords.character.witch-king",
+      "title": "The Witch-king",
+      "subtitle": "Chief of the Ringwraiths",
+      "side": "Shadow",
+      "number": 4,
+      "numberOfCards": 5,
+      "printedNumber": "LM 4/5",
+      "identity": "witch-king",
+      "role": "Minion",
+      "level": null,
+      "movementLevel": null,
+      "combatCardLevel": null,
+      "unlimitedMovement": true,
+      "leadership": 1,
+      "nationIcon": "sauron",
+      "extraActionDice": 1,
+      "specialDie": null,
+      "requiredVariant": null,
+      "baseAlternative": "base.character.witch-king",
+      "entry": [
+        "Muster, when the Fellowship region does not contain unconquered Stronghold FP; the new Chief in the Fellowship region.",
+        "If Black Captain is in the game, he replaces him in the current Black Captain region, still under the condition above."
+      ],
+      "abilities": [
+        "Spear of Terror: z Drużyną w jednym regionie po zagraniu SH Character Event można od razu dobrać Character Event. Z Palantir of Orthanc tylko jeden dobór.",
+        "He Sees, He Knows: po declared do regionu bez unconquered twierdzy FP opcjonalny natychmiastowy ruch Chief do Drużyny bez akcji; sam reveal nie jest wyzwalaczem.",
+        "Ruch jak Nazgûl, +1 standardowa kość. Wszystkie karty odwołujące się ogólnie do Witch-king działają także z Chief.",
+        "Chief nie liczy się jako Sługus dla wejścia Gandalf White."
+      ],
+      "removal": [
+        "The Muster allows you to switch to Black Captain in the same region if the Black Captain entry conditions are met.",
+        "One exactly one switch between versions for the whole batch, in any direction. Death of any one blocks the re-entry of both."
+      ],
+      "verificationCases": [
+        "Nowy Chief w regionie Drużyny; zamiana Black Captain w regionie jego figury.",
+        "Jedna zamiana działa w obu kierunkach, druga odrzucona i po restarcie też.",
+        "Karta Strategy z ikoną Character nie jest Character-deck Event dla Spear.",
+        "Spear plus Palantir nie dobiera dwóch kart.",
+        "Declared do osady legalnej versus reveal i unconquered twierdza FP."
+      ],
+      "rulebookPages": [
+        28,
+        29
+      ],
+      "edition": "Lords of Middle-earth — Second Edition, EN",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          1812,
+          4915,
+          2718,
+          6553
+        ]
+      },
+      "countsForGandalfWhiteEntry": false,
+      "implementationManifest": "content/lords-character-implementation-manifest.json"
+    }
+  ]
+}

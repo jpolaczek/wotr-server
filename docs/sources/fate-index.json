@@ -1,0 +1,699 @@
+{
+  "status": "sources_reviewed_not_implemented",
+  "reviewedAt": "2026-10-05",
+  "audit": "docs/sources/SRC-07-AUDIT.md",
+  "sourceDocuments": [
+    {
+      "id": "FATE-RULES-44",
+      "url": "https://storage.googleapis.com/ludopedia-imagens-jogo/2053d_180918.jpg",
+      "artifact": ".artifacts/source-audit/fate/rules-1.jpg",
+      "sha256": "7c9ecc22c6014382d28411adc0d07c05688af17cffc4ce6d3f4dc088e92429f5",
+      "bytes": 452581,
+      "width": 750,
+      "height": 1000,
+      "printedPage": 44,
+      "page": "https://ludopedia.com.br/jogo/war-of-the-ring-the-fate-of-erebor/imagens/180918",
+      "status": "reviewed_reproduction",
+      "edition": "The Battle of Five Armies Collector’s Edition, chapter XIII, English",
+      "pageNumberEvidence": "Consecutive pages immediately preceding printed page 46; chapter start and full rules identified by content"
+    },
+    {
+      "id": "FATE-RULES-45",
+      "url": "https://storage.googleapis.com/ludopedia-imagens-jogo/5d122_180917.jpg",
+      "artifact": ".artifacts/source-audit/fate/rules-2.jpg",
+      "sha256": "5a89dc2d1e37222b24c61aa2010cb8b5fd82cf067ce2b70387a94e516f6ab215",
+      "bytes": 517949,
+      "width": 750,
+      "height": 1000,
+      "printedPage": 45,
+      "page": "https://ludopedia.com.br/jogo/war-of-the-ring-the-fate-of-erebor/imagens/180917",
+      "status": "reviewed_reproduction",
+      "edition": "The Battle of Five Armies Collector’s Edition, chapter XIII, English",
+      "pageNumberEvidence": "Consecutive pages immediately preceding printed page 46; chapter start and full rules identified by content"
+    },
+    {
+      "id": "FATE-RULES-46",
+      "url": "https://storage.googleapis.com/ludopedia-imagens-jogo/711f6_180919.jpg",
+      "artifact": ".artifacts/source-audit/fate/rules-3.jpg",
+      "sha256": "f785c016c0afc116a77f5c1a144a80dd8885fbae2687f9e4ebec81d68dafbc6e",
+      "bytes": 491620,
+      "width": 750,
+      "height": 1000,
+      "printedPage": 46,
+      "page": "https://ludopedia.com.br/jogo/war-of-the-ring-the-fate-of-erebor/imagens/180919",
+      "status": "reviewed_reproduction",
+      "edition": "The Battle of Five Armies Collector’s Edition, chapter XIII, English",
+      "pageNumberEvidence": "Printed 46 visible on the photograph"
+    },
+    {
+      "id": "FATE-CARD-SHEET-2AE0D186",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/2538423216290327847/E48CB71CD54473A3F80D36BC7612C9593FBCE545/",
+      "artifact": ".artifacts/source-audit/fate/cards.png",
+      "sha256": "2ae0d1861e2a62ba533556b1a7ab23509806eb8bb521151862419bc29854c45b",
+      "bytes": 1528310,
+      "width": 2075,
+      "height": 1500,
+      "printedPage": null,
+      "page": "https://github.com/johnchampaign/war-of-the-ring/blob/6716a03d3c6ce99a41693a38adaf6d541b10844c/assets/asset-urls.json",
+      "status": "reviewed_reproduction",
+      "edition": "The Fate of Erebor, English FE fronts for War of the Ring Second Edition"
+    },
+    {
+      "id": "FATE-WOTR018-RULES",
+      "url": "https://cf.geekdo-images.com/HyiurvIz5hFKacuNczzWsg__expanded/img/XIZh3W_ZLQgEjXwGGA1_G1hPqo4=/fit-in/2400x1800/filters:no_upscale():strip_icc()/pic6836942.jpg",
+      "artifact": ".artifacts/source-audit/fate/bgg-6836942.jpg",
+      "sha256": "53c5e3d4722434f142bc9a8513fe216fa0bb8564bc01b8f1d78ef2a04615b9fa",
+      "bytes": 651180,
+      "width": 2400,
+      "height": 1800,
+      "printedPage": null,
+      "page": "https://boardgamegeek.com/image/6836942/war-of-the-ring-the-fate-of-erebor",
+      "status": "reviewed_reproduction",
+      "edition": "The Fate of Erebor WOTR018, English standalone, copyright 2011/2021",
+      "photographPublishedAt": "2022-04-28T02:21:21+00:00",
+      "uploader": "Rob Lacy (Alkorahil)",
+      "title": "Standalone WOTR018 complete English rules interior"
+    },
+    {
+      "id": "FATE-WOTR018-PACKAGE",
+      "url": "https://cf.geekdo-images.com/GciPujw0_LI-f7sJAh8kWw__expanded/img/u8vdvo1WSvXt89d14ixzeM8C6ls=/fit-in/2400x1800/filters:no_upscale():strip_icc()/pic6836941.jpg",
+      "artifact": ".artifacts/source-audit/fate/bgg-6836941.jpg",
+      "sha256": "9d0a538a7f8764bdad2c2d2f6052115248285ce50deb04e857b2174659470c52",
+      "bytes": 259762,
+      "width": 1350,
+      "height": 1800,
+      "printedPage": null,
+      "page": "https://boardgamegeek.com/image/6836941/war-of-the-ring-the-fate-of-erebor",
+      "status": "reviewed_reproduction",
+      "edition": "The Fate of Erebor WOTR018, English standalone, copyright 2011/2021",
+      "photographPublishedAt": "2022-04-28T02:21:00+00:00",
+      "uploader": "Rob Lacy (Alkorahil)",
+      "title": "Standalone WOTR018 English package reverse and copyright"
+    }
+  ],
+  "composition": {
+    "eventCards": 6,
+    "freePeoplesEvents": 4,
+    "shadowEvents": 2,
+    "characterCards": 2,
+    "distinctCharacterIdentities": 1,
+    "addedToDecks": 0,
+    "replacedDeckSlots": 6,
+    "baseWithFateDeckTotal": 96,
+    "lordsWithFateDeckTotal": 108
+  },
+  "packs": [
+    {
+      "task": "T32-CARDS",
+      "content_ids": [
+        "fate.fp.character.17",
+        "fate.fp.strategy.04",
+        "fate.fp.strategy.19",
+        "fate.fp.strategy.22",
+        "fate.sh.strategy.20",
+        "fate.sh.strategy.22"
+      ]
+    },
+    {
+      "task": "T32-GIMLI",
+      "content_ids": [
+        "fate.character.gimli",
+        "fate.character.gimli-dwarven-lord"
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "id": "fate.fp.character.17",
+      "kind": "Event",
+      "title": "There and Back Again",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 17,
+      "printedNumber": "17/24 FE",
+      "eventType": "Character",
+      "eventRules": [
+        "Oddziel od Drużyny jednego towarzysza albo grupę; dopuszczony jeden dodatkowy region ruchu.",
+        "Następnie, jeśli Gimli lub Legolas jest w Carrock, Iron Hills albo Woodland Realm: aktywuj North i przesuń Dwarves, Elves oraz North po jednym kroku polityki."
+      ],
+      "combatTitle": "Brave Stand",
+      "initiative": [
+        3
+      ],
+      "combatRules": [
+        "Wymaga towarzysza w bitwie. Cień rzuca o jedną kość Combat mniej za każdego towarzysza w bitwie, minimum jedna kość."
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.character.17"
+      },
+      "source": {
+        "sheet": "FATE-CARD-SHEET-2AE0D186",
+        "bounds": [
+          1245,
+          0,
+          1660,
+          750
+        ]
+      },
+      "rulebookPages": [
+        45,
+        46
+      ],
+      "edition": "War of the Ring Second Edition — The Fate of Erebor, EN",
+      "reviewedAt": "2026-10-05",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "verificationCases": [
+        "Carrock i Iron Hills kwalifikują, Erebor ani Dale nie kwalifikują.",
+        "Jedna grupa i dodatkowy krok; druga część po zakończonym oddzieleniu.",
+        "Warunek bojowy oraz redukcja po limicie pięciu, minimum jeden."
+      ]
+    },
+    {
+      "id": "fate.fp.strategy.04",
+      "kind": "Event",
+      "title": "Book of Mazarbul",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 4,
+      "printedNumber": "4/24 FE",
+      "eventType": "Muster",
+      "eventRules": [
+        "Przemieść dowolnych lub wszystkich towarzyszy poza Drużyną.",
+        "Następnie, jeśli towarzysz jest w Iron Hills albo Ered Luin: przesuń Dwarves bezpośrednio do At War i zrekrutuj tam jedną jednostkę Dwarves, Regular albo Elite."
+      ],
+      "combatTitle": "Advantageous Position",
+      "initiative": [
+        3
+      ],
+      "combatRules": [
+        "Wymaga obrońcy w granicach narodu FP. Cień odejmuje jeden od każdej kości Combat; naturalne sześć nadal trafia."
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.04"
+      },
+      "source": {
+        "sheet": "FATE-CARD-SHEET-2AE0D186",
+        "bounds": [
+          415,
+          0,
+          830,
+          750
+        ]
+      },
+      "rulebookPages": [
+        45,
+        46
+      ],
+      "edition": "War of the Ring Second Edition — The Fate of Erebor, EN",
+      "reviewedAt": "2026-10-05",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "verificationCases": [
+        "Oba nowe cele i wybór jednego przy obecności w obu; Erebor nie kwalifikuje.",
+        "Brak rekruta nie cofa polityki; wybrany towarzysz nie musi być przemieszczonym.",
+        "Bojowy warunek bada nowe granice Fate, Dale jest poza narodami."
+      ]
+    },
+    {
+      "id": "fate.fp.strategy.19",
+      "kind": "Event",
+      "title": "Bardings",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 19,
+      "printedNumber": "19/24 FE",
+      "eventType": "Muster",
+      "eventRules": [
+        "Zrekrutuj jedną jednostkę North, Regular albo Elite, i jednego North Leader w jednym regionie sąsiednim do Dale; samo Dale jest dozwolone tylko z armią FP.",
+        "Następnie dobierz jedną kartę Strategy Event."
+      ],
+      "combatTitle": "Shield-wall",
+      "initiative": [
+        6
+      ],
+      "combatRules": [
+        "Przed usunięciem strat od Combat i Leader re-roll przeciwnika anuluj jedno trafienie, jeżeli przeciwnik uzyskał co najmniej dwa."
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.19"
+      },
+      "source": {
+        "sheet": "FATE-CARD-SHEET-2AE0D186",
+        "bounds": [
+          0,
+          0,
+          415,
+          750
+        ]
+      },
+      "rulebookPages": [
+        45,
+        46
+      ],
+      "edition": "War of the Ring Second Edition — The Fate of Erebor, EN",
+      "reviewedAt": "2026-10-05",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "verificationCases": [
+        "Rekrutacja przed At War, oba typy i brak części rezerw.",
+        "Dale wymaga rzeczywistej armii FP; sam dowódca nie wystarcza.",
+        "Dobór następuje po możliwej rekrutacji; 1 trafienie bez redukcji, 2 z redukcją."
+      ]
+    },
+    {
+      "id": "fate.fp.strategy.22",
+      "kind": "Event",
+      "title": "Dwarves of the Iron Hills",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 22,
+      "printedNumber": "22/24 FE",
+      "eventType": "Muster",
+      "eventRules": [
+        "Zrekrutuj jedną jednostkę Dwarves, Regular albo Elite, i jednego Dwarf Leader w jednym regionie sąsiednim do Dale; samo Dale jest dozwolone tylko z armią FP.",
+        "Następnie dobierz jedną kartę Strategy Event."
+      ],
+      "combatTitle": "Valour",
+      "initiative": [
+        3
+      ],
+      "combatRules": [
+        "Wymaga elity FP w bitwie. Dodaj jeden do każdej kości Combat FP."
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.22"
+      },
+      "source": {
+        "sheet": "FATE-CARD-SHEET-2AE0D186",
+        "bounds": [
+          830,
+          0,
+          1245,
+          750
+        ]
+      },
+      "rulebookPages": [
+        45,
+        46
+      ],
+      "edition": "War of the Ring Second Edition — The Fate of Erebor, EN",
+      "reviewedAt": "2026-10-05",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "verificationCases": [
+        "Dale bez armii niedozwolone; sąsiedni region korzysta ze zwykłych ograniczeń rekrutacji wydarzeniem.",
+        "Elite jest dozwolona, a dobór niezależny od braku części rezerw.",
+        "Warunek Elite podczas zagrania i brak premii do Leader re-roll."
+      ]
+    },
+    {
+      "id": "fate.sh.strategy.20",
+      "kind": "Event",
+      "title": "Orcs Multiplying Again",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 20,
+      "printedNumber": "20/24 FE",
+      "eventType": "Muster",
+      "eventRules": [
+        "Zrekrutuj trzech Sauron Regular w Dol Guldur oraz trzech w jednym wybranym regionie: Mount Gundabad albo Erebor."
+      ],
+      "combatTitle": "Onslaught",
+      "initiative": [
+        7
+      ],
+      "combatRules": [
+        "Po usunięciu zwykłych strat dobrowolnie przyjmij do czterech dodatkowych trafień na własne jednostki. Rzuć jedną kością za przyjęte trafienie; każde 4+ zadaje trafienie przeciwnikowi."
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.20"
+      },
+      "source": {
+        "sheet": "FATE-CARD-SHEET-2AE0D186",
+        "bounds": [
+          830,
+          750,
+          1245,
+          1500
+        ]
+      },
+      "rulebookPages": [
+        45,
+        46
+      ],
+      "edition": "War of the Ring Second Edition — The Fate of Erebor, EN",
+      "reviewedAt": "2026-10-05",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "verificationCases": [
+        "Jeden alternatywny region; nie dziel trzech między Mount Gundabad i Erebor.",
+        "Niedobór wspólnej rezerwy zachowuje wybór legalnego podziału.",
+        "Nadmiar po całym wydarzeniu; bojowo 0..4, osobny rzut bez przerzutu."
+      ]
+    },
+    {
+      "id": "fate.sh.strategy.22",
+      "kind": "Event",
+      "title": "Monsters Roused",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 22,
+      "printedNumber": "22/24 FE",
+      "eventType": "Muster",
+      "eventRules": [
+        "Wybierz jeden wariant: po jednym Sauron Regular w Angmar, Ettenmoors i Weather Hills oraz jeden Sauron Elite w Trollshaws;",
+        "albo po jednym Sauron Regular w Western Mirkwood, Northern Mirkwood i Withered Heath oraz jeden Sauron Elite w wybranym z tych trzech regionów."
+      ],
+      "combatTitle": "Desperate Battle",
+      "initiative": [
+        3
+      ],
+      "combatRules": [
+        "Obie armie dodają jeden do wszystkich kości Combat i Leader re-roll."
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.22"
+      },
+      "source": {
+        "sheet": "FATE-CARD-SHEET-2AE0D186",
+        "bounds": [
+          415,
+          750,
+          830,
+          1500
+        ]
+      },
+      "rulebookPages": [
+        45,
+        46
+      ],
+      "edition": "War of the Ring Second Edition — The Fate of Erebor, EN",
+      "reviewedAt": "2026-10-05",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "verificationCases": [
+        "Nie mieszaj dwóch wariantów; druga opcja pozwala elicie dzielić region z regularnym.",
+        "Wybór wariantu i celu elity pozostaje strategiczny także przy niedoborze.",
+        "Bojowa premia obu stron i obu zwykłych rzutów, naturalne 1/6 bez zmiany."
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "id": "fate.character.gimli",
+      "kind": "Character",
+      "title": "Gimli",
+      "subtitle": "Son of Gloin",
+      "side": "FreePeoples",
+      "identity": "gimli",
+      "number": 1,
+      "printedNumber": "1/11 FE",
+      "level": 2,
+      "movementLevel": 2,
+      "leadership": 1,
+      "nationIcon": "dwarves",
+      "extraActionDice": 0,
+      "requiredVariant": null,
+      "councilStart": [],
+      "abilities": [
+        "Captain of the West: w bitwie zwiększ siłę Combat armii FP o jeden, z limitem pięciu kości.",
+        "Dwarf of Renown: w Iron Hills albo Ered Luin użyj dowolnej kości akcji, aby przesunąć Dwarves o jeden krok polityki."
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.character.gimli"
+      },
+      "source": {
+        "sheet": "FATE-CARD-SHEET-2AE0D186",
+        "bounds": [
+          0,
+          750,
+          415,
+          1500
+        ]
+      },
+      "rulebookPages": [
+        45,
+        46
+      ],
+      "edition": "War of the Ring Second Edition — The Fate of Erebor, EN",
+      "reviewedAt": "2026-10-05",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "verificationCases": [
+        "Nowe miejsca zdolności; Erebor nie działa.",
+        "Poziom 2, dowodzenie 1 i ikona Krasnoludów pozostają; Kings odczytuje rzeczywistą ikonę.",
+        "Wybór zwykłej wersji jest odrębny od alternatywy Council."
+      ],
+      "numberOfCards": 11
+    },
+    {
+      "id": "fate.character.gimli-dwarven-lord",
+      "kind": "Character",
+      "title": "Gimli",
+      "subtitle": "Dwarven Lord",
+      "side": "FreePeoples",
+      "identity": "gimli",
+      "number": 6,
+      "printedNumber": "LM 6/10 FE",
+      "level": 1,
+      "movementLevel": 2,
+      "leadership": 1,
+      "nationIcon": null,
+      "extraActionDice": 0,
+      "requiredVariant": "CouncilOfRivendell",
+      "councilStart": [
+        "iron-hills",
+        "ered-luin"
+      ],
+      "abilities": [
+        "Council: alternatywny start w Iron Hills albo Ered Luin; nie w Ereborze.",
+        "Guide: podczas Hunt oddziel Gimliego od Drużyny, aby zmniejszyć obrażenia o jeden, minimum zero.",
+        "Dwarven Champion: w bitwie z obrońcą w granicach Dwarves zwiększ siłę Combat armii FP o jeden, z limitem pięciu kości.",
+        "Messenger of Elrond: w Iron Hills albo Ered Luin użyj dowolnej kości akcji, aby aktywować Dwarves i przesunąć o jeden krok polityki.",
+        "Traktuj poziom jako 2 tylko dla ruchu."
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "lords.character.gimli"
+      },
+      "source": {
+        "sheet": "FATE-CARD-SHEET-2AE0D186",
+        "bounds": [
+          1660,
+          0,
+          2075,
+          750
+        ]
+      },
+      "rulebookPages": [
+        45,
+        46
+      ],
+      "edition": "War of the Ring Second Edition — The Fate of Erebor, EN",
+      "reviewedAt": "2026-10-05",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "verificationCases": [
+        "Council dopuszcza oba nowe regiony; brak startu w Ereborze.",
+        "Hunt zachowuje kolejność i wyjątki grup z FAQ/Lords; obrażenia nie spadają poniżej zera.",
+        "Erebor należy do Saurona, więc nie daje warunku Dwarven Champion.",
+        "Brak ikony narodu oznacza brak uprawnień odpowiedniego towarzysza Kings."
+      ],
+      "numberOfCards": 10
+    }
+  ],
+  "setup": {
+    "source": "FATE-WOTR018-RULES",
+    "operation": "replace-region-nation-totals",
+    "totals": [
+      {
+        "region": "erebor",
+        "nation": "dwarves",
+        "Regular": 0,
+        "Elite": 0,
+        "Leader": 0
+      },
+      {
+        "region": "erebor",
+        "nation": "sauron",
+        "Regular": 2,
+        "Elite": 0,
+        "Leader": 0
+      },
+      {
+        "region": "dale",
+        "nation": "north",
+        "Regular": 0,
+        "Elite": 0,
+        "Leader": 0
+      },
+      {
+        "region": "carrock",
+        "nation": "north",
+        "Regular": 2,
+        "Elite": 0,
+        "Leader": 1
+      },
+      {
+        "region": "ered-luin",
+        "nation": "dwarves",
+        "Regular": 2,
+        "Elite": 0,
+        "Leader": 0
+      },
+      {
+        "region": "iron-hills",
+        "nation": "dwarves",
+        "Regular": 2,
+        "Elite": 0,
+        "Leader": 1
+      }
+    ],
+    "nations": [
+      {
+        "id": "dwarves",
+        "active": true,
+        "stepsToWar": "unchanged"
+      }
+    ],
+    "unchangedOutsideListedTotals": true,
+    "crossCheck": "FATE-RULES-45"
+  },
+  "regionOverrides": [
+    {
+      "id": "erebor",
+      "nation": "sauron",
+      "originalOwner": "Shadow",
+      "settlement": "Stronghold",
+      "victoryPoints": 2
+    },
+    {
+      "id": "dale",
+      "nation": "",
+      "originalOwner": null,
+      "settlement": "Fortification",
+      "victoryPoints": 0
+    },
+    {
+      "id": "iron-hills",
+      "nation": "dwarves",
+      "originalOwner": "FreePeoples",
+      "settlement": "City",
+      "victoryPoints": 1
+    }
+  ],
+  "mapRules": {
+    "source": "FATE-WOTR018-RULES",
+    "adjacencyUnchanged": true,
+    "impassableBordersUnchanged": true,
+    "initialShadowVictoryPointsFromErebor": 0,
+    "freePeoplesVictoryPointsForTakingErebor": 2,
+    "victoryThresholdsUnchanged": true,
+    "crossCheck": "FATE-RULES-45"
+  },
+  "newCities": {
+    "source": "FATE-WOTR018-RULES",
+    "requiresFate": true,
+    "regionOverrides": [
+      {
+        "id": "ered-luin",
+        "nation": "dwarves",
+        "originalOwner": "FreePeoples",
+        "settlement": "City",
+        "victoryPoints": 1
+      },
+      {
+        "id": "south-rhun",
+        "nation": "southrons",
+        "originalOwner": "Shadow",
+        "settlement": "City",
+        "victoryPoints": 1
+      }
+    ],
+    "crossCheck": "FATE-RULES-45"
+  },
+  "integration": {
+    "lords": {
+      "source": "FATE-WOTR018-RULES",
+      "requiresCouncilForAlternateGimli": true,
+      "alternateGimliStarts": [
+        "iron-hills",
+        "ered-luin"
+      ],
+      "forbiddenAlternateGimliStart": "erebor",
+      "crossCheck": "FATE-RULES-45"
+    },
+    "kings": {
+      "source": "KINGS",
+      "pages": [
+        18,
+        19
+      ],
+      "omitSovereignIdentities": [
+        "dain",
+        "brand"
+      ],
+      "omitSovereignCards": [
+        "kings.character.dain.awakened",
+        "kings.character.dain.corrupted",
+        "kings.character.brand.awakened",
+        "kings.character.brand.corrupted"
+      ],
+      "omitRulerTokens": [
+        "kings.token.dain",
+        "kings.token.brand"
+      ],
+      "skipKingsReplacementSlots": [
+        "base.fp.strategy.19",
+        "base.fp.strategy.22"
+      ],
+      "useFateCards": [
+        "fate.fp.strategy.19",
+        "fate.fp.strategy.22"
+      ]
+    }
+  },
+  "editionComparison": {
+    "standaloneRules": "FATE-WOTR018-RULES",
+    "standaloneIdentity": "FATE-WOTR018-PACKAGE",
+    "collectorRules": [
+      "FATE-RULES-44",
+      "FATE-RULES-45",
+      "FATE-RULES-46"
+    ],
+    "cardFronts": "FATE-CARD-SHEET-2AE0D186",
+    "standaloneProduct": "WOTR018",
+    "standaloneCopyright": "2011, 2021",
+    "standalonePhotoDate": "2022-04-28",
+    "ruleTextComparison": "Visually compared complete Setup, Board Changes, Lords of Middle-earth and New Cities paragraphs; same operative wording and values in both printed sources.",
+    "equalScopes": [
+      "all six region/nation setup totals",
+      "Dwarves active without political step change",
+      "three region overrides and victory conditions",
+      "six event replacement slots",
+      "two Gimli versions and Council start",
+      "both optional New Cities"
+    ],
+    "differences": [
+      "Collector component list: eight overlays, four types in two board sizes. Photographed standalone WOTR018: four overlays in one board size.",
+      "Collector page 46 includes an extra eight-card summary; standalone interior lists all replacement slots and the two Gimli cards, without reproducing those card bodies. Full FE fronts supply the event/combat/character text."
+    ],
+    "kingsIntegration": {
+      "source": "KINGS",
+      "pages": [
+        18,
+        19
+      ],
+      "rule": "Later explicit exclusion of Dain and Brand sovereigns and the two Kings event replacements; not present in either older Fate rules printing."
+    },
+    "limitation": "Agreement applies to these identified printed sources and the reviewed FE fronts. The photograph date is not a printing date; no later standalone or deluxe reprint is claimed identical without inspection."
+  }
+}

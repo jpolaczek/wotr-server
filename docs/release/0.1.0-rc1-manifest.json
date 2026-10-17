@@ -1,0 +1,47 @@
+{
+  "version": "0.1.0-rc1",
+  "created_utc": "2026-10-06T16:57:42.909146+00:00",
+  "clients": {
+    "macos": {
+      "version": "0.1.0-rc1",
+      "sourceCommit": "20bbd2425bef39dc6a256f67e98c72c2d46be72b",
+      "unityVersion": "6000.6.0f1",
+      "platform": "StandaloneOSX",
+      "development": false,
+      "protocolVersion": 1,
+      "rulesVersion": "base-2e-2011-faq1.2",
+      "contentVersion": "base-setup-1",
+      "publicContentSha256": "eda95f2fdc7b64f006ef0f38102fb3b91b7e76e5f57fa040c8fe7dfa687b8bd9"
+    },
+    "windows": {
+      "version": "0.1.0-rc1",
+      "sourceCommit": "20bbd2425bef39dc6a256f67e98c72c2d46be72b",
+      "unityVersion": "6000.6.0f1",
+      "platform": "StandaloneWindows64",
+      "development": false,
+      "protocolVersion": 1,
+      "rulesVersion": "base-2e-2011-faq1.2",
+      "contentVersion": "base-setup-1",
+      "publicContentSha256": "eda95f2fdc7b64f006ef0f38102fb3b91b7e76e5f57fa040c8fe7dfa687b8bd9"
+    }
+  },
+  "server_image": "sha256:ed9c972b497982ee27f4a530450838cad14c6c5f85b4ba3cca69437beec70312",
+  "migrations": [
+    "001_matches.sql",
+    "002_lobby.sql",
+    "003_correspondence.sql"
+  ],
+  "snapshot_schema": 2,
+  "archives": {
+    "Wotr-0.1.0-rc1-macos.zip": "c749d1e72644b59d07b153f65537f7468c3e52691f1042bdf652f8462229423e",
+    "Wotr-0.1.0-rc1-windows.zip": "d4b0bc43714ac80bb059190e9fca4db61bf41a15bae7bc4fafeb56dd5f797bd2",
+    "wotr-server-0.1.0-rc1-linux-arm64.tar.gz": "850c5a52537f4cfd19e8f407c46a0ac863da2f84341c2880a9538a69d84a995d"
+  },
+  "deferred": [
+    "Windows runtime",
+    "Windows/macOS cross-platform game",
+    "public host and TLS",
+    "manual user acceptance"
+  ],
+  "distribution_signed": false
+}

@@ -1,0 +1,46 @@
+{
+  "checked_at_utc": "2026-10-05T16:43:48.709661+00:00",
+  "complete_rulebook": {
+    "artifact": "docs/sources/materials/base-rulebook-v2.4.1.pdf",
+    "printed_version": "2.4.1",
+    "printed_version_page": 48,
+    "pages": 48,
+    "bytes": 5867232,
+    "sha256": "ebb4d6d4ab1348e8e4c604ea7d9d414e928034d93255d58bd61fa8df6d2f28a4",
+    "creation_date_utc": "2022-01-20T15:22:49Z",
+    "modification_date_utc": "2022-01-20T15:27:12Z",
+    "publisher_url": "https://www.aresgames.eu/download/20980/",
+    "archived_url": "https://web.archive.org/web/20240520185937id_/https://www.aresgames.eu/download/20980/",
+    "content_disposition_filename": "WOTR001-Rulebook-EN-v24_1-web.pdf",
+    "eof_present": true
+  },
+  "independent_archive_checks": {
+    "20220325_identical_sha256": true,
+    "20251009_snapshot_truncated_bytes": 5242880,
+    "20251009_recorded_full_length": 5867232,
+    "20251009_exact_prefix_of_complete_document": true
+  },
+  "comparison_artifacts": [
+    "SRC08-followup-v241.txt",
+    "SRC08-followup-v23.txt",
+    "SRC08-followup-word-diff.txt",
+    "SRC08-followup-word-count-delta.json",
+    "SRC08-followup-official-20240520-inspect.txt"
+  ],
+  "preliminary_comparison": "Comparison of all 48 pages after the PDFKit extraction showed no changes in the content of rules 1v1. 20 ream sege → seige; p. 28 End of Battle link 32 → 31 ; p. 47 Roll the Dice for the Combat Roll 29 → 30 ; p. 48 version/rights copyright. Pages 41 and 43 keep the text of the rules, differences concern the order of the points/headers.",
+  "caveat": "Direct host Ares returns HTTP 403; a full pinned document has been retrieved by the archive. We do not declare reading bytes of the current response 403 or the global absence of later decisions.",
+  "visual_inspection": {
+    "version_page_48": "Version 2.4.1 visible in the lower right corner; PNG viewed.",
+    "components_page_5": "The big diff is derived from the miniatures instructions/aid; the PNG was viewed. This is not an additional rule chapter."
+  },
+  "schema_version": 1,
+  "scope": "Official Second Edition of 2.4.1 and FAQ 1.2 database/Lords database; review of Kings indexes, without audit of missing expansions obverses.",
+  "publisher_index_review": {
+    "date": "2026-10-05",
+    "faq": "https://www.aresgames.eu/2648",
+    "archive": "https://www.aresgames.eu/downloads/archive",
+    "lords": "https://www.aresgames.eu/games/war-of-the-ring-line/lords-of-middle-earth",
+    "kings": "https://www.aresgames.eu/games/war-of-the-ring-line/kings-of-middle-earth",
+    "result": "Index FAQ still indicates 1.2 with 2014-09-09, baza/Lords. No separate FAQ Kings in indicated indices. Treebeard promo/Warriors, card, Hunt for the Ring and Sieges outside MVP."
+  }
+}

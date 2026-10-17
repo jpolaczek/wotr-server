@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "scope": "T29: The Ruler of both sides, five tokens and three full obverses of Dark Chieftains. card Event T30, Dismay/variants T31, T33 combinations, production client UI-09.",
+  "source": "docs/sources/kings-character-index.json",
+  "cards": [
+    {
+      "id": "kings.character.black-serpent",
+      "entryTests": [
+        "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite",
+        "KingsChieftainEntryTests.AnyAvailableRulerResultExceptEyeCanEnterAChieftain",
+        "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold"
+      ],
+      "exitTests": [
+        "KingsDiceTests.RulersEnterOnlyAtNextRecoveryRemainThroughDeathAndCanReturnWithNewSources",
+        "KingsChieftainCombatTests.RedWrathKillingItsLastUnitEndsBattleWithoutRollingOrReusingTheCommittedCard"
+      ],
+      "abilities": [
+        {
+          "id": "red-wrath",
+          "tests": [
+            "KingsChieftainCombatTests.RedWrathPaysOneHitBeforeRevealAndReplacesOnlyCombatModifiers",
+            "KingsChieftainCombatTests.RedWrathMayDowngradeAnEliteAndNeverForcesAWholeFigureRemoval",
+            "KingsChieftainCombatTests.DaringCancelsRedWrathButDoesNotRefundItsPaidHit",
+            "KingsChieftainCombatTests.ReplacementChoicePrecedesRevealAndDoesNotLeakTheOpposingCard",
+            "KingsChieftainCombatTests.ReplacementDoesNotBypassTheCommittedCardsPrintedRequirements"
+          ]
+        },
+        {
+          "id": "not-minion-for-gandalf-white",
+          "tests": [
+            "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite",
+            "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold",
+            "KingsDiceTests.RulersEnterOnlyAtNextRecoveryRemainThroughDeathAndCanReturnWithNewSources"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Red Wrath: uczestniczy w bitwie; przed ujawnieniem kart poświęć efekt własnej legalnej karty i zadaj/rozlicz 1 hit własnym jednostkom. Efekt przy inicjatywie 3 daje +1 do wszystkich Combat dice SH, a przy poświęconej Relentless Assault +2 zamiast +1. Nie zwiększa Leader re-roll.",
+          "tests": [
+            "KingsChieftainCombatTests.RedWrathPaysOneHitBeforeRevealAndReplacesOnlyCombatModifiers",
+            "KingsChieftainCombatTests.RedWrathMayDowngradeAnEliteAndNeverForcesAWholeFigureRemoval",
+            "KingsChieftainCombatTests.DaringCancelsRedWrathButDoesNotRefundItsPaidHit",
+            "KingsChieftainCombatTests.ReplacementChoicePrecedesRevealAndDoesNotLeakTheOpposingCard",
+            "KingsChieftainCombatTests.ReplacementDoesNotBypassTheCommittedCardsPrintedRequirements"
+          ]
+        },
+        {
+          "sourceText": "Nielatający Sługus, nie jest Sługusem dla wejścia Gandalf White.",
+          "tests": [
+            "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite",
+            "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold",
+            "KingsDiceTests.RulersEnterOnlyAtNextRecoveryRemainThroughDeathAndCanReturnWithNewSources"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Wejście wymaga Gondor At War, nie własnego narodu At War; cel musi mieć SE unit.",
+          "tests": [
+            "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite"
+          ]
+        },
+        {
+          "sourceText": "Koszt jest hit, nie zawsze usunięcie jednej figurki; można downgrade Elite.",
+          "tests": [
+            "KingsChieftainCombatTests.RedWrathMayDowngradeAnEliteAndNeverForcesAWholeFigureRemoval"
+          ]
+        },
+        {
+          "sourceText": "Wybrana Relentless Assault musi być legalna; zastąpiona karta nadal played.",
+          "tests": [
+            "KingsChieftainCombatTests.RedWrathPaysOneHitBeforeRevealAndReplacesOnlyCombatModifiers",
+            "KingsChieftainCombatTests.ReplacementDoesNotBypassTheCommittedCardsPrintedRequirements",
+            "KingsMirkwoodTests.SorcererDrawsForTheReplacedAndCancelledCombatCardAfterTheRoundCloses"
+          ]
+        },
+        {
+          "sourceText": "Bonus +1/+2 nie stosuje się do Leader re-roll; Daring Defiance może anulować zastępczy efekt.",
+          "tests": [
+            "KingsChieftainCombatTests.DaringCancelsRedWrathButDoesNotRefundItsPaidHit",
+            "KingsChieftainCombatTests.RedWrathPaysOneHitBeforeRevealAndReplacesOnlyCombatModifiers"
+          ]
+        },
+        {
+          "sourceText": "Nieprzekraczalne granice i twierdze respektują ruch nielatający.",
+          "tests": [
+            "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.shadow-of-mirkwood",
+      "entryTests": [
+        "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite",
+        "KingsChieftainEntryTests.AnyAvailableRulerResultExceptEyeCanEnterAChieftain",
+        "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold"
+      ],
+      "exitTests": [
+        "KingsDiceTests.RulersEnterOnlyAtNextRecoveryRemainThroughDeathAndCanReturnWithNewSources",
+        "KingsChieftainCombatTests.RedWrathKillingItsLastUnitEndsBattleWithoutRollingOrReusingTheCommittedCard"
+      ],
+      "abilities": [
+        {
+          "id": "lord-of-the-bats",
+          "tests": [
+            "KingsMirkwoodTests.LordOfTheBatsForfeitsOnlyItsOwnLeadershipAndDoesNotCreateRerolls",
+            "KingsMirkwoodTests.SwarmOfBatsUsesSeparateZeroAndFourInitiativesWhileBothCardsRemainPlayed",
+            "KingsMirkwoodTests.DefenderWinsTheInitiativeZeroTieBetweenSwarmAndDaring",
+            "KingsMirkwoodTests.PreviouslyUnavailableLeadershipCannotBePaidAgain",
+            "KingsChieftainCombatTests.ReplacementChoicePrecedesRevealAndDoesNotLeakTheOpposingCard",
+            "KingsChieftainCombatTests.ReplacementDoesNotBypassTheCommittedCardsPrintedRequirements",
+            "KingsMirkwoodTests.SorcererDrawsForTheReplacedAndCancelledCombatCardAfterTheRoundCloses"
+          ]
+        },
+        {
+          "id": "not-minion-for-gandalf-white",
+          "tests": [
+            "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite",
+            "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold",
+            "KingsDiceTests.RulersEnterOnlyAtNextRecoveryRemainThroughDeathAndCanReturnWithNewSources"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Lord of the Bats: uczestniczy w bitwie; przed ujawnieniem kart poświęć efekt własnej legalnej karty oraz jego dowodzenie. +1 do wszystkich Leader re-roll dice SH przy inicjatywie 4. Jeśli kartą jest Swarm of Bats, dodatkowo anuluj efekty karty FP przy inicjatywie 0.",
+          "tests": [
+            "KingsMirkwoodTests.LordOfTheBatsForfeitsOnlyItsOwnLeadershipAndDoesNotCreateRerolls",
+            "KingsMirkwoodTests.SwarmOfBatsUsesSeparateZeroAndFourInitiativesWhileBothCardsRemainPlayed",
+            "KingsMirkwoodTests.DefenderWinsTheInitiativeZeroTieBetweenSwarmAndDaring",
+            "KingsMirkwoodTests.PreviouslyUnavailableLeadershipCannotBePaidAgain",
+            "KingsChieftainCombatTests.ReplacementChoicePrecedesRevealAndDoesNotLeakTheOpposingCard",
+            "KingsChieftainCombatTests.ReplacementDoesNotBypassTheCommittedCardsPrintedRequirements",
+            "KingsMirkwoodTests.SorcererDrawsForTheReplacedAndCancelledCombatCardAfterTheRoundCloses"
+          ]
+        },
+        {
+          "sourceText": "Nielatający Sługus, nie jest Sługusem dla wejścia Gandalf White.",
+          "tests": [
+            "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite",
+            "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold",
+            "KingsDiceTests.RulersEnterOnlyAtNextRecoveryRemainThroughDeathAndCanReturnWithNewSources"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Warunek At War któregokolwiek z trzech wskazanych narodów; Rohan/Gondor nie wystarczają.",
+          "tests": [
+            "KingsChieftainEntryTests.MirkwoodRequiresOneOfTheThreeNorthernNations"
+          ]
+        },
+        {
+          "sourceText": "Koszt odejmuje własne dowodzenie, nie dowodzenie wszystkich innych dowódców.",
+          "tests": [
+            "KingsMirkwoodTests.LordOfTheBatsForfeitsOnlyItsOwnLeadershipAndDoesNotCreateRerolls"
+          ]
+        },
+        {
+          "sourceText": "Brak pozostałego dowodzenia oznacza brak przerzutów mimo +1.",
+          "tests": [
+            "KingsMirkwoodTests.LordOfTheBatsForfeitsOnlyItsOwnLeadershipAndDoesNotCreateRerolls"
+          ]
+        },
+        {
+          "sourceText": "Swarm ma dwa okna 0/4; nie zastępuj pojedynczą inicjatywą 3 z innych kart.",
+          "tests": [
+            "KingsMirkwoodTests.SwarmOfBatsUsesSeparateZeroAndFourInitiativesWhileBothCardsRemainPlayed"
+          ]
+        },
+        {
+          "sourceText": "Brand/Daring, Sorcerer i karta FP nadal played wymagają zachowania stanu zastąpienia.",
+          "tests": [
+            "KingsMirkwoodTests.BrandsLaterReplacementCanCancelTheChieftainWithoutReturningItsLeadership",
+            "KingsMirkwoodTests.DefenderWinsTheInitiativeZeroTieBetweenSwarmAndDaring",
+            "KingsMirkwoodTests.SorcererDrawsForTheReplacedAndCancelledCombatCardAfterTheRoundCloses"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.ugluk",
+      "entryTests": [
+        "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite",
+        "KingsChieftainEntryTests.AnyAvailableRulerResultExceptEyeCanEnterAChieftain",
+        "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold"
+      ],
+      "exitTests": [
+        "KingsDiceTests.RulersEnterOnlyAtNextRecoveryRemainThroughDeathAndCanReturnWithNewSources",
+        "KingsChieftainCombatTests.RedWrathKillingItsLastUnitEndsBattleWithoutRollingOrReusingTheCommittedCard"
+      ],
+      "abilities": [
+        {
+          "id": "i-command",
+          "tests": [
+            "KingsChieftainCombatTests.ICommandReplacesThePrintedCardAndBuffsBothArmiesExceptForDesperateBattle",
+            "KingsChieftainCombatTests.ReplacementChoicePrecedesRevealAndDoesNotLeakTheOpposingCard",
+            "KingsChieftainCombatTests.ReplacementDoesNotBypassTheCommittedCardsPrintedRequirements",
+            "KingsChieftainCombatTests.ChieftainReplacementCanBeChosenAgainInTheNextRound"
+          ]
+        },
+        {
+          "id": "we-march-day-and-night",
+          "tests": [
+            "KingsChieftainHuntTests.UglukAddsOneOnlyToSelectedHuntRerollsAndPreservesNaturalResults",
+            "KingsChieftainHuntTests.HuntAbilityWorksWithHiddenFellowshipButRequiresAStillPresentUglukNearby",
+            "KingsChieftainHuntTests.UglukAloneGrantsNoRerollSourceOrExtraRandomness"
+          ]
+        },
+        {
+          "id": "not-minion-for-gandalf-white",
+          "tests": [
+            "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite",
+            "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold",
+            "KingsDiceTests.RulersEnterOnlyAtNextRecoveryRemainThroughDeathAndCanReturnWithNewSources"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "I Command: uczestniczy w bitwie; przed ujawnieniem kart poświęć efekt własnej legalnej karty. +1 do Combat roll i Leader re-roll obu armii przy inicjatywie 3; jeśli kartą jest Desperate Battle, bonus dotyczy tylko SH.",
+          "tests": [
+            "KingsChieftainCombatTests.ICommandReplacesThePrintedCardAndBuffsBothArmiesExceptForDesperateBattle",
+            "KingsChieftainCombatTests.ReplacementChoicePrecedesRevealAndDoesNotLeakTheOpposingCard",
+            "KingsChieftainCombatTests.ReplacementDoesNotBypassTheCommittedCardsPrintedRequirements",
+            "KingsChieftainCombatTests.ChieftainReplacementCanBeChosenAgainInTheNextRound"
+          ]
+        },
+        {
+          "sourceText": "We March Day and Night: gdy Uglúk jest z Drużyną lub w sąsiednim regionie, +1 do wszystkich kości SH Hunt re-roll. To modyfikator przerzutu, nie źródło prawa do przerzutu ani bonus do pierwszego rzutu.",
+          "tests": [
+            "KingsChieftainHuntTests.UglukAddsOneOnlyToSelectedHuntRerollsAndPreservesNaturalResults",
+            "KingsChieftainHuntTests.HuntAbilityWorksWithHiddenFellowshipButRequiresAStillPresentUglukNearby",
+            "KingsChieftainHuntTests.UglukAloneGrantsNoRerollSourceOrExtraRandomness"
+          ]
+        },
+        {
+          "sourceText": "Nielatający Sługus, nie jest Sługusem dla wejścia Gandalf White.",
+          "tests": [
+            "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite",
+            "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold",
+            "KingsDiceTests.RulersEnterOnlyAtNextRecoveryRemainThroughDeathAndCanReturnWithNewSources"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Drużyna hidden i Rohan At War dopuszczają wejście wyłącznie przy armii Isengardu.",
+          "tests": [
+            "KingsChieftainEntryTests.UgluksFreeFellowshipLocationsRequireRevealEvenWhenRohanIsAtWar"
+          ]
+        },
+        {
+          "sourceText": "Revealed umożliwia drugi wariant lokalizacji, ale nadal wymagany free region.",
+          "tests": [
+            "KingsChieftainEntryTests.UgluksFreeFellowshipLocationsRequireRevealEvenWhenRohanIsAtWar"
+          ]
+        },
+        {
+          "sourceText": "Desperate Battle daje +1 tylko SH; inna legalna karta także przeciwnikowi, w obu rzutach.",
+          "tests": [
+            "KingsChieftainCombatTests.ICommandReplacesThePrintedCardAndBuffsBothArmiesExceptForDesperateBattle"
+          ]
+        },
+        {
+          "sourceText": "Hunt bonus działa z hidden Drużyną, bo tylko wejście wymaga revealed; brak uprawnionego reroll nadal zero RNG.",
+          "tests": [
+            "KingsChieftainHuntTests.HuntAbilityWorksWithHiddenFellowshipButRequiresAStillPresentUglukNearby",
+            "KingsChieftainHuntTests.UglukAloneGrantsNoRerollSourceOrExtraRandomness"
+          ]
+        },
+        {
+          "sourceText": "Ruler Eye odrzucony, stan wejścia i koszt nie ponawiają się po retry.",
+          "tests": [
+            "KingsChieftainEntryTests.AnyAvailableRulerResultExceptEyeCanEnterAChieftain",
+            "KingsChieftainEntryTests.EntryRestartsWithOneFigureAndNoRepeatedCostOrStandardDie",
+            "KingsDiceTests.ShadowDiscardRestartsBeforeEyesMoveAndBeforeTheFreePeoplesChoice"
+          ]
+        }
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "id": "kings.token.brand",
+      "tests": [
+        "KingsRulerTokenTests.AnyElvenRingUseBlocksTokensUntilTheNextTurn",
+        "KingsRulerTokenTests.TokenBlocksAllElvenRingCostsButDoesNotBlockShadowsOwnRing",
+        "KingsRulerTokenTests.TokenConvertsTheRulerAndPaysItsExactRecruitmentInOneCommand"
+      ]
+    },
+    {
+      "id": "kings.token.dain",
+      "tests": [
+        "KingsRulerTokenTests.AnyElvenRingUseBlocksTokensUntilTheNextTurn",
+        "KingsRulerTokenTests.TokenBlocksAllElvenRingCostsButDoesNotBlockShadowsOwnRing",
+        "KingsRulerTokenTests.TokenConvertsTheRulerAndPaysItsExactRecruitmentInOneCommand"
+      ]
+    },
+    {
+      "id": "kings.token.denethor",
+      "tests": [
+        "KingsRulerTokenTests.AnyElvenRingUseBlocksTokensUntilTheNextTurn",
+        "KingsRulerTokenTests.TokenBlocksAllElvenRingCostsButDoesNotBlockShadowsOwnRing",
+        "KingsRulerTokenTests.DenethorsTokenRequiresTheExtraDrawBeforeCompletingItsCost",
+        "KingsRulerTokenTests.DenethorsTokenCanPayAnEventAndKeepsItsRequiredDrawThroughNestedChoices"
+      ]
+    },
+    {
+      "id": "kings.token.theoden",
+      "tests": [
+        "KingsRulerTokenTests.AnyElvenRingUseBlocksTokensUntilTheNextTurn",
+        "KingsRulerTokenTests.TokenBlocksAllElvenRingCostsButDoesNotBlockShadowsOwnRing",
+        "KingsRulerTokenTests.TokenConvertsTheRulerAndPaysItsExactRecruitmentInOneCommand"
+      ]
+    },
+    {
+      "id": "kings.token.thranduil",
+      "tests": [
+        "KingsRulerTokenTests.AnyElvenRingUseBlocksTokensUntilTheNextTurn",
+        "KingsRulerTokenTests.TokenBlocksAllElvenRingCostsButDoesNotBlockShadowsOwnRing",
+        "KingsRulerTokenTests.ThranduilsTokenImmediatelyAppliesFarSightedToTheHunt",
+        "KingsRulerTokenTests.ThranduilsTokenAlsoSupportsTheLongerSeparationRoute"
+      ]
+    }
+  ],
+  "integrationTests": [
+    "KingsDiceTests.RulersEnterOnlyAtNextRecoveryRemainThroughDeathAndCanReturnWithNewSources",
+    "KingsDiceTests.RulerUsesTheSixPrintedFacesAndOnlyShadowEyeAwaitsDiscard",
+    "KingsDiceTests.ShadowChoosesBeforeMovingEyesAndBeforeFreePeoplesWithoutLosingTheQueue",
+    "KingsDiceTests.AllocationNeverIncludesRulerAndSpecialDiceNeverPayItsDiscard",
+    "KingsDiceTests.ShadowDiscardRestartsBeforeEyesMoveAndBeforeTheFreePeoplesChoice",
+    "KingsDiceTests.FreePeoplesDiscardRestartsBeforeActionsAndCannotBePaidTwice",
+    "KingsRulerTokenTests.TokenConvertsTheRulerAndPaysItsExactRecruitmentInOneCommand",
+    "KingsRulerTokenTests.InvalidTokenCommandsSpendNothingAndDoNotRoll",
+    "KingsRulerTokenTests.TokenCannotConvertTheRulerForAnUnrelatedOrdinaryAction",
+    "KingsRulerTokenTests.DenethorsTokenRequiresTheExtraDrawBeforeCompletingItsCost",
+    "KingsRulerTokenTests.ThranduilsTokenImmediatelyAppliesFarSightedToTheHunt",
+    "KingsRulerTokenTests.DenethorsTokenCanPayAnEventAndKeepsItsRequiredDrawThroughNestedChoices",
+    "KingsRulerTokenTests.ThranduilsTokenAlsoSupportsTheLongerSeparationRoute",
+    "KingsRulerTokenTests.TokenDoesNotBypassTheAbilitysLocationRestrictions",
+    "KingsRulerTokenTests.AnyElvenRingUseBlocksTokensUntilTheNextTurn",
+    "KingsRulerTokenTests.TokenBlocksAllElvenRingCostsButDoesNotBlockShadowsOwnRing",
+    "KingsRulerTokenTests.TokenAndAllRecruitsSurviveRestartAndRetryWithoutDuplicateCost",
+    "KingsRulerTokenTests.DenethorsTokenSurvivesRestartBeforeItsRequiredExtraDraw",
+    "KingsChieftainEntryTests.EntryRequiresItsPrintedEnemyWarAndMatchingArmyAndNeverEnablesWhite",
+    "KingsChieftainEntryTests.MirkwoodRequiresOneOfTheThreeNorthernNations",
+    "KingsChieftainEntryTests.AnyAvailableRulerResultExceptEyeCanEnterAChieftain",
+    "KingsChieftainEntryTests.UgluksFreeFellowshipLocationsRequireRevealEvenWhenRohanIsAtWar",
+    "KingsChieftainEntryTests.FellowshipOnMordorTrackOffersOnlyIsengardArmyEntry",
+    "KingsChieftainEntryTests.RevealingFellowshipInMordorRestoresBothViewsAndDoesNotRepeatDamage",
+    "KingsChieftainEntryTests.ChieftainsUseNonFlyingRoutesAndRespectBothKindsOfStronghold",
+    "KingsChieftainEntryTests.EntryRestartsWithOneFigureAndNoRepeatedCostOrStandardDie",
+    "KingsChieftainCombatTests.ReplacementChoicePrecedesRevealAndDoesNotLeakTheOpposingCard",
+    "KingsChieftainCombatTests.RedWrathPaysOneHitBeforeRevealAndReplacesOnlyCombatModifiers",
+    "KingsChieftainCombatTests.RedWrathMayDowngradeAnEliteAndNeverForcesAWholeFigureRemoval",
+    "KingsChieftainCombatTests.DaringCancelsRedWrathButDoesNotRefundItsPaidHit",
+    "KingsChieftainCombatTests.ICommandReplacesThePrintedCardAndBuffsBothArmiesExceptForDesperateBattle",
+    "KingsChieftainCombatTests.PlayerChoosesOneOfSeveralChieftainsOrKeepsTheOriginalCard",
+    "KingsChieftainCombatTests.ReplacementDoesNotBypassTheCommittedCardsPrintedRequirements",
+    "KingsChieftainCombatTests.ReplacementRequiresAnActiveParticipatingChieftainAndAPlayedCard",
+    "KingsChieftainCombatTests.RedWrathKillingItsLastUnitEndsBattleWithoutRollingOrReusingTheCommittedCard",
+    "KingsChieftainCombatTests.ChieftainReplacementCanBeChosenAgainInTheNextRound",
+    "KingsChieftainCombatTests.ChieftainChoiceRestartsBeforeRevealWithBothCardFacesStillPrivate",
+    "KingsChieftainCombatTests.RedWrathLossRestartsAndRetriesWithoutAnotherHitOrCombatRoll",
+    "KingsMirkwoodTests.LordOfTheBatsForfeitsOnlyItsOwnLeadershipAndDoesNotCreateRerolls",
+    "KingsMirkwoodTests.SwarmOfBatsUsesSeparateZeroAndFourInitiativesWhileBothCardsRemainPlayed",
+    "KingsMirkwoodTests.DefenderWinsTheInitiativeZeroTieBetweenSwarmAndDaring",
+    "KingsMirkwoodTests.PreviouslyUnavailableLeadershipCannotBePaidAgain",
+    "KingsMirkwoodTests.BrandsLaterReplacementCanCancelTheChieftainWithoutReturningItsLeadership",
+    "KingsMirkwoodTests.SorcererDrawsForTheReplacedAndCancelledCombatCardAfterTheRoundCloses",
+    "KingsMirkwoodTests.LeadershipCostAndBothSwarmInitiativesSurviveRestartWithoutRepayment",
+    "KingsChieftainHuntTests.UglukAddsOneOnlyToSelectedHuntRerollsAndPreservesNaturalResults",
+    "KingsChieftainHuntTests.HuntAbilityWorksWithHiddenFellowshipButRequiresAStillPresentUglukNearby",
+    "KingsChieftainHuntTests.UglukAloneGrantsNoRerollSourceOrExtraRandomness",
+    "KingsChieftainHuntTests.PlayerCanDeclineAnImprovedRerollWithoutSpendingRandomness",
+    "KingsChieftainHuntTests.NaturalOneStillFailsWithUglukAndEarlierMovementModifiers",
+    "KingsChieftainHuntTests.UgluksHuntBonusAndSelectedRerollSurviveRestartWithoutNewEntropy"
+  ]
+}

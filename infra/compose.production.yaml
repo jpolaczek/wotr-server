@@ -1,0 +1,153 @@
+# DIST-04: production on Omarchy, on top of compose.yaml (infra/production.sh runs both files).
+# Players reach the game through the shared portfolio tunnel: wotr.<domain> → web (alias wotr-web on network
+# portfolio-ingress-wotr), which serves the game page and proxies the API and WebSockets to server. Release
+# files leave from downloads.<domain>: a DNS-only record kept on the host's public IP by ddns, the router's
+# WAN port (50443 on Omarchy: the provider blocks 443) → host 443 → downloads :8443, a Let's Encrypt
+# certificate from certbot (DNS-01). ufw-docker on the host needs `ufw route allow … port 8443` for it. Caddy from compose.yaml stays for the
+# local profile. Profile public (COMPOSE_PROFILES=public in .env) adds downloads, certbot and ddns.
+# Secrets: secrets/ from deploy-init.py, secrets/cloudflare_token (DNS edit of the zone only) and
+# secrets/resend_api_key (AUTH-02; empty until account emails are switched on).
+
+x-hardened: &hardened
+  read_only: true
+  security_opt: [no-new-privileges:true]
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+services:
+  database:
+    volumes:
+      - ${WOTR_DATA_DIR:?Set WOTR_DATA_DIR}/postgres:/var/lib/postgresql/data
+      - ./init-database.sql:/docker-entrypoint-initdb.d/10-wotr.sql:ro
+
+  proxy:
+    profiles: [local]
+
+  # AUTH-02: links in account emails point to the game's address; the Resend key is a secret file (an empty
+  # file while WOTR_EMAIL_PROVIDER=none).
+  server:
+    environment:
+      Wotr__PublicUrl: https://${WOTR_DOMAIN:?Set WOTR_DOMAIN}
+    secrets: [db_connection, resend_api_key]
+
+  web:
+    <<: *hardened
+    image: nginx:1.29.8-alpine@sha256:5616878291a2eed594aee8db4dade5878cf7edcb475e59193904b198d9b830de
+    volumes:
+      - ./nginx/game.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/security-headers.conf:/etc/nginx/snippets/security-headers.conf:ro
+      - ./site:/usr/share/nginx/html:ro
+    tmpfs: [/run, /var/cache/nginx, /tmp]
+    cap_drop: [ALL]
+    cap_add: [CHOWN, SETGID, SETUID]
+    networks:
+      frontend:
+        # The only proxy the server trusts (WOTR_TRUSTED_PROXY in compose.yaml).
+        ipv4_address: ${WOTR_PROXY_IP:-172.30.93.2}
+      ingress:
+        aliases: [wotr-web]
+    depends_on:
+      server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/healthz || exit 1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits: {cpus: "0.5", memory: 128m, pids: 128}
+
+  downloads:
+    <<: *hardened
+    image: nginx:1.29.8-alpine@sha256:5616878291a2eed594aee8db4dade5878cf7edcb475e59193904b198d9b830de
+    profiles: [public]
+    environment:
+      WOTR_DOWNLOADS_HOST: ${WOTR_DOWNLOADS_HOST:?Set WOTR_DOWNLOADS_HOST}
+      # The template's own nginx variables ($uri, $remote_addr…) must stay as they are.
+      NGINX_ENVSUBST_FILTER: "^WOTR_"
+    volumes:
+      - ./nginx/downloads.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - ./nginx/reload-certificates.sh:/docker-entrypoint.d/90-reload-certificates.sh:ro
+      - ${WOTR_DISTRIBUTION_DIR:-./distribution}/public:/srv/public:ro
+      - letsencrypt:/etc/letsencrypt:ro
+    tmpfs: [/run, /var/cache/nginx, /tmp, /etc/nginx/conf.d]
+    cap_drop: [ALL]
+    cap_add: [CHOWN, SETGID, SETUID]
+    ports:
+      - "${WOTR_DOWNLOADS_BIND:-0.0.0.0}:${WOTR_DOWNLOADS_PORT:-443}:8443"
+    networks: [downloads]
+    depends_on:
+      certbot:
+        condition: service_healthy
+        required: false
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8081/healthz || exit 1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits: {cpus: "0.5", memory: 128m, pids: 128}
+
+  certbot:
+    <<: *hardened
+    image: certbot/dns-cloudflare:v5.8.0@sha256:c45edb002b883da1a1235abb205dff474a7a1a459d878e8d5fdc7f9d83073aea
+    profiles: [public]
+    entrypoint: [sh, /scripts/certbot.sh]
+    environment:
+      WOTR_DOWNLOADS_HOST: ${WOTR_DOWNLOADS_HOST:?Set WOTR_DOWNLOADS_HOST}
+      WOTR_CERTBOT_STAGING: ${WOTR_CERTBOT_STAGING:-}
+    secrets: [cloudflare_token]
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - ./certbot/certbot.sh:/scripts/certbot.sh:ro
+    tmpfs: [/tmp, /var/lib/letsencrypt, /var/log/letsencrypt]
+    networks: [downloads]
+    healthcheck:
+      test: ["CMD-SHELL", "test -s /etc/letsencrypt/live/$$WOTR_DOWNLOADS_HOST/fullchain.pem"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5m
+    deploy:
+      resources:
+        limits: {cpus: "0.5", memory: 256m, pids: 64}
+
+  ddns:
+    <<: *hardened
+    image: favonia/cloudflare-ddns:1.17.1@sha256:5e61736b982b87d84a1120b4767c4deff0f2cc55ca3ee9dcb1dc58623039b5cb
+    profiles: [public]
+    user: "${WOTR_DDNS_USER:-1000:1000}"
+    cap_drop: [ALL]
+    environment:
+      CLOUDFLARE_API_TOKEN_FILE: /run/secrets/cloudflare_token
+      DOMAINS: ${WOTR_DOWNLOADS_HOST:?Set WOTR_DOWNLOADS_HOST}
+      PROXIED: "false"
+      IP6_PROVIDER: none
+      UPDATE_CRON: "@every 5m"
+    secrets: [cloudflare_token]
+    networks: [downloads]
+    deploy:
+      resources:
+        limits: {cpus: "0.25", memory: 64m, pids: 32}
+
+secrets:
+  cloudflare_token:
+    file: ./secrets/cloudflare_token
+  resend_api_key:
+    file: ./secrets/resend_api_key
+
+volumes:
+  letsencrypt:
+
+networks:
+  # Created by this stack; the portfolio tunnel joins it as an external network (portfolio: tunnel.wotr.yaml).
+  ingress:
+    name: ${WOTR_INGRESS_NETWORK:-portfolio-ingress-wotr}
+  # The downloads host, its certificate and the DNS updater: no route to the server or the database.
+  downloads: {}

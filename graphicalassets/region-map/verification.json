@@ -1,0 +1,18 @@
+{
+  "regions": 105,
+  "single_closed_valid_polygons": 105,
+  "shared_boundary_chains": 323,
+  "expected_movement_contacts": 232,
+  "missing_movement_contacts": [],
+  "overlap_area_working_pixels": 0.0,
+  "working_raster_size": [
+    2008,
+    1418
+  ],
+  "simplification_tolerance_working_pixels": 0.6,
+  "errors": [],
+  "png_size": [
+    6144,
+    5037
+  ]
+}

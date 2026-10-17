@@ -1,0 +1,122 @@
+{
+  "source_commit": "20bbd2425bef39dc6a256f67e98c72c2d46be72b",
+  "backend": {
+    "report": ".artifacts/test-results/t39-full.trx",
+    "sha256": "0d70f8e2b62d19313f683354adfe32c726e1823246c8f4d1559ac88497935a3b",
+    "times": {
+      "creation": "2026-10-06T18:46:56.1894430+02:00",
+      "queuing": "2026-10-06T18:46:56.1894430+02:00",
+      "start": "2026-10-06T18:46:54.6324080+02:00",
+      "finish": "2026-10-06T18:51:02.7513060+02:00"
+    },
+    "counters": {
+      "total": "3499",
+      "executed": "3499",
+      "passed": "3499",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    }
+  },
+  "edit_mode": {
+    "report": ".artifacts/t39-editor-final.xml",
+    "sha256": "63e18ed54d1f9088426cda64587f0bf2a40d3375e70ca20077856f4a5fcf166e",
+    "total": "198",
+    "passed": "198",
+    "failed": "0",
+    "skipped": "0",
+    "start-time": "2026-10-06 16:46:58Z",
+    "end-time": "2026-10-06 16:47:05Z"
+  },
+  "play_mode": {
+    "report": ".artifacts/t39-play-final.xml",
+    "sha256": "38f282c7c62f12be4a1612b6e0fd0f8adc70a7780545b94eb948f3ac504f012d",
+    "total": "270",
+    "passed": "270",
+    "failed": "0",
+    "skipped": "0",
+    "start-time": "2026-10-06 16:58:39Z",
+    "end-time": "2026-10-06 17:15:24Z"
+  },
+  "full_games": [
+    {
+      "report": ".artifacts/t39-games/base-100.json",
+      "sha256": "afe9cc510040de025ac9d66d2ee909047d82d7ddf28e70364bdbac6ad56fd395",
+      "configuration": {
+        "Lords": false,
+        "Kings": false,
+        "Fate": false,
+        "Council": false,
+        "Dismay": false,
+        "VisibleCorruption": false,
+        "SequentialCorruption": false,
+        "RemovingRulerTokens": false,
+        "NewCities": false
+      },
+      "recorded_at": "2026-10-06T17:12:51.22601Z",
+      "scale": 1.0,
+      "reduced_motion": false,
+      "decisions": 172,
+      "turns": 13,
+      "winner": "FreePeoples",
+      "victory": "RingDestroyed"
+    },
+    {
+      "report": ".artifacts/t39-games/base-125.json",
+      "sha256": "198a68569f6053b21267babec30d987515b5a0157f1dfdfbc50f2db10780416e",
+      "configuration": {
+        "Lords": false,
+        "Kings": false,
+        "Fate": false,
+        "Council": false,
+        "Dismay": false,
+        "VisibleCorruption": false,
+        "SequentialCorruption": false,
+        "RemovingRulerTokens": false,
+        "NewCities": false
+      },
+      "recorded_at": "2026-10-06T17:15:16.585026Z",
+      "scale": 1.25,
+      "reduced_motion": true,
+      "decisions": 96,
+      "turns": 7,
+      "winner": "Shadow",
+      "victory": "RingCorrupted"
+    },
+    {
+      "report": ".artifacts/t39-games/expansions-125.json",
+      "sha256": "7c79dab47b1281f7627bf5b96fef5aa1654262e97f164380d04d51815889df64",
+      "configuration": {
+        "Lords": true,
+        "Kings": true,
+        "Fate": true,
+        "Council": true,
+        "Dismay": true,
+        "VisibleCorruption": false,
+        "SequentialCorruption": false,
+        "RemovingRulerTokens": false,
+        "NewCities": true
+      },
+      "recorded_at": "2026-10-06T17:14:30.503869Z",
+      "scale": 1.25,
+      "reduced_motion": true,
+      "decisions": 217,
+      "turns": 15,
+      "winner": "Shadow",
+      "victory": "RingCorrupted"
+    }
+  ],
+  "windows_runtime_tested": false,
+  "public_host_tested": false,
+  "manual_user_tested": false
+}

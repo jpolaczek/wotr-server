@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <title>Forgot password · War of the Ring Online</title>
+  <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/account.js" defer></script>
+</head>
+<body data-page="forgot">
+  <main class="account">
+    <p class="crumb"><a href="/">War of the Ring Online</a></p>
+    <h1>Forgot password</h1>
+    <p class="lead">Enter your player name or email. If the account has a confirmed email, we send it a link to choose a
+      new password.</p>
+    <form id="form" novalidate>
+      <label for="login">Player name or email</label>
+      <input id="login" name="login" autocomplete="username" required maxlength="254">
+      <button type="submit">Send link</button>
+    </form>
+    <p class="note">No account yet? <a href="/account/register">Create one</a>.</p>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>

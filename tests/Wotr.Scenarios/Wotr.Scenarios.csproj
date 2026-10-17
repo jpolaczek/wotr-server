@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Wotr.Server/Wotr.Server.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Published with the seeder, so client integration runs it without a server checkout. -->
+    <None Include="../fixtures/base-regression/**/*.json" Link="fixtures/base-regression/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

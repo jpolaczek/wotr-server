@@ -1,0 +1,77 @@
+# DIST-04/DIST-08: the public game and downloads hosts checked from outside the home network (a GitHub runner):
+# game page and catalog API through the tunnel, downloads with full TLS validation, HEAD, Range 206, an interrupted
+# and resumed transfer with a matching SHA-256, the per-address connection limit and nothing outside /releases/,
+# and the game's response time while downloads use the upload.
+name: Public endpoints
+on:
+  workflow_dispatch:
+    inputs:
+      game:
+        description: Game origin (empty takes the repository variable WOTR_GAME_URL)
+        default: ""
+      downloads:
+        description: Downloads origin with its port (empty takes the repository variable WOTR_DOWNLOADS_ORIGIN)
+        default: ""
+      file:
+        description: A published file under /releases/ to download (path after the origin)
+        default: /releases/0.0.0-dist04-test/probe.bin
+      sha256:
+        description: Its SHA-256 (empty skips the comparison)
+        default: ""
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # MENU-28: host names come from the inputs or repository variables, never from git.
+      GAME: ${{ inputs.game || vars.WOTR_GAME_URL }}
+      DOWNLOADS: ${{ inputs.downloads || vars.WOTR_DOWNLOADS_ORIGIN }}
+      FILE: ${{ inputs.file }}
+      SHA256: ${{ inputs.sha256 }}
+    steps:
+      - name: Hosts to check
+        run: |
+          [[ -n "$GAME" && -n "$DOWNLOADS" ]] || { echo "::error::Give the hosts as inputs or set WOTR_GAME_URL and WOTR_DOWNLOADS_ORIGIN repository variables."; exit 1; }
+      - name: Game host through the tunnel
+        run: |
+          set -euo pipefail
+          curl -fsS -o /dev/null -D page.headers "$GAME/"
+          grep -qi '^content-security-policy:' page.headers
+          curl -fsS "$GAME/api/client/downloads" | tee downloads.json
+          curl -fsS "$GAME/api/client/releases?platform=macos-universal" | python3 -c 'import json,sys; print("releases API:", json.load(sys.stdin)["channel"])'
+          test "$(curl -s -o /dev/null -w '%{http_code}' "${GAME/https:/http:}/")" = 301
+      - name: Downloads host
+        run: |
+          set -euo pipefail
+          url="$DOWNLOADS$FILE"
+          curl -fsS -I "$url" | tee head.headers
+          grep -qi '^content-length:' head.headers
+          test "$(curl -s -o /dev/null -w '%{http_code}' -r 0-1023 "$url")" = 206
+          for path in /catalog.json /incoming/ /releases/ /; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$DOWNLOADS$path")
+            echo "$path -> $code"
+            test "$code" = 404
+          done
+          # An interrupted transfer resumed with Range.
+          curl -sS --max-time 4 -o file.bin "$url" || true
+          echo "interrupted at $(stat -c %s file.bin) B"
+          curl -fsS -C - -o file.bin "$url" -w 'resumed: %{http_code} %{size_download} B in %{time_total} s at %{speed_download} B/s\n'
+          sha256sum file.bin
+          if [ -n "$SHA256" ]; then echo "$SHA256  file.bin" | sha256sum -c -; fi
+      - name: Connection limit per address
+        run: |
+          url="$DOWNLOADS$FILE"
+          for _ in 1 2 3 4; do curl -s -o /dev/null --max-time 6 "$url" & done
+          sleep 1
+          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 3 "$url")
+          wait
+          echo "fifth parallel download -> $code"
+          test "$code" = 429
+      - name: Game response time while downloading
+        run: |
+          probe() { for _ in $(seq 1 20); do curl -s -o /dev/null -w '%{time_total}\n' "$GAME/health"; sleep 0.5; done | sort -n | awk '{a[NR]=$1} END {printf "median %.0f ms, max %.0f ms\n", a[int((NR+1)/2)]*1000, a[NR]*1000}'; }
+          echo "idle: $(probe)"
+          for _ in 1 2 3 4; do curl -s -o /dev/null --max-time 30 "$DOWNLOADS$FILE" & done
+          sleep 2
+          echo "during 4 downloads at 8 MB/s: $(probe)"
+          wait

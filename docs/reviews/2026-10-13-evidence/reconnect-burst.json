@@ -1,0 +1,14 @@
+{
+  "Players": 300,
+  "Successful": 297,
+  "Errors": [
+    "WebSocketException:The remote party closed the WebSocket connection without completing the close handshake.",
+    "WebSocketException:The server returned status code \u0027500\u0027 when status code \u0027101\u0027 was expected.",
+    "HttpRequestException:Response status code does not indicate success: 500 (Internal Server Error)."
+  ],
+  "Seconds": 1.0883776,
+  "P50Ms": 945.038,
+  "P95Ms": 1044.8005,
+  "P99Ms": 1053.4658,
+  "MaxMs": 1053.5153
+}

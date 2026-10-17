@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 2,
+  "source": "docs/sources/fate-index.json",
+  "rules": [
+    "docs/rules/T32-FATE-CARDS.md"
+  ],
+  "cards": [
+    {
+      "id": "fate.fp.character.17",
+      "kind": "Event",
+      "programId": "fate.fp.character.17",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.brave-stand"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.character.17"
+      },
+      "eventRules": [
+        {
+          "sourceText": "Oddziel od Drużyny jednego towarzysza albo grupę; dopuszczony jeden dodatkowy region ruchu.",
+          "tests": [
+            "FateCompanionCardTests.ThereAllowsOneExtraRegionAndWaitsForTheGuideBeforeAdvancingPolitics"
+          ]
+        },
+        {
+          "sourceText": "Następnie, jeśli Gimli lub Legolas jest w Carrock, Iron Hills albo Woodland Realm: aktywuj North i przesuń Dwarves, Elves oraz North po jednym kroku polityki.",
+          "tests": [
+            "FateCompanionCardTests.ThereChecksOnlyThePrintedCompanionsAndNewRegionsEvenWithoutSeparation"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Wymaga towarzysza w bitwie. Cień rzuca o jedną kość Combat mniej za każdego towarzysza w bitwie, minimum jedna kość.",
+          "tests": [
+            "FateCombatTests.BraveStandCountsOnlyParticipatingCompanionsAfterTheFiveDiceCapAndKeepsOneDie",
+            "FateCombatTests.CompanionAndEliteRequirementsExcludeNonParticipants"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Carrock i Iron Hills kwalifikują, Erebor ani Dale nie kwalifikują.",
+          "tests": [
+            "FateCompanionCardTests.ThereChecksOnlyThePrintedCompanionsAndNewRegionsEvenWithoutSeparation"
+          ]
+        },
+        {
+          "sourceText": "Jedna grupa i dodatkowy krok; druga część po zakończonym oddzieleniu.",
+          "tests": [
+            "FateCompanionCardTests.ThereAllowsOneExtraRegionAndWaitsForTheGuideBeforeAdvancingPolitics"
+          ]
+        },
+        {
+          "sourceText": "Warunek bojowy oraz redukcja po limicie pięciu, minimum jeden.",
+          "tests": [
+            "FateCombatTests.BraveStandCountsOnlyParticipatingCompanionsAfterTheFiveDiceCapAndKeepsOneDie",
+            "FateCombatTests.CompanionAndEliteRequirementsExcludeNonParticipants"
+          ]
+        }
+      ],
+      "tests": [
+        "FateCardPersistenceTests.EveryEventPersistsItsExactCostDiscardAndFirstDecisionBeforeAnIdempotentRetry",
+        "FateCardPersistenceTests.ThereRestartsSeparationAndGuideWithoutRepeatingPoliticalEffects",
+        "FateCardsTests.EveryCombatRequiresTheActualFateCardOwnerModuleAndCombatWindow",
+        "FateCardsTests.EveryEventRequiresItsModuleOwnerHandActionWindowAndPrintedOrEventCost",
+        "FateCardsTests.ReplacedBaseCardsCannotBeSmuggledIntoEitherUse",
+        "FateCardsTests.SixExplicitReplacementsPreserveAllEightDeckSizesWithoutKingsDuplicates",
+        "FateCombatTests.BraveStandCountsOnlyParticipatingCompanionsAfterTheFiveDiceCapAndKeepsOneDie",
+        "FateCombatTests.CompanionAndEliteRequirementsExcludeNonParticipants",
+        "FateCompanionCardTests.ThereAllowsOneExtraRegionAndWaitsForTheGuideBeforeAdvancingPolitics",
+        "FateCompanionCardTests.ThereChecksOnlyThePrintedCompanionsAndNewRegionsEvenWithoutSeparation"
+      ]
+    },
+    {
+      "id": "fate.fp.strategy.04",
+      "kind": "Event",
+      "programId": "fate.fp.strategy.04",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.advantageous-position"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.04"
+      },
+      "eventRules": [
+        {
+          "sourceText": "Przemieść dowolnych lub wszystkich towarzyszy poza Drużyną.",
+          "tests": [
+            "FateCompanionCardTests.BookAllowsIndependentMovementButRejectsDuplicateCompanionsAndStillAdvancesWithoutReserve"
+          ]
+        },
+        {
+          "sourceText": "Następnie, jeśli towarzysz jest w Iron Hills albo Ered Luin: przesuń Dwarves bezpośrednio do At War i zrekrutuj tam jedną jednostkę Dwarves, Regular albo Elite.",
+          "tests": [
+            "FateCompanionCardTests.BookChoosesEitherCompanionRegionAndEitherUnitAfterPolitics",
+            "FateCompanionCardTests.BookDoesNotRequireFriendlyControlForPoliticsAndNeverRecruitsUnderAnEnemyArmy"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Wymaga obrońcy w granicach narodu FP. Cień odejmuje jeden od każdej kości Combat; naturalne sześć nadal trafia.",
+          "tests": [
+            "FateCombatTests.AdvantageousPositionReadsTheDefendingRegionFromTheFateMap",
+            "FateCombatTests.AdvantageousPositionPenalizesOnlyShadowCombatAndNaturalSixStillHits"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Oba nowe cele i wybór jednego przy obecności w obu; Erebor nie kwalifikuje.",
+          "tests": [
+            "FateCompanionCardTests.BookChoosesEitherCompanionRegionAndEitherUnitAfterPolitics"
+          ]
+        },
+        {
+          "sourceText": "Brak rekruta nie cofa polityki; wybrany towarzysz nie musi być przemieszczonym.",
+          "tests": [
+            "FateCompanionCardTests.BookAllowsIndependentMovementButRejectsDuplicateCompanionsAndStillAdvancesWithoutReserve",
+            "FateCompanionCardTests.BookDoesNotRequireFriendlyControlForPoliticsAndNeverRecruitsUnderAnEnemyArmy"
+          ]
+        },
+        {
+          "sourceText": "Bojowy warunek bada nowe granice Fate, Dale jest poza narodami.",
+          "tests": [
+            "FateCombatTests.AdvantageousPositionReadsTheDefendingRegionFromTheFateMap",
+            "FateCombatTests.AdvantageousPositionPenalizesOnlyShadowCombatAndNaturalSixStillHits"
+          ]
+        }
+      ],
+      "tests": [
+        "FateCardPersistenceTests.BookRestartsJourneyDestinationAndUnitChoiceAfterItsPoliticalAdvance",
+        "FateCardPersistenceTests.EveryEventPersistsItsExactCostDiscardAndFirstDecisionBeforeAnIdempotentRetry",
+        "FateCardsTests.EveryCombatRequiresTheActualFateCardOwnerModuleAndCombatWindow",
+        "FateCardsTests.EveryEventRequiresItsModuleOwnerHandActionWindowAndPrintedOrEventCost",
+        "FateCardsTests.ReplacedBaseCardsCannotBeSmuggledIntoEitherUse",
+        "FateCardsTests.SixExplicitReplacementsPreserveAllEightDeckSizesWithoutKingsDuplicates",
+        "FateCombatTests.AdvantageousPositionPenalizesOnlyShadowCombatAndNaturalSixStillHits",
+        "FateCombatTests.AdvantageousPositionReadsTheDefendingRegionFromTheFateMap",
+        "FateCompanionCardTests.BookAllowsIndependentMovementButRejectsDuplicateCompanionsAndStillAdvancesWithoutReserve",
+        "FateCompanionCardTests.BookChoosesEitherCompanionRegionAndEitherUnitAfterPolitics",
+        "FateCompanionCardTests.BookDoesNotRequireFriendlyControlForPoliticsAndNeverRecruitsUnderAnEnemyArmy"
+      ]
+    },
+    {
+      "id": "fate.fp.strategy.19",
+      "kind": "Event",
+      "programId": "fate.fp.strategy.19",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.shield-wall"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.19"
+      },
+      "eventRules": [
+        {
+          "sourceText": "Zrekrutuj jedną jednostkę North, Regular albo Elite, i jednego North Leader w jednym regionie sąsiednim do Dale; samo Dale jest dozwolone tylko z armią FP.",
+          "tests": [
+            "FateFreeRecruitmentTests.RecruitmentBeforeWarPlacesUnitAndLeaderTogetherThenPrivatelyDrawsStrategy",
+            "FateFreeRecruitmentTests.DaleRequiresAnActualFreePeoplesArmyRatherThanALeaderOrCompanion",
+            "FateFreeRecruitmentTests.APartiallyEmptyReserveDoesNotSkipTheRemainingRecruitOrTheDraw",
+            "FateFreeRecruitmentTests.NoReserveStillDrawsAndAnEmptyDeckNeverReshuffles",
+            "FateFreeRecruitmentTests.AdjacentFriendlyGarrisonIsLegalAndThePaidDieWaitsForFinalStackExcess"
+          ]
+        },
+        {
+          "sourceText": "Następnie dobierz jedną kartę Strategy Event.",
+          "tests": [
+            "FateFreeRecruitmentTests.RecruitmentBeforeWarPlacesUnitAndLeaderTogetherThenPrivatelyDrawsStrategy",
+            "FateFreeRecruitmentTests.APartiallyEmptyReserveDoesNotSkipTheRemainingRecruitOrTheDraw",
+            "FateFreeRecruitmentTests.NoReserveStillDrawsAndAnEmptyDeckNeverReshuffles"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Przed usunięciem strat od Combat i Leader re-roll przeciwnika anuluj jedno trafienie, jeżeli przeciwnik uzyskał co najmniej dwa.",
+          "tests": [
+            "FateCombatTests.ShieldWallCancelsOneOnlyWhenCombinedOrdinaryHitsReachTwo",
+            "FateCombatTests.ShieldWallIncludesHitsFromTheOpponentsLeaderReroll"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Rekrutacja przed At War, oba typy i brak części rezerw.",
+          "tests": [
+            "FateFreeRecruitmentTests.RecruitmentBeforeWarPlacesUnitAndLeaderTogetherThenPrivatelyDrawsStrategy",
+            "FateFreeRecruitmentTests.APartiallyEmptyReserveDoesNotSkipTheRemainingRecruitOrTheDraw",
+            "FateFreeRecruitmentTests.NoReserveStillDrawsAndAnEmptyDeckNeverReshuffles"
+          ]
+        },
+        {
+          "sourceText": "Dale wymaga rzeczywistej armii FP; sam dowódca nie wystarcza.",
+          "tests": [
+            "FateFreeRecruitmentTests.DaleRequiresAnActualFreePeoplesArmyRatherThanALeaderOrCompanion"
+          ]
+        },
+        {
+          "sourceText": "Dobór następuje po możliwej rekrutacji; 1 trafienie bez redukcji, 2 z redukcją.",
+          "tests": [
+            "FateFreeRecruitmentTests.RecruitmentBeforeWarPlacesUnitAndLeaderTogetherThenPrivatelyDrawsStrategy",
+            "FateCombatTests.ShieldWallCancelsOneOnlyWhenCombinedOrdinaryHitsReachTwo",
+            "FateCombatTests.ShieldWallIncludesHitsFromTheOpponentsLeaderReroll"
+          ]
+        }
+      ],
+      "tests": [
+        "FateCardPersistenceTests.BothFreeRecruitmentCardsPersistPlacementsAndPrivateDrawThenRestoreTheHandLimitDecision",
+        "FateCardPersistenceTests.EveryEventPersistsItsExactCostDiscardAndFirstDecisionBeforeAnIdempotentRetry",
+        "FateCardsTests.EveryCombatRequiresTheActualFateCardOwnerModuleAndCombatWindow",
+        "FateCardsTests.EveryEventRequiresItsModuleOwnerHandActionWindowAndPrintedOrEventCost",
+        "FateCardsTests.ReplacedBaseCardsCannotBeSmuggledIntoEitherUse",
+        "FateCardsTests.SixExplicitReplacementsPreserveAllEightDeckSizesWithoutKingsDuplicates",
+        "FateCombatTests.ShieldWallCancelsOneOnlyWhenCombinedOrdinaryHitsReachTwo",
+        "FateCombatTests.ShieldWallIncludesHitsFromTheOpponentsLeaderReroll",
+        "FateFreeRecruitmentTests.APartiallyEmptyReserveDoesNotSkipTheRemainingRecruitOrTheDraw",
+        "FateFreeRecruitmentTests.AdjacentFriendlyGarrisonIsLegalAndThePaidDieWaitsForFinalStackExcess",
+        "FateFreeRecruitmentTests.DaleRequiresAnActualFreePeoplesArmyRatherThanALeaderOrCompanion",
+        "FateFreeRecruitmentTests.NoReserveStillDrawsAndAnEmptyDeckNeverReshuffles",
+        "FateFreeRecruitmentTests.RecruitmentBeforeWarPlacesUnitAndLeaderTogetherThenPrivatelyDrawsStrategy"
+      ]
+    },
+    {
+      "id": "fate.fp.strategy.22",
+      "kind": "Event",
+      "programId": "fate.fp.strategy.22",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.valour"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.22"
+      },
+      "eventRules": [
+        {
+          "sourceText": "Zrekrutuj jedną jednostkę Dwarves, Regular albo Elite, i jednego Dwarf Leader w jednym regionie sąsiednim do Dale; samo Dale jest dozwolone tylko z armią FP.",
+          "tests": [
+            "FateFreeRecruitmentTests.RecruitmentBeforeWarPlacesUnitAndLeaderTogetherThenPrivatelyDrawsStrategy",
+            "FateFreeRecruitmentTests.DaleRequiresAnActualFreePeoplesArmyRatherThanALeaderOrCompanion",
+            "FateFreeRecruitmentTests.APartiallyEmptyReserveDoesNotSkipTheRemainingRecruitOrTheDraw",
+            "FateFreeRecruitmentTests.NoReserveStillDrawsAndAnEmptyDeckNeverReshuffles",
+            "FateFreeRecruitmentTests.AdjacentFriendlyGarrisonIsLegalAndThePaidDieWaitsForFinalStackExcess"
+          ]
+        },
+        {
+          "sourceText": "Następnie dobierz jedną kartę Strategy Event.",
+          "tests": [
+            "FateFreeRecruitmentTests.RecruitmentBeforeWarPlacesUnitAndLeaderTogetherThenPrivatelyDrawsStrategy",
+            "FateFreeRecruitmentTests.APartiallyEmptyReserveDoesNotSkipTheRemainingRecruitOrTheDraw",
+            "FateFreeRecruitmentTests.NoReserveStillDrawsAndAnEmptyDeckNeverReshuffles"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Wymaga elity FP w bitwie. Dodaj jeden do każdej kości Combat FP.",
+          "tests": [
+            "FateCombatTests.ValourAddsOnlyToCombatAndPreservesNaturalOneAndSix",
+            "FateCombatTests.CompanionAndEliteRequirementsExcludeNonParticipants"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Dale bez armii niedozwolone; sąsiedni region korzysta ze zwykłych ograniczeń rekrutacji wydarzeniem.",
+          "tests": [
+            "FateFreeRecruitmentTests.DaleRequiresAnActualFreePeoplesArmyRatherThanALeaderOrCompanion",
+            "FateFreeRecruitmentTests.AdjacentFriendlyGarrisonIsLegalAndThePaidDieWaitsForFinalStackExcess"
+          ]
+        },
+        {
+          "sourceText": "Elite jest dozwolona, a dobór niezależny od braku części rezerw.",
+          "tests": [
+            "FateFreeRecruitmentTests.RecruitmentBeforeWarPlacesUnitAndLeaderTogetherThenPrivatelyDrawsStrategy",
+            "FateFreeRecruitmentTests.APartiallyEmptyReserveDoesNotSkipTheRemainingRecruitOrTheDraw",
+            "FateFreeRecruitmentTests.NoReserveStillDrawsAndAnEmptyDeckNeverReshuffles"
+          ]
+        },
+        {
+          "sourceText": "Warunek Elite podczas zagrania i brak premii do Leader re-roll.",
+          "tests": [
+            "FateCombatTests.ValourAddsOnlyToCombatAndPreservesNaturalOneAndSix",
+            "FateCombatTests.CompanionAndEliteRequirementsExcludeNonParticipants"
+          ]
+        }
+      ],
+      "tests": [
+        "FateCardPersistenceTests.BothFreeRecruitmentCardsPersistPlacementsAndPrivateDrawThenRestoreTheHandLimitDecision",
+        "FateCardPersistenceTests.EveryEventPersistsItsExactCostDiscardAndFirstDecisionBeforeAnIdempotentRetry",
+        "FateCardsTests.EveryCombatRequiresTheActualFateCardOwnerModuleAndCombatWindow",
+        "FateCardsTests.EveryEventRequiresItsModuleOwnerHandActionWindowAndPrintedOrEventCost",
+        "FateCardsTests.ReplacedBaseCardsCannotBeSmuggledIntoEitherUse",
+        "FateCardsTests.SixExplicitReplacementsPreserveAllEightDeckSizesWithoutKingsDuplicates",
+        "FateCombatTests.CompanionAndEliteRequirementsExcludeNonParticipants",
+        "FateCombatTests.ValourAddsOnlyToCombatAndPreservesNaturalOneAndSix",
+        "FateFreeRecruitmentTests.APartiallyEmptyReserveDoesNotSkipTheRemainingRecruitOrTheDraw",
+        "FateFreeRecruitmentTests.AdjacentFriendlyGarrisonIsLegalAndThePaidDieWaitsForFinalStackExcess",
+        "FateFreeRecruitmentTests.DaleRequiresAnActualFreePeoplesArmyRatherThanALeaderOrCompanion",
+        "FateFreeRecruitmentTests.NoReserveStillDrawsAndAnEmptyDeckNeverReshuffles",
+        "FateFreeRecruitmentTests.RecruitmentBeforeWarPlacesUnitAndLeaderTogetherThenPrivatelyDrawsStrategy"
+      ]
+    },
+    {
+      "id": "fate.sh.strategy.20",
+      "kind": "Event",
+      "programId": "fate.sh.strategy.20",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.onslaught"
+      ],
+      "combatInitiatives": [
+        7
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.20"
+      },
+      "eventRules": [
+        {
+          "sourceText": "Zrekrutuj trzech Sauron Regular w Dol Guldur oraz trzech w jednym wybranym regionie: Mount Gundabad albo Erebor.",
+          "tests": [
+            "FateShadowRecruitmentTests.OrcsRecruitsExactlyThreeInDolGuldurAndOneChosenAlternativeBeforeWar",
+            "FateShadowRecruitmentTests.OrcsSharesAScarceReserveWithoutPrioritizingDolGuldurOrMixingBothAlternatives",
+            "FateShadowRecruitmentTests.OrcsKeepsThePossibleInstructionWhenOneOrBothAlternativeRegionsAreBlocked"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Po usunięciu zwykłych strat dobrowolnie przyjmij do czterech dodatkowych trafień na własne jednostki. Rzuć jedną kością za przyjęte trafienie; każde 4+ zadaje trafienie przeciwnikowi.",
+          "tests": [
+            "FateCombatTests.OnslaughtTakesOptionalZeroThroughFourHitsAndMakesAnIndependentAttack",
+            "FateCombatTests.OnslaughtStillResolvesItsAttackAfterTheLastShadowUnitIsSacrificed",
+            "FateCombatTests.DaringDefianceCancelsFateShadowEffectsBeforeTheyCreateChoicesOrBonuses"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Jeden alternatywny region; nie dziel trzech między Mount Gundabad i Erebor.",
+          "tests": [
+            "FateShadowRecruitmentTests.OrcsRecruitsExactlyThreeInDolGuldurAndOneChosenAlternativeBeforeWar",
+            "FateShadowRecruitmentTests.OrcsSharesAScarceReserveWithoutPrioritizingDolGuldurOrMixingBothAlternatives"
+          ]
+        },
+        {
+          "sourceText": "Niedobór wspólnej rezerwy zachowuje wybór legalnego podziału.",
+          "tests": [
+            "FateShadowRecruitmentTests.OrcsSharesAScarceReserveWithoutPrioritizingDolGuldurOrMixingBothAlternatives"
+          ]
+        },
+        {
+          "sourceText": "Nadmiar po całym wydarzeniu; bojowo 0..4, osobny rzut bez przerzutu.",
+          "tests": [
+            "FateCombatTests.OnslaughtTakesOptionalZeroThroughFourHitsAndMakesAnIndependentAttack",
+            "FateCombatTests.OnslaughtStillResolvesItsAttackAfterTheLastShadowUnitIsSacrificed",
+            "FateCombatTests.DaringDefianceCancelsFateShadowEffectsBeforeTheyCreateChoicesOrBonuses"
+          ]
+        }
+      ],
+      "tests": [
+        "FateCardPersistenceTests.EveryEventPersistsItsExactCostDiscardAndFirstDecisionBeforeAnIdempotentRetry",
+        "FateCardPersistenceTests.OnslaughtRestartsVoluntaryLossesItsServerRollAndOpposingLosses",
+        "FateCardPersistenceTests.OrcsRestartsTheAlternativeAndTheSharedReservePlan",
+        "FateCardsTests.EveryCombatRequiresTheActualFateCardOwnerModuleAndCombatWindow",
+        "FateCardsTests.EveryEventRequiresItsModuleOwnerHandActionWindowAndPrintedOrEventCost",
+        "FateCardsTests.ReplacedBaseCardsCannotBeSmuggledIntoEitherUse",
+        "FateCardsTests.SixExplicitReplacementsPreserveAllEightDeckSizesWithoutKingsDuplicates",
+        "FateCombatTests.DaringDefianceCancelsFateShadowEffectsBeforeTheyCreateChoicesOrBonuses",
+        "FateCombatTests.OnslaughtStillResolvesItsAttackAfterTheLastShadowUnitIsSacrificed",
+        "FateCombatTests.OnslaughtTakesOptionalZeroThroughFourHitsAndMakesAnIndependentAttack",
+        "FateShadowRecruitmentTests.OrcsKeepsThePossibleInstructionWhenOneOrBothAlternativeRegionsAreBlocked",
+        "FateShadowRecruitmentTests.OrcsRecruitsExactlyThreeInDolGuldurAndOneChosenAlternativeBeforeWar",
+        "FateShadowRecruitmentTests.OrcsSharesAScarceReserveWithoutPrioritizingDolGuldurOrMixingBothAlternatives"
+      ]
+    },
+    {
+      "id": "fate.sh.strategy.22",
+      "kind": "Event",
+      "programId": "fate.sh.strategy.22",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.desperate-battle"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.22"
+      },
+      "eventRules": [
+        {
+          "sourceText": "Wybierz jeden wariant: po jednym Sauron Regular w Angmar, Ettenmoors i Weather Hills oraz jeden Sauron Elite w Trollshaws;",
+          "tests": [
+            "FateShadowRecruitmentTests.MonstersWestUsesOnlyItsFourPrintedDestinations"
+          ]
+        },
+        {
+          "sourceText": "albo po jednym Sauron Regular w Western Mirkwood, Northern Mirkwood i Withered Heath oraz jeden Sauron Elite w wybranym z tych trzech regionów.",
+          "tests": [
+            "FateShadowRecruitmentTests.MonstersEastKeepsThreeRegularLocationsAndChoosesOneOfThemForItsElite",
+            "FateShadowRecruitmentTests.MonstersBlockedEasternRegionDoesNotPreventRecruitmentElsewhere"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Obie armie dodają jeden do wszystkich kości Combat i Leader re-roll.",
+          "tests": [
+            "FateCombatTests.DesperateBattleStacksWithPositionAndExpiresBeforeTheNextRound",
+            "FateCombatTests.DaringDefianceCancelsFateShadowEffectsBeforeTheyCreateChoicesOrBonuses"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Nie mieszaj dwóch wariantów; druga opcja pozwala elicie dzielić region z regularnym.",
+          "tests": [
+            "FateShadowRecruitmentTests.MonstersWestUsesOnlyItsFourPrintedDestinations",
+            "FateShadowRecruitmentTests.MonstersEastKeepsThreeRegularLocationsAndChoosesOneOfThemForItsElite",
+            "FateShadowRecruitmentTests.MonstersBlockedEasternRegionDoesNotPreventRecruitmentElsewhere"
+          ]
+        },
+        {
+          "sourceText": "Wybór wariantu i celu elity pozostaje strategiczny także przy niedoborze.",
+          "tests": [
+            "FateShadowRecruitmentTests.MonstersPreservesTheBranchAndAllocationChoiceWithLimitedReserve"
+          ]
+        },
+        {
+          "sourceText": "Bojowa premia obu stron i obu zwykłych rzutów, naturalne 1/6 bez zmiany.",
+          "tests": [
+            "FateCombatTests.DesperateBattleStacksWithPositionAndExpiresBeforeTheNextRound",
+            "FateCombatTests.DaringDefianceCancelsFateShadowEffectsBeforeTheyCreateChoicesOrBonuses"
+          ]
+        }
+      ],
+      "tests": [
+        "FateCardPersistenceTests.EveryEventPersistsItsExactCostDiscardAndFirstDecisionBeforeAnIdempotentRetry",
+        "FateCardPersistenceTests.MonstersRestartsBothBranchProgramsAndTheEliteDestinationWithoutReplayingRecruitment",
+        "FateCardsTests.EveryCombatRequiresTheActualFateCardOwnerModuleAndCombatWindow",
+        "FateCardsTests.EveryEventRequiresItsModuleOwnerHandActionWindowAndPrintedOrEventCost",
+        "FateCardsTests.ReplacedBaseCardsCannotBeSmuggledIntoEitherUse",
+        "FateCardsTests.SixExplicitReplacementsPreserveAllEightDeckSizesWithoutKingsDuplicates",
+        "FateCombatTests.DaringDefianceCancelsFateShadowEffectsBeforeTheyCreateChoicesOrBonuses",
+        "FateCombatTests.DesperateBattleStacksWithPositionAndExpiresBeforeTheNextRound",
+        "FateShadowRecruitmentTests.MonstersBlockedEasternRegionDoesNotPreventRecruitmentElsewhere",
+        "FateShadowRecruitmentTests.MonstersEastKeepsThreeRegularLocationsAndChoosesOneOfThemForItsElite",
+        "FateShadowRecruitmentTests.MonstersPreservesTheBranchAndAllocationChoiceWithLimitedReserve",
+        "FateShadowRecruitmentTests.MonstersWestUsesOnlyItsFourPrintedDestinations"
+      ]
+    }
+  ]
+}

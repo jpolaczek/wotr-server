@@ -1,0 +1,81 @@
+name: Verify server
+on: [push, pull_request]
+# Read-only token for every run, pull requests from forks included.
+permissions:
+  contents: read
+# BUILD-03: on a branch other than main a newer push cancels the running check. On main every push keeps its own
+# run, since each run checks only its own change: a documentation commit right after a code commit must not cancel
+# the code's .NET run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+jobs:
+  # Registry, sources and the Python checks run for every change, documentation included (about a minute).
+  checks:
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.scope.outputs.code }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Code or documentation only
+        id: scope
+        env:
+          BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: python3 scripts/ci_scope.py "$BASE" "$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+      - run: python3 scripts/tasks.py validate
+      - run: python3 -m unittest discover -s tests/ci -p 'test_*.py' -v
+      - run: python3 -m unittest discover -s tests/packages -p 'test_*.py' -v
+      - run: python3 -m unittest discover -s tests/release -p 'test_*.py' -v
+      - run: python3 scripts/source_cards.py
+      - run: python3 scripts/card_coverage.py --check
+      - run: python3 scripts/source_lords_cards.py
+      - run: python3 scripts/lords_card_coverage.py --check
+      - run: python3 scripts/source_kings_cards.py
+      - run: python3 scripts/kings_card_coverage.py --check
+      - run: python3 scripts/fate_card_coverage.py --check
+      - run: python3 scripts/fate_character_coverage.py --check
+      - run: python3 scripts/fate_acceptance.py
+      - run: python3 scripts/expansion_acceptance.py
+  # The .NET build and tests with PostgreSQL (about 12 minutes) run only when the change touches more than
+  # documentation (scripts/ci_scope.py).
+  backend:
+    needs: checks
+    if: needs.checks.outputs.code == 'true'
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: wotr
+          POSTGRES_PASSWORD: ci-only
+          POSTGRES_DB: wotr_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      WOTR_TEST_DB: Host=localhost;Port=5432;Username=wotr;Password=ci-only;Database=wotr_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      # The restart tests start their own PostgreSQL cluster (IsolatedPostgres) and need the server tools on the
+      # runner; the service container above serves every other test.
+      - name: PostgreSQL server tools for the isolated restart tests
+        run: |
+          if ! ls /usr/lib/postgresql/*/bin/initdb >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y postgresql
+          fi
+          ls -d /usr/lib/postgresql/*/bin
+      - run: dotnet restore --locked-mode
+      - run: dotnet test --no-restore --configuration Release --logger 'trx;LogFileName=backend.trx' --results-directory .artifacts/test-results
+      - run: python3 scripts/card_coverage.py --check --results .artifacts/test-results/backend.trx
+      - run: python3 scripts/lords_card_coverage.py --check --results .artifacts/test-results/backend.trx
+      - run: python3 scripts/kings_card_coverage.py --check --results .artifacts/test-results/backend.trx
+      - run: python3 scripts/fate_card_coverage.py --check --results .artifacts/test-results/backend.trx
+      - run: python3 scripts/fate_character_coverage.py --check --results .artifacts/test-results/backend.trx
+      - run: python3 scripts/fate_acceptance.py --results .artifacts/test-results/backend.trx
+      - run: python3 scripts/expansion_acceptance.py --results .artifacts/test-results/backend.trx

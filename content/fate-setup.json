@@ -1,0 +1,91 @@
+{
+  "version": "fate-setup-1",
+  "baseVersion": "base-setup-1",
+  "source": "FATE-WOTR018-RULES; FATE-RULES-45, p45",
+  "regions": [
+    {
+      "id": "erebor",
+      "nation": "sauron",
+      "originalOwner": "Shadow",
+      "settlement": "Stronghold",
+      "victoryPoints": 2
+    },
+    {
+      "id": "dale",
+      "nation": null,
+      "originalOwner": null,
+      "settlement": "Fortification",
+      "victoryPoints": 0
+    },
+    {
+      "id": "iron-hills",
+      "nation": "dwarves",
+      "originalOwner": "FreePeoples",
+      "settlement": "City",
+      "victoryPoints": 1
+    }
+  ],
+  "newCities": [
+    {
+      "id": "ered-luin",
+      "nation": "dwarves",
+      "originalOwner": "FreePeoples",
+      "settlement": "City",
+      "victoryPoints": 1
+    },
+    {
+      "id": "south-rhun",
+      "nation": "southrons",
+      "originalOwner": "Shadow",
+      "settlement": "City",
+      "victoryPoints": 1
+    }
+  ],
+  "units": [
+    {
+      "region": "erebor",
+      "nation": "dwarves",
+      "regular": 0,
+      "elite": 0,
+      "leader": 0
+    },
+    {
+      "region": "erebor",
+      "nation": "sauron",
+      "regular": 2,
+      "elite": 0,
+      "leader": 0
+    },
+    {
+      "region": "dale",
+      "nation": "north",
+      "regular": 0,
+      "elite": 0,
+      "leader": 0
+    },
+    {
+      "region": "carrock",
+      "nation": "north",
+      "regular": 2,
+      "elite": 0,
+      "leader": 1
+    },
+    {
+      "region": "ered-luin",
+      "nation": "dwarves",
+      "regular": 2,
+      "elite": 0,
+      "leader": 0
+    },
+    {
+      "region": "iron-hills",
+      "nation": "dwarves",
+      "regular": 2,
+      "elite": 0,
+      "leader": 1
+    }
+  ],
+  "activeNations": [
+    "dwarves"
+  ]
+}

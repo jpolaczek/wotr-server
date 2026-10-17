@@ -1,0 +1,5 @@
+{
+  "name": "Wotr.Contracts",
+  "rootNamespace": "Wotr.Contracts",
+  "noEngineReferences": true
+}

@@ -1,0 +1,2434 @@
+{
+  "server_commit": "63e9e205a79d8c1f3413845a6decee0f3ea2b320",
+  "client_commit": "08eb95678a3275edfadcaffe2034e52808d19d9d",
+  "pinned_backend_commit": "eac4afe342fa82f136dce34c0e36fe8ab59bdfeb",
+  "backend": {
+    "raw_sha256": "59b6fb354b3691f199ea0bee87dcce82207cd1751738a5aefceb1d56bae5627e",
+    "counters": {
+      "total": "3842",
+      "executed": "3842",
+      "passed": "3842",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "times": {
+      "creation": "2026-10-13T23:43:59.4645270+02:00",
+      "queuing": "2026-10-13T23:43:59.4645270+02:00",
+      "start": "2026-10-13T23:43:57.9816260+02:00",
+      "finish": "2026-10-13T23:51:39.6256950+02:00"
+    }
+  },
+  "editmode": {
+    "raw_sha256": "3a59a62486bc78b7a34047d200ee3449324448e6bb1fc3f838310405df87497b",
+    "counters": {
+      "total": "688",
+      "passed": "688",
+      "failed": "0",
+      "skipped": "0",
+      "start-time": "2026-10-13 21:44:35Z",
+      "end-time": "2026-10-13 21:44:54Z",
+      "duration": "18.5728733"
+    }
+  },
+  "playmode_initial": {
+    "raw_sha256": "5d65e5d29669c4d3712fdfc82a76078048700e4bd7a8586b3276151d2385c621",
+    "counters": {
+      "total": "574",
+      "passed": "520",
+      "failed": "54",
+      "skipped": "0",
+      "start-time": "2026-10-13 21:46:25Z",
+      "end-time": "2026-10-13 22:25:06Z",
+      "duration": "2321.3680044"
+    }
+  },
+  "playmode_rerun": {
+    "selected": 54,
+    "passed": 47,
+    "failed": [
+      "Wotr.PlayTests.BattleReportNetworkTests.ClosedReportRejectsLateHttpAndFailedReadCanRetry",
+      "Wotr.PlayTests.ContextHoverTests.ClickedInspectionIsInteractiveStableAndFitsDenseRegionsAtBothScales",
+      "Wotr.PlayTests.ExpansionWindowNetworkTests.EvilKnowledgeRetainsTheEliteAndFullBattleResourcesFit",
+      "Wotr.PlayTests.InGameProfileDriverTests.AllEightRealProfileDriversChangeAndRenderTheirExpectedStateInFourLayouts",
+      "Wotr.PlayTests.KingsCards02NetworkTests.HopeChoosesWhichInitialSovereignAwakensDuringBattle",
+      "Wotr.PlayTests.MapViewportTests.MovingArmyCannotStopNavigationUnderAStationaryEdgePointerAtFourLayouts",
+      "Wotr.PlayTests.ShadowStrategy01LayoutTests.ServerProjectedMapChoicesSacrificesAndSiegesFitBothSizesAndScales"
+    ],
+    "missing": [],
+    "source_manifest_sha256": "813fa6a6e0b0fea4942ab7c9ae028fcb7fac20a474506d7af755cff307bccbf1"
+  },
+  "playmode_single_case_rerun": {
+    "selected": 7,
+    "passed": 0,
+    "failed": [
+      "Wotr.PlayTests.BattleReportNetworkTests.ClosedReportRejectsLateHttpAndFailedReadCanRetry",
+      "Wotr.PlayTests.ContextHoverTests.ClickedInspectionIsInteractiveStableAndFitsDenseRegionsAtBothScales",
+      "Wotr.PlayTests.ExpansionWindowNetworkTests.EvilKnowledgeRetainsTheEliteAndFullBattleResourcesFit",
+      "Wotr.PlayTests.InGameProfileDriverTests.AllEightRealProfileDriversChangeAndRenderTheirExpectedStateInFourLayouts",
+      "Wotr.PlayTests.KingsCards02NetworkTests.HopeChoosesWhichInitialSovereignAwakensDuringBattle",
+      "Wotr.PlayTests.MapViewportTests.MovingArmyCannotStopNavigationUnderAStationaryEdgePointerAtFourLayouts",
+      "Wotr.PlayTests.ShadowStrategy01LayoutTests.ServerProjectedMapChoicesSacrificesAndSiegesFitBothSizesAndScales"
+    ],
+    "missing": []
+  },
+  "playmode_latest_aggregate": {
+    "total": 574,
+    "passed": 567,
+    "failed": 7,
+    "note": "Aggregate across preserved initial run and explicit reruns; not one clean full run.",
+    "cases": {
+      "Wotr.PlayTests.ActionCardLayoutTests.FourLayoutsKeepVirtualRowsCardGesturesAndWindowBounds": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ActionCardLayoutTests.NewPagePreservesFocusedControlAndReadingAnchor": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ActionContextNetworkTests.EarlierBattleAndHuntKeepTheirIdentityAfterNextOne": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ActionContextNetworkTests.EveryOtherFamilyUsesItsHostAndKeepsLocationlessActionsOffTheMap": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ActionContextNetworkTests.LogOpensTwoRecordedMovesWithoutChangingCurrentArmyDraft": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ActionLogNetworkTests.CompleteHistoryPagesAndFiltersWorkForBothPlayers": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ActionLogNetworkTests.NewStepPreservesAnchorAndPinnedVersionWithoutChangingDraft": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ActionMapLayoutTests.RecordedMovementAndAttackFitFourLayoutsAndAllowPan": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ActionNoticeLayoutTests.PennantStackReadsNewestFirstAndCentresParchmentCardsInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ActionNoticeNetworkTests.NewStepDuringReadStaysUnreadAndFailedBattleReadRequiresRetry": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ActionNoticeNetworkTests.SilentHoverPrivatePolicyExplicitReadAndRestartKeepIndependentReadState": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ArmyContextNetworkTests.EnemyClickAttacksWithFreePeoples": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ArmyContextNetworkTests.EnemyClickAttacksWithShadow": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ArmyContextNetworkTests.FinishOpensRealExcessDecision": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ArmyContextNetworkTests.FirstMarchPersistsAndMergedFiguresCannotMoveTwice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ArmyContextNetworkTests.GarrisonCanSortieButHasNoMarchTargets": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ArmyContextNetworkTests.SourceCorrectionAndFinishDoNotUndoTheSavedMove": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.AuthRegistrationTests.AccountCanBeCreatedWithoutInvitationAndSignedInAgain": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.AuthScreenLayoutTests.RegistrationRequirementsErrorsAndFocusFitAtBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleEndingNetworkTests.FullReportLoadsTwoRoundsAndKeepsItsSnapshotThroughReconnectInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleEndingNetworkTests.RetreatAndPartialAdvanceRecoverLostReceiptWithOneCostAndActualControl": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleEndingNetworkTests.ShelterAndDeclinedAdvanceOpenACompletedReportWithoutFabricatedRound": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleEndingNetworkTests.SiegeEliteMissingReplacementAndKingsRegularHaveDistinctCosts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleLayoutTests.AllBattleWindowsKeepTheMapVisibleAndFitWithoutScrollOrNumericFields": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleLayoutTests.IncomingBattleDoesNotOpenOrPanAndExplicitPanelKeepsLosses": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleLayoutTests.RevealChangesBackToInspectedCombatTextAndReportKeepsActualRerolls": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleNetworkTests.ContinuingRetreatingAndAdvancingUseOneTrayAndKeepTheCamera": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleNetworkTests.LossPreviewExplainsMissingRegularAndCommanderDeathAndCyclesElitesWithoutChangingLossOrder": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleNetworkTests.TwoClientsAttackResolveRealDiceAndReopenTheSavedReport": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattlePolicyNetworkTests.FreePeoplesAttackAllowsPrivateOptInReconnectAndCancellation": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattlePolicyNetworkTests.ShadowAttackAllowsPrivateOptInReconnectAndCancellation": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleReportNetworkTests.ClosedReportRejectsLateHttpAndFailedReadCanRetry": {
+        "result": "Failed",
+        "message": "  last-battle is covered by notification-bar (VisualElement).\n  Expected: True\n  But was:  False\n"
+      },
+      "Wotr.PlayTests.BattleResolutionNetworkTests.BothRerollSelectionsStayPrivateUntilResolutionAndSurviveReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleResolutionNetworkTests.OrderedLossPreviewReusesCasualtyAndLostReplyRecoversWithoutSecondCommand": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleWindowNetworkTests.CombatDragStartedBeforeAnotherDeviceCommitsCannotSpendAnotherCard": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleWindowNetworkTests.RegionClickCloseAndCombatUseOneHostAndKeepSecretsThroughReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BattleWindowNetworkTests.ReliefForcesAndLegalCombatChoicesFitFourLayoutsWithRealHitTargets": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardChromeLayoutTests.NoticesHangUnderTheTopBarWithoutAStripInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardChromeLayoutTests.SecondClickOnARegionOrItsArmyClosesItsPanel": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardCompletionContextNetworkTests.CharacterReactionLinkAndAwakenedPortraitReuseTheExistingOwners": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardCompletionContextNetworkTests.CouncilEntryDraftAndLostReceiptSurviveGamesAndBothProcessRestarts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardCompletionContextNetworkTests.NewHobbitDecisionsDuringMenuAndSettingsKeepOneHostCostAndFocus": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardCompletionContextNetworkTests.PrivateSetupAndPublicGuideKeepTheirHistoricalVersionsAndProperHost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardCompletionContextNetworkTests.RecordedTransformationAndGoldKeepTheNewExactCharacterDraft": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardCompletionContextNetworkTests.SecondDeviceEnteringTheChieftainInvalidatesTheOldCapturedDestinationAndExactCost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardCompletionLayoutTests.FullRosterVersionsAndHomelandsKeepBothViewsReadableInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardCompletionLayoutTests.MenuSettingsAndHelpPreserveBattleAndHuntDraftsAcrossFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardInteractionTests.AmbiguousCostsAndEmptyReservesRemainExplicitWithoutChangingTheForce": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardInteractionTests.ArmyDragAndEscapeCannotSpendTheSelectedDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardInteractionTests.EliteDragAndPoliticalEmblemNeedOnlyOneCommitEach": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardInteractionTests.ExtremeMixedArmyAndReservesFitAtBothResolutionsAndLargerScale": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardInteractionTests.FinalTargetClickSendsTheStepWithoutConfirmAndTheArmyIsNeverDragged": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardInteractionTests.OtherArmyReplacesPendingSelectionAndRecruitmentSendsOnePlacement": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardInteractionTests.TemporaryExcessProjectionLocksArrivalsAndRemovalUsesIndividualFigures": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardInteractionTests.UI127OneClickSelectsTheArmyAGhostPreviewsTheTargetAndEscapeClearsIt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuLayoutTests.EscapeCancelsMapPanAndCaptureWithoutClosingInspectionOrUndoingTheDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuLayoutTests.EscapeCancelsWindowDragBeforeClosingEitherPinnedWindowOrChangingTheDraft": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuLayoutTests.MenuFitsFourLayoutsAndOutsideReleaseCannotReachTheMap": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuLayoutTests.OneEscapeClosesOneWindowThenOneSelectionThenOpensMenuAndPreservesFocus": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuLayoutTests.SettingsEscapeRemainsOwnedUntilReleaseAfterFocusReturnsToBoard": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuLayoutTests.SettingsKeyboardObservationDoesNotConsumeOtherScreensAndDetachesWithBoard": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuNetworkTests.FailedAndDelayedDraftWritesKeepTheBoardAliveAndRetryOnlySavesLocally": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuNetworkTests.GamesDuringLostReceiptReturnsWithTheExactCommandAndNoSecondCost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuNetworkTests.MenuReceivesLiveUpdatesAndRemainsAvailableAfterVictory": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuNetworkTests.OfflineMenuPreservesTheDraftAndAllowsGamesAfterOnlyLocalWrites": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardMenuNetworkTests.TravelCardBattleHuntAndSetupDraftsSurviveSettingsHelpAndGamesWithoutSubmission": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.BoardProfileDriverTests.EveryBoardWorkloadUsesRealGesturesAndPreservesItsDecisionAcrossAllFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardGestureNetworkTests.CombatPlayAndDropKeepBothCardsSecretUntilReveal": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardInteractionTests.AllCardTextsAndExcessHandFitWithoutScrollingAtBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardInteractionTests.ClickInspectionPreservesSelectionAndDoubleClickNeedsTheChosenDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardInteractionTests.PressingAReactionKeepsItsSingleCommitWhileHoverAndFocusStaySilent": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardInteractionTests.TwoMapChoicesKeepThePinnedCardAndCommittedStepsDuringAReaction": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardInteractionTests.UI124ChosenDieLightsItsCardsAndDimsTheRest": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardNetworkTests.CardChoicesDrawDiscardAndTableEffectsUseTheProductionServer": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack02LayoutTests.HeroicWithEveryLeaderAndCompanionFitsWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack02NetworkTests.AloneUsesMapRouteAndResumesHealingAfterGuide": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack02NetworkTests.AndurilKeepsTwoDiceSelectedAcrossReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack02NetworkTests.AnotherWayMovesWithoutPuttingItsDieInTheHunt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack02NetworkTests.FatefulEliminatesMinionAndKeepsBothHits": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack02NetworkTests.HeroicRequiresACompatibleFigureAndHitCount": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack02NetworkTests.StaffPreventsAnUnseenTileAndAdvancesMordor": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack03LayoutTests.RegionAndDieChoicesKeepMapAndConfirmationVisibleWithoutLists": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack03NetworkTests.EaglesSwitchesToShadowForMapRetreat": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack03NetworkTests.GwaihirMovesOneGroupIntoBesiegedLorien": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack03NetworkTests.MirrorSelectsAnUnusedDieDirectlyInThePool": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack03NetworkTests.SuddenStrikeShowsSpecialLossesBeforeCombatRolls": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack03NetworkTests.SwifterPreservesShadowfaxRangeAndRouteAcrossReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack03NetworkTests.ThereAndBackWaitsForGuideThenUpdatesPoliticalTrack": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack04LayoutTests.EventLossesTravelAndOptionalRecruitsFitWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack04NetworkTests.DeadMenMovesGroupThenResolvesEnemyLossesRetreatAndRecruitment": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack04NetworkTests.EntsChainCharacterEventsWithoutAnotherDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack04NetworkTests.EntsResolveRealLossesAndReturnToFreeCardWindow": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack04NetworkTests.GreyCompanyChoosesNationForAtomicReplacement": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPack04NetworkTests.StewardsRecruitsChosenEliteAndDrawsTwoStrategyCards": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPackLayoutTests.AllCompanionsAndFiveMissesFitOneTrayAtBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPackNetworkTests.BladeNamesMinionsAndSpendsTheHitOnTheChosenFigure": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPackNetworkTests.MightySelectsTwoGroupsAndConfirmsOneCommandAfterReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardPackNetworkTests.MithrilAndAxeRestoreBeforeShelobRollAndReachBothClients": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardServerCompatibilityTests.LegacyDiscardOptionExplainsBothDoubleClickSurfacesWithoutPosting": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardServerCompatibilityTests.RestoredDiscardChoiceSurvivesTheWarningAndServerUpdateWithoutAutomaticCommit": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CardViewportLayoutTests.ActionCardFitsBothEffectsAtFourLayoutsAndKeepsPinnedPositionAfterRefresh": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterLayoutTests.EntriesAbilitiesAndAllShadowFiguresFitWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterNetworkTests.BothHobbitsUseOnePlacementBeforeGollumReveals": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterNetworkTests.GreyResponseSurvivesReconnectAndDrawIsPrivate": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterNetworkTests.VersionsAndMinionEntryThenFlightReachBothClients": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterNetworkTests.WhiteRiderChoiceChangesBothPublicLeadershipTotals": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterActionNetworkTests.BalrogTravelRequiresHisExplicitAbilityAndCannotTakeANazgul": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterActionNetworkTests.CouncilEntryAndTravelKeepTheChosenTokenAndCost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterActionNetworkTests.FateAlternateAbilityBelongsToItsStableFigure": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterActionNetworkTests.FlightAndStationarySarumanKeepTheirDifferentRules": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterActionNetworkTests.RegionPanelGroupsKeepTheExactCostAndPaidReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterActionNetworkTests.RulerTokenRecruitmentUsesOneCharacterHostAndOneCommit": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterActionNetworkTests.WhiteEntryRecoversTheLostReceiptWithoutPayingAgain": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterLayoutTests.FullOwnRostersAndPublicInspectorsFitFourLayoutsWithoutDecisionScroll": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterPanelNetworkTests.AwakenedPortraitAndOwnRosterShareOnePublicInspector": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterPanelNetworkTests.ClickAndKeyboardInspectionPreserveTheDieWhileHoverAndPanStaySilent": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CharacterRosterPanelNetworkTests.WhiteReturnsThroughOneStableInspectedFigureAndReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ClickInspectionTests.BothPlayersInspectBoardFamiliesOnlyAfterExplicitActivation": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ClickInspectionTests.EffectsAndTheirCardsStayClosedUntilClicked": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ClickInspectionTests.HistoryHoverAndFocusDoNotLoadDetailsOrAcknowledgeActions": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CompactBoardLayoutTests.SimplePanelsUseTheirContentSizeAndKeepControlsReachableInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CompanionSetupPanelNetworkTests.ComparisonAndGuideRemainReachableWithoutScrollAtFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CompanionSetupPanelNetworkTests.NormalSetupUsesOnlyServerChoicesAcrossLordsCouncilFateAndKings": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CompanionSetupPanelNetworkTests.PrivateVersionsAndOneReceiptSurviveClientAndServerRestarts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ConfigurationLayoutTests.EveryLegalConfigurationFitsInTheLobbyAndReadOnlyGameSummary": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ConfigurationScreenTests.BaseOnlyServerShowsNoExpansionChoicesAndReturnsAnOlderTableToTheBaseGame": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ConfigurationScreenTests.DefaultDismayAndItsDependenciesChangeOnlyAfterServerAcknowledgement": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ConfigurationScreenTests.DisablingAnExpansionClearsItsDependentVariants(\"lords\")": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ConfigurationScreenTests.DisablingAnExpansionClearsItsDependentVariants(\"kings\")": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ConfigurationScreenTests.DisablingAnExpansionClearsItsDependentVariants(\"fate\")": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ConfigurationScreenTests.StartedRoomDisablesConfigurationAndOffersReturnToTheGame": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ConfigurationScreenTests.SwitchingRoomsWithTheSameVersionRefreshesTheirConfiguration": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHelpLayoutTests.BothRolesCanNavigateFocusPinAndMoveHelpInAllFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHelpLayoutTests.OptionalHelpScrollingDoesNotExemptDecisionHostsOrAdditionalScrollViews": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHelpLayoutTests.ServerConfigurationCorpusAndAllProjectedReasonsKeepTheirExactMeaning": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHelpNeighborTests.AutomaticHelpAvoidsEffectsWhileBothManuallyMovedWindowsKeepTheirPositions": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHelpNetworkTests.BothRolesCanReadTheConfiguredRulesWhileWaitingWithoutSendingACommand": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHelpNetworkTests.HelpPreservesRingAndPhysicalDieAcrossEscapeAndReconnectThenUpdatesRealLimit": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHoverTests.ClickedCardSurvivesPointerAndFocusExitAndClosesExplicitly": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHoverTests.ClickedInspectionIsInteractiveStableAndFitsDenseRegionsAtBothScales": {
+        "result": "Failed",
+        "message": "  Expected: (x:195.00, y:306.00, width:32.00, height:32.00)\n  But was:  (x:195.00, y:306.55, width:32.00, height:32.00)\n"
+      },
+      "Wotr.PlayTests.ContextHoverTests.DoubleClickCannotCrossDecisionBoundary": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHoverTests.InspectionOnRealProjectionsNeverChangesTheGame": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHoverTests.KeyboardActivationShowsInformationAndPanningDoesNotOpenCrossedRegions": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHoverTests.MapKeyboardActivationDoesNotAlsoConfirmTheNextDraftStep": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ContextHoverTests.PressingAnInspectedArmyMarkerKeepsItVisibleUntilItsSingleClickCompletes": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CouncilHomelandPanelNetworkTests.EmptyAndStayKeepTheSamePrivateWaitingViewAndGrantNoTokens": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CouncilHomelandPanelNetworkTests.FateGimliUsesEitherHomelandWithOrWithoutNewCitiesAndNoNationIcon": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CouncilHomelandPanelNetworkTests.FivePortraitsAndTokenPreviewFitBothRolesAtFourLayoutsWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CouncilHomelandPanelNetworkTests.HomelandDraftAndBothReceiptsSurviveRestartsWithoutSkippingTheShadowChoice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CouncilHomelandPanelNetworkTests.OneDepartureHandsEitherTokenToTheShadowResourcePanel": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.CouncilHomelandPanelNetworkTests.TwoAndFiveDeparturesShareClickDropUndoAndGrantBothTokensOnce": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.DecisionNoticeNetworkTests.IncomingBattleHighlightsWithoutPanningUntilThePlayerOpensItsNotice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.DecisionNoticeNetworkTests.ReconnectAtSameRevisionInvalidatesCapturedDeckPress": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.DesktopLayoutStabilityTests.LegacyBattleToCardAtLargeScaleStabilizesWithoutRecursiveLayout": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.DicePanelLayoutTests.BothSidesShowFramedMedallionsWithFaceGlyphsAndShortDescriptionsInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.DraftInputTests.CapturedButtonPressRequiresTheOriginalScopeAndReleasesCleanly": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.DraftInputTests.EscapeCancelsCapturedDragAndDoubleClickCannotCrossScope": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.DraftInputTests.HeldEnterCannotSubmitNextSetWhileDelayedPreviewIsPending": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EdgeBoardLayoutTests.EdgePanelsStayOrderedAndLeftTabsAreExclusiveInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EdgePlaqueTests.CornerTabShowsTheFellowshipAndTheEyesInTheMapsTopRightCornerInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EdgePlaqueTests.EscapeRestoresPlaqueFocusWithoutReopeningAndFreshHoverStillWorks": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EdgePlaqueTests.HoveringTheCornerTabUnrollsTheFullPanelsOverTheHandWithoutAPin": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EdgePlaqueTests.PanelsHostingTheDecisionStayOpenAndRollBackAfterIt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EffectsLayoutTests.MultipleSourcesAbilityEmptyAndExpiredViewsFitFourLayoutsWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EffectsLayoutTests.PaymentStaysAtTheSourceAndTheDrawerCanMoveWithoutLosingIt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EffectsNetworkTests.EmptyRegionEffectDoesNotInterceptTheFinalArmyTarget": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EffectsNetworkTests.EnemyProtectionRequiresItsWholeCostAndOneCommitAfterReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EffectsNetworkTests.ExpiringSourceKeepsItsPinnedTextAndRemovesControlsAndScopeAfterReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EffectsNetworkTests.PalantirCompletesOnTheChosenRingWithoutAnotherConfirmation": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EffectsNetworkTests.PublicEffectsRequireClickAndNeverMoveTheCameraDuringInspection": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EngineDoubleClickTests.ASelectedFigureCanStartADragOnTheNextNativePress": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EngineDoubleClickTests.DifferentActionTokensWithEmptyIdsAreDistinctClickTargets": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EngineDoubleClickTests.EngineCountsConsecutiveMousePressesAcrossDifferentControls": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EngineDoubleClickTests.MovingOutAndBackDuringTheSecondPressCancelsTheDoubleClick": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EngineDoubleClickTests.NeutralClickThenCardDoubleClickWithSmallMotionCompletesTheCardGesture": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EngineDoubleClickTests.RapidClicksCannotActivateANewDecisionEvenWithoutAToken": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EngineDoubleClickTests.RemovedCardCannotTurnAThirdClickIntoTheNextCardsGesture": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EngineDoubleClickTests.RepeatedFigureClicksKeepLocalCyclesAndChangedScopeCancelsAPressedPair": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EngineHandDiscardNetworkTests.MiniatureDoubleClicksAfterAnotherControlDiscardBothHandsAtFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.EngineHandDiscardNetworkTests.PreviewContentDoubleClicksDiscardBothHandsAtFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionAbilityNetworkTests.AllCompanionsAndSovereignsCanPlanSeparateGroups": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionAbilityNetworkTests.BalrogActivationUsesHisSpecificSpecialDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionAbilityNetworkTests.BalrogDeactivationUsesAnExplicitWillOfTheWest": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionAbilityNetworkTests.BrandChoosesTwoSettlementsAndHisLocalRecruit": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionAbilityNetworkTests.DainChoosesAnEliteAndARecruitInAnotherSettlement": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionAbilityNetworkTests.GothmogRecruitmentPaysMusterAndAddsARegular": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionAbilityNetworkTests.GothmogUpgradePaysMusterAndExchangesTheFigures": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionAbilityNetworkTests.NazgulAndAllMobileMinionsCanPlanSeparateGroups": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionCorruptionNetworkTests.HiddenCorruptionStaysFaceDownForFreePeoples": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionCorruptionNetworkTests.SequentialCorruptionCanDrawAgainInsteadOfStopping": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionCorruptionNetworkTests.SequentialCorruptionCanStopAfterTheFirstTile": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionCorruptionNetworkTests.VisibleCorruptionIsRevealedOnlyAfterAttachment": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionCostNetworkTests.BalrogSymbolMovesOnlyAnArmyWithBalrog": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionCostNetworkTests.BalrogSymbolTravelsWithoutGrantingNazgulAnAction": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionCostNetworkTests.GreatSorceryRequiresMouthAndPaysOnlyOneArmyStep": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionCostNetworkTests.MouthConvertsTheSelectedMusterIntoTwoArmySteps": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionDecisionNetworkTests.AwakeningSelectsAmongAllFiveSovereignsAndTracesARoute": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionDecisionNetworkTests.CorruptedSovereignRemovalIsAnExplicitAction": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionDecisionNetworkTests.CouncilVersionsHomelandsAndShadowTokenSurviveReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionDecisionNetworkTests.DismayConsumesOneTokenAndRerollsTheSelectedRuler": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionDecisionNetworkTests.KeeperAndLesserChoicesPrecedeBothRulerDiscards": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionDecisionNetworkTests.NaryaActivatesItsNationWithTheChosenDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionDecisionNetworkTests.VilyaKeepsTheResolvingDieAvailable": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionLobbyNetworkTests.AllEightModuleCombinationsStartThroughAcceptedLobbyControls": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionMatrixLayoutTests.BothPerspectivesOfAllConfigurationsFitWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionMatrixLayoutTests.FullSpecialDiceAndTokenPoolsRemainInsideTheirPanels": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.BalrogEntryOffersAnOptionalReserveFigure": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.CouncilPoliticsSpendsTheTokenWithoutADie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.CouncilTokenAndMusterEnterAKingsChieftain": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.CouncilTravelMovesTheChosenNazgulWithoutADie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.DenethorsTokenConvertsTheRulerAndCompletesBothDraws": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.DenethorsTokenConvertsTheRulerAndPlaysAnEvent": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.FarSightedIsAnExplicitModeForMovement": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.FarSightedSeparationPreservesItsExactRulerCost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.FarSightedTokenSeparationKeepsTheConsumedTokenAcrossReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.RulerTokenPaysForAllThreeExplicitRecruitments": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionTokenNetworkTests.ThranduilsTokenPaysForFarSightedInTheSameAction": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionWindowNetworkTests.EvilKnowledgeRetainsTheEliteAndFullBattleResourcesFit": {
+        "result": "Failed",
+        "message": "  battle-card-attacker\n  Expected: greater than or equal to 32.0f\n  But was:  31.8655548f\n"
+      },
+      "Wotr.PlayTests.ExpansionWindowNetworkTests.KeepingVilyaCompletesThePaidActionWithOneClick": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionWindowNetworkTests.LoreCanChooseALesserEyeFromTheHuntInspector": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionWindowNetworkTests.LoreCanResolveBeforeDismayWithoutSpendingItsToken": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ExpansionWindowNetworkTests.NenyaTransfersOnlyItsOwnRingAndResumesTheHunt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FateCardsNetworkTests.BardingsUsesOneRecruitmentPlanAndPrivatelyDraws": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FateCardsNetworkTests.BookSelectsCompanionRegionAndEliteAfterReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FateCardsNetworkTests.DwarvesUsesOneRecruitmentPlanAndPrivatelyDraws": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FateCardsNetworkTests.MonstersPreservesBranchEliteRegionAndPartialPlan": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FateCardsNetworkTests.OrcsSharesTheReserveBetweenDolGuldurAndErebor": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FateCardsNetworkTests.ThereSeparatesThenChangesGuideBeforePolitics": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FateGimliNetworkTests.GuideLeavesDuringHuntAndMovesWithThePrintedRange": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FateGimliNetworkTests.MessengerActivatesAndAdvancesAfterReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FateGimliNetworkTests.RenownAdvancesWithoutActivatingAfterReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipGuideNetworkTests.CouncilVersionAppearsToTheOpponentOnlyAfterChoosingItsGuide": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipGuideNetworkTests.FinishPhaseKeepsTheGuideEvenAfterOpeningTheChoice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipGuideNetworkTests.ForcedMordorSeparationRemovesTheGroupAndLetsTheServerSupplyGollum": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipGuideNetworkTests.GuideModeRequiresAnExplicitChoiceAndRecoversOnlyOneCommand": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipGuideNetworkTests.SeparationStaysInsideTheSiegeAndRetainsThePaidGuideContinuation": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipLayoutTests.FellowshipGroupsHuntAndMordorFitBothSizesAndScalesWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipLayoutTests.GuideModeShowsItsConsequenceAndKeepsAllPortraitsReachable": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipLayoutTests.NamedStatusAndActionsRemainStableAndReadableAtEveryLayout": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipLayoutTests.RegionalRouteKeepsAllEightNeighborsReachableBesidePinnedCard": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipLayoutTests.RevealRouteKeepsDistinctPathsAndHuntContextWhileInspectingTheMap": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipMotionNetworkTests.DeclaredFellowshipFliesToItsRegionAndItsTrackMarkerGlides": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipNetworkTests.DeclarationMovementSeparationAndIndependentGroupsUseTheServer": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipNetworkTests.RerollGuideRevealEmptyPoolAndBothFinalMordorOutcomesUseTheServer": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipPanelNetworkTests.HideKeepsProgressAndSpendsTheExactDieOnce": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipPanelNetworkTests.MoveKeepsTheMapRegionAndRecoversTheExactWillDieReceipt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipRoutesNetworkTests.ZeroProgressDeclarationPreviewsHealingAndActivationAndRecoversReceipt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipTrackLayoutTests.BeyondPrintedProgressAndFinalMordorKeepExactValuesAndSpritesInBounds": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FellowshipTrackLayoutTests.PublicTracksFitBothSidesAndFourLayoutsWithoutChangingEitherProjection": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FigureMotionNetworkTests.BothSidesSeeAcceptedArmiesMoveAndRejectedOrRetriedCommandsDoNotReplay": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FigureMotionNetworkTests.HiddenProgressAndSeparationNeverInventTheSecretFellowshipPosition": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FigureMotionNetworkTests.PublicCharacterJourneyMovesTheSameFigureOnBothClients": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FigureMotionTests.AcceptedProjectionHasAnIntermediatePositionAndLeavesMapInputLive": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FigureMotionTests.AllTwelveIllustrationsFitStableButtonTargetsAtBothScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FigureMotionTests.PublicCharacterMovesButHiddenProgressDoesNotAndOnlyFigureChangesReplaceTheFlight": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FigureMotionTests.ReducedMotionReconnectAndRevisionGapsShowResultsWithoutReplayingTravel": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FloatingWindowTests.BattleHeaderAndReportMoveWhileControlsKeepTheirCommands": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FloatingWindowTests.HeaderCaptureCancelsSafelyAndResetAndNewBoardUseTheSessionLayout": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FloatingWindowTests.PersistentWindowsMoveClampAndKeepTheirPositionAcrossProjectionsAndCameraChanges": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FloatingWindowTests.TransientPreviewStaysAnchoredAndDraggingPinsItWhileSovereignContentMayRefresh": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FocusIndicatorTests.AnotherWindowCoversTheFocusOutlineWithoutChangingFocusOrGeometry": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.FocusIndicatorTests.UI122ClickKeepsFocusWithoutOutlineUntilKeyboardInput": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HandCardLayoutTests.CardsUnrollUpwardOverTheOthersWithoutMovingThemInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HandCardLayoutTests.FirstClickArmsAndOnlyTheSecondClickDiscards": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HandDiscardDrawerTests.FreePeoplesCanCloseAndReopenExcessHandAcrossRefreshes": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HandDiscardDrawerTests.OpponentDecisionDoesNotOpenTheHandAndNewViewerResetsAttention": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HandDiscardDrawerTests.ShadowCanCloseAndReopenExcessHandAcrossRefreshes": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HandDiscardNetworkTests.DoubleClickDiscardsOneCardAndReconnectKeepsTheRemainingDecision": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HandDrawerTests.KeyboardEscapeAndPointerExitKeepSelectionAndPinnedPreviewIndependent": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntActivityNetworkTests.AutomaticNoDiceMissAndCancelledTileRemainInLogWithoutOpeningHunt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntActivityNetworkTests.EarlierHuntStaysSeparateFromCurrentDecisionAfterReconnectAndReadRestart": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntActivityNetworkTests.ReactionCostsReadFailureAndNextIncrementKeepTheirActualActorsAndVersions": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntAftermathNetworkTests.NewGuideAbilityEmptyPlacementAndStrongholdsKeepOnePaidContinuation": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntLayoutTests.AllocationRerollsTileAndGuideFitFourLayoutsBesideTheFellowship": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntLayoutTests.DockedHuntSurvivesCloseRefreshAndKeepsChoicesUntilANewOwnDecision": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntLayoutTests.MissingAndAutomaticReportsDoNotOpenOrAdvertiseAnUnrelatedChoice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntLayoutTests.ThreeKnownStepsCanBeInspectedWithoutLosingTheLiveChoice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntNetworkTests.AutomaticMissIsInspectableAfterReconnectWithoutAnyPendingHunt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntNetworkTests.FailedSubsetStaysPrivateUntilRerollAndDamageRemainsPlayable": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntNetworkTests.KeepRollUsesNoRerollsAndRetainsTheCompletedMissReport": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntNetworkTests.LegalZeroAllocationRollsWithoutChoosingAnyDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntNetworkTests.RequiredAllocationKeepsTheExactDieAtItsLimit": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntNetworkTests.SeveralDiceAllocateByClicksAndDragWithOneRecoverableCommand": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntNetworkTests.ZeroDiceRetainsAnExplicitResultWithoutOpeningHunt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntRecoveryNetworkTests.LostReplacementReceiptKeepsOneTileCardAndPaidContinuation": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntResponseNetworkTests.GuideClickDoubleAndDrop": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntResponseNetworkTests.RandomClickDoubleAndDropNeverSendAVictim": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.HuntResponseNetworkTests.RingClickDoubleAndDrop": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InGameContextNetworkTests.ClosedEffectCostReopensFromGoldAndHistoryAndHelpKeepTheExactDraft": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InGameContextNetworkTests.EffectsResourcesSovereignsAndVictoryOpenSavedFactsForBothSides": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InGameContextNetworkTests.PrivateCorruptionTileReceiptSurvivesRestartWithTheSameParentAndPublicBack": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InGameContextNetworkTests.PublicNoticeNeverRevealsPrivateTileAndAnotherDeviceInvalidatesItsPressedChoice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InGameContextNetworkTests.RestartBeforeRingCommitRestoresTheExactUnsentCostAndWaitsForTheFinalFace": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InGameContextNetworkTests.RingReceiptSurvivesClientAndServerRestartWithoutChangingThePhysicalCost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InGameContextNetworkTests.VictoryReceiptSurvivesRestartWithoutReplayingTheFinalAction": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InGameDenseLayoutTests.BothRolesInspectDenseEffectsFullPoolsFiveSovereignsAndHelpInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InGameProfileDriverTests.AllEightRealProfileDriversChangeAndRenderTheirExpectedStateInFourLayouts": {
+        "result": "Failed",
+        "message": "System.InvalidOperationException : Profile driver failed: victory-1366-1.00-step-0\nUnavailable benchmark control: board-menu-victory, enabled=True, bounds=(x:0.00, y:0.00, width:0.00, height:0.00), handOpen=True\n  ----> System.InvalidOperationException : Unavailable benchmark control: board-menu-victory, enabled=True, bounds=(x:0.00, y:0.00, width:0.00, height:0.00), handOpen=True"
+      },
+      "Wotr.PlayTests.InterfaceSettingsTests.ChangingSizeAndMotionPreservesTheMoveAndEscapeOnlyClosesSettings": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InterfaceSettingsTests.CoveredControlKeepsFocusAndRestoresItsOutlineWhenUncovered": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InterfaceSettingsTests.FocusOutlineHandlesOffscreenHiddenAndDetachedSourcesWithoutExceptions": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.InterfaceSettingsTests.SettingsFocusAndDenseHeaderFitAtBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards01NetworkTests.AidAwakensTheChosenSovereignWithoutMovingIt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards01NetworkTests.InspectedTilesSurviveReconnectAndHideAfterReturningOne": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards01NetworkTests.RidersPlansArmyAndLeaderBeforeOneCommit": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards01NetworkTests.WisdomBranchesRemainExclusiveAndInspectTheChosenSovereign": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards01NetworkTests.WisdomCanKeepAllTilesAfterInspecting": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards02NetworkTests.HopeChoosesWhichInitialSovereignAwakensDuringBattle": {
+        "result": "Failed",
+        "message": "  battle-card-attacker\n  Expected: greater than or equal to 32.0f\n  But was:  31.8655701f\n"
+      },
+      "Wotr.PlayTests.KingsCards02NetworkTests.ServiceChoosesSovereignThenRecruitsAndCleanses": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards02NetworkTests.VainAllowsZeroOrSelectedLeadershipWithAccuratePreview": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards02NetworkTests.VillagesCommitsFourNationsWithOneClickAfterReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards02NetworkTests.WelcomeCanBeRemovedUsingAnEligibleDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards02NetworkTests.WestDrawsAndKeepsTheFinalChoicePrivateAcrossReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards02NetworkTests.WestSelectsItsTargetWithoutSpendingAnEye": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards03NetworkTests.FollyUsesNamedCompanionAndOneActionDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards03NetworkTests.KingChoosesRegularAndNazgulBonusWithoutNumberEntry": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards03NetworkTests.PalantirDrawShowsConversionAndConsumesItOnce": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards03NetworkTests.PalantirEventKeepsNativeMusterAndConvertedEventDistinct": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards03NetworkTests.PalantirRemovalKeepsOrthancAndPaysTheRing": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards03NetworkTests.PowerChoosesSovereignBeforeCombat": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards03NetworkTests.StormcrowChoosesWholeEliteWithoutRevealingItsTile": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards03NetworkTests.ValinorChoosesRegionOrderOnTheMap": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards03NetworkTests.ValinorLossesStayWithFreePeoplesAfterReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards04NetworkTests.EnemyChoosesSovereignWithVisibleThreshold": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards04NetworkTests.EnemyCombatChoosesCorruptedSovereign": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards04NetworkTests.EnemyLossesAllowEliteDowngradeAfterReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.KingsCards04NetworkTests.EnemySeparatesFieldArmyFromGarrison": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LastBattleIconClickTests.OpeningTheReportHidesTheIconUntilTheNextRound": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LayoutTests.LoginAndAllConfigurationOptionsFitWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LayoutTests.TwoResolutionsAndZoomRenderWithMapAndHudInBounds": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LeftRailLayoutTests.IllustratedRailAndPanelsKeepTheirTargetsInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LeftRailPreviewTests.HoverUnrollsAnInteractivePanelAndNothingPinsItInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LiveActivityNetworkTests.TwoMovesAttackCardsDiceRetreatAndAdvanceKeepNoticesAndArchivesConsistent": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LordsFinalCardsNetworkTests.MadnessLossesAndRecruitmentPassControlBetweenRealClients": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LordsFinalCardsNetworkTests.MadnessRegionHighlightPreservesChoiceAndFinalMapClickCommits": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LordsFinalCardsNetworkTests.SpecialCardCanBeKeptForALaterHunt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LordsFinalCardsNetworkTests.SpecialCardIsInspectableAndReplacesTheTileBeforeProtection": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LordsShadowNetworkTests.GatesCanBeRemovedWithGreyGuidesCharacterResult": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LordsShadowNetworkTests.LoreChangesOneRolledEyeAfterOneConfirmationAndReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LordsShadowNetworkTests.LoreRemovalSpendsTheExactDieWhenTheRingIsChosen": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.LordsShadowNetworkTests.SmeagolCostIsOptionalAndOnlyShadowMakesTheChoice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MainMenuLayoutTests.EntryMenuHostWaitingAndSettingsFitBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MainMenuNetworkTests.HostAndJoinPublicGameThroughMainMenu": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MainMenuNetworkTests.LegacyWaitingRoomUsesTheDefaultMenuWithoutExpansionControls": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MainMenuNetworkTests.PrivateInvitationLeaveAndCancelUseTheServer": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapArmyArtworkTests.TokensAndFiguresKeepTheirPicturesEmblemsAndCountsInsideTheClickableMarker": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapCanvasLayoutTests.EveryRegionComesClearOfTheHudAndTheMarginsStayInertInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapClickMoveNetworkTests.ANazgulPickedAloneFliesOnTheDestinationClick": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapClickMoveNetworkTests.ANazgulPickedBeforeASoldierStaysInTheArmyThatMovesOnTheDestinationClick": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourAcceptanceTests.BothRolesLoadAllEightExpansionCombinationsWithIdenticalPublicContours": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourAcceptanceTests.DenseFieldAndGarrisonRemainDistinctDuringMouseAndFractionalWheelAtFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourInteractionTests.AnotherDeviceCommitCancelsAPressedArmyTargetAtTheNewRevision": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourInteractionTests.BothSidesAttackOnTheEnemyContourWithoutAnotherConfirmation": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourInteractionTests.BothSidesClickOnContoursCommitsTheArmyStepAndNeverDragsIt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourInteractionTests.ReconnectCancelsAPressedArmyTargetAtTheSameRevision": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourInteractionTests.WaterAndDistantTerrainNeverConsumeTheArmySelectionOrDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourNavigationTests.BattleNoticeAndRecordedActionUseCurrentAnchorsWithoutAutomaticCameraMotion": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourNavigationTests.BothRolesInspectContoursAtFourLayoutsWithoutChangingProjectedState": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourRecoveryTests.BothRolesRenderServerOverridesAndRetainThemAcrossReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourRecoveryTests.HistoricalPaidStepKeepsItsDraftAndRecoversUncertainCompletionAfterServerRestart": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourRecoveryTests.RemovingWhiteHandChangesTwoBandsButRetainsCaptureAndItsPoints": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourRecoveryTests.SwitchingSavedGamesRestoresBaseMetadataForBothRoles": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourRenderingTests.EveryHighlightStaysBelowPrintedBarriersAndInsideItsRegion": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourRenderingTests.LegendIsExplicitAndDoesNotChooseARegionOrChangeBorders": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapContourRenderingTests.TerrainAndSharedBordersRenderBeforeAndAfterEveryEmphasis": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapViewportTests.EdgesCornersControlsFocusAndDetachNeverChangeTheMatch": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapViewportTests.FixedOuterEdgesCornersAndHudPointsStayContinuousAtFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapViewportTests.ModalWindowsCaptureAndOneAxisLimitsKeepEdgeNavigationSafeAtFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapViewportTests.MovingArmyCannotStopNavigationUnderAStationaryEdgePointerAtFourLayouts": {
+        "result": "Failed",
+        "message": "  The rendered army must physically arrive under the unchanged pointer.\n  Expected: True\n  But was:  False\n"
+      },
+      "Wotr.PlayTests.MapViewportTests.ReenteringTheViewportResumesEdgePanWithoutAnotherMoveAtFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapViewportTests.ScreenRoutingKeepsTheLastPixelAndExactEdgesMovingAtFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapViewportTests.ScreenSamplesRespectOutsideFocusButtonsCaptureAndModalUiAtFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapViewportTests.ZoomPanLocateAndResizeCoverTheViewportForBothPlayers": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapVisibilityTests.ArmiesStayVisibleAsTokensAndClickSelectionOrZoomShowTheirFigures": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MapVisibilityTests.FellowshipMarkerStaysUnderPointerWhenItsOwnPanelReplacesRegionInspection": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MenuBrowserNetworkTests.BackReturnsToMenuWhenTheLeaveRouteIsUnavailable": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MenuBrowserNetworkTests.ScrollingLoadsRealPagesAndRefreshKeepsRowsAndOtherListsAfterFailure": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MordorLayoutTests.GuideAndForcedRemovalKeepOneVisibleHostBesideTheTrackInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MordorLayoutTests.TrackActivityAndTileFitFourLayoutsWithoutScrollingOrMovingTheCamera": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MordorNetworkTests.BothFinalReceiptsRecoverWithoutRepeatingTheTile": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MordorNetworkTests.BothGatesPreserveHiddenAndRevealedAndAllowDeclining": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MordorNetworkTests.BreakingRemovesCompanionsInsideHuntWithoutMapTargets": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MordorNetworkTests.HideAndInactivityPublishTheTurnBoundary": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MordorNetworkTests.MithrilReplacesStopBeforeAdvancingAndSpendsItsCardOnce": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MordorNetworkTests.MovementAndEventEyesUseTheirOwnSourceWithoutARoll": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MordorNetworkTests.StopAndZeroDiceEyeAreAttemptsWithIndependentReveal": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MovementNetworkTests.TwoMountedMatchClientsMoveRecruitAndRecoverWithoutPayingTwice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MultiUseDiceNetworkTests.OneDieClickExposesArmiesRecruitmentAndPolitics": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MultiUseDiceNetworkTests.WillDrawsOrMovesACompanionWithoutChoosingASymbol": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MusterNetworkTests.EliteDropSpendsBothRecruitmentPoints": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MusterNetworkTests.HoverIsReadOnlyAndCrestDragAdvancesOnlyLegalTrack": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MusterNetworkTests.LoneLeaderIsLegalWarnedRemovedAndFinishKeepsPaidStep": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.MusterNetworkTests.RecruitmentOverflowWaitsForFinishAndExactFigureReturn": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.NetworkTests.TwoIndependentSessionsUseRealServerAndRecoverLobbyAndMap": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.PairedDecisionPanelNetworkTests.BothSidesReadHuntBesideFellowshipInFourLayoutsWithoutChangingTheDraft": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.PairedDecisionPanelNetworkTests.ExplicitWindowPositionSurvivesReconnectAndResetRestoresTheSharedRow": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.PoliticalGestureTests.DragHighlightsItsOwnDestinationAndCancellationRestoresTheClickSelection": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.PoliticalGestureTests.UnavailableTokenClicksStayInTheDrawerWithoutChoosingACost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.PoliticalPanelTests.AllTracksAlignAndRemainClickableWithoutScrollingAtBothScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.PoliticalPanelTests.HoverTabTokenAndButtonShareSafeAreasAndNeverSelectOrMoveAnything": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.PoliticalPanelTests.KeyboardFocusAndEscapeWorkAndRevisionsReuseTokens": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.PoliticalRecoveryTests.RestoredPoliticsNeverRecreatesTheBottomTrackWithMissingOrWildcardCost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.PressFeedbackClickTests.ControlsPressWhileHeldAndActOnRelease": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.PressFeedbackClickTests.TerrainDarkensWhileHeldAndIsChosenOnRelease": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RegionInspectionTests.EmptySettlementsRequireClickInBothPerspectivesAndAllLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RegionInspectionTests.OccupiedRegionsNeverOpenOnHoverAndClickedContentsFollowTheProjection": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ResourcePanelNetworkTests.DismayCanFinishBeforeLoreWithoutLosingTheExactDieOrClosingTheNewDecision": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ResourcePanelNetworkTests.DismayTargetsTheOpponentsRetainedRulerAfterClosingAndReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ResourcePanelNetworkTests.RingCommitsOnlyTheNewFaceAndLeavesTheChangedDieUnused": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ResourcePanelNetworkTests.RulerTokenDropKeepsItsIdentityThroughBothDenethorDraws": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ResourcePanelNetworkTests.SpecialChoicesAndBothDiscardsStayAtThePoolAndReopenOnlyForNewDecisions": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ReturnDraftTests.OfflineDraftSurvivesClientRecreationAndReconcilesAnotherDevicesSpentCost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ReturnListTests.BothPlayersReturnToEverySaveFamilyWithCurrentPrivateViewAndNoReplay": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ReturnListTests.SavedGamesScrollAndChangesOnlyAcknowledgeDisplayedBoard": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ReturnRecoveryTests.NewClientRecoversLostReplyAfterServerProcessRestartWithoutSpendingAgain": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ReturnRecoveryTests.PrivateBattlePolicyRecoversAfterClientRecreationWithoutTouchingOpponent": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RightColumnLayoutTests.ActiveHuntKeepsItsBodyBelowTheIllustratedHeader": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RightColumnLayoutTests.IllustratedFellowshipAndHuntWasteNoRowsInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RightColumnLayoutTests.ReportsPanelHeightsForComparison": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RuntimeTooltipTests.CompanionHintsDisplayOnlyThePlayersServerProjection": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RuntimeTooltipTests.DisabledOwnActivationExplainsItsStateWithoutEnablingOrChoosingAnAction": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RuntimeTooltipTests.DragCancelAndRemovedActionSourcesNeverLeaveDescriptions": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RuntimeTooltipTests.EmptyScreenClicksDoNotDisableLaterHints": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RuntimeTooltipTests.EscapeClosesTheFocusedWindowWithoutConsumingAnExtraPressForItsHint": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RuntimeTooltipTests.EveryMouseButtonAndWheelSuppressHintsUntilAFreshIdleHover": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RuntimeTooltipTests.HoverAndFocusExplainWithoutActingAndActivationDismissesTheDescription": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RuntimeTooltipTests.LongHintsFitEveryCornerAtBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.RuntimeTooltipTests.RichSourcesExposeMetadataWhileTerrainAndTextFieldsStaySilent": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.SavedGamesLayoutTests.ListNavigationAndOptionalChangesFitAllSupportedLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.SaveFailureLayoutTests.SaveFailureFitsBeforeTheFirstViewAndAllowsManualRetry": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.SaveFailureLayoutTests.SaveFailureKeepsTheLoadedMapAndExplainsWhyPlayIsUnavailable": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow01LayoutTests.FullNazgulLeadershipAndDirectCorruptionFitBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow01NetworkTests.BaneKeepsReplacementAndAppliesDirectCorruptionAfterReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow01NetworkTests.CruelForfeitsTwoPointsFromTheChosenFigureInOneCommand": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow01NetworkTests.PatrolUsesProtectionAndDamageInTheSameTray": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow02LayoutTests.FlightStrikeVariableLeadershipAndAllBlackBreathTargetsFitWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow02NetworkTests.BlackBreathTargetsCompanionAndKeepsNormalHits": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow02NetworkTests.DreadSupportsAllTenPointsAndUsesItsOwnSummary": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow02NetworkTests.SearchUsesMapFlightThenTransfersTheRevealDecisionToFp": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow02NetworkTests.StrikeKeepsDraftAcrossReconnectThenDiscardsOneTableCard": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow02NetworkTests.TerribleUsesExactlyOnePointForTheReroll": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow02NetworkTests.WeatherMovesOnlyTheFigureThroughMapChoice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow03LayoutTests.ServerProjectedCardDecisionsFitBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow03NetworkTests.BalrogReturnsToFellowshipPhaseAfterProtectedDeclaration": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow03NetworkTests.BreakingSelectsPortraitsAndPreviewsTheirSharedRegion": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow03NetworkTests.CrebainIsChosenBeforeAnyRoll": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow03NetworkTests.LidlessSelectsThreeDiceAndRestoresDraftOnReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow03NetworkTests.LureChoosesCorruptionForTheServerSelectedCompanion": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow03NetworkTests.TableBalrogIsAvailableInHandButCommitRemainsPrivate": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow03NetworkTests.WordsShowsTheSuppressedCompanionToBothPlayers": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow03NetworkTests.WornDiscardsAVisibleTableCard": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow04LayoutTests.ServerProjectedChoicesAndTwoArmiesFitBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow04NetworkTests.CaptainRecruitmentCanFinishWithoutMovingAnArmy": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow04NetworkTests.EventLossesRemainTheDefendersChoice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow04NetworkTests.GandalfArrivalActivatesRohanAndDiscardsWormtongue": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow04NetworkTests.GrondStartsWithoutSecondDieAndExplainsTheFirstRoundRestriction": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow04NetworkTests.PalantirDrawRestoresDeckChoiceOnReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow04NetworkTests.RemovingPalantirPreviewsTheChosenDieAndRing": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow04NetworkTests.RingwraithsPlanTwoArmiesWithRequiredCommanders": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Shadow04NetworkTests.SpellsChooseSourceThenTargetOnTheMap": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy01LayoutTests.ServerProjectedMapChoicesSacrificesAndSiegesFitBothSizesAndScales": {
+        "result": "Failed",
+        "message": "  battle-no-card\n  Expected: greater than or equal to 32.0f\n  But was:  31.8655396f\n"
+      },
+      "Wotr.PlayTests.ShadowStrategy01NetworkTests.DenethorLetsShadowChooseEitherNationsLeader": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy01NetworkTests.GreatHostLeavesItsHitToTheDefender": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy01NetworkTests.OnslaughtDowngradeSurvivesReconnectWithoutAnEarlyCasualty": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy01NetworkTests.RelentlessAssaultAllowsAnExplicitEmptySacrifice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy01NetworkTests.RemovingDenethorSpendsTheExplicitDieOnTheTableCard": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy01NetworkTests.StormcrowFocusesARegionThenEliminatesTheChosenWholeElite": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy01NetworkTests.UrukHaiExplainsThreeRoundsAndRequiresNoSecondDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy01NetworkTests.ValinorChoosesTheNextStrongholdOnTheMap": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy01NetworkTests.ValinorOffersOnlyElvesAndAllowsEliteDowngrade": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02LayoutTests.ArmyRoutesLandingsAndCombatFitBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.CorsairsCanLandOnThePrintedLamedonCoast": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.CorsairsLetsDefenderShelterAfterSeeingTheLanding": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.CorsairsReliefKeepsGarrisonSeparateUntilRetreatThenCombines": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.CorsairsRemovesExcessBeforeTheFirstSiegeCard": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.CorsairsRequiresAnotherRoundWhenDefenderStays": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.GatherKeepsRearGuardAndConfirmsThreeExplicitEdges": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.LengthensRequiresTwoIndependentRoutesAndRestoresDraft": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.MovingCommitsFourArmiesWithOnePaidDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.MumakilAddsItsHitAfterTheCombatComparison": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.RageKeepsFigureSelectionsFromBothDunlands": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.RageSelectsRecruitmentRegionBeforeOptionalMovement": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.ReturnMovesWitchKingBeforeChoosingStackExcess": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy02NetworkTests.SwarmShowsCancelledOpponentCardWithoutNoCardBonus": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy03LayoutTests.RecruitmentUpgradeAndLossChoicesFitBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy03NetworkTests.HalfOrcsChoosesArmyOnMapThenPrintedReserveFigure": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy03NetworkTests.HillTrollsKeepsBothSelectionsAcrossMapRegions": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy03NetworkTests.KingRevealedLetsShadowReturnOldExcessAfterAllRecruits": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy03NetworkTests.ManyKingsChoosesThreeSettlementsWithoutNumericInput": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy03NetworkTests.NewPowerShortageRequiresTheWholePossibleResult": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy03NetworkTests.NewPowerUsesOnePlanWithUndoPreviewAndReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy03NetworkTests.OlogHaiConfirmsAnEliteAtTheChosenArmy": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy03NetworkTests.WeComeToKillLeavesItsSpecialHitToFreePeoples": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04LayoutTests.FullRecruitmentPlansAndSubsequentDecisionsFitBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04NetworkTests.BesiegedMistyRecruitsThenReturnsChosenOldUnits": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04NetworkTests.DesperateBattleShowsBothBonusesAndAllowsRerollChoices": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04NetworkTests.HordePlacesFiveFiguresInOneEasternRegion": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04NetworkTests.MistyMixKeepsControlsAndDraftThroughUndoAndReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04NetworkTests.MonstersPlacesIndependentEliteAndScarceRegular": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04NetworkTests.MusteringsResolvesTwoExcessWindowsAfterTenRecruits": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04NetworkTests.OnslaughtCanKeepAllFigures": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04NetworkTests.OrcsDistributesTwoScarceFiguresAcrossBothRegions": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04NetworkTests.PitsPlacesSixInThreeStrongholds": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.ShadowStrategy04NetworkTests.PitsShortageUsesFiveWithoutEmptyChoices": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.SovereignPanelNetworkTests.FateAndRemovingTokensKeepThreeSovereignsAndDoNotInventAnImmediateRuler": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.SovereignPanelNetworkTests.FiveSovereignsAwakenByStayingAndPreserveExactCostThroughCloseAndReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.SovereignPanelNetworkTests.PoliticalTileReturnIsOptionalRandomAndDistinctFromRemovingTheSovereign": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.SovereignPanelNetworkTests.PublicReplacementAndKingsEndingStaySeparateFromOrdinaryHunt": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.SovereignPanelNetworkTests.SequentialVisibleDrawOffersOnlyTheLatestPrivateTileAndKeepsOneDecisionHost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.SovereignSectionLayoutTests.SovereignsLiveInTheCharactersPanelAndTheTabMarksTheirTargets": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy01LayoutTests.ProtectionBookAndScoutsFitWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy01NetworkTests.BookMovesIndependentGroupsAndSurvivesReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy01NetworkTests.ProtectionUsesTwoHandCardsAndOneDieInOneCommit": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy01NetworkTests.RangersRecruitsArmyChoiceAndLeaderAfterItsRoll": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy01NetworkTests.ScoutsSheltersBeforeRollingAndHandsAdvanceToAttacker": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy01NetworkTests.SpiritChoosesItsArmyOnTheMap": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy02LayoutTests.EventArmyGroupsAndRoutesFitWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy02NetworkTests.ConfusionLeavesNaturalOnesUnavailableForReroll": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy02NetworkTests.MarchUsesTwoMapStepsAndRetainsRouteOnReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy02NetworkTests.ReliefStartsBattleWithoutPayingAnotherDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy02NetworkTests.WosesShowsGarrisonAndLossOfLeftLeader": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy03LayoutTests.CoastalMapAndTwoRecruitsFitBothSizesAndScales": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy03NetworkTests.ChargeShowsImmediateLossBeforeCombatRoll": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy03NetworkTests.CirdanSelectsMapAndTwoRecruitsWithOneRecruitmentCommit": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy03NetworkTests.RidersRecruitsArmyAndLeaderAtTheChosenCompanion": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy04LayoutTests.TwoNationalGroupsAndMapGhostsFitWithoutScrolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy04NetworkTests.EomerMapExcludesBesiegedGarrisonAndRecruitsAtSelectedTown": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy04NetworkTests.SwordsCommitsBothRegionsTogetherAndReconnectKeepsChoices": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.Strategy04NetworkTests.ValourShowsItsBonusAndUnmodifiedLeaderReroll": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.StrongholdNetworkTests.ShelterRequiresFiveOnlyWhenTheAttackerActuallyEnters": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.StrongholdNetworkTests.SiegeExtensionSortieAndReliefKeepSeparateForcesAndCosts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22AbilityNetworkTests.GimliAdvancesDwarvesWithTheChosenArmyDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22AbilityNetworkTests.SarumanRecruitsAtExplicitSettlementsWithFullAndScarceReserves": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22AbilityNetworkTests.SarumanUpgradeUsesTwoPairsOrTheOnlyAvailablePair": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22BoardNetworkTests.FinalExcessReturnsChosenFiguresBeforeReleasingThePaidDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22BoardNetworkTests.MixedArmySplitPreservesExactFiguresAndExplicitWestCost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22BoardNetworkTests.TemporaryExcessDoesNotAllowArrivalsToMoveTwice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22BoardNetworkTests.TwoDistantMovesPersistOneAtATime": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22BoardNetworkTests.TwoNationsRecruitAtDifferentSettlementsWithOneRemainingRegular": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22BoundaryNetworkTests.FreePeoplesMilitaryVictoryWaitsForTheLastAction": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22BoundaryNetworkTests.RandomCompanionPreviewKeepsTheVictimUnknownAndReconnectPreservesTheDraw": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22BoundaryNetworkTests.ShadowMilitaryVictoryWaitsForTheLastAction": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22BoundaryNetworkTests.SimultaneousMilitaryThresholdsGiveShadowPriority": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22BoundaryNetworkTests.StrongholdDefenderChoosesFieldCombatWithoutBecomingAGarrison": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22InformationTests.DenseInformationFitsBothSizesAndScalesBesidePinnedCards": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22InformationTests.InformationUsesBothPrivateProjectionsAndPreservesThePlannedMove": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22InformationTests.SlowAndFailedInitialReadNeverDisplaysLocalGameState": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22TurnNetworkTests.FellowshipCanContinueWithAnExplicitEmptyHuntAllocation": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22TurnNetworkTests.LegalPassChangesActorWithoutSpendingADie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22TurnNetworkTests.RecoveredFellowshipDieRequiresAnExplicitHuntDieBeforeRolling": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T22TurnNetworkTests.RingChangesChosenDieThenPoliticsSpendsThatExactCost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T23FullGameNetworkTests.NormalLobbySetupReachesAFinalResultOnTwoClientsWithProductionRandomness": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T36DesktopGameTests.AllExpansionsAt125PercentWithReducedMotion": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.T36DesktopGameTests.BaseGameAt125PercentWithReducedMotion": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.TestScenarioNetworkTests.AScenarioPlaysBothSidesRestartsAndLeavesNoSavedGame": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.TopBarLayoutTests.IllustratedTopBarFitsBothSidesWithFullDicePoolsInFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.TravelGestureNetworkTests.FellowshipPortraitAndDestinationClicksUseTheSelectedCostAndKeepTheGuideWindow": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.TravelGestureNetworkTests.FellowshipRequiresClickAndStaysOpenAfterExitWithoutMovingTheCamera": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.TravelGestureNetworkTests.FigureAndDestinationClicksSaveOneGroupAndFinishKeepsTheExactPaidDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.TurnLayoutTests.RingHuntAndEightCardsFitWithTenDiceAndNoScroll": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.UI10NetworkTests.DelayedViewCannotUndoOpponentActionOrClosePinnedCard": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.UI10NetworkTests.LateReceiptAndHeldEnterNeverSpendOrDrawTwice": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.UI10NetworkTests.TwoDevicesInvalidateCapturedDeckPressAndNeverReplaceItsSpentCost": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.UI63SiegeNetworkTests.AwakeningCannotEnterTheBesiegedHomeFromOutsideAndRejectsTheForgedRoute": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.UI63SiegeNetworkTests.AwakeningInsideTheGarrisonKeepsItsSideAndPaysEitherExactPhysicalDie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.VictoryPanelLayoutTests.BothScoresThresholdPagesAndFinalBannerFitAllFourLayouts": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.VictoryPanelLayoutTests.ClickAndKeyboardActivationInspectVictoryWithoutChangingCameraOrSelection": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.VictoryPanelLayoutTests.PermanentShortcutKeepsEveryHandCardReachableWithoutMovingASavedWindow": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.VictoryPanelNetworkTests.BesiegersDoNotScoreWhileTheDefenderStillControlsTheStronghold": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.VictoryPanelNetworkTests.FateNewCitiesAndKingsKeepTheirAuthoritativeScoringOrigins": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.VictoryPanelNetworkTests.MilitaryThresholdsWaitForTurnEndAndShadowWinsTheTie": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.VictoryPanelNetworkTests.RecaptureLosesTheThresholdBeforeTheEndOfTheTurn": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.VictoryPanelNetworkTests.RingEndingsTakePriorityAndKeepInspectionPrivateAfterRetryAndReconnect": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.WindowFamilyNetworkTests.BattleReportFromALogEntryClosesWithThatEntryUnlessReopenedOnItsOwn": {
+        "result": "Passed",
+        "message": ""
+      },
+      "Wotr.PlayTests.WindowFamilyNetworkTests.ClosingAWindowClosesThePreviewAndHelpItOpened": {
+        "result": "Passed",
+        "message": ""
+      }
+    }
+  },
+  "head_integration": {
+    "selected": 6,
+    "passed": 6,
+    "failed": [],
+    "missing": [],
+    "cases": {
+      "Wotr.PlayTests.FigureMotionNetworkTests.BothSidesSeeAcceptedArmiesMoveAndRejectedOrRetriedCommandsDoNotReplay": {
+        "result": "Passed",
+        "message": "",
+        "stack": ""
+      },
+      "Wotr.PlayTests.FigureMotionNetworkTests.HiddenProgressAndSeparationNeverInventTheSecretFellowshipPosition": {
+        "result": "Passed",
+        "message": "",
+        "stack": ""
+      },
+      "Wotr.PlayTests.FigureMotionNetworkTests.PublicCharacterJourneyMovesTheSameFigureOnBothClients": {
+        "result": "Passed",
+        "message": "",
+        "stack": ""
+      },
+      "Wotr.PlayTests.MovementNetworkTests.TwoMountedMatchClientsMoveRecruitAndRecoverWithoutPayingTwice": {
+        "result": "Passed",
+        "message": "",
+        "stack": ""
+      },
+      "Wotr.PlayTests.NetworkTests.TwoIndependentSessionsUseRealServerAndRecoverLobbyAndMap": {
+        "result": "Passed",
+        "message": "",
+        "stack": ""
+      },
+      "Wotr.PlayTests.TestScenarioNetworkTests.AScenarioPlaysBothSidesRestartsAndLeavesNoSavedGame": {
+        "result": "Passed",
+        "message": "",
+        "stack": ""
+      }
+    }
+  },
+  "tool_tests": {
+    "server_packages": 6,
+    "client_release": 20,
+    "profile_validator": 19,
+    "map_profile_validator": 6,
+    "client_docs_markdown_files": 42
+  }
+}

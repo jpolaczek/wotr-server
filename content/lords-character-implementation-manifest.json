@@ -1,0 +1,739 @@
+{
+  "schemaVersion": 1,
+  "scope": "T25: eight Lords characters, printed abilities, outputs and cases SRC-04; T24 delivers dice/Pings, T27 events are a separate range.",
+  "source": "docs/sources/lords-character-index.json",
+  "cards": [
+    {
+      "id": "lords.character.elrond",
+      "entryTests": [
+        "LordsCharacterEntryTests.KeepersRequireWarAndUnconqueredHomeButCanEnterAfterRecaptureAndDuringSiege"
+      ],
+      "exitTests": [
+        "LordsCharacterEntryTests.CaptureEliminatesKeeperButAvailableSpecialDieSurvivesUntilRecovery"
+      ],
+      "abilities": [
+        {
+          "id": "vilya",
+          "tests": [
+            "LordsVilyaTests.HuntCompletesBeforeVilyaAndElrondMustStillBePresent",
+            "LordsVilyaTests.WillOfTheWestCannotBeRecoveredEvenAfterItsFaceWasNormalizedForTheAction"
+          ]
+        },
+        {
+          "id": "household-of-elrond",
+          "tests": [
+            "LordsKeeperBattleTests.HouseholdGivesElvenElitesCombatLeadershipAndCombatCardTargetsButNoMovementCommand"
+          ]
+        },
+        {
+          "id": "combat-card-level-three",
+          "tests": [
+            "LordsKeeperBattleTests.KeeperHasCombatCardLevelThreeForHeroicDeathAndBlackBreath"
+          ]
+        },
+        {
+          "id": "cannot-leave-rivendell",
+          "tests": [
+            "LordsCharacterEntryTests.KeepersRequireWarAndUnconqueredHomeButCanEnterAfterRecaptureAndDuringSiege"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Vilya: oddaj konkretny Pierścień Cieniowi i zachowaj właśnie użyty wynik kości inny niż Will of the West; nie odkładaj tej kości ani nie przenoś do Hunt.",
+          "tests": [
+            "LordsVilyaTests.HuntCompletesBeforeVilyaAndElrondMustStillBePresent",
+            "LordsVilyaTests.WillOfTheWestCannotBeRecoveredEvenAfterItsFaceWasNormalizedForTheAction"
+          ]
+        },
+        {
+          "sourceText": "Household of Elrond: elitarne Elfy w tym samym regionie są także dowódcami dla wszystkich celów walki. Nie jest to dodatkowa jednostka ani dowódca poza walką.",
+          "tests": [
+            "LordsKeeperBattleTests.HouseholdGivesElvenElitesCombatLeadershipAndCombatCardTargetsButNoMovementCommand"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Wejście podczas oblężenia własnej twierdzy oraz po jej odbiciu; odmowa przy wrogiej kontroli.",
+          "tests": [
+            "LordsCharacterEntryTests.KeepersRequireWarAndUnconqueredHomeButCanEnterAfterRecaptureAndDuringSiege"
+          ]
+        },
+        {
+          "sourceText": "Poziom 0 dla ruchu, 3 dla karty bojowej.",
+          "tests": [
+            "LordsCharacterEntryTests.KeepersRequireWarAndUnconqueredHomeButCanEnterAfterRecaptureAndDuringSiege",
+            "LordsKeeperBattleTests.KeeperHasCombatCardLevelThreeForHeroicDeathAndBlackBreath"
+          ]
+        },
+        {
+          "sourceText": "Elven Elite daje dowodzenie w walce; downgrade traci ten przywilej.",
+          "tests": [
+            "LordsKeeperBattleTests.HouseholdGivesElvenElitesCombatLeadershipAndCombatCardTargetsButNoMovementCommand"
+          ]
+        },
+        {
+          "sourceText": "Vilya zatrzymuje kość ruchu Drużyny przed Hunt; Will of the West odrzucony.",
+          "tests": [
+            "LordsVilyaTests.HuntCompletesBeforeVilyaAndElrondMustStillBePresent",
+            "LordsVilyaTests.WillOfTheWestCannotBeRecoveredEvenAfterItsFaceWasNormalizedForTheAction"
+          ]
+        },
+        {
+          "sourceText": "Śmierć Elronda nie usuwa natychmiast dostępnej kości; Recover usuwa ją we właściwej fazie.",
+          "tests": [
+            "LordsCharacterEntryTests.CaptureEliminatesKeeperButAvailableSpecialDieSurvivesUntilRecovery"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.galadriel",
+      "entryTests": [
+        "LordsCharacterEntryTests.KeepersRequireWarAndUnconqueredHomeButCanEnterAfterRecaptureAndDuringSiege"
+      ],
+      "exitTests": [
+        "LordsCharacterEntryTests.CaptureEliminatesKeeperButAvailableSpecialDieSurvivesUntilRecovery"
+      ],
+      "abilities": [
+        {
+          "id": "nenya",
+          "tests": [
+            "LordsNenyaTests.NenyaTransfersItsRingRemovesTheEyePermanentlyAndDrawsOnceAfterRestart",
+            "LordsNenyaTests.NenyaIsNotOfferedWithoutItsExactPublicConditions"
+          ]
+        },
+        {
+          "id": "valour-of-the-elven-people",
+          "tests": [
+            "LordsKeeperBattleTests.GaladrielRecruitsInsideSiegeWithRealCostWarReservesAndGarrisonLimit"
+          ]
+        },
+        {
+          "id": "combat-card-level-three",
+          "tests": [
+            "LordsKeeperBattleTests.KeeperHasCombatCardLevelThreeForHeroicDeathAndBlackBreath"
+          ]
+        },
+        {
+          "id": "cannot-leave-lorien",
+          "tests": [
+            "LordsCharacterEntryTests.KeepersRequireWarAndUnconqueredHomeButCanEnterAfterRecaptureAndDuringSiege"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Nenya: po dobraniu standardowego kafla Eye oddaj ten Pierścień Cieniowi, anuluj kafel, usuń go na resztę partii i dobierz zastępczy.",
+          "tests": [
+            "LordsNenyaTests.NenyaTransfersItsRingRemovesTheEyePermanentlyAndDrawsOnceAfterRestart",
+            "LordsNenyaTests.NenyaIsNotOfferedWithoutItsExactPublicConditions"
+          ]
+        },
+        {
+          "sourceText": "Valour of the Elven People: pozwala rekrutować w Lórien także podczas oblężenia. Pozostałe wymagania rekrutacji nie są zniesione.",
+          "tests": [
+            "LordsKeeperBattleTests.GaladrielRecruitsInsideSiegeWithRealCostWarReservesAndGarrisonLimit"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Wejście do własnego oblężonego Lórien i usunięcie po przejęciu.",
+          "tests": [
+            "LordsCharacterEntryTests.KeepersRequireWarAndUnconqueredHomeButCanEnterAfterRecaptureAndDuringSiege",
+            "LordsCharacterEntryTests.CaptureEliminatesKeeperButAvailableSpecialDieSurvivesUntilRecovery"
+          ]
+        },
+        {
+          "sourceText": "Poziom 3 wyłącznie dla efektu karty bojowej.",
+          "tests": [
+            "LordsKeeperBattleTests.KeeperHasCombatCardLevelThreeForHeroicDeathAndBlackBreath"
+          ]
+        },
+        {
+          "sourceText": "Nenya jest wyborem tylko dla standardowego Eye; zapis po koszcie nie dobiera dwa razy.",
+          "tests": [
+            "LordsNenyaTests.NenyaTransfersItsRingRemovesTheEyePermanentlyAndDrawsOnceAfterRestart",
+            "LordsNenyaTests.NenyaIsNotOfferedWithoutItsExactPublicConditions"
+          ]
+        },
+        {
+          "sourceText": "Anulowany Eye nie wraca przy budowaniu puli Mordoru.",
+          "tests": [
+            "LordsNenyaTests.NenyaTransfersItsRingRemovesTheEyePermanentlyAndDrawsOnceAfterRestart"
+          ]
+        },
+        {
+          "sourceText": "Rekrutacja podczas oblężenia nadal uwzględnia rezerwy, koszt, politykę i stos.",
+          "tests": [
+            "LordsKeeperBattleTests.GaladrielRecruitsInsideSiegeWithRealCostWarReservesAndGarrisonLimit"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.gandalf-grey",
+      "entryTests": [
+        "LordsCompanionSetupTests.GreyVersionWithStriderGuideIsPrivateEvenWhenCouncilIsOff",
+        "LordsCompanionSetupTests.InitialKeeperGuideIsPublicBeforeFirstRecoveryAndLaterGuideChangeDoesNotRerunRecovery"
+      ],
+      "exitTests": [
+        "LordsCompanionSetupTests.HiddenGreyIsRevealedBySeparationOrElimination",
+        "LordsCharacterEntryTests.WhiteUsesQualifyingMinionHistoryAndKeepsKeeperGandalfsFigure"
+      ],
+      "abilities": [
+        {
+          "id": "narya",
+          "tests": [
+            "LordsNaryaTests.NaryaUsesAnyAvailableDieAndItsOwnRingForTheCurrentSettlementsNation",
+            "LordsNaryaTests.NaryaRejectsUnavailableSourcesAndForgedCostsWithoutMutation"
+          ]
+        },
+        {
+          "id": "guide-conditional-narya-die",
+          "tests": [
+            "LordsRecoveryTests.NaryaRequiresKeeperGuideAtRecoveryAndActualFellowshipMovementExceptFirstTurn",
+            "LordsCompanionSetupTests.InitialKeeperGuideIsPublicBeforeFirstRecoveryAndLaterGuideChangeDoesNotRerunRecovery"
+          ]
+        },
+        {
+          "id": "may-transform-to-white",
+          "tests": [
+            "LordsCharacterEntryTests.WhiteUsesQualifyingMinionHistoryAndKeepsKeeperGandalfsFigure"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Guide: przy Recover musi być przewodnikiem i FP odzyskuje co najmniej jedną własną kość z Hunt; wtedy dodaj Narya die. Samo Keeper Eye w Hunt nie spełnia warunku.",
+          "tests": [
+            "LordsRecoveryTests.NaryaRequiresKeeperGuideAtRecoveryAndActualFellowshipMovementExceptFirstTurn"
+          ]
+        },
+        {
+          "sourceText": "Wyjątek: początkowy Guide daje Narya już w turze 1; objęcie przewodnictwa dopiero w Fellowship Phase nie daje kości w tej turze.",
+          "tests": [
+            "LordsCompanionSetupTests.InitialKeeperGuideIsPublicBeforeFirstRecoveryAndLaterGuideChangeDoesNotRerunRecovery"
+          ]
+        },
+        {
+          "sourceText": "Narya: w unconquered osadzie FP oddaj Narya i wydaj dowolną kość; aktywuj jej naród i przesuń bezpośrednio At War.",
+          "tests": [
+            "LordsNaryaTests.NaryaUsesAnyAvailableDieAndItsOwnRingForTheCurrentSettlementsNation",
+            "LordsNaryaTests.NaryaRejectsUnavailableSourcesAndForgedCostsWithoutMutation"
+          ]
+        },
+        {
+          "sourceText": "Emissary from the West: po opuszczeniu Drużyny może zostać zastąpiony bazowym White na jego warunkach. Ta karta nie ma Captain of the West.",
+          "tests": [
+            "LordsCharacterEntryTests.WhiteUsesQualifyingMinionHistoryAndKeepsKeeperGandalfsFigure",
+            "LordsKeeperBattleTests.KeeperGreyHasNoCaptainBonusAndFlameAddsTwoWithinFiveDiceLimit",
+            "LordsGandalfCardTests.KeeperGreyCanPlayWizardsStaffAndItExpiresWhenHeLeavesTheFellowship",
+            "LordsGandalfCardTests.KeeperGreyCanUseServantWithoutInheritingTheCaptainStrengthBonus",
+            "LordsGandalfCardTests.BesiegedKeeperGreyAllowsDenethorRemovalWithAnOrdinaryDie"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Wybór Grey ukryty również przy Council off; ujawnienie przy objęciu Guide.",
+          "tests": [
+            "LordsCompanionSetupTests.GreyVersionWithStriderGuideIsPrivateEvenWhenCouncilIsOff",
+            "LordsCompanionSetupTests.HiddenGreyIsRevealedBySeparationOrElimination"
+          ]
+        },
+        {
+          "sourceText": "Tura 1 z Guide versus późna zmiana Guide.",
+          "tests": [
+            "LordsCompanionSetupTests.InitialKeeperGuideIsPublicBeforeFirstRecoveryAndLaterGuideChangeDoesNotRerunRecovery"
+          ]
+        },
+        {
+          "sourceText": "Odzysk tylko Keeper Eye nie daje Narya.",
+          "tests": [
+            "LordsRecoveryTests.NaryaRequiresKeeperGuideAtRecoveryAndActualFellowshipMovementExceptFirstTurn"
+          ]
+        },
+        {
+          "sourceText": "Narya wymaga własnej kontroli osady i właściwego tokenu.",
+          "tests": [
+            "LordsNaryaTests.NaryaRejectsUnavailableSourcesAndForgedCostsWithoutMutation"
+          ]
+        },
+        {
+          "sourceText": "Brak automatycznego +1 Combat z bazowego Grey; transformacja zachowuje tożsamość.",
+          "tests": [
+            "LordsKeeperBattleTests.KeeperGreyHasNoCaptainBonusAndFlameAddsTwoWithinFiveDiceLimit",
+            "LordsCharacterEntryTests.WhiteUsesQualifyingMinionHistoryAndKeepsKeeperGandalfsFigure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.smeagol",
+      "entryTests": [
+        "LordsSmeagolTests.FirstAndSecondTilesArePermanentlyRemovedAndCreateOnlyOneMandatoryGuide",
+        "LordsSmeagolTests.MithrilReplacementCannotUndoEntryOrReturnTheSmeagolTile"
+      ],
+      "exitTests": [
+        "LordsSmeagolTests.TakingSmeagolAsCasualtyReducesDamageByCurrentLevelAndImmediatelyEntersThePublicEvent",
+        "LordsSmeagolDepartureTests.LeavingOnlySmeagolReplacesHimWithGollumWithoutTheEvent",
+        "LordsSmeagolDepartureTests.SeparatingSmeagolWithTheWholeGroupEntersTheEventRegardlessOfPayloadOrder"
+      ],
+      "abilities": [
+        {
+          "id": "always-guide",
+          "tests": [
+            "LordsSmeagolTests.FirstAndSecondTilesArePermanentlyRemovedAndCreateOnlyOneMandatoryGuide"
+          ]
+        },
+        {
+          "id": "level-of-highest-other-companion",
+          "tests": [
+            "LordsSmeagolTests.DynamicLevelChangesWithCompositionAndProjectionDoesNotMutateState"
+          ]
+        },
+        {
+          "id": "smeagol-departure",
+          "tests": [
+            "LordsSmeagolDepartureTests.SeparatingSmeagolWithTheWholeGroupEntersTheEventRegardlessOfPayloadOrder",
+            "LordsSmeagolDepartureTests.LeavingOnlySmeagolReplacesHimWithGollumWithoutTheEvent",
+            "LordsSmeagolTests.TakingSmeagolAsCasualtyReducesDamageByCurrentLevelAndImmediatelyEntersThePublicEvent"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Poziom X równy najwyższemu poziomowi innego Towarzysza w Drużynie; dodaje Towarzysza do limitu przydzielanych kości Hunt i może być ofiarą Hunt.",
+          "tests": [
+            "LordsSmeagolTests.DynamicLevelChangesWithCompositionAndProjectionDoesNotMutateState",
+            "LordsSmeagolTests.TakingSmeagolAsCasualtyReducesDamageByCurrentLevelAndImmediatelyEntersThePublicEvent"
+          ]
+        },
+        {
+          "sourceText": "Kolejny Sméagol tile podczas jego obecności ma 0 obrażeń i jest usuwany; nie można anulować tego wejścia/efektu Mithril Coat and Sting.",
+          "tests": [
+            "LordsSmeagolTests.FirstAndSecondTilesArePermanentlyRemovedAndCreateOnlyOneMandatoryGuide",
+            "LordsSmeagolTests.MithrilReplacementCannotUndoEntryOrReturnTheSmeagolTile"
+          ]
+        },
+        {
+          "sourceText": "Sméagol nie jest Gollumem dla warunków wydarzeń. Nigdy nie dowodzi armią ani nie ma figury na mapie.",
+          "tests": [
+            "LordsSmeagolCardTests.LureTreatsSmeagolAsACompanionWithDynamicLevelInsteadOfGollum",
+            "LordsSmeagolDepartureTests.SeparatingSmeagolWithTheWholeGroupEntersTheEventRegardlessOfPayloadOrder"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Pierwszy kafel działa przed ochroną Hunt; Mithril nie blokuje wejścia.",
+          "tests": [
+            "LordsSmeagolTests.MithrilReplacementCannotUndoEntryOrReturnTheSmeagolTile"
+          ]
+        },
+        {
+          "sourceText": "Poziom X zmienia się po odejściu najwyższego Towarzysza.",
+          "tests": [
+            "LordsSmeagolTests.DynamicLevelChangesWithCompositionAndProjectionDoesNotMutateState"
+          ]
+        },
+        {
+          "sourceText": "Samotny Sméagol daje Golluma bez wydarzenia; zwykła strata daje wydarzenie.",
+          "tests": [
+            "LordsSmeagolDepartureTests.LeavingOnlySmeagolReplacesHimWithGollumWithoutTheEvent",
+            "LordsSmeagolTests.TakingSmeagolAsCasualtyReducesDamageByCurrentLevelAndImmediatelyEntersThePublicEvent"
+          ]
+        },
+        {
+          "sourceText": "Deklaracja versus reveal do osady i kontrola unconquered.",
+          "tests": [
+            "LordsSmeagolDepartureTests.OnlyDeclarationInUnconqueredCityOrStrongholdDiscardsSmeagol",
+            "LordsSmeagolDepartureTests.RevealToConqueredCityDoesNotDiscardSmeagol"
+          ]
+        },
+        {
+          "sourceText": "Ponowne kafle po odejściu nie tworzą drugiej postaci; zapis zachowuje wcześniejszą obecność.",
+          "tests": [
+            "LordsSmeagolTests.LeftSmeagolOrPreviousGollumCausesDiscardAndAnotherDrawAfterRestart"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.balrog",
+      "entryTests": [
+        "LordsBalrogActionTests.EntryOptionallyRecruitsOneRealSauronUnitAndAdvancesTwoNationsWithOneCost",
+        "LordsBalrogActionTests.EnemyControlOrOwnSiegeBlocksBonusRecruitButNotBalrogsEntry"
+      ],
+      "exitTests": [
+        "LordsBalrogActionTests.AnyGandalfVersionAllowsCharacterDeactivationInMoriaAndWillEliminatesOutside",
+        "LordsFireAndShadowTests.EyeKillsBalrogAndGuideAndResumesAfterGuideSelectionWithoutRedrawing"
+      ],
+      "abilities": [
+        {
+          "id": "fire-and-shadow",
+          "tests": [
+            "LordsFireAndShadowTests.EveryPositionOnTheConfirmedRouteTriggersOneFireHuntBeforeStrongholds",
+            "LordsFireAndShadowTests.EyeKillsBalrogAndGuideAndResumesAfterGuideSelectionWithoutRedrawing",
+            "LordsFireAndShadowTests.EyeWithGollumDiscardsWithoutEitherElimination"
+          ]
+        },
+        {
+          "id": "flame-of-udun",
+          "tests": [
+            "LordsKeeperBattleTests.KeeperGreyHasNoCaptainBonusAndFlameAddsTwoWithinFiveDiceLimit"
+          ]
+        },
+        {
+          "id": "balrog-activation",
+          "tests": [
+            "LordsBalrogActionTests.ActivationSpendsChosenBalrogResultWithoutMovingAndInactiveBalrogCannotTravel",
+            "LordsBalrogActionTests.ActiveBalrogResultAllowsExactlyHisOwnTravelOrOneArmyMoveOrAttack"
+          ]
+        },
+        {
+          "id": "not-minion-for-gandalf-white",
+          "tests": [
+            "LordsCharacterEntryTests.WhiteUsesQualifyingMinionHistoryAndKeepsKeeperGandalfsFigure"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Fire and Shadow: po declared/revealed trasa wchodzi, wychodzi, przechodzi lub pozostaje w regionie Balroga → dodatkowy Hunt tile, ignoruj reveal.",
+          "tests": [
+            "LordsFireAndShadowTests.EveryPositionOnTheConfirmedRouteTriggersOneFireHuntBeforeStrongholds"
+          ]
+        },
+        {
+          "sourceText": "Eye z tej zdolności eliminuje Balroga i Guide; przy Gollumie zamiast obu skutków odrzuć Eye.",
+          "tests": [
+            "LordsFireAndShadowTests.EyeKillsBalrogAndGuideAndResumesAfterGuideSelectionWithoutRedrawing",
+            "LordsFireAndShadowTests.EyeWithGollumDiscardsWithoutEitherElimination"
+          ]
+        },
+        {
+          "sourceText": "Flame of Udûn: +2 Combat Strength w bitwie, maksymalnie 5 kości.",
+          "tests": [
+            "LordsKeeperBattleTests.KeeperGreyHasNoCaptainBonusAndFlameAddsTwoWithinFiveDiceLimit"
+          ]
+        },
+        {
+          "sourceText": "Wybrany Use Balrog lub A Balrog is Come! aktywuje Balroga do poziomu 2. Gdy jest już aktywny, Use Balrog wybiera jeden: ruch jego armii, atak jego armii lub ruch samego Balroga.",
+          "tests": [
+            "LordsBalrogActionTests.ActivationSpendsChosenBalrogResultWithoutMovingAndInactiveBalrogCannotTravel",
+            "LordsBalrogActionTests.ActiveBalrogResultAllowsExactlyHisOwnTravelOrOneArmyMoveOrAttack"
+          ]
+        },
+        {
+          "sourceText": "Nielatający Sługus; nie liczy się jako Sługus dla wejścia Gandalf White.",
+          "tests": [
+            "LordsShadowTravelTests.NonFlyingMinionsUseEdgesAndRangeIgnoreEnemyArmiesAndCannotCrossOwnSiege",
+            "LordsCharacterEntryTests.WhiteUsesQualifyingMinionHistoryAndKeepsKeeperGandalfsFigure"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Wejście w zdobytej/oblężonej Morii bez rekruta versus legalna opcja Regular/Elite.",
+          "tests": [
+            "LordsBalrogActionTests.EntryOptionallyRecruitsOneRealSauronUnitAndAdvancesTwoNationsWithOneCost",
+            "LordsBalrogActionTests.EnemyControlOrOwnSiegeBlocksBonusRecruitButNotBalrogsEntry"
+          ]
+        },
+        {
+          "sourceText": "Sama aktywacja nie daje od razu ruchu; późniejszy Use Balrog wymaga wyboru.",
+          "tests": [
+            "LordsBalrogActionTests.ActivationSpendsChosenBalrogResultWithoutMovingAndInactiveBalrogCannotTravel",
+            "LordsBalrogActionTests.ActiveBalrogResultAllowsExactlyHisOwnTravelOrOneArmyMoveOrAttack"
+          ]
+        },
+        {
+          "sourceText": "Nielatający ruch 2, granice i własna oblężona twierdza.",
+          "tests": [
+            "LordsShadowTravelTests.NonFlyingMinionsUseEdgesAndRangeIgnoreEnemyArmiesAndCannotCrossOwnSiege"
+          ]
+        },
+        {
+          "sourceText": "Eye przy zwykłym Guide versus Gollum; zapis po doborze.",
+          "tests": [
+            "LordsFireAndShadowTests.EyeKillsBalrogAndGuideAndResumesAfterGuideSelectionWithoutRedrawing",
+            "LordsFireAndShadowTests.EyeWithGollumDiscardsWithoutEitherElimination"
+          ]
+        },
+        {
+          "sourceText": "Dezaktywacja w/poza Morią i obie dopuszczalne kości FP.",
+          "tests": [
+            "LordsBalrogActionTests.AnyGandalfVersionAllowsCharacterDeactivationInMoriaAndWillEliminatesOutside"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.gothmog",
+      "entryTests": [
+        "LordsCharacterEntryTests.GothmogRequiresWarAndHomeControlAndOnlyBlackCaptainPreventsEntry"
+      ],
+      "exitTests": [
+        "LordsCharacterEntryTests.GothmogRequiresWarAndHomeControlAndOnlyBlackCaptainPreventsEntry"
+      ],
+      "abilities": [
+        {
+          "id": "fling-them-into-the-fray",
+          "tests": [
+            "LordsGothmogTests.FlingRecruitsOrUpgradesSauronWithAnyShadowArmyWithoutNationalSettlement",
+            "LordsGothmogTests.FlingWorksForBesiegersButNotFromOwnBesiegedStrongholdOrWithoutArmyAndReserve"
+          ]
+        },
+        {
+          "id": "not-minion-for-gandalf-white",
+          "tests": [
+            "LordsCharacterEntryTests.WhiteUsesQualifyingMinionHistoryAndKeepsKeeperGandalfsFigure"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Fling them into the Fray: z armią SH w wolnym regionie Muster daje wybór 1 Sauron Regular albo zamianę 1 obecnego Sauron Regular na Elite.",
+          "tests": [
+            "LordsGothmogTests.FlingRecruitsOrUpgradesSauronWithAnyShadowArmyWithoutNationalSettlement",
+            "LordsGothmogTests.FlingWorksForBesiegersButNotFromOwnBesiegedStrongholdOrWithoutArmyAndReserve"
+          ]
+        },
+        {
+          "sourceText": "Nielatający Sługus; nie liczy się jako Sługus dla wejścia Gandalf White.",
+          "tests": [
+            "LordsShadowTravelTests.NonFlyingMinionsUseEdgesAndRangeIgnoreEnemyArmiesAndCannotCrossOwnSiege",
+            "LordsCharacterEntryTests.WhiteUsesQualifyingMinionHistoryAndKeepsKeeperGandalfsFigure"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Chief nie blokuje wejścia, Black Captain blokuje.",
+          "tests": [
+            "LordsCharacterEntryTests.GothmogRequiresWarAndHomeControlAndOnlyBlackCaptainPreventsEntry"
+          ]
+        },
+        {
+          "sourceText": "Regular lub upgrade wymaga rezerw i odpowiednich figur, region musi być wolny.",
+          "tests": [
+            "LordsGothmogTests.FlingRecruitsOrUpgradesSauronWithAnyShadowArmyWithoutNationalSettlement",
+            "LordsGothmogTests.FlingWorksForBesiegersButNotFromOwnBesiegedStrongholdOrWithoutArmyAndReserve"
+          ]
+        },
+        {
+          "sourceText": "Mouth nie ma tej samej zdolności mimo podobnego ruchu.",
+          "tests": [
+            "LordsGothmogTests.MouthCannotUseGothmogsRecruitmentAbility"
+          ]
+        },
+        {
+          "sourceText": "Black Captain wchodzi w środku tury: Gothmog zostaje, usunięcie kości w Recover.",
+          "tests": [
+            "LordsRecoveryTests.BlackCaptainRemovesGothmogsDieAtRecoveryWithoutRemovingHisFigure"
+          ]
+        },
+        {
+          "sourceText": "Wybrany runed wynik i obecność dowolnej wersji WK ocenione we właściwej fazie.",
+          "tests": [
+            "LordsRecoveryTests.V12OnlyChosenRemoveFacesCheckWhiteOrWitchKingAtRecovery"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.mouth-of-sauron",
+      "entryTests": [
+        "LordsCharacterEntryTests.BlackNumenoreanRequiresVictoryPointOrMordorAndBlocksBothMouthVersions"
+      ],
+      "exitTests": [
+        "LordsCharacterEntryTests.BlackNumenoreanRequiresVictoryPointOrMordorAndBlocksBothMouthVersions"
+      ],
+      "abilities": [
+        {
+          "id": "evil-knowledge",
+          "tests": [
+            "LordsMouthAbilityTests.EvilKnowledgeOffersSiegeRoundWithoutElitePersistsUsageAndResetsOnlyAfterAction",
+            "LordsMouthAbilityTests.EvilKnowledgeAndEliteReductionAreIndependentChoicesAndRepeatIsRejected"
+          ]
+        },
+        {
+          "id": "great-sorcery",
+          "tests": [
+            "LordsMouthAbilityTests.GreatSorceryPaysForOnlyMouthsArmyOncePerTurnAndCannotPayForAnEvent"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Evil Knowledge: z armią oblegającą można przedłużyć szturm o jedną rundę bez downgrade Elite, raz na akcję.",
+          "tests": [
+            "LordsMouthAbilityTests.EvilKnowledgeOffersSiegeRoundWithoutElitePersistsUsageAndResetsOnlyAfterAction",
+            "LordsMouthAbilityTests.EvilKnowledgeAndEliteReductionAreIndependentChoicesAndRepeatIsRejected"
+          ]
+        },
+        {
+          "sourceText": "Great Sorcery: z armią SH można raz na turę użyć Muster jak Character do ruchu lub ataku tą konkretną armią.",
+          "tests": [
+            "LordsMouthAbilityTests.GreatSorceryPaysForOnlyMouthsArmyOncePerTurnAndCannotPayForAnEvent"
+          ]
+        },
+        {
+          "sourceText": "Porusza się jak nielatający Sługus; dodaje 1 standardową kość.",
+          "tests": [
+            "LordsShadowTravelTests.NonFlyingMinionsUseEdgesAndRangeIgnoreEnemyArmiesAndCannotCrossOwnSiege",
+            "LordsCharacterEntryTests.BlackNumenoreanRequiresVictoryPointOrMordorAndBlocksBothMouthVersions"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "FP 0/1 VP i Mordor poza/na torze, także odbita twierdza Saurona.",
+          "tests": [
+            "LordsCharacterEntryTests.BlackNumenoreanRequiresVictoryPointOrMordorAndBlocksBothMouthVersions"
+          ]
+        },
+        {
+          "sourceText": "Brak współistnienia albo zastąpienia wyeliminowanego Mouth.",
+          "tests": [
+            "LordsCharacterEntryTests.BlackNumenoreanRequiresVictoryPointOrMordorAndBlocksBothMouthVersions"
+          ]
+        },
+        {
+          "sourceText": "Evil Knowledge raz na akcję, także po zapisie pomiędzy rundami; potem Elite koszt wymagany.",
+          "tests": [
+            "LordsMouthAbilityTests.EvilKnowledgeOffersSiegeRoundWithoutElitePersistsUsageAndResetsOnlyAfterAction",
+            "LordsMouthAbilityTests.EvilKnowledgeAndEliteReductionAreIndependentChoicesAndRepeatIsRejected"
+          ]
+        },
+        {
+          "sourceText": "Great Sorcery raz na turę, tylko własna armia Mouth; nowa tura resetuje.",
+          "tests": [
+            "LordsMouthAbilityTests.GreatSorceryPaysForOnlyMouthsArmyOncePerTurnAndCannotPayForAnEvent"
+          ]
+        },
+        {
+          "sourceText": "Nie pomyl liczników per action i per turn.",
+          "tests": [
+            "LordsMouthAbilityTests.EvilKnowledgeOffersSiegeRoundWithoutElitePersistsUsageAndResetsOnlyAfterAction",
+            "LordsMouthAbilityTests.GreatSorceryPaysForOnlyMouthsArmyOncePerTurnAndCannotPayForAnEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.witch-king",
+      "entryTests": [
+        "LordsCharacterEntryTests.ChiefEntersWithoutSauronAtWarAndOneReplacementKeepsFigureAndLocation",
+        "LordsCharacterEntryTests.BlackCaptainCanBecomeChiefOnceButNeitherVersionCanReturnAfterDeath"
+      ],
+      "exitTests": [
+        "LordsCharacterEntryTests.BlackCaptainCanBecomeChiefOnceButNeitherVersionCanReturnAfterDeath"
+      ],
+      "abilities": [
+        {
+          "id": "spear-of-terror",
+          "tests": [
+            "LordsChiefReactionTests.SpearDrawsPrivatelyBeforeTheEventAndNeverAddsASecondPalantirDraw",
+            "LordsChiefReactionTests.OnlyLivingChiefAtTheFellowshipWithLordsAndACharacterDeckEventGetsSpear"
+          ]
+        },
+        {
+          "id": "he-sees-he-knows",
+          "tests": [
+            "LordsChiefReactionTests.DeclarationOffersOneFreeOptionalFlightOnlyToAllowedRegions",
+            "LordsChiefReactionTests.RevealOrDecliningDeclarationDoesNotMoveChief"
+          ]
+        },
+        {
+          "id": "not-minion-for-gandalf-white",
+          "tests": [
+            "LordsCharacterEntryTests.WhiteUsesQualifyingMinionHistoryAndKeepsKeeperGandalfsFigure"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Spear of Terror: z Drużyną w jednym regionie po zagraniu SH Character Event można od razu dobrać Character Event. Z Palantir of Orthanc tylko jeden dobór.",
+          "tests": [
+            "LordsChiefReactionTests.SpearDrawsPrivatelyBeforeTheEventAndNeverAddsASecondPalantirDraw"
+          ]
+        },
+        {
+          "sourceText": "He Sees, He Knows: po declared do regionu bez unconquered twierdzy FP opcjonalny natychmiastowy ruch Chief do Drużyny bez akcji; sam reveal nie jest wyzwalaczem.",
+          "tests": [
+            "LordsChiefReactionTests.DeclarationOffersOneFreeOptionalFlightOnlyToAllowedRegions",
+            "LordsChiefReactionTests.RevealOrDecliningDeclarationDoesNotMoveChief"
+          ]
+        },
+        {
+          "sourceText": "Ruch jak Nazgûl, +1 standardowa kość. Wszystkie karty odwołujące się ogólnie do Witch-king działają także z Chief.",
+          "tests": [
+            "LordsShadowTravelTests.ChiefFliesAndCountsAsNazgulForHuntCardsAndWhiteRiderButDoesNotInheritSorcerer",
+            "LordsCharacterEntryTests.ChiefEntersWithoutSauronAtWarAndOneReplacementKeepsFigureAndLocation"
+          ]
+        },
+        {
+          "sourceText": "Chief nie liczy się jako Sługus dla wejścia Gandalf White.",
+          "tests": [
+            "LordsCharacterEntryTests.WhiteUsesQualifyingMinionHistoryAndKeepsKeeperGandalfsFigure"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Nowy Chief w regionie Drużyny; zamiana Black Captain w regionie jego figury.",
+          "tests": [
+            "LordsCharacterEntryTests.ChiefEntersWithoutSauronAtWarAndOneReplacementKeepsFigureAndLocation",
+            "LordsCharacterEntryTests.BlackCaptainCanBecomeChiefOnceButNeitherVersionCanReturnAfterDeath"
+          ]
+        },
+        {
+          "sourceText": "Jedna zamiana działa w obu kierunkach, druga odrzucona i po restarcie też.",
+          "tests": [
+            "LordsCharacterEntryTests.ChiefEntersWithoutSauronAtWarAndOneReplacementKeepsFigureAndLocation",
+            "LordsCharacterEntryTests.BlackCaptainCanBecomeChiefOnceButNeitherVersionCanReturnAfterDeath"
+          ]
+        },
+        {
+          "sourceText": "Karta Strategy z ikoną Character nie jest Character-deck Event dla Spear.",
+          "tests": [
+            "LordsChiefReactionTests.OnlyLivingChiefAtTheFellowshipWithLordsAndACharacterDeckEventGetsSpear",
+            "LordsChiefReactionTests.SpearUsesTheDeckEvenWhenTheEventIconBelongsToAnotherCategory"
+          ]
+        },
+        {
+          "sourceText": "Spear plus Palantir nie dobiera dwóch kart.",
+          "tests": [
+            "LordsChiefReactionTests.SpearDrawsPrivatelyBeforeTheEventAndNeverAddsASecondPalantirDraw"
+          ]
+        },
+        {
+          "sourceText": "Declared do osady legalnej versus reveal i unconquered twierdza FP.",
+          "tests": [
+            "LordsChiefReactionTests.DeclarationOffersOneFreeOptionalFlightOnlyToAllowedRegions",
+            "LordsChiefReactionTests.RevealOrDecliningDeclarationDoesNotMoveChief"
+          ]
+        }
+      ]
+    }
+  ],
+  "integrationTests": [
+    "LordsCharacterPersistenceTests.PrivateSetupRestoresBothProjectionsAndDoesNotDrawAgainOnRetry",
+    "LordsCharacterPersistenceTests.BalrogEntryPersistsTheChosenRecruitAndOnlyOnePaidDie",
+    "LordsCharacterPersistenceTests.ChiefSpearAndPalantirPersistExactlyOnePrivateCardDraw",
+    "LordsCharacterPersistenceTests.ChiefFlightRestoresTheDeclarationBeforeFollowingWithoutCost",
+    "LordsCharacterPersistenceTests.SmeagolEntryBeforeMithrilSurvivesRestartAndNeverReentersTheTilePool",
+    "LordsCharacterPersistenceTests.SmeagolCasualtyPersistsThePublicEventAndPendingGuide",
+    "LordsCharacterPersistenceTests.FireEyePersistsBothDeathsThenRestoresTheGuideDecision",
+    "LordsCharacterPersistenceTests.EvilKnowledgePersistsAcrossTheNextSiegeRoundWithoutASecondEliteCost",
+    "LordsPersistenceTests.SpecialDieChoiceRestartsWithItsOrderAndRetriesWithoutRollingAgain",
+    "LordsPersistenceTests.NaryaTransfersExactlyOneRingAndPersistsItsPoliticalChange",
+    "LordsPersistenceTests.VilyaRestartsBeforeCompletingThePaidMovementWithoutRepeatingIt",
+    "LordsPersistenceTests.NenyaPersistsRemovedTileAndReplacementBeforeRetry"
+  ]
+}

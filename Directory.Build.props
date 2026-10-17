@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Deterministic>true</Deterministic>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <BaseIntermediateOutputPath Condition="'$(MSBuildProjectName)' == 'Wotr.Contracts'">$(MSBuildThisFileDirectory).artifacts/obj/Wotr.Contracts/</BaseIntermediateOutputPath>
+    <BaseOutputPath Condition="'$(MSBuildProjectName)' == 'Wotr.Contracts'">$(MSBuildThisFileDirectory).artifacts/bin/Wotr.Contracts/</BaseOutputPath>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 2,
+  "source": "docs/sources/fate-index.json",
+  "rules": "docs/rules/T32-FATE-GIMLI.md",
+  "cards": [
+    {
+      "id": "fate.character.gimli",
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.character.gimli"
+      },
+      "entryTests": [
+        "FateGimliSetupTests.OrdinaryFateVersionUsesOneStableFigureWithPrintedStatsEvenWithoutCouncil",
+        "FateGimliSetupTests.CouncilOptionsUseActualVersionIdsAndOmissionKeepsTheFateDefault",
+        "FateGimliSetupTests.ReplacedDuplicateAndDisabledVersionsAreRejectedBeforeAnyDraw",
+        "FateGimliSetupTests.BaseAndLordsVersionsAndEreborHomelandRemainAvailableWithoutFate",
+        "FateGimliPersistenceTests.BothPrivateVersionsAndDefaultSurviveRestartWithoutLeaking"
+      ],
+      "exitTests": [
+        "FateGimliHuntTests.OrdinaryVersionHasNoGuideDepartureAndAbsorbsItsPrintedLevelTwoAsCasualty"
+      ],
+      "abilities": [
+        {
+          "id": "combat-strength-plus-one",
+          "tests": [
+            "FateGimliBattleTests.PrintedCombatBonusUsesParticipationDefendersNationCancellationAndFiveDiceCap"
+          ]
+        },
+        {
+          "id": "politics-dwarves-at-fate-homelands",
+          "tests": [
+            "FateGimliAbilityTests.BothPrintedLocationsAllowAnyActionDieIncludingUnderShadowControl",
+            "FateGimliAbilityTests.NeitherVersionUsesEreborOrOtherUnprintedRegions",
+            "FateGimliAbilityTests.AbilityRejectsUnavailableForeignMissingDiceAndWrongWindowsWithoutMutation",
+            "FateGimliAbilityTests.RenownCannotActivateAnInactiveNationAtTheLastStepButMessengerCan",
+            "FateGimliPersistenceTests.BothPoliticalAbilitiesPersistOneDieAndTheirDifferentActivation"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Captain of the West: w bitwie zwiększ siłę Combat armii FP o jeden, z limitem pięciu kości.",
+          "tests": [
+            "FateGimliBattleTests.PrintedCombatBonusUsesParticipationDefendersNationCancellationAndFiveDiceCap"
+          ]
+        },
+        {
+          "sourceText": "Dwarf of Renown: w Iron Hills albo Ered Luin użyj dowolnej kości akcji, aby przesunąć Dwarves o jeden krok polityki.",
+          "tests": [
+            "FateGimliAbilityTests.BothPrintedLocationsAllowAnyActionDieIncludingUnderShadowControl",
+            "FateGimliAbilityTests.NeitherVersionUsesEreborOrOtherUnprintedRegions",
+            "FateGimliAbilityTests.AbilityRejectsUnavailableForeignMissingDiceAndWrongWindowsWithoutMutation",
+            "FateGimliAbilityTests.RenownCannotActivateAnInactiveNationAtTheLastStepButMessengerCan",
+            "FateGimliPersistenceTests.BothPoliticalAbilitiesPersistOneDieAndTheirDifferentActivation"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Nowe miejsca zdolności; Erebor nie działa.",
+          "tests": [
+            "FateGimliAbilityTests.BothPrintedLocationsAllowAnyActionDieIncludingUnderShadowControl",
+            "FateGimliAbilityTests.NeitherVersionUsesEreborOrOtherUnprintedRegions",
+            "FateGimliAbilityTests.AbilityRejectsUnavailableForeignMissingDiceAndWrongWindowsWithoutMutation",
+            "FateGimliAbilityTests.RenownCannotActivateAnInactiveNationAtTheLastStepButMessengerCan",
+            "FateGimliPersistenceTests.BothPoliticalAbilitiesPersistOneDieAndTheirDifferentActivation"
+          ]
+        },
+        {
+          "sourceText": "Poziom 2, dowodzenie 1 i ikona Krasnoludów pozostają; Kings odczytuje rzeczywistą ikonę.",
+          "tests": [
+            "FateGimliAbilityTests.LevelsIconsAndCardNameIdentityRemainSpecificToTheChosenFront",
+            "FateGimliAbilityTests.KingsReadsTheActualNationIconWithoutReintroducingDain"
+          ]
+        },
+        {
+          "sourceText": "Wybór zwykłej wersji jest odrębny od alternatywy Council.",
+          "tests": [
+            "FateGimliSetupTests.OrdinaryFateVersionUsesOneStableFigureWithPrintedStatsEvenWithoutCouncil",
+            "FateGimliSetupTests.CouncilOptionsUseActualVersionIdsAndOmissionKeepsTheFateDefault",
+            "FateGimliSetupTests.ReplacedDuplicateAndDisabledVersionsAreRejectedBeforeAnyDraw",
+            "FateGimliSetupTests.BaseAndLordsVersionsAndEreborHomelandRemainAvailableWithoutFate",
+            "FateGimliPersistenceTests.BothPrivateVersionsAndDefaultSurviveRestartWithoutLeaking"
+          ]
+        }
+      ],
+      "tests": [
+        "FateGimliAbilityTests.AbilityRejectsUnavailableForeignMissingDiceAndWrongWindowsWithoutMutation",
+        "FateGimliAbilityTests.BothPrintedLocationsAllowAnyActionDieIncludingUnderShadowControl",
+        "FateGimliAbilityTests.KingsReadsTheActualNationIconWithoutReintroducingDain",
+        "FateGimliAbilityTests.LevelsIconsAndCardNameIdentityRemainSpecificToTheChosenFront",
+        "FateGimliAbilityTests.NeitherVersionUsesEreborOrOtherUnprintedRegions",
+        "FateGimliAbilityTests.RenownCannotActivateAnInactiveNationAtTheLastStepButMessengerCan",
+        "FateGimliBattleTests.PrintedCombatBonusUsesParticipationDefendersNationCancellationAndFiveDiceCap",
+        "FateGimliHuntTests.OrdinaryVersionHasNoGuideDepartureAndAbsorbsItsPrintedLevelTwoAsCasualty",
+        "FateGimliPersistenceTests.BothPoliticalAbilitiesPersistOneDieAndTheirDifferentActivation",
+        "FateGimliPersistenceTests.BothPrivateVersionsAndDefaultSurviveRestartWithoutLeaking",
+        "FateGimliSetupTests.BaseAndLordsVersionsAndEreborHomelandRemainAvailableWithoutFate",
+        "FateGimliSetupTests.CouncilOptionsUseActualVersionIdsAndOmissionKeepsTheFateDefault",
+        "FateGimliSetupTests.OrdinaryFateVersionUsesOneStableFigureWithPrintedStatsEvenWithoutCouncil",
+        "FateGimliSetupTests.ReplacedDuplicateAndDisabledVersionsAreRejectedBeforeAnyDraw"
+      ]
+    },
+    {
+      "id": "fate.character.gimli-dwarven-lord",
+      "setup": {
+        "operation": "replace",
+        "replaces": "lords.character.gimli"
+      },
+      "entryTests": [
+        "FateGimliSetupTests.OrdinaryFateVersionUsesOneStableFigureWithPrintedStatsEvenWithoutCouncil",
+        "FateGimliSetupTests.CouncilOptionsUseActualVersionIdsAndOmissionKeepsTheFateDefault",
+        "FateGimliSetupTests.ReplacedDuplicateAndDisabledVersionsAreRejectedBeforeAnyDraw",
+        "FateGimliSetupTests.BaseAndLordsVersionsAndEreborHomelandRemainAvailableWithoutFate",
+        "FateGimliPersistenceTests.BothPrivateVersionsAndDefaultSurviveRestartWithoutLeaking"
+      ],
+      "exitTests": [
+        "FateGimliHuntTests.DecliningTheAlternateGuideThenTakingHimAsCasualtyAbsorbsOnlyOneAndDoesNotReturn"
+      ],
+      "abilities": [
+        {
+          "id": "guide-separate-to-reduce-hunt-one",
+          "tests": [
+            "FateGimliHuntTests.AlternateGuideSeparatesAndReducesDamageToAMinimumOfZero",
+            "FateGimliHuntTests.GimliJoinsTheOtherCouncilGuidesInOnePersistedGroupWithOneMove",
+            "FateGimliHuntTests.AlternateGuideCannotReduceCorruptionOnlyDamage",
+            "FateGimliHuntTests.GuideUsedInMordorStillReducesDamageButCannotReturnToTheBoard",
+            "FateGimliPersistenceTests.GuideReactionNextGuideAndCommonDepartureEachRestoreTheirContinuation"
+          ]
+        },
+        {
+          "id": "champion-dwarves",
+          "tests": [
+            "FateGimliBattleTests.PrintedCombatBonusUsesParticipationDefendersNationCancellationAndFiveDiceCap"
+          ]
+        },
+        {
+          "id": "messenger-dwarves",
+          "tests": [
+            "FateGimliAbilityTests.BothPrintedLocationsAllowAnyActionDieIncludingUnderShadowControl",
+            "FateGimliAbilityTests.NeitherVersionUsesEreborOrOtherUnprintedRegions",
+            "FateGimliAbilityTests.AbilityRejectsUnavailableForeignMissingDiceAndWrongWindowsWithoutMutation",
+            "FateGimliAbilityTests.RenownCannotActivateAnInactiveNationAtTheLastStepButMessengerCan",
+            "FateGimliPersistenceTests.BothPoliticalAbilitiesPersistOneDieAndTheirDifferentActivation"
+          ]
+        },
+        {
+          "id": "movement-level-two",
+          "tests": [
+            "FateGimliAbilityTests.LevelsIconsAndCardNameIdentityRemainSpecificToTheChosenFront",
+            "FateGimliAbilityTests.KingsReadsTheActualNationIconWithoutReintroducingDain"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Council: alternatywny start w Iron Hills albo Ered Luin; nie w Ereborze.",
+          "tests": [
+            "FateGimliSetupTests.EitherNewHomelandRevealsTheAlternateAndOpensOneShadowTokenChoice",
+            "FateGimliSetupTests.EreborAndOrdinaryVersionCannotStartOutsideAndHiddenVersionsHaveIdenticalShadowViews",
+            "FateGimliPersistenceTests.EachHomelandAndTheShadowTokenChoicePersistSeparately"
+          ]
+        },
+        {
+          "sourceText": "Guide: podczas Hunt oddziel Gimliego od Drużyny, aby zmniejszyć obrażenia o jeden, minimum zero.",
+          "tests": [
+            "FateGimliHuntTests.AlternateGuideSeparatesAndReducesDamageToAMinimumOfZero",
+            "FateGimliHuntTests.GimliJoinsTheOtherCouncilGuidesInOnePersistedGroupWithOneMove",
+            "FateGimliHuntTests.AlternateGuideCannotReduceCorruptionOnlyDamage",
+            "FateGimliHuntTests.GuideUsedInMordorStillReducesDamageButCannotReturnToTheBoard",
+            "FateGimliPersistenceTests.GuideReactionNextGuideAndCommonDepartureEachRestoreTheirContinuation"
+          ]
+        },
+        {
+          "sourceText": "Dwarven Champion: w bitwie z obrońcą w granicach Dwarves zwiększ siłę Combat armii FP o jeden, z limitem pięciu kości.",
+          "tests": [
+            "FateGimliBattleTests.PrintedCombatBonusUsesParticipationDefendersNationCancellationAndFiveDiceCap"
+          ]
+        },
+        {
+          "sourceText": "Messenger of Elrond: w Iron Hills albo Ered Luin użyj dowolnej kości akcji, aby aktywować Dwarves i przesunąć o jeden krok polityki.",
+          "tests": [
+            "FateGimliAbilityTests.BothPrintedLocationsAllowAnyActionDieIncludingUnderShadowControl",
+            "FateGimliAbilityTests.NeitherVersionUsesEreborOrOtherUnprintedRegions",
+            "FateGimliAbilityTests.AbilityRejectsUnavailableForeignMissingDiceAndWrongWindowsWithoutMutation",
+            "FateGimliAbilityTests.RenownCannotActivateAnInactiveNationAtTheLastStepButMessengerCan",
+            "FateGimliPersistenceTests.BothPoliticalAbilitiesPersistOneDieAndTheirDifferentActivation"
+          ]
+        },
+        {
+          "sourceText": "Traktuj poziom jako 2 tylko dla ruchu.",
+          "tests": [
+            "FateGimliAbilityTests.LevelsIconsAndCardNameIdentityRemainSpecificToTheChosenFront",
+            "FateGimliAbilityTests.KingsReadsTheActualNationIconWithoutReintroducingDain"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Council dopuszcza oba nowe regiony; brak startu w Ereborze.",
+          "tests": [
+            "FateGimliSetupTests.EitherNewHomelandRevealsTheAlternateAndOpensOneShadowTokenChoice",
+            "FateGimliSetupTests.EreborAndOrdinaryVersionCannotStartOutsideAndHiddenVersionsHaveIdenticalShadowViews",
+            "FateGimliPersistenceTests.EachHomelandAndTheShadowTokenChoicePersistSeparately"
+          ]
+        },
+        {
+          "sourceText": "Hunt zachowuje kolejność i wyjątki grup z FAQ/Lords; obrażenia nie spadają poniżej zera.",
+          "tests": [
+            "FateGimliHuntTests.AlternateGuideSeparatesAndReducesDamageToAMinimumOfZero",
+            "FateGimliHuntTests.GimliJoinsTheOtherCouncilGuidesInOnePersistedGroupWithOneMove",
+            "FateGimliHuntTests.AlternateGuideCannotReduceCorruptionOnlyDamage",
+            "FateGimliHuntTests.GuideUsedInMordorStillReducesDamageButCannotReturnToTheBoard",
+            "FateGimliPersistenceTests.GuideReactionNextGuideAndCommonDepartureEachRestoreTheirContinuation"
+          ]
+        },
+        {
+          "sourceText": "Erebor należy do Saurona, więc nie daje warunku Dwarven Champion.",
+          "tests": [
+            "FateGimliBattleTests.PrintedCombatBonusUsesParticipationDefendersNationCancellationAndFiveDiceCap"
+          ]
+        },
+        {
+          "sourceText": "Brak ikony narodu oznacza brak uprawnień odpowiedniego towarzysza Kings.",
+          "tests": [
+            "FateGimliAbilityTests.LevelsIconsAndCardNameIdentityRemainSpecificToTheChosenFront",
+            "FateGimliAbilityTests.KingsReadsTheActualNationIconWithoutReintroducingDain"
+          ]
+        }
+      ],
+      "tests": [
+        "FateGimliAbilityTests.AbilityRejectsUnavailableForeignMissingDiceAndWrongWindowsWithoutMutation",
+        "FateGimliAbilityTests.BothPrintedLocationsAllowAnyActionDieIncludingUnderShadowControl",
+        "FateGimliAbilityTests.KingsReadsTheActualNationIconWithoutReintroducingDain",
+        "FateGimliAbilityTests.LevelsIconsAndCardNameIdentityRemainSpecificToTheChosenFront",
+        "FateGimliAbilityTests.NeitherVersionUsesEreborOrOtherUnprintedRegions",
+        "FateGimliAbilityTests.RenownCannotActivateAnInactiveNationAtTheLastStepButMessengerCan",
+        "FateGimliBattleTests.PrintedCombatBonusUsesParticipationDefendersNationCancellationAndFiveDiceCap",
+        "FateGimliHuntTests.AlternateGuideCannotReduceCorruptionOnlyDamage",
+        "FateGimliHuntTests.AlternateGuideSeparatesAndReducesDamageToAMinimumOfZero",
+        "FateGimliHuntTests.DecliningTheAlternateGuideThenTakingHimAsCasualtyAbsorbsOnlyOneAndDoesNotReturn",
+        "FateGimliHuntTests.GimliJoinsTheOtherCouncilGuidesInOnePersistedGroupWithOneMove",
+        "FateGimliHuntTests.GuideUsedInMordorStillReducesDamageButCannotReturnToTheBoard",
+        "FateGimliPersistenceTests.BothPoliticalAbilitiesPersistOneDieAndTheirDifferentActivation",
+        "FateGimliPersistenceTests.BothPrivateVersionsAndDefaultSurviveRestartWithoutLeaking",
+        "FateGimliPersistenceTests.EachHomelandAndTheShadowTokenChoicePersistSeparately",
+        "FateGimliPersistenceTests.GuideReactionNextGuideAndCommonDepartureEachRestoreTheirContinuation",
+        "FateGimliSetupTests.BaseAndLordsVersionsAndEreborHomelandRemainAvailableWithoutFate",
+        "FateGimliSetupTests.CouncilOptionsUseActualVersionIdsAndOmissionKeepsTheFateDefault",
+        "FateGimliSetupTests.EitherNewHomelandRevealsTheAlternateAndOpensOneShadowTokenChoice",
+        "FateGimliSetupTests.EreborAndOrdinaryVersionCannotStartOutsideAndHiddenVersionsHaveIdenticalShadowViews",
+        "FateGimliSetupTests.OrdinaryFateVersionUsesOneStableFigureWithPrintedStatsEvenWithoutCouncil",
+        "FateGimliSetupTests.ReplacedDuplicateAndDisabledVersionsAreRejectedBeforeAnyDraw"
+      ]
+    }
+  ]
+}

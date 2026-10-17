@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <title>Choose a new password · War of the Ring Online</title>
+  <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/account.js" defer></script>
+</head>
+<body data-page="reset">
+  <main class="account">
+    <p class="crumb"><a href="/">War of the Ring Online</a></p>
+    <h1>Choose a new password</h1>
+    <p class="lead">Choose a new password. Afterwards every device is signed out; sign in again in the game.</p>
+    <form id="form" novalidate>
+      <label for="password">New password</label>
+      <input id="password" name="password" type="password" autocomplete="new-password" required minlength="12" maxlength="128"
+        aria-describedby="password-help">
+      <p id="password-help" class="help">12–128 characters.</p>
+      <label for="confirm">Repeat the new password</label>
+      <input id="confirm" name="confirm" type="password" autocomplete="new-password" required>
+      <button type="submit">Change password</button>
+    </form>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>

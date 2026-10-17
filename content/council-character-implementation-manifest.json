@@ -1,0 +1,631 @@
+{
+  "schemaVersion": 1,
+  "scope": "T26: six full versions of the Council; private setup and public tokens SH. Gandalf remains in T25, Fate in T32, UI expansions in UI-09/T34.",
+  "source": "docs/sources/lords-character-index.json",
+  "cards": [
+    {
+      "id": "lords.character.boromir",
+      "entryTests": [
+        "CouncilSetupTests.AllHiddenVersionsHaveIdenticalShadowPayloadAndAlwaysTheSameHomelandDecision",
+        "CouncilSetupTests.DuplicateVersionsAndCouncilAlternatesWithoutVariantAreRejected",
+        "CouncilSetupTests.HomelandsGrantExactlyZeroOneChosenOrBothTokensAndRevealOnlyDepartures"
+      ],
+      "exitTests": [
+        "CouncilHuntTests.AlternateCasualtyAbsorbsOneDamageAndDoesNotReturn"
+      ],
+      "abilities": [
+        {
+          "id": "guide-separate-to-reduce-hunt-one",
+          "tests": [
+            "CouncilHuntTests.ThreeSeparatingGuidesFormOneGroupUsingMovementLevelTwoAndPersistEachGuide",
+            "CouncilHuntTests.AlternateGuidesMaySeparateAtZeroDamageUnlikeBaseHobbits"
+          ]
+        },
+        {
+          "id": "champion-gondor",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "id": "messenger-gondor",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement",
+            "CouncilAbilityTests.PoliticalAbilityRejectsTheWrongPrintedLocation"
+          ]
+        },
+        {
+          "id": "movement-level-two",
+          "tests": [
+            "CouncilAbilityTests.LevelTwoAppliesOnlyToMovementIncludingProjectedRoutes"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Guide: opcjonalne oddzielenie podczas Hunt zmniejsza obrażenia o 1, minimum 0. Kilku takich przewodników oddzielanych z jednego kafla tworzy jedną grupę.",
+          "tests": [
+            "CouncilHuntTests.ThreeSeparatingGuidesFormOneGroupUsingMovementLevelTwoAndPersistEachGuide",
+            "CouncilHuntTests.AlternateGuidesMaySeparateAtZeroDamageUnlikeBaseHobbits"
+          ]
+        },
+        {
+          "sourceText": "Champion: jeśli uczestniczy w bitwie, a armia obrońcy jest w regionie Gondor lub Osgiliath, +1 Combat Strength FP, nadal maksymalnie 5 kości.",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "sourceText": "Dowolna kość w mieście lub twierdzy Gondoru: aktywuj Gondor i przesuń o jeden krok polityczny.",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement",
+            "CouncilAbilityTests.PoliticalAbilityRejectsTheWrongPrintedLocation"
+          ]
+        },
+        {
+          "sourceText": "Poziom 2 tylko do ruchu; poza tym wydrukowany poziom 1.",
+          "tests": [
+            "CouncilAbilityTests.LevelTwoAppliesOnlyToMovementIncludingProjectedRoutes"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Start Minas Tirith ujawnia wersję i liczy się do Council tokenów.",
+          "tests": [
+            "CouncilSetupTests.HomelandsGrantExactlyZeroOneChosenOrBothTokensAndRevealOnlyDepartures"
+          ]
+        },
+        {
+          "sourceText": "Hunt po oddzieleniu i restart podczas kolejnego Guide; grupa ma jeden wspólny cel.",
+          "tests": [
+            "CouncilHuntTests.ThreeSeparatingGuidesFormOneGroupUsingMovementLevelTwoAndPersistEachGuide",
+            "CouncilPersistenceTests.HuntDepartureRestoresTheGroupBeforeChoosingItsNextGuide"
+          ]
+        },
+        {
+          "sourceText": "Champion działa po obu stronach bitwy wyłącznie w Gondor lub Osgiliath; limit 5.",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "sourceText": "Poziom 1 do Hunt/kart; 2 tylko do ruchu.",
+          "tests": [
+            "CouncilAbilityTests.LevelTwoAppliesOnlyToMovementIncludingProjectedRoutes",
+            "CouncilHuntTests.AlternateCasualtyAbsorbsOneDamageAndDoesNotReturn"
+          ]
+        },
+        {
+          "sourceText": "Nie kopiuj ikony narodu ani kontroli unconquered z bazowej wersji.",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.gimli",
+      "entryTests": [
+        "CouncilSetupTests.AllHiddenVersionsHaveIdenticalShadowPayloadAndAlwaysTheSameHomelandDecision",
+        "CouncilSetupTests.DuplicateVersionsAndCouncilAlternatesWithoutVariantAreRejected",
+        "CouncilSetupTests.HomelandsGrantExactlyZeroOneChosenOrBothTokensAndRevealOnlyDepartures"
+      ],
+      "exitTests": [
+        "CouncilHuntTests.AlternateCasualtyAbsorbsOneDamageAndDoesNotReturn"
+      ],
+      "abilities": [
+        {
+          "id": "guide-separate-to-reduce-hunt-one",
+          "tests": [
+            "CouncilHuntTests.ThreeSeparatingGuidesFormOneGroupUsingMovementLevelTwoAndPersistEachGuide",
+            "CouncilHuntTests.AlternateGuidesMaySeparateAtZeroDamageUnlikeBaseHobbits"
+          ]
+        },
+        {
+          "id": "champion-dwarves",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "id": "messenger-dwarves",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement",
+            "CouncilAbilityTests.PoliticalAbilityRejectsTheWrongPrintedLocation"
+          ]
+        },
+        {
+          "id": "movement-level-two",
+          "tests": [
+            "CouncilAbilityTests.LevelTwoAppliesOnlyToMovementIncludingProjectedRoutes"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Guide: opcjonalne oddzielenie podczas Hunt zmniejsza obrażenia o 1, minimum 0. Kilku takich przewodników oddzielanych z jednego kafla tworzy jedną grupę.",
+          "tests": [
+            "CouncilHuntTests.ThreeSeparatingGuidesFormOneGroupUsingMovementLevelTwoAndPersistEachGuide",
+            "CouncilHuntTests.AlternateGuidesMaySeparateAtZeroDamageUnlikeBaseHobbits"
+          ]
+        },
+        {
+          "sourceText": "Champion: jeśli uczestniczy w bitwie, a armia obrońcy jest w regionie Dwarves, +1 Combat Strength FP, nadal maksymalnie 5 kości.",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "sourceText": "Dowolna kość w Ereborze: aktywuj Dwarves i przesuń o jeden krok polityczny.",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement",
+            "CouncilAbilityTests.PoliticalAbilityRejectsTheWrongPrintedLocation"
+          ]
+        },
+        {
+          "sourceText": "Poziom 2 tylko do ruchu; poza tym wydrukowany poziom 1.",
+          "tests": [
+            "CouncilAbilityTests.LevelTwoAppliesOnlyToMovementIncludingProjectedRoutes"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Start Erebor ujawnia wersję i liczy się do Council tokenów.",
+          "tests": [
+            "CouncilSetupTests.HomelandsGrantExactlyZeroOneChosenOrBothTokensAndRevealOnlyDepartures"
+          ]
+        },
+        {
+          "sourceText": "Hunt po oddzieleniu i restart podczas kolejnego Guide; grupa ma jeden wspólny cel.",
+          "tests": [
+            "CouncilHuntTests.ThreeSeparatingGuidesFormOneGroupUsingMovementLevelTwoAndPersistEachGuide",
+            "CouncilPersistenceTests.HuntDepartureRestoresTheGroupBeforeChoosingItsNextGuide"
+          ]
+        },
+        {
+          "sourceText": "Champion działa po obu stronach bitwy wyłącznie w Dwarves; limit 5.",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "sourceText": "Poziom 1 do Hunt/kart; 2 tylko do ruchu.",
+          "tests": [
+            "CouncilAbilityTests.LevelTwoAppliesOnlyToMovementIncludingProjectedRoutes",
+            "CouncilHuntTests.AlternateCasualtyAbsorbsOneDamageAndDoesNotReturn"
+          ]
+        },
+        {
+          "sourceText": "Nie kopiuj ikony narodu ani kontroli unconquered z bazowej wersji.",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.legolas",
+      "entryTests": [
+        "CouncilSetupTests.AllHiddenVersionsHaveIdenticalShadowPayloadAndAlwaysTheSameHomelandDecision",
+        "CouncilSetupTests.DuplicateVersionsAndCouncilAlternatesWithoutVariantAreRejected",
+        "CouncilSetupTests.HomelandsGrantExactlyZeroOneChosenOrBothTokensAndRevealOnlyDepartures"
+      ],
+      "exitTests": [
+        "CouncilHuntTests.AlternateCasualtyAbsorbsOneDamageAndDoesNotReturn"
+      ],
+      "abilities": [
+        {
+          "id": "guide-separate-to-reduce-hunt-one",
+          "tests": [
+            "CouncilHuntTests.ThreeSeparatingGuidesFormOneGroupUsingMovementLevelTwoAndPersistEachGuide",
+            "CouncilHuntTests.AlternateGuidesMaySeparateAtZeroDamageUnlikeBaseHobbits"
+          ]
+        },
+        {
+          "id": "champion-elves",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "id": "prince-of-mirkwood",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement",
+            "CouncilAbilityTests.PoliticalAbilityRejectsTheWrongPrintedLocation"
+          ]
+        },
+        {
+          "id": "movement-level-two",
+          "tests": [
+            "CouncilAbilityTests.LevelTwoAppliesOnlyToMovementIncludingProjectedRoutes"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Guide: opcjonalne oddzielenie podczas Hunt zmniejsza obrażenia o 1, minimum 0. Kilku takich przewodników oddzielanych z jednego kafla tworzy jedną grupę.",
+          "tests": [
+            "CouncilHuntTests.ThreeSeparatingGuidesFormOneGroupUsingMovementLevelTwoAndPersistEachGuide",
+            "CouncilHuntTests.AlternateGuidesMaySeparateAtZeroDamageUnlikeBaseHobbits"
+          ]
+        },
+        {
+          "sourceText": "Champion: jeśli uczestniczy w bitwie, a armia obrońcy jest w regionie Elves, +1 Combat Strength FP, nadal maksymalnie 5 kości.",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "sourceText": "Dowolna kość w twierdzy Elfów: przesuń Elves o jeden krok polityczny. Aktywacja narodu wynika osobno z ikony Elfów, nie z dodatkowego tekstu tej zdolności.",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement",
+            "CouncilAbilityTests.PoliticalAbilityRejectsTheWrongPrintedLocation"
+          ]
+        },
+        {
+          "sourceText": "Poziom 2 tylko do ruchu; poza tym wydrukowany poziom 1.",
+          "tests": [
+            "CouncilAbilityTests.LevelTwoAppliesOnlyToMovementIncludingProjectedRoutes"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Start Woodland Realm ujawnia wersję i liczy się do Council tokenów.",
+          "tests": [
+            "CouncilSetupTests.HomelandsGrantExactlyZeroOneChosenOrBothTokensAndRevealOnlyDepartures"
+          ]
+        },
+        {
+          "sourceText": "Hunt po oddzieleniu i restart podczas kolejnego Guide; grupa ma jeden wspólny cel.",
+          "tests": [
+            "CouncilHuntTests.ThreeSeparatingGuidesFormOneGroupUsingMovementLevelTwoAndPersistEachGuide",
+            "CouncilPersistenceTests.HuntDepartureRestoresTheGroupBeforeChoosingItsNextGuide"
+          ]
+        },
+        {
+          "sourceText": "Champion działa po obu stronach bitwy wyłącznie w Elves; limit 5.",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "sourceText": "Poziom 1 do Hunt/kart; 2 tylko do ruchu.",
+          "tests": [
+            "CouncilAbilityTests.LevelTwoAppliesOnlyToMovementIncludingProjectedRoutes",
+            "CouncilHuntTests.AlternateCasualtyAbsorbsOneDamageAndDoesNotReturn"
+          ]
+        },
+        {
+          "sourceText": "Nie kopiuj ikony narodu ani kontroli unconquered z bazowej wersji.",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.merry",
+      "entryTests": [
+        "CouncilSetupTests.AllHiddenVersionsHaveIdenticalShadowPayloadAndAlwaysTheSameHomelandDecision",
+        "CouncilSetupTests.DuplicateVersionsAndCouncilAlternatesWithoutVariantAreRejected",
+        "CouncilSetupTests.HomelandsGrantExactlyZeroOneChosenOrBothTokensAndRevealOnlyDepartures"
+      ],
+      "exitTests": [
+        "CouncilHuntTests.BothAlternateHobbitsCancelStandardEyeOrRevealWithoutBattleReturn",
+        "CouncilHobbitBattleTests.AnnihilatedHobbitsChooseAdjacentRegionsIndividuallyBeforeBattleResumes",
+        "CouncilHobbitBattleTests.CombatCardEliminationReturnsHobbitBeforeItsParentEffectContinues"
+      ],
+      "abilities": [
+        {
+          "id": "guide-cancel-standard-hunt",
+          "tests": [
+            "CouncilHuntTests.BothAlternateHobbitsCancelStandardEyeOrRevealWithoutBattleReturn",
+            "CouncilHuntTests.UnknownPartnerVersionDoesNotLeakThroughReactionWindowOrOpponentOptions",
+            "CouncilHuntTests.HobbitGuideDoesNotCancelSpecialHuntTile"
+          ]
+        },
+        {
+          "id": "champion-north",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "id": "art-of-disappearing",
+          "tests": [
+            "CouncilHobbitBattleTests.AnnihilatedHobbitsChooseAdjacentRegionsIndividuallyBeforeBattleResumes",
+            "CouncilHobbitBattleTests.ReturningHobbitCannotEnterBesiegedStrongholdOrCrossImpassableBorder",
+            "CouncilHobbitBattleTests.CombatCardEliminationReturnsHobbitBeforeItsParentEffectContinues",
+            "CouncilHobbitBattleTests.CancelledAbilityOrEliminationOutsideBattleDoesNotReturnHobbit"
+          ]
+        },
+        {
+          "id": "messenger-north",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Guide: podczas Hunt można wyeliminować Meriadoc i Peregrin, oboje w wersji Hobbit of the Shire i oboje w Drużynie, aby anulować standardowy kafel Hunt.",
+          "tests": [
+            "CouncilHuntTests.BothAlternateHobbitsCancelStandardEyeOrRevealWithoutBattleReturn",
+            "CouncilHuntTests.UnknownPartnerVersionDoesNotLeakThroughReactionWindowOrOpponentOptions",
+            "CouncilHuntTests.HobbitGuideDoesNotCancelSpecialHuntTile"
+          ]
+        },
+        {
+          "sourceText": "Champion of the Shire: udział w bitwie z armią obrońcy w regionie North daje +1 Combat Strength FP, do maksimum 5 kości.",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "sourceText": "Art of Disappearing: po eliminacji w bitwie wraca do sąsiedniego regionu według normalnego ruchu Towarzyszy; FAQ wyklucza oblężoną twierdzę.",
+          "tests": [
+            "CouncilHobbitBattleTests.AnnihilatedHobbitsChooseAdjacentRegionsIndividuallyBeforeBattleResumes",
+            "CouncilHobbitBattleTests.ReturningHobbitCannotEnterBesiegedStrongholdOrCrossImpassableBorder",
+            "CouncilHobbitBattleTests.CombatCardEliminationReturnsHobbitBeforeItsParentEffectContinues",
+            "CouncilHobbitBattleTests.CancelledAbilityOrEliminationOutsideBattleDoesNotReturnHobbit"
+          ]
+        },
+        {
+          "sourceText": "Messenger of Elrond: dowolna kość w North City aktywuje North i przesuwa o jeden krok polityczny. Brak ikony narodu.",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Obaj alternatywni Hobbitowie mogą anulować standardowy Eye lub kafel z reveal; wersja bazowa partnera nie spełnia warunku.",
+          "tests": [
+            "CouncilHuntTests.BothAlternateHobbitsCancelStandardEyeOrRevealWithoutBattleReturn",
+            "CouncilHuntTests.UnknownPartnerVersionDoesNotLeakThroughReactionWindowOrOpponentOptions"
+          ]
+        },
+        {
+          "sourceText": "Nie anuluje specjalnego kafla Hunt.",
+          "tests": [
+            "CouncilHuntTests.HobbitGuideDoesNotCancelSpecialHuntTile"
+          ]
+        },
+        {
+          "sourceText": "Koszt eliminuje obu i nie wskrzesza ich przez zdolność bojową.",
+          "tests": [
+            "CouncilHuntTests.BothAlternateHobbitsCancelStandardEyeOrRevealWithoutBattleReturn"
+          ]
+        },
+        {
+          "sourceText": "Po bitwie wybór sąsiedniego legalnego regionu; oblężona twierdza i nieprzekraczalna granica odrzucone.",
+          "tests": [
+            "CouncilHobbitBattleTests.AnnihilatedHobbitsChooseAdjacentRegionsIndividuallyBeforeBattleResumes",
+            "CouncilHobbitBattleTests.ReturningHobbitCannotEnterBesiegedStrongholdOrCrossImpassableBorder"
+          ]
+        },
+        {
+          "sourceText": "Samo wejście do North City nie aktywuje narodu bez dodatkowej płatnej zdolności.",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement",
+            "CouncilSetupTests.HomelandsGrantExactlyZeroOneChosenOrBothTokensAndRevealOnlyDepartures"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.pippin",
+      "entryTests": [
+        "CouncilSetupTests.AllHiddenVersionsHaveIdenticalShadowPayloadAndAlwaysTheSameHomelandDecision",
+        "CouncilSetupTests.DuplicateVersionsAndCouncilAlternatesWithoutVariantAreRejected",
+        "CouncilSetupTests.HomelandsGrantExactlyZeroOneChosenOrBothTokensAndRevealOnlyDepartures"
+      ],
+      "exitTests": [
+        "CouncilHuntTests.BothAlternateHobbitsCancelStandardEyeOrRevealWithoutBattleReturn",
+        "CouncilHobbitBattleTests.AnnihilatedHobbitsChooseAdjacentRegionsIndividuallyBeforeBattleResumes",
+        "CouncilHobbitBattleTests.CombatCardEliminationReturnsHobbitBeforeItsParentEffectContinues"
+      ],
+      "abilities": [
+        {
+          "id": "guide-cancel-standard-hunt",
+          "tests": [
+            "CouncilHuntTests.BothAlternateHobbitsCancelStandardEyeOrRevealWithoutBattleReturn",
+            "CouncilHuntTests.UnknownPartnerVersionDoesNotLeakThroughReactionWindowOrOpponentOptions",
+            "CouncilHuntTests.HobbitGuideDoesNotCancelSpecialHuntTile"
+          ]
+        },
+        {
+          "id": "champion-north",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "id": "art-of-disappearing",
+          "tests": [
+            "CouncilHobbitBattleTests.AnnihilatedHobbitsChooseAdjacentRegionsIndividuallyBeforeBattleResumes",
+            "CouncilHobbitBattleTests.ReturningHobbitCannotEnterBesiegedStrongholdOrCrossImpassableBorder",
+            "CouncilHobbitBattleTests.CombatCardEliminationReturnsHobbitBeforeItsParentEffectContinues",
+            "CouncilHobbitBattleTests.CancelledAbilityOrEliminationOutsideBattleDoesNotReturnHobbit"
+          ]
+        },
+        {
+          "id": "messenger-north",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Guide: podczas Hunt można wyeliminować Peregrin i Meriadoc, oboje w wersji Hobbit of the Shire i oboje w Drużynie, aby anulować standardowy kafel Hunt.",
+          "tests": [
+            "CouncilHuntTests.BothAlternateHobbitsCancelStandardEyeOrRevealWithoutBattleReturn",
+            "CouncilHuntTests.UnknownPartnerVersionDoesNotLeakThroughReactionWindowOrOpponentOptions",
+            "CouncilHuntTests.HobbitGuideDoesNotCancelSpecialHuntTile"
+          ]
+        },
+        {
+          "sourceText": "Champion of the Shire: udział w bitwie z armią obrońcy w regionie North daje +1 Combat Strength FP, do maksimum 5 kości.",
+          "tests": [
+            "CouncilAbilityTests.ChampionUsesDefendersRegionForEitherSideAndCapsCombatAtFive"
+          ]
+        },
+        {
+          "sourceText": "Art of Disappearing: po eliminacji w bitwie wraca do sąsiedniego regionu według normalnego ruchu Towarzyszy; FAQ wyklucza oblężoną twierdzę.",
+          "tests": [
+            "CouncilHobbitBattleTests.AnnihilatedHobbitsChooseAdjacentRegionsIndividuallyBeforeBattleResumes",
+            "CouncilHobbitBattleTests.ReturningHobbitCannotEnterBesiegedStrongholdOrCrossImpassableBorder",
+            "CouncilHobbitBattleTests.CombatCardEliminationReturnsHobbitBeforeItsParentEffectContinues",
+            "CouncilHobbitBattleTests.CancelledAbilityOrEliminationOutsideBattleDoesNotReturnHobbit"
+          ]
+        },
+        {
+          "sourceText": "Messenger of Elrond: dowolna kość w North City aktywuje North i przesuwa o jeden krok polityczny. Brak ikony narodu.",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Obaj alternatywni Hobbitowie mogą anulować standardowy Eye lub kafel z reveal; wersja bazowa partnera nie spełnia warunku.",
+          "tests": [
+            "CouncilHuntTests.BothAlternateHobbitsCancelStandardEyeOrRevealWithoutBattleReturn",
+            "CouncilHuntTests.UnknownPartnerVersionDoesNotLeakThroughReactionWindowOrOpponentOptions"
+          ]
+        },
+        {
+          "sourceText": "Nie anuluje specjalnego kafla Hunt.",
+          "tests": [
+            "CouncilHuntTests.HobbitGuideDoesNotCancelSpecialHuntTile"
+          ]
+        },
+        {
+          "sourceText": "Koszt eliminuje obu i nie wskrzesza ich przez zdolność bojową.",
+          "tests": [
+            "CouncilHuntTests.BothAlternateHobbitsCancelStandardEyeOrRevealWithoutBattleReturn"
+          ]
+        },
+        {
+          "sourceText": "Po bitwie wybór sąsiedniego legalnego regionu; oblężona twierdza i nieprzekraczalna granica odrzucone.",
+          "tests": [
+            "CouncilHobbitBattleTests.AnnihilatedHobbitsChooseAdjacentRegionsIndividuallyBeforeBattleResumes",
+            "CouncilHobbitBattleTests.ReturningHobbitCannotEnterBesiegedStrongholdOrCrossImpassableBorder"
+          ]
+        },
+        {
+          "sourceText": "Samo wejście do North City nie aktywuje narodu bez dodatkowej płatnej zdolności.",
+          "tests": [
+            "CouncilAbilityTests.PoliticalAbilityUsesAnyDieWithExactIconAndNoUnconqueredRequirement",
+            "CouncilSetupTests.HomelandsGrantExactlyZeroOneChosenOrBothTokensAndRevealOnlyDepartures"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lords.character.strider",
+      "entryTests": [
+        "CouncilSetupTests.AllHiddenVersionsHaveIdenticalShadowPayloadAndAlwaysTheSameHomelandDecision",
+        "CouncilSetupTests.DuplicateVersionsAndCouncilAlternatesWithoutVariantAreRejected"
+      ],
+      "exitTests": [
+        "CouncilStriderTests.HuntStillOccursAndCasualtyOrGuideChangeDoesNotLoseTheSavedDieDestination",
+        "CouncilStriderTests.AlternateStriderCannotHideWithAnyDieAndTransformsUsingTheSameFigure"
+      ],
+      "abilities": [
+        {
+          "id": "guide-first-move-to-fellowship-box",
+          "tests": [
+            "CouncilStriderTests.OnlyFirstMovementDieQualifiesUsingProgressBeforeMovement",
+            "CouncilStriderTests.HuntStillOccursAndCasualtyOrGuideChangeDoesNotLoseTheSavedDieDestination",
+            "CouncilStriderTests.ChangingGuideDoesNotResetFirstMoveAndTheNextTurnDoes",
+            "CouncilStriderTests.FellowshipBoxDieRecoversWithoutActivatingNaryaOrMandatoryHunt",
+            "CouncilStriderTests.VilyaMayKeepTheDieButDoesNotResetStridersFirstMovement"
+          ]
+        },
+        {
+          "id": "combat-strength-plus-one",
+          "tests": [
+            "CouncilCardTests.AlternateStriderQualifiesForKingEventsAndAndurilWithoutGainingHideAbility"
+          ]
+        },
+        {
+          "id": "may-transform-to-aragorn",
+          "tests": [
+            "CouncilStriderTests.AlternateStriderCannotHideWithAnyDieAndTransformsUsingTheSameFigure"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Guide: gdy postęp Drużyny wynosi co najmniej 1, pierwsza kość użyta do jej ruchu w tej turze trafia do Fellowship Box zamiast Hunt; odzyskiwana normalnie w następnej turze.",
+          "tests": [
+            "CouncilStriderTests.OnlyFirstMovementDieQualifiesUsingProgressBeforeMovement",
+            "CouncilStriderTests.HuntStillOccursAndCasualtyOrGuideChangeDoesNotLoseTheSavedDieDestination",
+            "CouncilStriderTests.ChangingGuideDoesNotResetFirstMoveAndTheNextTurnDoes",
+            "CouncilStriderTests.FellowshipBoxDieRecoversWithoutActivatingNaryaOrMandatoryHunt",
+            "CouncilStriderTests.VilyaMayKeepTheDieButDoesNotResetStridersFirstMovement"
+          ]
+        },
+        {
+          "sourceText": "Captain of the West: udział w bitwie daje +1 Combat Strength FP, maksymalnie 5 kości.",
+          "tests": [
+            "CouncilCardTests.AlternateStriderQualifiesForKingEventsAndAndurilWithoutGainingHideAbility"
+          ]
+        },
+        {
+          "sourceText": "Heir to Isildur: poza Drużyną może zostać zastąpiony Aragornem na warunkach bazowej karty Aragorna.",
+          "tests": [
+            "CouncilStriderTests.AlternateStriderCannotHideWithAnyDieAndTransformsUsingTheSameFigure"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Pierwszy ruch przy postępie 0 nie spełnia warunku; drugi w tej turze nie staje się pierwszym.",
+          "tests": [
+            "CouncilStriderTests.OnlyFirstMovementDieQualifiesUsingProgressBeforeMovement"
+          ]
+        },
+        {
+          "sourceText": "Pierwszy ruch przy postępie 1 pomija Hunt Box, ale nie sam Hunt.",
+          "tests": [
+            "CouncilStriderTests.HuntStillOccursAndCasualtyOrGuideChangeDoesNotLoseTheSavedDieDestination"
+          ]
+        },
+        {
+          "sourceText": "Powtórne zostanie Guide nie resetuje znaczenia pierwszej kości ruchu w turze.",
+          "tests": [
+            "CouncilStriderTests.ChangingGuideDoesNotResetFirstMoveAndTheNextTurnDoes"
+          ]
+        },
+        {
+          "sourceText": "Kość w Fellowship Box nie liczy się jak FP die odzyskana z Hunt.",
+          "tests": [
+            "CouncilStriderTests.FellowshipBoxDieRecoversWithoutActivatingNaryaOrMandatoryHunt"
+          ]
+        },
+        {
+          "sourceText": "Brak bazowej zdolności Hide dowolną kością; transformacja poza Drużyną.",
+          "tests": [
+            "CouncilStriderTests.AlternateStriderCannotHideWithAnyDieAndTransformsUsingTheSameFigure"
+          ]
+        }
+      ]
+    }
+  ],
+  "integrationTests": [
+    "CouncilPersistenceTests.PrivateVersionsPersistWithoutLeakingThroughOpponentPreviewOrRetry",
+    "CouncilPersistenceTests.HomelandDeclarationRestoresItsRevealsAndPendingShadowChoice",
+    "CouncilPersistenceTests.EitherShadowTokenChoiceSurvivesRestart",
+    "CouncilPersistenceTests.TokenUsePersistsItsEffectAndTurnLimitWithoutAnyPaidDie",
+    "CouncilPersistenceTests.HuntDepartureRestoresTheGroupBeforeChoosingItsNextGuide",
+    "CouncilPersistenceTests.CancelledTilePersistsBothHobbitCostsWithoutRevivingEither",
+    "CouncilPersistenceTests.HobbitReturnRestoresItsRegionChoiceAndTheOtherHobbitsContinuation",
+    "CouncilPersistenceTests.StriderPersistsFellowshipBoxDestinationWhileResolvingTheHunt"
+  ]
+}
