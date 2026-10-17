@@ -120,7 +120,21 @@ def download(settings, assets, upload, published):
         raise Refused(f"No GitHub release {settings.tag} in {settings.repository}; tag it and wait for Release (DIST-10).")
     sums = settings.folder / "SHA256SUMS.remote"
     sums.unlink(missing_ok=True)
-    run("gh", "release", "download", settings.tag, "-R", settings.repository, "-p", "SHA256SUMS", "-O", str(sums))
+    sums_partial = settings.folder / ".checksum.partial"
+    shutil.rmtree(sums_partial, ignore_errors=True)
+    sums_partial.mkdir()
+    try:
+        # `gh release download` has a destination-directory option, not curl's `-O` output option.
+        # Download into a private temporary directory so a failed command cannot leave a checksum
+        # that a later release attempt mistakes for the current draft.
+        run("gh", "release", "download", settings.tag, "-R", settings.repository,
+            "-p", "SHA256SUMS", "-D", str(sums_partial))
+        downloaded_sums = sums_partial / "SHA256SUMS"
+        if not downloaded_sums.is_file():
+            raise Refused(f"{settings.tag} did not provide the SHA256SUMS release asset.")
+        downloaded_sums.replace(sums)
+    finally:
+        shutil.rmtree(sums_partial, ignore_errors=True)
     if (assets / "SHA256SUMS").is_file() and (assets / "SHA256SUMS").read_bytes() == sums.read_bytes():
         return
     if assets.exists():

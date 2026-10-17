@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import tempfile
 import threading
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 import zipfile
@@ -94,6 +95,33 @@ class DraftChecksTests(unittest.TestCase):
         with self.assertRaises(CLIENT.Refused):
             CLIENT.check_assets(self.assets, VERSION, COMMIT)
 
+
+class DownloadTests(unittest.TestCase):
+    def test_checksum_uses_gh_destination_directory_and_is_moved_atomically(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            work = Path(temporary)
+            assets = work / VERSION / "assets"
+            write_draft(assets)
+            expected = (assets / "SHA256SUMS").read_bytes()
+            calls = []
+
+            def command(*args, **_):
+                calls.append(args)
+                if args[:3] == ("gh", "release", "view"):
+                    return SimpleNamespace(returncode=0, stdout=json.dumps({"isDraft": True}), stderr="")
+                destination = Path(args[args.index("-D") + 1])
+                destination.mkdir(parents=True, exist_ok=True)
+                (destination / "SHA256SUMS").write_bytes(expected)
+                return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+            with patch.object(CLIENT, "run", side_effect=command):
+                CLIENT.download(settings(work), assets, work / VERSION / "upload", published=False)
+
+            checksum_download = calls[1]
+            self.assertNotIn("-O", checksum_download)
+            self.assertIn("-D", checksum_download)
+            self.assertEqual(expected, (work / VERSION / "SHA256SUMS.remote").read_bytes())
+            self.assertFalse((work / VERSION / ".checksum.partial").exists())
 
 def settings(work, **changes):
     values = dict(version=VERSION, repository="owner/wotr-client", host="omarchy", host_checkout="~/wotr-server",
