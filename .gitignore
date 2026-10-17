@@ -54,3 +54,8 @@ unity/**/Assets/InitTestScene*.unity.meta
 /graphicalassets/region-map/corrections/shire-v3/detail-overlay.png
 /graphicalassets/region-map/corrections/shire-v3/user-source.png
 /graphicalassets/region-map/reference/source-overlay.jpg
+
+# The task registry and roadmap are local-only (user decision 2026-10-17): tasks.json, completions.json, task
+# documents, the generated index and the testing log stay on the working machine and never enter the repository.
+/docs/tasks/
+/docs/ROADMAP.md

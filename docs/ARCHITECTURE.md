@@ -35,7 +35,7 @@ and REPLAY-01–REPLAY-07 (R33/R34). The following is not code acceptance:
   for the step's presentation, including sequential effects on both tracks;
   manual navigation does not replay gameplay events.
 
-The [registry](tasks/INDEX.md) determines status and work order; this request
+The registry determines status and work order; this request
 creates documentation and tasks only.
 
 OBS-01 (2026-10-16): room observers live in `room_observers`, with a lease based

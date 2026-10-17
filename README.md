@@ -45,20 +45,22 @@ covers 93 legal configurations; UI evidence and its limits are in
 [TESTING](docs/TESTING.md). Final client regression: **198/198 EditMode and
 270/270 PlayMode PASS**, including complete base and expansion games.
 
-[Setup and tests](docs/DEVELOPMENT.md) · [Building packages](https://github.com/jpolaczek/wotr-client/blob/d43f852e31189a12f379ef55661b787deedb19e3/release/README.md) · [Current tasks](docs/tasks/INDEX.md)
+[Setup and tests](docs/DEVELOPMENT.md) · [Building packages](https://github.com/jpolaczek/wotr-client/blob/d43f852e31189a12f379ef55661b787deedb19e3/release/README.md)
 
 <a id="od-czego-zacząć"></a>
 ## Where to start
 
 1. Read the [requirements](docs/REQUIREMENTS.md) and [agent working instructions](AGENTS.md).
 2. Learn the [UI and interactions](https://github.com/jpolaczek/wotr-client/blob/d43f852e31189a12f379ef55661b787deedb19e3/docs/ui/UX_SPEC.md), [game logic](docs/rules/LOGIC.md) and [architecture](docs/ARCHITECTURE.md).
-3. Check [sources and gaps](docs/sources/README.md), then the [implementation stages](docs/ROADMAP.md).
-4. Choose a ready task from the [registry](docs/tasks/INDEX.md) within the stage commissioned by the user.
+3. Check [sources and gaps](docs/sources/README.md).
+4. Work on a task from the local task registry (not in the repository) within the stage commissioned by the user.
 
 <a id="obsługa-zadań"></a>
 ## Task management
 
-Requires Python 3. The script does not install dependencies or access the network.
+The task registry (`docs/tasks/`) and the roadmap are local working files, ignored by Git (2026-10-17).
+`scripts/tasks.py` manages them on the working machine; it requires Python 3, installs nothing and does not
+access the network.
 
 ```sh
 python3 scripts/tasks.py ready --stage A
@@ -68,8 +70,8 @@ python3 scripts/tasks.py validate
 ```
 
 The [workflow](docs/WORKFLOW.md) describes `finish`, `block` and result-recording
-rules. [tasks.json](docs/tasks/tasks.json) stores states, timestamps and history.
-The index is generated, not edited by hand.
+rules. The local tasks.json stores states, timestamps and history; the index is generated, not edited by hand.
+CI reads only the tracked content coverage ledger `docs/rules/content-ledger.json`.
 
 <a id="zakres"></a>
 ## Scope
@@ -91,11 +93,7 @@ the relevant task rather than the entire project.
 - [Expansion integration rules](docs/rules/EXPANSIONS.md)
 - [Design decisions](docs/DECISIONS.md)
 - [UI scenario list](https://github.com/jpolaczek/wotr-client/blob/d43f852e31189a12f379ef55661b787deedb19e3/docs/ui/SCENARIOS.md)
-- [New-task template](docs/tasks/TEMPLATE.md)
-
-Documents describe required behavior. A `done` registry state means the specific
-task was completed with recorded verification; a description alone does not
-mean a feature is ready.
+Documents describe required behavior; a description alone does not mean a feature is ready.
 
 ## The board game
 

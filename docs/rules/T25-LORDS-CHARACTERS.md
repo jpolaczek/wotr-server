@@ -1,7 +1,7 @@
 <a id="t25--postacie-lords-kontrakt-reguł-i-integracji"></a>
 # T25 — Lords characters: rules and integration contract
 
-Implementation contract T25 and the verification protocol. The status and the checks carried out determines [registry](../tasks/tasks.json) Sources: LORDS  s. 6,  16–29, full obverses and cases in [SRC-04](../sources/SRC-04-AUDIT.md) and [index](../sources/lords-character-index.json),  FAQ   v1.2  s. 3 for Sméagol's primacy. [T24](T24-LORDS-DICE-RINGS.md) determines the costs of Rings, throws and Recover. The following describes the required behavior; the description is not a declaration acceptance or performing tests.
+Implementation contract T25 and the verification protocol. The status and the checks carried out determines registry Sources: LORDS  s. 6,  16–29, full obverses and cases in [SRC-04](../sources/SRC-04-AUDIT.md) and [index](../sources/lords-character-index.json),  FAQ   v1.2  s. 3 for Sméagol's primacy. [T24](T24-LORDS-DICE-RINGS.md) determines the costs of Rings, throws and Recover. The following describes the required behavior; the description is not a declaration acceptance or performing tests.
 
 <a id="tożsamość-wersja-i-cykl-życia"></a>
 ## Identity, version and life cycle

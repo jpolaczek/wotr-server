@@ -2,7 +2,10 @@
 set -euo pipefail
 wotr_root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$wotr_root"
-python3 scripts/tasks.py validate
+# The task registry is local-only (docs/tasks, ignored by Git); validate it where it exists.
+if [[ -f docs/tasks/tasks.json ]]; then
+  python3 scripts/tasks.py validate
+fi
 python3 scripts/check_catalog.py
 python3 scripts/source_cards.py
 if [[ -z "${WOTR_TEST_DB:-}" ]]; then

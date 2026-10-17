@@ -2,17 +2,20 @@
 # Task-by-task workflow
 
 Documentation, tracked notes, task descriptions and generated reports use English.
-Conversation may follow the user's language. The active task registry is
-`docs/tasks/tasks.json`; `INDEX.md` is generated. Read AGENTS, the task specification,
-requirements, dependencies and source gates before starting work.
+Conversation may follow the user's language. The task registry is local and ignored by
+Git (user decision 2026-10-17): `docs/tasks/tasks.json` holds the states, `INDEX.md` is
+generated, task specifications, `TEMPLATE.md`, the completion ledger and the testing log
+sit beside it, and `docs/ROADMAP.md` orders the work. Never commit them. Read AGENTS, the
+task specification, requirements, dependencies and source gates before starting work.
 
 ## Documentation maintenance
 
-At the user's request (2026-10-16), delete completed task descriptions and full
-records instead of translating or extending them. Keep only completion identifiers
-and technical coverage assignments in `docs/tasks/completions.json`, so dependency
-checks and card/source validation remain meaningful. Full previous evidence is
-available in Git history. Keep current rules and product specifications even when
+At the user's request (2026-10-16, 2026-10-17), remove completed tasks from the local
+registry instead of translating or extending them. Keep only completion identifiers in
+the local `docs/tasks/completions.json`, so dependency checks remain meaningful; a
+completed card or character pack also enters the tracked
+`docs/rules/content-ledger.json`, which the coverage checks read in CI. Earlier evidence
+is available in Git history. Keep current rules and product specifications even when
 the task that implemented them is complete. Delete superseded documentation and
 replace its links with the current specification; old acceptance results must not
 be presented as evidence for a newer build.

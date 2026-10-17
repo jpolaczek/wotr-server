@@ -129,7 +129,7 @@ Windows but also Linux and the Steam Deck console") and their answers of that da
   with the SmartScreen steps; DIST-13 still records its acceptance on real PCs.
 - Before the release, production runs the newest server, so the installed client connects to it.
 
-Specification: [LNX-01](tasks/LNX-01.md), [LNX-02](tasks/LNX-02.md), [DECK-01](tasks/DECK-01.md).
+Specification: LNX-01, LNX-02, DECK-01.
 
 ## D19 — test scenarios for every account on production (2026-10-17)
 
@@ -143,4 +143,4 @@ test server on the Mac; for now they should be available to all accounts").
 - "For now": the owner may restrict the mode again later (an allowlist or admin accounts); expansion
   scenarios stay off `main` (TEST-05).
 
-Specification: [TEST-08](tasks/TEST-08.md).
+Specification: TEST-08.

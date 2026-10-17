@@ -42,7 +42,7 @@ Scope `scripts/ci_scope.py` Documentation is `docs/**` and files `.md` in the ro
 <a id="stan-odbioru"></a>
 ## Stan acceptance
 
-The results of the individual tasks are in the `docs/tasks/tasks.json`. The user postponed the manual tests. Build Windows on macOS confirms the compilation for Windows, not running on the physical Windows computer. Tests of full game and ergonomics belong to later tasks.
+The results of the individual tasks are in the local task registry (`docs/tasks/`, ignored by Git). The user postponed the manual tests. Build Windows on macOS confirms the compilation for Windows, not running on the physical Windows computer. Tests of full game and ergonomics belong to later tasks.
 
 <a id="postgresql-i-testy-integracyjne"></a>
 ## PostgreSQL and integration tests
@@ -144,7 +144,7 @@ Probe does not control the cursor or the game. Supports native input without Des
 
 `trace.jsonl` saves samples of approximately 20 Hz and Move/Enter/Leave, button events, MouseLeaveWindow and focus. Contains raw Input.mousePosition, inverting Y, ScreenToPanel, boundaries maps/root, capture, Active and Pan. The buffer is emptied every second; when you read a working attempt, skip the finished last row. Limit is 25 000 records, and `Dropped` reveals the excess. A new run should have a separate directory of the report.
 
-The existing `scripts/profile-client.py` and `scripts/review-map-client.py` are profiles of synthetic presentation: they force Windowed, and their guard blocks the physical input. They do not replace the above test. The chapter between the Routing Tests UI, native observations and limitations of platforms is described by [TESTING](TESTING.md#routing-ekranu-i-natywna-granica-okna--ui-84).
+The existing `scripts/profile-client.py` and `scripts/review-map-client.py` are profiles of synthetic presentation: they force Windowed, and their guard blocks the physical input. They do not replace the above test. The chapter between the Routing Tests UI, native observations and limitations of platforms is described by TESTING (UI-84 evidence in Git history).
 
 
 Ready Client with UI-84 Edge Correction:

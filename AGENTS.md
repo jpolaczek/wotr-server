@@ -4,8 +4,12 @@
 <a id="repozytoria"></a>
 ## Repositories
 
-The task registry, ROADMAP, WORKFLOW, requirements, rules and sources live in this
-repository (`wotr-server`) and also cover work on the client in `wotr-client`.
+WORKFLOW, requirements, rules and sources live in this repository (`wotr-server`) and
+also cover work on the client in `wotr-client`. The task registry (`docs/tasks/`:
+`tasks.json`, `completions.json`, task documents, the generated `INDEX.md`, `TEMPLATE.md`
+and the testing log) and `docs/ROADMAP.md` are local working files, ignored by Git
+(user decision 2026-10-17): never commit or publish them. CI reads only the tracked
+content coverage ledger `docs/rules/content-ledger.json`.
 Reference client files as `wotr-client:<path>` in `read_before`, `update_docs` and
 `documentation`, and use GitHub links to the commit pinned in
 `docs/repositories/wotr-client.json`. After client changes, pin the new commit:
@@ -18,7 +22,7 @@ explicit client pin.
 ## Before EVERY task
 
 1. Reread this file, [WORKFLOW](docs/WORKFLOW.md), the task entry in the
-   [registry](docs/tasks/tasks.json) and its individual document. Do not rely only
+   registry and its individual document. Do not rely only
    on memory from a previous session.
 2. Read [REQUIREMENTS](docs/REQUIREMENTS.md), the relevant parts of
    [ARCHITECTURE](docs/ARCHITECTURE.md), [LOGIC](docs/rules/LOGIC.md),
@@ -128,10 +132,13 @@ explicit client pin.
 <a id="ograniczenia-procesu"></a>
 ## Process constraints
 
-- `tasks.json` is the sole source of task states; `INDEX.md` is generated. Each
-  active task's definition lives in its Markdown file. Completed descriptions and full records are removed; the compact completion ledger retains dependency and coverage identifiers.
+- The local `docs/tasks/tasks.json` is the sole source of task states; `INDEX.md` is
+  generated. Each active task's definition lives in its local Markdown file. Completed
+  tasks are removed from the registry; the local completion ledger keeps their
+  identifiers for dependencies, and a completed card or character pack also enters the
+  tracked `docs/rules/content-ledger.json` for the coverage checks.
 - A new task requires a goal, dependencies, sources, logic, acceptance criteria,
-  a verification plan and documents to update. Use the [template](docs/tasks/TEMPLATE.md).
+  a verification plan and documents to update. Use the template.
 - A scope or dependency change requires a ROADMAP update and a graph check. Do
   not remove dependencies merely to start blocked work.
 - Do not deploy or publish without authorization in the request. Do not add

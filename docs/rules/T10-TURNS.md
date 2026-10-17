@@ -64,7 +64,7 @@ The server does not return the future card or the result of the preview throw. T
 
 Performed: scripts V01/V02, both limits Hunt with 0/2   Companion, both discards after full selection, empty deck, phases, side without dice, cost after rejection, reaction without change of contractor, additional dice upon recovery, transmission/usuni ring ring, forbidden walls, second ring and real PostgreSQL played with a new connection before another action Unity checks two sessions and the actual commit with a deliberately lost response HTTP, then receipt recovery, Hunt And the first pitch. 10   dice  /  8   cards  /  3 The rings are located in 1366×768 and 1920×1080.
 
-Restrictions: full text cards They still have gate source; current labels cards is a type and printed number. The implemented range does not represent a full game. Manual user and runtime Windows tests are postponed. The exact commands and end results save [task registry](../tasks/tasks.json).
+Restrictions: full text cards They still have gate source; current labels cards is a type and printed number. The implemented range does not represent a full game. Manual user and runtime Windows tests are postponed. The exact commands and end results save task registry.
 
 <a id="wyniki-zamknięcia-t10"></a>
 ## T10 closure results

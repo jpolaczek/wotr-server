@@ -4,7 +4,7 @@
 <a id="status-dokumentu-i-umocowanie"></a>
 ## Document status and attachment
 
-Source: user's agreement with 2026-10-12 and the order “write this plan into the trays”. DIST-00 receives documentation preparation. DIST-01–[DIST-08](../tasks/DIST-08.md) describes future implementation; their status is only in [Register](../tasks/tasks.json). The creation of the cleavers does not require implementation, push, publication or migration of the active server. It does not change the rules or current release restrictions to the database.
+Source: user's agreement with 2026-10-12 and the order “write this plan into the trays”. DIST-00 receives documentation preparation. DIST-01–DIST-08 describes future implementation; their status is only in Register. The creation of the cleavers does not require implementation, push, publication or migration of the active server. It does not change the rules or current release restrictions to the database.
 
 Requirements: R06/R07/R09–R14/R21/R23–R30. The existing T38/T39 received a local package and release candidate with open postponements. The new acceptance requires installers (from D13 without system signature), actual update of the installed application, Windows runtime, both macOS architectures and Internet access. Changes with 2026-10-14 describes section D13 at the end of the document.
 
@@ -47,7 +47,7 @@ wotr-client includes Unity, presentation, graphics, client tests, building, inst
 
 Contracts maintain compliance with .NET Standard 2.1/Unity. Server publishes UPM .tgz packages and manifests of origin: version, commit, SHA-256. Client has a lock indicating accurate artifacts; bootstrap dependencies download them before opening Unity/CI. No server checkout or latest branch is required. Public content comes exclusively from an existing all-list; keep stable ID and Unity .meta. Full state, seedy, migration, database and secrets do not go to the client's package.
 
-Each repo has an independent build and CI. Client integration uses a fastened server image and a separate seeder artifact, running only test. Central tasks.json, ROADMAP and work history remain in wotr-server. Client documentation has one owner in votr-client; links between repositories identify repo, commit and path. DIST-03 adjusts validation and workflow to these links, without copying editable statuses. The old monorepo remains archive only after acceptance new checkouts.
+Each repo has an independent build and CI. Client integration uses a fastened server image and a separate seeder artifact, running only test. The central task registry, ROADMAP and work history are local working files of wotr-server, not in the repository (2026-10-17). Client documentation has one owner in votr-client; links between repositories identify repo, commit and path. DIST-03 adjusts validation and workflow to these links, without copying editable statuses. The old monorepo remains archive only after acceptance new checkouts.
 
 DS01 Base (DIST-01, 2026-10-13): `claude/dist-01` `155a7e0` connects UI-100–111 with `master` `e81f5b7`, this plan and MENU-08/09 with `codex/menu-tests` `4924cdd`. MENU-08 is `done` based on Codex record from this branch. The owners of monorepo tracks save [MONOREPO_DEPENDENCIES](REPOSITORY_SPLIT.md).
 
@@ -129,18 +129,18 @@ The minimum can be raised only after the availability of the tested packages of 
 | DS12 | Public directory, manifest signature and safe announcement. Made 2026-10-13: `GET /api/client/releases`, Ed25519 (BouncyCastle), `Wotr.ReleaseTool` with atomic directory. | DIST-05 |
 | DS13 | Windows installer for a regular player (from D13 without Authenticode; signature in DIST-12). | DIST-06 |
 | DS14 | MacOS installer of both architectures (from D13 ad-hoc, without notation; signature in DIST-12). | DIST-06 |
-| DS15 | Consent and postpone optional edition, progress and required upgrade. | [DIST-07](../tasks/DIST-07.md) |
-| DS16 | Safe reboot with decision-keeping,journal and data. | [DIST-07](../tasks/DIST-07.md) |
-| DS17 | transfer/substitutions errors, block multiple instances and repair. | [DIST-07](../tasks/DIST-07.md) |
-| DS18 | Actual installation and N → N+1 on all platforms. | [DIST-08](../tasks/DIST-08.md) |
-| DS19 | Two players over the Internet, full party, reconnect and restore. | [DIST-08](../tasks/DIST-08.md) |
-| DS20 | Controlled publication and instructions for subsequent releases/repairs. | [DIST-08](../tasks/DIST-08.md) |
+| DS15 | Consent and postpone optional edition, progress and required upgrade. | DIST-07 |
+| DS16 | Safe reboot with decision-keeping,journal and data. | DIST-07 |
+| DS17 | transfer/substitutions errors, block multiple instances and repair. | DIST-07 |
+| DS18 | Actual installation and N → N+1 on all platforms. | DIST-08 |
+| DS19 | Two players over the Internet, full party, reconnect and restore. | DIST-08 |
+| DS20 | Controlled publication and instructions for subsequent releases/repairs. | DIST-08 |
 | DS21 | Minimum date: catalog, gate by time, operator commands. 2026-10-14: diagram directory 2, `ReleaseSnapshot.Minimum(now)`, `minimum --at`, Contracts 0.4.0. | DIST-09 |
-| DS22 | Automatic download of the required and scheduled version, without permission, with installation on click. | [DIST-07](../tasks/DIST-07.md) |
-| DS23 | Repair of the installation of the current version of Settings (`installed` offer with DIST-09). | [DIST-07](../tasks/DIST-07.md) |
+| DS22 | Automatic download of the required and scheduled version, without permission, with installation on click. | DIST-07 |
+| DS23 | Repair of the installation of the current version of Settings (`installed` offer with DIST-09). | DIST-07 |
 | DS24 | Releases built in CI with tag, that smokes Windows N → N+1. | DIST-10 |
-| DS25 | One command from the publisher on Mac: verification, signature, upload, publication, check. | [DIST-11](../tasks/DIST-11.md) |
-| DS26 | Instructions for the first installation of the unsigned application and page buttons from the directory. | [DIST-11](../tasks/DIST-11.md) |
+| DS25 | One command from the publisher on Mac: verification, signature, upload, publication, check. | DIST-11 |
+| DS26 | Instructions for the first installation of the unsigned application and page buttons from the directory. | DIST-11 |
 
 DIST-01 → DIST-02 → DIST-03 After DIST-03 parallel DIST-04 , DIST-05 and DIST-06 From D13: DIST-09 au DIST-05 ; DIST-10 au DIST-06 ; DIST-07 au DIST-05/06/09 ; DIST-11 au DIST-09/10. Collective DIST-08 After all DIST-01 – 07 and 09–11 . DIST-12 (system signature) is postponed and does not block DIST-08 . MENU-08 is an external dependence DIST-01 . DIST-00 He's not a parent.
 

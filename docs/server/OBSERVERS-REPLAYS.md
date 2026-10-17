@@ -3,7 +3,7 @@
 
 This document specifies observers and local replay behavior (R33/R34). The server
 and client implementation and acceptance tasks have completed; remaining work is
-listed in the [active registry](../tasks/INDEX.md). The implementation details below
+listed in the active registry. The implementation details below
 remain the product contract. Previous task evidence is available in Git history.
 
 State of implementation (2026-10-16):

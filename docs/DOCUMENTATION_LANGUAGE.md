@@ -20,9 +20,10 @@ history was not rewritten.
 ## Removed material
 
 - 405 completed task specifications and full registry entries, including this
-  documentation task after completion. The active registry contains 23 unfinished
-  tasks. The compact `completions.json` ledger preserves only technical dependency
-  and coverage metadata; earlier descriptions/evidence remain in Git history.
+  documentation task after completion; earlier descriptions and evidence remain in
+  Git history. Since 2026-10-17 the whole task registry, the roadmap and the per-task
+  testing log are local working files ignored by Git; the tracked
+  `docs/rules/content-ledger.json` keeps the card and character coverage metadata.
 - The obsolete client UX_LEGACY, WIREFRAMES, UI02-REVIEW and UI05-REVIEW documents,
   replaced by current UX specifications and scenarios.
 - The server MONOREPO_DEPENDENCIES plan, superseded by REPOSITORY_SPLIT.

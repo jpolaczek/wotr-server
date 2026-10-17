@@ -64,7 +64,7 @@ These requirements apply to the engine, server, client and acceptance testing. A
 
 These new user requirements are planned and have not passed implementation acceptance.
 Breakdown and scenarios: [OBSERVERS-REPLAYS](server/OBSERVERS-REPLAYS.md);
-states: [registry](tasks/INDEX.md). This clarifies R04/R11: an authorized
+states: registry. This clarifies R04/R11: an authorized
 observer's role and selected perspective are independent of a player's side;
 a player still does not receive the opponent's hidden data.
 

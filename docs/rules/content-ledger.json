@@ -1,0 +1,981 @@
+{
+  "schema_version": 1,
+  "note": "Content coverage ledger: the completed card and character packs and the source-to-content assignments that the coverage checks (scripts/*coverage*.py, scripts/source_*.py, scripts/fate_acceptance.py) verify in CI. The task registry itself is local-only (docs/tasks, ignored).",
+  "completions": [
+    {
+      "id": "T21-FP-CHAR-01",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.character.01",
+        "base.fp.character.02",
+        "base.fp.character.03",
+        "base.fp.character.04",
+        "base.fp.character.05",
+        "base.fp.character.06"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-CHAR-02",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.character.07",
+        "base.fp.character.08",
+        "base.fp.character.09",
+        "base.fp.character.10",
+        "base.fp.character.11",
+        "base.fp.character.12"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-CHAR-03",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.character.13",
+        "base.fp.character.14",
+        "base.fp.character.15",
+        "base.fp.character.16",
+        "base.fp.character.17",
+        "base.fp.character.18"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-CHAR-04",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.character.19",
+        "base.fp.character.20",
+        "base.fp.character.21",
+        "base.fp.character.22",
+        "base.fp.character.23",
+        "base.fp.character.24"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-STR-01",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.strategy.01",
+        "base.fp.strategy.02",
+        "base.fp.strategy.03",
+        "base.fp.strategy.04",
+        "base.fp.strategy.05",
+        "base.fp.strategy.06"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-STR-02",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.strategy.07",
+        "base.fp.strategy.08",
+        "base.fp.strategy.09",
+        "base.fp.strategy.10",
+        "base.fp.strategy.11",
+        "base.fp.strategy.12"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-STR-03",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.strategy.13",
+        "base.fp.strategy.14",
+        "base.fp.strategy.15",
+        "base.fp.strategy.16",
+        "base.fp.strategy.17",
+        "base.fp.strategy.18"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-FP-STR-04",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.fp.strategy.19",
+        "base.fp.strategy.20",
+        "base.fp.strategy.21",
+        "base.fp.strategy.22",
+        "base.fp.strategy.23",
+        "base.fp.strategy.24"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-CHAR-01",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.character.01",
+        "base.sh.character.02",
+        "base.sh.character.03",
+        "base.sh.character.04",
+        "base.sh.character.05",
+        "base.sh.character.06"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-CHAR-02",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.character.07",
+        "base.sh.character.08",
+        "base.sh.character.09",
+        "base.sh.character.10",
+        "base.sh.character.11",
+        "base.sh.character.12"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-CHAR-03",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.character.13",
+        "base.sh.character.14",
+        "base.sh.character.15",
+        "base.sh.character.16",
+        "base.sh.character.17",
+        "base.sh.character.18"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-CHAR-04",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.character.19",
+        "base.sh.character.20",
+        "base.sh.character.21",
+        "base.sh.character.22",
+        "base.sh.character.23",
+        "base.sh.character.24"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-STR-01",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.strategy.01",
+        "base.sh.strategy.02",
+        "base.sh.strategy.03",
+        "base.sh.strategy.04",
+        "base.sh.strategy.05",
+        "base.sh.strategy.06"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-STR-02",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.strategy.07",
+        "base.sh.strategy.08",
+        "base.sh.strategy.09",
+        "base.sh.strategy.10",
+        "base.sh.strategy.11",
+        "base.sh.strategy.12"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-STR-03",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.strategy.13",
+        "base.sh.strategy.14",
+        "base.sh.strategy.15",
+        "base.sh.strategy.16",
+        "base.sh.strategy.17",
+        "base.sh.strategy.18"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T21-SH-STR-04",
+      "stage": "C",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "base",
+      "content_ids": [
+        "base.sh.strategy.19",
+        "base.sh.strategy.20",
+        "base.sh.strategy.21",
+        "base.sh.strategy.22",
+        "base.sh.strategy.23",
+        "base.sh.strategy.24"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md"
+      ]
+    },
+    {
+      "id": "T25",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "character_count": 8,
+      "character_ids": [
+        "lords.character.elrond",
+        "lords.character.galadriel",
+        "lords.character.gandalf-grey",
+        "lords.character.smeagol",
+        "lords.character.balrog",
+        "lords.character.gothmog",
+        "lords.character.mouth-of-sauron",
+        "lords.character.witch-king"
+      ]
+    },
+    {
+      "id": "T26",
+      "stage": "D",
+      "requirements": [
+        "R03",
+        "R09",
+        "R11",
+        "R13",
+        "R20"
+      ],
+      "character_count": 6,
+      "character_ids": [
+        "lords.character.boromir",
+        "lords.character.gimli",
+        "lords.character.legolas",
+        "lords.character.merry",
+        "lords.character.pippin",
+        "lords.character.strider"
+      ]
+    },
+    {
+      "id": "T27-CARDS-01",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "lords",
+      "content_ids": [
+        "lords.fp.character.25",
+        "lords.fp.character.26",
+        "lords.fp.character.27",
+        "lords.fp.character.28",
+        "lords.fp.strategy.25",
+        "lords.fp.strategy.26"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-03-AUDIT.md",
+        "docs/sources/lords-card-index.json"
+      ]
+    },
+    {
+      "id": "T27-CARDS-02",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "lords",
+      "content_ids": [
+        "lords.sh.character.17",
+        "lords.sh.character.25",
+        "lords.sh.character.26",
+        "lords.sh.character.27",
+        "lords.sh.character.28",
+        "lords.sh.strategy.25"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-03-AUDIT.md",
+        "docs/sources/lords-card-index.json"
+      ]
+    },
+    {
+      "id": "T27-CARDS-03",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 2,
+      "content_group": "lords",
+      "content_ids": [
+        "lords.sh.strategy.26",
+        "lords.sh.special.05"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-03-AUDIT.md",
+        "docs/sources/lords-card-index.json"
+      ]
+    },
+    {
+      "id": "T28",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R09",
+        "R11",
+        "R13",
+        "R14",
+        "R25"
+      ],
+      "character_count": 10,
+      "character_ids": [
+        "kings.character.brand.awakened",
+        "kings.character.brand.corrupted",
+        "kings.character.dain.awakened",
+        "kings.character.dain.corrupted",
+        "kings.character.denethor.awakened",
+        "kings.character.denethor.corrupted",
+        "kings.character.theoden.awakened",
+        "kings.character.theoden.corrupted",
+        "kings.character.thranduil.awakened",
+        "kings.character.thranduil.corrupted"
+      ]
+    },
+    {
+      "id": "T29",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R09",
+        "R12",
+        "R13",
+        "R20"
+      ],
+      "character_count": 3,
+      "character_ids": [
+        "kings.character.black-serpent",
+        "kings.character.shadow-of-mirkwood",
+        "kings.character.ugluk"
+      ]
+    },
+    {
+      "id": "T30-CARDS-01",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "kings",
+      "content_ids": [
+        "kings.fp.character.23",
+        "kings.fp.character.25",
+        "kings.fp.character.26",
+        "kings.fp.strategy.08",
+        "kings.fp.strategy.16",
+        "kings.fp.strategy.19"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-05-AUDIT.md",
+        "docs/sources/kings-card-index.json"
+      ]
+    },
+    {
+      "id": "T30-CARDS-02",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "kings",
+      "content_ids": [
+        "kings.fp.strategy.22",
+        "kings.fp.strategy.24",
+        "kings.fp.strategy.25",
+        "kings.fp.strategy.26",
+        "kings.sh.character.25",
+        "kings.sh.character.26"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-05-AUDIT.md",
+        "docs/sources/kings-card-index.json"
+      ]
+    },
+    {
+      "id": "T30-CARDS-03",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "kings",
+      "content_ids": [
+        "kings.sh.strategy.01",
+        "kings.sh.strategy.03",
+        "kings.sh.strategy.05",
+        "kings.sh.strategy.06",
+        "kings.sh.strategy.18",
+        "kings.sh.strategy.25"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-05-AUDIT.md",
+        "docs/sources/kings-card-index.json"
+      ]
+    },
+    {
+      "id": "T30-CARDS-04",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 1,
+      "content_group": "kings",
+      "content_ids": [
+        "kings.sh.strategy.26"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-05-AUDIT.md",
+        "docs/sources/kings-card-index.json"
+      ]
+    },
+    {
+      "id": "T32-CARDS",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 6,
+      "content_group": "fate-event",
+      "content_ids": [
+        "fate.fp.character.17",
+        "fate.fp.strategy.04",
+        "fate.fp.strategy.19",
+        "fate.fp.strategy.22",
+        "fate.sh.strategy.20",
+        "fate.sh.strategy.22"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-07-AUDIT.md",
+        "docs/sources/fate-index.json"
+      ]
+    },
+    {
+      "id": "T32-GIMLI",
+      "stage": "D",
+      "requirements": [
+        "R01",
+        "R02",
+        "R09",
+        "R11",
+        "R12",
+        "R25"
+      ],
+      "content_count": 2,
+      "content_group": "fate-character",
+      "content_ids": [
+        "fate.character.gimli",
+        "fate.character.gimli-dwarven-lord"
+      ],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "docs/rules/LOGIC.md",
+        "docs/rules/EXPANSIONS.md",
+        "docs/rules/catalog.json",
+        "docs/sources/README.md",
+        "docs/sources/gaps.json",
+        "docs/ARCHITECTURE.md",
+        "docs/CONTRACTS.md",
+        "docs/TESTING.md",
+        "docs/sources/SRC-07-AUDIT.md",
+        "docs/sources/fate-index.json"
+      ]
+    },
+    {
+      "id": "T32-SETUP",
+      "stage": "D",
+      "requirements": [
+        "R02",
+        "R03",
+        "R09",
+        "R12",
+        "R25"
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 
 The biggest return gives the server input closure, resource consumption control and reliable acceptance client. The reps are intended to reduce the cost of subsequent changes, and history optimization remove the cost confirmed by measurement.
 
-The source is [review](2026-10-13-code-review.md) and its [evidence](2026-10-13-evidence/README.md). The plan includes 17 with the corrective tasks QUAL-01-QUAL-17 and acceptance QUAL-18; QUAL-00 documents the preparation of the plan. Status, history and readiness are determined only by [registry](../tasks/INDEX.md). The current order concerns the assignment of tasks. Their implementation has not been initiated.
+The source is [review](2026-10-13-code-review.md) and its [evidence](2026-10-13-evidence/README.md). The plan includes 17 with the corrective tasks QUAL-01-QUAL-17 and acceptance QUAL-18; QUAL-00 documents the preparation of the plan. Status, history and readiness are determined only by registry. The current order concerns the assignment of tasks. Their implementation has not been initiated.
 
 <a id="punkt-odniesienia-i-granice"></a>
 ## Reference point and boundaries
@@ -35,18 +35,18 @@ The printout is an indicative number of working days of experienced engineer, wi
 | 3 | QUAL-03 | P1 | Limited write of rejections with idempotence; 1–3 days |
 | 4 | QUAL-04 | P2 | Legal pass after the Ring, also after the reboot; 0,5–1 day |
 | 5 | QUAL-05 | P2 | Public base budget and controlled overload; 1–2 days |
-| 6 | [QUAL-06](../tasks/QUAL-06.md) | P1 for acceptance | Isolated tests and complete current inventory; 1–2 days |
+| 6 | QUAL-06 | P1 for acceptance | Isolated tests and complete current inventory; 1–2 days |
 | 7 | QUAL-09 | P2 | Secure use of view and error diagnosis UI/Networks; 1–2 days |
-| 9 | [QUAL-14](../tasks/QUAL-14.md) | P1 for open source | Anonymous bootstrap from empty cache; 1–2 days |
-| 10 | [QUAL-07](../tasks/QUAL-07.md) | P2 | Current and stable UI scenarios, six permanent failures; 1–2 days |
-| 11 | [QUAL-08](../tasks/QUAL-08.md) | P2 | Full drivery/profiling, seventh sustained defeat; 1–2 days |
-| 12 | [QUAL-15](../tasks/QUAL-15.md) | P1 for public PR | Required complete and isolated gate Unity; 1–3 days |
-| 13 | [QUAL-17](../tasks/QUAL-17.md) | P2 | Independent expectations of risk rules and matrix; 2–4 days |
-| 14 | [QUAL-10](../tasks/QUAL-10.md) | P2 | One window life-cycle coordinator; 1–3 days |
-| 15 | [QUAL-11](../tasks/QUAL-11.md) | P2 | Split rendering and decision choices; 2–4 days |
-| 16 | [QUAL-12](../tasks/QUAL-12.md) | P2 | Limited Snapshot, Archive and Migration; 4–8 days |
-| 17 | [QUAL-16](../tasks/QUAL-16.md) | P3 | Readable onboarding and heavy resource policy; 1–2 days |
-| 18 | [QUAL-18](../tasks/QUAL-18.md) | acceptance | Joint regression and measurements of both repositories; 1–3 days |
+| 9 | QUAL-14 | P1 for open source | Anonymous bootstrap from empty cache; 1–2 days |
+| 10 | QUAL-07 | P2 | Current and stable UI scenarios, six permanent failures; 1–2 days |
+| 11 | QUAL-08 | P2 | Full drivery/profiling, seventh sustained defeat; 1–2 days |
+| 12 | QUAL-15 | P1 for public PR | Required complete and isolated gate Unity; 1–3 days |
+| 13 | QUAL-17 | P2 | Independent expectations of risk rules and matrix; 2–4 days |
+| 14 | QUAL-10 | P2 | One window life-cycle coordinator; 1–3 days |
+| 15 | QUAL-11 | P2 | Split rendering and decision choices; 2–4 days |
+| 16 | QUAL-12 | P2 | Limited Snapshot, Archive and Migration; 4–8 days |
+| 17 | QUAL-16 | P3 | Readable onboarding and heavy resource policy; 1–2 days |
+| 18 | QUAL-18 | acceptance | Joint regression and measurements of both repositories; 1–3 days |
 
 You can run independently server correcting track, acceptance client track and licencji/bootstrapu. QUAL-15 track requires running tests and dependencies; QUAL-10/11 requires stable UI scenarios; QUAL-12 requires correct transactions and independent regression of rules. The component tasks do not depend on QUAL-18; it is QUAL-18 that depends on all components.
 

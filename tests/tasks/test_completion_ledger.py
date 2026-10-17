@@ -10,6 +10,7 @@ import task_registry
 import tasks
 
 
+@unittest.skipUnless(tasks.REGISTRY.exists(), 'The task registry is local-only (docs/tasks, ignored by Git).')
 class CompletionLedgerTests(unittest.TestCase):
     def setUp(self):
         self.data = tasks.read_json(tasks.REGISTRY)
