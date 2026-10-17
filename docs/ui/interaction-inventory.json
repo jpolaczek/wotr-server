@@ -1175,5 +1175,2192 @@
       "BoardCompletionContextNetworkTests"
     ],
     "acceptance": "33/33 required unique Play methods PASS (6 new, 8 fresh overlapping UI63 and 19 remaining regressions); 13/13 Editor in full542, 399/399 unchanged domain in full3726, 7 PNG reviewed; fresh separate Python HTTPS/WSS with trusted CA. Exact evidence and transport boundary: docs/tasks/UI-71.md."
+  },
+  "base_coverage": {
+    "task": "UI-244",
+    "generator": "scripts/base_ui_coverage.py",
+    "scope": "Second Edition base game: both uses of the 96 base cards and the base characters' entries and abilities",
+    "families": {
+      "Alternatives": {
+        "host": "console options",
+        "target": "console options",
+        "objects": "named outcomes",
+        "cost": "per outcome",
+        "commit": "option click",
+        "owner": "baseline (UI-214)",
+        "exception": "distinct outcomes without one object (Lure of the Ring, Black Captain, Balrog)"
+      },
+      "ArmyEvent": {
+        "host": "map + console",
+        "target": "map",
+        "objects": "armies and regions",
+        "cost": "none",
+        "commit": "final move click, Skip maneuver",
+        "owner": "baseline (UI-216)",
+        "exception": "Skip maneuver ends an optional army event"
+      },
+      "ArmyFigures": {
+        "host": "region panel",
+        "target": "region panel figures",
+        "objects": "figures",
+        "cost": "none",
+        "commit": "one confirmation for a set",
+        "owner": "baseline (UI-215)",
+        "exception": ""
+      },
+      "Automatic": {
+        "host": "none",
+        "target": "none",
+        "objects": "none",
+        "cost": "the card's own cost",
+        "commit": "none: the server resolves it",
+        "owner": "baseline",
+        "exception": ""
+      },
+      "CharacterEntry": {
+        "host": "Characters list",
+        "target": "Characters list + map regions",
+        "objects": "character row, region",
+        "cost": "the die",
+        "commit": "final region click",
+        "owner": "baseline (UI-239, UI-240, UI-243)",
+        "exception": ""
+      },
+      "CombatLeadership": {
+        "host": "Battle window buttons",
+        "target": "Battle window figures and hit indicators",
+        "objects": "Leadership sources, sacrificed figure, hits",
+        "cost": "exact points",
+        "commit": "one confirmation",
+        "owner": "UI-246",
+        "exception": "Keep all stays explicit"
+      },
+      "CombatTarget": {
+        "host": "Battle window buttons",
+        "target": "Battle window dice and figures",
+        "objects": "battle dice, force portraits",
+        "cost": "shown before the final click",
+        "commit": "final target click; an adjustable set has one confirmation",
+        "owner": "UI-245",
+        "exception": "Keep misses stays a paid outcome"
+      },
+      "CompanionJourney": {
+        "host": "decision window groups",
+        "target": "map groups + shared console",
+        "objects": "companion groups and regions",
+        "cost": "the die",
+        "commit": "one confirmation",
+        "owner": "UI-250",
+        "exception": ""
+      },
+      "Deck": {
+        "host": "card decks",
+        "target": "card decks",
+        "objects": "deck",
+        "cost": "none",
+        "commit": "deck click",
+        "owner": "baseline",
+        "exception": ""
+      },
+      "DiceChoice": {
+        "host": "dice pool + console",
+        "target": "dice pool",
+        "objects": "action dice",
+        "cost": "the dice",
+        "commit": "die click; a set has one confirmation",
+        "owner": "UI-248",
+        "exception": ""
+      },
+      "EventLosses": {
+        "host": "casualty tray",
+        "target": "region panel figures",
+        "objects": "figures to remove",
+        "cost": "the losses",
+        "commit": "one confirmation",
+        "owner": "UI-251",
+        "exception": ""
+      },
+      "FellowshipChoice": {
+        "host": "decision window list",
+        "target": "Fellowship panel portraits and tracks",
+        "objects": "companions, Guide, corruption",
+        "cost": "none",
+        "commit": "portrait click",
+        "owner": "UI-249",
+        "exception": ""
+      },
+      "Nation": {
+        "host": "politics panel",
+        "target": "politics panel",
+        "objects": "nation",
+        "cost": "none",
+        "commit": "nation click",
+        "owner": "baseline",
+        "exception": ""
+      },
+      "Reaction": {
+        "host": "console options / decision window",
+        "target": "source card or portrait",
+        "objects": "reaction source",
+        "cost": "the source card",
+        "commit": "source click; Decline stays",
+        "owner": "UI-247",
+        "exception": "Decline stays explicit"
+      },
+      "Region": {
+        "host": "map highlights + console",
+        "target": "map regions",
+        "objects": "highlighted region",
+        "cost": "shown in the console before the click",
+        "commit": "final region click",
+        "owner": "baseline (UI-211)",
+        "exception": ""
+      },
+      "RegionArmy": {
+        "host": "region panel",
+        "target": "region panel field/garrison rows",
+        "objects": "army row or figure",
+        "cost": "none",
+        "commit": "final row click",
+        "owner": "UI-251",
+        "exception": ""
+      },
+      "Reserve": {
+        "host": "Reserve panel",
+        "target": "Reserve panel",
+        "objects": "reserve figures and settlements",
+        "cost": "recruitment points",
+        "commit": "final settlement click",
+        "owner": "baseline (UI-213)",
+        "exception": ""
+      },
+      "TableEffect": {
+        "host": "Effects panel",
+        "target": "Effects panel",
+        "objects": "table card",
+        "commit": "none: the card stays on the table",
+        "owner": "baseline",
+        "exception": ""
+      }
+    },
+    "uses": [
+      {
+        "source": "base.fp.character.12",
+        "use": "Event",
+        "program": "base.fp.character.12",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.12",
+        "use": "Combat",
+        "program": "combat.fateful-strike",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.08",
+        "use": "Event",
+        "program": "base.fp.strategy.08",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.08",
+        "use": "Combat",
+        "program": "combat.confusion",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.15",
+        "use": "Event",
+        "program": "base.fp.strategy.15",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.15",
+        "use": "Combat",
+        "program": "combat.daylight",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.05",
+        "use": "Event",
+        "program": "base.sh.strategy.05",
+        "families": [
+          "TableEffect"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.05",
+        "use": "Combat",
+        "program": "combat.devilry-of-orthanc",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.01",
+        "use": "Event",
+        "program": "base.fp.character.01",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.01",
+        "use": "Combat",
+        "program": "combat.it-is-a-gift",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.02",
+        "use": "Event",
+        "program": "base.fp.character.02",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.02",
+        "use": "Combat",
+        "program": "combat.it-is-a-gift",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.03",
+        "use": "Event",
+        "program": "base.fp.character.03",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.03",
+        "use": "Combat",
+        "program": "combat.it-is-a-gift",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.04",
+        "use": "Event",
+        "program": "base.fp.character.04",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.04",
+        "use": "Combat",
+        "program": "combat.it-is-a-gift",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.05",
+        "use": "Event",
+        "program": "base.fp.character.05",
+        "families": [
+          "TableEffect"
+        ]
+      },
+      {
+        "source": "base.fp.character.05",
+        "use": "Combat",
+        "program": "combat.blade-of-westernesse",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.06",
+        "use": "Event",
+        "program": "base.fp.character.06",
+        "families": [
+          "TableEffect"
+        ]
+      },
+      {
+        "source": "base.fp.character.06",
+        "use": "Combat",
+        "program": "combat.mighty-attack",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.07",
+        "use": "Event",
+        "program": "base.fp.character.07",
+        "families": [
+          "TableEffect"
+        ]
+      },
+      {
+        "source": "base.fp.character.07",
+        "use": "Combat",
+        "program": "combat.mighty-attack",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.08",
+        "use": "Event",
+        "program": "base.fp.character.08",
+        "families": [
+          "TableEffect"
+        ]
+      },
+      {
+        "source": "base.fp.character.08",
+        "use": "Combat",
+        "program": "combat.servant-of-the-secret-fire",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.09",
+        "use": "Event",
+        "program": "base.fp.character.09",
+        "families": [
+          "Alternatives"
+        ]
+      },
+      {
+        "source": "base.fp.character.09",
+        "use": "Combat",
+        "program": "combat.anduril",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.10",
+        "use": "Event",
+        "program": "base.fp.character.10",
+        "families": [
+          "Alternatives"
+        ]
+      },
+      {
+        "source": "base.fp.character.10",
+        "use": "Combat",
+        "program": "combat.heroic-death",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.fp.character.11",
+        "use": "Event",
+        "program": "base.fp.character.11",
+        "families": [
+          "CompanionJourney"
+        ]
+      },
+      {
+        "source": "base.fp.character.11",
+        "use": "Combat",
+        "program": "combat.daring-defiance",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.13",
+        "use": "Event",
+        "program": "base.fp.character.13",
+        "families": [
+          "DiceChoice"
+        ]
+      },
+      {
+        "source": "base.fp.character.13",
+        "use": "Combat",
+        "program": "combat.heroic-death",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.fp.character.14",
+        "use": "Event",
+        "program": "base.fp.character.14",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.14",
+        "use": "Combat",
+        "program": "combat.sudden-strike",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.15",
+        "use": "Event",
+        "program": "base.fp.character.15",
+        "families": [
+          "CompanionJourney"
+        ]
+      },
+      {
+        "source": "base.fp.character.15",
+        "use": "Combat",
+        "program": "combat.daring-defiance",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.16",
+        "use": "Event",
+        "program": "base.fp.character.16",
+        "families": [
+          "CompanionJourney"
+        ]
+      },
+      {
+        "source": "base.fp.character.16",
+        "use": "Combat",
+        "program": "combat.daring-defiance",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.17",
+        "use": "Event",
+        "program": "base.fp.character.17",
+        "families": [
+          "CompanionJourney"
+        ]
+      },
+      {
+        "source": "base.fp.character.17",
+        "use": "Combat",
+        "program": "combat.brave-stand",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.18",
+        "use": "Event",
+        "program": "base.fp.character.18",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.character.18",
+        "use": "Combat",
+        "program": "combat.heroic-death",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.fp.character.19",
+        "use": "Event",
+        "program": "base.fp.character.19",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.fp.character.19",
+        "use": "Combat",
+        "program": "combat.ents-rage",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.character.20",
+        "use": "Event",
+        "program": "base.fp.character.20",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.fp.character.20",
+        "use": "Combat",
+        "program": "combat.huorn-dark",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.character.21",
+        "use": "Event",
+        "program": "base.fp.character.21",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.fp.character.21",
+        "use": "Combat",
+        "program": "combat.nameless-wood",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.character.22",
+        "use": "Event",
+        "program": "base.fp.character.22",
+        "families": [
+          "CompanionJourney",
+          "Region",
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.character.22",
+        "use": "Combat",
+        "program": "combat.sudden-strike",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.23",
+        "use": "Event",
+        "program": "base.fp.character.23",
+        "families": [
+          "ArmyFigures",
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.character.23",
+        "use": "Combat",
+        "program": "combat.brave-stand",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.character.24",
+        "use": "Event",
+        "program": "base.fp.character.24",
+        "families": [
+          "ArmyFigures"
+        ]
+      },
+      {
+        "source": "base.fp.character.24",
+        "use": "Combat",
+        "program": "combat.brave-stand",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.01",
+        "use": "Event",
+        "program": "base.fp.strategy.01",
+        "families": [
+          "TableEffect"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.01",
+        "use": "Combat",
+        "program": "combat.daylight",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.02",
+        "use": "Event",
+        "program": "base.fp.strategy.02",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.02",
+        "use": "Combat",
+        "program": "combat.no-quarter",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.03",
+        "use": "Event",
+        "program": "base.fp.strategy.03",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.03",
+        "use": "Combat",
+        "program": "combat.advantageous-position",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.04",
+        "use": "Event",
+        "program": "base.fp.strategy.04",
+        "families": [
+          "CompanionJourney"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.04",
+        "use": "Combat",
+        "program": "combat.advantageous-position",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.05",
+        "use": "Event",
+        "program": "base.fp.strategy.05",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.05",
+        "use": "Combat",
+        "program": "combat.scouts",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.06",
+        "use": "Event",
+        "program": "base.fp.strategy.06",
+        "families": [
+          "Region",
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.06",
+        "use": "Combat",
+        "program": "combat.shield-wall",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.07",
+        "use": "Event",
+        "program": "base.fp.strategy.07",
+        "families": [
+          "CompanionJourney"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.07",
+        "use": "Combat",
+        "program": "combat.shield-wall",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.09",
+        "use": "Event",
+        "program": "base.fp.strategy.09",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.09",
+        "use": "Combat",
+        "program": "combat.scouts",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.10",
+        "use": "Event",
+        "program": "base.fp.strategy.10",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.10",
+        "use": "Combat",
+        "program": "combat.no-quarter",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.11",
+        "use": "Event",
+        "program": "base.fp.strategy.11",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.11",
+        "use": "Combat",
+        "program": "combat.sudden-strike",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.12",
+        "use": "Event",
+        "program": "base.fp.strategy.12",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.12",
+        "use": "Combat",
+        "program": "combat.confusion",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.13",
+        "use": "Event",
+        "program": "base.fp.strategy.13",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.13",
+        "use": "Combat",
+        "program": "combat.charge",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.14",
+        "use": "Event",
+        "program": "base.fp.strategy.14",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.14",
+        "use": "Combat",
+        "program": "combat.charge",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.16",
+        "use": "Event",
+        "program": "base.fp.strategy.16",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.16",
+        "use": "Combat",
+        "program": "combat.daylight",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.17",
+        "use": "Event",
+        "program": "base.fp.strategy.17",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.17",
+        "use": "Combat",
+        "program": "combat.scouts",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.18",
+        "use": "Event",
+        "program": "base.fp.strategy.18",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.18",
+        "use": "Combat",
+        "program": "combat.shield-wall",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.19",
+        "use": "Event",
+        "program": "base.fp.strategy.19",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.19",
+        "use": "Combat",
+        "program": "combat.shield-wall",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.20",
+        "use": "Event",
+        "program": "base.fp.strategy.20",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.20",
+        "use": "Combat",
+        "program": "combat.advantageous-position",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.21",
+        "use": "Event",
+        "program": "base.fp.strategy.21",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.21",
+        "use": "Combat",
+        "program": "combat.advantageous-position",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.22",
+        "use": "Event",
+        "program": "base.fp.strategy.22",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.22",
+        "use": "Combat",
+        "program": "combat.valour",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.23",
+        "use": "Event",
+        "program": "base.fp.strategy.23",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.23",
+        "use": "Combat",
+        "program": "combat.valour",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.24",
+        "use": "Event",
+        "program": "base.fp.strategy.24",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.fp.strategy.24",
+        "use": "Combat",
+        "program": "combat.valour",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.character.01",
+        "use": "Event",
+        "program": "base.sh.character.01",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.01",
+        "use": "Combat",
+        "program": "combat.one-for-the-dark-lord",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.character.02",
+        "use": "Event",
+        "program": "base.sh.character.02",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.02",
+        "use": "Combat",
+        "program": "combat.one-for-the-dark-lord",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.character.03",
+        "use": "Event",
+        "program": "base.sh.character.03",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.03",
+        "use": "Combat",
+        "program": "combat.one-for-the-dark-lord",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.character.04",
+        "use": "Event",
+        "program": "base.sh.character.04",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.04",
+        "use": "Combat",
+        "program": "combat.one-for-the-dark-lord",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.character.05",
+        "use": "Event",
+        "program": "base.sh.character.05",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.05",
+        "use": "Combat",
+        "program": "combat.cruel-as-death",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.sh.character.06",
+        "use": "Event",
+        "program": "base.sh.character.06",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.06",
+        "use": "Combat",
+        "program": "combat.cruel-as-death",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.sh.character.07",
+        "use": "Event",
+        "program": "base.sh.character.07",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.07",
+        "use": "Combat",
+        "program": "combat.they-are-terrible",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.sh.character.08",
+        "use": "Event",
+        "program": "base.sh.character.08",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.08",
+        "use": "Combat",
+        "program": "combat.dread-and-despair",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.sh.character.09",
+        "use": "Event",
+        "program": "base.sh.character.09",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.sh.character.09",
+        "use": "Combat",
+        "program": "combat.foul-stench",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.10",
+        "use": "Event",
+        "program": "base.sh.character.10",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.sh.character.10",
+        "use": "Combat",
+        "program": "combat.cruel-as-death",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.sh.character.11",
+        "use": "Event",
+        "program": "base.sh.character.11",
+        "families": [
+          "Alternatives"
+        ]
+      },
+      {
+        "source": "base.sh.character.11",
+        "use": "Combat",
+        "program": "combat.black-breath",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.character.12",
+        "use": "Event",
+        "program": "base.sh.character.12",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.12",
+        "use": "Combat",
+        "program": "combat.black-breath",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.character.13",
+        "use": "Event",
+        "program": "base.sh.character.13",
+        "families": [
+          "Alternatives"
+        ]
+      },
+      {
+        "source": "base.sh.character.13",
+        "use": "Combat",
+        "program": "combat.they-are-terrible",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.sh.character.14",
+        "use": "Event",
+        "program": "base.sh.character.14",
+        "families": [
+          "FellowshipChoice"
+        ]
+      },
+      {
+        "source": "base.sh.character.14",
+        "use": "Combat",
+        "program": "combat.dread-and-despair",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.sh.character.15",
+        "use": "Event",
+        "program": "base.sh.character.15",
+        "families": [
+          "TableEffect"
+        ]
+      },
+      {
+        "source": "base.sh.character.15",
+        "use": "Combat",
+        "program": "combat.words-of-power",
+        "families": [
+          "FellowshipChoice"
+        ]
+      },
+      {
+        "source": "base.sh.character.16",
+        "use": "Event",
+        "program": "base.sh.character.16",
+        "families": [
+          "TableEffect"
+        ]
+      },
+      {
+        "source": "base.sh.character.16",
+        "use": "Combat",
+        "program": "combat.they-are-terrible",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.sh.character.17",
+        "use": "Event",
+        "program": "base.sh.character.17",
+        "families": [
+          "TableEffect"
+        ]
+      },
+      {
+        "source": "base.sh.character.17",
+        "use": "Combat",
+        "program": "combat.durins-bane",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.18",
+        "use": "Event",
+        "program": "base.sh.character.18",
+        "families": [
+          "DiceChoice"
+        ]
+      },
+      {
+        "source": "base.sh.character.18",
+        "use": "Combat",
+        "program": "combat.words-of-power",
+        "families": [
+          "FellowshipChoice"
+        ]
+      },
+      {
+        "source": "base.sh.character.19",
+        "use": "Event",
+        "program": "base.sh.character.19",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.sh.character.19",
+        "use": "Combat",
+        "program": "combat.devilry-of-orthanc",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.character.20",
+        "use": "Event",
+        "program": "base.sh.character.20",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.sh.character.20",
+        "use": "Combat",
+        "program": "combat.dread-and-despair",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.sh.character.21",
+        "use": "Event",
+        "program": "base.sh.character.21",
+        "families": [
+          "Deck"
+        ]
+      },
+      {
+        "source": "base.sh.character.21",
+        "use": "Combat",
+        "program": "combat.cruel-as-death",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.sh.character.22",
+        "use": "Event",
+        "program": "base.sh.character.22",
+        "families": [
+          "Deck"
+        ]
+      },
+      {
+        "source": "base.sh.character.22",
+        "use": "Combat",
+        "program": "combat.foul-stench",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.character.23",
+        "use": "Event",
+        "program": "base.sh.character.23",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.sh.character.23",
+        "use": "Combat",
+        "program": "combat.words-of-power",
+        "families": [
+          "FellowshipChoice"
+        ]
+      },
+      {
+        "source": "base.sh.character.24",
+        "use": "Event",
+        "program": "base.sh.character.24",
+        "families": [
+          "Alternatives",
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.sh.character.24",
+        "use": "Combat",
+        "program": "combat.foul-stench",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.01",
+        "use": "Event",
+        "program": "base.sh.strategy.01",
+        "families": [
+          "Region"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.01",
+        "use": "Combat",
+        "program": "combat.deadly-strife",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.02",
+        "use": "Event",
+        "program": "base.sh.strategy.02",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.02",
+        "use": "Combat",
+        "program": "combat.onslaught",
+        "families": [
+          "EventLosses"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.03",
+        "use": "Event",
+        "program": "base.sh.strategy.03",
+        "families": [
+          "TableEffect",
+          "RegionArmy"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.03",
+        "use": "Combat",
+        "program": "combat.devilry-of-orthanc",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.04",
+        "use": "Event",
+        "program": "base.sh.strategy.04",
+        "families": [
+          "RegionArmy"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.04",
+        "use": "Combat",
+        "program": "combat.relentless-assault",
+        "families": [
+          "EventLosses"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.06",
+        "use": "Event",
+        "program": "base.sh.strategy.06",
+        "families": [
+          "RegionArmy"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.06",
+        "use": "Combat",
+        "program": "combat.great-host",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.07",
+        "use": "Event",
+        "program": "base.sh.strategy.07",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.07",
+        "use": "Combat",
+        "program": "combat.mumakil-combat",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.07",
+        "use": "Combat",
+        "program": "combat.mumakil-hits",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.08",
+        "use": "Event",
+        "program": "base.sh.strategy.08",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.08",
+        "use": "Combat",
+        "program": "combat.mumakil-combat",
+        "families": [
+          "CombatTarget"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.08",
+        "use": "Combat",
+        "program": "combat.mumakil-hits",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.09",
+        "use": "Event",
+        "program": "base.sh.strategy.09",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.09",
+        "use": "Combat",
+        "program": "combat.swarm-of-bats",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.10",
+        "use": "Event",
+        "program": "base.sh.strategy.10",
+        "families": [
+          "ArmyEvent"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.10",
+        "use": "Combat",
+        "program": "combat.deadly-strife",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.11",
+        "use": "Event",
+        "program": "base.sh.strategy.11",
+        "families": [
+          "ArmyFigures",
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.11",
+        "use": "Combat",
+        "program": "combat.relentless-assault",
+        "families": [
+          "EventLosses"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.12",
+        "use": "Event",
+        "program": "base.sh.strategy.12",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.12",
+        "use": "Combat",
+        "program": "combat.swarm-of-bats",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.19",
+        "use": "Event",
+        "program": "base.sh.strategy.19",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.19",
+        "use": "Combat",
+        "program": "combat.onslaught",
+        "families": [
+          "EventLosses"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.20",
+        "use": "Event",
+        "program": "base.sh.strategy.20",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.20",
+        "use": "Combat",
+        "program": "combat.onslaught",
+        "families": [
+          "EventLosses"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.21",
+        "use": "Event",
+        "program": "base.sh.strategy.21",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.21",
+        "use": "Combat",
+        "program": "combat.deadly-strife",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.22",
+        "use": "Event",
+        "program": "base.sh.strategy.22",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.22",
+        "use": "Combat",
+        "program": "combat.desperate-battle",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.23",
+        "use": "Event",
+        "program": "base.sh.strategy.23",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.23",
+        "use": "Combat",
+        "program": "combat.desperate-battle",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.24",
+        "use": "Event",
+        "program": "base.sh.strategy.24",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.24",
+        "use": "Combat",
+        "program": "combat.desperate-battle",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.13",
+        "use": "Event",
+        "program": "base.sh.strategy.13",
+        "families": [
+          "ArmyFigures",
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.13",
+        "use": "Combat",
+        "program": "combat.we-come-to-kill",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.14",
+        "use": "Event",
+        "program": "base.sh.strategy.14",
+        "families": [
+          "ArmyFigures",
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.14",
+        "use": "Combat",
+        "program": "combat.we-come-to-kill",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.15",
+        "use": "Event",
+        "program": "base.sh.strategy.15",
+        "families": [
+          "ArmyFigures"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.15",
+        "use": "Combat",
+        "program": "combat.we-come-to-kill",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.16",
+        "use": "Event",
+        "program": "base.sh.strategy.16",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.16",
+        "use": "Combat",
+        "program": "combat.great-host",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.17",
+        "use": "Event",
+        "program": "base.sh.strategy.17",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.17",
+        "use": "Combat",
+        "program": "combat.great-host",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.18",
+        "use": "Event",
+        "program": "base.sh.strategy.18",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.sh.strategy.18",
+        "use": "Combat",
+        "program": "combat.relentless-assault",
+        "families": [
+          "EventLosses"
+        ]
+      },
+      {
+        "source": "base.fp.character.05",
+        "use": "Reaction",
+        "program": "card.mithril-replace @ hunt.replace",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.fp.character.06",
+        "use": "Reaction",
+        "program": "card.axe-and-bow @ hunt.table",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.fp.character.07",
+        "use": "Reaction",
+        "program": "card.horn-of-gondor @ hunt.table",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.fp.character.08",
+        "use": "Reaction",
+        "program": "card.wizards-staff @ hunt.draw",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.sh.character.15",
+        "use": "Reaction",
+        "program": "card.worn-with-sorrow @ hunt.casualty",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.sh.character.16",
+        "use": "Reaction",
+        "program": "card.flocks-of-crebain @ hunt.roll",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.sh.character.17",
+        "use": "Reaction",
+        "program": "card.balrog-of-moria @ fellowship.revealed",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.sh.character.17",
+        "use": "Reaction",
+        "program": "card.balrog-of-moria @ fellowship.declared",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.character.gimli",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.gimli",
+        "use": "Ability",
+        "program": "combat-strength-plus-one",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.gimli",
+        "use": "Ability",
+        "program": "politics-dwarves-at-erebor",
+        "families": [
+          "Nation"
+        ]
+      },
+      {
+        "source": "base.character.boromir",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.boromir",
+        "use": "Ability",
+        "program": "combat-strength-plus-one",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.boromir",
+        "use": "Ability",
+        "program": "politics-gondor-at-city-or-stronghold",
+        "families": [
+          "Nation"
+        ]
+      },
+      {
+        "source": "base.character.legolas",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.legolas",
+        "use": "Ability",
+        "program": "combat-strength-plus-one",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.legolas",
+        "use": "Ability",
+        "program": "politics-elves-at-stronghold",
+        "families": [
+          "Nation"
+        ]
+      },
+      {
+        "source": "base.character.gandalf-grey",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.gandalf-grey",
+        "use": "Ability",
+        "program": "guide-draw-after-event-die-card",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.gandalf-grey",
+        "use": "Ability",
+        "program": "combat-strength-plus-one",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.gandalf-grey",
+        "use": "Ability",
+        "program": "may-transform-to-white",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.strider",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.strider",
+        "use": "Ability",
+        "program": "guide-hide-with-any-action-die",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.strider",
+        "use": "Ability",
+        "program": "combat-strength-plus-one",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.strider",
+        "use": "Ability",
+        "program": "may-transform-to-aragorn",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.pippin",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.pippin",
+        "use": "Ability",
+        "program": "guide-separate-to-reduce-hunt-one",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.character.pippin",
+        "use": "Ability",
+        "program": "return-after-fellowship-elimination-except-mordor",
+        "families": [
+          "FellowshipChoice"
+        ]
+      },
+      {
+        "source": "base.character.merry",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.merry",
+        "use": "Ability",
+        "program": "guide-separate-to-reduce-hunt-one",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.character.merry",
+        "use": "Ability",
+        "program": "return-after-fellowship-elimination-except-mordor",
+        "families": [
+          "FellowshipChoice"
+        ]
+      },
+      {
+        "source": "base.character.gandalf-white",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.gandalf-white",
+        "use": "Ability",
+        "program": "move-four-alone-or-with-one-hobbit",
+        "families": [
+          "CompanionJourney"
+        ]
+      },
+      {
+        "source": "base.character.gandalf-white",
+        "use": "Ability",
+        "program": "forfeit-leadership-to-cancel-nazgul-for-battle",
+        "families": [
+          "CombatLeadership"
+        ]
+      },
+      {
+        "source": "base.character.aragorn",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.aragorn",
+        "use": "Ability",
+        "program": "combat-strength-plus-one",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.gollum",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.gollum",
+        "use": "Ability",
+        "program": "enter-and-guide-when-no-companions",
+        "families": [
+          "FellowshipChoice"
+        ]
+      },
+      {
+        "source": "base.character.gollum",
+        "use": "Ability",
+        "program": "ignore-standard-numbered-reveal",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.gollum",
+        "use": "Ability",
+        "program": "voluntary-reveal-to-reduce-hunt-one",
+        "families": [
+          "Reaction"
+        ]
+      },
+      {
+        "source": "base.character.ring-bearers",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.ring-bearers",
+        "use": "Ability",
+        "program": "add-gollum-when-no-companions",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.saruman",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.saruman",
+        "use": "Ability",
+        "program": "cannot-leave-orthanc",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.saruman",
+        "use": "Ability",
+        "program": "muster-each-isengard-settlement-or-upgrade-two",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.character.saruman",
+        "use": "Ability",
+        "program": "isengard-elites-have-leadership",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.mouth-of-sauron",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.mouth-of-sauron",
+        "use": "Ability",
+        "program": "muster-as-army-once-per-turn",
+        "families": [
+          "Reserve"
+        ]
+      },
+      {
+        "source": "base.character.witch-king",
+        "use": "Entry",
+        "program": "",
+        "families": [
+          "CharacterEntry"
+        ]
+      },
+      {
+        "source": "base.character.witch-king",
+        "use": "Ability",
+        "program": "entry-activates-all-free-peoples",
+        "families": [
+          "Automatic"
+        ]
+      },
+      {
+        "source": "base.character.witch-king",
+        "use": "Ability",
+        "program": "draw-after-first-round-combat-card",
+        "families": [
+          "Automatic"
+        ]
+      }
+    ],
+    "owners": {
+      "UI-245": [
+        "CombatTarget"
+      ],
+      "UI-246": [
+        "CombatLeadership"
+      ],
+      "UI-247": [
+        "Reaction"
+      ],
+      "UI-248": [
+        "DiceChoice"
+      ],
+      "UI-249": [
+        "FellowshipChoice"
+      ],
+      "UI-250": [
+        "CompanionJourney"
+      ],
+      "UI-251": [
+        "EventLosses",
+        "RegionArmy"
+      ],
+      "baseline": [
+        "Automatic",
+        "Deck",
+        "Nation",
+        "TableEffect"
+      ],
+      "baseline (UI-211)": [
+        "Region"
+      ],
+      "baseline (UI-213)": [
+        "Reserve"
+      ],
+      "baseline (UI-214)": [
+        "Alternatives"
+      ],
+      "baseline (UI-215)": [
+        "ArmyFigures"
+      ],
+      "baseline (UI-216)": [
+        "ArmyEvent"
+      ],
+      "baseline (UI-239, UI-240, UI-243)": [
+        "CharacterEntry"
+      ]
+    }
   }
 }
