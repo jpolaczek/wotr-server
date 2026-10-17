@@ -113,7 +113,58 @@ public sealed class ScenarioBoard
         companion.Location = region;
         if (!State.Characters.Contains(companion))
             State.Characters.Add(companion);
+        if (State.Fellowship.Guide == companion.Id)
+            State.Fellowship.Guide = CompanionRules.Guides(State)[0];
         return this;
+    }
+
+    // TEST-09: the Fellowship stands in a region after its last move there; Progress counts its hidden steps since.
+    public ScenarioBoard FellowshipAt(string region, int progress = 0)
+    {
+        State.Fellowship.RegionId = region;
+        State.Fellowship.Progress = progress;
+        return this;
+    }
+
+    // TEST-09: the Fellowship has been revealed.
+    public ScenarioBoard Reveal()
+    {
+        State.Fellowship.Hidden = false;
+        return this;
+    }
+
+    // TEST-09: a nation turned active without changing its distance from war.
+    public ScenarioBoard Activate(string nation)
+    {
+        State.Nations.Single(n => n.Id == nation).Active = true;
+        return this;
+    }
+
+    // TEST-09: a character brought into play by its own entry rule, so Gandalf the White takes Gandalf the Grey's figure
+    // and Aragorn takes Strider's where the rule allows it.
+    public ScenarioBoard Replace(string definitionId)
+    {
+        var plan = CharacterEntry.Candidates(State, Side.FreePeoples).FirstOrDefault(p => p.DefinitionId == definitionId)
+            ?? throw new InvalidOperationException($"{definitionId} cannot enter play here.");
+        CharacterEntry.Apply(State, plan);
+        return this;
+    }
+
+    // TEST-09: a character standing in a region after moving there.
+    public ScenarioBoard Relocate(string definitionId, string region)
+    {
+        State.Characters.Single(c => c.DefinitionId == definitionId).Location = region;
+        return this;
+    }
+
+    // TEST-09: the Free Peoples army of a stronghold has withdrawn into it and a Shadow army besieges it.
+    public ScenarioBoard Besiege(string region, string nation, int regulars)
+    {
+        foreach (var unit in State.Units.Where(u => u.Location == region && BoardRules.Owner(u) == Side.FreePeoples))
+            unit.Garrison = true;
+        foreach (var character in State.Characters.Where(c => c.Location == region && c.Side == Side.FreePeoples))
+            character.Garrison = true;
+        return Place(nation, UnitKind.Regular, region, regulars);
     }
 
     // Returns every piece of the side in the region to its reserve.
@@ -133,19 +184,23 @@ public sealed class ScenarioBoard
 
     // TEST-06: the Fellowship enters the Mordor Track through the real command of the Fellowship phase,
     // so the engine returns prepared tiles and discarded Eyes to the Hunt Pool (BASE p. 43).
-    public ScenarioBoard EnterMordor(IRandomSource random)
+    public ScenarioBoard EnterMordor(IRandomSource random) => Command(CommandKind.EnterMordor, new(), random, "scenario-enter-mordor");
+
+    // TEST-09: the owner of the pending decision answers it through the engine, as in a played game.
+    public ScenarioBoard Command(CommandKind kind, CommandPayload payload, IRandomSource random, string? commandId = null)
     {
-        var decision = State.Pending ?? throw new InvalidOperationException("No Fellowship phase to enter Mordor from.");
+        var decision = State.Pending ?? throw new InvalidOperationException($"No decision to answer with {kind}.");
         var result = Engine.Execute(State, decision.Owner, new GameCommand
         {
             MatchId = State.Id,
-            CommandId = "scenario-enter-mordor",
+            CommandId = commandId ?? "scenario-" + kind + "-" + State.Revision,
             ExpectedRevision = State.Revision,
             DecisionId = decision.Id,
-            Kind = CommandKind.EnterMordor
+            Kind = kind,
+            Payload = payload
         }, random);
         if (!result.Receipt.Accepted)
-            throw new InvalidOperationException("Scenario setup refused EnterMordor: " + result.Receipt.Error);
+            throw new InvalidOperationException($"Scenario setup refused {kind}: {result.Receipt.Error}");
         return new(result.State);
     }
 

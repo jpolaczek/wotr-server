@@ -77,8 +77,10 @@ public class BaseDiceScenarioTests
     public void TheCatalogDocumentListsEveryScenario()
     {
         var document = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "../../../../../docs/TEST_SCENARIOS.md"));
-        foreach (var scenario in TestScenarioCatalog.All)
+        // TEST-09: the 192 card scenarios follow one pattern; the document describes it instead of listing every card.
+        foreach (var scenario in TestScenarioCatalog.All.Where(s => !s.Id.StartsWith("card-", StringComparison.Ordinal)))
             Assert.Contains($"| `{scenario.Id}` |", document);
+        Assert.Contains("## Card scenarios — TEST-09", document);
     }
 
     [Theory]

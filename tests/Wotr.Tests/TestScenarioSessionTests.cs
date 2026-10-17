@@ -90,7 +90,12 @@ public class TestScenarioSessionTests
     [PostgresFact]
     public async Task EveryScenarioStartsOverHttpWithItsSideToAct()
     {
-        await using var host = new AccountHost();
+        // TEST-09: the catalog has over two hundred scenarios; one account starts them all in a few seconds here.
+        await using var host = new AccountHost(extra: new Dictionary<string, string?>
+        {
+            ["WOTR_LIMIT_ROOMS"] = "1000",
+            ["WOTR_LIMIT_READS"] = "1000"
+        });
         using var owner = await Owner(host);
         foreach (var scenario in TestScenarioCatalog.All)
         {

@@ -91,6 +91,34 @@ The `GameEndScenarioTests` tests check for each scenario with eight seeds of the
 
 The eye as a result of the throw also works in `fp-character-move-fellowship`: The eye lies in Hunt and strengthens the hunt after the Fellowship movement.
 
+<a id="card-scenarios--test-09"></a>
+## Card scenarios — TEST-09
+
+The catalog has two scenarios for every base-game card (96 cards, 192 scenarios), so each card can be tried in both of
+its uses without playing up to it. They are built from the card catalog (`CardScenarios`), not listed here one by one.
+
+- **Ids:** `card-<card id>-event` and `card-<card id>-combat`, e.g. `card-base.fp.character.01-event`.
+- **Groups and tabs:** `Free Peoples cards · Character`, `Free Peoples cards · Strategy`, `Shadow cards · Character`
+  and `Shadow cards · Strategy`, by the card's side and deck. The client shows the text before ` · ` as a tab
+  (Free Peoples cards, Shadow cards) beside the other scenarios.
+- **Titles:** `<card title> · Event` and `<card title> · Combat: <printed combat title>` (combat titles from
+  `content/base-card-text.json`, `CardTextCatalog.CombatTitle`). The description names what is prepared.
+- **Event scenario:** turn 1 of the standard setup with the card's owner to act, the card in hand, a die of the card's
+  event type and an Event die (the Free Peoples four results, the Shadow six and one die in the Hunt Box). Cards with a
+  condition get the board it needs, using the engine's own conditions (`FreePeoplesCardEvents`, `ShadowCardEvents`):
+  e.g. Gandalf the White and a Companion in Fangorn for The Ents Awake, Strider with the Minas Tirith army for
+  Challenge of the King, a Sauron army besieging Minas Tirith for Denethor's Folly, the Fellowship in Hollin for the
+  Hunt cards that need it outside a Free Peoples settlement, a nation at war or a Minion in play.
+- **Combat scenario:** a battle at the card owner's Combat card choice, started by the engine's own attack command
+  (`CardBattles`). Free Peoples cards: Isengard attacks the Rohan army at the Fords of Isen, a field battle in a Rohan
+  region where the Fellowship stands with Strider, Gandalf the Grey, Boromir and Merry (Leader, Elites, Companions and a
+  hobbit); the Shadow plays no card, so the defender chooses. Shadow cards: a Sauron, Isengard and Southron army with
+  Elites and two Nazgûl attacks the Elves besieged in Lórien (two regions from Moria), where the Fellowship shelters.
+  Every combat condition of the side's cards holds in its battle.
+- **Proof:** `BaseCardScenarioTests` builds all 192: the event scenario offers the card as a legal `PlayEvent` paid by a
+  die of the turn and the play is accepted by the engine; the combat scenario waits on the owner's `CombatCard`
+  decision, offers the card in `CommitCombatCard` and committing it is accepted.
+
 <a id="dodawanie-scenariusza"></a>
 ## Adding a scenario
 

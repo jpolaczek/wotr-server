@@ -3,7 +3,7 @@ using Wotr.Contracts;
 namespace Wotr.Domain;
 
 // Every scenario offered by the test mode: the standard setup (TEST-01), the base-game dice (TEST-02),
-// the Mordor Track (TEST-06) and the endings of the game (TEST-07).
+// the Mordor Track (TEST-06), the endings of the game (TEST-07) and each base-game card's event and combat card (TEST-09).
 // TEST-05: the base game is the MVP for now; the expansion scenarios (TEST-04) live on the
 // expansion-test-scenarios branch.
 public static class TestScenarioCatalog
@@ -18,7 +18,8 @@ public static class TestScenarioCatalog
         .. FreePeoplesDiceScenarios.All(),
         .. ShadowDiceScenarios.All(),
         .. MordorTrackScenarios.All(),
-        .. GameEndScenarios.All()
+        .. GameEndScenarios.All(),
+        .. CardScenarios.All()
     ];
 
     public static TestScenario? Find(string id) => All.FirstOrDefault(scenario => scenario.Id == id);
