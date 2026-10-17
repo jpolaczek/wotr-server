@@ -43,11 +43,12 @@
     <section aria-labelledby="install-linux-title">
       <h2 id="install-linux-title">Install on Linux and Steam Deck</h2>
       <ol>
-        <li>Save the downloaded <code>.AppImage</code> file where you keep programs, for example in your home folder.</li>
+        <li>Save the downloaded <code>.AppImage</code> file in a folder of your own, for example <code>~/Applications</code>:
+          updates replace this file.</li>
         <li>Make it executable: right-click → <strong>Properties → Permissions → Allow executing</strong>, or run
           <code>chmod +x WotrOnline-*.AppImage</code>.</li>
-        <li>Start it by double-clicking. If nothing happens, install FUSE 2 (<code>libfuse2</code> or
-          <code>fuse2</code>, depending on your distribution). The game updates itself in place.</li>
+        <li>Start it by double-clicking. If it does not start and mentions FUSE, install your distribution's
+          <code>fuse3</code> package. The game updates itself in place.</li>
         <li><strong>Steam Deck (experimental):</strong> in Desktop Mode do the steps above, then add the file to Steam
           with <strong>Add a Non-Steam Game</strong> to play it in Gaming Mode. Use Steam + X for the on-screen
           keyboard when signing in.</li>
