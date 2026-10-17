@@ -2479,14 +2479,33 @@
         "wotr-client:docs/release/PLAYER-GUIDE.md",
         "docs/ROADMAP.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
+      "status": "blocked",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T11:55:44Z",
       "finished_at": null,
-      "blocked_reason": null,
+      "blocked_reason": "Code done (client 3c750e8, EditMode 930/930); PlayMode run on the owner's Mac and a visual check in rc.4 pending.",
       "checks": [],
       "documentation": [],
-      "history": []
+      "history": [
+        {
+          "at": "2026-10-17T11:55:44Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: the corner status plaque hides a revealed Fellowship in one click when a legal die is chosen; the Hide button goes away. Verify: EditMode (controls/hide offer), EditMode CI, PlayMode tests updated for the Mac run."
+        },
+        {
+          "at": "2026-10-17T12:04:12Z",
+          "event": "note",
+          "agent": "claude-opus",
+          "note": "Client 3c750e8: FellowshipControls.HideOffered, plaque OfferHide/RequestHide, BoardEdgeLayout plaque click, Hide button removed. EditMode CI 930/930 (run 39030656022). PlayMode tests updated, not run."
+        },
+        {
+          "at": "2026-10-17T12:04:12Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Code done (client 3c750e8, EditMode 930/930); PlayMode run on the owner's Mac and a visual check in rc.4 pending."
+        }
+      ]
     },
     {
       "id": "UI-221",
@@ -2514,14 +2533,33 @@
         "wotr-client:docs/ui/CARD_CHOICES_UX.md",
         "docs/ROADMAP.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
+      "status": "blocked",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T12:04:13Z",
       "finished_at": null,
-      "blocked_reason": null,
+      "blocked_reason": "Code done (client c2c0a8f, EditMode 930/930); PlayMode run on the owner's Mac and a visual check in rc.4 pending.",
       "checks": [],
       "documentation": [],
-      "history": []
+      "history": [
+        {
+          "at": "2026-10-17T12:04:13Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: table effects as tiles that unroll their card text on hover like the hand, all sources shown, one close button in the header. Verify: EditMode CI, PlayMode layout tests updated for the Mac run, visual check in rc.4."
+        },
+        {
+          "at": "2026-10-17T12:18:37Z",
+          "event": "note",
+          "agent": "claude-opus",
+          "note": "Client 109e7a2 + c2c0a8f: EffectUnroll (hover/focus unroll under the tile), no pages, header close only; diagnostics and PlayMode layout tests updated. EditMode CI 930/930 (run 39031618046)."
+        },
+        {
+          "at": "2026-10-17T12:18:37Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Code done (client c2c0a8f, EditMode 930/930); PlayMode run on the owner's Mac and a visual check in rc.4 pending."
+        }
+      ]
     },
     {
       "id": "TEST-08",
@@ -2620,14 +2658,21 @@
         "AGENTS.md",
         "docs/ROADMAP.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
+      "status": "in_progress",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T12:18:37Z",
       "finished_at": null,
       "blocked_reason": null,
       "checks": [],
       "documentation": [],
-      "history": []
+      "history": [
+        {
+          "at": "2026-10-17T12:18:37Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: hand discards by clicking cards in the hand, discardable cards marked red (parchment-discard), sent when the selection is complete (excess hand, A Power too Great/Tom Bombadil cost, own-hand effect choices). Verify: EditMode, art kit test, EditMode CI, PlayMode updates for the Mac."
+        }
+      ]
     },
     {
       "id": "UI-223",

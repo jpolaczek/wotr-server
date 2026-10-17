@@ -45,10 +45,10 @@ Active tasks: **42**. Completion identifiers: **414**. `ready` means dependencie
 | [UI-217](UI-217.md) | Readable card names in the hand tiles | `blocked` | — |
 | [UI-218](UI-218.md) | Political map view | `blocked` | — |
 | [UI-219](UI-219.md) | Fellowship route without the second click | `blocked` | — |
-| [UI-220](UI-220.md) | Hide the Fellowship from its status plaque | `ready` | — |
-| [UI-221](UI-221.md) | Table effects unroll on hover like the hand | `ready` | — |
+| [UI-220](UI-220.md) | Hide the Fellowship from its status plaque | `blocked` | — |
+| [UI-221](UI-221.md) | Table effects unroll on hover like the hand | `blocked` | — |
 | [TEST-08](TEST-08.md) | Test scenarios for every account on production | `done` | — |
-| [UI-222](UI-222.md) | Discard hand cards by clicking them, marked in red | `ready` | — |
+| [UI-222](UI-222.md) | Discard hand cards by clicking them, marked in red | `in_progress` | — |
 | [UI-223](UI-223.md) | Left rail tabs stand out from the map | `ready` | — |
 | [UI-224](UI-224.md) | Enterable and enemy regions pulse with a green or red glow | `ready` | — |
 | [UI-225](UI-225.md) | Battle window stays in place after "No card" | `ready` | — |
@@ -65,3 +65,6 @@ Active tasks: **42**. Completion identifiers: **414**. `ready` means dependencie
 - **UI-217**: `blocked`, claude-opus; start 2026-10-17T10:41:46Z. Code done (client 822b272, EditMode 922/922); the visual check of long names waits for the next release (rc.4), which the owner installs through the in-game update.
 - **UI-218**: `blocked`, claude-opus; start 2026-10-17T11:04:07Z. Code done (client c6b1413, EditMode 927/927); the visual check (nation colours, captor stripes, toggle, P) waits for rc.4 on the owner's PC.
 - **UI-219**: `blocked`, claude-opus; start 2026-10-17T11:20:29Z. Code done (client e898bab, EditMode 929/929); PlayMode route tests need a run on a Unity machine and the gesture a visual check in rc.4.
+- **UI-220**: `blocked`, claude-opus; start 2026-10-17T11:55:44Z. Code done (client 3c750e8, EditMode 930/930); PlayMode run on the owner's Mac and a visual check in rc.4 pending.
+- **UI-221**: `blocked`, claude-opus; start 2026-10-17T12:04:13Z. Code done (client c2c0a8f, EditMode 930/930); PlayMode run on the owner's Mac and a visual check in rc.4 pending.
+- **UI-222**: `in_progress`, claude-opus; start 2026-10-17T12:18:37Z.
