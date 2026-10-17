@@ -3,9 +3,9 @@
 
   python3 scripts/release_client.py v0.9.0 [--required-at 2026-10-20T20:00+02:00 | --required-now] [--dry-run]
 
-1. Download the draft and check it: SHA256SUMS, both build-info.json (version of the tag, commit of the tag, release
+1. Download the draft and check it: SHA256SUMS, every build-info.json (version of the tag, commit of the tag, release
    build, one protocol), the packages' nuspec and the release notes.
-2. Sign both platforms with the publisher's Ed25519 key (ReleaseTool sign) and verify the signed upload.
+2. Sign every platform (Windows, macOS, Linux) with the publisher's Ed25519 key (ReleaseTool sign) and verify the signed upload.
 3. Ask for the version as confirmation. --dry-run stops here: nothing has left the Mac.
 4. rsync the upload into the host's incoming folder and publish it over ssh (scripts/release_host.py), optionally
    as the minimum now or from a time.
@@ -146,7 +146,7 @@ def check_sums(assets, version):
     if set(listed) != expected or present != expected:
         missing = sorted(expected - set(listed) | expected - present)
         extra = sorted(set(listed) - expected | present - expected)
-        raise Refused(f"The draft must hold exactly both platforms' files; missing {missing}, unexpected {extra}.")
+        raise Refused(f"The draft must hold exactly every platform's files; missing {missing}, unexpected {extra}.")
     for name, value in listed.items():
         if digest(assets / name) != value:
             raise Refused(f"{name} does not match SHA256SUMS.")
