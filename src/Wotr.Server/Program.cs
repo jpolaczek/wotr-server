@@ -54,6 +54,9 @@ builder.Services.AddSingleton<RoomChat>();
 builder.Services.AddSingleton(services => TestScenarioOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
 builder.Services.AddSingleton<TestSessionStore>();
 builder.Services.AddSingleton<DemoSessionStore>();
+builder.Services.AddSingleton(services => AdminOptions.Read(services.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton<AdminAccess>();
+builder.Services.AddSingleton<AdminStatisticsStore>();
 builder.Services.AddSingleton(services => DemoOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton(services => new DemoBot(services.GetRequiredService<GameEngine>(), services.GetRequiredService<Projection>()));
 builder.Services.AddSingleton<DemoBotRunner>();
@@ -86,6 +89,8 @@ app.Services.GetRequiredService<EmailOptions>();
 app.Services.GetRequiredService<ClientReleaseOptions>();
 // QUAL-02: a broken budget configuration stops the server at start.
 app.Services.GetRequiredService<GameRateLimitOptions>();
+// ADMIN-01: a malformed list of administrators stops the server at start.
+app.Services.GetRequiredService<AdminOptions>();
 app.UseClientCompatibility();
 app.UseWebSockets();
 app.UseAuthentication();
@@ -106,6 +111,7 @@ RoomChatEndpoints.MapGames(app);
 TestScenarioEndpoints.Map(app);
 AccountEndpoints.Map(app);
 DemoEndpoints.Map(app);
+AdminEndpoints.Map(app);
 app.Run();
 
 public partial class Program

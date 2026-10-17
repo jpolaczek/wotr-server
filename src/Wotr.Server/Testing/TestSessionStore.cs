@@ -22,7 +22,7 @@ public sealed class TestSessionStore(Database database)
         await Remove(connection, transaction, owner, cancellation);
         var seat = await EnsureSeat(connection, transaction, owner, cancellation);
         var state = scenario.Create(Guid.NewGuid().ToString("N"));
-        await MatchStore.Insert(connection, transaction, state, owner, seat, cancellation);
+        await MatchStore.Insert(connection, transaction, state, owner, seat, MatchKind.Test, cancellation);
         await Register(connection, transaction, state.Id, owner, scenario, cancellation);
         var session = await SessionStore.Issue(connection, transaction, seat, SeatName, cancellation);
         await transaction.CommitAsync(cancellation);

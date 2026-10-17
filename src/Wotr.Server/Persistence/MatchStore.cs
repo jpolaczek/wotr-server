@@ -18,8 +18,13 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
         await Insert(connection, transaction, state, fp, sh, cancellation);
         await transaction.CommitAsync(cancellation);
     }
+    public static Task Insert(NpgsqlConnection connection, NpgsqlTransaction? transaction, MatchState state,
+        string fp, string sh, CancellationToken cancellation) =>
+        Insert(connection, transaction, state, fp, sh, MatchKind.Game, cancellation);
+
+    // ADMIN-01: the match ledger counts the match by its kind from its start.
     public static async Task Insert(NpgsqlConnection connection, NpgsqlTransaction? transaction, MatchState state,
-        string fp, string sh, CancellationToken cancellation)
+        string fp, string sh, MatchKind kind, CancellationToken cancellation)
     {
         await using var command = Database.Command(connection, transaction,
             "INSERT INTO matches(id,fp_account,sh_account,revision,state,events_indexed,recorded) VALUES ($1,$2,$3,$4,$5::jsonb,true,true)",
@@ -28,6 +33,7 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
         await MatchEventStore.Append(connection, transaction, state, 0, cancellation);
         // REPLAY-01: the first frame is the state before the first command of a player.
         await MatchFrames.Record(connection, transaction, state, cancellation);
+        await MatchLedger.Started(connection, transaction, state.Id, kind, fp, sh, cancellation);
     }
     public async Task<AuthorizedMatch?> Read(string id, string account, CancellationToken cancellation = default)
     {
@@ -154,6 +160,8 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
             await clearIndex.ExecuteNonQueryAsync(cancellation);
         }
         await MatchEventStore.Append(connection, transaction, state, eventsIndexed ? previousEventCount : 0, cancellation);
+        if (state.Winner is { } winner)
+            await MatchLedger.Finished(connection, transaction, state.Id, winner, cancellation);
     }
 
     private static async Task SaveReceipt(NpgsqlConnection connection, NpgsqlTransaction transaction, GameCommand request,

@@ -32,7 +32,7 @@ public sealed class DemoSessionStore(Database database, RoomStore rooms, IRandom
         var match = NewMatch();
         var cpu = Opposite(room.You);
         var (fp, sh) = room.You == Side.FreePeoples ? (owner, CpuAccount) : (CpuAccount, owner);
-        await MatchStore.Insert(connection, transaction, match, fp, sh, cancellation);
+        await MatchStore.Insert(connection, transaction, match, fp, sh, MatchKind.Demo, cancellation);
         await Register(connection, transaction, match.Id, owner, room.You, cpu, cancellation);
         await transaction.CommitAsync(cancellation);
         return new(new DemoMatchView { MatchId = match.Id, You = room.You });

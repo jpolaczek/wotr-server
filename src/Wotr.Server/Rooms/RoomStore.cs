@@ -47,6 +47,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
             """, room.Id, room.JoinCode, room.FreePeoples, room.Shadow, Serialize(room),
             room.Name, account, room.Visibility.ToString());
         await command.ExecuteNonQueryAsync(cancellation);
+        await MatchLedger.TableSet(connection, room.Id, account, cancellation);
         return room.View(account, scope, [], audience.Limit);
     }
 

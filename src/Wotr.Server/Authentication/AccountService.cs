@@ -71,7 +71,13 @@ public sealed class AccountService(Database database, AccountRecovery recovery, 
         return new(session, RegistrationError.None);
     }
 
-    public async Task<SessionView?> Login(LoginRequest request, CancellationToken cancellation = default)
+    public Task<SessionView?> Login(LoginRequest request, CancellationToken cancellation = default) =>
+        Login(request, _ => true, SessionPurpose.Game, cancellation);
+
+    // ADMIN-01: a sign-in only some accounts may make (the admin panel's). The password is checked first either way, so
+    // an account outside the list costs the same time and gets the same answer as a wrong password.
+    public async Task<SessionView?> Login(LoginRequest request, Func<string, bool> allowed, SessionPurpose purpose,
+        CancellationToken cancellation)
     {
         var login = request.Username?.Trim() ?? "";
         if (!AccountInput.ValidUsername(login) || !AccountInput.ValidPassword(request.Password))
@@ -79,7 +85,7 @@ public sealed class AccountService(Database database, AccountRecovery recovery, 
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         var account = await FindAccount(connection, login, cancellation);
         var result = Passwords.Verify(account?.Id, account?.Hash, request.Password);
-        if (account is null || result == PasswordVerificationResult.Failed)
+        if (account is null || result == PasswordVerificationResult.Failed || !allowed(account.Username))
             return null;
         if (result == PasswordVerificationResult.SuccessRehashNeeded)
         {
@@ -87,7 +93,7 @@ public sealed class AccountService(Database database, AccountRecovery recovery, 
                 Passwords.Hash(account.Id, request.Password), account.Id);
             await update.ExecuteNonQueryAsync(cancellation);
         }
-        return await SessionStore.Issue(connection, null, account.Id, account.Username, cancellation);
+        return await SessionStore.Issue(connection, null, account.Id, account.Username, purpose, cancellation);
     }
 
     // Operator command (--set-email) for accounts from before AUTH-02: a new, unconfirmed address and its link,

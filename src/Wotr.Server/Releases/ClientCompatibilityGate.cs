@@ -30,11 +30,13 @@ public static class ClientCompatibilityGate
         await context.Response.WriteAsJsonAsync(new { error = ClientCompatibilityPolicy.ErrorCode(verdict) }, context.RequestAborted);
     });
 
-    // AUTH-02: the website's account pages (registration, email confirmation, password reset) are not a game client.
+    // AUTH-02: the website's account pages (registration, email confirmation, password reset) are not a game client;
+    // neither is its admin panel (ADMIN-01).
     private static bool Applies(PathString path) =>
         path.StartsWithSegments("/api") && !path.StartsWithSegments(ClientReleaseEndpoints.Path) &&
         !path.StartsWithSegments(ClientReleaseEndpoints.DownloadsPath) && !path.StartsWithSegments("/api/auth/logout") &&
-        !path.StartsWithSegments("/api/auth/register") && !path.StartsWithSegments("/api/account");
+        !path.StartsWithSegments("/api/auth/register") && !path.StartsWithSegments("/api/account") &&
+        !path.StartsWithSegments(AdminEndpoints.Path);
 
     // A repeated header is not a version; it fails as invalid instead of picking one of the values.
     private static string? Single(StringValues values) => values.Count switch
