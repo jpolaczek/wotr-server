@@ -23,8 +23,9 @@ public enum SetEmailResult
     EmailTaken
 }
 
-// T08 accounts with AUTH-02 (D16) addresses: registration needs an email address, which gets a confirmation link;
-// login takes the name or the address. Account invitations are gone (the invitations table stays unused).
+// T08 accounts with AUTH-02 (D16) addresses: registration needs an email address, which gets a confirmation link.
+// AUTH-05: the account name and the address are each unique (case-insensitively), and sign-in takes the account name
+// only; a password reset may still name the account or its address. Account invitations are gone.
 public sealed class AccountService(Database database, AccountRecovery recovery, EmailOutbox outbox)
 {
     private const string EmailIndex = "accounts_normalized_email";
@@ -73,7 +74,7 @@ public sealed class AccountService(Database database, AccountRecovery recovery, 
     public async Task<SessionView?> Login(LoginRequest request, CancellationToken cancellation = default)
     {
         var login = request.Username?.Trim() ?? "";
-        if (!(AccountInput.ValidUsername(login) || AccountInput.ValidEmail(login)) || !AccountInput.ValidPassword(request.Password))
+        if (!AccountInput.ValidUsername(login) || !AccountInput.ValidPassword(request.Password))
             return null;
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         var account = await FindAccount(connection, login, cancellation);
@@ -139,13 +140,11 @@ public sealed class AccountService(Database database, AccountRecovery recovery, 
 
     private sealed record Account(string Id, string Username, string Hash);
 
-    // A login with @ is an email address; names cannot contain it (AccountInput.ValidUsername).
+    // AUTH-05: the account name, in any case.
     private static async Task<Account?> FindAccount(NpgsqlConnection connection, string login, CancellationToken cancellation)
     {
-        var byEmail = login.Contains('@');
         await using var command = Database.Command(connection, null,
-            $"SELECT id,username,password_hash FROM accounts WHERE {(byEmail ? "normalized_email" : "normalized_name")}=$1 AND NOT technical",
-            byEmail ? AccountInput.NormalizeEmail(login) : login.ToUpperInvariant());
+            "SELECT id,username,password_hash FROM accounts WHERE normalized_name=$1 AND NOT technical", login.ToUpperInvariant());
         await using var reader = await command.ExecuteReaderAsync(cancellation);
         return await reader.ReadAsync(cancellation) ? new(reader.GetString(0), reader.GetString(1), reader.GetString(2)) : null;
     }

@@ -70,7 +70,7 @@ public class AccountInputTests
     }
 
     [PostgresFact]
-    public async Task InvalidRegistrationIsRefusedAndValidAccountCanSignInByNameOrEmail()
+    public async Task InvalidRegistrationIsRefusedAndValidAccountSignsInByNameOnly()
     {
         using var host = new AccountHost();
         using var client = host.CreateClient(new() { BaseAddress = new Uri("https://localhost") });
@@ -104,15 +104,15 @@ public class AccountInputTests
             Username = " " + email.ToUpperInvariant() + " ",
             Password = password
         });
-        Assert.Equal(HttpStatusCode.OK, byEmail.StatusCode);
-        Assert.Equal(registered!.AccountId, (await byEmail.Content.ReadFromJsonAsync<SessionView>())!.AccountId);
+        // AUTH-05: the game signs in with the account name only.
+        Assert.Equal(HttpStatusCode.Unauthorized, byEmail.StatusCode);
         using var login = await client.PostAsJsonAsync("/api/auth/login", new LoginRequest
         {
             Username = name.ToUpperInvariant(),
             Password = password
         });
         Assert.Equal(HttpStatusCode.OK, login.StatusCode);
-        Assert.Equal(registered.AccountId, (await login.Content.ReadFromJsonAsync<SessionView>())!.AccountId);
+        Assert.Equal(registered!.AccountId, (await login.Content.ReadFromJsonAsync<SessionView>())!.AccountId);
         using var alteredPassword = await client.PostAsJsonAsync("/api/auth/login", new LoginRequest
         {
             Username = name,

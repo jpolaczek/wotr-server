@@ -91,7 +91,8 @@ Source: user order from 2026-10-15 ("we delete registration behind invit... ordi
 - The account works immediately. The confirmation link comes by mail; reset the password we send
   only to the confirmed address (the letter in the address does not return the account to the
   stranger).
-- Log in name or email address.
+- Log in with the account name only (AUTH-05, 2026-10-17; earlier the name or the email address).
+  The account name and the email address are each unique, case-insensitively.
 - Existing accounts without an address are given to the administrator.
 - The mail is sent by Resend. Messages only apply to the account (confirmation, reset); batch
   notifications remain only in the application (R07).

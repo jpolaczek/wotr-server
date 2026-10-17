@@ -58,5 +58,26 @@ public class OpenRegistrationTests
         Assert.Null(await accounts.Login(new() { Username = withoutAddress, Password = "a sufficiently long password" }));
     }
 
+    // AUTH-05: an address is unique however it is written, and the game signs in with the account name only.
+    [PostgresFact]
+    public async Task DuplicateEmailsAreRefusedAndSignInTakesTheAccountNameOnly()
+    {
+        using var host = new AccountHost();
+        using var client = host.CreateClient(new() { BaseAddress = new Uri("https://localhost") });
+        var name = Name();
+        var email = TestAccounts.Email(name);
+        const string password = "a sufficiently long password";
+        using var first = await client.PostAsJsonAsync("/api/auth/register", new RegisterRequest { Username = name, Email = email, Password = password });
+        Assert.Equal(HttpStatusCode.OK, first.StatusCode);
+        using var again = await client.PostAsJsonAsync("/api/auth/register",
+            new RegisterRequest { Username = Name(), Email = "  " + email.ToUpperInvariant() + " ", Password = password });
+        Assert.Equal(HttpStatusCode.Conflict, again.StatusCode);
+        Assert.Equal("EmailTaken", (await again.Content.ReadFromJsonAsync<ApiError>())!.Error);
+        using var byEmail = await client.PostAsJsonAsync("/api/auth/login", new LoginRequest { Username = email, Password = password });
+        Assert.Equal(HttpStatusCode.Unauthorized, byEmail.StatusCode);
+        using var byName = await client.PostAsJsonAsync("/api/auth/login", new LoginRequest { Username = "  " + name.ToUpperInvariant(), Password = password });
+        Assert.Equal(HttpStatusCode.OK, byName.StatusCode);
+    }
+
     private static string Name() => "menu_" + Guid.NewGuid().ToString("N")[..20];
 }

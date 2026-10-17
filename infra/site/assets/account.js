@@ -89,7 +89,7 @@ function register() {
   onSubmit(async () => {
     const username = $("username").value.trim();
     const email = $("email").value.trim();
-    if (!NAME.test(username)) return status("The player name needs 3–32 letters (a–z), digits or . _ -", "error");
+    if (!NAME.test(username)) return status("The account name needs 3–32 letters (a–z), digits or . _ -", "error");
     if (!validEmail(email)) return status("Enter a valid email address.", "error");
     const password = passwords();
     if (password === null) return;
@@ -99,9 +99,9 @@ function register() {
       return done(`Your account ${username} is ready. We sent a confirmation link to ${email}. ` +
         "Open War of the Ring Online and sign in with your name and password.");
     const messages = {
-      UsernameTaken: "That player name is taken. Choose another one.",
+      UsernameTaken: "That account name is taken. Choose another one.",
       EmailTaken: "An account with this email already exists. If it is yours, use “Forgot your password?”.",
-      InvalidRegistration: "Check the player name, the email and the password.",
+      InvalidRegistration: "Check the account name, the email and the password.",
     };
     status(messages[result.error] || common(result), "error");
   });
@@ -120,7 +120,7 @@ async function verify() {
 function forgot() {
   onSubmit(async () => {
     const login = $("login").value.trim();
-    if (!NAME.test(login) && !validEmail(login)) return status("Enter your player name or email.", "error");
+    if (!NAME.test(login) && !validEmail(login)) return status("Enter your account name or email.", "error");
     status("Sending…");
     const result = await post("/api/account/password-reset", { login });
     if (result.status === 202)

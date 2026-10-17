@@ -79,7 +79,9 @@ public class AccountEmailTests
         using var mail = new MailHost();
         var (name, email) = await mail.ConfirmedAccount();
         var first = (await mail.Accounts.Login(new LoginRequest { Username = name, Password = Password }))!;
-        var second = (await mail.Accounts.Login(new LoginRequest { Username = email, Password = Password }))!;
+        // AUTH-05: the account name signs in, in any case; the address does not.
+        Assert.Null(await mail.Accounts.Login(new LoginRequest { Username = email, Password = Password }));
+        var second = (await mail.Accounts.Login(new LoginRequest { Username = name.ToUpperInvariant(), Password = Password }))!;
         var reset = await mail.RequestReset(name);
 
         await mail.Refused("api/account/password-reset/confirm", new { token = Token(reset), password = "short" }, "InvalidPassword");
@@ -187,7 +189,9 @@ public class AccountEmailTests
         var (result, message) = await mail.Accounts.SetEmail(legacy, address);
         Assert.Equal(SetEmailResult.Done, result);
         Assert.Equal(address, message!.To);
-        Assert.NotNull(await mail.Accounts.Login(new LoginRequest { Username = address, Password = Password }));
+        // AUTH-05: no sign-in by address.
+        Assert.Null(await mail.Accounts.Login(new LoginRequest { Username = address, Password = Password }));
+        Assert.NotNull(await mail.Accounts.Login(new LoginRequest { Username = legacy, Password = Password }));
 
         // A new address closes the links sent to the old one.
         mail.Clock.Advance(TimeSpan.FromMinutes(3));

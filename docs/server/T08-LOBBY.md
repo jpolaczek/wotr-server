@@ -16,8 +16,8 @@ Session: Separate 256 -bit random tokens, validity 30 days, the server saves onl
 
 | Method and path | Entry → result |
 | --- | --- |
-| POST `/api/auth/register` | username, email, password → SessionView; 400 `InvalidRegistration`, 409 `UsernameTaken`/`EmailTaken` |
-| POST `/api/auth/login` | username (name or email), password → SessionView |
+| POST `/api/auth/register` | username, email, password → SessionView; 400 `InvalidRegistration`, 409 `UsernameTaken`/`EmailTaken` (name and address each unique, case-insensitively) |
+| POST `/api/auth/login` | username (the account name only, any case; AUTH-05), password → SessionView; 401 otherwise |
 | POST `/api/auth/logout` | active session → 204 |
 | POST `/api/account/verify-email` | token → 204; 400 `InvalidToken` |
 | POST `/api/account/password-reset` | login (name or email) → always 202 |
