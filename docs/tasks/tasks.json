@@ -2658,11 +2658,11 @@
         "AGENTS.md",
         "docs/ROADMAP.md"
       ],
-      "status": "in_progress",
+      "status": "blocked",
       "assignee": "claude-opus",
       "started_at": "2026-10-17T12:18:37Z",
       "finished_at": null,
-      "blocked_reason": null,
+      "blocked_reason": "Code done (client bf3f432, EditMode 931/931); PlayMode run on the owner's Mac and a visual check in rc.4 pending.",
       "checks": [],
       "documentation": [],
       "history": [
@@ -2671,6 +2671,18 @@
           "event": "start",
           "agent": "claude-opus",
           "note": "Goal: hand discards by clicking cards in the hand, discardable cards marked red (parchment-discard), sent when the selection is complete (excess hand, A Power too Great/Tom Bombadil cost, own-hand effect choices). Verify: EditMode, art kit test, EditMode CI, PlayMode updates for the Mac."
+        },
+        {
+          "at": "2026-10-17T12:26:43Z",
+          "event": "note",
+          "agent": "claude-opus",
+          "note": "Client bf3f432: HandCard.DiscardClass + parchment-discard art, HandView.Discarding/HandChoice, CardContextInteraction sends complete protection cost / own-hand choice; render.py --variant; AGENTS/UX_SPEC updated. EditMode CI 931/931 (run 39032161173)."
+        },
+        {
+          "at": "2026-10-17T12:26:43Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Code done (client bf3f432, EditMode 931/931); PlayMode run on the owner's Mac and a visual check in rc.4 pending."
         }
       ]
     },
@@ -2700,14 +2712,33 @@
         "wotr-client:docs/ui/UX_SPEC.md",
         "docs/ROADMAP.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
+      "status": "blocked",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T12:45:12Z",
       "finished_at": null,
-      "blocked_reason": null,
+      "blocked_reason": "Code done (client 38b0e54, EditMode 933/933); a visual check in rc.4 pending.",
       "checks": [],
       "documentation": [],
-      "history": []
+      "history": [
+        {
+          "at": "2026-10-17T12:45:12Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: left rail tabs on a dark lacquer plate that reads over any map, usable tabs with a bright gold rim and gentle pulse (still with Reduced motion); fixed sizes. Verify: EditMode CI, visual check in rc.4."
+        },
+        {
+          "at": "2026-10-17T12:51:15Z",
+          "event": "note",
+          "agent": "claude-opus",
+          "note": "Client 38b0e54: LeftRail.uss plate/gilt rim for every tab, usable tabs bright gold with a 750 ms pulse class (motion-enabled only). EditMode CI 933/933 (run 39033813177)."
+        },
+        {
+          "at": "2026-10-17T12:51:16Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Code done (client 38b0e54, EditMode 933/933); a visual check in rc.4 pending."
+        }
+      ]
     },
     {
       "id": "UI-224",
@@ -2735,14 +2766,33 @@
         "wotr-client:docs/ui/UX_SPEC.md",
         "docs/ROADMAP.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
+      "status": "blocked",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T12:36:32Z",
       "finished_at": null,
-      "blocked_reason": null,
+      "blocked_reason": "Code done (client 4765066, EditMode 933/933); PlayMode render-counter tests on the owner's Mac and a visual check in rc.4 pending.",
       "checks": [],
       "documentation": [],
-      "history": []
+      "history": [
+        {
+          "at": "2026-10-17T12:36:32Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: enterable regions glow green and attack targets red with a gentle opacity pulse on a retained glow layer (no repaint on pan/zoom, static with Reduced motion), stronger fills. Verify: EditMode (emphasis/glow sets), EditMode CI, PlayMode for the Mac."
+        },
+        {
+          "at": "2026-10-17T12:45:12Z",
+          "event": "note",
+          "agent": "claude-opus",
+          "note": "Client 4765066: MapTargetGlow (retained edge glow, pulse class every 750 ms, motion-enabled transition), stronger Target/Attack fills, renderer without per-redraw allocation. EditMode CI 933/933 (run 39033277192)."
+        },
+        {
+          "at": "2026-10-17T12:45:12Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Code done (client 4765066, EditMode 933/933); PlayMode render-counter tests on the owner's Mac and a visual check in rc.4 pending."
+        }
+      ]
     },
     {
       "id": "UI-225",
@@ -2769,14 +2819,75 @@
         "wotr-client:docs/ui/BATTLE_WINDOW_UX.md",
         "docs/ROADMAP.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
+      "status": "blocked",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T12:26:43Z",
+      "finished_at": null,
+      "blocked_reason": "Code done (client 8377641, EditMode 931/931); PlayMode run on the owner's Mac and a visual check in rc.4 pending.",
+      "checks": [],
+      "documentation": [],
+      "history": [
+        {
+          "at": "2026-10-17T12:26:43Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: the battle window stays open and in place after No card (and after a card) until the battle ends. Verify: EditMode where possible, EditMode CI, PlayMode bounds check for the Mac, visual check in rc.4."
+        },
+        {
+          "at": "2026-10-17T12:36:31Z",
+          "event": "note",
+          "agent": "claude-opus",
+          "note": "Client 8377641: RegionalBattlePanel.Resized keeps a placed window (placedScope) when its content resizes unless MapPanelPlacement.Fits fails; PlayMode UI151 test checks open+place over frames. EditMode CI 931/931 (run 39032831107)."
+        },
+        {
+          "at": "2026-10-17T12:36:32Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Code done (client 8377641, EditMode 931/931); PlayMode run on the owner's Mac and a visual check in rc.4 pending."
+        }
+      ]
+    },
+    {
+      "id": "UI-226",
+      "title": "Battle illustrations by nation",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 978,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R22"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "wotr-client:docs/ui/BATTLE_WINDOW_UX.md",
+        "wotr-client:graphicalassets/battles/README.md"
+      ],
+      "spec": "docs/tasks/UI-226.md",
+      "update_docs": [
+        "docs/tasks/UI-226.md",
+        "wotr-client:graphicalassets/battles/README.md",
+        "wotr-client:docs/ui/BATTLE_WINDOW_UX.md",
+        "docs/ROADMAP.md"
+      ],
+      "status": "in_progress",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T12:51:16Z",
       "finished_at": null,
       "blocked_reason": null,
       "checks": [],
       "documentation": [],
-      "history": []
+      "history": [
+        {
+          "at": "2026-10-17T12:51:16Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: nation battle illustrations for towns/cities/strongholds with side fallback. Verify: EditMode keys/fallback, build.py --check, visual check in rc.4. Images need the owner's OpenAI key."
+        }
+      ]
     }
   ]
 }
