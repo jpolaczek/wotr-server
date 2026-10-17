@@ -1,75 +1,377 @@
+/* War of the Ring Online — the public site (download, accounts). The look follows the game: dark lacquer bands with a
+   gilt rim, parchment pages, Cinzel for titles and Alegreya for text (both SIL OFL, served from this site because the
+   Content-Security-Policy allows only this origin). */
+@font-face {
+  font-family: "Cinzel";
+  src: url("/assets/fonts/Cinzel-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Alegreya";
+  src: url("/assets/fonts/Alegreya-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Alegreya";
+  src: url("/assets/fonts/Alegreya-SemiBold.woff2") format("woff2");
+  font-weight: 600 700;
+  font-display: swap;
+}
+
 :root {
-  --paper: #f4ecd8;
-  --ink: #2b241b;
-  --muted: #6b5d48;
-  --accent: #7a2e1c;
-  --line: #d6c7a6;
+  --page: #efe4c6;
+  --page-alt: #e6d8b3;
+  --card: #f7efd9;
+  --ink: #2b231a;
+  --muted: #6a5a42;
+  --line: #cdb88c;
+  --accent: #8a2e1f;
+  --accent-ink: #fff7e6;
+  --lacquer: #17120c;
+  --lacquer-2: #241c13;
+  --on-lacquer: #efe4c6;
+  --on-lacquer-muted: #bfae88;
+  --gold: #c9a45a;
+  --gold-bright: #e6c67e;
+  --free: #2c4a73;
+  --shadow: #7a2320;
+  --shadow-color: rgba(30, 20, 8, 0.28);
+  --title: "Cinzel", "Trajan Pro", Georgia, "Times New Roman", serif;
+  --text: "Alegreya", Georgia, "Times New Roman", serif;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #1d1a15;
-    --ink: #ece3cf;
-    --muted: #b3a585;
-    --accent: #e0937a;
-    --line: #3d362b;
+    --page: #1b1610;
+    --page-alt: #211b13;
+    --card: #2a2219;
+    --ink: #ece2c8;
+    --muted: #b8a780;
+    --line: #4a3d2a;
+    --accent: #d98a6f;
+    --accent-ink: #1b1610;
+    --shadow-color: rgba(0, 0, 0, 0.45);
   }
 }
+
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--page);
   color: var(--ink);
-  font: 17px/1.55 Georgia, "Times New Roman", serif;
+  font: 18px/1.6 var(--text);
 }
-main { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1rem 3rem; }
-h1 { font-size: 2.3rem; margin: 0 0 .75rem; letter-spacing: .01em; }
-h2 { font-size: 1.35rem; margin: 2.25rem 0 .75rem; border-bottom: 1px solid var(--line); padding-bottom: .3rem; }
-.lead { font-size: 1.1rem; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--accent); text-underline-offset: .15em; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+code { font-size: .9em; background: var(--page-alt); padding: .05em .3em; border-radius: .2em; }
+h1, h2, h3 { font-family: var(--title); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+h2 { font-size: 1.7rem; margin: 0 0 1rem; letter-spacing: .02em; }
+h3 { font-size: 1.1rem; margin: 0 0 .4rem; letter-spacing: .03em; }
 .note, .status, .meta { color: var(--muted); }
-.downloads { display: grid; gap: .75rem; }
-.download {
-  display: inline-block;
-  background: var(--accent);
-  color: #fff;
-  padding: .7rem 1.2rem;
-  border-radius: .4rem;
-  text-decoration: none;
-  font-weight: bold;
-}
-.download:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-.meta { font-size: .9rem; margin: .35rem 0 0; }
-.meta code { word-break: break-all; }
-ol li { margin-bottom: .45rem; }
-a { color: var(--accent); }
-footer { margin-top: 3rem; font-size: .95rem; }
+.note { font-size: .95rem; }
+.skip { position: absolute; left: -999px; top: 0; }
+.skip:focus { left: 1rem; top: 1rem; z-index: 10; background: var(--card); padding: .4rem .8rem; }
 
-/* AUTH-02: account pages (registration, confirmation, password reset). */
-.account .crumb { margin: 0 0 1.5rem; font-size: .95rem; }
-.account form { display: grid; gap: .35rem; margin: 1.5rem 0; max-width: 26rem; }
-.account label { font-weight: bold; margin-top: .6rem; }
-.account input {
-  font: inherit;
-  padding: .5rem .6rem;
+/* Bands keep a 16px gutter at every width and clear a phone's side insets. */
+.topbar-inner, .hero-inner, .band-inner, .footer-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* The lacquer bar with the brand, the section links and the account button. */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: linear-gradient(var(--lacquer-2), var(--lacquer));
+  border-bottom: 1px solid var(--gold);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .35);
+}
+.topbar-inner { display: flex; align-items: center; gap: 1.25rem; min-height: 3.6rem; }
+.brand {
+  font-family: var(--title);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: .06em;
+  color: var(--gold-bright);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.brand span { color: var(--on-lacquer); }
+.nav { display: flex; gap: 1.1rem; margin-left: auto; flex-wrap: wrap; }
+.nav a {
+  color: var(--on-lacquer);
+  text-decoration: none;
+  font-family: var(--title);
+  font-size: .82rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.nav a:hover { color: var(--gold-bright); }
+
+.button {
+  display: inline-block;
+  background: linear-gradient(#9a3826, var(--shadow));
+  color: #fff7e6;
+  border: 1px solid var(--gold);
+  border-radius: .35rem;
+  padding: .7rem 1.3rem;
+  font-family: var(--title);
+  font-size: .95rem;
+  letter-spacing: .05em;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 230, 170, .25);
+  cursor: pointer;
+}
+.button:hover { filter: brightness(1.1); }
+.button:active { transform: translateY(1px); }
+.button.ghost { background: transparent; color: var(--gold-bright); }
+.button.small { padding: .4rem .9rem; font-size: .8rem; white-space: nowrap; }
+
+/* The hero: the pitch beside a framed screenshot. */
+.hero {
+  background:
+    radial-gradient(ellipse at 70% 0%, rgba(201, 164, 90, .18), transparent 60%),
+    linear-gradient(var(--lacquer), var(--lacquer-2));
+  color: var(--on-lacquer);
+  border-bottom: 1px solid var(--gold);
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 2.5rem;
+  align-items: center;
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+.hero-text { min-width: 0; }
+.eyebrow {
+  margin: 0 0 .75rem;
+  font-family: var(--title);
+  font-size: .8rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.hero h1 { font-size: clamp(2rem, 4.2vw, 3.1rem); margin: 0 0 1rem; color: var(--gold-bright); }
+.hero .lead { font-size: 1.12rem; color: var(--on-lacquer); margin: 0 0 1.6rem; }
+.actions { display: flex; flex-wrap: wrap; gap: .8rem; }
+.actions .button { padding: .7rem 1.05rem; font-size: .9rem; }
+.platforms { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: 1.6rem 0 0; }
+.platforms li {
+  border: 1px solid rgba(201, 164, 90, .55);
+  border-radius: 1rem;
+  padding: .1rem .7rem;
+  font-size: .85rem;
+  color: var(--on-lacquer-muted);
+}
+.hero-shot {
+  margin: 0;
+  border: 1px solid var(--gold);
+  border-radius: .4rem;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .55), 0 0 0 4px rgba(201, 164, 90, .12);
+}
+
+/* Parchment sections. */
+.band { padding: 3.5rem 0; border-bottom: 1px solid var(--line); }
+.band.alt { background: var(--page-alt); }
+.intro { max-width: 46rem; margin: 0 0 1.75rem; font-size: 1.05rem; }
+
+.sides { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.side {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 4px solid;
+  border-radius: .4rem;
+  padding: 1.2rem 1.4rem;
+  box-shadow: 0 3px 12px var(--shadow-color);
+}
+.side.free { border-top-color: var(--free); }
+.side.shadow { border-top-color: var(--shadow); }
+.side p { margin: 0; }
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+.features li {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: .4rem;
+  padding: 1.1rem 1.25rem;
+}
+.features h3 { color: var(--accent); }
+.features p { margin: 0; font-size: .97rem; }
+
+.gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem; }
+.gallery figure { margin: 0; }
+.gallery img {
   border: 1px solid var(--line);
   border-radius: .35rem;
-  background: transparent;
+  box-shadow: 0 6px 20px var(--shadow-color);
+}
+.gallery figcaption { margin-top: .6rem; font-size: .95rem; color: var(--muted); }
+
+/* DIST-04: the download buttons come from the release catalog (site.js); the visitor's system comes first. */
+.downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.offer {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: .4rem;
+  padding: 1rem 1.2rem;
+  min-width: 0;
+}
+.offer.mine { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(201, 164, 90, .35); }
+.offer .mine-label {
+  margin: 0 0 .4rem;
+  font-family: var(--title);
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.download {
+  display: inline-block;
+  background: linear-gradient(#9a3826, var(--shadow));
+  color: #fff7e6;
+  border: 1px solid var(--gold);
+  padding: .65rem 1.1rem;
+  border-radius: .35rem;
+  text-decoration: none;
+  font-family: var(--title);
+  font-size: .9rem;
+  letter-spacing: .04em;
+}
+.download:hover { filter: brightness(1.1); }
+.meta { font-size: .85rem; margin: .5rem 0 0; }
+.meta code { word-break: break-all; background: transparent; padding: 0; }
+
+#install-title { margin-top: 2.25rem; }
+details {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: .4rem;
+  margin: 0 0 .75rem;
+  padding: 0 1.2rem;
+}
+summary {
+  cursor: pointer;
+  padding: .8rem 0;
+  font-family: var(--title);
+  font-size: 1rem;
+  letter-spacing: .04em;
+}
+details[open] summary { border-bottom: 1px solid var(--line); margin-bottom: .6rem; }
+details ol { margin: 0 0 1rem; }
+ol li { margin-bottom: .45rem; }
+
+.steps { counter-reset: step; list-style: none; padding: 0; margin: 0 0 1rem; display: grid; gap: .9rem; max-width: 46rem; }
+.steps li { counter-increment: step; position: relative; padding-left: 3rem; margin: 0; }
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: .05rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--lacquer);
+  color: var(--gold-bright);
+  border: 1px solid var(--gold);
+  font-family: var(--title);
+  text-align: center;
+  line-height: 1.9rem;
+}
+
+.repos { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.repo {
+  display: block;
+  background: var(--lacquer);
+  color: var(--on-lacquer);
+  border: 1px solid var(--gold);
+  border-radius: .4rem;
+  padding: 1.2rem 1.4rem;
+  text-decoration: none;
+  box-shadow: 0 4px 14px var(--shadow-color);
+}
+.repo:hover { background: var(--lacquer-2); }
+.repo-name { display: block; font-family: var(--title); color: var(--gold-bright); letter-spacing: .03em; margin-bottom: .35rem; }
+.repo-text { display: block; font-size: .95rem; color: var(--on-lacquer-muted); }
+
+.footer { background: var(--lacquer); color: var(--on-lacquer-muted); border-top: 1px solid var(--gold); }
+.footer-inner { padding-top: 2rem; padding-bottom: 2.5rem; }
+.footer p { margin: 0 0 .5rem; }
+.footer a { color: var(--gold-bright); }
+.footer .brand.small { font-size: 1rem; }
+.fine { font-size: .82rem; }
+
+@media (max-width: 960px) {
+  .hero-inner { grid-template-columns: 1fr; padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .features { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .nav { display: none; }
+  .topbar-inner { justify-content: space-between; gap: .75rem; }
+  .brand { font-size: .95rem; letter-spacing: .03em; }
+  .button.small { padding: .35rem .65rem; font-size: .72rem; }
+  .sides, .features, .gallery, .repos { grid-template-columns: 1fr; }
+  .band { padding: 2.5rem 0; }
+}
+
+/* AUTH-02: account pages (registration, confirmation, password reset) on a parchment card. */
+.account-page main { padding: 2.5rem 0 3.5rem; }
+.account {
+  max-width: 34rem;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--gold);
+  border-radius: .45rem;
+  padding: 1.75rem max(16px, 1.75rem) 2rem;
+  box-shadow: 0 8px 28px var(--shadow-color);
+}
+.account-wrap {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.account h1 { font-size: 1.8rem; margin: 0 0 .75rem; color: var(--accent); }
+.account .lead { font-size: 1rem; }
+.account form { display: grid; gap: .35rem; margin: 1.5rem 0; }
+.account label { font-weight: 600; margin-top: .6rem; }
+.account input {
+  font: inherit;
+  padding: .55rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: .35rem;
+  background: var(--page);
   color: var(--ink);
 }
-.account input:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
-.account .help { margin: 0; font-size: .9rem; color: var(--muted); }
+.account input:focus-visible { outline: 3px solid var(--gold); outline-offset: 1px; }
+.account .help { margin: 0; font-size: .88rem; color: var(--muted); }
 .account button {
   justify-self: start;
-  margin-top: 1rem;
-  font: inherit;
-  font-weight: bold;
-  background: var(--accent);
-  color: #fff;
-  border: 0;
-  border-radius: .4rem;
-  padding: .65rem 1.2rem;
+  margin-top: 1.1rem;
+  background: linear-gradient(#9a3826, var(--shadow));
+  color: #fff7e6;
+  border: 1px solid var(--gold);
+  border-radius: .35rem;
+  padding: .65rem 1.3rem;
+  font-family: var(--title);
+  font-size: .95rem;
+  letter-spacing: .05em;
   cursor: pointer;
 }
 .account button:disabled { opacity: .6; cursor: progress; }
-.account button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-.account .status[data-kind="error"] { color: var(--accent); font-weight: bold; }
+.account .status[data-kind="error"] { color: var(--accent); font-weight: 600; }
 .account .status[data-kind="done"] { color: var(--ink); }

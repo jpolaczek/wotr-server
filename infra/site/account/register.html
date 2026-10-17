@@ -6,33 +6,53 @@
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex">
   <title>Create account · War of the Ring Online</title>
-  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/site.css?v=2026-10-17b">
   <script src="/assets/account.js" defer></script>
 </head>
-<body data-page="register">
-  <main class="account">
-    <p class="crumb"><a href="/">War of the Ring Online</a></p>
-    <h1>Create account</h1>
-    <p class="lead">Choose your account name, which other players will see, your email and a password. You will sign
-      in to the game with the account name. Each account name and each email can belong to one account only.</p>
-    <form id="form" novalidate>
-      <label for="username">Account name</label>
-      <input id="username" name="username" autocomplete="username" required minlength="3" maxlength="32"
-        aria-describedby="username-help">
-      <p id="username-help" class="help">3–32 letters (a–z, no accents), digits or <code>. _ -</code></p>
-      <label for="email">Email</label>
-      <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" aria-describedby="email-help">
-      <p id="email-help" class="help">We send a link to confirm it. Only account emails: confirmation and password reset.</p>
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" autocomplete="new-password" required minlength="12" maxlength="128"
-        aria-describedby="password-help">
-      <p id="password-help" class="help">12–128 characters.</p>
-      <label for="confirm">Repeat the password</label>
-      <input id="confirm" name="confirm" type="password" autocomplete="new-password" required>
-      <button type="submit">Create account</button>
-    </form>
-    <p class="note">Already have an account? Sign in in the game. <a href="/account/forgot">Forgot your password?</a></p>
-    <p id="status" class="status" role="status" aria-live="polite"></p>
+<body class="account-page" data-page="register">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">War of the Ring <span>Online</span></a>
+      <nav class="nav" aria-label="Site">
+        <a href="/#about">The game</a>
+        <a href="/#download">Download</a>
+        <a href="/#open-source">Source</a>
+      </nav>
+    </div>
+  </header>
+  <main class="account-wrap">
+    <div class="account">
+      <h1>Create account</h1>
+      <p class="lead">Choose your account name, which other players will see, your email and a password. You will sign
+        in to the game with the account name. Each account name and each email can belong to one account only.</p>
+      <form id="form" novalidate>
+        <label for="username">Account name</label>
+        <input id="username" name="username" autocomplete="username" required minlength="3" maxlength="32"
+          aria-describedby="username-help">
+        <p id="username-help" class="help">3–32 letters (a–z, no accents), digits or <code>. _ -</code></p>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" aria-describedby="email-help">
+        <p id="email-help" class="help">We send a link to confirm it. Only account emails: confirmation and password reset.</p>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" required minlength="12" maxlength="128"
+          aria-describedby="password-help">
+        <p id="password-help" class="help">12–128 characters.</p>
+        <label for="confirm">Repeat the password</label>
+        <input id="confirm" name="confirm" type="password" autocomplete="new-password" required>
+        <button type="submit">Create account</button>
+      </form>
+      <p class="note">Already have an account? Sign in in the game. <a href="/account/forgot">Forgot your password?</a></p>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </div>
   </main>
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="brand small">War of the Ring <span>Online</span></p>
+      <p>Free and open source (MIT) ·
+        <a href="https://github.com/jpolaczek/wotr-client" rel="noopener">Client</a> ·
+        <a href="https://github.com/jpolaczek/wotr-server" rel="noopener">Server</a> ·
+        <a href="/">Download the game</a></p>
+    </div>
+  </footer>
 </body>
 </html>

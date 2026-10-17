@@ -6,24 +6,44 @@
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex">
   <title>Choose a new password · War of the Ring Online</title>
-  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/site.css?v=2026-10-17b">
   <script src="/assets/account.js" defer></script>
 </head>
-<body data-page="reset">
-  <main class="account">
-    <p class="crumb"><a href="/">War of the Ring Online</a></p>
-    <h1>Choose a new password</h1>
-    <p class="lead">Choose a new password. Afterwards every device is signed out; sign in again in the game.</p>
-    <form id="form" novalidate>
-      <label for="password">New password</label>
-      <input id="password" name="password" type="password" autocomplete="new-password" required minlength="12" maxlength="128"
-        aria-describedby="password-help">
-      <p id="password-help" class="help">12–128 characters.</p>
-      <label for="confirm">Repeat the new password</label>
-      <input id="confirm" name="confirm" type="password" autocomplete="new-password" required>
-      <button type="submit">Change password</button>
-    </form>
-    <p id="status" class="status" role="status" aria-live="polite"></p>
+<body class="account-page" data-page="reset">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">War of the Ring <span>Online</span></a>
+      <nav class="nav" aria-label="Site">
+        <a href="/#about">The game</a>
+        <a href="/#download">Download</a>
+        <a href="/#open-source">Source</a>
+      </nav>
+    </div>
+  </header>
+  <main class="account-wrap">
+    <div class="account">
+      <h1>Choose a new password</h1>
+      <p class="lead">Choose a new password. Afterwards every device is signed out; sign in again in the game.</p>
+      <form id="form" novalidate>
+        <label for="password">New password</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" required minlength="12" maxlength="128"
+          aria-describedby="password-help">
+        <p id="password-help" class="help">12–128 characters.</p>
+        <label for="confirm">Repeat the new password</label>
+        <input id="confirm" name="confirm" type="password" autocomplete="new-password" required>
+        <button type="submit">Change password</button>
+      </form>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </div>
   </main>
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="brand small">War of the Ring <span>Online</span></p>
+      <p>Free and open source (MIT) ·
+        <a href="https://github.com/jpolaczek/wotr-client" rel="noopener">Client</a> ·
+        <a href="https://github.com/jpolaczek/wotr-server" rel="noopener">Server</a> ·
+        <a href="/">Download the game</a></p>
+    </div>
+  </footer>
 </body>
 </html>

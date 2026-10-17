@@ -4,84 +4,243 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>War of the Ring Online</title>
-  <meta name="description" content="Play War of the Ring (Second Edition) online with a friend.">
-  <link rel="stylesheet" href="/assets/site.css">
-  <script src="/assets/site.js?v=2026-10-17" defer></script>
+  <meta name="description" content="Play War of the Ring (Second Edition) online with a friend: a free, open-source client for macOS, Windows, Linux and Steam Deck with server-checked rules.">
+  <meta property="og:title" content="War of the Ring Online">
+  <meta property="og:description" content="Play War of the Ring (Second Edition) online with a friend. Free and open source.">
+  <meta property="og:image" content="/assets/screens/battle-1600.jpg">
+  <link rel="preload" href="/assets/fonts/Cinzel-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/site.css?v=2026-10-17b">
+  <script src="/assets/site.js?v=2026-10-17b" defer></script>
 </head>
-<body>
-  <main>
-    <header>
-      <h1>War of the Ring Online</h1>
-      <p class="lead">Play the War of the Ring board game, Second Edition, online with a friend: one player leads the
-        Free Peoples, the other the Shadow. Every decision is saved, so a game can take an evening or a few weeks.</p>
-      <p class="note">This is a beta. <a href="/account/register">Create an account</a> ·
-        <a href="/account/forgot">Forgot your password?</a></p>
-    </header>
+<body class="home">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">War of the Ring <span>Online</span></a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#about">The game</a>
+        <a href="#features">Features</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#download">Download</a>
+        <a href="#open-source">Source</a>
+      </nav>
+      <a class="button small" href="/account/register">Create account</a>
+    </div>
+  </header>
 
-    <section aria-labelledby="download-title">
-      <h2 id="download-title">Download</h2>
-      <div id="downloads" class="downloads" aria-live="polite">
-        <p class="status">Checking the latest version…</p>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <p class="eyebrow">Free · Open source · Beta</p>
+          <h1 id="hero-title">Lead the Free Peoples or the&nbsp;Shadow</h1>
+          <p class="lead">Play <strong>War of the Ring</strong>, the board game (Second Edition), online with a friend.
+            One of you guides the Fellowship and the free nations of Middle-earth, the other commands the armies of
+            Sauron and Saruman. Every decision is saved, so a game can take an evening or a few weeks.</p>
+          <div class="actions">
+            <a class="button" href="#download">Download the game</a>
+            <a class="button ghost" href="/account/register">Create an account</a>
+          </div>
+          <ul class="platforms" aria-label="Platforms">
+            <li>macOS</li><li>Windows</li><li>Linux</li><li>Steam Deck</li>
+          </ul>
+        </div>
+        <figure class="hero-shot">
+          <img src="/assets/screens/battle-1600.jpg" srcset="/assets/screens/battle-800.jpg 800w, /assets/screens/battle-1600.jpg 1600w"
+            sizes="(max-width: 960px) 100vw, 56vw" width="1600" height="999"
+            alt="A battle at the Fords of Isen: the Shadow attacker and the Free Peoples defender choose their Combat cards over the map of Middle-earth.">
+        </figure>
       </div>
-      <noscript><p class="status">Turn on JavaScript to see the current downloads.</p></noscript>
-      <p class="note">Windows and Steam Deck (the Linux version) are experimental: they have not been tested on real
-        devices yet. Please tell us what does not work.</p>
     </section>
 
-    <section aria-labelledby="install-title">
-      <h2 id="install-title">Install on macOS</h2>
-      <ol>
-        <li>Open the downloaded <code>.pkg</code> file. The installer is not signed by Apple yet, so macOS says it
-          cannot check it. Click <strong>Done</strong>.</li>
-        <li>Open <strong>System Settings → Privacy &amp; Security</strong>, find the message about the installer and click
-          <strong>Open Anyway</strong>, then confirm with your password.</li>
-        <li>In the installer choose <strong>Install for me only</strong>. The game goes to Applications in your home
-          folder and later updates will not ask for a password.</li>
-        <li>The game starts after the installation. Works on Apple Silicon and Intel Macs.</li>
-      </ol>
+    <section id="about" class="band" aria-labelledby="about-title">
+      <div class="band-inner">
+        <h2 id="about-title">The game</h2>
+        <p class="intro">War of the Ring is a strategy board game for two players set in J.R.R. Tolkien’s
+          <cite>The Lord of the Rings</cite>. Action dice decide what each side can do in a turn: muster and move armies,
+          play event cards, bring heroes into play — or move the Fellowship one step closer to Mount Doom while the
+          Shadow hunts it.</p>
+        <div class="sides">
+          <article class="side free">
+            <h3>The Free Peoples</h3>
+            <p>Bring the Ring-bearers through Mordor to Mount Doom and destroy the One Ring before its corruption
+              takes them — or turn the war around and take the Shadow’s strongholds by force of arms.</p>
+          </article>
+          <article class="side shadow">
+            <h3>The Shadow</h3>
+            <p>Conquer the cities and strongholds of the free nations, or hunt the Fellowship until the Ring-bearers
+              fall to its corruption. Every die you spend on the Hunt is a die your armies cannot use.</p>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <section aria-labelledby="install-windows-title">
-      <h2 id="install-windows-title">Install on Windows (experimental)</h2>
-      <ol>
-        <li>Run the downloaded <code>WotrOnline-…-win-Setup.exe</code>. If your browser asks about the file, choose
-          <strong>Keep</strong>.</li>
-        <li>The installer is not signed by Microsoft yet, so Windows may show <strong>Windows protected your PC</strong>:
-          click <strong>More info</strong>, then <strong>Run anyway</strong>.</li>
-        <li>No administrator rights are needed. The game installs for your user, adds shortcuts to the desktop and the
-          Start menu, starts by itself and later updates itself. Uninstall it in Settings → Apps.</li>
-        <li>With <strong>Smart App Control</strong> turned on, Windows blocks unsigned installers and the game cannot be
-          installed for now. Windows 10 or 11, 64-bit.</li>
-      </ol>
+    <section id="features" class="band alt" aria-labelledby="features-title">
+      <div class="band-inner">
+        <h2 id="features-title">The online version</h2>
+        <ul class="features">
+          <li>
+            <h3>Rules checked by the server</h3>
+            <p>Every move is validated by the game server, which also rolls the dice. Hidden information stays
+              hidden: you never see your opponent’s hand.</p>
+          </li>
+          <li>
+            <h3>Live or by correspondence</h3>
+            <p>Play in one sitting or a move a day. Each decision is saved on the server, so you can close the game
+              and continue later on any of your computers.</p>
+          </li>
+          <li>
+            <h3>The board, not menus</h3>
+            <p>Choose on the map, the dice and the panels: click a region, a figure, a portrait or a card. The game
+              lights up what you can do right now and explains it.</p>
+          </li>
+          <li>
+            <h3>Private tables</h3>
+            <p>Invite a friend with a table code and agree on the setup together. Friends can watch as observers;
+              in the board’s chat they read everyone, while players only read each other.</p>
+          </li>
+          <li>
+            <h3>Replays</h3>
+            <p>Save a finished game and watch it again, move by move.</p>
+          </li>
+          <li>
+            <h3>Updates itself</h3>
+            <p>Install once: the game downloads new versions by itself and can repair its installation.</p>
+          </li>
+        </ul>
+        <p class="note">The base game (Second Edition) is the focus of this beta. The expansions Lords of
+          Middle-earth, Kings of Middle-earth and The Fate of Erebor are available for testing.</p>
+      </div>
     </section>
 
-    <section aria-labelledby="install-linux-title">
-      <h2 id="install-linux-title">Install on Linux and Steam Deck</h2>
-      <ol>
-        <li>Save the downloaded <code>.AppImage</code> file in a folder of your own, for example <code>~/Applications</code>:
-          updates replace this file.</li>
-        <li>Make it executable: right-click → <strong>Properties → Permissions → Allow executing</strong>, or run
-          <code>chmod +x WotrOnline-*.AppImage</code>.</li>
-        <li>Start it by double-clicking. If it does not start and mentions FUSE, install your distribution's
-          <code>fuse3</code> package. The game updates itself in place.</li>
-        <li><strong>Steam Deck (experimental):</strong> in Desktop Mode do the steps above, then add the file to Steam
-          with <strong>Add a Non-Steam Game</strong> to play it in Gaming Mode. Use Steam + X for the on-screen
-          keyboard when signing in.</li>
-      </ol>
+    <section id="screenshots" class="band" aria-labelledby="screenshots-title">
+      <div class="band-inner">
+        <h2 id="screenshots-title">Screenshots</h2>
+        <div class="gallery">
+          <figure>
+            <a href="/assets/screens/battle-1600.jpg"><img src="/assets/screens/battle-800.jpg" width="800" height="499" loading="lazy"
+              alt="The battle window at the Fords of Isen with both forces, their statistics and the Combat cards."></a>
+            <figcaption>A battle at the Fords of Isen: both players choose a Combat card.</figcaption>
+          </figure>
+          <figure>
+            <a href="/assets/screens/fellowship-1600.jpg"><img src="/assets/screens/fellowship-800.jpg" width="800" height="499" loading="lazy"
+              alt="The map of Middle-earth at the start of the game with armies, the Fellowship panel and the turn console."></a>
+            <figcaption>The first turn: the Fellowship phase on the full map of Middle-earth.</figcaption>
+          </figure>
+        </div>
+        <p class="note">The artwork is provisional and will keep improving.</p>
+      </div>
     </section>
 
-    <section aria-labelledby="play-title">
-      <h2 id="play-title">Start playing</h2>
-      <ol>
-        <li><a href="/account/register">Create an account</a> on this site and confirm your email with the link we send.
-          Then sign in in the game with your account name and password.</li>
-        <li>Open <strong>Tables</strong>, create a table and send the table invitation to your opponent.</li>
-        <li>Agree on the setup, accept it both, and the host starts the game.</li>
-      </ol>
+    <section id="download" class="band alt" aria-labelledby="download-title">
+      <div class="band-inner">
+        <h2 id="download-title">Download</h2>
+        <div id="downloads" class="downloads" aria-live="polite">
+          <p class="status">Checking the latest version…</p>
+        </div>
+        <noscript><p class="status">Turn on JavaScript to see the current downloads.</p></noscript>
+        <p class="note">Windows and the Linux version (also for Steam Deck) are experimental: please tell us what does
+          not work. The installers are not signed yet, so your system asks you to confirm them — see below.</p>
+
+        <h3 id="install-title">Installation</h3>
+        <details>
+          <summary>macOS</summary>
+          <ol>
+            <li>Open the downloaded <code>.pkg</code> file. The installer is not signed by Apple yet, so macOS says it
+              cannot check it. Click <strong>Done</strong>.</li>
+            <li>Open <strong>System Settings → Privacy &amp; Security</strong>, find the message about the installer and click
+              <strong>Open Anyway</strong>, then confirm with your password.</li>
+            <li>In the installer choose <strong>Install for me only</strong>. The game goes to Applications in your home
+              folder and later updates will not ask for a password.</li>
+            <li>The game starts after the installation. Works on Apple Silicon and Intel Macs.</li>
+          </ol>
+        </details>
+        <details>
+          <summary>Windows (experimental)</summary>
+          <ol>
+            <li>Run the downloaded <code>WotrOnline-…-win-Setup.exe</code>. If your browser asks about the file, choose
+              <strong>Keep</strong>.</li>
+            <li>The installer is not signed by Microsoft yet, so Windows may show <strong>Windows protected your PC</strong>:
+              click <strong>More info</strong>, then <strong>Run anyway</strong>.</li>
+            <li>No administrator rights are needed. The game installs for your user, adds shortcuts to the desktop and the
+              Start menu, starts by itself and later updates itself. Uninstall it in Settings → Apps.</li>
+            <li>With <strong>Smart App Control</strong> turned on, Windows blocks unsigned installers and the game cannot be
+              installed for now. Windows 10 or 11, 64-bit.</li>
+          </ol>
+        </details>
+        <details>
+          <summary>Linux and Steam Deck (experimental)</summary>
+          <ol>
+            <li>Save the downloaded <code>.AppImage</code> file in a folder of your own, for example <code>~/Applications</code>:
+              updates replace this file.</li>
+            <li>Make it executable: right-click → <strong>Properties → Permissions → Allow executing</strong>, or run
+              <code>chmod +x WotrOnline-*.AppImage</code>.</li>
+            <li>Start it by double-clicking. If it does not start and mentions FUSE, install your distribution’s
+              <code>fuse3</code> package. The game updates itself in place.</li>
+            <li><strong>Steam Deck:</strong> in Desktop Mode do the steps above, then add the file to Steam with
+              <strong>Add a Non-Steam Game</strong> to play it in Gaming Mode. Use Steam + X for the on-screen keyboard
+              when signing in.</li>
+          </ol>
+        </details>
+      </div>
     </section>
 
-    <footer>
-    </footer>
+    <section id="start" class="band" aria-labelledby="start-title">
+      <div class="band-inner">
+        <h2 id="start-title">Start playing</h2>
+        <ol class="steps">
+          <li><strong>Create an account.</strong> <a href="/account/register">Register on this site</a> and confirm your
+            email with the link we send. You sign in to the game with your account name.</li>
+          <li><strong>Set a table.</strong> In the game open <strong>Tables</strong>, create a table and send its
+            invitation to your opponent.</li>
+          <li><strong>Play.</strong> Agree on the setup, both accept it, and the host starts the game.</li>
+        </ol>
+        <p class="note"><a href="/account/forgot">Forgot your password?</a></p>
+      </div>
+    </section>
+
+    <section id="open-source" class="band alt" aria-labelledby="source-title">
+      <div class="band-inner">
+        <h2 id="source-title">Open source</h2>
+        <p class="intro">The whole project is free and open source under the MIT license. Read the code, report a
+          problem or follow the development on GitHub.</p>
+        <div class="repos">
+          <a class="repo" href="https://github.com/jpolaczek/wotr-client" rel="noopener">
+            <span class="repo-name">jpolaczek/wotr-client</span>
+            <span class="repo-text">The game you install: the Unity client for macOS, Windows and Linux, its artwork,
+              interface and player packages.</span>
+          </a>
+          <a class="repo" href="https://github.com/jpolaczek/wotr-server" rel="noopener">
+            <span class="repo-name">jpolaczek/wotr-server</span>
+            <span class="repo-text">The rules engine and game server in C#/.NET: the rules, cards and content, accounts,
+              tables, the database and this site.</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="credits" class="band" aria-labelledby="credits-title">
+      <div class="band-inner">
+        <h2 id="credits-title">The board game</h2>
+        <p class="intro">War of the Ring is a board game designed by Roberto Di Meglio, Marco Maggi and Francesco Nepitello, with art
+          by John Howe, created, published and distributed worldwide by
+          <a href="https://www.aresgames.eu/games/war-of-the-ring-line" rel="noopener">Ares Games</a>. This online version
+          exists thanks to their work and with great respect for it. If you enjoy it, please buy the board game from
+          Ares Games or your local game store.</p>
+      </div>
+    </section>
   </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="brand small">War of the Ring <span>Online</span></p>
+      <p>Free and open source (MIT) ·
+        <a href="https://github.com/jpolaczek/wotr-client" rel="noopener">Client</a> ·
+        <a href="https://github.com/jpolaczek/wotr-server" rel="noopener">Server</a> ·
+        <a href="/account/register">Create account</a> ·
+        <a href="/account/forgot">Forgot password</a></p>
+      <p class="fine">Fonts: Cinzel and Alegreya, under the SIL Open Font License.</p>
+    </div>
+  </footer>
 </body>
 </html>

@@ -6,22 +6,42 @@
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex">
   <title>Forgot password · War of the Ring Online</title>
-  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/site.css?v=2026-10-17b">
   <script src="/assets/account.js" defer></script>
 </head>
-<body data-page="forgot">
-  <main class="account">
-    <p class="crumb"><a href="/">War of the Ring Online</a></p>
-    <h1>Forgot password</h1>
-    <p class="lead">Enter your account name or email. If the account has a confirmed email, we send it a link to choose a
-      new password.</p>
-    <form id="form" novalidate>
-      <label for="login">Account name or email</label>
-      <input id="login" name="login" autocomplete="username" required maxlength="254">
-      <button type="submit">Send link</button>
-    </form>
-    <p class="note">No account yet? <a href="/account/register">Create one</a>.</p>
-    <p id="status" class="status" role="status" aria-live="polite"></p>
+<body class="account-page" data-page="forgot">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">War of the Ring <span>Online</span></a>
+      <nav class="nav" aria-label="Site">
+        <a href="/#about">The game</a>
+        <a href="/#download">Download</a>
+        <a href="/#open-source">Source</a>
+      </nav>
+    </div>
+  </header>
+  <main class="account-wrap">
+    <div class="account">
+      <h1>Forgot password</h1>
+      <p class="lead">Enter your account name or email. If the account has a confirmed email, we send it a link to choose a
+        new password.</p>
+      <form id="form" novalidate>
+        <label for="login">Account name or email</label>
+        <input id="login" name="login" autocomplete="username" required maxlength="254">
+        <button type="submit">Send link</button>
+      </form>
+      <p class="note">No account yet? <a href="/account/register">Create one</a>.</p>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </div>
   </main>
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="brand small">War of the Ring <span>Online</span></p>
+      <p>Free and open source (MIT) ·
+        <a href="https://github.com/jpolaczek/wotr-client" rel="noopener">Client</a> ·
+        <a href="https://github.com/jpolaczek/wotr-server" rel="noopener">Server</a> ·
+        <a href="/">Download the game</a></p>
+    </div>
+  </footer>
 </body>
 </html>

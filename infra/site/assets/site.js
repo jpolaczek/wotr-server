@@ -23,13 +23,24 @@ function show(container, nodes) {
   container.replaceChildren(...nodes);
 }
 
-function installerOffer(release, installer) {
+// The visitor's own system, from the browser's description of it; "" when unknown. Only the order of the offers
+// depends on it.
+function visitorPlatform() {
+  const agent = navigator.userAgent || "";
+  if (/Windows/i.test(agent)) return "windows-x64";
+  if (/Macintosh|Mac OS X/i.test(agent)) return "macos-universal";
+  if (/Linux|X11|CrOS/i.test(agent) && !/Android/i.test(agent)) return "linux-x64";
+  return "";
+}
+
+function installerOffer(release, installer, mine) {
   const link = element("a", { className: "download", href: installer.url, textContent: OFFERED[installer.platform] });
   const meta = element("p", { className: "meta" }, [
     `Version ${release.version} · ${megabytes(installer.size)} · SHA-256 `,
     element("code", { textContent: installer.sha256 }),
   ]);
-  return element("div", {}, [link, meta]);
+  const label = mine ? [element("p", { className: "mine-label", textContent: "For your computer" })] : [];
+  return element("div", { className: mine ? "offer mine" : "offer" }, [...label, link, meta]);
 }
 
 async function loadDownloads() {
@@ -45,7 +56,9 @@ async function loadDownloads() {
       show(container, [element("p", { className: "status", textContent: "The first version is on its way. Check back soon." })]);
       return;
     }
-    show(container, offers.map((installer) => installerOffer(release, installer)));
+    const mine = visitorPlatform();
+    offers.sort((first, second) => (second.platform === mine) - (first.platform === mine));
+    show(container, offers.map((installer) => installerOffer(release, installer, installer.platform === mine)));
   } catch (error) {
     show(container, [element("p", { className: "status", textContent: "The download list is not available right now. Please try again later." })]);
   }
