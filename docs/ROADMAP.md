@@ -42,6 +42,7 @@ The shared desktop icon is configured in the client. English documentation and t
 | [UI-222](tasks/UI-222.md) | Discard hand cards by clicking them, marked in red | `planned` |
 | [UI-223](tasks/UI-223.md) | Left rail tabs stand out from the map | `planned` |
 | [UI-224](tasks/UI-224.md) | Enterable and enemy regions pulse with a green or red glow | `planned` |
+| [UI-225](tasks/UI-225.md) | Battle window stays in place after "No card" | `planned` |
 | [AUDIO-11](tasks/AUDIO-11.md) | New battle-start sound | `blocked` |
 
 ## Order and acceptance

@@ -2655,6 +2655,40 @@
       "checks": [],
       "documentation": [],
       "history": []
+    },
+    {
+      "id": "UI-225",
+      "title": "Battle window stays in place after \"No card\"",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 977,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R22"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "wotr-client:docs/ui/BATTLE_WINDOW_UX.md"
+      ],
+      "spec": "docs/tasks/UI-225.md",
+      "update_docs": [
+        "docs/tasks/UI-225.md",
+        "wotr-client:docs/ui/BATTLE_WINDOW_UX.md",
+        "docs/ROADMAP.md"
+      ],
+      "status": "planned",
+      "assignee": null,
+      "started_at": null,
+      "finished_at": null,
+      "blocked_reason": null,
+      "checks": [],
+      "documentation": [],
+      "history": []
     }
   ]
 }
