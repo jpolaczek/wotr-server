@@ -4,7 +4,7 @@
 <a id="cel"></a>
 ## Goal
 
-Multi-purpose task: to collect AUDIO-01–AUDIO-07 and the entire AU01-AU18 matrix from [AUDIO_UX](https://github.com/jpolaczek/wotr-client/blob/0424bc994afe16632d12c3933a18d36e7ada4e61/docs/ui/AUDIO_UX.md). acceptance is to demonstrate the correct triggering, ease of operation and order of both track animations.
+Multi-purpose task: to collect AUDIO-01–AUDIO-07 and the entire AU01-AU18 matrix from [AUDIO_UX](https://github.com/jpolaczek/wotr-client/blob/81430f29c5d25742c6be32eb79beee12745e9453/docs/ui/AUDIO_UX.md). acceptance is to demonstrate the correct triggering, ease of operation and order of both track animations.
 
 <a id="kontekst-i-zależności"></a>
 ## Context and dependencies

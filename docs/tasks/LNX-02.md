@@ -20,7 +20,7 @@ workflow) and DIST-07 (the in-game updater, which must work for the AppImage too
   and the full package; sums and verification include Linux.
 - `installers.yml`: GameCI `StandaloneLinux64`, a Linux pack job and a smoke test on ubuntu
   (start the AppImage's self-check, apply N+1, data kept). `release.yml` adds the Linux assets.
-- Player guide: download, `chmod +x`, start; libfuse2 note; Steam Deck desktop mode and adding it to
+- Player guide: download, `chmod +x`, start; FUSE note (`fusermount3` or `fusermount`); Steam Deck desktop mode and adding it to
   Steam as a non-Steam game (experimental until DECK-01).
 
 ## Acceptance criteria

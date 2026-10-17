@@ -1,6 +1,6 @@
 {
   "repository": "jpolaczek/wotr-client",
-  "commit": "0424bc994afe16632d12c3933a18d36e7ada4e61",
+  "commit": "81430f29c5d25742c6be32eb79beee12745e9453",
   "files": [
     ".editorconfig",
     ".env.example",
@@ -658,6 +658,7 @@
     "scripts/release.py",
     "scripts/requirements-map-canvas.txt",
     "scripts/review-map-client.py",
+    "scripts/smoke-installer-linux.sh",
     "scripts/smoke-installer-macos.sh",
     "scripts/smoke-installer-windows.ps1",
     "scripts/smoke-macos.py",

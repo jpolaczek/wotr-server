@@ -2222,14 +2222,21 @@
         "wotr-client:docs/release/PLAYER-GUIDE.md",
         "wotr-client:docs/release/INSTALLER-ACCEPTANCE.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
+      "status": "in_progress",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T08:21:50Z",
       "finished_at": null,
       "blocked_reason": null,
       "checks": [],
       "documentation": [],
-      "history": []
+      "history": [
+        {
+          "at": "2026-10-17T08:21:50Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: Linux x64 player, AppImage packed by Velopack in CI with a smoke test, Contracts 0.10.0 pinned, player guide (D18). Verify: tests/release, installers.yml/release.yml in CI, install and update on the owner's Linux PC."
+        }
+      ]
     },
     {
       "id": "DECK-01",
