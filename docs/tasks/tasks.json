@@ -2222,11 +2222,11 @@
         "wotr-client:docs/release/PLAYER-GUIDE.md",
         "wotr-client:docs/release/INSTALLER-ACCEPTANCE.md"
       ],
-      "status": "in_progress",
+      "status": "blocked",
       "assignee": "claude-opus",
       "started_at": "2026-10-17T08:21:50Z",
       "finished_at": null,
-      "blocked_reason": null,
+      "blocked_reason": "Waiting for rc.3: v0.9.0-rc.2 is published and installed on the owner's Linux PC; the remaining acceptance (in-game update N -> N+1 there) needs the next release, which will carry UI-217.",
       "checks": [],
       "documentation": [],
       "history": [
@@ -2235,6 +2235,12 @@
           "event": "start",
           "agent": "claude-opus",
           "note": "Goal: Linux x64 player, AppImage packed by Velopack in CI with a smoke test, Contracts 0.10.0 pinned, player guide (D18). Verify: tests/release, installers.yml/release.yml in CI, install and update on the owner's Linux PC."
+        },
+        {
+          "at": "2026-10-17T10:41:41Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Waiting for rc.3: v0.9.0-rc.2 is published and installed on the owner's Linux PC; the remaining acceptance (in-game update N -> N+1 there) needs the next release, which will carry UI-217."
         }
       ]
     },
@@ -2280,6 +2286,52 @@
       "checks": [],
       "documentation": [],
       "history": []
+    },
+    {
+      "id": "UI-217",
+      "title": "Readable card names in the hand tiles",
+      "stage": "E",
+      "kind": "implementation",
+      "priority": 968,
+      "depends_on": [],
+      "source_gates": [],
+      "requirements": [
+        "R22"
+      ],
+      "rules": [],
+      "read_before": [
+        "AGENTS.md",
+        "docs/WORKFLOW.md",
+        "docs/REQUIREMENTS.md",
+        "wotr-client:docs/ui/UX_SPEC.md"
+      ],
+      "spec": "docs/tasks/UI-217.md",
+      "update_docs": [
+        "docs/tasks/UI-217.md",
+        "wotr-client:docs/ui/UX_SPEC.md",
+        "docs/ROADMAP.md"
+      ],
+      "status": "in_progress",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T10:41:46Z",
+      "finished_at": null,
+      "blocked_reason": null,
+      "checks": [],
+      "documentation": [],
+      "history": [
+        {
+          "at": "2026-10-17T10:41:46Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: collapsed hand tiles show every card name fully (shrink-to-fit up to two lines, min 8 px). Verify: EditMode rule tests, PlayMode title check fixed, visual check in the next release."
+        },
+        {
+          "at": "2026-10-17T10:49:42Z",
+          "event": "note",
+          "agent": "claude-opus",
+          "note": "Client 822b272: CardTitleFit + HandCard fit, PlayMode title check fixed. EditMode CI 922/922 (run 39026019112, CardTitleFitTests 5/5). PlayMode not run (no self-hosted runner); visual check pending in rc.3 on the owner's Linux PC."
+        }
+      ]
     }
   ]
 }

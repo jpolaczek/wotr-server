@@ -33,6 +33,7 @@ The shared desktop icon is configured in the client. English documentation and t
 | [LNX-01](tasks/LNX-01.md) | Linux platform in Contracts, the release catalog and the publisher tools | `planned` |
 | [LNX-02](tasks/LNX-02.md) | Linux client build, AppImage installer and CI | `planned` |
 | [DECK-01](tasks/DECK-01.md) | Steam Deck playability of the Linux build | `planned` |
+| [UI-217](tasks/UI-217.md) | Readable card names in the hand tiles | `planned` |
 | [AUDIO-11](tasks/AUDIO-11.md) | New battle-start sound | `blocked` |
 
 ## Order and acceptance
