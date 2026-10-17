@@ -137,7 +137,7 @@ The minimum can be raised only after the availability of the tested packages of 
 | DS20 | Controlled publication and instructions for subsequent releases/repairs. | DIST-08 |
 | DS21 | Minimum date: catalog, gate by time, operator commands. 2026-10-14: diagram directory 2, `ReleaseSnapshot.Minimum(now)`, `minimum --at`, Contracts 0.4.0. | DIST-09 |
 | DS22 | Automatic download of the required and scheduled version, without permission, with installation on click. | DIST-07 |
-| DS23 | Repair of the installation of the current version of Settings (`installed` offer with DIST-09). | DIST-07 |
+| DS23 | Repair of the installation of the current version of Settings (`installed` offer with DIST-09); once staged, the repair's ready package is dropped, so the repaired game does not offer it again (DIST-14, 2026-10-17). | DIST-07, DIST-14 |
 | DS24 | Releases built in CI with tag, that smokes Windows N → N+1. | DIST-10 |
 | DS25 | One command from the publisher on Mac: verification, signature, upload, publication, check. | DIST-11 |
 | DS26 | Instructions for the first installation of the unsigned application and page buttons from the directory. | DIST-11 |
