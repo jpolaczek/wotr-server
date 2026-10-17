@@ -130,3 +130,17 @@ Windows but also Linux and the Steam Deck console") and their answers of that da
 - Before the release, production runs the newest server, so the installed client connects to it.
 
 Specification: [LNX-01](tasks/LNX-01.md), [LNX-02](tasks/LNX-02.md), [DECK-01](tasks/DECK-01.md).
+
+## D19 — test scenarios for every account on production (2026-10-17)
+
+Source: the owner's order of 2026-10-17 ("let's also add the test scenarios, the same ones I had on the
+test server on the Mac; for now they should be available to all accounts").
+
+- The production server enables the R31 test mode (`WOTR_TEST_SCENARIOS=true`): every signed-in account sees
+  "Test scenarios" and plays both sides of a base-game scenario; nothing enters saved games.
+- A scenario start counts against the account's room budget, like a demo start, so one account cannot
+  flood the server with matches and seat accounts.
+- "For now": the owner may restrict the mode again later (an allowlist or admin accounts); expansion
+  scenarios stay off `main` (TEST-05).
+
+Specification: [TEST-08](tasks/TEST-08.md).

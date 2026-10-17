@@ -44,10 +44,10 @@ Active tasks: **42**. Completion identifiers: **413**. `ready` means dependencie
 | [UI-216](UI-216.md) | Card army events on the map | `done` | — |
 | [UI-217](UI-217.md) | Readable card names in the hand tiles | `blocked` | — |
 | [UI-218](UI-218.md) | Political map view | `blocked` | — |
-| [UI-219](UI-219.md) | Fellowship route without the second click | `in_progress` | — |
+| [UI-219](UI-219.md) | Fellowship route without the second click | `blocked` | — |
 | [UI-220](UI-220.md) | Hide the Fellowship from its status plaque | `ready` | — |
 | [UI-221](UI-221.md) | Table effects unroll on hover like the hand | `ready` | — |
-| [TEST-08](TEST-08.md) | Test scenarios for every account on production | `ready` | — |
+| [TEST-08](TEST-08.md) | Test scenarios for every account on production | `in_progress` | — |
 | [UI-222](UI-222.md) | Discard hand cards by clicking them, marked in red | `ready` | — |
 | [UI-223](UI-223.md) | Left rail tabs stand out from the map | `ready` | — |
 | [UI-224](UI-224.md) | Enterable and enemy regions pulse with a green or red glow | `ready` | — |
@@ -64,4 +64,5 @@ Active tasks: **42**. Completion identifiers: **413**. `ready` means dependencie
 - **AUDIO-11**: `blocked`, claude-opus; start 2026-10-15T22:55:20Z. Waiting for user listening to the new BattleStarted sound (preview version 4: https://claude.ai/artifact/6DXsjjECtGZG5BRF7dGGQZ, or an Editor build). Resume with acceptance or feedback on the drums; a horn could return only as a dark, distant layer.
 - **UI-217**: `blocked`, claude-opus; start 2026-10-17T10:41:46Z. Code done (client 822b272, EditMode 922/922); the visual check of long names waits for the next release (rc.4), which the owner installs through the in-game update.
 - **UI-218**: `blocked`, claude-opus; start 2026-10-17T11:04:07Z. Code done (client c6b1413, EditMode 927/927); the visual check (nation colours, captor stripes, toggle, P) waits for rc.4 on the owner's PC.
-- **UI-219**: `in_progress`, claude-opus; start 2026-10-17T11:20:29Z.
+- **UI-219**: `blocked`, claude-opus; start 2026-10-17T11:20:29Z. Code done (client e898bab, EditMode 929/929); PlayMode route tests need a run on a Unity machine and the gesture a visual check in rc.4.
+- **TEST-08**: `in_progress`, claude-opus; start 2026-10-17T11:29:46Z.

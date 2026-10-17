@@ -47,7 +47,7 @@ services:
       Wotr__Releases__PublicKey: ${WOTR_RELEASE_PUBLIC_KEY:-}
       # Transition for ZIP clients without version headers; production rejects them unless set to true.
       Wotr__Clients__AcceptUnversioned: ${WOTR_ACCEPT_UNVERSIONED_CLIENTS:-false}
-      # TEST-01: test scenarios (not saved games) for testing on this server.
+      # TEST-01: test scenarios (not saved games); TEST-08 (D19) offers them on production too.
       Wotr__Testing__Scenarios: ${WOTR_TEST_SCENARIOS:-false}
       # AUTH-02: account emails (confirmation, password reset). none sends nothing; resend needs the sender and the key
       # file (production: secrets/resend_api_key) and Wotr__PublicUrl for the links.

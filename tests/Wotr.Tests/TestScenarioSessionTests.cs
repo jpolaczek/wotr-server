@@ -146,6 +146,25 @@ public class TestScenarioSessionTests
 
     private static string OwnerOf(TestSessionView session) => session.Seat.AccountId[TestSessionStore.SeatPrefix.Length..];
 
+    // TEST-08: on a server open to every account, starts count against the account's room budget.
+    [PostgresFact]
+    public async Task StartsFasterThanTheRoomBudgetAreRefusedForThatAccountOnly()
+    {
+        await using var host = new AccountHost(extra: new Dictionary<string, string?>
+        {
+            ["WOTR_LIMIT_ROOMS"] = "2",
+            ["WOTR_LIMIT_WINDOW_SECONDS"] = "600"
+        });
+        using var owner = await Owner(host);
+        using var other = await Owner(host);
+        await Start(owner, "setup");
+        await Start(owner, "setup");
+        var refused = await owner.PostAsync("/api/test-scenarios/setup/start", null);
+        Assert.Equal(HttpStatusCode.TooManyRequests, refused.StatusCode);
+        Assert.NotNull(refused.Headers.RetryAfter);
+        Assert.Equal(Side.FreePeoples, (await Start(other, "setup")).OwnerSide);
+    }
+
     private static async Task<HttpClient> Owner(AccountHost host)
     {
         var accounts = host.Services.GetRequiredService<AccountService>();

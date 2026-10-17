@@ -2423,11 +2423,11 @@
         "wotr-client:docs/release/PLAYER-GUIDE.md",
         "docs/ROADMAP.md"
       ],
-      "status": "in_progress",
+      "status": "blocked",
       "assignee": "claude-opus",
       "started_at": "2026-10-17T11:20:29Z",
       "finished_at": null,
-      "blocked_reason": null,
+      "blocked_reason": "Code done (client e898bab, EditMode 929/929); PlayMode route tests need a run on a Unity machine and the gesture a visual check in rc.4.",
       "checks": [],
       "documentation": [],
       "history": [
@@ -2436,6 +2436,18 @@
           "event": "start",
           "agent": "claude-opus",
           "note": "Goal: Fellowship declaration/reveal route sends at full Progress on its last step, a shorter one with ✓; no second click. Verify: EditMode completeness tests, EditMode CI, PlayMode helpers updated, visual check in rc.4."
+        },
+        {
+          "at": "2026-10-17T11:29:46Z",
+          "event": "note",
+          "agent": "claude-opus",
+          "note": "Client e898bab: TravelActions.Complete, TravelContextInteraction.Step, tray ✓ for drawn Fellowship routes, end no longer a target. EditMode CI 929/929 (run 39028576753). PlayMode route tests updated (scenario Progress 0/3/5) but not run: no runner."
+        },
+        {
+          "at": "2026-10-17T11:29:46Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Code done (client e898bab, EditMode 929/929); PlayMode route tests need a run on a Unity machine and the gesture a visual check in rc.4."
         }
       ]
     },
@@ -2540,14 +2552,21 @@
         "infra/production.env.example",
         "docs/ROADMAP.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
+      "status": "in_progress",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T11:29:46Z",
       "finished_at": null,
       "blocked_reason": null,
       "checks": [],
       "documentation": [],
-      "history": []
+      "history": [
+        {
+          "at": "2026-10-17T11:29:46Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: R31 test scenarios for every signed-in account on production, start endpoint rate-limited. Verify: dotnet test (scenario + rate limit), backup, deploy, catalog check on production."
+        }
+      ]
     },
     {
       "id": "UI-222",

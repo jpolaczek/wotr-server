@@ -316,4 +316,4 @@ The script refuses to operate on a domain other than localhost or publication ou
 <a id="scenariusze-testowe--test-01"></a>
 ## Test scenarios — TEST-01
 
-`WOTR_TEST_SCENARIOS=true` in `infra/.env` provides each logged account with a test mode (`Wotr__Testing__Scenarios`). Test parties do not get to the list of games and start, restart or exit deletes them. By default, `false`: enable only the server to test. The change requires the service `server` to restart.
+`WOTR_TEST_SCENARIOS=true` in `infra/.env` provides each logged account with a test mode (`Wotr__Testing__Scenarios`). Test parties do not get to the list of games and start, restart or exit deletes them. By default, `false`. Production enables it for every account since D19 (TEST-08, 2026-10-17); starting a scenario counts against the account's room budget (`WOTR_LIMIT_ROOMS`, 429 when exceeded). The change requires the service `server` to restart.

@@ -969,4 +969,5 @@ Decisions:
 - **Technical account limits.** identifier `testseat-` stops `TestSeatGate` outside `/api/matches`.
   Standardized name `#…` is unavailable for a valid user name, and login omits `technical` account.
 - **`Wotr:Testing:Scenarios` is enabled in Development and Testing by default. Production needs to
-  be explicitly enabled (`WOTR_TEST_SCENARIOS`).
+  be explicitly enabled (`WOTR_TEST_SCENARIOS`); since D19 (TEST-08) the production server enables it
+  for every signed-in account, and a start counts against the account's room budget (`rooms`).
