@@ -375,3 +375,26 @@ ol li { margin-bottom: .45rem; }
 .account button:disabled { opacity: .6; cursor: progress; }
 .account .status[data-kind="error"] { color: var(--accent); font-weight: 600; }
 .account .status[data-kind="done"] { color: var(--ink); }
+
+/* ADMIN-01: the admin panel (/admin) on the account card, wider, with count tiles and a scrolling accounts table. */
+[hidden] { display: none !important; }
+.account.admin { max-width: 72rem; }
+.admin h2 { font-family: var(--title); font-size: 1.15rem; margin: 1.8rem 0 .8rem; color: var(--ink); }
+.admin-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; }
+.admin-head h1 { margin: 0; }
+.admin-head .meta { margin: 0; flex: 1 1 14rem; }
+.admin-actions { display: flex; gap: .6rem; }
+.account .admin-actions button, .account .pager button { margin-top: 0; }
+.account button.quiet { background: transparent; color: var(--accent); }
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: .7rem; margin: 0; }
+.stats div { background: var(--page); border: 1px solid var(--line); border-radius: .35rem; padding: .6rem .8rem; }
+.stats dt { font-size: .85rem; color: var(--muted); }
+.stats dd { margin: .15rem 0 0; font-family: var(--title); font-size: 1.45rem; font-variant-numeric: tabular-nums; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: .35rem; }
+.admin table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.admin th, .admin td { padding: .45rem .7rem; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--line); }
+.admin thead th { background: var(--page-alt); font-weight: 600; }
+.admin tbody tr:last-child td { border-bottom: 0; }
+.admin .number { text-align: right; font-variant-numeric: tabular-nums; }
+.pager { display: flex; align-items: center; justify-content: flex-end; gap: .8rem; margin-top: .8rem; }
+.pager .meta { margin: 0; }

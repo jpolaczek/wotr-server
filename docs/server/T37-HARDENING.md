@@ -75,6 +75,9 @@ The validation of the recording structure includes the header and basic collecti
 - Unknown schema/rules/content returns UnsupportedSaveVersion, incorrect JSON, no header and no
   basic structure returns CorruptSave. HTTP 503 contains only a secure code. Log does not save the
   exception or the status.
+- ADMIN-01 (2026-10-18): the admin panel ([ADMIN-PANEL](ADMIN-PANEL.md)) uses the same login limit for its sign-in,
+  short admin sessions that a game session cannot replace, administrators named only by `WOTR_ADMIN_ACCOUNTS`, and an
+  empty 404 for everyone else.
 - The login limit remains 20 trial/min/IP, without queue. The server returns TooManyRequests and
   Retry-After 1–60 p. GameApi preserves the code and delay; it does not repeat the passwords or
   commands themselves. UI shows the right reason.

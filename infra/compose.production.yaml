@@ -32,6 +32,8 @@ services:
   server:
     environment:
       Wotr__PublicUrl: https://${WOTR_DOMAIN:?Set WOTR_DOMAIN}
+      # ADMIN-01: account names that may sign in to /admin (comma-separated); empty keeps the panel closed.
+      Wotr__Admin__Accounts: ${WOTR_ADMIN_ACCOUNTS:-}
     secrets: [db_connection, resend_api_key]
 
   web:

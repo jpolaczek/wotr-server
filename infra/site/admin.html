@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin · War of the Ring Online</title>
+  <link rel="stylesheet" href="/assets/site.css?v=2026-10-18a">
+  <script src="/assets/admin.js?v=2026-10-18a" defer></script>
+</head>
+<body class="account-page admin-page">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">War of the Ring <span>Online</span></a>
+      <nav class="nav" aria-label="Site">
+        <a href="/">The game</a>
+      </nav>
+    </div>
+  </header>
+  <main class="account-wrap">
+    <section id="sign-in" class="account">
+      <h1>Admin panel</h1>
+      <p class="lead">Sign in with an administrator's account name and password.</p>
+      <form id="form" novalidate>
+        <label for="username">Account name</label>
+        <input id="username" name="username" autocomplete="username" required maxlength="32">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="128">
+        <button type="submit">Sign in</button>
+      </form>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="panel" class="account admin" hidden>
+      <div class="admin-head">
+        <h1>Admin panel</h1>
+        <p id="signed-in" class="meta"></p>
+        <div class="admin-actions">
+          <button id="refresh" type="button">Refresh</button>
+          <button id="sign-out" type="button" class="quiet">Sign out</button>
+        </div>
+      </div>
+      <p id="panel-status" class="status" role="status" aria-live="polite"></p>
+
+      <h2>Players and games</h2>
+      <dl id="summary" class="stats"></dl>
+      <p id="summary-at" class="note"></p>
+
+      <h2>Accounts</h2>
+      <div class="table-wrap">
+        <table id="users">
+          <thead>
+            <tr>
+              <th scope="col">Account</th>
+              <th scope="col">Created</th>
+              <th scope="col">Last sign-in</th>
+              <th scope="col">Email confirmed</th>
+              <th scope="col" class="number">Tables hosted</th>
+              <th scope="col" class="number">Games</th>
+              <th scope="col" class="number">Finished</th>
+              <th scope="col" class="number">Wins</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="pager">
+        <button id="previous" type="button" class="quiet">Previous</button>
+        <span id="page" class="meta"></span>
+        <button id="next" type="button" class="quiet">Next</button>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="brand small">War of the Ring <span>Online</span></p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -44,6 +44,14 @@ Do not disable certificate check. The player's client should ultimately receive 
 
 Caddy manages certificate renewal; `certificates` volume must not be deleted during upgrades. Notifications remain only in the game.
 
+<a id="panel-admina--admin-01"></a>
+## Admin panel — ADMIN-01
+
+`https://<WOTR_DOMAIN>/admin` shows the players and the numbers of created and played games to the administrators named
+in `infra/.env`: `WOTR_ADMIN_ACCOUNTS=<account name>[,<account name>…]` (passed to the server as
+`Wotr__Admin__Accounts`). Empty, the default, keeps the panel closed. After a change restart `server`. Details and the
+security model: [ADMIN-PANEL](../docs/server/ADMIN-PANEL.md).
+
 <a id="zakres-wydania-ui-96"></a>
 ## Scope of release (UI-96)
 
