@@ -50,7 +50,7 @@ Active tasks: **41**. Completion identifiers: **413**. `ready` means dependencie
 | [TEST-08](TEST-08.md) | Test scenarios for every account on production | `ready` | — |
 | [UI-222](UI-222.md) | Discard hand cards by clicking them, marked in red | `ready` | — |
 | [UI-223](UI-223.md) | Left rail tabs stand out from the map | `ready` | — |
-| [UI-224](UI-224.md) | Enterable regions pulse with a green glow | `ready` | — |
+| [UI-224](UI-224.md) | Enterable and enemy regions pulse with a green or red glow | `ready` | — |
 
 ## Current work
 

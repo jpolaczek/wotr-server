@@ -2623,7 +2623,7 @@
     },
     {
       "id": "UI-224",
-      "title": "Enterable regions pulse with a green glow",
+      "title": "Enterable and enemy regions pulse with a green or red glow",
       "stage": "E",
       "kind": "implementation",
       "priority": 976,
