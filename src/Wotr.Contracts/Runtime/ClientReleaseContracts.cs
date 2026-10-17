@@ -19,9 +19,11 @@ namespace Wotr.Contracts
     {
         public const string Windows = "windows-x64";
         public const string MacOS = "macos-universal";
-        public static readonly IReadOnlyList<string> All = new[] { Windows, MacOS };
+        // LNX-01 (D18): Linux x86_64 as an AppImage; the Steam Deck runs the same build.
+        public const string Linux = "linux-x64";
+        public static readonly IReadOnlyList<string> All = new[] { Windows, MacOS, Linux };
 
-        public static bool IsKnown(string platform) => platform == Windows || platform == MacOS;
+        public static bool IsKnown(string platform) => platform == Windows || platform == MacOS || platform == Linux;
     }
 
     public enum ClientCompatibilityStatus

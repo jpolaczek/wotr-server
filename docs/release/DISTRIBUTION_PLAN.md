@@ -238,3 +238,14 @@ The Velopack installers/signatures documentation, for example Unity Mono, Cloudf
 External conditions are not missing rules sources in gaps.json. Their absence with acceptance is recorded as a specific block DIST-04/06/08. The test record must indicate versions, systems/architecture, commands, reports and result; Editor, Windows compilation or unsigned ZIP do not include these criteria.
 
 From DIST-03 the document is in `wotr-server`; the division describes [REPOSITORY_SPLIT](REPOSITORY_SPLIT.md).
+
+<a id="d18--macos-linux-i-windows"></a>
+## D18 — first release on macOS, Linux and Windows (2026-10-17)
+
+[D18](../DECISIONS.md) extends D14: release 0.9.0 waits for the Linux x64 client. Every tag builds,
+packs and smoke-tests three platforms (`windows-x64`, `macos-universal`, `linux-x64`); the Linux
+installer is the AppImage `WotrOnline-<version>-linux.AppImage` and its package
+`WotrOnline-<version>-linux-full.nupkg`. The catalog announces a release only with all three
+platforms, so the publisher's command and the release tool require the Linux files. The game page
+offers the installers that passed acceptance (macOS and Linux; Windows after DIST-13), and the
+Steam Deck runs the Linux AppImage, experimental until DECK-01.

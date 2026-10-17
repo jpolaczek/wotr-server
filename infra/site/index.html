@@ -24,7 +24,7 @@
         <p class="status">Checking the latest version…</p>
       </div>
       <noscript><p class="status">Turn on JavaScript to see the current downloads.</p></noscript>
-      <p class="note">Windows: coming soon.</p>
+      <p class="note">Windows: coming soon. Steam Deck: the Linux version, experimental.</p>
     </section>
 
     <section aria-labelledby="install-title">
@@ -37,6 +37,20 @@
         <li>In the installer choose <strong>Install for me only</strong>. The game goes to Applications in your home
           folder and later updates will not ask for a password.</li>
         <li>The game starts after the installation. Works on Apple Silicon and Intel Macs.</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="install-linux-title">
+      <h2 id="install-linux-title">Install on Linux and Steam Deck</h2>
+      <ol>
+        <li>Save the downloaded <code>.AppImage</code> file where you keep programs, for example in your home folder.</li>
+        <li>Make it executable: right-click → <strong>Properties → Permissions → Allow executing</strong>, or run
+          <code>chmod +x WotrOnline-*.AppImage</code>.</li>
+        <li>Start it by double-clicking. If nothing happens, install FUSE 2 (<code>libfuse2</code> or
+          <code>fuse2</code>, depending on your distribution). The game updates itself in place.</li>
+        <li><strong>Steam Deck (experimental):</strong> in Desktop Mode do the steps above, then add the file to Steam
+          with <strong>Add a Non-Steam Game</strong> to play it in Gaming Mode. Use Steam + X for the on-screen
+          keyboard when signing in.</li>
       </ol>
     </section>
 

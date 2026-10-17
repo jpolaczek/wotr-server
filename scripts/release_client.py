@@ -40,7 +40,8 @@ PACK_ID = "WotrOnline"
 NOTES_LIMIT = 4000  # ReleaseManifest.MaximumNotesLength
 # ClientBuildInfo platform → (nuspec os, package suffix, installer suffix) of DIST-06's packaging.
 PLATFORMS = {"windows-x64": ("win", "-full.nupkg", "-win-Setup.exe"),
-             "macos-universal": ("osx", "-osx-full.nupkg", "-osx-Setup.pkg")}
+             "macos-universal": ("osx", "-osx-full.nupkg", "-osx-Setup.pkg"),
+             "linux-x64": ("linux", "-linux-full.nupkg", "-linux.AppImage")}
 
 
 class Refused(Exception):

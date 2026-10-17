@@ -39,7 +39,7 @@ public class ClientReleaseCatalogTests
         Assert.Equal(ClientCompatibilityStatus.ClientUpdateRequired, (await Read(anonymous, "platform=macos-universal&version=0.2.0&protocol=2")).Status);
         Assert.Equal(ClientCompatibilityStatus.ServerUpdateRequired, (await Read(anonymous, "platform=macos-universal&version=0.3.0&protocol=3")).Status);
         Assert.Equal(ClientCompatibilityStatus.Compatible, (await Read(anonymous, "platform=macos-universal&version=0.3.0&protocol=2")).Status);
-        Assert.Equal(HttpStatusCode.BadRequest, (await anonymous.GetAsync("/api/client/releases?platform=linux-x64")).StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, (await anonymous.GetAsync("/api/client/releases?platform=linux-arm64")).StatusCode);
         Assert.Equal(HttpStatusCode.BadRequest, (await anonymous.GetAsync("/api/client/releases?platform=windows-x64&version=latest&protocol=2")).StatusCode);
     }
 
@@ -94,6 +94,18 @@ public class ClientReleaseCatalogTests
         var view = await Read(anonymous, "platform=windows-x64");
         Assert.Equal("0.3.0", view.Latest!.Version);
         Assert.Equal("0.3.0", view.MinimumVersion);
+    }
+
+    // LNX-01 (D18): Linux is a full platform — a release without its AppImage or package is not announced.
+    [Fact]
+    public void AReleaseWithoutItsLinuxFilesIsRefused()
+    {
+        using var releases = new ReleaseFixture();
+        releases.Upload("0.4.0");
+        File.Delete(releases.Incoming("0.4.0", ClientPlatforms.Linux, ReleaseFixture.InstallerName("0.4.0", ClientPlatforms.Linux)));
+        Assert.Throws<ReleaseRejected>(() => releases.Publisher.Publish("0.4.0", makeMinimum: false));
+        releases.Upload("0.5.0");
+        Assert.Equal(3, releases.Publisher.Publish("0.5.0", makeMinimum: false).Releases.Single(r => r.Version == "0.5.0").Manifests.Count);
     }
 
     private static async Task<ClientReleaseView> Read(HttpClient client, string query) =>

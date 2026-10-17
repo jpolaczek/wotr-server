@@ -2117,8 +2117,7 @@
       "kind": "implementation",
       "priority": 714,
       "depends_on": [
-        "DIST-09",
-        "DIST-11"
+        "DIST-09"
       ],
       "source_gates": [],
       "requirements": [
@@ -2146,14 +2145,45 @@
         "docs/CONTRACTS.md",
         "infra/README.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
-      "finished_at": null,
+      "status": "done",
+      "assignee": "claude-opus",
+      "started_at": "2026-10-17T08:09:28Z",
+      "finished_at": "2026-10-17T08:20:04Z",
       "blocked_reason": null,
-      "checks": [],
-      "documentation": [],
-      "history": []
+      "checks": [
+        "PASS: dotnet test Wotr.Tests 4008/4008 (incl. AReleaseWithoutItsLinuxFilesIsRefused)",
+        "PASS: python3 -m unittest discover -s tests/release 18/18 (draft without Linux files refused)",
+        "PASS: python3 scripts/tasks.py validate"
+      ],
+      "documentation": [
+        "docs/CONTRACTS.md",
+        "docs/release/DISTRIBUTION_PLAN.md",
+        "infra/README.md"
+      ],
+      "history": [
+        {
+          "at": "2026-10-17T08:09:28Z",
+          "event": "start",
+          "agent": "claude-opus",
+          "note": "Goal: linux-x64 as a third client platform in Contracts (0.10.0), catalog, release tool, publisher scripts and game page (D18). Verify: dotnet test (release catalog/tool), tests/release, validate."
+        },
+        {
+          "at": "2026-10-17T08:20:04Z",
+          "event": "finish",
+          "agent": "claude-opus",
+          "note": "linux-x64 is a known client platform (Contracts 0.10.0): the release catalog, ReleaseTool and release_client.py require Windows, macOS and Linux files; the game page offers the Linux AppImage and calls the Steam Deck experimental. Hand-over to LNX-02: Contracts 0.10.0, public content 1.0.11, platform linux-x64, installer WotrOnline-<v>-linux.AppImage, package WotrOnline-<v>-linux-full.nupkg.",
+          "checks": [
+            "PASS: dotnet test Wotr.Tests 4008/4008 (incl. AReleaseWithoutItsLinuxFilesIsRefused)",
+            "PASS: python3 -m unittest discover -s tests/release 18/18 (draft without Linux files refused)",
+            "PASS: python3 scripts/tasks.py validate"
+          ],
+          "documentation": [
+            "docs/CONTRACTS.md",
+            "docs/release/DISTRIBUTION_PLAN.md",
+            "infra/README.md"
+          ]
+        }
+      ]
     },
     {
       "id": "LNX-02",

@@ -649,7 +649,7 @@ Source: DIST-05, [DISTRIBUTION_PLAN](release/DISTRIBUTION_PLAN.md). Contracts 0.
 | Save diagram | `StateCodec.CurrentVersion` | server migration |
 | Server protocol range | `ProtocolSupport.Current` (`src/Wotr.Releases`) | server release |
 
-`ClientBuildInfo` (scheme) 1 ) is one identity of the build: `version` , `sourceCommit` , `platform` ( `windows-x64` either `macos-universal` ), `development` , `protocolVersion` , `rulesVersion` , `contentVersion` , `publicContentVersion` , `publicContentSha256` , `unityVersion` Generator in the client ( `ClientBuildIdentity` ) saves the same text JSON (camelCase, `\n` ) in the player and in the `build-info.json` . . `development: true` means local build, editor or developer build; the signature tool rejects such build. `ClientVersion` compare versions by SemVer 2.0 : issue is newer than its pre-release, and labels are compared to the field by field (number, text by order ASCII Versions contain only lower letters and cannot have metadata. `+build` . .
+`ClientBuildInfo` (scheme) 1 ) is one identity of the build: `version` , `sourceCommit` , `platform` ( `windows-x64`, `macos-universal` ), `development` , `protocolVersion` , `rulesVersion` , `contentVersion` , `publicContentVersion` , `publicContentSha256` , `unityVersion` Generator in the client ( `ClientBuildIdentity` ) saves the same text JSON (camelCase, `\n` ) in the player and in the `build-info.json` . . `development: true` means local build, editor or developer build; the signature tool rejects such build. `ClientVersion` compare versions by SemVer 2.0 : issue is newer than its pre-release, and labels are compared to the field by field (number, text by order ASCII Versions contain only lower letters and cannot have metadata. `+build` . .
 
 <a id="nagłówki-i-odmowy-ds11"></a>
 ### Headers and refusals (DS11)
@@ -814,3 +814,11 @@ Format: [REPLAY-FORMAT](server/REPLAY-FORMAT.md).
 ## Compatibility of Observers and Replays — REPLAY-07
 
 A server with migrations 012 and 013 requires Contracts 0.9.0 and public content 1.0.10 in a client with observers and replays. The changes Contracts 0.8.0 and 0.9.0 are additional, so the older client is still playing. The format of the replay file has its own version (`formatVersion` 1, [REPLAY-FORMAT](server/REPLAY-FORMAT.md)) independent of the version of Contracts.
+
+## Linux client platform — LNX-01
+
+Contracts 0.10.0 add `ClientPlatforms.Linux` (`linux-x64`) to `All` and `IsKnown` (D18). The catalog,
+`/api/client/releases?platform=linux-x64`, the release tool and `/api/client/downloads` handle it
+like the other platforms: a release is announced only with the package, installer
+(`WotrOnline-<version>-linux.AppImage`) and signed manifest of all three platforms. The Steam Deck
+runs the Linux build and reports `linux-x64`.

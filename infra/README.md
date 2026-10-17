@@ -72,7 +72,7 @@ dotnet run --project src/Wotr.ReleaseTool -- sign --build-info <build>/build-inf
   --downloads-url https://downloads.<domena>/ --private-key <klucz> --output <upload>
 ```
 
-`sign` refuses to build a developer, dangerous file name and existing version folder. `<upload>/<version>` folder with both platforms copy to `incoming/` on host. Operator commands (`--public-key` accepts base64 or `@plik`):
+`sign` refuses to build a developer, dangerous file name and existing version folder. `<upload>/<version>` folder with all three platforms (LNX-01: Windows, macOS, Linux) copy to `incoming/` on host. Operator commands (`--public-key` accepts base64 or `@plik`):
 
 ```sh
 python3 scripts/release_host.py publish --version 0.3.0 [--minimum]
@@ -82,7 +82,7 @@ python3 scripts/release_host.py publish --version 0.3.0 [--minimum]
 
 The tool saves only the `/release-root` mounted to write as an operator; the running server sees the same directory read only.
 
-This is why the prefix is used by `minimum --version`, `withdraw --version` and `verify`. `publish` checks both platforms, signatures, URL paths, sizes, SHA-256, consistent protocol and commit and the scope of server protocols, and then transfers the folder to `public/` and saves the directory. Any refusal (`REFUSED`, 2 code) changes nothing. The discontinued publication after the transfer ends with a re-`publish`. The minimum has to be announced with complete packages; the issue cannot be withdrawn until it is a minimum. The withdrawal leaves the files.
+This is why the prefix is used by `minimum --version`, `withdraw --version` and `verify`. `publish` checks all three platforms, signatures, URL paths, sizes, SHA-256, consistent protocol and commit and the scope of server protocols, and then transfers the folder to `public/` and saves the directory. Any refusal (`REFUSED`, 2 code) changes nothing. The discontinued publication after the transfer ends with a re-`publish`. The minimum has to be announced with complete packages; the issue cannot be withdrawn until it is a minimum. The withdrawal leaves the files.
 
 <a id="minimum-z-terminem-i-instalatory--dist-09"></a>
 ## Minimum term and installers — DIST-09

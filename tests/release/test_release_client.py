@@ -54,13 +54,15 @@ class DraftChecksTests(unittest.TestCase):
     def test_complete_draft_passes(self):
         write_draft(self.assets)
         files = CLIENT.check_assets(self.assets, VERSION, COMMIT)
-        self.assertEqual(set(CLIENT.PLATFORMS), set(files))
+        self.assertEqual({"windows-x64", "macos-universal", "linux-x64"}, set(files))
 
     def test_draft_refusals(self):
         cases = {
             "changed file": lambda: (self.assets / CLIENT.names(VERSION, "macos-universal")[1]).write_bytes(b"other"),
             "missing platform": lambda: [(self.assets / name).unlink() for name in CLIENT.names(VERSION, "windows-x64")]
                                         and resum(self.assets),
+            "missing Linux (LNX-01)": lambda: [(self.assets / name).unlink() for name in CLIENT.names(VERSION, "linux-x64")]
+                                              and resum(self.assets),
             "extra file": lambda: ((self.assets / "notes.txt").write_text("x"), resum(self.assets)),
             "empty notes": lambda: ((self.assets / "RELEASE-NOTES.md").write_text(" \n"), resum(self.assets)),
         }
