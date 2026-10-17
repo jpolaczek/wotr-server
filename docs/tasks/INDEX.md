@@ -52,7 +52,7 @@ Active tasks: **43**. Completion identifiers: **414**. `ready` means dependencie
 | [UI-223](UI-223.md) | Left rail tabs stand out from the map | `blocked` | — |
 | [UI-224](UI-224.md) | Enterable and enemy regions pulse with a green or red glow | `blocked` | — |
 | [UI-225](UI-225.md) | Battle window stays in place after "No card" | `blocked` | — |
-| [UI-226](UI-226.md) | Battle illustrations by nation | `in_progress` | — |
+| [UI-226](UI-226.md) | Battle illustrations by nation | `blocked` | — |
 
 ## Current work
 
@@ -72,4 +72,4 @@ Active tasks: **43**. Completion identifiers: **414**. `ready` means dependencie
 - **UI-223**: `blocked`, claude-opus; start 2026-10-17T12:45:12Z. Code done (client 38b0e54, EditMode 933/933); a visual check in rc.4 pending.
 - **UI-224**: `blocked`, claude-opus; start 2026-10-17T12:36:32Z. Code done (client 4765066, EditMode 933/933); PlayMode render-counter tests on the owner's Mac and a visual check in rc.4 pending.
 - **UI-225**: `blocked`, claude-opus; start 2026-10-17T12:26:43Z. Code done (client 8377641, EditMode 931/931); PlayMode run on the owner's Mac and a visual check in rc.4 pending.
-- **UI-226**: `in_progress`, claude-opus; start 2026-10-17T12:51:16Z.
+- **UI-226**: `blocked`, claude-opus; start 2026-10-17T12:51:16Z. Code and art done (client d43f852, EditMode 935/935); a visual check of the nation pictures in rc.4 pending.

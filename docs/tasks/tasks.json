@@ -2873,11 +2873,11 @@
         "wotr-client:docs/ui/BATTLE_WINDOW_UX.md",
         "docs/ROADMAP.md"
       ],
-      "status": "in_progress",
+      "status": "blocked",
       "assignee": "claude-opus",
       "started_at": "2026-10-17T12:51:16Z",
       "finished_at": null,
-      "blocked_reason": null,
+      "blocked_reason": "Code and art done (client d43f852, EditMode 935/935); a visual check of the nation pictures in rc.4 pending.",
       "checks": [],
       "documentation": [],
       "history": [
@@ -2886,6 +2886,18 @@
           "event": "start",
           "agent": "claude-opus",
           "note": "Goal: nation battle illustrations for towns/cities/strongholds with side fallback. Verify: EditMode keys/fallback, build.py --check, visual check in rc.4. Images need the owner's OpenAI key."
+        },
+        {
+          "at": "2026-10-17T13:41:53Z",
+          "event": "note",
+          "agent": "claude-opus",
+          "note": "Client 9f4bb99 + d43f852: BattleSceneArt.Keys/NationGroup/NationVersion with side fallback; 30 nation pictures from the owner's Codex built-in image_gen (generations-codex.jsonl), crops by eye, build.py --check 50/50; EditMode CI 935/935 (run 39037228373)."
+        },
+        {
+          "at": "2026-10-17T13:41:53Z",
+          "event": "block",
+          "agent": "claude-opus",
+          "note": "Code and art done (client d43f852, EditMode 935/935); a visual check of the nation pictures in rc.4 pending."
         }
       ]
     }
