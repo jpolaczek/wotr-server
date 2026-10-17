@@ -67,7 +67,16 @@ python3 scripts/bootstrap_deps.py
 python3 scripts/bootstrap_deps.py pin com.wotr.contracts@0.1.0 com.wotr.public-content@1.0.0
 ```
 
-The channel from the lock is `github:jpolaczek/wotr-server` (release `<name>-<version>` with archive and manifesto). Until publication in DIST-03 and offline, set the `WOTR_DEPS_SOURCE=file:<channel folder>`. Token reads with `WOTR_DEPS_TOKEN`, `GITHUB_TOKEN` or `gh auth token`; does not go to lock, manifests or logs. Bad hash, no version or no access stops the bootstrap without downloading another version.
+The channel from the lock is the public `github:jpolaczek/wotr-server` release channel
+(`name-version`, with an archive and manifest). The current coherent set is Contracts
+`0.10.0`, public content `1.0.11`, and the server and seeder built from
+`a68ceee8bbc7`. A player or contributor does not need a GitHub token. In the client,
+`python3 scripts/bootstrap_deps.py fetch --anonymous --test` explicitly ignores token
+environment variables and the local `gh` login while downloading and verifying all
+four archives. For offline work, set `WOTR_DEPS_SOURCE=file:<channel folder>`.
+Private channels may use `WOTR_DEPS_TOKEN`, `GITHUB_TOKEN` or `gh auth token`; the
+credential is never written to the lock, manifests or logs. A bad hash, unavailable
+version or denied access stops the bootstrap without substituting another version.
 
 The change of Contracts requires the `version` to be conquered in `src/Wotr.Contracts/package.json`, and the change of the file from the allowlist — `version` to the `content/unity-public-content.json`. Packer refuses to replace the published version with other bytes. Unchanged sources also give the identical archive in a later commit; the manifest retains the commit that first produced it.
 

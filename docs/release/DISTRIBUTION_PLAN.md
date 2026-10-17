@@ -53,6 +53,13 @@ DS01 Base (DIST-01, 2026-10-13): `claude/dist-01` `155a7e0` connects UI-100–11
 
 DS03/DS04 (DIST-02, 2026-10-13): the client taps in `wotr-deps.lock.json` Contracts 0.1.0 and public content 1.0.0 (commit `030fe94`, SHA-256 archives). `scripts/package_deps.py` builds repetitive packages, `scripts/bootstrap_deps.py` downloads them before Unity and rejects other bytes, unknown versions and lack of access. Destination channel: private releases `jpolaczek/wotr-server` (publication in DIST-03).
 
+Current public baseline (QUAL-14, 2026-10-17): the client lock pins Contracts
+`0.10.0`, public content `1.0.11`, and test server/seeder `a68ceee8bbc7` from public
+`jpolaczek/wotr-server` releases. `bootstrap_deps.py fetch --anonymous --test`
+disables every credential source and verifies the four exact sizes and SHA-256 values.
+The normal developer bootstrap may still use an explicitly configured private or
+file channel; it never silently replaces a missing public package with cached bytes.
+
 DS10 – DS12 ( DIST-05 , 2026-10-13 Contracts 0.2.0 and public content 1.0.1 Contract, refusals and file formats describes [CONTRACTS](../CONTRACTS.md#wersje-klienta-katalog-wydań-i-zgodność--dist-05) Operator's orders and transition period describe [infra/README](../../infra/README.md#katalog-wydań-klienta--dist-05) The publisher key (key id) `95ffc109e1bb9b15` ) is outside the repositories; the client attaches a public part of it. Verification of the collected manifest in the client and UI update executes DIST-07 , a host `downloads.<domena>` DIST-04 .
 
 <a id="hosting-i-obsługa-pc"></a>

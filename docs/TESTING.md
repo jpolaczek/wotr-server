@@ -4351,3 +4351,22 @@ Client `46b286c` (then `4ee71eb` for the AutoOpenPolicy fix), test clone, fresh 
 - Not run, owned by the user (lean verification decision of 2026-10-14): `BuildLocalMac`, `BuildLocalWindows`, and
   `profile-client.py --suite board`, which needs a Development Player build; screenshot reviews are superseded.
 
+## Anonymous pinned dependencies — QUAL-14, 2026-10-17
+
+Client `56b0325c` pins the current public set: Contracts `0.10.0`, public content
+`1.0.11`, and server/seeder `a68ceee8bbc7`. In a fresh isolated worktree with no
+`.deps`, the following command downloaded and verified all four packages while fake
+token variables were present and deliberately ignored:
+
+```sh
+env -u WOTR_DEPS_SOURCE \
+  WOTR_DEPS_TOKEN=must-be-ignored GITHUB_TOKEN=must-also-be-ignored \
+  python3 scripts/bootstrap_deps.py fetch --anonymous --test
+```
+
+The client bootstrap/release unit suite passed 16/16, including missing releases,
+changed bytes, bad hashes, unknown and incompatible versions, unsafe backend
+archives, resource drift and the anonymous credential boundary. Server package
+tests passed 6/6. Unity lock and real-backend checks are recorded here after their
+clean-worktree runs; local cache contents are not accepted as anonymous evidence.
+

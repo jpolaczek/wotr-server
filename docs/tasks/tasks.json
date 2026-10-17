@@ -220,6 +220,12 @@
           "event": "block",
           "agent": "claude",
           "note": "acceptance requires environment: host with downloads and API ( DIST-04 ) for the actual publication of two test versions and the verification of public addresses and clients with the updater ( DIST-07 ) to observe minimum --at. On Mac, the publisher additionally . NET 10 SDK , ssh/rsync to host and ~/.config/wotr/release-client.json. Resuming: DIST-04 and DIST-07 — Dry-run, publication of two test versions, minimum --at per 10 minutes with clients, negative attempts on copies of artifacts."
+        },
+        {
+          "at": "2026-10-17T09:27:16Z",
+          "event": "note",
+          "agent": "claude",
+          "note": "2026-10-17 publisher dry-run v0.9.0-rc.2 exposed unsupported gh release download -O. Commit f3c858a replaces it with isolated -D download and atomic checksum move; release unit suite 15/15 PASS and the exact dry-run PASS for linux-x64, macos-universal and windows-x64, with no upload or publication. Full DIST-11 remains blocked on its publication/minimum/client acceptance."
         }
       ]
     },
@@ -359,14 +365,27 @@
         "docs/DEVELOPMENT.md",
         "wotr-client:docs/DEVELOPMENT.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
+      "status": "in_progress",
+      "assignee": "codex",
+      "started_at": "2026-10-17T09:28:51Z",
       "finished_at": null,
       "blocked_reason": null,
       "checks": [],
       "documentation": [],
-      "history": []
+      "history": [
+        {
+          "at": "2026-10-17T09:28:51Z",
+          "event": "start",
+          "agent": "codex",
+          "note": "Implement exact Unity TestRunner discovery, source-bound inventory, per-batch database/server isolation, deterministic order and strict missing/skip/additional/source-mutation checks. Verify runner unit tests and two complete PlayMode series on client 76b9fe0d with server packages pinned to a68ceee."
+        },
+        {
+          "at": "2026-10-17T09:29:25Z",
+          "event": "note",
+          "agent": "codex",
+          "note": "The first post-reset attempt was invalidated at 600/617: PostgreSQL was still running from a checkout that was replaced at 11:24 and panicked when its old data_directory disappeared. The runner correctly refused missing dropdb evidence. Recreated PostgreSQL under the current aeabbb-based checkout, moved client to public 76b9fe0d, committed QUAL-06 infrastructure as 12d5854e, and will restart both full series from zero against a68ceee packages."
+        }
+      ]
     },
     {
       "id": "QUAL-19",
@@ -787,14 +806,21 @@
         "docs/release/DISTRIBUTION_PLAN.md",
         "docs/TESTING.md"
       ],
-      "status": "planned",
-      "assignee": null,
-      "started_at": null,
+      "status": "in_progress",
+      "assignee": "codex-bootstrap",
+      "started_at": "2026-10-17T09:28:51Z",
       "finished_at": null,
       "blocked_reason": null,
       "checks": [],
       "documentation": [],
-      "history": []
+      "history": [
+        {
+          "at": "2026-10-17T09:28:51Z",
+          "event": "start",
+          "agent": "codex-bootstrap",
+          "note": "Verify anonymous clean bootstrap against the current public 0.10.0/1.0.11/a68ceee package set, including hash/version refusal tests and real server PlayMode; keep publication out of scope."
+        }
+      ]
     },
     {
       "id": "QUAL-15",

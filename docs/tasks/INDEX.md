@@ -11,10 +11,10 @@ Active tasks: **43**. Completion identifiers: **414**. `ready` means dependencie
 | ID | Task | State | Remaining start conditions |
 | --- | --- | --- | --- |
 | [QUAL-19](QUAL-19.md) | Base-game regression failures without an owner | `done` | — |
-| [QUAL-06](QUAL-06.md) | Isolated PlayMode runs and complete test inventory | `ready` | — |
+| [QUAL-06](QUAL-06.md) | Isolated PlayMode runs and complete test inventory | `in_progress` | — |
 | [DIST-07](DIST-07.md) | In-game updates, repair and safe restart | `in_progress` | — |
 | [DIST-08](DIST-08.md) | Distribution acceptance and controlled publication | `planned` | DIST-07, DIST-11 |
-| [QUAL-14](QUAL-14.md) | Anonymous bootstrap of pinned dependencies | `ready` | — |
+| [QUAL-14](QUAL-14.md) | Anonymous bootstrap of pinned dependencies | `in_progress` | — |
 | [QUAL-07](QUAL-07.md) | Current UI scenarios and stable geometry | `planned` | QUAL-06 |
 | [DIST-11](DIST-11.md) | Release command, runbook and first-installation instructions | `blocked` | — |
 | [QUAL-08](QUAL-08.md) | Complete test drivers and reproducible client profiling | `planned` | QUAL-06, QUAL-07 |
@@ -56,7 +56,9 @@ Active tasks: **43**. Completion identifiers: **414**. `ready` means dependencie
 
 ## Current work
 
+- **QUAL-06**: `in_progress`, codex; start 2026-10-17T09:28:51Z.
 - **DIST-07**: `in_progress`, claude; start 2026-10-15T15:58:28Z.
+- **QUAL-14**: `in_progress`, codex-bootstrap; start 2026-10-17T09:28:51Z.
 - **DIST-11**: `blocked`, claude; start 2026-10-15T12:09:45Z. Acceptance requires a host with downloads and API (DIST-04) for publishing two test versions and checking public URLs, plus clients with the updater (DIST-07) to observe minimum --at. The publisher Mac also needs .NET 10 SDK, ssh/rsync access and ~/.config/wotr/release-client.json. Resume after DIST-04 and DIST-07: dry-run, publish two test versions, schedule minimum --at 10 minutes ahead with clients, and run negative cases on artifact copies.
 - **LNX-02**: `blocked`, claude-opus; start 2026-10-17T08:21:50Z. Waiting for rc.3: v0.9.0-rc.2 is published and installed on the owner's Linux PC; the remaining acceptance (in-game update N -> N+1 there) needs the next release, which will carry UI-217.
 - **UI-163**: `blocked`, claude-opus-ui; start 2026-10-16T22:09:46Z. Waits for the user's local builds (BuildLocalMac, BuildLocalWindows) and the board profile on a Development Player build (profile-client.py --suite board); by the user's 2026-10-14 decision local builds are theirs. Unblock: the user builds (or authorizes the agent to build) and the profile report is recorded; then finish with the regression already recorded in TESTING.
