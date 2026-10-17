@@ -1,0 +1,2515 @@
+{
+  "schemaVersion": 1,
+  "rulesVersion": "base-2e-2011-faq1.2",
+  "contentVersion": "base-setup-1",
+  "id": "corpus-ring-destroyed",
+  "revision": 2,
+  "decisionSequence": 3,
+  "turn": 1,
+  "phase": "Finished",
+  "actor": "FreePeoples",
+  "winner": "FreePeoples",
+  "victory": "RingDestroyed",
+  "configuration": {
+    "lords": false,
+    "kings": false,
+    "fate": false,
+    "council": false,
+    "dismay": null,
+    "visibleCorruption": false,
+    "sequentialCorruption": false,
+    "removingRulerTokens": false,
+    "newCities": false
+  },
+  "players": [
+    {
+      "side": "FreePeoples",
+      "hand": [
+        "base.fp.character.02",
+        "base.fp.strategy.02"
+      ],
+      "handVersion": 2,
+      "autoDecision": {
+        "version": 0,
+        "policy": null,
+        "lastSkippedBattleId": "",
+        "lastSkippedRound": 0
+      },
+      "decks": {
+        "character": [
+          "base.fp.character.03",
+          "base.fp.character.04",
+          "base.fp.character.05",
+          "base.fp.character.06",
+          "base.fp.character.07",
+          "base.fp.character.08",
+          "base.fp.character.09",
+          "base.fp.character.10",
+          "base.fp.character.11",
+          "base.fp.character.12",
+          "base.fp.character.13",
+          "base.fp.character.14",
+          "base.fp.character.15",
+          "base.fp.character.16",
+          "base.fp.character.17",
+          "base.fp.character.18",
+          "base.fp.character.19",
+          "base.fp.character.20",
+          "base.fp.character.21",
+          "base.fp.character.22",
+          "base.fp.character.23",
+          "base.fp.character.24",
+          "base.fp.character.01"
+        ],
+        "strategy": [
+          "base.fp.strategy.03",
+          "base.fp.strategy.04",
+          "base.fp.strategy.05",
+          "base.fp.strategy.06",
+          "base.fp.strategy.07",
+          "base.fp.strategy.08",
+          "base.fp.strategy.09",
+          "base.fp.strategy.10",
+          "base.fp.strategy.11",
+          "base.fp.strategy.12",
+          "base.fp.strategy.13",
+          "base.fp.strategy.14",
+          "base.fp.strategy.15",
+          "base.fp.strategy.16",
+          "base.fp.strategy.17",
+          "base.fp.strategy.18",
+          "base.fp.strategy.19",
+          "base.fp.strategy.20",
+          "base.fp.strategy.21",
+          "base.fp.strategy.22",
+          "base.fp.strategy.23",
+          "base.fp.strategy.24",
+          "base.fp.strategy.01"
+        ]
+      },
+      "discard": [],
+      "table": [],
+      "ringUsedThisTurn": false,
+      "ringActionPending": false,
+      "extraDiceNextRecovery": 0,
+      "privateCompanionVersions": [],
+      "committedCombatCard": null,
+      "combatCardCommitted": false,
+      "hiddenCorruptionTiles": []
+    },
+    {
+      "side": "Shadow",
+      "hand": [
+        "base.sh.character.02",
+        "base.sh.strategy.02"
+      ],
+      "handVersion": 2,
+      "autoDecision": {
+        "version": 0,
+        "policy": null,
+        "lastSkippedBattleId": "",
+        "lastSkippedRound": 0
+      },
+      "decks": {
+        "character": [
+          "base.sh.character.03",
+          "base.sh.character.04",
+          "base.sh.character.05",
+          "base.sh.character.06",
+          "base.sh.character.07",
+          "base.sh.character.08",
+          "base.sh.character.09",
+          "base.sh.character.10",
+          "base.sh.character.11",
+          "base.sh.character.12",
+          "base.sh.character.13",
+          "base.sh.character.14",
+          "base.sh.character.15",
+          "base.sh.character.16",
+          "base.sh.character.17",
+          "base.sh.character.18",
+          "base.sh.character.19",
+          "base.sh.character.20",
+          "base.sh.character.21",
+          "base.sh.character.22",
+          "base.sh.character.23",
+          "base.sh.character.24",
+          "base.sh.character.01"
+        ],
+        "strategy": [
+          "base.sh.strategy.03",
+          "base.sh.strategy.04",
+          "base.sh.strategy.05",
+          "base.sh.strategy.06",
+          "base.sh.strategy.07",
+          "base.sh.strategy.08",
+          "base.sh.strategy.09",
+          "base.sh.strategy.10",
+          "base.sh.strategy.11",
+          "base.sh.strategy.12",
+          "base.sh.strategy.13",
+          "base.sh.strategy.14",
+          "base.sh.strategy.15",
+          "base.sh.strategy.16",
+          "base.sh.strategy.17",
+          "base.sh.strategy.18",
+          "base.sh.strategy.19",
+          "base.sh.strategy.20",
+          "base.sh.strategy.21",
+          "base.sh.strategy.22",
+          "base.sh.strategy.23",
+          "base.sh.strategy.24",
+          "base.sh.strategy.01"
+        ]
+      },
+      "discard": [],
+      "table": [],
+      "ringUsedThisTurn": false,
+      "ringActionPending": false,
+      "extraDiceNextRecovery": 0,
+      "privateCompanionVersions": [],
+      "committedCombatCard": null,
+      "combatCardCommitted": false,
+      "hiddenCorruptionTiles": []
+    }
+  ],
+  "units": [
+    {
+      "id": "base.sauron.regular.01",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.02",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.03",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.04",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.01",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.01",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.01",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "bree",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.02",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "carrock",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.03",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "dale",
+      "garrison": false
+    },
+    {
+      "id": "base.north.leader.01",
+      "nation": "north",
+      "kind": "Leader",
+      "location": "dale",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.01",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "dol-amroth",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.02",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "dol-amroth",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.03",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "dol-amroth",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.05",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.06",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.07",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.08",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.09",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.02",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.02",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.01",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "edoras",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.elite.01",
+      "nation": "rohan",
+      "kind": "Elite",
+      "location": "edoras",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.regular.01",
+      "nation": "dwarves",
+      "kind": "Regular",
+      "location": "erebor",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.elite.01",
+      "nation": "dwarves",
+      "kind": "Elite",
+      "location": "erebor",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.elite.02",
+      "nation": "dwarves",
+      "kind": "Elite",
+      "location": "erebor",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.leader.01",
+      "nation": "dwarves",
+      "kind": "Leader",
+      "location": "erebor",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.regular.02",
+      "nation": "dwarves",
+      "kind": "Regular",
+      "location": "ered-luin",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.01",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "far-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.02",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "far-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.03",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "far-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.01",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "far-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.02",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "fords-of-isen",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.03",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "fords-of-isen",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.leader.01",
+      "nation": "rohan",
+      "kind": "Leader",
+      "location": "fords-of-isen",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.10",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "gorgoroth",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.11",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "gorgoroth",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.12",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "gorgoroth",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.regular.01",
+      "nation": "elves",
+      "kind": "Regular",
+      "location": "grey-havens",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.01",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "grey-havens",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.leader.01",
+      "nation": "elves",
+      "kind": "Leader",
+      "location": "grey-havens",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.04",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "helms-deep",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.regular.03",
+      "nation": "dwarves",
+      "kind": "Regular",
+      "location": "iron-hills",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.regular.02",
+      "nation": "elves",
+      "kind": "Regular",
+      "location": "lorien",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.02",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "lorien",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.03",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "lorien",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.leader.02",
+      "nation": "elves",
+      "kind": "Leader",
+      "location": "lorien",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.13",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.14",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.15",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.16",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.17",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.03",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.04",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.05",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.06",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.elite.01",
+      "nation": "gondor",
+      "kind": "Elite",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.leader.01",
+      "nation": "gondor",
+      "kind": "Leader",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.18",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.19",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.20",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.21",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.22",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.04",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.23",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "moria",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.24",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "moria",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.25",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "mount-gundabad",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.26",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "mount-gundabad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.04",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "near-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.05",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "near-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.06",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "near-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.02",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "near-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.north.elite.01",
+      "nation": "north",
+      "kind": "Elite",
+      "location": "north-downs",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.01",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "north-dunland",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.07",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "north-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.08",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "north-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.27",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "nurn",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.28",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "nurn",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.02",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "orthanc",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.03",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "orthanc",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.04",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "orthanc",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.05",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "orthanc",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.01",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "orthanc",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.07",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "osgiliath",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.08",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "osgiliath",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.09",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "pelargir",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.04",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "rivendell",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.05",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "rivendell",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.leader.03",
+      "nation": "elves",
+      "kind": "Leader",
+      "location": "rivendell",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.06",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "south-dunland",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.09",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "south-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.10",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "south-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.11",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "south-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.03",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "south-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.04",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "the-shire",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.12",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "umbar",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.13",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "umbar",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.14",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "umbar",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.regular.03",
+      "nation": "elves",
+      "kind": "Regular",
+      "location": "woodland-realm",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.06",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "woodland-realm",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.leader.04",
+      "nation": "elves",
+      "kind": "Leader",
+      "location": "woodland-realm",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.regular.04",
+      "nation": "dwarves",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.regular.05",
+      "nation": "dwarves",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.elite.03",
+      "nation": "dwarves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.elite.04",
+      "nation": "dwarves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.elite.05",
+      "nation": "dwarves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.leader.02",
+      "nation": "dwarves",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.leader.03",
+      "nation": "dwarves",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.leader.04",
+      "nation": "dwarves",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.regular.04",
+      "nation": "elves",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.regular.05",
+      "nation": "elves",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.07",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.08",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.09",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.10",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.10",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.11",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.12",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.13",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.14",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.15",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.elite.02",
+      "nation": "gondor",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.elite.03",
+      "nation": "gondor",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.elite.04",
+      "nation": "gondor",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.elite.05",
+      "nation": "gondor",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.leader.02",
+      "nation": "gondor",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.leader.03",
+      "nation": "gondor",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.leader.04",
+      "nation": "gondor",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.05",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.06",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.07",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.08",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.09",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.10",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.elite.02",
+      "nation": "north",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.elite.03",
+      "nation": "north",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.elite.04",
+      "nation": "north",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.elite.05",
+      "nation": "north",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.leader.02",
+      "nation": "north",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.leader.03",
+      "nation": "north",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.leader.04",
+      "nation": "north",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.05",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.06",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.07",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.08",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.09",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.10",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.elite.02",
+      "nation": "rohan",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.elite.03",
+      "nation": "rohan",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.elite.04",
+      "nation": "rohan",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.elite.05",
+      "nation": "rohan",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.leader.02",
+      "nation": "rohan",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.leader.03",
+      "nation": "rohan",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.leader.04",
+      "nation": "rohan",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.07",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.08",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.09",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.10",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.11",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.12",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.02",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.03",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.04",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.05",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.06",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.29",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.30",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.31",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.32",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.33",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.34",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.35",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.36",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.03",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.04",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.05",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.06",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.05",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.06",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.07",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.08",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.15",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.16",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.17",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.18",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.19",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.20",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.21",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.22",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.23",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.24",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.04",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.05",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.06",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    }
+  ],
+  "characters": [],
+  "minionEverEntered": false,
+  "nations": [
+    {
+      "id": "dwarves",
+      "active": false,
+      "stepsToWar": 3
+    },
+    {
+      "id": "elves",
+      "active": true,
+      "stepsToWar": 3
+    },
+    {
+      "id": "gondor",
+      "active": false,
+      "stepsToWar": 2
+    },
+    {
+      "id": "north",
+      "active": false,
+      "stepsToWar": 3
+    },
+    {
+      "id": "rohan",
+      "active": false,
+      "stepsToWar": 3
+    },
+    {
+      "id": "isengard",
+      "active": true,
+      "stepsToWar": 1
+    },
+    {
+      "id": "sauron",
+      "active": true,
+      "stepsToWar": 1
+    },
+    {
+      "id": "southrons",
+      "active": true,
+      "stepsToWar": 2
+    }
+  ],
+  "politicalReactions": [],
+  "control": {
+    "andrast": null,
+    "anfalas": "FreePeoples",
+    "angmar": "Shadow",
+    "arnor": null,
+    "ash-mountains": null,
+    "barad-dur": "Shadow",
+    "bree": "FreePeoples",
+    "buckland": "FreePeoples",
+    "cardolan": null,
+    "carrock": "FreePeoples",
+    "dagorlad": null,
+    "dale": "FreePeoples",
+    "dead-marshes": null,
+    "dimrill-dale": null,
+    "dol-amroth": "FreePeoples",
+    "dol-guldur": "Shadow",
+    "druadan-forest": "FreePeoples",
+    "druwaith-iaur": null,
+    "eagles-eyrie": null,
+    "east-harondor": null,
+    "east-rhun": "Shadow",
+    "eastemnet": "FreePeoples",
+    "eastern-brown-lands": null,
+    "eastern-emyn-muil": null,
+    "eastern-mirkwood": null,
+    "edoras": "FreePeoples",
+    "enedwaith": null,
+    "erebor": "FreePeoples",
+    "erech": "FreePeoples",
+    "ered-luin": "FreePeoples",
+    "ettenmoors": null,
+    "evendim": null,
+    "fangorn": null,
+    "far-harad": "Shadow",
+    "folde": "FreePeoples",
+    "fords-of-bruinen": null,
+    "fords-of-isen": "FreePeoples",
+    "forlindon": null,
+    "gap-of-rohan": "Shadow",
+    "gladden-fields": null,
+    "goblins-gate": null,
+    "gorgoroth": "Shadow",
+    "grey-havens": "FreePeoples",
+    "harlindon": null,
+    "helms-deep": "FreePeoples",
+    "high-pass": null,
+    "hollin": null,
+    "iron-hills": "FreePeoples",
+    "khand": "Shadow",
+    "lamedon": "FreePeoples",
+    "lorien": "FreePeoples",
+    "lossarnach": "FreePeoples",
+    "minas-morgul": "Shadow",
+    "minas-tirith": "FreePeoples",
+    "minhiriath": null,
+    "morannon": "Shadow",
+    "moria": "Shadow",
+    "mount-gram": "Shadow",
+    "mount-gundabad": "Shadow",
+    "narrows-of-the-forest": null,
+    "near-harad": "Shadow",
+    "noman-lands": null,
+    "north-anduin-vale": null,
+    "north-downs": "FreePeoples",
+    "north-dunland": "Shadow",
+    "north-ered-luin": "FreePeoples",
+    "north-ithilien": null,
+    "north-rhun": "Shadow",
+    "northern-dorwinion": null,
+    "northern-mirkwood": null,
+    "northern-rhovanion": null,
+    "nurn": "Shadow",
+    "old-ford": null,
+    "old-forest": null,
+    "old-forest-road": "FreePeoples",
+    "orthanc": "Shadow",
+    "osgiliath": null,
+    "parth-celebrant": null,
+    "pelargir": "FreePeoples",
+    "rhosgobel": "FreePeoples",
+    "rivendell": "FreePeoples",
+    "south-anduin-vale": null,
+    "south-downs": null,
+    "south-dunland": "Shadow",
+    "south-ered-luin": null,
+    "south-ithilien": null,
+    "south-rhun": "Shadow",
+    "southern-dorwinion": null,
+    "southern-mirkwood": "Shadow",
+    "southern-rhovanion": null,
+    "tharbad": null,
+    "the-shire": "FreePeoples",
+    "tower-hills": null,
+    "trollshaws": null,
+    "umbar": "Shadow",
+    "vale-of-the-carnen": null,
+    "vale-of-the-celduin": null,
+    "weather-hills": null,
+    "west-harondor": null,
+    "westemnet": "FreePeoples",
+    "western-brown-lands": null,
+    "western-emyn-muil": null,
+    "western-mirkwood": null,
+    "withered-heath": null,
+    "woodland-realm": "FreePeoples"
+  },
+  "dice": [
+    {
+      "id": "FreePeoples.standard.1",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Character",
+      "location": "Hunt",
+      "huntOrigin": "fellowship-move",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "FreePeoples.standard.2",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "FreePeoples.standard.3",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "FreePeoples.standard.4",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "FreePeoples.standard.5",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "FreePeoples.standard.6",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.1",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.2",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.3",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.4",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.5",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.6",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.7",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.8",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.9",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.10",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    }
+  ],
+  "rings": [
+    {
+      "id": "base.ring.1",
+      "owner": "FreePeoples"
+    },
+    {
+      "id": "base.ring.2",
+      "owner": "FreePeoples"
+    },
+    {
+      "id": "base.ring.3",
+      "owner": "FreePeoples"
+    }
+  ],
+  "fellowship": {
+    "regionId": "mordor-track",
+    "progress": 0,
+    "corruption": 11,
+    "hidden": true,
+    "mordorStep": 5,
+    "lastDeclarationTurn": -1,
+    "lastMordorAttemptTurn": 1,
+    "guide": "base.character.gandalf-grey",
+    "companions": [
+      "base.character.gandalf-grey",
+      "base.character.strider",
+      "base.character.boromir",
+      "base.character.gimli",
+      "base.character.legolas",
+      "base.character.merry",
+      "base.character.pippin"
+    ]
+  },
+  "huntTiles": [
+    {
+      "id": "base.hunt.standard.eye.1.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.eye.1.2",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.eye.1.3",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.eye.1.4",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.3.0.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.3.0.2",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.3.0.3",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.2.0.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.2.0.2",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.2.1.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.1.0.1",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.1.0.2",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.1.1.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.1.1.2",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.0.1.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.standard.0.1.2",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.special-fp.0.0.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.special-fp.0.0.2",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.special-fp.-2.0.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.special-fp.-1.0.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.special-sh.die.0.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.special-sh.eye.1.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.special-sh.3.0.1",
+      "location": "removed"
+    },
+    {
+      "id": "base.hunt.special-sh.1.1.1",
+      "location": "removed"
+    }
+  ],
+  "pending": null,
+  "afterDiscard": "None",
+  "resolution": {
+    "frames": [],
+    "paidDieIds": [],
+    "window": ""
+  },
+  "lastBattleRound": null,
+  "events": [
+    {
+      "revision": 0,
+      "kind": "PhaseChanged",
+      "onlyFor": null,
+      "text": "Turn 1: RecoverDraw."
+    },
+    {
+      "revision": 0,
+      "kind": "CardDrawn",
+      "onlyFor": "FreePeoples",
+      "text": "Drew base.fp.character.02."
+    },
+    {
+      "revision": 0,
+      "kind": "CardDrawn",
+      "onlyFor": "FreePeoples",
+      "text": "Drew base.fp.strategy.02."
+    },
+    {
+      "revision": 0,
+      "kind": "CardDrawn",
+      "onlyFor": "Shadow",
+      "text": "Drew base.sh.character.02."
+    },
+    {
+      "revision": 0,
+      "kind": "CardDrawn",
+      "onlyFor": "Shadow",
+      "text": "Drew base.sh.strategy.02."
+    },
+    {
+      "revision": 0,
+      "kind": "PhaseChanged",
+      "onlyFor": null,
+      "text": "Turn 1: Fellowship."
+    },
+    {
+      "revision": 1,
+      "kind": "MordorMoveAttempted",
+      "onlyFor": null,
+      "text": "The Fellowship attempts to move on the Mordor Track."
+    },
+    {
+      "revision": 1,
+      "kind": "HuntTileDrawn",
+      "onlyFor": null,
+      "text": "base.hunt.standard.1.0.1: Hunt tile drawn."
+    },
+    {
+      "revision": 1,
+      "kind": "HuntDamageDetermined",
+      "onlyFor": null,
+      "text": "base.hunt.standard.1.0.1: damage 1, healing 0."
+    },
+    {
+      "revision": 2,
+      "kind": "HuntCorruption",
+      "onlyFor": null,
+      "text": "Hunt damage 1, healing 0; Corruption 11."
+    },
+    {
+      "revision": 2,
+      "kind": "MordorMoveResolved",
+      "onlyFor": null,
+      "text": "The Fellowship advances to Mordor step 5."
+    },
+    {
+      "revision": 2,
+      "kind": "RingDestroyed",
+      "onlyFor": null,
+      "text": "FreePeoples wins: RingDestroyed."
+    },
+    {
+      "revision": 2,
+      "kind": "PhaseChanged",
+      "onlyFor": null,
+      "text": "Turn 1: Finished."
+    }
+  ],
+  "activeEffects": [],
+  "randomSamples": [
+    {
+      "revision": 0,
+      "exclusiveMaximum": 24,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 23,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 22,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 21,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 20,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 19,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 18,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 17,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 16,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 15,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 14,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 13,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 12,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 11,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 10,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 9,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 8,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 7,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 6,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 5,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 4,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 3,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 2,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 24,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 23,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 22,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 21,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 20,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 19,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 18,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 17,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 16,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 15,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 14,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 13,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 12,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 11,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 10,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 9,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 8,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 7,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 6,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 5,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 4,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 3,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 2,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 24,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 23,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 22,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 21,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 20,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 19,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 18,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 17,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 16,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 15,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 14,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 13,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 12,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 11,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 10,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 9,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 8,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 7,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 6,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 5,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 4,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 3,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 2,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 24,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 23,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 22,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 21,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 20,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 19,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 18,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 17,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 16,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 15,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 14,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 13,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 12,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 11,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 10,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 9,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 8,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 7,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 6,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 5,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 4,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 3,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 2,
+      "value": 0
+    },
+    {
+      "revision": 1,
+      "exclusiveMaximum": 1,
+      "value": 0
+    }
+  ],
+  "mandatoryHuntAllocation": false
+}

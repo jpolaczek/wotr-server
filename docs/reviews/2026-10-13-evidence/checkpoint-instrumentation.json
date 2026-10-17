@@ -1,0 +1,6 @@
+{
+  "source": "Assets/Wotr/Runtime/Diagnostics/DesktopProfile.cs",
+  "original_sha256": "cc5167f4279d3e95a5e4528add08065e3e5cd9eb08c143851b7e87d3672fc475",
+  "instrumented_sha256": "9e26da777d75686f5192b3aee25e2399255e3c9a6eb8236d6139b759fdb5ec04",
+  "change": "WriteReport and actual resolution log in existing exception handler only; measured loop and production UI unchanged"
+}

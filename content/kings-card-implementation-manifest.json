@@ -1,0 +1,1732 @@
+{
+  "schemaVersion": 2,
+  "source": "docs/sources/kings-card-index.json",
+  "rules": [
+    "docs/rules/T30-KINGS-01.md",
+    "docs/rules/T30-KINGS-02.md",
+    "docs/rules/T30-KINGS-03.md",
+    "docs/rules/T30-KINGS-04.md"
+  ],
+  "cards": [
+    {
+      "id": "kings.fp.character.23",
+      "kind": "Event",
+      "programId": "kings.fp.character.23",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.brave-stand"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Boromir musi znajdować się w regionie Gondoru.",
+          "tests": [
+            "KingsCards01EventTests.BothStewardsBranchesRequireBoromirInGondor"
+          ]
+        },
+        {
+          "sourceText": "Wybierz: rekrutuj jedną jednostkę Regularną albo Elitarną Gondoru przy Boromirze, albo losowo usuń jeden zakryty kafel Zepsucia Denethora do puli Polowania.",
+          "tests": [
+            "KingsCards01EventTests.StewardsRecruitsAtBoromirThenDrawsTwoStrategyCards",
+            "KingsCards01EventTests.RandomRemovalExcludesKingsTileAndDrawsOnlyAfterTheServerChoice",
+            "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings"
+          ]
+        },
+        {
+          "sourceText": "Po wybranej gałęzi dobierz dwie karty z talii Strategy.",
+          "tests": [
+            "KingsCards01EventTests.RandomRemovalExcludesKingsTileAndDrawsOnlyAfterTheServerChoice",
+            "KingsCards01EventTests.StewardsRecruitsAtBoromirThenDrawsTwoStrategyCards",
+            "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie musi uczestniczyć Towarzysz.",
+          "tests": [
+            "KingsCards01CombatTests.RequiredCompanionOrSovereignMustActuallyParticipate"
+          ]
+        },
+        {
+          "sourceText": "Cień rzuca o jedną kość walki mniej za każdego uczestniczącego Towarzysza, z minimum jednej kości.",
+          "tests": [
+            "KingsCards01CombatTests.BraveStandCountsOnlyParticipatingCompanionsAndKeepsAtLeastOneShadowDie"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Warunek Boromira dotyczy obu gałęzi; brak zasobów rozpatrywać według częściowego wykonania wydarzenia.",
+          "tests": [
+            "KingsCards01EventTests.BothStewardsBranchesRequireBoromirInGondor",
+            "KingsCards01EventTests.NoHiddenTileStillCompletesTheChosenBranchWithoutRandomness",
+            "KingsRecruitCardsTests.CapturedDestinationDoesNotRecruitOrSilentlySwitchToCorruption"
+          ]
+        },
+        {
+          "sourceText": "Losowość usunięcia kafla po stronie serwera; dobór dokładnie Strategy, nie Character.",
+          "tests": [
+            "KingsCards01EventTests.RandomRemovalExcludesKingsTileAndDrawsOnlyAfterTheServerChoice",
+            "KingsCards01PersistenceTests.RandomRemovalPersistsTheChosenTileAndFollowingDrawForEveryBranch",
+            "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings"
+          ]
+        },
+        {
+          "sourceText": "Combat: zliczać uczestników, nie tylną straż; minimum jednej kości Cienia.",
+          "tests": [
+            "KingsCards01CombatTests.BraveStandCountsOnlyParticipatingCompanionsAndKeepsAtLeastOneShadowDie"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings",
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCardIntegrationTests.HiddenTileReferencesRemainRandomAndExcludeKingsInBothVisibilityModes",
+        "KingsCards01CombatTests.BraveStandCountsOnlyParticipatingCompanionsAndKeepsAtLeastOneShadowDie",
+        "KingsCards01CombatTests.EveryCombatHalfValidatesModuleOwnerHandAndWindow",
+        "KingsCards01CombatTests.RequiredCompanionOrSovereignMustActuallyParticipate",
+        "KingsCards01EventTests.BothStewardsBranchesRequireBoromirInGondor",
+        "KingsCards01EventTests.EachCardValidatesModuleOwnerCostWindowAndPresenceWithoutMutation",
+        "KingsCards01EventTests.NoHiddenTileStillCompletesTheChosenBranchWithoutRandomness",
+        "KingsCards01EventTests.RandomRemovalExcludesKingsTileAndDrawsOnlyAfterTheServerChoice",
+        "KingsCards01EventTests.StewardsRecruitsAtBoromirThenDrawsTwoStrategyCards",
+        "KingsCards01PersistenceTests.EveryCombatRestartsPrivateCommitAndRevealWithoutDuplicatingRolls",
+        "KingsCards01PersistenceTests.EveryEventRestartsItsPaidCostAndInitialDecision",
+        "KingsCards01PersistenceTests.RandomRemovalPersistsTheChosenTileAndFollowingDrawForEveryBranch",
+        "KingsCards01PersistenceTests.RecruitmentRestartsTheBranchAndAllPlacementsBeforeDrawing",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsRecruitCardsTests.CapturedDestinationDoesNotRecruitOrSilentlySwitchToCorruption",
+        "KingsRecruitCardsTests.WelcomeBlocksRandomRemovalButNotTheFollowingStrategyDraw"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.character.23"
+      }
+    },
+    {
+      "id": "kings.fp.character.25",
+      "kind": "Event",
+      "programId": "kings.fp.character.25",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.kings-banner"
+      ],
+      "combatInitiatives": [
+        4
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Przesuń dowolnych lub wszystkich Towarzyszy znajdujących się poza Drużyną.",
+          "tests": [
+            "KingsAidTests.AidMovesMultipleGroupsThenAwakensAtTheirFinalRegionWithNoNormalPoliticalRequirement",
+            "KingsAidTests.AidMaySkipMovementAndAwakenAwayFromHomeWithoutRelocation"
+          ]
+        },
+        {
+          "sourceText": "Następnie wybierz nieprzebudzonego i nieskorumpowanego Suwerena, który dzieli region z Towarzyszem; przebudź go w tym regionie.",
+          "tests": [
+            "KingsAidTests.AidMovesMultipleGroupsThenAwakensAtTheirFinalRegionWithNoNormalPoliticalRequirement",
+            "KingsAidTests.AidMaySkipMovementAndAwakenAwayFromHomeWithoutRelocation",
+            "KingsAidTests.AidAndNormalAwakeningRespectExplicitTableRestrictions"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Uczestnikiem bitwy musi być Aragorn albo Przebudzony Suweren.",
+          "tests": [
+            "KingsCards01CombatTests.RequiredCompanionOrSovereignMustActuallyParticipate",
+            "KingsCards01CombatTests.BannerAcceptsAragornButGodOfOldRequiresASovereign"
+          ]
+        },
+        {
+          "sourceText": "Przed własnym przerzutem dowodzenia poświęć całe dowodzenie Aragorna albo wybranego Suwerena, aby anulować przerzut dowodzenia Cienia.",
+          "tests": [
+            "KingsCards01CombatTests.BannerForfeitsTheodensEntireFirstRoundLeadershipAndCancelsShadowReroll",
+            "KingsCards01CombatTests.BannerChoosesOneCharacterAndCannotSpendAlreadyForfeitedLeadership"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Ruch części lub wszystkich uprawnionych Towarzyszy; pozycję dla przebudzenia sprawdzać po zakończeniu ruchu.",
+          "tests": [
+            "KingsAidTests.AidMovesMultipleGroupsThenAwakensAtTheirFinalRegionWithNoNormalPoliticalRequirement",
+            "KingsAidTests.NoCompanionOrNoEligibleSovereignCompletesOnlyThePossiblePart"
+          ]
+        },
+        {
+          "sourceText": "Przebudzenie w miejscu, bez dodatkowej relokacji Suwerena; uwzględnić Your Welcome Is Doubtful.",
+          "tests": [
+            "KingsAidTests.AidMaySkipMovementAndAwakenAwayFromHomeWithoutRelocation",
+            "KingsAidTests.AidAndNormalAwakeningRespectExplicitTableRestrictions"
+          ]
+        },
+        {
+          "sourceText": "Combat: właściwy uczestnik i rzeczywista utrata całego jego dowodzenia; anulowanie przerzutu Cienia.",
+          "tests": [
+            "KingsCards01CombatTests.BannerForfeitsTheodensEntireFirstRoundLeadershipAndCancelsShadowReroll",
+            "KingsCards01CombatTests.BannerChoosesOneCharacterAndCannotSpendAlreadyForfeitedLeadership"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsAidTests.AidAndNormalAwakeningRespectExplicitTableRestrictions",
+        "KingsAidTests.AidMaySkipMovementAndAwakenAwayFromHomeWithoutRelocation",
+        "KingsAidTests.AidMovesMultipleGroupsThenAwakensAtTheirFinalRegionWithNoNormalPoliticalRequirement",
+        "KingsAidTests.NoCompanionOrNoEligibleSovereignCompletesOnlyThePossiblePart",
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards01CombatTests.BannerAcceptsAragornButGodOfOldRequiresASovereign",
+        "KingsCards01CombatTests.BannerChoosesOneCharacterAndCannotSpendAlreadyForfeitedLeadership",
+        "KingsCards01CombatTests.BannerForfeitsTheodensEntireFirstRoundLeadershipAndCancelsShadowReroll",
+        "KingsCards01CombatTests.CancelledSovereignLeadershipCannotBeSpentOrUsedAsSpecialDice",
+        "KingsCards01CombatTests.EarlierCancellationPreventsBothNewCombatEffects",
+        "KingsCards01CombatTests.EveryCombatHalfValidatesModuleOwnerHandAndWindow",
+        "KingsCards01CombatTests.RequiredCompanionOrSovereignMustActuallyParticipate",
+        "KingsCards01EventTests.EachCardValidatesModuleOwnerCostWindowAndPresenceWithoutMutation",
+        "KingsCards01PersistenceTests.AidRestartsJourneyThenTheAwakeningChoiceInPlace",
+        "KingsCards01PersistenceTests.BannerRestartsTheLeadershipChoiceBeforeLeaderRerolls",
+        "KingsCards01PersistenceTests.EveryCombatRestartsPrivateCommitAndRevealWithoutDuplicatingRolls",
+        "KingsCards01PersistenceTests.EveryEventRestartsItsPaidCostAndInitialDecision",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions"
+      ],
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      }
+    },
+    {
+      "id": "kings.fp.character.26",
+      "kind": "Event",
+      "programId": "kings.fp.character.26",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.like-a-god-of-old"
+      ],
+      "combatInitiatives": [
+        2
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Przesuń wybrany Naród Wolnych Ludów o jedno pole naprzód na torze politycznym.",
+          "tests": [
+            "KingsInspectionTests.PoliticsUsesTheSelectedNationsActualActivationAndWarBoundary",
+            "KingsInspectionTests.DarkAdvancesWithoutActivatingAndWelcomeAllowsInspectionButNoReturn"
+          ]
+        },
+        {
+          "sourceText": "Następnie obejrzyj kafle Zepsucia wybranego nieskorumpowanego Suwerena i wybierz jeden z nich do zwrotu do puli Polowania.",
+          "tests": [
+            "KingsInspectionTests.InspectionGrantsOnlySelectedSovereignAccessAndRevokesItAfterReturningATile",
+            "KingsInspectionTests.OnlyWisdomAllowsKeepingInspectedTiles",
+            "KingsInspectionTests.AUniqueTileIsShownBeforeMandatoryReturnAndNoTilesCompletesPartially"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie musi uczestniczyć Przebudzony Suweren.",
+          "tests": [
+            "KingsCards01CombatTests.RequiredCompanionOrSovereignMustActuallyParticipate"
+          ]
+        },
+        {
+          "sourceText": "Przed rzutem walki wykonaj specjalny atak liczbą kości równą jego dowodzeniu; każda 3+ powoduje trafienie armii Cienia.",
+          "tests": [
+            "KingsCards01CombatTests.GodOfOldUsesLeadershipAndThreePlusBeforeOrdinaryCombatWithSeparateLosses"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Naród już At War i częściowe wykonanie; brak dodatkowej aktywacji w tekście wydarzenia.",
+          "tests": [
+            "KingsInspectionTests.PoliticsUsesTheSelectedNationsActualActivationAndWarBoundary",
+            "KingsInspectionTests.AUniqueTileIsShownBeforeMandatoryReturnAndNoTilesCompletesPartially"
+          ]
+        },
+        {
+          "sourceText": "Tymczasowy wgląd FP w kafle tylko w oknie tego efektu; wybór zachowany przez reconnect.",
+          "tests": [
+            "KingsInspectionTests.InspectionGrantsOnlySelectedSovereignAccessAndRevokesItAfterReturningATile",
+            "KingsCards01PersistenceTests.InspectionRestartsBeforeAccessDuringAccessAndAfterReturningOrKeeping"
+          ]
+        },
+        {
+          "sourceText": "Combat: specjalny atak przed zwykłym rzutem, próg 3+, liczba kości równa dowodzeniu Suwerena.",
+          "tests": [
+            "KingsCards01CombatTests.GodOfOldUsesLeadershipAndThreePlusBeforeOrdinaryCombatWithSeparateLosses",
+            "KingsCards01PersistenceTests.GodOfOldRestartsTheChosenSovereignsRollAndSeparateLossBeforeCombat"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards01CombatTests.CancelledSovereignLeadershipCannotBeSpentOrUsedAsSpecialDice",
+        "KingsCards01CombatTests.EarlierCancellationPreventsBothNewCombatEffects",
+        "KingsCards01CombatTests.EveryCombatHalfValidatesModuleOwnerHandAndWindow",
+        "KingsCards01CombatTests.GodOfOldUsesLeadershipAndThreePlusBeforeOrdinaryCombatWithSeparateLosses",
+        "KingsCards01CombatTests.RequiredCompanionOrSovereignMustActuallyParticipate",
+        "KingsCards01EventTests.EachCardValidatesModuleOwnerCostWindowAndPresenceWithoutMutation",
+        "KingsCards01PersistenceTests.EveryCombatRestartsPrivateCommitAndRevealWithoutDuplicatingRolls",
+        "KingsCards01PersistenceTests.EveryEventRestartsItsPaidCostAndInitialDecision",
+        "KingsCards01PersistenceTests.GodOfOldRestartsTheChosenSovereignsRollAndSeparateLossBeforeCombat",
+        "KingsCards01PersistenceTests.InspectionRestartsBeforeAccessDuringAccessAndAfterReturningOrKeeping",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsInspectionTests.AUniqueTileIsShownBeforeMandatoryReturnAndNoTilesCompletesPartially",
+        "KingsInspectionTests.DarkAdvancesWithoutActivatingAndWelcomeAllowsInspectionButNoReturn",
+        "KingsInspectionTests.InspectionGrantsOnlySelectedSovereignAccessAndRevokesItAfterReturningATile",
+        "KingsInspectionTests.OnlyWisdomAllowsKeepingInspectedTiles",
+        "KingsInspectionTests.PoliticsUsesTheSelectedNationsActualActivationAndWarBoundary"
+      ],
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      }
+    },
+    {
+      "id": "kings.fp.strategy.08",
+      "kind": "Event",
+      "programId": "kings.fp.strategy.08",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.confusion"
+      ],
+      "combatInitiatives": [
+        4
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Wybierz jedną gałąź: aktywuj Naród Wolnych Ludów i przesuń go o jedno pole na torze politycznym, albo obejrzyj kafle Zepsucia nieskorumpowanego Suwerena.",
+          "tests": [
+            "KingsInspectionTests.PoliticsUsesTheSelectedNationsActualActivationAndWarBoundary",
+            "KingsCards01PersistenceTests.WisdomRestartsTheExclusivePoliticalBranchAndNationChoice"
+          ]
+        },
+        {
+          "sourceText": "Po obejrzeniu kafli możesz wybrać jeden do zwrotu do puli Polowania; odrzut jest opcjonalny.",
+          "tests": [
+            "KingsInspectionTests.InspectionGrantsOnlySelectedSovereignAccessAndRevokesItAfterReturningATile",
+            "KingsInspectionTests.OnlyWisdomAllowsKeepingInspectedTiles"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Każda naturalna jedynka Cienia w rzucie walki powoduje jedno trafienie jego armii.",
+          "tests": [
+            "KingsCards01CombatTests.ConfusionUsesNaturalOnesDespiteModifiersAndExcludesThemFromRerolls"
+          ]
+        },
+        {
+          "sourceText": "Tych jedynek nie wolno ponownie rzucać w przerzucie dowodzenia Cienia.",
+          "tests": [
+            "KingsCards01CombatTests.ConfusionUsesNaturalOnesDespiteModifiersAndExcludesThemFromRerolls"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Nie łączyć polityki z przeglądem kafli; aktywacja nie znika przy Narodzie już na końcu toru.",
+          "tests": [
+            "KingsInspectionTests.PoliticsUsesTheSelectedNationsActualActivationAndWarBoundary"
+          ]
+        },
+        {
+          "sourceText": "Po wglądzie dopuszczalna odmowa usunięcia; nie ujawniać kafli poza uprawnionym widokiem.",
+          "tests": [
+            "KingsInspectionTests.OnlyWisdomAllowsKeepingInspectedTiles",
+            "KingsInspectionTests.InspectionGrantsOnlySelectedSovereignAccessAndRevokesItAfterReturningATile",
+            "KingsCards01PersistenceTests.InspectionRestartsBeforeAccessDuringAccessAndAfterReturningOrKeeping"
+          ]
+        },
+        {
+          "sourceText": "Combat: naturalna jedynka, niezależnie od modyfikatorów; trwale wykluczyć tę kość z przerzutu.",
+          "tests": [
+            "KingsCards01CombatTests.ConfusionUsesNaturalOnesDespiteModifiersAndExcludesThemFromRerolls"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards01CombatTests.ConfusionUsesNaturalOnesDespiteModifiersAndExcludesThemFromRerolls",
+        "KingsCards01CombatTests.EveryCombatHalfValidatesModuleOwnerHandAndWindow",
+        "KingsCards01EventTests.EachCardValidatesModuleOwnerCostWindowAndPresenceWithoutMutation",
+        "KingsCards01PersistenceTests.EveryCombatRestartsPrivateCommitAndRevealWithoutDuplicatingRolls",
+        "KingsCards01PersistenceTests.EveryEventRestartsItsPaidCostAndInitialDecision",
+        "KingsCards01PersistenceTests.InspectionRestartsBeforeAccessDuringAccessAndAfterReturningOrKeeping",
+        "KingsCards01PersistenceTests.WisdomRestartsTheExclusivePoliticalBranchAndNationChoice",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsInspectionTests.InspectionGrantsOnlySelectedSovereignAccessAndRevokesItAfterReturningATile",
+        "KingsInspectionTests.OnlyWisdomAllowsKeepingInspectedTiles",
+        "KingsInspectionTests.PoliticsUsesTheSelectedNationsActualActivationAndWarBoundary"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.08"
+      }
+    },
+    {
+      "id": "kings.fp.strategy.16",
+      "kind": "Event",
+      "programId": "kings.fp.strategy.16",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.daylight"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Jeżeli w grze jest Théoden, Corrupted Ruler, usuń go z gry.",
+          "tests": [
+            "KingsCards01EventTests.RemovingTheCorruptedSovereignDoesNotRecruitOrDraw"
+          ]
+        },
+        {
+          "sourceText": "W przeciwnym razie wybierz: rekrutuj jedną jednostkę Regularną albo Elitarną Rohanu oraz jednego dowódcę Rohanu w Edoras albo w regionie Rohanu z Towarzyszem, albo losowo zwróć jeden zakryty kafel Zepsucia Théodena do puli Polowania; następnie dobierz jedną kartę Strategy.",
+          "tests": [
+            "KingsRecruitCardsTests.RidersRecruitsBothFiguresTogetherInOneEligibleRohanRegion",
+            "KingsCards01EventTests.RandomRemovalExcludesKingsTileAndDrawsOnlyAfterTheServerChoice",
+            "KingsCards01EventTests.NoHiddenTileStillCompletesTheChosenBranchWithoutRandomness",
+            "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Cień rzuca najwyżej trzema kośćmi w swoim rzucie walki.",
+          "tests": [
+            "KingsCards01CombatTests.DaylightCapsShadowAtThreeDespiteFiveArmyUnits"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Edoras nie wymaga Towarzysza; alternatywny region wymaga zarówno Rohanu, jak i Towarzysza.",
+          "tests": [
+            "KingsRecruitCardsTests.RidersRecruitsBothFiguresTogetherInOneEligibleRohanRegion",
+            "KingsRecruitCardsTests.RidersCanRecruitIntoBesiegedHelmsDeepWithACompanion"
+          ]
+        },
+        {
+          "sourceText": "Dobór Strategy tylko w gałęzi Otherwise; kontrola osady i rezerwy obu rodzajów figur.",
+          "tests": [
+            "KingsCards01EventTests.RemovingTheCorruptedSovereignDoesNotRecruitOrDraw",
+            "KingsRecruitCardsTests.CapturedDestinationDoesNotRecruitOrSilentlySwitchToCorruption",
+            "KingsRecruitCardsTests.RidersWithoutArmyReservesStillRecruitsTheLeaderWithAnExistingArmy"
+          ]
+        },
+        {
+          "sourceText": "Combat: maksymalnie trzy kości Cienia, również przy innych modyfikatorach liczby kości.",
+          "tests": [
+            "KingsCards01CombatTests.DaylightCapsShadowAtThreeDespiteFiveArmyUnits"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings",
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCardIntegrationTests.HiddenTileReferencesRemainRandomAndExcludeKingsInBothVisibilityModes",
+        "KingsCards01CombatTests.DaylightCapsShadowAtThreeDespiteFiveArmyUnits",
+        "KingsCards01CombatTests.EveryCombatHalfValidatesModuleOwnerHandAndWindow",
+        "KingsCards01EventTests.EachCardValidatesModuleOwnerCostWindowAndPresenceWithoutMutation",
+        "KingsCards01EventTests.NoHiddenTileStillCompletesTheChosenBranchWithoutRandomness",
+        "KingsCards01EventTests.RandomRemovalExcludesKingsTileAndDrawsOnlyAfterTheServerChoice",
+        "KingsCards01EventTests.RemovingTheCorruptedSovereignDoesNotRecruitOrDraw",
+        "KingsCards01PersistenceTests.EveryCombatRestartsPrivateCommitAndRevealWithoutDuplicatingRolls",
+        "KingsCards01PersistenceTests.EveryEventRestartsItsPaidCostAndInitialDecision",
+        "KingsCards01PersistenceTests.RandomRemovalPersistsTheChosenTileAndFollowingDrawForEveryBranch",
+        "KingsCards01PersistenceTests.RecruitmentRestartsTheBranchAndAllPlacementsBeforeDrawing",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsRecruitCardsTests.CapturedDestinationDoesNotRecruitOrSilentlySwitchToCorruption",
+        "KingsRecruitCardsTests.RidersCanRecruitIntoBesiegedHelmsDeepWithACompanion",
+        "KingsRecruitCardsTests.RidersRecruitsBothFiguresTogetherInOneEligibleRohanRegion",
+        "KingsRecruitCardsTests.RidersWithoutArmyReservesStillRecruitsTheLeaderWithAnExistingArmy",
+        "KingsRecruitCardsTests.WelcomeBlocksRandomRemovalButNotTheFollowingStrategyDraw"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.16"
+      }
+    },
+    {
+      "id": "kings.fp.strategy.19",
+      "kind": "Event",
+      "programId": "kings.fp.strategy.19",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.shield-wall"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Jeżeli w grze jest Brand, Corrupted Ruler, usuń go z gry.",
+          "tests": [
+            "KingsCards01EventTests.RemovingTheCorruptedSovereignDoesNotRecruitOrDraw"
+          ]
+        },
+        {
+          "sourceText": "W przeciwnym razie wybierz: rekrutuj dwie Regularne jednostki Północy w Dale, albo losowo zwróć jeden zakryty kafel Zepsucia Branda do puli Polowania; następnie dobierz jedną kartę Strategy.",
+          "tests": [
+            "KingsRecruitCardsTests.BrandRecruitsOnlyAvailableRegularsThenDraws",
+            "KingsCards01EventTests.RandomRemovalExcludesKingsTileAndDrawsOnlyAfterTheServerChoice",
+            "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Przed usuwaniem strat od zwykłego rzutu walki i przerzutu dowodzenia anuluj jedno trafienie przeciwnika, jeżeli uzyskał co najmniej dwa.",
+          "tests": [
+            "KingsCards01CombatTests.ShieldWallRequiresTwoOrdinaryHitsAndCancelsExactlyOne"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Usunięcie Skorumpowanego Branda jest osobną gałęzią; dobór jest częścią gałęzi Otherwise.",
+          "tests": [
+            "KingsCards01EventTests.RemovingTheCorruptedSovereignDoesNotRecruitOrDraw",
+            "KingsRecruitCardsTests.BrandRecruitsOnlyAvailableRegularsThenDraws"
+          ]
+        },
+        {
+          "sourceText": "Niedobór rezerw, zajęte Dale, brak zakrytych kafli; zakaz zastąpienia bazowej karty przy Fate of Erebor.",
+          "tests": [
+            "KingsRecruitCardsTests.BrandRecruitsOnlyAvailableRegularsThenDraws",
+            "KingsRecruitCardsTests.CapturedDestinationDoesNotRecruitOrSilentlySwitchToCorruption",
+            "KingsCards01EventTests.NoHiddenTileStillCompletesTheChosenBranchWithoutRandomness",
+            "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand"
+          ]
+        },
+        {
+          "sourceText": "Combat: jedno trafienie nie wystarcza; anulowanie następuje przed zwykłymi stratami.",
+          "tests": [
+            "KingsCards01CombatTests.ShieldWallRequiresTwoOrdinaryHitsAndCancelsExactlyOne"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings",
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCardIntegrationTests.HiddenTileReferencesRemainRandomAndExcludeKingsInBothVisibilityModes",
+        "KingsCards01CombatTests.EveryCombatHalfValidatesModuleOwnerHandAndWindow",
+        "KingsCards01CombatTests.ShieldWallRequiresTwoOrdinaryHitsAndCancelsExactlyOne",
+        "KingsCards01EventTests.EachCardValidatesModuleOwnerCostWindowAndPresenceWithoutMutation",
+        "KingsCards01EventTests.NoHiddenTileStillCompletesTheChosenBranchWithoutRandomness",
+        "KingsCards01EventTests.RandomRemovalExcludesKingsTileAndDrawsOnlyAfterTheServerChoice",
+        "KingsCards01EventTests.RemovingTheCorruptedSovereignDoesNotRecruitOrDraw",
+        "KingsCards01PersistenceTests.EveryCombatRestartsPrivateCommitAndRevealWithoutDuplicatingRolls",
+        "KingsCards01PersistenceTests.EveryEventRestartsItsPaidCostAndInitialDecision",
+        "KingsCards01PersistenceTests.RandomRemovalPersistsTheChosenTileAndFollowingDrawForEveryBranch",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsRecruitCardsTests.BrandRecruitsOnlyAvailableRegularsThenDraws",
+        "KingsRecruitCardsTests.CapturedDestinationDoesNotRecruitOrSilentlySwitchToCorruption",
+        "KingsRecruitCardsTests.WelcomeBlocksRandomRemovalButNotTheFollowingStrategyDraw"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.19",
+        "excludedWith": [
+          "FateOfErebor"
+        ],
+        "exceptionSource": {
+          "source": "KINGS",
+          "page": 18
+        }
+      }
+    },
+    {
+      "id": "kings.fp.strategy.22",
+      "kind": "Event",
+      "programId": "kings.fp.strategy.22",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.valour"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Jeżeli w grze jest Dáin, Corrupted Ruler, usuń go z gry.",
+          "tests": [
+            "KingsCards02EventTests.NationalCardsRemoveCorruptedRulerWithoutRecruitingOrDrawing"
+          ]
+        },
+        {
+          "sourceText": "W przeciwnym razie wybierz: rekrutuj w Ereborze jedną jednostkę Regularną albo Elitarną Krasnoludów oraz jednego ich dowódcę, albo losowo zwróć jeden zakryty kafel Zepsucia Dáina do puli Polowania; następnie dobierz jedną kartę Strategy.",
+          "tests": [
+            "KingsCards02EventTests.DainRecruitsUnitAndLeaderTogetherThenDraws",
+            "KingsCards02EventTests.NationalRandomRemovalExcludesKingsAndStillDrawsUnderWelcome",
+            "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie musi uczestniczyć jednostka Elitarna Wolnych Ludów.",
+          "tests": [
+            "KingsCards02CombatTests.ValourRequiresParticipatingEliteAndModifiesOnlyCombat"
+          ]
+        },
+        {
+          "sourceText": "Dodaj 1 do wszystkich własnych kości rzutu walki.",
+          "tests": [
+            "KingsCards02CombatTests.ValourRequiresParticipatingEliteAndModifiesOnlyCombat"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Dobór Strategy należy do gałęzi Otherwise; rekrutacja i usunięcie kafla są alternatywami.",
+          "tests": [
+            "KingsCards02EventTests.NationalCardsRemoveCorruptedRulerWithoutRecruitingOrDrawing",
+            "KingsCards02EventTests.NationalRandomRemovalExcludesKingsAndStillDrawsUnderWelcome"
+          ]
+        },
+        {
+          "sourceText": "Oddzielna dostępność rezerw jednostki i dowódcy; wyłączyć tę wymianę przy Fate of Erebor.",
+          "tests": [
+            "KingsCards02EventTests.DainUsesRemainingUnitOrLeaderReserve",
+            "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand"
+          ]
+        },
+        {
+          "sourceText": "Combat: Elita musi uczestniczyć; bonus walki nie obejmuje przerzutu.",
+          "tests": [
+            "KingsCards02CombatTests.ValourRequiresParticipatingEliteAndModifiesOnlyCombat"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings",
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCardIntegrationTests.HiddenTileReferencesRemainRandomAndExcludeKingsInBothVisibilityModes",
+        "KingsCards02CombatTests.ValourRequiresParticipatingEliteAndModifiesOnlyCombat",
+        "KingsCards02EventTests.DainRecruitsUnitAndLeaderTogetherThenDraws",
+        "KingsCards02EventTests.DainUsesRemainingUnitOrLeaderReserve",
+        "KingsCards02EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards02EventTests.NationalCardsRemoveCorruptedRulerWithoutRecruitingOrDrawing",
+        "KingsCards02EventTests.NationalRandomRemovalExcludesKingsAndStillDrawsUnderWelcome",
+        "KingsCards02EventTests.NationalRemovalWithNoHiddenTileStillDrawsWithoutRandomness",
+        "KingsCards02EventTests.OccupiedRecruitDestinationDoesNotChangeChosenBranchOrPreventDraw",
+        "KingsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards02PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards02PersistenceTests.NationalCardsRestartBranchRandomRemovalAndBothRecruitmentForms",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.22",
+        "excludedWith": [
+          "FateOfErebor"
+        ],
+        "exceptionSource": {
+          "source": "KINGS",
+          "page": 18
+        }
+      }
+    },
+    {
+      "id": "kings.fp.strategy.24",
+      "kind": "Event",
+      "programId": "kings.fp.strategy.24",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.valour"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Jeżeli w grze jest Thranduil, Corrupted Ruler, usuń go z gry.",
+          "tests": [
+            "KingsCards02EventTests.NationalCardsRemoveCorruptedRulerWithoutRecruitingOrDrawing"
+          ]
+        },
+        {
+          "sourceText": "W przeciwnym razie wybierz: rekrutuj w Woodland Realm jedną Regularną albo Elitarną jednostkę Elfów, albo losowo zwróć jeden zakryty kafel Zepsucia Thranduila do puli Polowania; następnie dobierz jedną kartę Strategy.",
+          "tests": [
+            "KingsCards02EventTests.ThranduilRecruitsSelectedUnitInWoodlandRealmThenDraws",
+            "KingsCards02EventTests.NationalRandomRemovalExcludesKingsAndStillDrawsUnderWelcome",
+            "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie musi uczestniczyć jednostka Elitarna Wolnych Ludów.",
+          "tests": [
+            "KingsCards02CombatTests.ValourRequiresParticipatingEliteAndModifiesOnlyCombat"
+          ]
+        },
+        {
+          "sourceText": "Dodaj 1 do wszystkich własnych kości rzutu walki.",
+          "tests": [
+            "KingsCards02CombatTests.ValourRequiresParticipatingEliteAndModifiesOnlyCombat"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Usunięcie Skorumpowanego Suwerena nie uruchamia gałęzi rekrutacji, kafla ani doboru.",
+          "tests": [
+            "KingsCards02EventTests.NationalCardsRemoveCorruptedRulerWithoutRecruitingOrDrawing"
+          ]
+        },
+        {
+          "sourceText": "Wariant widocznych kafli nie pozwala usunąć losowo kafla Kings.",
+          "tests": [
+            "KingsCards02EventTests.NationalRandomRemovalExcludesKingsAndStillDrawsUnderWelcome"
+          ]
+        },
+        {
+          "sourceText": "Combat: uczestnicząca Elita dowolnego Narodu FP; +1 tylko do walki.",
+          "tests": [
+            "KingsCards02CombatTests.ValourRequiresParticipatingEliteAndModifiesOnlyCombat"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings",
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCardIntegrationTests.HiddenTileReferencesRemainRandomAndExcludeKingsInBothVisibilityModes",
+        "KingsCards02CombatTests.ValourRequiresParticipatingEliteAndModifiesOnlyCombat",
+        "KingsCards02EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards02EventTests.NationalCardsRemoveCorruptedRulerWithoutRecruitingOrDrawing",
+        "KingsCards02EventTests.NationalRandomRemovalExcludesKingsAndStillDrawsUnderWelcome",
+        "KingsCards02EventTests.NationalRemovalWithNoHiddenTileStillDrawsWithoutRandomness",
+        "KingsCards02EventTests.OccupiedRecruitDestinationDoesNotChangeChosenBranchOrPreventDraw",
+        "KingsCards02EventTests.ThranduilRecruitsSelectedUnitInWoodlandRealmThenDraws",
+        "KingsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards02PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards02PersistenceTests.NationalCardsRestartBranchRandomRemovalAndBothRecruitmentForms",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.24"
+      }
+    },
+    {
+      "id": "kings.fp.strategy.25",
+      "kind": "Event",
+      "programId": "kings.fp.strategy.25",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.there-is-hope-for-victory"
+      ],
+      "combatInitiatives": [
+        4
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Wybierz nieskorumpowanego Suwerena; w jego regionie rekrutuj jedną jednostkę Regularną albo Elitarną jego Narodu.",
+          "tests": [
+            "KingsServiceTests.ServiceRecruitsAtSelectedRulerThenRandomlyCleansesUnlessWelcome",
+            "KingsServiceTests.ServiceAllowsAwakenedRulerAndRejectsCorruptedOrRemovedTargets"
+          ]
+        },
+        {
+          "sourceText": "Następnie, jeżeli ma zakryte kafle Zepsucia, losowo zwróć jeden z nich do puli Polowania.",
+          "tests": [
+            "KingsServiceTests.ServiceRecruitsAtSelectedRulerThenRandomlyCleansesUnlessWelcome",
+            "KingsServiceTests.ServiceStillCleansesWithoutArmyReserves",
+            "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie musi uczestniczyć nieskorumpowany Suweren.",
+          "tests": [
+            "KingsCards02CombatTests.HopeRequiresTheSovereignToParticipateNotMerelyShareRegion"
+          ]
+        },
+        {
+          "sourceText": "Jeżeli nie jest Przebudzony, przebudź go w bieżącym regionie. Dodaj 1 do wszystkich własnych kości przerzutu dowodzenia.",
+          "tests": [
+            "KingsCards02CombatTests.HopeAwakensParticipatingInitialRulerInPlaceBeforeReroll",
+            "KingsCards02CombatTests.HopeWithAwakenedSovereignAddsRerollWithoutAnotherToken",
+            "KingsCards02CombatTests.HopeOffersChoiceAmongAllParticipatingSovereigns"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Rekrutacja dokładnie Narodu i regionu wybranego Suwerena; brak rezerw nie może wymyślać alternatywnego regionu.",
+          "tests": [
+            "KingsServiceTests.ServiceRecruitsAtSelectedRulerThenRandomlyCleansesUnlessWelcome",
+            "KingsServiceTests.ServiceStillCleansesWithoutArmyReserves"
+          ]
+        },
+        {
+          "sourceText": "W wariancie widocznych kafli losować spośród nie-Kings, zgodnie z KINGS s.18.",
+          "tests": [
+            "KingsServiceTests.ServiceRecruitsAtSelectedRulerThenRandomlyCleansesUnlessWelcome",
+            "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings"
+          ]
+        },
+        {
+          "sourceText": "Combat: nieprzebudzony kontra Przebudzony uczestnik; przebudzenie w miejscu i późniejszy bonus przerzutu.",
+          "tests": [
+            "KingsCards02CombatTests.HopeAwakensParticipatingInitialRulerInPlaceBeforeReroll",
+            "KingsCards02CombatTests.HopeWithAwakenedSovereignAddsRerollWithoutAnotherToken"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsBoundaryTests.PoliticalRemovalRandomizesAmongHiddenTilesAndNeverChoosesKings",
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCardIntegrationTests.HiddenTileReferencesRemainRandomAndExcludeKingsInBothVisibilityModes",
+        "KingsCards02CombatTests.FollyPreventsHopeCardInDenethorsBattleRegion",
+        "KingsCards02CombatTests.HopeAwakensParticipatingInitialRulerInPlaceBeforeReroll",
+        "KingsCards02CombatTests.HopeOffersChoiceAmongAllParticipatingSovereigns",
+        "KingsCards02CombatTests.HopeRequiresTheSovereignToParticipateNotMerelyShareRegion",
+        "KingsCards02CombatTests.HopeWithAwakenedSovereignAddsRerollWithoutAnotherToken",
+        "KingsCards02EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards02PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards02PersistenceTests.HopeRestartsChosenAwakeningAndVainRestartsZeroOrPaidLeadership",
+        "KingsCards02PersistenceTests.ServiceRestartsChosenRulerRecruitmentAndRandomReturn",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsServiceTests.ServiceAllowsAwakenedRulerAndRejectsCorruptedOrRemovedTargets",
+        "KingsServiceTests.ServiceRecruitsAtSelectedRulerThenRandomlyCleansesUnlessWelcome",
+        "KingsServiceTests.ServiceStillCleansesWithoutArmyReserves",
+        "KingsServiceTests.ServiceWithNoSovereignsCompletesWithoutAnotherChoice"
+      ],
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      }
+    },
+    {
+      "id": "kings.fp.strategy.26",
+      "kind": "Event",
+      "programId": "kings.fp.strategy.26",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.there-is-hope-for-victory"
+      ],
+      "combatInitiatives": [
+        4
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Dla każdego z czterech różnych Narodów Wolnych Ludów rekrutuj po jednej jednostce Regularnej albo dowódcy w wolnym regionie zawierającym osadę.",
+          "tests": [
+            "KingsVillagesTests.FourDistinctNationsAreChosenTogetherWithoutWarOrActivation",
+            "KingsVillagesTests.RepeatedNationTooFewTooManyDuplicateAndWrongHomelandAreRejected",
+            "KingsVillagesTests.LeaderIsSelectableAndRemovedIfPlacedWithoutAnArmy"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie musi uczestniczyć nieskorumpowany Suweren.",
+          "tests": [
+            "KingsCards02CombatTests.HopeRequiresTheSovereignToParticipateNotMerelyShareRegion"
+          ]
+        },
+        {
+          "sourceText": "Jeżeli nie jest Przebudzony, przebudź go w bieżącym regionie. Dodaj 1 do wszystkich własnych kości przerzutu dowodzenia.",
+          "tests": [
+            "KingsCards02CombatTests.HopeAwakensParticipatingInitialRulerInPlaceBeforeReroll",
+            "KingsCards02CombatTests.HopeWithAwakenedSovereignAddsRerollWithoutAnotherToken"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Wybór czterech różnych Narodów, typu figury i legalnej osady; nie wybierać automatycznie składu za gracza.",
+          "tests": [
+            "KingsVillagesTests.FourDistinctNationsAreChosenTogetherWithoutWarOrActivation",
+            "KingsVillagesTests.RepeatedNationTooFewTooManyDuplicateAndWrongHomelandAreRejected"
+          ]
+        },
+        {
+          "sourceText": "Niedobory rezerw, brak wolnej osady i częściowe wykonanie; ogólne ograniczenia rekrutacji przez wydarzenie nadal obowiązują.",
+          "tests": [
+            "KingsVillagesTests.UsesMaximumPossibleNumberOfNationsWithRemainingReserves",
+            "KingsVillagesTests.FreeSettlementExcludesCapturedAndBesiegedRegions"
+          ]
+        },
+        {
+          "sourceText": "Combat: przebudzenie może być objęte ograniczeniem Your Welcome Is Doubtful; bonus przerzutu jest osobnym krokiem.",
+          "tests": [
+            "KingsCards02CombatTests.WelcomeRequiresWarForAwakeningButDoesNotCancelHopeReroll"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards02CombatTests.HopeAwakensParticipatingInitialRulerInPlaceBeforeReroll",
+        "KingsCards02CombatTests.HopeRequiresTheSovereignToParticipateNotMerelyShareRegion",
+        "KingsCards02CombatTests.HopeWithAwakenedSovereignAddsRerollWithoutAnotherToken",
+        "KingsCards02CombatTests.WelcomeRequiresWarForAwakeningButDoesNotCancelHopeReroll",
+        "KingsCards02EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards02PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards02PersistenceTests.HopeRestartsChosenAwakeningAndVainRestartsZeroOrPaidLeadership",
+        "KingsCards02PersistenceTests.VillagesRestartsTheEntireFourNationPlan",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsVillagesTests.FourDistinctNationsAreChosenTogetherWithoutWarOrActivation",
+        "KingsVillagesTests.FreeSettlementExcludesCapturedAndBesiegedRegions",
+        "KingsVillagesTests.LeaderIsSelectableAndRemovedIfPlacedWithoutAnArmy",
+        "KingsVillagesTests.RepeatedNationTooFewTooManyDuplicateAndWrongHomelandAreRejected",
+        "KingsVillagesTests.UsesMaximumPossibleNumberOfNationsWithRemainingReserves"
+      ],
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      }
+    },
+    {
+      "id": "kings.sh.character.25",
+      "kind": "Event",
+      "programId": "kings.sh.character.25",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.servant-of-the-shadow"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Karta pozostaje na stole. Wolne Ludy nie mogą usuwać Zepsucia z Suwerena; przebudzenie wymaga Narodu At War.",
+          "tests": [
+            "KingsWelcomeTests.TableRestrictionsPersistAndDiscardRestoresBothRules",
+            "KingsWelcomeTests.OrdinaryTurnBoundaryDoesNotExpireWelcome",
+            "KingsServiceTests.ServiceRecruitsAtSelectedRulerThenRandomlyCleansesUnlessWelcome"
+          ]
+        },
+        {
+          "sourceText": "FP mogą odrzucić kartę wynikiem Will of the West, albo wynikiem Character, jeżeli nieskorumpowany Suweren i Towarzysz dzielą region.",
+          "tests": [
+            "KingsWelcomeTests.CharacterCostNeedsDistinctCompanionWithInitialOrAwakenedSovereign",
+            "KingsWelcomeTests.CorruptedPairWrongDieRingWrongOwnerAndMissingCardCannotPayRemoval",
+            "KingsWelcomeTests.TableRestrictionsPersistAndDiscardRestoresBothRules"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie musi uczestniczyć Sługus Cienia.",
+          "tests": [
+            "KingsCards02CombatTests.ServantRequiresMinionAndForfeitsAllItsLeadershipWithMinimumOneFpDie"
+          ]
+        },
+        {
+          "sourceText": "Przed rzutem walki poświęć całe dowodzenie jednego Sługusa. FP rzucają o tyle kości walki mniej, z minimum jednej.",
+          "tests": [
+            "KingsCards02CombatTests.ServantRequiresMinionAndForfeitsAllItsLeadershipWithMinimumOneFpDie",
+            "KingsCards02CombatTests.ServantOffersMinionChoiceAndCannotPayPartiallyForfeitedLeadership"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Stan na stole i restrykcje obowiązują także wydarzenia; wyraźnie rozdzielić usuwanie Zepsucia od usunięcia Skorumpowanego Suwerena.",
+          "tests": [
+            "KingsWelcomeTests.TableRestrictionsPersistAndDiscardRestoresBothRules",
+            "KingsCards02EventTests.NationalCardsRemoveCorruptedRulerWithoutRecruitingOrDrawing"
+          ]
+        },
+        {
+          "sourceText": "Koszt Will of the West bez warunku pozycji; alternatywny Character wymaga poprawnej pary w jednym regionie.",
+          "tests": [
+            "KingsWelcomeTests.CharacterCostNeedsDistinctCompanionWithInitialOrAwakenedSovereign",
+            "KingsWelcomeTests.TableRestrictionsPersistAndDiscardRestoresBothRules"
+          ]
+        },
+        {
+          "sourceText": "Combat: wybrany Sługus musi uczestniczyć; całe jego dowodzenie, minimum jednej kości FP.",
+          "tests": [
+            "KingsCards02CombatTests.ServantRequiresMinionAndForfeitsAllItsLeadershipWithMinimumOneFpDie",
+            "KingsCards02CombatTests.ServantOffersMinionChoiceAndCannotPayPartiallyForfeitedLeadership"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards02CombatTests.ServantOffersMinionChoiceAndCannotPayPartiallyForfeitedLeadership",
+        "KingsCards02CombatTests.ServantRequiresMinionAndForfeitsAllItsLeadershipWithMinimumOneFpDie",
+        "KingsCards02EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards02EventTests.NationalCardsRemoveCorruptedRulerWithoutRecruitingOrDrawing",
+        "KingsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards02PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards02PersistenceTests.ServantRestartsItsChosenMinionsEntireLeadershipCost",
+        "KingsCards02PersistenceTests.WelcomeRestartsBothPrintedRemovalCosts",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsServiceTests.ServiceRecruitsAtSelectedRulerThenRandomlyCleansesUnlessWelcome",
+        "KingsWelcomeTests.CharacterCostNeedsDistinctCompanionWithInitialOrAwakenedSovereign",
+        "KingsWelcomeTests.CorruptedPairWrongDieRingWrongOwnerAndMissingCardCannotPayRemoval",
+        "KingsWelcomeTests.OrdinaryTurnBoundaryDoesNotExpireWelcome",
+        "KingsWelcomeTests.TableRestrictionsPersistAndDiscardRestoresBothRules"
+      ],
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      }
+    },
+    {
+      "id": "kings.sh.character.26",
+      "kind": "Event",
+      "programId": "kings.sh.character.26",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.the-battle-is-vain"
+      ],
+      "combatInitiatives": [
+        1
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Rozpocznij próbę Zepsucia Suwerena w regionie Nazgûla albo sąsiadującym z nim; nie usuwa się w tym celu kości Oka z pola Polowania.",
+          "tests": [
+            "KingsWestTests.NazgulRangeAndInitialStatusRestrictTargetsButEventMayRepeatThisTurn",
+            "KingsWestTests.WitchKingCountsAsNazgulForTheEventRange",
+            "KingsWestTests.EventDrawLimitUsesUnspentEyesWithoutNeedingUnusedFpDice"
+          ]
+        },
+        {
+          "sourceText": "Próba jest dozwolona także wtedy, gdy FP nie mają już niewykorzystanych kości akcji.",
+          "tests": [
+            "KingsWestTests.EventDrawLimitUsesUnspentEyesWithoutNeedingUnusedFpDice"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Łączne dowodzenie uczestniczących Nazgûli musi wynosić co najmniej 1.",
+          "tests": [
+            "KingsCards02CombatTests.BattleIsVainCannotBePlayedWithoutAvailableNazgulLeadership",
+            "KingsCards02CombatTests.WhiteRiderPreventsVainPaymentAndCancellingVainLeavesLeadershipUntouched"
+          ]
+        },
+        {
+          "sourceText": "Poświęć do 5 punktów dowodzenia Nazgûli, zmniejszając dowodzenie Wolnych Ludów o tę samą wartość.",
+          "tests": [
+            "KingsCards02CombatTests.BattleIsVainOffersZeroThroughFiveAndReducesArmyLeadershipToAtLeastZero",
+            "KingsCards02CombatTests.NextRoundRestoresLeadershipAfterVain"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Zasięg tego samego lub sąsiedniego regionu; brak pobrania Oka i brak wymogu pozostałej kości FP.",
+          "tests": [
+            "KingsWestTests.NazgulRangeAndInitialStatusRestrictTargetsButEventMayRepeatThisTurn",
+            "KingsWestTests.EventDrawLimitUsesUnspentEyesWithoutNeedingUnusedFpDice"
+          ]
+        },
+        {
+          "sourceText": "Pozostałe reguły próby Zepsucia, prywatność i wariant sekwencyjnego doboru nadal obowiązują.",
+          "tests": [
+            "KingsWestTests.IgnoredTilesDoNotCountAndKingsTileImmediatelyReturnsToParent",
+            "KingsWestTests.PrivateTileChoiceResumesEventAndSpendsTheActionDieExactlyOnce"
+          ]
+        },
+        {
+          "sourceText": "Combat: od 0 do 5 poświęconych punktów, nie więcej od rzeczywistego dowodzenia Nazgûli.",
+          "tests": [
+            "KingsCards02CombatTests.BattleIsVainOffersZeroThroughFiveAndReducesArmyLeadershipToAtLeastZero",
+            "KingsCards02CombatTests.WhiteRiderPreventsVainPaymentAndCancellingVainLeavesLeadershipUntouched"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardCatalogTests.CatalogAppliesOnlyEnabledModuleReplacementsAndPreservesFateBrand",
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards02CombatTests.BattleIsVainCannotBePlayedWithoutAvailableNazgulLeadership",
+        "KingsCards02CombatTests.BattleIsVainOffersZeroThroughFiveAndReducesArmyLeadershipToAtLeastZero",
+        "KingsCards02CombatTests.NextRoundRestoresLeadershipAfterVain",
+        "KingsCards02CombatTests.WhiteRiderPreventsVainPaymentAndCancellingVainLeavesLeadershipUntouched",
+        "KingsCards02EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards02PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards02PersistenceTests.HopeRestartsChosenAwakeningAndVainRestartsZeroOrPaidLeadership",
+        "KingsCards02PersistenceTests.WestRestartsTargetEachDrawAndPrivateFinalTileChoice",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsWestTests.EventDrawLimitUsesUnspentEyesWithoutNeedingUnusedFpDice",
+        "KingsWestTests.IgnoredTilesDoNotCountAndKingsTileImmediatelyReturnsToParent",
+        "KingsWestTests.NazgulRangeAndInitialStatusRestrictTargetsButEventMayRepeatThisTurn",
+        "KingsWestTests.NoNazgulInRangeConsumesOnlyTheEventWithoutRandomness",
+        "KingsWestTests.PrivateTileChoiceResumesEventAndSpendsTheActionDieExactlyOnce",
+        "KingsWestTests.WitchKingCountsAsNazgulForTheEventRange"
+      ],
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      }
+    },
+    {
+      "id": "kings.sh.strategy.01",
+      "kind": "Event",
+      "programId": "kings.sh.strategy.01",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.deadly-strife"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Cień musi kontrolować co najmniej jedną twierdzę Elfów albo w grze musi być co najmniej jeden Skorumpowany Suweren.",
+          "tests": [
+            "KingsValinorTests.RequiresCapturedElvenStrongholdOrAnyCorruptedSovereign"
+          ]
+        },
+        {
+          "sourceText": "W każdym regionie niezdobytej i nieobleganej twierdzy Elfów rzuć liczbą kości równą liczbie elfich jednostek armii w tym regionie, maksymalnie pięcioma.",
+          "tests": [
+            "KingsValinorTests.SkipsConqueredAndBesiegedStrongholdsAndOffersOrderOfRemainingRegions",
+            "KingsValinorTests.CapsAtFiveElvenArmyDiceAndScoresPrintedCorruptionThreshold"
+          ]
+        },
+        {
+          "sourceText": "Każda szóstka zadaje trafienie tamtejszej armii. Gdy w grze jest co najmniej dwóch Skorumpowanych Suwerenów FP, próg wynosi 5+.",
+          "tests": [
+            "KingsValinorTests.CapsAtFiveElvenArmyDiceAndScoresPrintedCorruptionThreshold"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Obie armie dodają 2 do wszystkich kości walki i przerzutu dowodzenia.",
+          "tests": [
+            "KingsCards03CombatTests.DeadlyStrifeAddsTwoToBothRollsForBothArmiesAndResetsNextRound"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Dwie alternatywy warunku; Skorumpowany Suweren nie musi znajdować się przy twierdzy Elfów.",
+          "tests": [
+            "KingsValinorTests.RequiresCapturedElvenStrongholdOrAnyCorruptedSovereign"
+          ]
+        },
+        {
+          "sourceText": "Wykluczyć zdobyte i oblegane twierdze; liczyć jednostki Elfów, bez dowódców i jednostek innych Narodów.",
+          "tests": [
+            "KingsValinorTests.SkipsConqueredAndBesiegedStrongholdsAndOffersOrderOfRemainingRegions",
+            "KingsValinorTests.CapsAtFiveElvenArmyDiceAndScoresPrintedCorruptionThreshold"
+          ]
+        },
+        {
+          "sourceText": "Combat: obie armie +2 do obu rzutów; nie tylko armia gracza zagrywającego.",
+          "tests": [
+            "KingsCards03CombatTests.DeadlyStrifeAddsTwoToBothRollsForBothArmiesAndResetsNextRound"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards03CombatTests.DeadlyStrifeAddsTwoToBothRollsForBothArmiesAndResetsNextRound",
+        "KingsCards03CombatTests.EveryCombatValidatesModuleOwnerHandWindowAndHidesCommit",
+        "KingsCards03EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards03EventTests.KingsMetadataEnablesOnlyItsOwnReplacementAndBothPrograms",
+        "KingsCards03PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards03PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards03PersistenceTests.ValinorRestartsRegionOrderEachRollAndEachOwnersLosses",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsValinorTests.CapsAtFiveElvenArmyDiceAndScoresPrintedCorruptionThreshold",
+        "KingsValinorTests.RequiresCapturedElvenStrongholdOrAnyCorruptedSovereign",
+        "KingsValinorTests.SkipsConqueredAndBesiegedStrongholdsAndOffersOrderOfRemainingRegions"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.01"
+      }
+    },
+    {
+      "id": "kings.sh.strategy.03",
+      "kind": "Event",
+      "programId": "kings.sh.strategy.03",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.devilry-of-orthanc"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Można położyć na stole, jeżeli Denethor jest w grze i nie jest Przebudzony.",
+          "tests": [
+            "KingsFollyThreatsTests.FollyRequiresPresentNonAwakenedDenethor",
+            "KingsFollyThreatsTests.FollyHasNoSiegeOrLeaderCostAndPersistsUntilManuallyRemoved"
+          ]
+        },
+        {
+          "sourceText": "Dopóki karta pozostaje na stole, Denethora nie można przebudzić, a FP nie mogą używać kart walki w bitwach w Minas Tirith albo w regionie Denethora.",
+          "tests": [
+            "KingsFollyThreatsTests.FollyBlocksTwoDistinctRegionsAndOnlyFreePeoplesCards",
+            "KingsFollyThreatsTests.FollyHasNoSiegeOrLeaderCostAndPersistsUntilManuallyRemoved"
+          ]
+        },
+        {
+          "sourceText": "FP mogą ją odrzucić wynikiem Will of the West albo dowolnym wynikiem kości akcji, jeżeli Gandalf, Boromir lub Aragorn dzieli region z Denethorem.",
+          "tests": [
+            "KingsFollyThreatsTests.FollyAnyDieRequiresNamedCompanionInDenethorsRegion",
+            "KingsFollyThreatsTests.FollyWillRemovalNeedsNoCompanionAndRejectsUnrelatedCharacter"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie musi uczestniczyć jednostka armii Isengardu, a armia obrońcy musi znajdować się w twierdzy.",
+          "tests": [
+            "KingsCards03CombatTests.DevilryRequiresIsengardArmyParticipantAndDefendingStronghold"
+          ]
+        },
+        {
+          "sourceText": "Dodaj 1 do wszystkich własnych kości rzutu walki.",
+          "tests": [
+            "KingsCards03CombatTests.DevilryRequiresIsengardArmyParticipantAndDefendingStronghold"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Pełne zastąpienie starego wydarzenia: bez warunku oblężenia, bez eliminacji dowódcy przy zagraniu.",
+          "tests": [
+            "KingsFollyThreatsTests.FollyHasNoSiegeOrLeaderCostAndPersistsUntilManuallyRemoved"
+          ]
+        },
+        {
+          "sourceText": "Dwa niezależne regiony zakazu; odrzut dowolną kością wymaga właściwej postaci przy Denethorze.",
+          "tests": [
+            "KingsFollyThreatsTests.FollyBlocksTwoDistinctRegionsAndOnlyFreePeoplesCards",
+            "KingsFollyThreatsTests.FollyAnyDieRequiresNamedCompanionInDenethorsRegion"
+          ]
+        },
+        {
+          "sourceText": "Combat: zastosowanie Kings to Devilry of Orthanc; nie odziedziczyć innego programu bazowej karty.",
+          "tests": [
+            "KingsCards03CombatTests.DevilryRequiresIsengardArmyParticipantAndDefendingStronghold"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards03CombatTests.DevilryRequiresIsengardArmyParticipantAndDefendingStronghold",
+        "KingsCards03CombatTests.EveryCombatValidatesModuleOwnerHandWindowAndHidesCommit",
+        "KingsCards03EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards03EventTests.KingsMetadataEnablesOnlyItsOwnReplacementAndBothPrograms",
+        "KingsCards03PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards03PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards03PersistenceTests.FollyAndPalantirRestartBothRemovalCosts",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsFollyThreatsTests.FollyAnyDieRequiresNamedCompanionInDenethorsRegion",
+        "KingsFollyThreatsTests.FollyBlocksTwoDistinctRegionsAndOnlyFreePeoplesCards",
+        "KingsFollyThreatsTests.FollyHasNoSiegeOrLeaderCostAndPersistsUntilManuallyRemoved",
+        "KingsFollyThreatsTests.FollyRequiresPresentNonAwakenedDenethor",
+        "KingsFollyThreatsTests.FollyWillRemovalNeedsNoCompanionAndRejectsUnrelatedCharacter"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.03"
+      }
+    },
+    {
+      "id": "kings.sh.strategy.05",
+      "kind": "Event",
+      "programId": "kings.sh.strategy.05",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.devilry-of-orthanc"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Karta pozostaje na stole. Wyniku Muster FP nie mogą użyć do przesunięcia pasywnego Narodu ani do przebudzenia Suwerena.",
+          "tests": [
+            "KingsFollyThreatsTests.ThreatsBlocksNormalMusterAwakeningButKeepsRulerAlternative",
+            "KingsFollyThreatsTests.ThreatsAllowsEventAwakeningAndBlocksOnlyPassiveMusterAdvance"
+          ]
+        },
+        {
+          "sourceText": "Odrzuć kartę, gdy Suweren staje się Skorumpowany albo Naród FP przesuwa się politycznie wskutek ataku lub specjalnej zdolności Towarzysza.",
+          "tests": [
+            "KingsFollyThreatsTests.ThreatsExpiresOnlyOnPrintedPoliticalAdvanceCauses",
+            "KingsFollyThreatsTests.ActivationAloneKeepsThreatsButSovereignCorruptionDiscardsItImmediately"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie musi uczestniczyć jednostka armii Isengardu, a armia obrońcy musi znajdować się w twierdzy.",
+          "tests": [
+            "KingsCards03CombatTests.DevilryRequiresIsengardArmyParticipantAndDefendingStronghold"
+          ]
+        },
+        {
+          "sourceText": "Dodaj 1 do wszystkich własnych kości rzutu walki.",
+          "tests": [
+            "KingsCards03CombatTests.DevilryRequiresIsengardArmyParticipantAndDefendingStronghold"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Zakaz dotyczy wyniku Muster; nie rozszerzać automatycznie na wszystkie źródła aktywacji lub przebudzenia.",
+          "tests": [
+            "KingsFollyThreatsTests.ThreatsBlocksNormalMusterAwakeningButKeepsRulerAlternative",
+            "KingsFollyThreatsTests.ThreatsAllowsEventAwakeningAndBlocksOnlyPassiveMusterAdvance"
+          ]
+        },
+        {
+          "sourceText": "Każdy z trzech wydrukowanych powodów odrzutu; sama zmiana aktywności bez przesunięcia nie jest wydrukowanym wyzwalaczem.",
+          "tests": [
+            "KingsFollyThreatsTests.ThreatsExpiresOnlyOnPrintedPoliticalAdvanceCauses",
+            "KingsFollyThreatsTests.ActivationAloneKeepsThreatsButSovereignCorruptionDiscardsItImmediately"
+          ]
+        },
+        {
+          "sourceText": "Combat: wymagana jednostka Isengardu w bitwie oraz twierdza po stronie obrońcy.",
+          "tests": [
+            "KingsCards03CombatTests.DevilryRequiresIsengardArmyParticipantAndDefendingStronghold"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards03CombatTests.DevilryRequiresIsengardArmyParticipantAndDefendingStronghold",
+        "KingsCards03CombatTests.EveryCombatValidatesModuleOwnerHandWindowAndHidesCommit",
+        "KingsCards03EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards03EventTests.KingsMetadataEnablesOnlyItsOwnReplacementAndBothPrograms",
+        "KingsCards03PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards03PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsFollyThreatsTests.ActivationAloneKeepsThreatsButSovereignCorruptionDiscardsItImmediately",
+        "KingsFollyThreatsTests.ThreatsAllowsEventAwakeningAndBlocksOnlyPassiveMusterAdvance",
+        "KingsFollyThreatsTests.ThreatsBlocksNormalMusterAwakeningButKeepsRulerAlternative",
+        "KingsFollyThreatsTests.ThreatsExpiresOnlyOnPrintedPoliticalAdvanceCauses"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.05"
+      }
+    },
+    {
+      "id": "kings.sh.strategy.06",
+      "kind": "Event",
+      "programId": "kings.sh.strategy.06",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.great-host"
+      ],
+      "combatInitiatives": [
+        7
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Drużyna albo Towarzysz musi być w granicach Narodu FP, który nie jest At War.",
+          "tests": [
+            "KingsStormcrowTests.RequiresCompanionOrFellowshipInsideChosenNonWarNation"
+          ]
+        },
+        {
+          "sourceText": "Cofnij ten Naród o jedno pole polityczne. Następnie, jeżeli jego Suweren nie jest Przebudzony, dobierz i dodaj mu jeden kafel Zepsucia oraz nakaż FP wyeliminować jedną Regularną albo Elitarną jednostkę armii tego Narodu.",
+          "tests": [
+            "KingsStormcrowTests.RetreatsThenAddsPrivateTileThenLetsFpRemoveWholeUnitAnywhere",
+            "KingsStormcrowTests.AwakenedRulerPreventsBothTileAndLossButNotPoliticalRetreat",
+            "KingsStormcrowTests.ReplacesEyeAndSpecialDrawsAndKingsTileHasZeroCorruption",
+            "KingsStormcrowTests.ImpossibleTileDoesNotPreventArmyLoss"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Po usunięciu strat ze zwykłego rzutu walki i przerzutu dowodzenia porównaj pozostałe jednostki armii.",
+          "tests": [
+            "KingsCards03CombatTests.GreatHostCountsOnlySurvivorsAfterOrdinaryLosses"
+          ]
+        },
+        {
+          "sourceText": "Jeżeli własnych jednostek jest co najmniej dwukrotnie więcej od wrogich, zadaj jedno automatyczne trafienie.",
+          "tests": [
+            "KingsCards03CombatTests.GreatHostCountsOnlySurvivorsAfterOrdinaryLosses"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Przebudzenie wyłącza oba późniejsze skutki: kafel i stratę jednostki, ale nie cofnięcie polityczne.",
+          "tests": [
+            "KingsStormcrowTests.AwakenedRulerPreventsBothTileAndLossButNotPoliticalRetreat"
+          ]
+        },
+        {
+          "sourceText": "FP wybierają jednostkę właściwego Narodu; nie ograniczać wyboru do regionu Drużyny.",
+          "tests": [
+            "KingsStormcrowTests.RetreatsThenAddsPrivateTileThenLetsFpRemoveWholeUnitAnywhere"
+          ]
+        },
+        {
+          "sourceText": "Combat: rzeczywista inicjatywa 7; porównać jednostki dopiero po stratach zwykłych.",
+          "tests": [
+            "KingsCards03CombatTests.GreatHostCountsOnlySurvivorsAfterOrdinaryLosses"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards03CombatTests.EveryCombatValidatesModuleOwnerHandWindowAndHidesCommit",
+        "KingsCards03CombatTests.GreatHostCountsOnlySurvivorsAfterOrdinaryLosses",
+        "KingsCards03EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards03EventTests.KingsMetadataEnablesOnlyItsOwnReplacementAndBothPrograms",
+        "KingsCards03PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards03PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards03PersistenceTests.StormcrowRestartsPrivateTileAndFreePeoplesWholeEliteLoss",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsStormcrowTests.AwakenedRulerPreventsBothTileAndLossButNotPoliticalRetreat",
+        "KingsStormcrowTests.ImpossibleTileDoesNotPreventArmyLoss",
+        "KingsStormcrowTests.ReplacesEyeAndSpecialDrawsAndKingsTileHasZeroCorruption",
+        "KingsStormcrowTests.RequiresCompanionOrFellowshipInsideChosenNonWarNation",
+        "KingsStormcrowTests.RetreatsThenAddsPrivateTileThenLetsFpRemoveWholeUnitAnywhere"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.06"
+      }
+    },
+    {
+      "id": "kings.sh.strategy.18",
+      "kind": "Event",
+      "programId": "kings.sh.strategy.18",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.relentless-assault"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "W grze musi być Aragorn albo Denethor, Lord Steward of Gondor.",
+          "tests": [
+            "KingsRevealedTests.RequiresAragornOrAwakenedDenethorNotStriderOrCorruptedDenethor"
+          ]
+        },
+        {
+          "sourceText": "W Minas Morgul rekrutuj pięć Regularnych jednostek Saurona i jednego Nazgûla, dodatkowo po jednej Regularnej jednostce Saurona albo Nazgûlu za każdego Przebudzonego Suwerena w grze.",
+          "tests": [
+            "KingsRevealedTests.RecruitsFiveRegularsOneNazgulAndChoosesBonusPerAwakenedSovereign",
+            "KingsRevealedTests.OccupiedDestinationAndMissingReservesProduceOnlyPossibleRecruitment",
+            "KingsRevealedTests.StackLimitIsResolvedAfterTheBonusSelection"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Przed rzutem walki możesz zadać i zastosować wobec własnych jednostek do dwóch trafień.",
+          "tests": [
+            "KingsCards03CombatTests.RelentlessCostsZeroToTwoActualHitsBeforeCombat"
+          ]
+        },
+        {
+          "sourceText": "Każde rzeczywiście zadane trafienie daje +1 do wszystkich własnych kości rzutu walki.",
+          "tests": [
+            "KingsCards03CombatTests.RelentlessCostsZeroToTwoActualHitsBeforeCombat"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Denethor musi być wersją Przebudzoną, nie dowolnym Suwerenem ani Skorumpowanym Władcą.",
+          "tests": [
+            "KingsRevealedTests.RequiresAragornOrAwakenedDenethorNotStriderOrCorruptedDenethor"
+          ]
+        },
+        {
+          "sourceText": "Każdy bonus ma wybór Regular/Nazgûl; rezerwy i nadmiar armii sprawdzać autorytatywnie.",
+          "tests": [
+            "KingsRevealedTests.RecruitsFiveRegularsOneNazgulAndChoosesBonusPerAwakenedSovereign",
+            "KingsRevealedTests.OccupiedDestinationAndMissingReservesProduceOnlyPossibleRecruitment",
+            "KingsRevealedTests.StackLimitIsResolvedAfterTheBonusSelection"
+          ]
+        },
+        {
+          "sourceText": "Combat: opcjonalny koszt 0–2 trafienia stosowany przed rzutem; nie przyznawać premii za niezastosowane trafienie.",
+          "tests": [
+            "KingsCards03CombatTests.RelentlessCostsZeroToTwoActualHitsBeforeCombat"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards03CombatTests.EveryCombatValidatesModuleOwnerHandWindowAndHidesCommit",
+        "KingsCards03CombatTests.RelentlessCostsZeroToTwoActualHitsBeforeCombat",
+        "KingsCards03EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards03EventTests.KingsMetadataEnablesOnlyItsOwnReplacementAndBothPrograms",
+        "KingsCards03PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards03PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards03PersistenceTests.KingRestartsBonusChoiceAndResultingStackLimit",
+        "KingsCards03PersistenceTests.PowerRestartsSovereignChoiceAndRelentlessRestartsVoluntaryLoss",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsRevealedTests.OccupiedDestinationAndMissingReservesProduceOnlyPossibleRecruitment",
+        "KingsRevealedTests.RecruitsFiveRegularsOneNazgulAndChoosesBonusPerAwakenedSovereign",
+        "KingsRevealedTests.RequiresAragornOrAwakenedDenethorNotStriderOrCorruptedDenethor",
+        "KingsRevealedTests.StackLimitIsResolvedAfterTheBonusSelection"
+      ],
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.18"
+      }
+    },
+    {
+      "id": "kings.sh.strategy.25",
+      "kind": "Event",
+      "programId": "kings.sh.strategy.25",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.his-power-waxes"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Karta pozostaje na stole; raz na turę Cień może użyć wyniku Muster jak wyniku Event.",
+          "tests": [
+            "KingsPalantirTests.ConvertsMusterToEventOnceWithoutChangingPhysicalDie",
+            "KingsPalantirTests.ConversionPaysDrawWithExplicitAbilityAndSharesLimitWithEventPlay",
+            "KingsPalantirTests.ChoosingNativeMusterOrConvertedEventControlsOrthancDraw",
+            "KingsPalantirTests.ReplayWithinSameTurnDoesNotResetConversionAndWrongSourceCannotPay"
+          ]
+        },
+        {
+          "sourceText": "FP mogą ją odrzucić wynikiem Will of the West albo dowolnym wynikiem kości akcji wraz z jednym Elfim Pierścieniem.",
+          "tests": [
+            "KingsPalantirTests.RemovesOnlyBaradPalantirWithWillOrAnyDieAndRing",
+            "KingsPalantirTests.RingRemovalRespectsRingAndRulerTokenLimitsButWillStillWorks"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Armia broniąca się musi znajdować się w regionie z Suwerenem.",
+          "tests": [
+            "KingsCards03CombatTests.PowerCannotUseSovereignInAttackersOriginAndMixedStatesRequireChoice"
+          ]
+        },
+        {
+          "sourceText": "Jeżeli Suweren jest Skorumpowany, własna armia dostaje +1 do walki i przerzutu dowodzenia. W przeciwnym razie obie armie dostają +1 do obu rzutów.",
+          "tests": [
+            "KingsCards03CombatTests.PowerUsesSovereignInDefendersRegionWithoutParticipationRequirement"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Limit raz na turę, trwałość wykorzystania przez save/reconnect; nie zmieniać fizycznego wyniku innych kości.",
+          "tests": [
+            "KingsPalantirTests.ConvertsMusterToEventOnceWithoutChangingPhysicalDie",
+            "KingsCards03PersistenceTests.PalantirRestartsDrawAndEventConversionWithSharedTurnLimit"
+          ]
+        },
+        {
+          "sourceText": "Dwie alternatywy kosztu odrzutu; Pierścień jest wymagany w gałęzi dowolnej kości.",
+          "tests": [
+            "KingsPalantirTests.RemovesOnlyBaradPalantirWithWillOrAnyDieAndRing",
+            "KingsPalantirTests.RingRemovalRespectsRingAndRulerTokenLimitsButWillStillWorks"
+          ]
+        },
+        {
+          "sourceText": "Combat: Skorumpowany Suweren premiuje tylko własną armię; każdy inny Suweren premiuje obie.",
+          "tests": [
+            "KingsCards03CombatTests.PowerUsesSovereignInDefendersRegionWithoutParticipationRequirement"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsCards03CombatTests.DaringDefianceCancelsPowerBeforeAnyModifierOrSovereignChoice",
+        "KingsCards03CombatTests.EveryCombatValidatesModuleOwnerHandWindowAndHidesCommit",
+        "KingsCards03CombatTests.PowerCannotUseSovereignInAttackersOriginAndMixedStatesRequireChoice",
+        "KingsCards03CombatTests.PowerUsesSovereignInDefendersRegionWithoutParticipationRequirement",
+        "KingsCards03EventTests.EveryEventValidatesCostModuleOwnerHandAndWindowWithoutMutation",
+        "KingsCards03EventTests.KingsMetadataEnablesOnlyItsOwnReplacementAndBothPrograms",
+        "KingsCards03PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "KingsCards03PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
+        "KingsCards03PersistenceTests.FollyAndPalantirRestartBothRemovalCosts",
+        "KingsCards03PersistenceTests.PalantirRestartsDrawAndEventConversionWithSharedTurnLimit",
+        "KingsCards03PersistenceTests.PowerRestartsSovereignChoiceAndRelentlessRestartsVoluntaryLoss",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsPalantirTests.ChoosingNativeMusterOrConvertedEventControlsOrthancDraw",
+        "KingsPalantirTests.ConversionPaysDrawWithExplicitAbilityAndSharesLimitWithEventPlay",
+        "KingsPalantirTests.ConvertsMusterToEventOnceWithoutChangingPhysicalDie",
+        "KingsPalantirTests.RemovesOnlyBaradPalantirWithWillOrAnyDieAndRing",
+        "KingsPalantirTests.ReplayWithinSameTurnDoesNotResetConversionAndWrongSourceCannotPay",
+        "KingsPalantirTests.RingRemovalRespectsRingAndRulerTokenLimitsButWillStillWorks"
+      ],
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      }
+    },
+    {
+      "id": "kings.sh.strategy.26",
+      "kind": "Event",
+      "programId": "kings.sh.strategy.26",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.his-power-waxes"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Wybierz region z Suwerenem. Rzuć trzema kośćmi, zadając armii FP w tym regionie po trafieniu za 5+; próg wynosi 4+, jeżeli ten Suweren jest Skorumpowany.",
+          "tests": [
+            "KingsEnemyTests.ExactlyThreeDiceUseChosenSovereignsPrintedThreshold",
+            "KingsEnemyTests.ShadowChoosesOneArmyAndCannotChargeTheOtherArmyForLosses",
+            "KingsEnemyTests.RegionWithoutArmyStillRollsButCannotDamageSovereignOrOtherRegion"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Armia broniąca się musi znajdować się w regionie z Suwerenem.",
+          "tests": [
+            "KingsEnemyCombatTests.CombatRequiresDefendersRegionSovereignAndValidatesModuleHandOwnerAndWindow"
+          ]
+        },
+        {
+          "sourceText": "Jeżeli Suweren jest Skorumpowany, własna armia dostaje +1 do walki i przerzutu dowodzenia. W przeciwnym razie obie armie dostają +1 do obu rzutów.",
+          "tests": [
+            "KingsEnemyCombatTests.PrintedPowerModifiesBothRollTypesAccordingToSovereignAndExpiresNextRound"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Suweren nie musi być Skorumpowany; próg zależy od jego rzeczywistego stanu.",
+          "tests": [
+            "KingsEnemyTests.ExactlyThreeDiceUseChosenSovereignsPrintedThreshold"
+          ]
+        },
+        {
+          "sourceText": "Celem trafień jest armia FP, nie sam Suweren; weryfikacja celu i przypadków częściowego wykonania.",
+          "tests": [
+            "KingsEnemyTests.RegionWithoutArmyStillRollsButCannotDamageSovereignOrOtherRegion",
+            "KingsEnemyTests.EventEliminationRemovesLeadersButPreservesCompanionsAndCorrupted"
+          ]
+        },
+        {
+          "sourceText": "Combat: warunek Suwerena dotyczy regionu obrońcy; +1 do obu rzutów zgodnie ze stanem Suwerena.",
+          "tests": [
+            "KingsEnemyCombatTests.CombatRequiresDefendersRegionSovereignAndValidatesModuleHandOwnerAndWindow",
+            "KingsEnemyCombatTests.PrintedPowerModifiesBothRollTypesAccordingToSovereignAndExpiresNextRound"
+          ]
+        }
+      ],
+      "tests": [
+        "KingsCardIntegrationTests.EveryKingsEventPaysItsRulerDieAndResolvesIndependentlyOfCatalogRegistrationOrder",
+        "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
+        "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
+        "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
+        "KingsEnemyCombatTests.CombatRequiresDefendersRegionSovereignAndValidatesModuleHandOwnerAndWindow",
+        "KingsEnemyCombatTests.DaringDefianceCancelsPowerAndChieftainReplacesEffectWithoutErasingPlayedCard",
+        "KingsEnemyCombatTests.PrintedPowerModifiesBothRollTypesAccordingToSovereignAndExpiresNextRound",
+        "KingsEnemyPersistenceTests.CombatRestartsSecretCommitsAndMixedSovereignChoice",
+        "KingsEnemyPersistenceTests.EventRestartsPaymentTargetRollArmyChoiceAndFreePeoplesLosses",
+        "KingsEnemyTests.EventEliminationRemovesLeadersButPreservesCompanionsAndCorrupted",
+        "KingsEnemyTests.EventValidatesModuleSideHandCostAndPhaseWithoutMutation",
+        "KingsEnemyTests.ExactlyThreeDiceUseChosenSovereignsPrintedThreshold",
+        "KingsEnemyTests.MissesFinishEventAndExcessHitsAfterLastRegularDoNotRequireOtherVictims",
+        "KingsEnemyTests.OneHitCannotRemoveWholeEliteButAllowsDowngradeAndDoesNotRevealTiles",
+        "KingsEnemyTests.RegionWithoutArmyStillRollsButCannotDamageSovereignOrOtherRegion",
+        "KingsEnemyTests.RemovedSovereignsAreNotTargetsAndNoTargetStillSpendsCardAndDie",
+        "KingsEnemyTests.ShadowChoosesOneArmyAndCannotChargeTheOtherArmyForLosses",
+        "KingsEnemyTests.SovereignChoiceKeepsMixedThresholdsAndRejectsForgedTargets"
+      ],
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      }
+    }
+  ]
+}

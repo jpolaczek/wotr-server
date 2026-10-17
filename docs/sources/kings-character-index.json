@@ -1,0 +1,933 @@
+{
+  "status": "sources_reviewed_not_implemented",
+  "audit": "docs/sources/SRC-06-AUDIT.md",
+  "reviewedAt": "2026-10-05",
+  "composition": {
+    "cards": 13,
+    "awakened": 5,
+    "corrupted": 5,
+    "darkChieftains": 3,
+    "sovereignIdentities": 5,
+    "chieftainIdentities": 3,
+    "rulerTokens": 5,
+    "kingsHuntTiles": 2
+  },
+  "implementationGroups": [
+    {
+      "task": "T28",
+      "character_ids": [
+        "kings.character.brand.awakened",
+        "kings.character.brand.corrupted",
+        "kings.character.dain.awakened",
+        "kings.character.dain.corrupted",
+        "kings.character.denethor.awakened",
+        "kings.character.denethor.corrupted",
+        "kings.character.theoden.awakened",
+        "kings.character.theoden.corrupted",
+        "kings.character.thranduil.awakened",
+        "kings.character.thranduil.corrupted"
+      ]
+    },
+    {
+      "task": "T29",
+      "character_ids": [
+        "kings.character.black-serpent",
+        "kings.character.shadow-of-mirkwood",
+        "kings.character.ugluk"
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "id": "kings.token.brand",
+      "identity": "brand",
+      "awakenedCard": "kings.character.brand.awakened",
+      "abilityResult": "Muster",
+      "front": "Ruler",
+      "back": "Dismay",
+      "granted": "Awakening",
+      "usesPerGame": 1,
+      "rulebookPages": [
+        5,
+        10,
+        17,
+        18
+      ]
+    },
+    {
+      "id": "kings.token.dain",
+      "identity": "dain",
+      "awakenedCard": "kings.character.dain.awakened",
+      "abilityResult": "Muster",
+      "front": "Ruler",
+      "back": "Dismay",
+      "granted": "Awakening",
+      "usesPerGame": 1,
+      "rulebookPages": [
+        5,
+        10,
+        17,
+        18
+      ]
+    },
+    {
+      "id": "kings.token.denethor",
+      "identity": "denethor",
+      "awakenedCard": "kings.character.denethor.awakened",
+      "abilityResult": "Event",
+      "front": "Ruler",
+      "back": "Dismay",
+      "granted": "Awakening",
+      "usesPerGame": 1,
+      "rulebookPages": [
+        5,
+        10,
+        17,
+        18
+      ]
+    },
+    {
+      "id": "kings.token.theoden",
+      "identity": "theoden",
+      "awakenedCard": "kings.character.theoden.awakened",
+      "abilityResult": "Muster",
+      "front": "Ruler",
+      "back": "Dismay",
+      "granted": "Awakening",
+      "usesPerGame": 1,
+      "rulebookPages": [
+        5,
+        10,
+        17,
+        18
+      ]
+    },
+    {
+      "id": "kings.token.thranduil",
+      "identity": "thranduil",
+      "awakenedCard": "kings.character.thranduil.awakened",
+      "abilityResult": "Character",
+      "front": "Ruler",
+      "back": "Dismay",
+      "granted": "Awakening",
+      "usesPerGame": 1,
+      "rulebookPages": [
+        5,
+        10,
+        17,
+        18
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "id": "kings.character.brand.awakened",
+      "title": "Brand",
+      "subtitle": "King of Dale",
+      "number": 1,
+      "numberOfCards": 10,
+      "printedNumber": "KM 1/10",
+      "side": "FreePeoples",
+      "controller": "FreePeoples",
+      "role": "AwakenedSovereign",
+      "identity": "brand",
+      "nationIcon": "north",
+      "level": 1,
+      "leadership": 1,
+      "shadowResistance": 2,
+      "extraActionDice": 0,
+      "rulerDieContribution": "FreePeoples",
+      "entry": [
+        "North active; Muster Action die or any Ruler die result. Move to unconquered city or Stronghold FP and awaken.",
+        "The required movement respects the usual traffic restrictions of Companion and the Awakened level; the illegal target blocks this action."
+      ],
+      "abilities": [
+        "Heir of Bard: raz na bitwę, jeśli Brand i jednostka North uczestniczą, po ujawnieniu kart można zastąpić efekt własnej legalnie zagranej karty anulowaniem efektu karty SH; inicjatywa 0.",
+        "Call to Arms: North At War, Muster na Ruler rekrutuje po jednym North Regular lub Leader w dwóch różnych wolnych osadach North oraz jednego North Regular lub Leader w wolnym regionie Branda."
+      ],
+      "removal": [
+        "Normal elimination of Companion; Awakened cannot be Corrupted.",
+        "The last Awakened maintains FP Ruler to proper Recovery; after the absence of living Awakened die disappears, but can return after a new awakening."
+      ],
+      "verificationCases": [
+        "Awakening wymaga active, nie At War; dowolna osada FP typu City/Stronghold w zasięgu 1, także innego narodu.",
+        "Heir wymaga własnej karty i jednostki North, dopiero po reveal, raz na całą bitwę.",
+        "Karta zastąpiona nadal played dla Sorcerer/Swarm.",
+        "Call to Arms nie rekrutuje elit; dwie osady muszą być różne, dodatkowy rekrut jest związany z regionem Branda."
+      ],
+      "rulebookPages": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          0,
+          0,
+          332,
+          600
+        ]
+      },
+      "initialRegion": "Dale",
+      "initialRole": "Leader",
+      "alternateState": "kings.character.brand.corrupted",
+      "rulerAbilityResult": "Muster",
+      "rulerToken": "kings.token.brand"
+    },
+    {
+      "id": "kings.character.brand.corrupted",
+      "title": "Brand",
+      "subtitle": "Corrupted Ruler",
+      "number": 2,
+      "numberOfCards": 10,
+      "printedNumber": "KM 2/10",
+      "side": "FreePeoples",
+      "controller": "Shadow",
+      "role": "CorruptedSovereign",
+      "identity": "brand",
+      "nationIcon": "north",
+      "level": 0,
+      "leadership": 0,
+      "shadowResistance": null,
+      "extraActionDice": 0,
+      "rulerDieContribution": null,
+      "entry": [
+        "Once Corruption has achieved immunity, it replaces the initial sovereign with the Corrupted version in Dale. It does not require the route of the former figure movement."
+      ],
+      "abilities": [
+        "Zakaz rekrutacji North Leader i Elite, poza efektem Event. Dotyczy jednostek North niezależnie od regionu.",
+        "Shadows in the North: raz na bitwę, jeżeli jednostka North uczestniczy, po ujawnieniu kart SH może zastąpić efekt swojej legalnie zagranej karty anulowaniem efektów karty FP; inicjatywa 0. Brand nie musi być w regionie bitwy."
+      ],
+      "removal": [
+        "FP can release Character die if Companion is with this character with either the north or Free Peoples icon. Remove figure and card, immediately end the weaknesses.",
+        "The usual battle does not remove Corrupted; apart from this procedure, it can remove the appropriate Event. It cannot be awakened."
+      ],
+      "verificationCases": [
+        "Zakaz ma zasięg narodowy, a słabość bojowa może działać daleko od Dale.",
+        "Warunek jednostki North, własna karta SH, wybór po reveal i limit raz na bitwę.",
+        "Corrupted nie uczestniczy w bitwie i przeżywa eliminację armii w regionie.",
+        "Usunięcie wymaga obecnego Towarzysza z ikoną tego narodu albo Free Peoples, Character die lub odpowiedniego Event.",
+        "Wersja Council bez ikony nie może usunąć tej postaci."
+      ],
+      "rulebookPages": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          332,
+          0,
+          664,
+          600
+        ]
+      },
+      "initialRegion": "Dale",
+      "alternateState": "kings.character.brand.awakened",
+      "countsAsCompanion": false,
+      "countsAsCharacter": false,
+      "countsAsMinion": false
+    },
+    {
+      "id": "kings.character.dain.awakened",
+      "title": "Dáin Ironfoot",
+      "subtitle": "King Under the Mountain",
+      "number": 3,
+      "numberOfCards": 10,
+      "printedNumber": "KM 3/10",
+      "side": "FreePeoples",
+      "controller": "FreePeoples",
+      "role": "AwakenedSovereign",
+      "identity": "dain",
+      "nationIcon": "dwarves",
+      "level": 1,
+      "leadership": 1,
+      "shadowResistance": 4,
+      "extraActionDice": 0,
+      "rulerDieContribution": "FreePeoples",
+      "entry": [
+        "Dwarves active and Erebor unconquered; Muster Action die or any Ruler die result. Move to Erebor and awaken.",
+        "The required movement respects the usual traffic restrictions of Companion and the Awakened level; the illegal target blocks this action."
+      ],
+      "abilities": [
+        "Dwarvenking: Dwarves At War i Dáin w Ereborze, dowolny Muster Action die wymienia Dwarven Regular w jego armii na Elite, nawet podczas oblężenia Ereboru.",
+        "Iron Guard: Dwarves At War, Muster na Ruler rekrutuje jednego Dwarven Regular albo Elite w regionie Dáina, jeśli wolny lub oblężony; następnie jednego Dwarven Regular albo Leader w dowolnej innej wolnej osadzie Dwarves."
+      ],
+      "removal": [
+        "Normal elimination of Companion; Awakened cannot be Corrupted.",
+        "The last Awakened maintains FP Ruler to proper Recovery; after the absence of living Awakened die disappears, but can return after a new awakening."
+      ],
+      "verificationCases": [
+        "Dáin odległy od Ereboru nie teleportuje się przy awakening; ruch ma poziom 1.",
+        "Upgrade podczas oblężenia zwraca Regular do rezerw i wymaga Elite w rezerwach.",
+        "Iron Guard może dodać Elite w bieżącym regionie, ale drugi rekrut nie jest Elite i wymaga innej wolnej osady.",
+        "Dáin nie występuje w Fate."
+      ],
+      "rulebookPages": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          664,
+          0,
+          996,
+          600
+        ]
+      },
+      "initialRegion": "Erebor",
+      "initialRole": "Leader",
+      "alternateState": "kings.character.dain.corrupted",
+      "rulerAbilityResult": "Muster",
+      "rulerToken": "kings.token.dain"
+    },
+    {
+      "id": "kings.character.dain.corrupted",
+      "title": "Dáin Ironfoot",
+      "subtitle": "Corrupted Ruler",
+      "number": 4,
+      "numberOfCards": 10,
+      "printedNumber": "KM 4/10",
+      "side": "FreePeoples",
+      "controller": "Shadow",
+      "role": "CorruptedSovereign",
+      "identity": "dain",
+      "nationIcon": "dwarves",
+      "level": 0,
+      "leadership": 0,
+      "shadowResistance": null,
+      "extraActionDice": 0,
+      "rulerDieContribution": null,
+      "entry": [
+        "Once Corruption has achieved immunity, it replaces the initial sovereign with the Corrupted version in Erebor. It does not require the route of the former figure movement."
+      ],
+      "abilities": [
+        "Zakaz rekrutacji Leader i Elite w Ereborze, poza efektem Event.",
+        "Fate of the Lonely Mountain: gdy Erebor jest oblężony, SH może raz na tę bitwę oblężniczą przedłużyć ją, usuwając własny Regular zamiast downgrade Elite."
+      ],
+      "removal": [
+        "FP can release Character die if Companion is with this character with either a two-ring or Free People icon. Remove figure and card, immediately end the weaknesses.",
+        "The usual battle does not remove Corrupted; apart from this procedure, it can remove the appropriate Event. It cannot be awakened."
+      ],
+      "verificationCases": [
+        "Zakaz miejscowy, nie ogólny dla Dwarves.",
+        "Przedłużenie wybiera Regular uczestniczący w szturmie; limit obejmuje całą bitwę i przeżywa restart.",
+        "Corrupted nie uczestniczy w bitwie i przeżywa eliminację armii w regionie.",
+        "Usunięcie wymaga obecnego Towarzysza z ikoną tego narodu albo Free Peoples, Character die lub odpowiedniego Event.",
+        "Wersja Council bez ikony nie może usunąć tej postaci."
+      ],
+      "rulebookPages": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          996,
+          0,
+          1328,
+          600
+        ]
+      },
+      "initialRegion": "Erebor",
+      "alternateState": "kings.character.dain.awakened",
+      "countsAsCompanion": false,
+      "countsAsCharacter": false,
+      "countsAsMinion": false
+    },
+    {
+      "id": "kings.character.denethor.awakened",
+      "title": "Denethor",
+      "subtitle": "Lord Steward of Gondor",
+      "number": 5,
+      "numberOfCards": 10,
+      "printedNumber": "KM 5/10",
+      "side": "FreePeoples",
+      "controller": "FreePeoples",
+      "role": "AwakenedSovereign",
+      "identity": "denethor",
+      "nationIcon": "gondor",
+      "level": 1,
+      "leadership": 1,
+      "shadowResistance": 3,
+      "extraActionDice": 0,
+      "rulerDieContribution": "FreePeoples",
+      "entry": [
+        "Gondor active and Minas Tirith unconquered; Muster Action die or any Ruler die result. Move to Minas Tirith and awaken.",
+        "The required movement respects the usual traffic restrictions of Companion and the Awakened level; the illegal target blocks this action."
+      ],
+      "abilities": [
+        "Stewardship: Gondor At War i Denethor w Minas Tirith, dowolny Muster Action die wymienia Gondor Regular w jego armii na Elite, nawet podczas oblężenia Minas Tirith.",
+        "Palantír of Anárion: gdy Denethor jest w Minas Tirith, po użyciu Event na Ruler do doboru albo zagrania Event można natychmiast dobrać dodatkową kartę z wybranej talii."
+      ],
+      "removal": [
+        "Normal elimination of Companion; Awakened cannot be Corrupted.",
+        "The last Awakened maintains FP Ruler to proper Recovery; after the absence of living Awakened die disappears, but can return after a new awakening."
+      ],
+      "verificationCases": [
+        "Awakening z Minas Tirith lub legalnej sąsiedniej lokalizacji, nie dowolny teleport.",
+        "Upgrade wymaga właściwej armii/narodu, At War i dostępnej Elite.",
+        "Palantír działa na draw i play z Ruler Event, nie ze zwykłego Event die.",
+        "Dodatkowy dobór ma wybór talii i zachowuje stan po zakończeniu zagnieżdżonego Event."
+      ],
+      "rulebookPages": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          1328,
+          0,
+          1660,
+          600
+        ]
+      },
+      "initialRegion": "Minas Tirith",
+      "initialRole": "Leader",
+      "alternateState": "kings.character.denethor.corrupted",
+      "rulerAbilityResult": "Event",
+      "rulerToken": "kings.token.denethor"
+    },
+    {
+      "id": "kings.character.denethor.corrupted",
+      "title": "Denethor",
+      "subtitle": "Corrupted Ruler",
+      "number": 6,
+      "numberOfCards": 10,
+      "printedNumber": "KM 6/10",
+      "side": "FreePeoples",
+      "controller": "Shadow",
+      "role": "CorruptedSovereign",
+      "identity": "denethor",
+      "nationIcon": "gondor",
+      "level": 0,
+      "leadership": 0,
+      "shadowResistance": null,
+      "extraActionDice": 0,
+      "rulerDieContribution": null,
+      "entry": [
+        "Once Corruption has achieved immunity, it replaces the initial sovereign with the Corrupted version in Minas Tirith. It does not require a route of the former figure movement."
+      ],
+      "abilities": [
+        "Zakaz rekrutacji Leader i Elite w Minas Tirith, poza efektem Event.",
+        "Fate of the White Tower: gdy Minas Tirith jest oblężona, SH może raz na tę bitwę oblężniczą przedłużyć ją, usuwając własny Regular zamiast downgrade Elite."
+      ],
+      "removal": [
+        "FP can release Character die if Companion is with this character with gondor icon or Free Peoples. Remove figure and card, immediately end the weaknesses.",
+        "The usual battle does not remove Corrupted; apart from this procedure, it can remove the appropriate Event. It cannot be awakened."
+      ],
+      "verificationCases": [
+        "Zakaz miejscowy, nie ogólny dla Gondoru.",
+        "Wyjątek przedłużenia nie znosi innych warunków szturmu i nie jest dowolną liczbą rund.",
+        "Corrupted nie uczestniczy w bitwie i przeżywa eliminację armii w regionie.",
+        "Usunięcie wymaga obecnego Towarzysza z ikoną tego narodu albo Free Peoples, Character die lub odpowiedniego Event.",
+        "Wersja Council bez ikony nie może usunąć tej postaci."
+      ],
+      "rulebookPages": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          1660,
+          0,
+          1992,
+          600
+        ]
+      },
+      "initialRegion": "Minas Tirith",
+      "alternateState": "kings.character.denethor.awakened",
+      "countsAsCompanion": false,
+      "countsAsCharacter": false,
+      "countsAsMinion": false
+    },
+    {
+      "id": "kings.character.theoden.awakened",
+      "title": "Théoden",
+      "subtitle": "King of the Riddermark",
+      "number": 7,
+      "numberOfCards": 10,
+      "printedNumber": "KM 7/10",
+      "side": "FreePeoples",
+      "controller": "FreePeoples",
+      "role": "AwakenedSovereign",
+      "identity": "theoden",
+      "nationIcon": "rohan",
+      "level": 2,
+      "leadership": 1,
+      "shadowResistance": 3,
+      "extraActionDice": 0,
+      "rulerDieContribution": "FreePeoples",
+      "entry": [
+        "Rohan active and Edoras unconquered; Muster Action die or any Ruler die result. Move to Edoras and awaken.",
+        "The required movement respects the usual traffic restrictions of Companion and the Awakened level; the illegal target blocks this action."
+      ],
+      "abilities": [
+        "Forth, Eorlingas!: dowodzenie Théodena w pierwszej rundzie każdej bitwy wynosi 3. Nie wymaga poświęcenia efektu karty bojowej i nie ma wydrukowanego numeru inicjatywy.",
+        "Mustering of the Mark: Rohan At War, Muster na Ruler rekrutuje po jednym Rohan Regular albo Leader w dwóch różnych wolnych osadach Rohan oraz jednego Rohan Regular albo Leader w wolnym regionie Théodena."
+      ],
+      "removal": [
+        "Normal elimination of Companion; Awakened cannot be Corrupted.",
+        "The last Awakened maintains FP Ruler to proper Recovery; after the absence of living Awakened die disappears, but can return after a new awakening."
+      ],
+      "verificationCases": [
+        "Ruch przed awakening do dwóch regionów; Edoras musi być unconquered.",
+        "Dowodzenie 3 w rundzie pierwszej i 1 w kolejnej; nowa bitwa ponownie 3.",
+        "Forth działa bez karty i nie zostaje zastąpione/anulowane jak efekt karty.",
+        "Mustering nie dodaje Elite i nie pomija rezerw/stosu."
+      ],
+      "rulebookPages": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          1992,
+          0,
+          2324,
+          600
+        ]
+      },
+      "initialRegion": "Edoras",
+      "initialRole": "Leader",
+      "alternateState": "kings.character.theoden.corrupted",
+      "rulerAbilityResult": "Muster",
+      "rulerToken": "kings.token.theoden"
+    },
+    {
+      "id": "kings.character.theoden.corrupted",
+      "title": "Théoden",
+      "subtitle": "Corrupted Ruler",
+      "number": 8,
+      "numberOfCards": 10,
+      "printedNumber": "KM 8/10",
+      "side": "FreePeoples",
+      "controller": "Shadow",
+      "role": "CorruptedSovereign",
+      "identity": "theoden",
+      "nationIcon": "rohan",
+      "level": 0,
+      "leadership": 0,
+      "shadowResistance": null,
+      "extraActionDice": 0,
+      "rulerDieContribution": null,
+      "entry": [
+        "Once Corruption has achieved immunity, it replaces the initial sovereign with the Corrupted version in Edoras. It does not require the route of the former figure movement."
+      ],
+      "abilities": [
+        "Zakaz rekrutacji Leader i Elite w regionach Rohan, poza efektem Event. Awers mówi „in Rohan”, nie „Rohan units”; dotyczy miejsca rekrutacji.",
+        "Mark of the White Hand: pod kontrolą SH Helm’s Deep jest traktowane jako twierdza Isengardu, nadal zdobyta przez Cień dla warunków zwycięstwa."
+      ],
+      "removal": [
+        "FP can release Character die if Companion is with this character with either rohan icon or Free Peoples icon. Remove figure and card, immediately end the weaknesses.",
+        "The usual battle does not remove Corrupted; apart from this procedure, it can remove the appropriate Event. It cannot be awakened."
+      ],
+      "verificationCases": [
+        "Tylko Helm’s Deep pod kontrolą SH korzysta z wyjątku; Rohan nie zmienia całego regionu/narodu globalnie.",
+        "SH zachowuje VP twierdzy; usunięcie Théodena natychmiast kończy słabość i jej zmianę typu osady.",
+        "Corrupted nie uczestniczy w bitwie i przeżywa eliminację armii w regionie.",
+        "Usunięcie wymaga obecnego Towarzysza z ikoną tego narodu albo Free Peoples, Character die lub odpowiedniego Event.",
+        "Wersja Council bez ikony nie może usunąć tej postaci.",
+        "Zakaz rekrutacji obejmuje obcego Leader w Rohan; samo pochodzenie figury Rohan poza tym narodem nie uruchamia zakazu."
+      ],
+      "rulebookPages": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          2324,
+          0,
+          2656,
+          600
+        ]
+      },
+      "initialRegion": "Edoras",
+      "alternateState": "kings.character.theoden.awakened",
+      "countsAsCompanion": false,
+      "countsAsCharacter": false,
+      "countsAsMinion": false
+    },
+    {
+      "id": "kings.character.thranduil.awakened",
+      "title": "Thranduil",
+      "subtitle": "King of the Woodland Realm",
+      "number": 9,
+      "numberOfCards": 10,
+      "printedNumber": "KM 9/10",
+      "side": "FreePeoples",
+      "controller": "FreePeoples",
+      "role": "AwakenedSovereign",
+      "identity": "thranduil",
+      "nationIcon": "elves",
+      "level": 2,
+      "leadership": 1,
+      "shadowResistance": 4,
+      "extraActionDice": 0,
+      "rulerDieContribution": "FreePeoples",
+      "entry": [
+        "Elves At War and Woodland Realm unconquered; Muster Action die or any Ruler die result. Move to Woodland Realm and awaken.",
+        "The required movement respects the usual traffic restrictions of Companion and the Awakened level; the illegal target blocks this action."
+      ],
+      "abilities": [
+        "Elvenking: Elves At War i Thranduil w Woodland Realm, dowolny Muster Action die wymienia Elven Regular w jego armii na Elite, nawet podczas oblężenia Woodland Realm.",
+        "Far-sighted: jeśli Drużyna nie jest na Mordor Track, Character na Ruler pozwala wybrać ruch Drużyny z liczbą kości Hunt zmniejszoną o 1 (minimum 1) albo ruch/oddzielenie Towarzyszy z dodatkowym jednym regionem zasięgu."
+      ],
+      "removal": [
+        "Normal elimination of Companion; Awakened cannot be Corrupted.",
+        "The last Awakened maintains FP Ruler to proper Recovery; after the absence of living Awakened die disappears, but can return after a new awakening."
+      ],
+      "verificationCases": [
+        "Samo active nie wystarcza do awakening Thranduila; potrzebne At War.",
+        "Far-sighted wymaga Ruler Character i wyboru jednego trybu; zwykły Character nie daje bonusu.",
+        "Redukcja Hunt nie modyfikuje progu sukcesu ani przerzutów.",
+        "Tor Mordoru wyłącza tę szczególną zdolność; plan Towarzyszy i trasa nadal wymagają walidacji.",
+        "Upgrade zwraca Regular i wymaga dostępnej Elite."
+      ],
+      "rulebookPages": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          2656,
+          0,
+          2988,
+          600
+        ]
+      },
+      "initialRegion": "Woodland Realm",
+      "initialRole": "Leader",
+      "alternateState": "kings.character.thranduil.corrupted",
+      "rulerAbilityResult": "Character",
+      "rulerToken": "kings.token.thranduil"
+    },
+    {
+      "id": "kings.character.thranduil.corrupted",
+      "title": "Thranduil",
+      "subtitle": "Corrupted Ruler",
+      "number": 10,
+      "numberOfCards": 10,
+      "printedNumber": "KM 10/10",
+      "side": "FreePeoples",
+      "controller": "Shadow",
+      "role": "CorruptedSovereign",
+      "identity": "thranduil",
+      "nationIcon": "elves",
+      "level": 0,
+      "leadership": 0,
+      "shadowResistance": null,
+      "extraActionDice": 0,
+      "rulerDieContribution": null,
+      "entry": [
+        "Once Corruption has achieved immunity, it replaces the original sovereign with the Corrupted version in Woodland Realm. It does not require a route of the former figure movement."
+      ],
+      "abilities": [
+        "Zakaz rekrutacji Elite w Woodland Realm, poza efektem Event. Nie zakazuje Leader.",
+        "Fate of Mirkwood: gdy Woodland Realm jest oblężone, SH może raz na tę bitwę oblężniczą przedłużyć ją, usuwając własny Regular zamiast downgrade Elite."
+      ],
+      "removal": [
+        "FP can release Character die if Companion is with this character with an elves icon or Free Peoples icon. Remove figure and card, immediately end the weaknesses.",
+        "The usual battle does not remove Corrupted; apart from this procedure, it can remove the appropriate Event. It cannot be awakened."
+      ],
+      "verificationCases": [
+        "Leader nadal może być rekrutowany; nie kopiuj zakazu Dáina/Denethora.",
+        "Przedłużenie działa tylko przy wskazanej twierdzy i raz na bitwę.",
+        "Corrupted nie uczestniczy w bitwie i przeżywa eliminację armii w regionie.",
+        "Usunięcie wymaga obecnego Towarzysza z ikoną tego narodu albo Free Peoples, Character die lub odpowiedniego Event.",
+        "Wersja Council bez ikony nie może usunąć tej postaci."
+      ],
+      "rulebookPages": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          2988,
+          0,
+          3320,
+          600
+        ]
+      },
+      "initialRegion": "Woodland Realm",
+      "alternateState": "kings.character.thranduil.awakened",
+      "countsAsCompanion": false,
+      "countsAsCharacter": false,
+      "countsAsMinion": false
+    },
+    {
+      "id": "kings.character.black-serpent",
+      "title": "The Black Serpent",
+      "subtitle": "Chieftain of the Haradrim",
+      "number": 1,
+      "numberOfCards": 3,
+      "printedNumber": "KM 1/3",
+      "side": "Shadow",
+      "controller": "Shadow",
+      "role": "DarkChieftain",
+      "identity": "black-serpent",
+      "nationIcon": "southrons-easterlings",
+      "level": 2,
+      "leadership": 2,
+      "shadowResistance": null,
+      "extraActionDice": 0,
+      "rulerDieContribution": "Shadow",
+      "entry": [
+        "Gondor At War; Muster Action die or any Ruler result outside Eye; SH Army region containing Southrons & Easterings unit."
+      ],
+      "abilities": [
+        "Red Wrath: uczestniczy w bitwie; przed ujawnieniem kart poświęć efekt własnej legalnej karty i zadaj/rozlicz 1 hit własnym jednostkom. Efekt przy inicjatywie 3 daje +1 do wszystkich Combat dice SH, a przy poświęconej Relentless Assault +2 zamiast +1. Nie zwiększa Leader re-roll.",
+        "Nielatający Sługus, nie jest Sługusem dla wejścia Gandalf White."
+      ],
+      "removal": [
+        "Normal elimination of Minion; the last living Dark Chieftain maintains one common SH Ruler die to Recover."
+      ],
+      "verificationCases": [
+        "Wejście wymaga Gondor At War, nie własnego narodu At War; cel musi mieć SE unit.",
+        "Koszt jest hit, nie zawsze usunięcie jednej figurki; można downgrade Elite.",
+        "Wybrana Relentless Assault musi być legalna; zastąpiona karta nadal played.",
+        "Bonus +1/+2 nie stosuje się do Leader re-roll; Daring Defiance może anulować zastępczy efekt.",
+        "Nieprzekraczalne granice i twierdze respektują ruch nielatający."
+      ],
+      "rulebookPages": [
+        7,
+        14,
+        15
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          0,
+          600,
+          332,
+          1200
+        ]
+      },
+      "countsForGandalfWhiteEntry": false
+    },
+    {
+      "id": "kings.character.shadow-of-mirkwood",
+      "title": "The Shadow of Mirkwood",
+      "subtitle": "Chieftain of the Dark Lord",
+      "number": 2,
+      "numberOfCards": 3,
+      "printedNumber": "KM 2/3",
+      "side": "Shadow",
+      "controller": "Shadow",
+      "role": "DarkChieftain",
+      "identity": "shadow-of-mirkwood",
+      "nationIcon": "sauron",
+      "level": 3,
+      "leadership": 1,
+      "shadowResistance": null,
+      "extraActionDice": 0,
+      "rulerDieContribution": "Shadow",
+      "entry": [
+        "Dwarves or Elves or North At War; Muster Action die or any Ruler outside Eye; SH Army region containing Sauron unit."
+      ],
+      "abilities": [
+        "Lord of the Bats: uczestniczy w bitwie; przed ujawnieniem kart poświęć efekt własnej legalnej karty oraz jego dowodzenie. +1 do wszystkich Leader re-roll dice SH przy inicjatywie 4. Jeśli kartą jest Swarm of Bats, dodatkowo anuluj efekty karty FP przy inicjatywie 0.",
+        "Nielatający Sługus, nie jest Sługusem dla wejścia Gandalf White."
+      ],
+      "removal": [
+        "The usual elimination of Minion; the last Dark Chieftain controls the removal of the common Ruler only in Recovery."
+      ],
+      "verificationCases": [
+        "Warunek At War któregokolwiek z trzech wskazanych narodów; Rohan/Gondor nie wystarczają.",
+        "Koszt odejmuje własne dowodzenie, nie dowodzenie wszystkich innych dowódców.",
+        "Brak pozostałego dowodzenia oznacza brak przerzutów mimo +1.",
+        "Swarm ma dwa okna 0/4; nie zastępuj pojedynczą inicjatywą 3 z innych kart.",
+        "Brand/Daring, Sorcerer i karta FP nadal played wymagają zachowania stanu zastąpienia."
+      ],
+      "rulebookPages": [
+        7,
+        14,
+        15
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          664,
+          600,
+          996,
+          1200
+        ]
+      },
+      "countsForGandalfWhiteEntry": false
+    },
+    {
+      "id": "kings.character.ugluk",
+      "title": "Uglúk",
+      "subtitle": "Chieftain of the Uruk-hai",
+      "number": 3,
+      "numberOfCards": 3,
+      "printedNumber": "KM 3/3",
+      "side": "Shadow",
+      "controller": "Shadow",
+      "role": "DarkChieftain",
+      "identity": "ugluk",
+      "nationIcon": "isengard",
+      "level": 2,
+      "leadership": 1,
+      "shadowResistance": null,
+      "extraActionDice": 0,
+      "rulerDieContribution": "Shadow",
+      "entry": [
+        "Rohan At War or Fellowship revealed; Muster Action die or any Ruler outside Eye.",
+        "Place in the SH Army region containing Isengard unit either in a free region with a revealed Fellowship or adjacent to it. The second location requires a revealed, even if the entry condition has met Rohan."
+      ],
+      "abilities": [
+        "I Command: uczestniczy w bitwie; przed ujawnieniem kart poświęć efekt własnej legalnej karty. +1 do Combat roll i Leader re-roll obu armii przy inicjatywie 3; jeśli kartą jest Desperate Battle, bonus dotyczy tylko SH.",
+        "We March Day and Night: gdy Uglúk jest z Drużyną lub w sąsiednim regionie, +1 do wszystkich kości SH Hunt re-roll. To modyfikator przerzutu, nie źródło prawa do przerzutu ani bonus do pierwszego rzutu.",
+        "Nielatający Sługus, nie jest Sługusem dla wejścia Gandalf White."
+      ],
+      "removal": [
+        "A simple elimination of Minion; does not unlock White by its historical share."
+      ],
+      "verificationCases": [
+        "Drużyna hidden i Rohan At War dopuszczają wejście wyłącznie przy armii Isengardu.",
+        "Revealed umożliwia drugi wariant lokalizacji, ale nadal wymagany free region.",
+        "Desperate Battle daje +1 tylko SH; inna legalna karta także przeciwnikowi, w obu rzutach.",
+        "Hunt bonus działa z hidden Drużyną, bo tylko wejście wymaga revealed; brak uprawnionego reroll nadal zero RNG.",
+        "Ruler Eye odrzucony, stan wejścia i koszt nie ponawiają się po retry."
+      ],
+      "rulebookPages": [
+        7,
+        14,
+        15
+      ],
+      "edition": "Kings of Middle-earth — Second Edition, EN; rulebook 1.0 (2023.08.10)",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          332,
+          600,
+          664,
+          1200
+        ]
+      },
+      "countsForGandalfWhiteEntry": false
+    }
+  ]
+}

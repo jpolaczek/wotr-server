@@ -1,0 +1,75 @@
+:root {
+  --paper: #f4ecd8;
+  --ink: #2b241b;
+  --muted: #6b5d48;
+  --accent: #7a2e1c;
+  --line: #d6c7a6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1d1a15;
+    --ink: #ece3cf;
+    --muted: #b3a585;
+    --accent: #e0937a;
+    --line: #3d362b;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 17px/1.55 Georgia, "Times New Roman", serif;
+}
+main { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1rem 3rem; }
+h1 { font-size: 2.3rem; margin: 0 0 .75rem; letter-spacing: .01em; }
+h2 { font-size: 1.35rem; margin: 2.25rem 0 .75rem; border-bottom: 1px solid var(--line); padding-bottom: .3rem; }
+.lead { font-size: 1.1rem; }
+.note, .status, .meta { color: var(--muted); }
+.downloads { display: grid; gap: .75rem; }
+.download {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  padding: .7rem 1.2rem;
+  border-radius: .4rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+.download:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.meta { font-size: .9rem; margin: .35rem 0 0; }
+.meta code { word-break: break-all; }
+ol li { margin-bottom: .45rem; }
+a { color: var(--accent); }
+footer { margin-top: 3rem; font-size: .95rem; }
+
+/* AUTH-02: account pages (registration, confirmation, password reset). */
+.account .crumb { margin: 0 0 1.5rem; font-size: .95rem; }
+.account form { display: grid; gap: .35rem; margin: 1.5rem 0; max-width: 26rem; }
+.account label { font-weight: bold; margin-top: .6rem; }
+.account input {
+  font: inherit;
+  padding: .5rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: .35rem;
+  background: transparent;
+  color: var(--ink);
+}
+.account input:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+.account .help { margin: 0; font-size: .9rem; color: var(--muted); }
+.account button {
+  justify-self: start;
+  margin-top: 1rem;
+  font: inherit;
+  font-weight: bold;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: .4rem;
+  padding: .65rem 1.2rem;
+  cursor: pointer;
+}
+.account button:disabled { opacity: .6; cursor: progress; }
+.account button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.account .status[data-kind="error"] { color: var(--accent); font-weight: bold; }
+.account .status[data-kind="done"] { color: var(--ink); }

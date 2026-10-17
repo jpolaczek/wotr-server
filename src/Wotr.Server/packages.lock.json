@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "Npgsql": {
+        "type": "Direct",
+        "requested": "[10.0.3, )",
+        "resolved": "10.0.3",
+        "contentHash": "7nb5YzXuvWWJxB0J8DiyL3we+X4FOctZrt0fIBnucOIaIevFEEwGQVZKtiu9olXdlNAK1eNgqSral6r/jlhI4w=="
+      },
+      "BouncyCastle.Cryptography": {
+        "type": "Transitive",
+        "resolved": "2.7.0",
+        "contentHash": "U+12df8UEWHgBi04YVf/Lgi2dy3SItlIYvHjjEVa/BngCQIzDCDRBk50DDByCfDvSbe5pRNFr3b7UrVK2kMcLw=="
+      },
+      "wotr.contracts": {
+        "type": "Project"
+      },
+      "wotr.domain": {
+        "type": "Project",
+        "dependencies": {
+          "Wotr.Contracts": "[1.0.0, )"
+        }
+      },
+      "wotr.releases": {
+        "type": "Project",
+        "dependencies": {
+          "BouncyCastle.Cryptography": "[2.7.0, )",
+          "Wotr.Contracts": "[1.0.0, )"
+        }
+      }
+    }
+  }
+}

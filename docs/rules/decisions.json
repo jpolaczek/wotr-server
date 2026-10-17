@@ -1,0 +1,602 @@
+{
+  "schema_version": 1,
+  "decisions": [
+    {
+      "id": "Configure",
+      "rules": [
+        "B01"
+      ],
+      "owner": "Both seats",
+      "visibility": "Public configuration",
+      "presentation": "Configuration",
+      "next_window": "Setup",
+      "scenarios": [
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "CouncilVersions",
+      "rules": [
+        "L03"
+      ],
+      "owner": "FP",
+      "visibility": "Owner; guide public",
+      "presentation": "PortraitVersions",
+      "next_window": "CouncilOutside",
+      "scenarios": [
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "CouncilOutside",
+      "rules": [
+        "L03"
+      ],
+      "owner": "FP",
+      "visibility": "Reveal chosen outsiders",
+      "presentation": "PortraitDestination",
+      "next_window": "CouncilToken",
+      "scenarios": [
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "CouncilToken",
+      "rules": [
+        "L03"
+      ],
+      "owner": "SH",
+      "visibility": "Public selected token",
+      "presentation": "TokenChoice",
+      "next_window": "Fellowship",
+      "scenarios": [
+        "S17",
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "DiscardCards",
+      "rules": [
+        "B06"
+      ],
+      "owner": "Hand owner",
+      "visibility": "Owner identities; public count",
+      "presentation": "CardGrid",
+      "next_window": "Saved continuation",
+      "scenarios": [
+        "S07"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "FellowshipPhase",
+      "rules": [
+        "B15",
+        "B16"
+      ],
+      "owner": "FP",
+      "visibility": "Public declaration; Council versions remain private",
+      "presentation": "MapPortrait",
+      "next_window": "AllocateHunt",
+      "scenarios": [
+        "S14",
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "AllocateHunt",
+      "rules": [
+        "B17"
+      ],
+      "owner": "SH",
+      "visibility": "Public selected dice",
+      "presentation": "DiceTransfer",
+      "next_window": "Roll",
+      "scenarios": [
+        "S17"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "SpecialDieChoice",
+      "rules": [
+        "L01",
+        "X01"
+      ],
+      "owner": "Rule-ordered side",
+      "visibility": "Public",
+      "presentation": "DiceComparison",
+      "next_window": "RulerDiscard",
+      "scenarios": [
+        "S05",
+        "S17"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "RulerDiscard",
+      "rules": [
+        "K01",
+        "X01"
+      ],
+      "owner": "SH then FP",
+      "visibility": "Public",
+      "presentation": "DiceComparison",
+      "next_window": "Dismay",
+      "scenarios": [
+        "S17"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Dismay",
+      "rules": [
+        "X02"
+      ],
+      "owner": "SH",
+      "visibility": "Public",
+      "presentation": "TokenDie",
+      "next_window": "Another Dismay, optional Lore or first FP action; SH chooses Lore/Dismay order",
+      "scenarios": [
+        "S17"
+      ],
+      "checkpoint": "Persist token removal, one recorded reroll, die result/location and next decision together; decline stores turn. Retry never rerolls.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Action",
+      "rules": [
+        "B03",
+        "B04"
+      ],
+      "owner": "Alternating actor",
+      "visibility": "Public intentions after commit only",
+      "presentation": "ObjectIntentCost",
+      "next_window": "Effect resolution",
+      "scenarios": [
+        "S01",
+        "S05"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Ring",
+      "rules": [
+        "B05",
+        "L02"
+      ],
+      "owner": "Current actor",
+      "visibility": "Public",
+      "presentation": "RingDieFace",
+      "next_window": "Same Action",
+      "scenarios": [
+        "S05",
+        "S17"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "MoveArmies",
+      "rules": [
+        "B09"
+      ],
+      "owner": "Current actor",
+      "visibility": "Public after commit",
+      "presentation": "MapUnits",
+      "next_window": "Excess",
+      "scenarios": [
+        "S01",
+        "S02",
+        "S03",
+        "S04"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Recruit",
+      "rules": [
+        "B08"
+      ],
+      "owner": "Current actor",
+      "visibility": "Public",
+      "presentation": "ReservePlacement",
+      "next_window": "Action",
+      "scenarios": [
+        "S06"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Politics",
+      "rules": [
+        "B07"
+      ],
+      "owner": "Current actor",
+      "visibility": "Public",
+      "presentation": "NationTrack",
+      "next_window": "Action",
+      "scenarios": [
+        "S06"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Characters",
+      "rules": [
+        "B10",
+        "B16"
+      ],
+      "owner": "Owner",
+      "visibility": "Public entry/active ability; own available costs; Council versions reveal when required",
+      "presentation": "PortraitDestination",
+      "next_window": "Ability or Action",
+      "scenarios": [
+        "S14",
+        "S19"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "EventTargets",
+      "rules": [
+        "B06"
+      ],
+      "owner": "Effect-designated side",
+      "visibility": "Own card; reveal on play",
+      "presentation": "CardMapTargets",
+      "next_window": "Effect continuation",
+      "scenarios": [
+        "S07",
+        "S08"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Reaction",
+      "rules": [
+        "B06",
+        "B18",
+        "B10",
+        "B12",
+        "B16",
+        "B15",
+        "L02",
+        "L03"
+      ],
+      "owner": "Effect-designated side",
+      "visibility": "Own legal cards only; private window presence does not depend on hand. Public character windows depend only on public source and condition.",
+      "presentation": "CardOrDecline",
+      "next_window": "Saved frame",
+      "scenarios": [
+        "S08",
+        "S15",
+        "LordsWeShallGetItTests",
+        "LordsCards03PersistenceTests"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer.",
+      "continuations": "Includes hunt.roll before server RNG, hunt.casualty after guide replacement and fellowship.declared with its complete stored route. Each resumes the same persisted frame. Lords hunt.shadow-replace is offered after each draw and before FP replacement/protection, only with public We Shall Get It and Gollum; decline retains the card."
+    },
+    {
+      "id": "CombatCard",
+      "rules": [
+        "B11",
+        "K03"
+      ],
+      "owner": "Attacker then defender",
+      "visibility": "Owner front; other sees committed back until reveal",
+      "presentation": "CardOrDecline",
+      "next_window": "Reveal",
+      "scenarios": [
+        "S09",
+        "S13"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Losses",
+      "rules": [
+        "B12"
+      ],
+      "owner": "Attacker then defender",
+      "visibility": "Public",
+      "presentation": "HitsUnits",
+      "next_window": "BattleContinue",
+      "scenarios": [
+        "S10",
+        "S11"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Excess",
+      "rules": [
+        "B09",
+        "B14"
+      ],
+      "owner": "Army owner",
+      "visibility": "Public",
+      "presentation": "UnitsToReserve",
+      "next_window": "Saved frame",
+      "scenarios": [
+        "S04",
+        "S12"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "BattleContinue",
+      "rules": [
+        "B13",
+        "B14"
+      ],
+      "owner": "Attacker",
+      "visibility": "Public",
+      "presentation": "ContinueStopElite",
+      "next_window": "DefenderRetreat or end",
+      "scenarios": [
+        "S12"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "DefenderRetreat",
+      "rules": [
+        "B13",
+        "B14"
+      ],
+      "owner": "Defender",
+      "visibility": "Public",
+      "presentation": "MapStayShelter",
+      "next_window": "Next round or end",
+      "scenarios": [
+        "S12"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Advance",
+      "rules": [
+        "B13"
+      ],
+      "owner": "Attacker",
+      "visibility": "Public",
+      "presentation": "MapUnits",
+      "next_window": "Action",
+      "scenarios": [
+        "S01",
+        "S12"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "FellowshipRoute",
+      "rules": [
+        "B15"
+      ],
+      "owner": "FP",
+      "visibility": "Public committed location/route required by rule",
+      "presentation": "MapRoute",
+      "next_window": "Hunt or Action",
+      "scenarios": [
+        "S14"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "HuntDamage",
+      "rules": [
+        "B18"
+      ],
+      "owner": "FP",
+      "visibility": "Guide public; random candidate versions protected",
+      "presentation": "GuideRandomCorruption",
+      "next_window": "Reveal/Guide/Continuation",
+      "scenarios": [
+        "S15"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "Guide",
+      "rules": [
+        "B16",
+        "B18"
+      ],
+      "owner": "FP",
+      "visibility": "Selected guide public",
+      "presentation": "PortraitChoice",
+      "next_window": "Ability/Continuation",
+      "scenarios": [
+        "S14",
+        "S15"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "MordorIntervention",
+      "rules": [
+        "B19"
+      ],
+      "owner": "Effect-designated side",
+      "visibility": "Own cards only",
+      "presentation": "TileCardOrDecline",
+      "next_window": "Damage and progress",
+      "scenarios": [
+        "S16"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "CorruptionAttempt",
+      "rules": [
+        "K02",
+        "X01"
+      ],
+      "owner": "SH",
+      "visibility": "Private candidates and chosen value unless Visible",
+      "presentation": "EyePortraitTile",
+      "next_window": "Return unchosen/Action",
+      "scenarios": [
+        "S18"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "SequentialCorruption",
+      "rules": [
+        "K02",
+        "X02"
+      ],
+      "owner": "SH",
+      "visibility": "Private current tile unless Visible",
+      "presentation": "TileDrawStop",
+      "next_window": "Action",
+      "scenarios": [
+        "S18"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "SovereignAbility",
+      "rules": [
+        "K02",
+        "K03"
+      ],
+      "owner": "Owner",
+      "visibility": "Public except explicit hidden tile data",
+      "presentation": "PortraitTargetCost",
+      "next_window": "Effect continuation",
+      "scenarios": [
+        "S18"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "RulerAbility",
+      "rules": [
+        "K01"
+      ],
+      "owner": "Current actor",
+      "visibility": "Public",
+      "presentation": "DieTokenTarget",
+      "next_window": "Action",
+      "scenarios": [
+        "S17"
+      ],
+      "checkpoint": "Atomic snapshot + events + receipt after every committed answer, before notification. Store decision ID, owner, paid costs and continuation.",
+      "cancel": "Draft may be changed before submission; mandatory decisions cannot be skipped; optional decline is a committed answer."
+    },
+    {
+      "id": "ArmyEvent",
+      "rules": [
+        "B06",
+        "B09",
+        "B11",
+        "B14"
+      ],
+      "owner": "Event owner",
+      "visibility": "Public figures and results; choices only to the owner",
+      "presentation": "MapArmyGroupRoute",
+      "next_window": "Parent event or nested relief battle; excess before event completion",
+      "scenarios": [
+        "V16",
+        "ArmyEventMovementTests",
+        "HelpUnlookedForTests",
+        "WosesCardTests"
+      ],
+      "checkpoint": "Persist ArmyEventOrder, paid event face and parent cursor; commit one fixed group and explicit route atomically. Relief persists a parent-return battle with CombatDiceReduction.",
+      "cancel": "Undo changes the local group/route; the already played event is committed and its mandatory decision cannot be skipped."
+    },
+    {
+      "id": "CharacterEvent",
+      "rules": [
+        "B06"
+      ],
+      "owner": "Shadow event owner",
+      "visibility": "Public Nazgûl and destinations; current draft only to its owner",
+      "presentation": "PortraitRoute",
+      "next_window": "Parent event: Fellowship revelation, Hunt or table-card choice",
+      "scenarios": [
+        "V16",
+        "Shadow02TravelTests",
+        "Shadow02PersistenceTests",
+        "Shadow02NetworkTests"
+      ],
+      "checkpoint": "Persist EffectWait.NazgulTravel, paid event and parent cursor. Commit all flight groups or an explicit empty selection once; no second die. Validate against live figures and legal flight destinations.",
+      "cancel": "Back changes the local draft. Stay all clears planned groups; confirming ends movement and resumes the already committed event."
+    },
+    {
+      "id": "ActionSequence",
+      "rules": [
+        "B03",
+        "B04",
+        "B08",
+        "B09",
+        "B10"
+      ],
+      "owner": "Owner of the paid action",
+      "visibility": "Public paid cost and completed steps; decision and legal options only to owner",
+      "presentation": "PaidActionSteps",
+      "next_window": "Next step, final excess/political/cost reaction, or next action",
+      "scenarios": [
+        "D04",
+        "D05",
+        "ArmySequenceTests",
+        "RecruitSequenceTests",
+        "TravelSequenceTests",
+        "ActionSequencePersistenceTests"
+      ],
+      "checkpoint": "Persist every Stepwise commit with paid cost, used figure IDs/settlements, remaining budget and initial character candidates. FinishActionSequence resolves end-of-action effects once.",
+      "cancel": "Only unsent local choices can change. A committed step cannot be undone; explicit Finish forfeits the remaining budget."
+    }
+  ],
+  "automatic_steps": [
+    "SetupComposition",
+    "Shuffle",
+    "RecoverDice",
+    "DrawBothDecks",
+    "RollDice",
+    "TransferRolledEyes",
+    "RevealCommittedCards",
+    "CombatRoll",
+    "HuntRoll",
+    "ApplyChosenDamage",
+    "CheckImmediateVictory",
+    "CheckMilitaryVictory"
+  ]
+}

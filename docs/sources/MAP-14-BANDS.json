@@ -1,0 +1,22 @@
+{
+  "version": "border-bands-1",
+  "sourceHashes": {
+    "map-geometry.json": "b1ed10e22091b22ea602df1d1b017387f7c5bf071d8ec5c1140a2c8721f4801a",
+    "map-boundaries.json": "8ac6b56a609efc3eb7bba62454a51d0f41e3d29235daa6c22c61aa32f0689dd5",
+    "map-style.json": "a333568e12474ceee66ce1480977a6ebc0f037bc2e863b5d986d9f050c1a2800"
+  },
+  "paths": 323,
+  "parts": 360,
+  "rings": 934,
+  "points": 98580,
+  "clipToOwner": true,
+  "cap": "flat",
+  "join": "round, 2 segments per quadrant",
+  "coordinateDecimals": 6,
+  "shapely": "2.1.2",
+  "geos": "3.13.1",
+  "waterRings": 6,
+  "waterPoints": 2245,
+  "geometryChanged": false,
+  "runtimeClipping": false
+}

@@ -1,0 +1,1614 @@
+{
+  "_meta": {
+    "status": "reviewed_source_facts",
+    "reviewedAt": "2026-10-04",
+    "board": "board-reference.jpg",
+    "setup": "BASE pp.7,14,16–17",
+    "candidate": "johnchampaign/war-of-the-ring@6716a03d3c6ce99a41693a38adaf6d541b10844c/assets/map.json",
+    "method": "Region-by-region comparison of names, nation/settlement and adjacent borders with the board reproduction; candidate metadata not accepted as proof. Setup and inventories compared separately with local rulebook. Production normalization and executable checks are T04."
+  },
+  "nations": {
+    "dwarves": {
+      "side": "FreePeoples",
+      "reinforcements": {
+        "regular": 2,
+        "elite": 3,
+        "leader": 3
+      },
+      "political": {
+        "active": false,
+        "startBox": 1
+      }
+    },
+    "elves": {
+      "side": "FreePeoples",
+      "reinforcements": {
+        "regular": 2,
+        "elite": 4,
+        "leader": 0
+      },
+      "political": {
+        "active": true,
+        "startBox": 1
+      }
+    },
+    "gondor": {
+      "side": "FreePeoples",
+      "reinforcements": {
+        "regular": 6,
+        "elite": 4,
+        "leader": 3
+      },
+      "political": {
+        "active": false,
+        "startBox": 2
+      }
+    },
+    "north": {
+      "side": "FreePeoples",
+      "reinforcements": {
+        "regular": 6,
+        "elite": 4,
+        "leader": 3
+      },
+      "political": {
+        "active": false,
+        "startBox": 1
+      }
+    },
+    "rohan": {
+      "side": "FreePeoples",
+      "reinforcements": {
+        "regular": 6,
+        "elite": 4,
+        "leader": 3
+      },
+      "political": {
+        "active": false,
+        "startBox": 1
+      }
+    },
+    "isengard": {
+      "side": "Shadow",
+      "reinforcements": {
+        "regular": 6,
+        "elite": 5,
+        "leader": 0
+      },
+      "political": {
+        "active": true,
+        "startBox": 3
+      }
+    },
+    "sauron": {
+      "side": "Shadow",
+      "reinforcements": {
+        "regular": 8,
+        "elite": 4,
+        "nazgul": 4
+      },
+      "political": {
+        "active": true,
+        "startBox": 3
+      }
+    },
+    "southrons": {
+      "side": "Shadow",
+      "reinforcements": {
+        "regular": 10,
+        "elite": 3,
+        "leader": 0
+      },
+      "political": {
+        "active": true,
+        "startBox": 2
+      }
+    }
+  },
+  "regions": {
+    "erebor": {
+      "name": "Erebor",
+      "nation": "dwarves",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 1,
+        "elite": 2,
+        "leader": 1
+      },
+      "adjacency": [
+        "dale",
+        "iron-hills",
+        "withered-heath"
+      ]
+    },
+    "iron-hills": {
+      "name": "Iron Hills",
+      "nation": "dwarves",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": {
+        "regular": 1
+      },
+      "adjacency": [
+        "dale",
+        "east-rhun",
+        "erebor",
+        "vale-of-the-carnen"
+      ]
+    },
+    "carrock": {
+      "name": "Carrock",
+      "nation": "north",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": {
+        "regular": 1
+      },
+      "adjacency": [
+        "eagles-eyrie",
+        "northern-mirkwood",
+        "old-ford",
+        "old-forest-road",
+        "rhosgobel",
+        "western-mirkwood"
+      ]
+    },
+    "dale": {
+      "name": "Dale",
+      "nation": "north",
+      "settlement": "City",
+      "vp": 1,
+      "setup": {
+        "regular": 1,
+        "leader": 1
+      },
+      "adjacency": [
+        "erebor",
+        "iron-hills",
+        "northern-rhovanion",
+        "old-forest-road",
+        "vale-of-the-carnen",
+        "withered-heath",
+        "woodland-realm"
+      ]
+    },
+    "ered-luin": {
+      "name": "Ered Luin",
+      "nation": "dwarves",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": {
+        "regular": 1
+      },
+      "adjacency": [
+        "evendim",
+        "grey-havens",
+        "north-ered-luin",
+        "tower-hills"
+      ]
+    },
+    "andrast": {
+      "name": "Andrast",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "anfalas",
+        "druwaith-iaur"
+      ]
+    },
+    "anfalas": {
+      "name": "Anfalas",
+      "nation": "gondor",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "andrast",
+        "dol-amroth",
+        "erech"
+      ]
+    },
+    "angmar": {
+      "name": "Angmar",
+      "nation": "sauron",
+      "settlement": "City",
+      "vp": 1,
+      "setup": null,
+      "adjacency": [
+        "arnor",
+        "ettenmoors",
+        "mount-gram"
+      ]
+    },
+    "arnor": {
+      "name": "Arnor",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "angmar",
+        "ettenmoors",
+        "evendim",
+        "north-downs"
+      ]
+    },
+    "ash-mountains": {
+      "name": "Ash Mountains",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dagorlad",
+        "noman-lands",
+        "south-rhun",
+        "southern-dorwinion"
+      ]
+    },
+    "barad-dur": {
+      "name": "Barad-dûr",
+      "nation": "sauron",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 4,
+        "elite": 1,
+        "nazgul": 1
+      },
+      "adjacency": [
+        "gorgoroth"
+      ]
+    },
+    "bree": {
+      "name": "Bree",
+      "nation": "north",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": {
+        "regular": 1
+      },
+      "adjacency": [
+        "buckland",
+        "north-downs",
+        "south-downs",
+        "weather-hills"
+      ]
+    },
+    "buckland": {
+      "name": "Buckland",
+      "nation": "north",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "bree",
+        "cardolan",
+        "evendim",
+        "north-downs",
+        "old-forest",
+        "south-downs",
+        "the-shire"
+      ]
+    },
+    "cardolan": {
+      "name": "Cardolan",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "buckland",
+        "minhiriath",
+        "north-dunland",
+        "old-forest",
+        "south-downs",
+        "south-ered-luin",
+        "tharbad"
+      ]
+    },
+    "dagorlad": {
+      "name": "Dagorlad",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "ash-mountains",
+        "eastern-emyn-muil",
+        "morannon",
+        "noman-lands",
+        "north-ithilien"
+      ]
+    },
+    "dead-marshes": {
+      "name": "Dead Marshes",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "druadan-forest",
+        "eastern-emyn-muil",
+        "north-ithilien",
+        "osgiliath",
+        "western-emyn-muil"
+      ]
+    },
+    "dimrill-dale": {
+      "name": "Dimrill Dale",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "gladden-fields",
+        "lorien",
+        "moria",
+        "north-anduin-vale",
+        "parth-celebrant",
+        "south-anduin-vale"
+      ]
+    },
+    "dol-amroth": {
+      "name": "Dol Amroth",
+      "nation": "gondor",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 3
+      },
+      "adjacency": [
+        "anfalas",
+        "erech",
+        "lamedon"
+      ]
+    },
+    "dol-guldur": {
+      "name": "Dol Guldur",
+      "nation": "sauron",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 5,
+        "elite": 1,
+        "nazgul": 1
+      },
+      "adjacency": [
+        "eastern-brown-lands",
+        "eastern-mirkwood",
+        "narrows-of-the-forest",
+        "north-anduin-vale",
+        "south-anduin-vale",
+        "southern-mirkwood",
+        "western-brown-lands"
+      ]
+    },
+    "druadan-forest": {
+      "name": "Drúadan Forest",
+      "nation": "gondor",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dead-marshes",
+        "eastemnet",
+        "folde",
+        "minas-tirith",
+        "osgiliath",
+        "western-emyn-muil"
+      ]
+    },
+    "druwaith-iaur": {
+      "name": "Drúwaith Iaur",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "andrast",
+        "enedwaith",
+        "fords-of-isen",
+        "gap-of-rohan"
+      ]
+    },
+    "eagles-eyrie": {
+      "name": "Eagles' Eyrie",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "carrock",
+        "mount-gundabad",
+        "old-ford"
+      ]
+    },
+    "east-harondor": {
+      "name": "East Harondor",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "near-harad",
+        "south-ithilien",
+        "west-harondor"
+      ]
+    },
+    "east-rhun": {
+      "name": "East Rhûn",
+      "nation": "southrons",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "iron-hills",
+        "north-rhun",
+        "south-rhun",
+        "vale-of-the-carnen"
+      ]
+    },
+    "eastemnet": {
+      "name": "Eastemnet",
+      "nation": "rohan",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "druadan-forest",
+        "fangorn",
+        "folde",
+        "parth-celebrant",
+        "westemnet",
+        "western-brown-lands",
+        "western-emyn-muil"
+      ]
+    },
+    "eastern-brown-lands": {
+      "name": "Eastern Brown Lands",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dol-guldur",
+        "eastern-emyn-muil",
+        "noman-lands",
+        "southern-mirkwood",
+        "southern-rhovanion",
+        "western-brown-lands",
+        "western-emyn-muil"
+      ]
+    },
+    "eastern-emyn-muil": {
+      "name": "Eastern Emyn Muil",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dagorlad",
+        "dead-marshes",
+        "eastern-brown-lands",
+        "noman-lands",
+        "north-ithilien",
+        "western-emyn-muil"
+      ]
+    },
+    "eastern-mirkwood": {
+      "name": "Eastern Mirkwood",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dol-guldur",
+        "narrows-of-the-forest",
+        "northern-rhovanion",
+        "old-forest-road",
+        "southern-mirkwood"
+      ]
+    },
+    "edoras": {
+      "name": "Edoras",
+      "nation": "rohan",
+      "settlement": "City",
+      "vp": 1,
+      "setup": {
+        "regular": 1,
+        "elite": 1
+      },
+      "adjacency": [
+        "folde",
+        "westemnet"
+      ]
+    },
+    "enedwaith": {
+      "name": "Enedwaith",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "druwaith-iaur",
+        "gap-of-rohan",
+        "minhiriath",
+        "south-dunland",
+        "tharbad"
+      ]
+    },
+    "erech": {
+      "name": "Erech",
+      "nation": "gondor",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "anfalas",
+        "dol-amroth",
+        "lamedon"
+      ]
+    },
+    "ettenmoors": {
+      "name": "Ettenmoors",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "angmar",
+        "arnor",
+        "mount-gram",
+        "north-downs",
+        "trollshaws",
+        "weather-hills"
+      ]
+    },
+    "evendim": {
+      "name": "Evendim",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "arnor",
+        "buckland",
+        "ered-luin",
+        "north-downs",
+        "north-ered-luin",
+        "the-shire",
+        "tower-hills"
+      ]
+    },
+    "fangorn": {
+      "name": "Fangorn",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "eastemnet",
+        "fords-of-isen",
+        "parth-celebrant",
+        "westemnet"
+      ]
+    },
+    "far-harad": {
+      "name": "Far Harad",
+      "nation": "southrons",
+      "settlement": "City",
+      "vp": 1,
+      "setup": {
+        "regular": 3,
+        "elite": 1
+      },
+      "adjacency": [
+        "khand",
+        "near-harad"
+      ]
+    },
+    "folde": {
+      "name": "Folde",
+      "nation": "rohan",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "druadan-forest",
+        "eastemnet",
+        "edoras",
+        "westemnet"
+      ]
+    },
+    "fords-of-bruinen": {
+      "name": "Fords of Bruinen",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "high-pass",
+        "hollin",
+        "rivendell",
+        "trollshaws"
+      ]
+    },
+    "fords-of-isen": {
+      "name": "Fords of Isen",
+      "nation": "rohan",
+      "settlement": "Fortification",
+      "vp": 0,
+      "setup": {
+        "regular": 2,
+        "leader": 1
+      },
+      "adjacency": [
+        "druwaith-iaur",
+        "fangorn",
+        "gap-of-rohan",
+        "helms-deep",
+        "orthanc",
+        "westemnet"
+      ]
+    },
+    "forlindon": {
+      "name": "Forlindon",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "grey-havens"
+      ]
+    },
+    "gap-of-rohan": {
+      "name": "Gap of Rohan",
+      "nation": "isengard",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "druwaith-iaur",
+        "enedwaith",
+        "fords-of-isen",
+        "orthanc",
+        "south-dunland"
+      ]
+    },
+    "gladden-fields": {
+      "name": "Gladden Fields",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dimrill-dale",
+        "north-anduin-vale",
+        "old-ford",
+        "rhosgobel"
+      ]
+    },
+    "goblins-gate": {
+      "name": "Goblin's Gate",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "high-pass",
+        "old-ford"
+      ]
+    },
+    "gorgoroth": {
+      "name": "Gorgoroth",
+      "nation": "sauron",
+      "settlement": null,
+      "vp": 0,
+      "setup": {
+        "regular": 3
+      },
+      "adjacency": [
+        "barad-dur",
+        "minas-morgul",
+        "morannon",
+        "nurn"
+      ]
+    },
+    "grey-havens": {
+      "name": "Grey Havens",
+      "nation": "elves",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 1,
+        "elite": 1,
+        "leader": 1
+      },
+      "adjacency": [
+        "ered-luin",
+        "forlindon",
+        "harlindon",
+        "tower-hills"
+      ]
+    },
+    "harlindon": {
+      "name": "Harlindon",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "grey-havens",
+        "south-ered-luin"
+      ]
+    },
+    "helms-deep": {
+      "name": "Helm's Deep",
+      "nation": "rohan",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 1
+      },
+      "adjacency": [
+        "fords-of-isen",
+        "westemnet"
+      ]
+    },
+    "high-pass": {
+      "name": "High Pass",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "fords-of-bruinen",
+        "goblins-gate"
+      ]
+    },
+    "hollin": {
+      "name": "Hollin",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "fords-of-bruinen",
+        "moria",
+        "north-dunland",
+        "south-downs",
+        "trollshaws"
+      ]
+    },
+    "khand": {
+      "name": "Khand",
+      "nation": "southrons",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "far-harad",
+        "near-harad"
+      ]
+    },
+    "lamedon": {
+      "name": "Lamedon",
+      "nation": "gondor",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dol-amroth",
+        "erech",
+        "pelargir"
+      ]
+    },
+    "lorien": {
+      "name": "Lórien",
+      "nation": "elves",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 1,
+        "elite": 2,
+        "leader": 1
+      },
+      "adjacency": [
+        "dimrill-dale",
+        "parth-celebrant"
+      ]
+    },
+    "lossarnach": {
+      "name": "Lossarnach",
+      "nation": "gondor",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "minas-tirith",
+        "osgiliath",
+        "pelargir"
+      ]
+    },
+    "minas-morgul": {
+      "name": "Minas Morgul",
+      "nation": "sauron",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 5,
+        "nazgul": 1
+      },
+      "adjacency": [
+        "gorgoroth",
+        "north-ithilien",
+        "south-ithilien"
+      ]
+    },
+    "minas-tirith": {
+      "name": "Minas Tirith",
+      "nation": "gondor",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 3,
+        "elite": 1,
+        "leader": 1
+      },
+      "adjacency": [
+        "druadan-forest",
+        "lossarnach",
+        "osgiliath"
+      ]
+    },
+    "minhiriath": {
+      "name": "Minhiriath",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "cardolan",
+        "enedwaith",
+        "south-ered-luin",
+        "tharbad"
+      ]
+    },
+    "morannon": {
+      "name": "Morannon",
+      "nation": "sauron",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 5,
+        "nazgul": 1
+      },
+      "adjacency": [
+        "dagorlad",
+        "gorgoroth"
+      ]
+    },
+    "moria": {
+      "name": "Moria",
+      "nation": "sauron",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 2
+      },
+      "adjacency": [
+        "dimrill-dale",
+        "hollin",
+        "north-dunland"
+      ]
+    },
+    "mount-gram": {
+      "name": "Mount Gram",
+      "nation": "sauron",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "angmar",
+        "ettenmoors",
+        "mount-gundabad"
+      ]
+    },
+    "mount-gundabad": {
+      "name": "Mount Gundabad",
+      "nation": "sauron",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 2
+      },
+      "adjacency": [
+        "eagles-eyrie",
+        "mount-gram"
+      ]
+    },
+    "narrows-of-the-forest": {
+      "name": "Narrows of the Forest",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dol-guldur",
+        "eastern-mirkwood",
+        "north-anduin-vale",
+        "old-forest-road",
+        "rhosgobel"
+      ]
+    },
+    "near-harad": {
+      "name": "Near Harad",
+      "nation": "southrons",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": {
+        "regular": 3,
+        "elite": 1
+      },
+      "adjacency": [
+        "east-harondor",
+        "far-harad",
+        "khand",
+        "umbar",
+        "west-harondor"
+      ]
+    },
+    "noman-lands": {
+      "name": "Noman-Lands",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "ash-mountains",
+        "dagorlad",
+        "eastern-brown-lands",
+        "eastern-emyn-muil",
+        "southern-dorwinion",
+        "southern-rhovanion"
+      ]
+    },
+    "north-anduin-vale": {
+      "name": "North Anduin Vale",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dimrill-dale",
+        "dol-guldur",
+        "gladden-fields",
+        "narrows-of-the-forest",
+        "rhosgobel",
+        "south-anduin-vale"
+      ]
+    },
+    "north-downs": {
+      "name": "North Downs",
+      "nation": "north",
+      "settlement": null,
+      "vp": 0,
+      "setup": {
+        "elite": 1
+      },
+      "adjacency": [
+        "arnor",
+        "bree",
+        "buckland",
+        "ettenmoors",
+        "evendim",
+        "weather-hills"
+      ]
+    },
+    "north-dunland": {
+      "name": "North Dunland",
+      "nation": "isengard",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": {
+        "regular": 1
+      },
+      "adjacency": [
+        "cardolan",
+        "hollin",
+        "moria",
+        "south-downs",
+        "south-dunland",
+        "tharbad"
+      ]
+    },
+    "north-ered-luin": {
+      "name": "North Ered Luin",
+      "nation": "dwarves",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "ered-luin",
+        "evendim"
+      ]
+    },
+    "north-ithilien": {
+      "name": "North Ithilien",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dagorlad",
+        "dead-marshes",
+        "eastern-emyn-muil",
+        "minas-morgul",
+        "osgiliath",
+        "south-ithilien"
+      ]
+    },
+    "north-rhun": {
+      "name": "North Rhûn",
+      "nation": "southrons",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": {
+        "regular": 2
+      },
+      "adjacency": [
+        "east-rhun",
+        "northern-dorwinion",
+        "vale-of-the-carnen",
+        "vale-of-the-celduin"
+      ]
+    },
+    "northern-dorwinion": {
+      "name": "Northern Dorwinion",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "north-rhun",
+        "southern-dorwinion",
+        "southern-rhovanion",
+        "vale-of-the-celduin"
+      ]
+    },
+    "northern-mirkwood": {
+      "name": "Northern Mirkwood",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "carrock",
+        "western-mirkwood",
+        "withered-heath",
+        "woodland-realm"
+      ]
+    },
+    "northern-rhovanion": {
+      "name": "Northern Rhovanion",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dale",
+        "eastern-mirkwood",
+        "old-forest-road",
+        "southern-mirkwood",
+        "southern-rhovanion",
+        "vale-of-the-carnen",
+        "vale-of-the-celduin"
+      ]
+    },
+    "nurn": {
+      "name": "Nurn",
+      "nation": "sauron",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": {
+        "regular": 2
+      },
+      "adjacency": [
+        "gorgoroth"
+      ]
+    },
+    "old-ford": {
+      "name": "Old Ford",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "carrock",
+        "eagles-eyrie",
+        "gladden-fields",
+        "goblins-gate",
+        "rhosgobel"
+      ]
+    },
+    "old-forest": {
+      "name": "Old Forest",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "buckland",
+        "cardolan",
+        "south-ered-luin",
+        "the-shire"
+      ]
+    },
+    "old-forest-road": {
+      "name": "Old Forest Road",
+      "nation": "north",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "carrock",
+        "dale",
+        "eastern-mirkwood",
+        "narrows-of-the-forest",
+        "northern-rhovanion",
+        "rhosgobel",
+        "western-mirkwood",
+        "woodland-realm"
+      ]
+    },
+    "orthanc": {
+      "name": "Orthanc",
+      "nation": "isengard",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 4,
+        "elite": 1
+      },
+      "adjacency": [
+        "fords-of-isen",
+        "gap-of-rohan"
+      ]
+    },
+    "osgiliath": {
+      "name": "Osgiliath",
+      "nation": null,
+      "setupNation": "gondor",
+      "settlement": "Fortification",
+      "vp": 0,
+      "setup": {
+        "regular": 2
+      },
+      "adjacency": [
+        "dead-marshes",
+        "druadan-forest",
+        "lossarnach",
+        "minas-tirith",
+        "north-ithilien",
+        "pelargir",
+        "south-ithilien",
+        "west-harondor"
+      ]
+    },
+    "parth-celebrant": {
+      "name": "Parth Celebrant",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dimrill-dale",
+        "eastemnet",
+        "fangorn",
+        "lorien",
+        "south-anduin-vale",
+        "western-brown-lands"
+      ]
+    },
+    "pelargir": {
+      "name": "Pelargir",
+      "nation": "gondor",
+      "settlement": "City",
+      "vp": 1,
+      "setup": {
+        "regular": 1
+      },
+      "adjacency": [
+        "lamedon",
+        "lossarnach",
+        "osgiliath",
+        "west-harondor"
+      ]
+    },
+    "rhosgobel": {
+      "name": "Rhosgobel",
+      "nation": "north",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "carrock",
+        "gladden-fields",
+        "narrows-of-the-forest",
+        "north-anduin-vale",
+        "old-ford",
+        "old-forest-road"
+      ]
+    },
+    "rivendell": {
+      "name": "Rivendell",
+      "nation": "elves",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "elite": 2,
+        "leader": 1
+      },
+      "adjacency": [
+        "fords-of-bruinen",
+        "trollshaws"
+      ]
+    },
+    "south-anduin-vale": {
+      "name": "South Anduin Vale",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dimrill-dale",
+        "dol-guldur",
+        "north-anduin-vale",
+        "parth-celebrant",
+        "western-brown-lands"
+      ]
+    },
+    "south-downs": {
+      "name": "South Downs",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "bree",
+        "buckland",
+        "cardolan",
+        "hollin",
+        "north-dunland",
+        "trollshaws",
+        "weather-hills"
+      ]
+    },
+    "south-dunland": {
+      "name": "South Dunland",
+      "nation": "isengard",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": {
+        "regular": 1
+      },
+      "adjacency": [
+        "enedwaith",
+        "gap-of-rohan",
+        "north-dunland",
+        "tharbad"
+      ]
+    },
+    "south-ered-luin": {
+      "name": "South Ered Luin",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "cardolan",
+        "harlindon",
+        "minhiriath",
+        "old-forest",
+        "the-shire",
+        "tower-hills"
+      ]
+    },
+    "south-ithilien": {
+      "name": "South Ithilien",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "east-harondor",
+        "minas-morgul",
+        "north-ithilien",
+        "osgiliath",
+        "west-harondor"
+      ]
+    },
+    "south-rhun": {
+      "name": "South Rhûn",
+      "nation": "southrons",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": {
+        "regular": 3,
+        "elite": 1
+      },
+      "adjacency": [
+        "ash-mountains",
+        "east-rhun",
+        "southern-dorwinion"
+      ]
+    },
+    "southern-dorwinion": {
+      "name": "Southern Dorwinion",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "ash-mountains",
+        "noman-lands",
+        "northern-dorwinion",
+        "south-rhun",
+        "southern-rhovanion"
+      ]
+    },
+    "southern-mirkwood": {
+      "name": "Southern Mirkwood",
+      "nation": "sauron",
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dol-guldur",
+        "eastern-brown-lands",
+        "eastern-mirkwood",
+        "northern-rhovanion",
+        "southern-rhovanion"
+      ]
+    },
+    "southern-rhovanion": {
+      "name": "Southern Rhovanion",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "eastern-brown-lands",
+        "noman-lands",
+        "northern-dorwinion",
+        "northern-rhovanion",
+        "southern-dorwinion",
+        "southern-mirkwood",
+        "vale-of-the-celduin"
+      ]
+    },
+    "tharbad": {
+      "name": "Tharbad",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "cardolan",
+        "enedwaith",
+        "minhiriath",
+        "north-dunland",
+        "south-dunland"
+      ]
+    },
+    "the-shire": {
+      "name": "The Shire",
+      "nation": "north",
+      "settlement": "City",
+      "vp": 1,
+      "setup": {
+        "regular": 1
+      },
+      "adjacency": [
+        "buckland",
+        "evendim",
+        "old-forest",
+        "south-ered-luin",
+        "tower-hills"
+      ]
+    },
+    "tower-hills": {
+      "name": "Tower Hills",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "ered-luin",
+        "evendim",
+        "grey-havens",
+        "south-ered-luin",
+        "the-shire"
+      ]
+    },
+    "trollshaws": {
+      "name": "Trollshaws",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "ettenmoors",
+        "fords-of-bruinen",
+        "hollin",
+        "rivendell",
+        "south-downs",
+        "weather-hills"
+      ]
+    },
+    "umbar": {
+      "name": "Umbar",
+      "nation": "southrons",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 3
+      },
+      "adjacency": [
+        "near-harad",
+        "west-harondor"
+      ]
+    },
+    "vale-of-the-carnen": {
+      "name": "Vale of the Carnen",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dale",
+        "east-rhun",
+        "iron-hills",
+        "north-rhun",
+        "northern-rhovanion",
+        "vale-of-the-celduin"
+      ]
+    },
+    "vale-of-the-celduin": {
+      "name": "Vale of the Celduin",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "north-rhun",
+        "northern-dorwinion",
+        "northern-rhovanion",
+        "southern-rhovanion",
+        "vale-of-the-carnen"
+      ]
+    },
+    "weather-hills": {
+      "name": "Weather Hills",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "bree",
+        "ettenmoors",
+        "north-downs",
+        "south-downs",
+        "trollshaws"
+      ]
+    },
+    "west-harondor": {
+      "name": "West Harondor",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "east-harondor",
+        "near-harad",
+        "osgiliath",
+        "pelargir",
+        "south-ithilien",
+        "umbar"
+      ]
+    },
+    "westemnet": {
+      "name": "Westemnet",
+      "nation": "rohan",
+      "settlement": "Town",
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "eastemnet",
+        "edoras",
+        "fangorn",
+        "folde",
+        "fords-of-isen",
+        "helms-deep"
+      ]
+    },
+    "western-brown-lands": {
+      "name": "Western Brown Lands",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dol-guldur",
+        "eastemnet",
+        "eastern-brown-lands",
+        "parth-celebrant",
+        "south-anduin-vale",
+        "western-emyn-muil"
+      ]
+    },
+    "western-emyn-muil": {
+      "name": "Western Emyn Muil",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dead-marshes",
+        "druadan-forest",
+        "eastemnet",
+        "eastern-brown-lands",
+        "eastern-emyn-muil",
+        "western-brown-lands"
+      ]
+    },
+    "western-mirkwood": {
+      "name": "Western Mirkwood",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "carrock",
+        "northern-mirkwood",
+        "old-forest-road",
+        "woodland-realm"
+      ]
+    },
+    "withered-heath": {
+      "name": "Withered Heath",
+      "nation": null,
+      "settlement": null,
+      "vp": 0,
+      "setup": null,
+      "adjacency": [
+        "dale",
+        "erebor",
+        "northern-mirkwood",
+        "woodland-realm"
+      ]
+    },
+    "woodland-realm": {
+      "name": "Woodland Realm",
+      "nation": "elves",
+      "settlement": "Stronghold",
+      "vp": 2,
+      "setup": {
+        "regular": 1,
+        "elite": 1,
+        "leader": 1
+      },
+      "adjacency": [
+        "dale",
+        "northern-mirkwood",
+        "old-forest-road",
+        "western-mirkwood",
+        "withered-heath"
+      ]
+    }
+  }
+}

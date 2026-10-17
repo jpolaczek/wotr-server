@@ -1,0 +1,2505 @@
+{
+  "status": "sources_reviewed_implementation_pending",
+  "reviewedAt": "2026-10-05",
+  "audit": "docs/sources/SRC-01-AUDIT.md",
+  "cards": [
+    {
+      "id": "base.fp.character.01",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 1,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Elven Cloaks",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          3624,
+          4915,
+          4530,
+          6554
+        ]
+      },
+      "combatTitle": "It Is a Gift",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.02",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 2,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Elven Rope",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          4530,
+          4915,
+          5436,
+          6554
+        ]
+      },
+      "combatTitle": "It Is a Gift",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.03",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 3,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Phial of Galadriel",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          7248,
+          0,
+          8154,
+          1638
+        ]
+      },
+      "combatTitle": "It Is a Gift",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.04",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 4,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Sméagol Helps Nice Master",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          1812,
+          1638,
+          2718,
+          3277
+        ]
+      },
+      "combatTitle": "It Is a Gift",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.05",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 5,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Mithril Coat and Sting",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          5436,
+          0,
+          6342,
+          1638
+        ]
+      },
+      "combatTitle": "Blade of Westernesse",
+      "initiative": [
+        6
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.06",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 6,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Axe and Bow",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          7248,
+          3277,
+          8154,
+          4915
+        ]
+      },
+      "combatTitle": "Mighty Attack",
+      "initiative": [
+        4
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.07",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 7,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Horn of Gondor",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          0,
+          6554,
+          906,
+          8192
+        ]
+      },
+      "combatTitle": "Mighty Attack",
+      "initiative": [
+        4
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.08",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 8,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Wizard's Staff",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          4530,
+          3277,
+          5436,
+          4915
+        ]
+      },
+      "combatTitle": "Servant of the Secret Fire",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.09",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 9,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Athelas",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          6342,
+          3277,
+          7248,
+          4915
+        ]
+      },
+      "combatTitle": "Andúril",
+      "initiative": [
+        4
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.10",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 10,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "There is Another Way",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          0,
+          3277,
+          906,
+          4915
+        ]
+      },
+      "combatTitle": "Heroic Death",
+      "initiative": [
+        6
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.11",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 11,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "I Will Go Alone",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          1812,
+          0,
+          2718,
+          1638
+        ]
+      },
+      "combatTitle": "Daring Defiance",
+      "initiative": [
+        0
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.12",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 12,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Bilbo's Song",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          0,
+          4915,
+          906,
+          6554
+        ]
+      },
+      "combatTitle": "Fateful Strike",
+      "initiative": [
+        6
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.13",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 13,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Mirror of Galadriel",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          4530,
+          0,
+          5436,
+          1638
+        ]
+      },
+      "combatTitle": "Heroic Death",
+      "initiative": [
+        6
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.14",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 14,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Challenge of the King",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          906,
+          4915,
+          1812,
+          6554
+        ]
+      },
+      "combatTitle": "Sudden Strike",
+      "initiative": [
+        2
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.15",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 15,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Gwaihir the Windlord",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          7248,
+          4915,
+          8154,
+          6554
+        ]
+      },
+      "combatTitle": "Daring Defiance",
+      "initiative": [
+        0
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.16",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 16,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "We Prove the Swifter",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          2718,
+          3277,
+          3624,
+          4915
+        ]
+      },
+      "combatTitle": "Daring Defiance",
+      "initiative": [
+        0
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.17",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 17,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "There and Back Again",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          7248,
+          1638,
+          8154,
+          3277
+        ]
+      },
+      "combatTitle": "Brave Stand",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.18",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 18,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Eagles are Coming!",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          2718,
+          4915,
+          3624,
+          6554
+        ]
+      },
+      "combatTitle": "Heroic Death",
+      "initiative": [
+        6
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.19",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 19,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Ents Awake: Treebeard",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          1812,
+          3277,
+          2718,
+          4915
+        ]
+      },
+      "combatTitle": "Ents’ Rage",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.20",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 20,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Ents Awake: Huorns",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          906,
+          0,
+          1812,
+          1638
+        ]
+      },
+      "combatTitle": "Huorn-dark",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.21",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 21,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Ents Awake: Entmoot",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          5436,
+          4915,
+          6342,
+          6554
+        ]
+      },
+      "combatTitle": "Nameless Wood",
+      "initiative": [
+        5
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.22",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 22,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Dead Men of Dunharrow",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          1812,
+          4915,
+          2718,
+          6554
+        ]
+      },
+      "combatTitle": "Sudden Strike",
+      "initiative": [
+        2
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.23",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 23,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "House of the Stewards",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          0,
+          0,
+          906,
+          1638
+        ]
+      },
+      "combatTitle": "Brave Stand",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.character.24",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "number": 24,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Grey Company",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          5436,
+          1638,
+          6342,
+          3277
+        ]
+      },
+      "combatTitle": "Brave Stand",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.01",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 1,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Last Battle",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          5436,
+          0,
+          6342,
+          1638
+        ]
+      },
+      "combatTitle": "Daylight",
+      "initiative": [
+        3
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.02",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 2,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "A Power too Great",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          7248,
+          0,
+          8154,
+          1638
+        ]
+      },
+      "combatTitle": "No Quarter",
+      "initiative": [
+        5
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.03",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 3,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Power of Tom Bombadil",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          4530,
+          1638,
+          5436,
+          3277
+        ]
+      },
+      "combatTitle": "Advantageous Position",
+      "initiative": [
+        3
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.04",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 4,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Book of Mazarbul",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          2718,
+          3277,
+          3624,
+          4915
+        ]
+      },
+      "combatTitle": "Advantageous Position",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.05",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 5,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Spirit of Mordor",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          6342,
+          1638,
+          7248,
+          3277
+        ]
+      },
+      "combatTitle": "Scouts",
+      "initiative": [
+        1
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.06",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 6,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Faramir's Rangers",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          0,
+          4915,
+          906,
+          6554
+        ]
+      },
+      "combatTitle": "Shield-wall",
+      "initiative": [
+        6
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.07",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 7,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Fear! Fire! Foes!",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          906,
+          4915,
+          1812,
+          6554
+        ]
+      },
+      "combatTitle": "Shield-wall",
+      "initiative": [
+        6
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.08",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 8,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Wisdom of Elrond",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          906,
+          3277,
+          1812,
+          4915
+        ]
+      },
+      "combatTitle": "Confusion",
+      "initiative": [
+        4
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.09",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 9,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Red Arrow",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          5436,
+          1638,
+          6342,
+          3277
+        ]
+      },
+      "combatTitle": "Scouts",
+      "initiative": [
+        1
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.10",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 10,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Help Unlooked For",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          1812,
+          0,
+          2718,
+          1638
+        ]
+      },
+      "combatTitle": "No Quarter",
+      "initiative": [
+        5
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.11",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 11,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Paths of the Woses",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          6342,
+          0,
+          7248,
+          1638
+        ]
+      },
+      "combatTitle": "Sudden Strike",
+      "initiative": [
+        2
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.12",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 12,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Through a Day and a Night",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          0,
+          3277,
+          906,
+          4915
+        ]
+      },
+      "combatTitle": "Confusion",
+      "initiative": [
+        4
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.13",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 13,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Círdan’s Ships",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          4530,
+          3277,
+          5436,
+          4915
+        ]
+      },
+      "combatTitle": "Charge",
+      "initiative": [
+        2
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.14",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 14,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Guards of the Citadel",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          906,
+          0,
+          1812,
+          1638
+        ]
+      },
+      "combatTitle": "Charge",
+      "initiative": [
+        2
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.15",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 15,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Celeborn's Galadhrim",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          3624,
+          3277,
+          4530,
+          4915
+        ]
+      },
+      "combatTitle": "Daylight",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.16",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 16,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Riders of Théoden",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          906,
+          1638,
+          1812,
+          3277
+        ]
+      },
+      "combatTitle": "Daylight",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.17",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 17,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Grimbeorn the Old, Son of Beorn",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          0,
+          0,
+          906,
+          1638
+        ]
+      },
+      "combatTitle": "Scouts",
+      "initiative": [
+        1
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.18",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 18,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Imrahil of Dol Amroth",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          2718,
+          0,
+          3624,
+          1638
+        ]
+      },
+      "combatTitle": "Shield-wall",
+      "initiative": [
+        6
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.19",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 19,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "King Brand's Men",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          4530,
+          0,
+          5436,
+          1638
+        ]
+      },
+      "combatTitle": "Shield-wall",
+      "initiative": [
+        6
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.20",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 20,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Swords in Eriador",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          2718,
+          1638,
+          3624,
+          3277
+        ]
+      },
+      "combatTitle": "Advantageous Position",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.21",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 21,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Kindred of Glorfindel",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          3624,
+          0,
+          4530,
+          1638
+        ]
+      },
+      "combatTitle": "Advantageous Position",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.22",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 22,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Dain Ironfoot's Guard",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          5436,
+          3277,
+          6342,
+          4915
+        ]
+      },
+      "combatTitle": "Valour",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.23",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 23,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Éomer, Son of Éomund",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          6342,
+          3277,
+          7248,
+          4915
+        ]
+      },
+      "combatTitle": "Valour",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.fp.strategy.24",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "number": 24,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Thranduil's Archers",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          7248,
+          1638,
+          8154,
+          3277
+        ]
+      },
+      "combatTitle": "Valour",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.01",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 1,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Shelob's Lair",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          4530,
+          1638,
+          5436,
+          3277
+        ]
+      },
+      "combatTitle": "One for the Dark Lord",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.02",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 2,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Ring is Mine!",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          1812,
+          3277,
+          2718,
+          4915
+        ]
+      },
+      "combatTitle": "One for the Dark Lord",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.03",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 3,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "On, On They Went",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          906,
+          1638,
+          1812,
+          3277
+        ]
+      },
+      "combatTitle": "One for the Dark Lord",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.04",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 4,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Give it to Uss!",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          4530,
+          4915,
+          5436,
+          6554
+        ]
+      },
+      "combatTitle": "One for the Dark Lord",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.05",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 5,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Orc Patrol",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          1812,
+          1638,
+          2718,
+          3277
+        ]
+      },
+      "combatTitle": "Cruel as Death",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.06",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 6,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Isildur's Bane",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          1812,
+          0,
+          2718,
+          1638
+        ]
+      },
+      "combatTitle": "Cruel as Death",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.07",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 7,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Foul Thing from the Deep",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          3624,
+          4915,
+          4530,
+          6554
+        ]
+      },
+      "combatTitle": "They Are Terrible",
+      "initiative": [
+        4
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.08",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 8,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Candles of Corpses",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          0,
+          4915,
+          906,
+          6554
+        ]
+      },
+      "combatTitle": "Dread and Despair",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.09",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 9,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Nazgûl Search",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          6342,
+          0,
+          7248,
+          1638
+        ]
+      },
+      "combatTitle": "Foul Stench",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.10",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 10,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Cruel Weather",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          906,
+          4915,
+          1812,
+          6554
+        ]
+      },
+      "combatTitle": "Cruel as Death",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.11",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 11,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Nazgûl Strike!",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          906,
+          3277,
+          1812,
+          4915
+        ]
+      },
+      "combatTitle": "Black Breath",
+      "initiative": [
+        6
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.12",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 12,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Morgul Wound",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          5436,
+          0,
+          6342,
+          1638
+        ]
+      },
+      "combatTitle": "Black Breath",
+      "initiative": [
+        6
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.13",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 13,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Lure of the Ring",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          4530,
+          0,
+          5436,
+          1638
+        ]
+      },
+      "combatTitle": "They Are Terrible",
+      "initiative": [
+        4
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.14",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 14,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Breaking of the Fellowship",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          7248,
+          3277,
+          8154,
+          4915
+        ]
+      },
+      "combatTitle": "Dread and Despair",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.15",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 15,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Worn with Sorrow and Toil",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          4530,
+          3277,
+          5436,
+          4915
+        ]
+      },
+      "combatTitle": "Words of Power",
+      "initiative": [
+        1
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.16",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 16,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Flocks of Crebain",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          2718,
+          4915,
+          3624,
+          6554
+        ]
+      },
+      "combatTitle": "They Are Terrible",
+      "initiative": [
+        4
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.17",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 17,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Balrog of Moria",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          6342,
+          3277,
+          7248,
+          4915
+        ]
+      },
+      "combatTitle": "Durin’s Bane",
+      "initiative": [
+        2
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.18",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 18,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Lidless Eye",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          3624,
+          0,
+          4530,
+          1638
+        ]
+      },
+      "combatTitle": "Words of Power",
+      "initiative": [
+        1
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.19",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 19,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Dreadful Spells",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          1812,
+          4915,
+          2718,
+          6554
+        ]
+      },
+      "combatTitle": "Devilry of Orthanc",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.20",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 20,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Grond, Hammer of the Underworld",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          0,
+          0,
+          906,
+          1638
+        ]
+      },
+      "combatTitle": "Dread and Despair",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.21",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 21,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Palantír of Orthanc",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          2718,
+          1638,
+          3624,
+          3277
+        ]
+      },
+      "combatTitle": "Cruel as Death",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.22",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 22,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Wormtongue",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          3624,
+          3277,
+          4530,
+          4915
+        ]
+      },
+      "combatTitle": "Foul Stench",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.23",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 23,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Ringwraiths Are Abroad",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          3624,
+          1638,
+          4530,
+          3277
+        ]
+      },
+      "combatTitle": "Words of Power",
+      "initiative": [
+        1
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.character.24",
+      "side": "Shadow",
+      "deck": "Character",
+      "number": 24,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Black Captain Commands",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          5436,
+          1638,
+          6342,
+          3277
+        ]
+      },
+      "combatTitle": "Foul Stench",
+      "initiative": [
+        3
+      ],
+      "eventType": "Character",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.01",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 1,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Return to Valinor",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          906,
+          3277,
+          1812,
+          4915
+        ]
+      },
+      "combatTitle": "Deadly Strife",
+      "initiative": [
+        3
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.02",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 2,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Fighting Uruk-hai",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          7248,
+          3277,
+          8154,
+          4915
+        ]
+      },
+      "combatTitle": "Onslaught",
+      "initiative": [
+        7
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.03",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 3,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Denethor's Folly",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          3624,
+          0,
+          4530,
+          1638
+        ]
+      },
+      "combatTitle": "Devilry of Orthanc",
+      "initiative": [
+        3
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.04",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 4,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Day Without Dawn",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          6342,
+          3277,
+          7248,
+          4915
+        ]
+      },
+      "combatTitle": "Relentless Assault",
+      "initiative": [
+        3
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.05",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 5,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Threats and Promises",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          1812,
+          4915,
+          2718,
+          6554
+        ]
+      },
+      "combatTitle": "Devilry of Orthanc",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.06",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 6,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Stormcrow",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          4530,
+          3277,
+          5436,
+          4915
+        ]
+      },
+      "combatTitle": "Great Host",
+      "initiative": [
+        7
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.07",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 7,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Shadows Gather",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          2718,
+          3277,
+          3624,
+          4915
+        ]
+      },
+      "combatTitle": "Mûmakil",
+      "initiative": [
+        3,
+        5
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.08",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 8,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Shadow Lengthens",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          906,
+          4915,
+          1812,
+          6554
+        ]
+      },
+      "combatTitle": "Mûmakil",
+      "initiative": [
+        3,
+        5
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.09",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 9,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The Shadow is Moving",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          0,
+          4915,
+          906,
+          6554
+        ]
+      },
+      "combatTitle": "Swarm of Bats",
+      "initiative": [
+        0
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.10",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 10,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Corsairs of Umbar",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          2718,
+          0,
+          3624,
+          1638
+        ]
+      },
+      "combatTitle": "Deadly Strife",
+      "initiative": [
+        3
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.11",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 11,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Rage of the Dunlendings",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          7248,
+          1638,
+          8154,
+          3277
+        ]
+      },
+      "combatTitle": "Relentless Assault",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.12",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 12,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Return of the Witch-king",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          0,
+          3277,
+          906,
+          4915
+        ]
+      },
+      "combatTitle": "Swarm of Bats",
+      "initiative": [
+        0
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.13",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 13,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Half-orcs and Goblin-men",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          6342,
+          0,
+          7248,
+          1638
+        ]
+      },
+      "combatTitle": "We Come to Kill",
+      "initiative": [
+        7
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.14",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 14,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Olog-hai",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          4530,
+          1638,
+          5436,
+          3277
+        ]
+      },
+      "combatTitle": "We Come to Kill",
+      "initiative": [
+        7
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.15",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 15,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Hill-Trolls",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          7248,
+          0,
+          8154,
+          1638
+        ]
+      },
+      "combatTitle": "We Come to Kill",
+      "initiative": [
+        7
+      ],
+      "eventType": "Army",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.16",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 16,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "A New Power is Rising",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          906,
+          0,
+          1812,
+          1638
+        ]
+      },
+      "combatTitle": "Great Host",
+      "initiative": [
+        7
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.17",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 17,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Many Kings to the Service of Mordor",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          1812,
+          1638,
+          2718,
+          3277
+        ]
+      },
+      "combatTitle": "Great Host",
+      "initiative": [
+        7
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.18",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 18,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "The King is Revealed",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          906,
+          1638,
+          1812,
+          3277
+        ]
+      },
+      "combatTitle": "Relentless Assault",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.19",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 19,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Shadows on the Misty Mountains",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          3624,
+          3277,
+          4530,
+          4915
+        ]
+      },
+      "combatTitle": "Onslaught",
+      "initiative": [
+        7
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.20",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 20,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Orcs Multiplying Again",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          5436,
+          1638,
+          6342,
+          3277
+        ]
+      },
+      "combatTitle": "Onslaught",
+      "initiative": [
+        7
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.21",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 21,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Horde from the East",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          0,
+          1638,
+          906,
+          3277
+        ]
+      },
+      "combatTitle": "Deadly Strife",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.22",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 22,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Monsters Roused",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          2718,
+          1638,
+          3624,
+          3277
+        ]
+      },
+      "combatTitle": "Desperate Battle",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.23",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 23,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Musterings of Long-planned War",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          3624,
+          1638,
+          4530,
+          3277
+        ]
+      },
+      "combatTitle": "Desperate Battle",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    },
+    {
+      "id": "base.sh.strategy.24",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "number": 24,
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "title": "Pits of Mordor",
+      "reviewedAt": "2026-10-05",
+      "implemented": false,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          6342,
+          1638,
+          7248,
+          3277
+        ]
+      },
+      "combatTitle": "Desperate Battle",
+      "initiative": [
+        3
+      ],
+      "eventType": "Muster",
+      "edition": "Second Edition"
+    }
+  ]
+}

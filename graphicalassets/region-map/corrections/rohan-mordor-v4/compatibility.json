@@ -1,0 +1,10 @@
+{
+  "dunland-v2": {
+    "changed_pixels_compared_with_recorded_candidate": 0,
+    "passed": true
+  },
+  "shire-v3": {
+    "changed_pixels_compared_with_recorded_candidate": 0,
+    "passed": true
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "decision": "D17",
+  "note": "Reference documents (rulebooks, FAQ) and board photos and scans, with images drawn on them, are kept outside git. Keep a local copy at the same path to run the map and source tools; validators accept their absence and check the SHA-256 of a copy that is present.",
+  "files": [
+    {
+      "path": "610x_war-of-the-ring_board.jpg",
+      "sha256": "469002b9c178ae5eb9139409e0b54e02fa695421aeccc190e8b803b2541484a7",
+      "what": "photo of the Second Edition board"
+    },
+    {
+      "path": "ChatGPT Image Oct 5, 2026, 02_53_11 PM.png",
+      "sha256": "f7fe69c36ea519ce150f984f494e3935756fd866e2936e53349e9126fad7d29d",
+      "what": "AI reproduction of the whole board with its logo"
+    },
+    {
+      "path": "WOTR001-Rulebook_EN_web.pdf",
+      "sha256": "645d2c3df8d67a4d85fb059d00ef68880f27f8c51ffb832e911ea3acb8b90f75",
+      "what": "Ares Games rulebook (base game), PDF"
+    },
+    {
+      "path": "WOTR005-Rulebook_EN_web.pdf",
+      "sha256": "a929dceef1e077a6314a464ab78e17aad615a328adc42f5a9b5dc29342b80651",
+      "what": "Ares Games rulebook (Lords of Middle-earth), PDF"
+    },
+    {
+      "path": "WOTR015-Rulebook-EN-web.pdf",
+      "sha256": "f7556a9162f3848bcb30c91e823b0a5bcb315b265f8ef52fb0ef7d7e0d2b24ec",
+      "what": "Ares Games rulebook (Kings of Middle-earth), PDF"
+    },
+    {
+      "path": "docs/sources/materials/base-faq-v1.2.pdf",
+      "sha256": "27bb5005d8495d74f601914f3da20e9826e75870d6f6a70dc23a9176df42582f",
+      "what": "Ares Games FAQ, PDF"
+    },
+    {
+      "path": "docs/sources/materials/base-rulebook-v2.3.pdf",
+      "sha256": "696181ef27ea6da267b24aab7174b9f773fec57c1b27adca5b379511543804f6",
+      "what": "Ares Games rulebook 2.3, PDF"
+    },
+    {
+      "path": "docs/sources/materials/base-rulebook-v2.4.1.pdf",
+      "sha256": "ebb4d6d4ab1348e8e4c604ea7d9d414e928034d93255d58bd61fa8df6d2f28a4",
+      "what": "Ares Games rulebook 2.4.1, PDF"
+    },
+    {
+      "path": "docs/sources/materials/board-reference.jpg",
+      "sha256": "be0f6dbb5a083a26840b3baece8193f55d3477c0a64bb3a1ad19605f6fc7a01d",
+      "what": "reproduction of the board"
+    },
+    {
+      "path": "docs/sources/materials/hunt-component-reference.png",
+      "sha256": "89f30ab34e6e0c0b46b2f793acf9a4b2046ab55bbb6916726479df41e46fad85",
+      "what": "photo of Hunt tiles and character tokens"
+    },
+    {
+      "path": "docs/sources/materials/hunt-layout-reference.jpg",
+      "sha256": "0c42e31cd65648e5714a5573680e28365bdb794579578092410978922c400901",
+      "what": "photo of tiles on the board"
+    },
+    {
+      "path": "graphicalassets/highedfmap.jpeg",
+      "sha256": "67b6490f319c257d01ab57ab46da7ef4035d1d8074f306bce702a1f3e3f60db4",
+      "what": "scan of the board (map tracing reference)"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/dunland-v2/after-source-overlay.jpg",
+      "sha256": "9ff99c4045b357d64b8c5de24dac6c18012b0bc150dd99a71eff58df0c0cdf84",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/dunland-v2/before-source-overlay.jpg",
+      "sha256": "de3ab57ff82ac509cd06d33beb3ccad8d8219e731dc2f383fa53e6e9f46ed6e4",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/dunland-v2/detail-overlay.png",
+      "sha256": "99a7cd4d9bba25ef24e99d13ab9f3df652e4a55b3e48eca126a1d34d9fb2586c",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/dunland-v2/user-source.png",
+      "sha256": "2204829691edc6f6a447912e91cba288296db3c050e93f95d70f53c8d1705390",
+      "what": "screenshot of the board (correction input)"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/rohan-mordor-v4/after-source-overlay.jpg",
+      "sha256": "5683f31bf2d328e458be42e88879e6bc16d38e5c6663cfdf36b85adadde93b8d",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/rohan-mordor-v4/detail-overlay.png",
+      "sha256": "fffcdee79b8445151869405a330f33f16ce0a303b9ee16c8d13ed89bda3d42a0",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/rohan-mordor-v4/mordor-after-overlay.png",
+      "sha256": "6988cb79a0b9a6cde81481f5b1a57c2fa551d717396df9ba4b9e15e7ae1aee12",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/rohan-mordor-v4/mordor-before-overlay.png",
+      "sha256": "9eaacaedbdea382c5ac37c8e2e1089d8adba36b59268f077ec4008eece401279",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/rohan-mordor-v4/mordor-user-source.png",
+      "sha256": "a1980c0ace54cf2eac4add4c480fb0282ff3ef508c7a39cbe15e60df43250bba",
+      "what": "screenshot of the board (correction input)"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/rohan-mordor-v4/rohan-after-overlay.png",
+      "sha256": "043dae7db20665b995699fc00346f6010c49e72638caf5ef70a540d22656e570",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/rohan-mordor-v4/rohan-before-overlay.png",
+      "sha256": "bc56ee4335483955eee46fa4cbd9b7469b4551f0e4d1b41a85db1c1886d97a4d",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/rohan-mordor-v4/rohan-user-source.png",
+      "sha256": "72516219340b111d255f7d34c96f4068c642c9a52d02045b40f47f30ba177b0d",
+      "what": "screenshot of the board (correction input)"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/shire-v3/after-source-overlay.jpg",
+      "sha256": "3b6fe2eaf547c7a5e7551be44fb9b0ad329446fa87f433b29aad782a745f0b97",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/shire-v3/before-source-overlay.jpg",
+      "sha256": "9ff99c4045b357d64b8c5de24dac6c18012b0bc150dd99a71eff58df0c0cdf84",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/shire-v3/detail-overlay.png",
+      "sha256": "3a010cfead90f053b2840a14207141c205c0e5a39ddb8e6f362d3bb8936ca2ac",
+      "what": "correction drawn over the board scan"
+    },
+    {
+      "path": "graphicalassets/region-map/corrections/shire-v3/user-source.png",
+      "sha256": "bbddcdc12b084b05ff44d8abf333ac38815ba7a7ce8b1d5944b3542c2f47b55b",
+      "what": "screenshot of the board (correction input)"
+    },
+    {
+      "path": "graphicalassets/region-map/reference/source-overlay.jpg",
+      "sha256": "5683f31bf2d328e458be42e88879e6bc16d38e5c6663cfdf36b85adadde93b8d",
+      "what": "region outlines drawn over the board scan"
+    }
+  ]
+}

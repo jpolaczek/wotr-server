@@ -1,0 +1,101 @@
+[
+  {
+    "command": [
+      "python3",
+      "scripts/check_catalog.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/source_cards.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/source_lords_cards.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/source_kings_cards.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/card_coverage.py",
+      "--check",
+      "--results",
+      ".artifacts/audit/test-results/backend.trx"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/lords_card_coverage.py",
+      "--check",
+      "--results",
+      ".artifacts/audit/test-results/backend.trx"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/kings_card_coverage.py",
+      "--check",
+      "--results",
+      ".artifacts/audit/test-results/backend.trx"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/fate_card_coverage.py",
+      "--check",
+      "--results",
+      ".artifacts/audit/test-results/backend.trx"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/fate_character_coverage.py",
+      "--check",
+      "--results",
+      ".artifacts/audit/test-results/backend.trx"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/fate_acceptance.py",
+      "--results",
+      ".artifacts/audit/test-results/backend.trx"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/expansion_acceptance.py",
+      "--results",
+      ".artifacts/audit/test-results/backend.trx"
+    ],
+    "exit_code": 0
+  },
+  {
+    "anonymous_contract_release_http_status": 404
+  }
+]

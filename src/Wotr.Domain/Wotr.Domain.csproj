@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../Wotr.Contracts/Wotr.Contracts.csproj" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../../content/base-board.json" LogicalName="Wotr.base-board.json" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../../content/fate-setup.json" LogicalName="Wotr.fate-setup.json" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../../content/fate-cards.json" LogicalName="Wotr.fate-cards.json" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../../content/base-cards.json" LogicalName="Wotr.base-cards.json" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../../content/lords-cards.json" LogicalName="Wotr.lords-cards.json" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../../content/kings-cards.json" LogicalName="Wotr.kings-cards.json" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../../content/base-characters.json" LogicalName="Wotr.base-characters.json" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../../content/lords-characters.json" LogicalName="Wotr.lords-characters.json" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../../content/kings-characters.json" LogicalName="Wotr.kings-characters.json" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../../content/fate-characters.json" LogicalName="Wotr.fate-characters.json" /></ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="../../content/*-card-text.json" LogicalName="Wotr.%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

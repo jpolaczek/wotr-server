@@ -1,0 +1,22 @@
+{
+  "server": {
+    "src": {
+      "files": 438,
+      "lines": 26150
+    },
+    "tests": {
+      "files": 458,
+      "lines": 51900
+    }
+  },
+  "client": {
+    "unity/Wotr.Client/Assets/Wotr/Runtime": {
+      "files": 342,
+      "lines": 35723
+    },
+    "unity/Wotr.Client/Assets/Wotr/Tests": {
+      "files": 362,
+      "lines": 50444
+    }
+  }
+}

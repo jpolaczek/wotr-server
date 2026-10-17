@@ -1,0 +1,26 @@
+{
+  "window": {
+    "id": 58266,
+    "bounds": {
+      "X": 414,
+      "Height": 412,
+      "Y": 50,
+      "Width": 683
+    }
+  },
+  "screenshot_captured": true,
+  "result": "PASS",
+  "version": "0.1.0-rc1",
+  "clean_app_profile": true,
+  "previous_profile_restored": true,
+  "login_tested": false,
+  "windows_tested": false,
+  "source_archive": ".artifacts/releases/0.1.0-rc1/Wotr-0.1.0-rc1-macos.zip",
+  "completed_utc": "2026-10-06T16:57:59.595140+00:00",
+  "source_report": ".artifacts/t39-smoke-fcad512f/result.json",
+  "command": "python3 scripts/smoke-macos.py",
+  "source_commit": "20bbd2425bef39dc6a256f67e98c72c2d46be72b",
+  "login_screen_reviewed": true,
+  "manual_user_tested": false,
+  "screenshot": "docs/release/t39-macos-login.png"
+}

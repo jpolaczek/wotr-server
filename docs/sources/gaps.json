@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "gaps": [
+    {
+      "id": "GAP-MAP",
+      "title": "Full map and setup data",
+      "status": "resolved",
+      "required_evidence": "Verify all regions, edges, limitless borders, nations, settlement, original owners and the location of figures. Instruction and readable board/aid player must be sufficient to repeat the control.",
+      "affected": [
+        "T04"
+      ],
+      "owner_task": "T01",
+      "resolution": {
+        "date": "2026-10-04",
+        "evidence": "docs/sources/T01-AUDIT.md",
+        "reference": "BOARD-2E + BASE pp.7,14,16–17",
+        "scope": "105 regions, 232 undirected traversable edges, nations/settlements and all starting locations; normalize and regression-test in T04."
+      }
+    },
+    {
+      "id": "GAP-BASE-CARDS",
+      "title": "96 kart Baseline",
+      "status": "resolved",
+      "required_evidence": "Get and compare the full content event/combat each card , conditions, initiative, deck, number and edit. Build a manifesto of four decks after 24.",
+      "affected": [
+        "T21"
+      ],
+      "owner_task": "SRC-01",
+      "resolution": {
+        "date": "2026-10-05",
+        "evidence": "docs/sources/SRC-01-AUDIT.md",
+        "reference": "Four SHA-256 pinned card sheets; 96 per-card source bounds in base-card-index.json; BASE p23",
+        "scope": "Full event/combat fronts, card types, numbers, initiatives, conditions and expiry reviewed; Shadow 8/11 repaired; IDs aligned with production base.sh.*; implementation remains T21 packs.",
+        "clarifications": "docs/rules/T21-FP-CHAR-01.md: confirmed statements by Kevin Chapman of the order Mithril/Shelob/protection, the return of the tiles at the end of action and the shift required by Mighty; docs/rules/T21-FP-CHAR-02.md: print 7–12, FAQ Heroic Death, Chapman about Daring/White Rider and order of elimination; 2026-10-05. docs/rules/T21-FP-CHAR-03.md: printing 13–18; Chapman about the won settlement, Witch-king off from Eagles and withdrawing to another Stronghold; 2026-10-05. docs/rules/T21-FP-CHAR-04.md: print 19–24, Chapman with independent House selection, nuclear replacement Grey Company and final correction of the Mûmakil initiative (35365716); 2026-10-05. docs/rules/T21-FP-STR-01.md: obverses Strategy 1–6, Chapman at the end of action Last Battle, immediate disclosure, protection of retreat and non-activation of the nation by retreat; 2026-10-05. docs/rules/T21-FP-STR-02.md: Strategy 7–12, BASE 29 and Chapman 34881862/38053040 about the permanent group of marches, gaining along the way and limitations of Minas Tirith; 2026-10-05. docs/rules/T21-FP-STR-03.md: Strategy 13–18, BASE 8/28, board Coastal, FAQ Rohan Leader and Chapman 20999524 for the play condition and figure for the performance; 2026-10-05. docs/rules/T21-FP-STR-04.md: Strategy 19–24, a free region for Eomer, recruit print and Valour after the loss of elites (Chapman 20999524); 2026-10-05. docs/rules/T21-SH-CHAR-01.md: obverses SH Character 1–6 Cruel initiative 3 despite the almanac error, separation exchange/Prevention Chapman's choice to reduce injuries 34738173/34740197 ; 2026-10-05. docs/rules/T21-SH-CHAR-02.md: obverses SH Character 7–12, Chapman 17846874 of random post-protection victim and 38617289/37574343 of Black Breath; priority of BASE 41 over the unsupported footnote of the claim of reroll almanac; 2026-10-05. docs/rules/T21-SH-CHAR-03.md: awersy 13–18, Chapman 38676702/40587157/35035573/45505470; the original BASE 43 shall have priority in the order of declaration, Balrog and entry into the Mordor track; 2026-10-05. docs/rules/T21-SH-CHAR-04.md: obverses 19–24, Chapman 19480575/35129694/22851460 and 37881658/37884619 at the end of action; Grond, Wormtongue, the Nazgûli and Devilry movement; 2026-10-05. docs/rules/T21-SH-STR-01.md: obverses Strategy Shadow 1–6, Chapman 35346194/35387928 and 35426600/35428935/35429088 o Valinor, Denethor's range and throw after its own elimination; literal order of the obverse election; 2026-10-05. docs/rules/T21-SH-STR-02.md and T21-SH-STR-02-CORSAIRS.md: obverses 7–12, Chapman 41126427/35286780 with initial targets and sequences of marches, 34837037/35128143/35308092 with a desanction before battle and three stacks, 32804785/35274846 with a Rage deficiency; board confirms Lamedon as a coastal region. docs/rules/T21-SH-STR-03.md and T21-SH-STR-04.md: obverses 13–24, Chapman 34892507 about the free sharing of the common reserve, recruitment, elites after losses and initiatives; 2026-10-05."
+      }
+    },
+    {
+      "id": "GAP-BASE-CHAR",
+      "title": "card base form",
+      "status": "resolved",
+      "required_evidence": "Verify full data of 14 cards, including entry, transformation, icons and capabilities. Do not identify 14 cards with 14 independent figure.",
+      "affected": [
+        "T20"
+      ],
+      "owner_task": "SRC-02",
+      "resolution": {
+        "date": "2026-10-05",
+        "evidence": "docs/sources/SRC-02-AUDIT.md",
+        "reference": "BASE pp4–5,24–25,36–39 and SHA-256 pinned character sheet with 14 per-card bounds",
+        "scope": "All 14 full fronts, printed attributes, entry/transformation, nation icons, extra dice and abilities reviewed. Implementation remains T15/T16/T20.",
+        "correction": "T21-SH-CHAR-04,  2026-10-05: Again comparing obverses 5/II and 9/II confirms Strider=north, Aragorn=any. Correction of the index, runtime data and reading of old writing; test Shadow04InteractionTests. StridersPrintedNationIconActivatesOnlyTheNorth."
+      }
+    },
+    {
+      "id": "GAP-LORDS-CARDS",
+      "title": "card Lords events",
+      "status": "resolved",
+      "required_evidence": "Verify 13 cards events and special card Sméagola; assign stable ID and manifesto of three packages to six cards.",
+      "affected": [
+        "T27"
+      ],
+      "owner_task": "SRC-03",
+      "resolution": {
+        "date": "2026-10-05",
+        "evidence": "docs/sources/SRC-03-AUDIT.md",
+        "reference": "LORDS pp.2–3,14,21–25; five SHA-256 pinned sheets and per-card bounds in lords-card-index.json; BGG physical photo 1471576; official FAQ 1.2 p3; Chapman 12467544/21001986/35552456.",
+        "scope": "13 complete obverses event/combat plus special We Shall Get It without combat; disconnect ID T27-CARDS-01–03 after 6+6+2; one substitution of base.sh.character.17, twelve added cards, 108 cards from normal decks.",
+        "limitations": "Extended print We Won’t Go Back compatible with FAQ 1.2, without fixing the date of this print. Ares live HTTP 403; proven reproduction, local instruction and official FAQ. The characters and rules of their abilities require separate SRC-04.",
+        "implementation_review": {
+          "date": "2026-10-06",
+          "document": "docs/rules/T27-LORDS-01.md",
+          "scope": "Again viewed six FP obverses. The Wind/Rings/Orderly/Rangers contract and the full 01 package manifesto; the other packages are separate tasks.",
+          "shadow_document": "docs/rules/T27-LORDS-02.md",
+          "shadow_scope": "The six obverses re-watched SH ( 17 , Character 25–28 , Strategy 25 ). BASE 2.4.1 p. 22 Completes the Captain's expiry after departure WK and WWGB After Sméagol left. Chapman 39935225 : an independent punishment for Fear; 30587888/33763703: Lore changes Lesser Minion and rollered Eye. SRC-03 and the manifest contain a correction; final results implementation In T27-CARDS-02 .",
+          "final_document": "docs/rules/T27-LORDS-03.md",
+          "final_scope": "Again viewed LM 26/24 and LM 5/5. Madness recruits next to the FP target; WSGI out of the deck, automatic input and optional anti-protection response, without Combat. Manifesto schema 2 separates Event and SpecialEvent; results implementation in T27-CARDS-03."
+        }
+      }
+    },
+    {
+      "id": "GAP-LORDS-CHAR",
+      "title": "Characters and special abilities of the Lords",
+      "status": "resolved",
+      "required_evidence": "Verify 14 cards new/Alternative Characters, Rings and texts needed for the Council. Differentiate variants from tho-existing characters.",
+      "affected": [
+        "T25",
+        "T26"
+      ],
+      "owner_task": "SRC-04",
+      "resolution": {
+        "date": "2026-10-05",
+        "evidence": "docs/sources/SRC-04-AUDIT.md",
+        "reference": "LORDS p.2–3,6–31; FAQ 1.2 p.3; SHA-pinned BASE-CHAR-SHEET-EDA5E27F and full boundaries in lords-character-index.json; physical photographs of BGG 1471575 and 1471574.",
+        "scope": "14 full of obverses: 10 FP + 4 SH ; 5 new identities and 9 alternatives; levels/icons/ko • Input/output, Rings, Council and source implementation cases. T25/T26: 8 + 6 . LM 5/5 is a special event with SRC-03 .",
+        "limitations": "Ares live HTTP 403, the content of the local official instruction and FAQ available; the obverses compared with reproductions and photographs. No declaration of a specific sheet print date. Sources verified; implementation of T25/T26 and integration of expansions require their own tests."
+      }
+    },
+    {
+      "id": "GAP-KINGS-CARDS",
+      "title": "19 cards events Kings",
+      "status": "resolved",
+      "required_evidence": "Verify 11 replacements and eight new cards, both applications, page/tala/number; assign four packages to six cards.",
+      "affected": [
+        "T30"
+      ],
+      "owner_task": "SRC-05",
+      "resolution": {
+        "date": "2026-10-05",
+        "evidence": "docs/sources/SRC-05-AUDIT.md",
+        "reference": "KINGS1.0 (2023.08.10) s.3–4/18–19; KINGS-CARD-SHEET-C906DF19 SHA-256 pinned; 19 per-card bounds in kings-card-index.json; Ares article34316 and Seeing Stones separate promo product.",
+        "scope": "19 complete obverses event/combat: 10FP+9SH, 11 replacements+8 adds; separate T30-CARDS-01–04 after 6+6+6+1. Two promos out of range.",
+        "limitations": "Source reading is not an implementation or global FAQ. No physical reprint date has been set. Basic print is linked to local instructions and two examples printed in it. Interactions require T30/T31/T33 testing; characters separatelySRC-06."
+      }
+    },
+    {
+      "id": "GAP-KINGS-CHAR",
+      "title": "card Kings rulers and chiefs",
+      "status": "resolved",
+      "required_evidence": "Verify five Awakened, five Corrupted and three Dark Chieftains, icons, conditions, abilities, and tokens.",
+      "affected": [
+        "T28",
+        "T29"
+      ],
+      "owner_task": "SRC-06",
+      "resolution": {
+        "date": "2026-10-05",
+        "evidence": "docs/sources/SRC-06-AUDIT.md",
+        "reference": "KINGS   1.0  (2023.08.10), s. 2–15   and 17 – 19;  KINGS-CARD-SHEET-C906DF19,  SHA   e4139bd403a61853ad0c50a6bf3aa16aef7171d26143c6e8df315632e2e718c0;  13 full of obverses and bounds in kings-character-index.json; five tokens compared to the graphical s. 10.",
+        "scope": "5 Awakened + 5 Corrupted + 3 Dark Chieftains; accurate statistics, immunity, icons, entry and abilities, tokens and various weaknesses ranges. Disconnective character_ids T28/T29: 10+3; five sovereign identities, three chiefs.",
+        "limitations": "Live Ares 403; official local PDF and readable reproductions available and compared. We do not assign the date of the scan print. FAQ 1.2 is not the source of Kings. The implementation and interaction scenarios still belong to T28/T29/T31/T33."
+      }
+    },
+    {
+      "id": "GAP-FATE",
+      "title": "Complete Fate of Erebor",
+      "status": "resolved",
+      "required_evidence": "Confirm full English rules and setup, six cards events, both versions of Gimli, New Cities and cooperation with Lords/Kings. Photographs of the part of the instruction do not close all the missing.",
+      "affected": [
+        "T32"
+      ],
+      "owner_task": "SRC-07",
+      "resolution": {
+        "date": "2026-10-05",
+        "audit": "docs/sources/SRC-07-AUDIT.md",
+        "index": "docs/sources/fate-index.json",
+        "evidence": "docs/sources/SRC-07-AUDIT.md",
+        "scope": "Full English setup/map/New Cities; six event/combat fronts; both Gimli versions; explicit Kings and Council exclusions; SHA256 refetch verified. Collector and standalone WOTR018 setup/slot/Council text compared directly; identified 2021 copyright printing only, with overlay-count difference documented.",
+        "result": "Sources complete; no unsupported conflict found. Runtime implementation remains T32 and integration T33.",
+        "source_ids": [
+          "FATE-RULES-44",
+          "FATE-RULES-45",
+          "FATE-RULES-46",
+          "FATE-CARD-SHEET-2AE0D186",
+          "KINGS pp18–19",
+          "SRC-04 Lords/Council",
+          "FATE-WOTR018-RULES",
+          "FATE-WOTR018-PACKAGE"
+        ],
+        "implementation_review": {
+          "date": "2026-10-06",
+          "scope": "T32-CARDS: six obverses of FATE-CARD-SHEET-2AE0D186 re-read visually. There/Book does not require control of FP for politics; both events at Dale select Strategy; a shortage of common reserve does not impose the order of regions. No new source gap. Gimli and full integration require further tasks.",
+          "rules": "docs/rules/T32-FATE-CARDS.md",
+          "coverage": "docs/rules/T32-CARD-COVERAGE.md"
+        },
+        "character_implementation_review": {
+          "date": "2026-10-06",
+          "scope": "T32-GIMLI: both full obverses of FE read again. Renown and Messenger refer to Iron Hills/Ered Luin without printed requirement unconquered; only Messenger activates. Levels/icons, Captain/Champion, Guide and Council variant retain full capabilities. No new source gap found.",
+          "rules": "docs/rules/T32-FATE-GIMLI.md",
+          "coverage": "docs/rules/T32-GIMLI-COVERAGE.md"
+        }
+      }
+    },
+    {
+      "id": "GAP-FAQ",
+      "title": "Current Errats and Resolutions",
+      "status": "resolved",
+      "required_evidence": "Check the available official FAQ/erraty and their edit range. Keep a confirmed version or proof that there is no newer document; unsolved specific conflicts are separated to separate gate.",
+      "affected": [
+        "T23",
+        "T33"
+      ],
+      "owner_task": "SRC-08",
+      "resolution": {
+        "date": "2026-10-05",
+        "evidence": "docs/sources/SRC-08-AUDIT.md",
+        "reference": "BASE-2.4.1: 48 pages, version on p48, identical complete publisher archive captures from 2022 and 2024; SHA-256 ebb4d6d4ab1348e8e4c604ea7d9d414e928034d93255d58bd61fa8df6d2f28a4; BASE-FAQ-2014: FAQ 1.2; current publisher indices reviewed.",
+        "scope": "Comparison of all 48 pages from 2.3 without a change of rules 1v1 detected; confirmed Hunt p. 41 and Mordor p. 43 Full FAQ 1.2 includes database/Lords. Indexes do not specify a separate FAQ Kings.",
+        "limitations": "Live Ares HTTP 403 retained as a transport restriction. Audit of the obverses expansions belongs to SRC-03–SRC-07; we do not declare the global absence of further statements by authors."
+      },
+      "progress": "Closed after full comparison of the attached instruction 2.4.1 and re-check of the index FAQ; proof SRC-08-AUDIT and base-rulebook-v2.4.1-audit.json. T23/T33 still require implementation dependencies.",
+      "acceptance_note": "T23: the database's compatibility with the attached sources checked in docs/T23-ACCEPTANCE.md, with the body of historical decisions. No new discrepancy has been detected requiring gate. acceptance expansions remains in T33; we do not declare a new internet review."
+    }
+  ]
+}

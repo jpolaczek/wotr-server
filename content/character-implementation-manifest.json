@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "scope": "T20: 14 base character cards; every printed ability and entry mapped to behavior tests",
+  "source": "docs/sources/base-character-index.json",
+  "cards": [
+    {
+      "id": "base.character.gimli",
+      "entryTests": [
+        "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+      ],
+      "abilities": [
+        {
+          "id": "combat-strength-plus-one",
+          "tests": [
+            "CharacterBattleTests.CaptainsAddStrengthOnlyWhenParticipatingAndNeverExceedFiveDice"
+          ]
+        },
+        {
+          "id": "politics-dwarves-at-erebor",
+          "tests": [
+            "CharacterActionTests.NativeCompanionAdvancesPoliticsWithAnyDieOnlyInUnconqueredListedSettlement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.boromir",
+      "entryTests": [
+        "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+      ],
+      "abilities": [
+        {
+          "id": "combat-strength-plus-one",
+          "tests": [
+            "CharacterBattleTests.CaptainsAddStrengthOnlyWhenParticipatingAndNeverExceedFiveDice"
+          ]
+        },
+        {
+          "id": "politics-gondor-at-city-or-stronghold",
+          "tests": [
+            "CharacterActionTests.NativeCompanionAdvancesPoliticsWithAnyDieOnlyInUnconqueredListedSettlement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.legolas",
+      "entryTests": [
+        "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+      ],
+      "abilities": [
+        {
+          "id": "combat-strength-plus-one",
+          "tests": [
+            "CharacterBattleTests.CaptainsAddStrengthOnlyWhenParticipatingAndNeverExceedFiveDice"
+          ]
+        },
+        {
+          "id": "politics-elves-at-stronghold",
+          "tests": [
+            "CharacterActionTests.NativeCompanionAdvancesPoliticsWithAnyDieOnlyInUnconqueredListedSettlement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.gandalf-grey",
+      "entryTests": [
+        "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+      ],
+      "abilities": [
+        {
+          "id": "guide-draw-after-event-die-card",
+          "tests": [
+            "CharacterReactionTests.GreyDrawsMatchingDeckOnlyAfterEventDieActionAndOnlyIfPlayerAccepts",
+            "CharacterReactionTests.GandalfBecomingGuideDuringEventCanDrawAndLeavingDuringEventCannot",
+            "CharacterReactionTests.GreyDrawAfterCelebornPreservesHandLimitAndPaidContinuation"
+          ]
+        },
+        {
+          "id": "combat-strength-plus-one",
+          "tests": [
+            "CharacterBattleTests.CaptainsAddStrengthOnlyWhenParticipatingAndNeverExceedFiveDice"
+          ]
+        },
+        {
+          "id": "may-transform-to-white",
+          "tests": [
+            "CharacterEntryTests.WhiteGandalfRequiresHistoricalMinionEntryAndReturnsOrReplacesTheSameFigure",
+            "CharacterEntryTests.GandalfCannotTransformInsideFellowshipAndCanReturnInsideUnconqueredBesiegedElfStronghold"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.strider",
+      "entryTests": [
+        "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+      ],
+      "abilities": [
+        {
+          "id": "guide-hide-with-any-action-die",
+          "tests": [
+            "CharacterActionTests.StriderGuideHidesWithMusterAndShadowfaxWorksAloneOrWithExactlyOneHobbit"
+          ]
+        },
+        {
+          "id": "combat-strength-plus-one",
+          "tests": [
+            "CharacterBattleTests.CaptainsAddStrengthOnlyWhenParticipatingAndNeverExceedFiveDice"
+          ]
+        },
+        {
+          "id": "may-transform-to-aragorn",
+          "tests": [
+            "CharacterEntryTests.AragornPreservesStridersFigureAndNeedsWillButNotWar"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.pippin",
+      "entryTests": [
+        "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+      ],
+      "abilities": [
+        {
+          "id": "guide-separate-to-reduce-hunt-one",
+          "tests": [
+            "CharacterHuntTests.BothGuidesSeparateAsOneGroupThenGollumRevealsWithoutASecondOrdinaryCasualty",
+            "CharacterHuntTests.HobbitGuideStillReducesDamageInMordorButCannotReturnToTheMap"
+          ]
+        },
+        {
+          "id": "return-after-fellowship-elimination-except-mordor",
+          "tests": [
+            "CharacterHuntTests.TakenAliveReturnsRandomOrGuideCasualtyAndStillConsumesTheOneLoss",
+            "CharacterHuntTests.NonHuntEliminationAlsoReturnsHobbitAndMordorDisablesReturn"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.merry",
+      "entryTests": [
+        "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+      ],
+      "abilities": [
+        {
+          "id": "guide-separate-to-reduce-hunt-one",
+          "tests": [
+            "CharacterHuntTests.BothGuidesSeparateAsOneGroupThenGollumRevealsWithoutASecondOrdinaryCasualty",
+            "CharacterHuntTests.HobbitGuideStillReducesDamageInMordorButCannotReturnToTheMap"
+          ]
+        },
+        {
+          "id": "return-after-fellowship-elimination-except-mordor",
+          "tests": [
+            "CharacterHuntTests.TakenAliveReturnsRandomOrGuideCasualtyAndStillConsumesTheOneLoss",
+            "CharacterHuntTests.NonHuntEliminationAlsoReturnsHobbitAndMordorDisablesReturn"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.gandalf-white",
+      "entryTests": [
+        "CharacterEntryTests.WhiteGandalfRequiresHistoricalMinionEntryAndReturnsOrReplacesTheSameFigure"
+      ],
+      "abilities": [
+        {
+          "id": "move-four-alone-or-with-one-hobbit",
+          "tests": [
+            "CharacterActionTests.StriderGuideHidesWithMusterAndShadowfaxWorksAloneOrWithExactlyOneHobbit"
+          ]
+        },
+        {
+          "id": "forfeit-leadership-to-cancel-nazgul-for-battle",
+          "tests": [
+            "CharacterBattleTests.WhiteRiderIsOptionalBeforeCardsCancelsNazgulIncludingWitchKingForWholeBattle"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.aragorn",
+      "entryTests": [
+        "CharacterEntryTests.AragornPreservesStridersFigureAndNeedsWillButNotWar"
+      ],
+      "abilities": [
+        {
+          "id": "combat-strength-plus-one",
+          "tests": [
+            "CharacterBattleTests.CaptainsAddStrengthOnlyWhenParticipatingAndNeverExceedFiveDice"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.gollum",
+      "entryTests": [
+        "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+      ],
+      "abilities": [
+        {
+          "id": "enter-and-guide-when-no-companions",
+          "tests": [
+            "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+          ]
+        },
+        {
+          "id": "ignore-standard-numbered-reveal",
+          "tests": [
+            "CharacterHuntTests.GollumImmediatelyIgnoresNumberedRevealAfterHobbitLeavesButNotEyeOrSpecialReveal"
+          ]
+        },
+        {
+          "id": "voluntary-reveal-to-reduce-hunt-one",
+          "tests": [
+            "CharacterHuntTests.BothGuidesSeparateAsOneGroupThenGollumRevealsWithoutASecondOrdinaryCasualty",
+            "CharacterHuntTests.GollumMayVoluntarilyRevealForZeroDamageButCannotCreateNegativeCorruption",
+            "CharacterHuntTests.GollumCannotRevealAnAlreadyRevealedFellowshipOrAnUnconqueredSanctuaryAtProgressZero"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.ring-bearers",
+      "entryTests": [
+        "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+      ],
+      "abilities": [
+        {
+          "id": "add-gollum-when-no-companions",
+          "tests": [
+            "CharacterEntryTests.SevenCompanionsHaveReviewedStatisticsAndRingbearersAddGollumWithoutACompanion"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.saruman",
+      "entryTests": [
+        "CharacterEntryTests.MinionsRequireTheirOwnEntryConditionsAndCannotEnterAgainAfterDeath"
+      ],
+      "abilities": [
+        {
+          "id": "cannot-leave-orthanc",
+          "tests": [
+            "CharacterTravelTests.WitchKingTravelsWithArmyAndSarumanCanAttackButCannotAdvanceOrMoveWithArmy"
+          ]
+        },
+        {
+          "id": "muster-each-isengard-settlement-or-upgrade-two",
+          "tests": [
+            "CharacterActionTests.VoiceUsesRealReservesSkipsCapturedSettlementsAndCannotWorkUnderSiege",
+            "CharacterActionTests.VoiceUpgradeReturnsTwoRegularsAndWhiteHandLeadershipEndsImmediatelyAtDeath",
+            "CharacterActionTests.VoiceShortageLetsOwnerChooseSettlementsAndPreviewsPersistedExcessWithoutRepaying",
+            "CharacterActionTests.VoiceUpgradeUsesOnlyAvailableReplacementPairs"
+          ]
+        },
+        {
+          "id": "isengard-elites-have-leadership",
+          "tests": [
+            "CharacterActionTests.VoiceUpgradeReturnsTwoRegularsAndWhiteHandLeadershipEndsImmediatelyAtDeath"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.mouth-of-sauron",
+      "entryTests": [
+        "CharacterEntryTests.MinionsRequireTheirOwnEntryConditionsAndCannotEnterAgainAfterDeath"
+      ],
+      "abilities": [
+        {
+          "id": "muster-as-army-once-per-turn",
+          "tests": [
+            "CharacterActionTests.MessengerPaysTwoArmyMovesOnlyOnceInATurnAndSurvivesBoardCopy",
+            "CharacterActionTests.MessengerPaysAttackAndArmyEventInTheirOwnCommands"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base.character.witch-king",
+      "entryTests": [
+        "CharacterEntryTests.MinionsRequireTheirOwnEntryConditionsAndCannotEnterAgainAfterDeath"
+      ],
+      "abilities": [
+        {
+          "id": "entry-activates-all-free-peoples",
+          "tests": [
+            "CharacterEntryTests.MinionsRequireTheirOwnEntryConditionsAndCannotEnterAgainAfterDeath"
+          ]
+        },
+        {
+          "id": "draw-after-first-round-combat-card",
+          "tests": [
+            "CharacterBattleTests.SorcererWaitsForRetreatOrStopThenDrawsEvenIfCardWasCancelled",
+            "CharacterBattleTests.SorcererDoesNotTriggerForKilledWitchKingOrSecondRoundAndScoutsCanEndFirstRoundEarly",
+            "CharacterBattleTests.SorcererWaitsForSiegeElitePaymentAndDisappearsIfThatPaymentKillsHisArmy"
+          ]
+        }
+      ]
+    }
+  ],
+  "integrationTests": [
+    "CharacterTravelTests.NazgulAndWitchKingFlyAcrossMapAndSiegeButCannotEnterUnbesiegedFreeStronghold",
+    "CharacterTravelTests.MouthWalksThreeEdgesThroughEnemyArmiesButCannotCrossOwnSiegeAndSarumanNeverMoves",
+    "CharacterPersistenceTests.TransformationKeepsFigureAndHistoricalMinionAcrossRestartAndRetry",
+    "CharacterPersistenceTests.GreyOptionalDrawRestartsBeforeAndAfterResponseWithoutLeakingTheCard",
+    "CharacterPersistenceTests.FixedHobbitGroupRestartsWithOriginalOriginAndRetryDoesNotSeparateTwice"
+  ]
+}

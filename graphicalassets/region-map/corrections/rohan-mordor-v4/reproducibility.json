@@ -1,0 +1,11 @@
+{
+  "command": "/private/tmp/wotr-map-trace-venv/bin/python graphicalassets/region-map/tools/export_map.py",
+  "identical_after_reexport": true,
+  "sha256": {
+    "map-regions.svg": "bff49f0e67035b931f7e6013ae3b0792ccbd3fb8b70f37ae7f4502ce051389e5",
+    "map-regions.png": "3bc9dfb196dff8f7db6af133aaf1696242fa86ddd9133393754206fa77744110",
+    "map-preview.png": "3798dd2ebde3d24b5056dd4ab22036df3ace72794967971d08256cc07d7b828b",
+    "geometry.json": "2b5db560643401f48f8415b4a76392596ed41b0cde187a2b9e738816c735b20a",
+    "verification.json": "8fc4b950dac968a4a6327bbe2a753d21d7eec8a6372fb94c88df9163e329a106"
+  }
+}

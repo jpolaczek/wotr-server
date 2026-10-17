@@ -1,0 +1,40 @@
+{
+  "regions": 105,
+  "single_closed_valid_polygons": 105,
+  "shared_boundary_chains": 323,
+  "expected_movement_contacts": 232,
+  "missing_movement_contacts": [],
+  "overlap_area_working_pixels": 0.0,
+  "working_raster_size": [
+    2008,
+    1418
+  ],
+  "simplification_tolerance_working_pixels": 0.6,
+  "errors": [],
+  "changed_pixels": 13464,
+  "outside_selected_regions_changed_pixels": 0,
+  "outside_edit_window_changed_pixels": 0,
+  "changed_regions": [
+    10,
+    12,
+    14,
+    15,
+    16,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    41,
+    42,
+    44,
+    45,
+    78,
+    95,
+    96,
+    104,
+    105
+  ],
+  "applied": true
+}

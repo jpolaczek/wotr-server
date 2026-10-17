@@ -1,0 +1,11 @@
+--- DesktopProfile.cs (HEAD)
++++ DesktopProfile.cs (measurement only)
+@@ -62,6 +62,8 @@
+                 }
+                 catch (Exception error)
+                 {
++                    WriteReport(); // Audit only: preserve completed samples on the original abort path.
++                    Debug.Log("WOTR_AUDIT_SCREEN " + Screen.width + "x" + Screen.height);
+                     Debug.LogError("WOTR_PROFILE_FAILED " + error);
+                     Application.Quit(1);
+                     yield break;

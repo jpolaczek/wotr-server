@@ -1,0 +1,1286 @@
+{
+  "schemaVersion": 2,
+  "source": "docs/sources/lords-card-index.json",
+  "rules": [
+    "docs/rules/T27-LORDS-01.md",
+    "docs/rules/T27-LORDS-02.md",
+    "docs/rules/T27-LORDS-03.md"
+  ],
+  "cards": [
+    {
+      "id": "lords.fp.character.25",
+      "programId": "lords.fp.character.25",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.blade-of-westernesse"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "tests": [
+        "LordsCards01EventTests.EachEventHasCorrectCostAndRejectsMissingCardWrongActorWindowAndModule",
+        "LordsCards01CombatTests.AllCombatHalvesRequireOwnershipCorrectWindowAndLords",
+        "LordsCards01PersistenceTests.EveryEventPersistsItsPaidCostAndCompleteOrPendingEffect",
+        "LordsCards01PersistenceTests.EveryCombatCardRestartsThePrivateCommitAndSharedReveal",
+        "LordsCards01EventTests.YouKnowTheWayAddsOnlyTwoSetAsideTilesEvenAfterSmeagolLeft",
+        "LordsCards01CombatTests.BladeAcceptsCouncilHobbitAndSpendsOneRealRerollHitOnAParticipatingMinion",
+        "LordsCards01CombatTests.BladeCannotUseCombatRollHitsAsItsRerollCost"
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Bez dodatkowego warunku zagrania.",
+          "tests": [
+            "LordsCards01EventTests.YouKnowTheWayAddsOnlyTwoSetAsideTilesEvenAfterSmeagolLeft"
+          ]
+        },
+        {
+          "sourceText": "Dodaj do puli dwa dodatkowe kafle Sméagola. To trzeci i czwarty kafel dodatku, nie powrót usuniętych kafli (LORDS s.22).",
+          "tests": [
+            "LordsCards01EventTests.YouKnowTheWayAddsOnlyTwoSetAsideTilesEvenAfterSmeagolLeft"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie musi uczestniczyć Hobbit.",
+          "tests": [
+            "LordsCards01CombatTests.BladeAcceptsCouncilHobbitAndSpendsOneRealRerollHitOnAParticipatingMinion",
+            "LordsCards01CombatTests.BladeCannotUseCombatRollHitsAsItsRerollCost"
+          ]
+        },
+        {
+          "sourceText": "Zużyj jedno trafienie przerzutu dowodzenia, aby wyeliminować wybranego uczestniczącego Sługusa.",
+          "tests": [
+            "LordsCards01CombatTests.BladeAcceptsCouncilHobbitAndSpendsOneRealRerollHitOnAParticipatingMinion",
+            "LordsCards01CombatTests.BladeCannotUseCombatRollHitsAsItsRerollCost"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Brak ponownego dodawania dwóch kafli z setupu.",
+          "tests": [
+            "LordsCards01EventTests.YouKnowTheWayAddsOnlyTwoSetAsideTilesEvenAfterSmeagolLeft"
+          ]
+        },
+        {
+          "sourceText": "Koszt rzeczywistego trafienia; cel uczestnik, nie tylna straż.",
+          "tests": [
+            "LordsCards01CombatTests.BladeAcceptsCouncilHobbitAndSpendsOneRealRerollHitOnAParticipatingMinion",
+            "LordsCards01CombatTests.BladeCannotUseCombatRollHitsAsItsRerollCost"
+          ]
+        }
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.fp.character.26",
+      "programId": "lords.fp.character.26",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.it-is-a-gift"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "LordsCards01EventTests.EachEventHasCorrectCostAndRejectsMissingCardWrongActorWindowAndModule",
+        "LordsCards01CombatTests.AllCombatHalvesRequireOwnershipCorrectWindowAndLords",
+        "LordsCards01PersistenceTests.EveryEventPersistsItsPaidCostAndCompleteOrPendingEffect",
+        "LordsCards01PersistenceTests.EveryCombatCardRestartsThePrivateCommitAndSharedReveal",
+        "LordsCards01EventTests.SafePathsHealsAndRemovesTheSmeagolEffectWithoutTriggeringIt",
+        "LordsCards01CombatTests.GiftRequiresTheFigureRegionAndModifiesBothRolls"
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Bez dodatkowego warunku zagrania.",
+          "tests": [
+            "LordsCards01EventTests.SafePathsHealsAndRemovesTheSmeagolEffectWithoutTriggeringIt"
+          ]
+        },
+        {
+          "sourceText": "Zmniejsz Zepsucie o 1.",
+          "tests": [
+            "LordsCards01EventTests.SafePathsHealsAndRemovesTheSmeagolEffectWithoutTriggeringIt"
+          ]
+        },
+        {
+          "sourceText": "Usuń bez efektu We Shall Get It albo We Won’t Go Back, jeżeli jest na stole.",
+          "tests": [
+            "LordsCards01EventTests.SafePathsHealsAndRemovesTheSmeagolEffectWithoutTriggeringIt"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Region armii broniącej się musi być regionem Drużyny.",
+          "tests": [
+            "LordsCards01CombatTests.GiftRequiresTheFigureRegionAndModifiesBothRolls"
+          ]
+        },
+        {
+          "sourceText": "+1 do wszystkich własnych kości walki i przerzutu dowodzenia.",
+          "tests": [
+            "LordsCards01CombatTests.GiftRequiresTheFigureRegionAndModifiesBothRolls"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Zepsucie 0; brak obu kart na stole.",
+          "tests": [
+            "LordsCards01EventTests.SafePathsHealsAndRemovesTheSmeagolEffectWithoutTriggeringIt"
+          ]
+        },
+        {
+          "sourceText": "Nie utożsamiać regionu Drużyny z abstrakcyjnym postępem.",
+          "tests": [
+            "LordsCards01CombatTests.GiftRequiresTheFigureRegionAndModifiesBothRolls"
+          ]
+        }
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.fp.character.27",
+      "programId": "lords.fp.character.27",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.orderly-withdrawal"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "tests": [
+        "LordsCards01EventTests.EachEventHasCorrectCostAndRejectsMissingCardWrongActorWindowAndModule",
+        "LordsCards01CombatTests.AllCombatHalvesRequireOwnershipCorrectWindowAndLords",
+        "LordsCards01PersistenceTests.EveryEventPersistsItsPaidCostAndCompleteOrPendingEffect",
+        "LordsCards01PersistenceTests.EveryCombatCardRestartsThePrivateCommitAndSharedReveal",
+        "LordsWindTests.ATableCardForcesRemovalAndNeverGrantsHandAccess",
+        "LordsWindTests.HandAccessIsPrivatePersistentAndRevokedAfterDiscard",
+        "LordsWindTests.InspectionCanBeDeclinedButTheDiscardAfterInspectionIsMandatory",
+        "LordsWindTests.EmptyHandAndTableFinishWithoutCreatingAnUnanswerableDecision",
+        "LordsWithdrawalTests.CancellingHitResolvesBothArmiesLossesThenForcesStopOrRetreat",
+        "LordsWithdrawalTests.DecliningDoesNotForceWithdrawalAndNoHitsOffersNoCancellation",
+        "LordsWithdrawalTests.NoLegalRetreatKeepsTheNormalContinuationAndFlagExpiresNextRound",
+        "LordsWithdrawalTests.ConditionRequiresFieldOrSortieAndAParticipatingLeaderOrCompanion",
+        "LordsCards01PersistenceTests.WindRestartsBeforeInspectionDuringAccessAndAfterRevokingIt",
+        "LordsCards01PersistenceTests.WindTableChoicePersistsRemovalWithoutHandPermission",
+        "LordsCards01PersistenceTests.OrderlyWithdrawalRestartsCancellationLossesAndForcedRetreat",
+        "LordsCards01InteractionTests.ChangingAnUninspectedHandDoesNotChangeFreePeoplesOptionsHistoryOrPreview",
+        "LordsCards01InteractionTests.SwarmCancellationNeverOffersWithdrawalOrCreatesItsObligation",
+        "LordsCards01InteractionTests.MandatoryWithdrawalMayEnterAnAvailableFriendlyStronghold",
+        "LordsCards01InteractionTests.CancellingDuringSortieStopsAfterTheRoundAndPreservesTheGarrison",
+        "LordsCards01InteractionTests.EliminatingTheOpposingArmyEndsBattleBeforeAnyRetreatDecision"
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Usuń jedną wybraną kartę wydarzenia Cienia ze stołu.",
+          "tests": [
+            "LordsWindTests.ATableCardForcesRemovalAndNeverGrantsHandAccess",
+            "LordsWindTests.HandAccessIsPrivatePersistentAndRevokedAfterDiscard",
+            "LordsWindTests.InspectionCanBeDeclinedButTheDiscardAfterInspectionIsMandatory",
+            "LordsWindTests.EmptyHandAndTableFinishWithoutCreatingAnUnanswerableDecision"
+          ]
+        },
+        {
+          "sourceText": "Tylko jeżeli Cień nie ma wydarzenia na stole, FP może obejrzeć jego rękę i odrzucić wybraną kartę.",
+          "tests": [
+            "LordsWindTests.ATableCardForcesRemovalAndNeverGrantsHandAccess",
+            "LordsWindTests.HandAccessIsPrivatePersistentAndRevokedAfterDiscard",
+            "LordsWindTests.InspectionCanBeDeclinedButTheDiscardAfterInspectionIsMandatory",
+            "LordsWindTests.EmptyHandAndTableFinishWithoutCreatingAnUnanswerableDecision"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Własny dowódca FP lub Towarzysz uczestniczy w bitwie polowej albo wypadzie.",
+          "tests": [
+            "LordsWithdrawalTests.CancellingHitResolvesBothArmiesLossesThenForcesStopOrRetreat",
+            "LordsWithdrawalTests.DecliningDoesNotForceWithdrawalAndNoHitsOffersNoCancellation",
+            "LordsWithdrawalTests.NoLegalRetreatKeepsTheNormalContinuationAndFlagExpiresNextRound",
+            "LordsWithdrawalTests.ConditionRequiresFieldOrSortieAndAParticipatingLeaderOrCompanion"
+          ]
+        },
+        {
+          "sourceText": "Przed zwykłymi stratami można anulować jedno trafienie walki/przerzutu.",
+          "tests": [
+            "LordsWithdrawalTests.CancellingHitResolvesBothArmiesLossesThenForcesStopOrRetreat",
+            "LordsWithdrawalTests.DecliningDoesNotForceWithdrawalAndNoHitsOffersNoCancellation",
+            "LordsWithdrawalTests.NoLegalRetreatKeepsTheNormalContinuationAndFlagExpiresNextRound",
+            "LordsWithdrawalTests.ConditionRequiresFieldOrSortieAndAParticipatingLeaderOrCompanion"
+          ]
+        },
+        {
+          "sourceText": "Po skorzystaniu z anulowania zakończ atak albo wykonaj możliwy odwrót na końcu rundy, zgodnie z rolą FP.",
+          "tests": [
+            "LordsWithdrawalTests.CancellingHitResolvesBothArmiesLossesThenForcesStopOrRetreat",
+            "LordsWithdrawalTests.DecliningDoesNotForceWithdrawalAndNoHitsOffersNoCancellation",
+            "LordsWithdrawalTests.NoLegalRetreatKeepsTheNormalContinuationAndFlagExpiresNextRound",
+            "LordsWithdrawalTests.ConditionRequiresFieldOrSortieAndAParticipatingLeaderOrCompanion"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Karta na stole blokuje alternatywę przeglądu ręki.",
+          "tests": [
+            "LordsWindTests.ATableCardForcesRemovalAndNeverGrantsHandAccess"
+          ]
+        },
+        {
+          "sourceText": "Restart chwilowego dostępu do obcej ręki bez utrzymania sekretu w późniejszych projekcjach.",
+          "tests": [
+            "LordsCards01PersistenceTests.WindRestartsBeforeInspectionDuringAccessAndAfterRevokingIt",
+            "LordsWindTests.HandAccessIsPrivatePersistentAndRevokedAfterDiscard"
+          ]
+        },
+        {
+          "sourceText": "Opcjonalne anulowanie i wymuszona konsekwencja; brak legalnego odwrotu.",
+          "tests": [
+            "LordsWithdrawalTests.CancellingHitResolvesBothArmiesLossesThenForcesStopOrRetreat",
+            "LordsWithdrawalTests.DecliningDoesNotForceWithdrawalAndNoHitsOffersNoCancellation",
+            "LordsWithdrawalTests.NoLegalRetreatKeepsTheNormalContinuationAndFlagExpiresNextRound"
+          ]
+        }
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.fp.character.28",
+      "programId": "lords.fp.character.28",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.orderly-withdrawal"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "tests": [
+        "LordsCards01EventTests.EachEventHasCorrectCostAndRejectsMissingCardWrongActorWindowAndModule",
+        "LordsCards01CombatTests.AllCombatHalvesRequireOwnershipCorrectWindowAndLords",
+        "LordsCards01PersistenceTests.EveryEventPersistsItsPaidCostAndCompleteOrPendingEffect",
+        "LordsCards01PersistenceTests.EveryCombatCardRestartsThePrivateCommitAndSharedReveal",
+        "LordsRingRecoveryTests.ExactlyThreeDiceAreRolledAndEachFiveOrSixRecoversOneRing",
+        "LordsRingRecoveryTests.RemovedRingsMustBeTakenBeforeChoosingShadowOwnedIdentities",
+        "LordsRingRecoveryTests.TooManySuccessesRecoverOnlyAvailableRingsAndNoRingsStillRolls",
+        "LordsWithdrawalTests.CancellingHitResolvesBothArmiesLossesThenForcesStopOrRetreat",
+        "LordsWithdrawalTests.DecliningDoesNotForceWithdrawalAndNoHitsOffersNoCancellation",
+        "LordsWithdrawalTests.NoLegalRetreatKeepsTheNormalContinuationAndFlagExpiresNextRound",
+        "LordsWithdrawalTests.ConditionRequiresFieldOrSortieAndAParticipatingLeaderOrCompanion",
+        "LordsCards01PersistenceTests.RingsPersistTheRollBeforeRecoveringChosenIdentities",
+        "LordsCards01PersistenceTests.OrderlyWithdrawalRestartsCancellationLossesAndForcedRetreat",
+        "LordsCards01InteractionTests.SwarmCancellationNeverOffersWithdrawalOrCreatesItsObligation",
+        "LordsCards01InteractionTests.MandatoryWithdrawalMayEnterAnAvailableFriendlyStronghold",
+        "LordsCards01InteractionTests.CancellingDuringSortieStopsAfterTheRoundAndPreservesTheGarrison",
+        "LordsCards01InteractionTests.EliminatingTheOpposingArmyEndsBattleBeforeAnyRetreatDecision"
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Rzuć 3 kośćmi; każdy wynik 5–6 umożliwia odzyskanie jednego zużytego Pierścienia.",
+          "tests": [
+            "LordsRingRecoveryTests.ExactlyThreeDiceAreRolledAndEachFiveOrSixRecoversOneRing",
+            "LordsRingRecoveryTests.RemovedRingsMustBeTakenBeforeChoosingShadowOwnedIdentities",
+            "LordsRingRecoveryTests.TooManySuccessesRecoverOnlyAvailableRingsAndNoRingsStillRolls"
+          ]
+        },
+        {
+          "sourceText": "FP wybiera konkretne Pierścienie: najpierw spoza gry, a dopiero przy ich niedoborze z zasobów Cienia.",
+          "tests": [
+            "LordsRingRecoveryTests.ExactlyThreeDiceAreRolledAndEachFiveOrSixRecoversOneRing",
+            "LordsRingRecoveryTests.RemovedRingsMustBeTakenBeforeChoosingShadowOwnedIdentities",
+            "LordsRingRecoveryTests.TooManySuccessesRecoverOnlyAvailableRingsAndNoRingsStillRolls"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Własny dowódca FP lub Towarzysz uczestniczy w bitwie polowej albo wypadzie.",
+          "tests": [
+            "LordsWithdrawalTests.CancellingHitResolvesBothArmiesLossesThenForcesStopOrRetreat",
+            "LordsWithdrawalTests.DecliningDoesNotForceWithdrawalAndNoHitsOffersNoCancellation",
+            "LordsWithdrawalTests.NoLegalRetreatKeepsTheNormalContinuationAndFlagExpiresNextRound",
+            "LordsWithdrawalTests.ConditionRequiresFieldOrSortieAndAParticipatingLeaderOrCompanion"
+          ]
+        },
+        {
+          "sourceText": "Przed zwykłymi stratami można anulować jedno trafienie walki/przerzutu.",
+          "tests": [
+            "LordsWithdrawalTests.CancellingHitResolvesBothArmiesLossesThenForcesStopOrRetreat",
+            "LordsWithdrawalTests.DecliningDoesNotForceWithdrawalAndNoHitsOffersNoCancellation",
+            "LordsWithdrawalTests.NoLegalRetreatKeepsTheNormalContinuationAndFlagExpiresNextRound",
+            "LordsWithdrawalTests.ConditionRequiresFieldOrSortieAndAParticipatingLeaderOrCompanion"
+          ]
+        },
+        {
+          "sourceText": "Po skorzystaniu z anulowania zakończ atak albo wykonaj możliwy odwrót na końcu rundy, zgodnie z rolą FP.",
+          "tests": [
+            "LordsWithdrawalTests.CancellingHitResolvesBothArmiesLossesThenForcesStopOrRetreat",
+            "LordsWithdrawalTests.DecliningDoesNotForceWithdrawalAndNoHitsOffersNoCancellation",
+            "LordsWithdrawalTests.NoLegalRetreatKeepsTheNormalContinuationAndFlagExpiresNextRound",
+            "LordsWithdrawalTests.ConditionRequiresFieldOrSortieAndAParticipatingLeaderOrCompanion"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "0–3 sukcesy, mniej dostępnych Pierścieni niż sukcesów.",
+          "tests": [
+            "LordsRingRecoveryTests.ExactlyThreeDiceAreRolledAndEachFiveOrSixRecoversOneRing",
+            "LordsRingRecoveryTests.TooManySuccessesRecoverOnlyAvailableRingsAndNoRingsStillRolls"
+          ]
+        },
+        {
+          "sourceText": "Tożsamości Vilya/Nenya/Narya nie są równoważne; restart wyboru nie losuje ponownie.",
+          "tests": [
+            "LordsRingRecoveryTests.RemovedRingsMustBeTakenBeforeChoosingShadowOwnedIdentities",
+            "LordsCards01PersistenceTests.RingsPersistTheRollBeforeRecoveringChosenIdentities"
+          ]
+        }
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.fp.strategy.25",
+      "programId": "lords.fp.strategy.25",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.shield-wall"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "tests": [
+        "LordsCards01EventTests.EachEventHasCorrectCostAndRejectsMissingCardWrongActorWindowAndModule",
+        "LordsCards01CombatTests.AllCombatHalvesRequireOwnershipCorrectWindowAndLords",
+        "LordsCards01PersistenceTests.EveryEventPersistsItsPaidCostAndCompleteOrPendingEffect",
+        "LordsCards01PersistenceTests.EveryCombatCardRestartsThePrivateCommitAndSharedReveal",
+        "LordsCards01EventTests.EveryLittleRecruitsDespitePeaceThenDrawsFromStrategy",
+        "LordsCards01EventTests.EveryLittleRequiresAChoiceWhenSharedReservesCannotFillAllRegions",
+        "LordsCards01EventTests.MissingRecruitsAndEmptyDeckDoNotBlockEventCompletion",
+        "LordsCards01CombatTests.ShieldWallCancelsOnlyWhenAtLeastTwoNormalHitsAreScored",
+        "LordsCards01InteractionTests.ShieldWallDoesNotCancelTheSeparateHitsFromOnslaught",
+        "LordsCards01PersistenceTests.EveryLittleRestartsSharedReservePlacementBeforeDrawing",
+        "LordsCards01InteractionTests.GreyUsesTheLordsEventDeckAndDefersHandLimitUntilItsOptionalDraw"
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Rekrutuj po jednym regularnym Gondoru w Pelargirze, Lossarnach i Lamedonie.",
+          "tests": [
+            "LordsCards01EventTests.EveryLittleRecruitsDespitePeaceThenDrawsFromStrategy",
+            "LordsCards01EventTests.EveryLittleRequiresAChoiceWhenSharedReservesCannotFillAllRegions",
+            "LordsCards01EventTests.MissingRecruitsAndEmptyDeckDoNotBlockEventCompletion"
+          ]
+        },
+        {
+          "sourceText": "Następnie dobierz jedną kartę Strategy.",
+          "tests": [
+            "LordsCards01EventTests.EveryLittleRecruitsDespitePeaceThenDrawsFromStrategy",
+            "LordsCards01EventTests.EveryLittleRequiresAChoiceWhenSharedReservesCannotFillAllRegions",
+            "LordsCards01EventTests.MissingRecruitsAndEmptyDeckDoNotBlockEventCompletion"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Przed zwykłymi stratami anuluj jedno trafienie, jeżeli przeciwnik uzyskał przynajmniej dwa z walki i przerzutu.",
+          "tests": [
+            "LordsCards01CombatTests.ShieldWallCancelsOnlyWhenAtLeastTwoNormalHitsAreScored",
+            "LordsCards01InteractionTests.ShieldWallDoesNotCancelTheSeparateHitsFromOnslaught"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Niedobór wspólnej rezerwy, zablokowany region i dobór po rekrutacji.",
+          "tests": [
+            "LordsCards01EventTests.EveryLittleRecruitsDespitePeaceThenDrawsFromStrategy",
+            "LordsCards01EventTests.EveryLittleRequiresAChoiceWhenSharedReservesCannotFillAllRegions",
+            "LordsCards01EventTests.MissingRecruitsAndEmptyDeckDoNotBlockEventCompletion"
+          ]
+        },
+        {
+          "sourceText": "Nie anulować pojedynczego trafienia ani specjalnego ataku przed walką.",
+          "tests": [
+            "LordsCards01CombatTests.ShieldWallCancelsOnlyWhenAtLeastTwoNormalHitsAreScored",
+            "LordsCards01InteractionTests.ShieldWallDoesNotCancelTheSeparateHitsFromOnslaught"
+          ]
+        }
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.fp.strategy.26",
+      "programId": "lords.fp.strategy.26",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.advantageous-position"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "LordsCards01EventTests.EachEventHasCorrectCostAndRejectsMissingCardWrongActorWindowAndModule",
+        "LordsCards01CombatTests.AllCombatHalvesRequireOwnershipCorrectWindowAndLords",
+        "LordsCards01PersistenceTests.EveryEventPersistsItsPaidCostAndCompleteOrPendingEffect",
+        "LordsCards01PersistenceTests.EveryCombatCardRestartsThePrivateCommitAndSharedReveal",
+        "LordsRangersTests.OnlyArmiesInOrAdjacentToNorthAreEligibleAndDamagePrecedesRecruitment",
+        "LordsRangersTests.ShadowChoosesEventLossesThenFreePeoplesChoosesNorthRegionAndUnitKind",
+        "LordsRangersTests.DestroyingArmyLeavesNazgulAndRecruitmentStillUsesOriginalTargetRegion",
+        "LordsRangersTests.NoFreeNorthNeighborSkipsRecruitmentWithoutUsingTargetOrForeignRegion",
+        "LordsRangersTests.MissingArmyUnitOrLeaderReserveExecutesOnlyAvailablePart",
+        "LordsCards01CombatTests.AdvantageousPositionUsesNationBordersAndOnlyModifiesCombatRoll",
+        "LordsCards01PersistenceTests.RangersRestartsTargetRollShadowLossNorthDestinationAndUnitChoice"
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Wybierz armię Cienia w granicach Północy albo w regionie z nimi sąsiadującym.",
+          "tests": [
+            "LordsRangersTests.OnlyArmiesInOrAdjacentToNorthAreEligibleAndDamagePrecedesRecruitment",
+            "LordsRangersTests.ShadowChoosesEventLossesThenFreePeoplesChoosesNorthRegionAndUnitKind",
+            "LordsRangersTests.DestroyingArmyLeavesNazgulAndRecruitmentStillUsesOriginalTargetRegion",
+            "LordsRangersTests.NoFreeNorthNeighborSkipsRecruitmentWithoutUsingTargetOrForeignRegion",
+            "LordsRangersTests.MissingArmyUnitOrLeaderReserveExecutesOnlyAvailablePart"
+          ]
+        },
+        {
+          "sourceText": "Wykonaj 3 rzuty, trafienie przy 5–6; zastosuj straty od wydarzenia.",
+          "tests": [
+            "LordsRangersTests.OnlyArmiesInOrAdjacentToNorthAreEligibleAndDamagePrecedesRecruitment",
+            "LordsRangersTests.ShadowChoosesEventLossesThenFreePeoplesChoosesNorthRegionAndUnitKind",
+            "LordsRangersTests.DestroyingArmyLeavesNazgulAndRecruitmentStillUsesOriginalTargetRegion",
+            "LordsRangersTests.NoFreeNorthNeighborSkipsRecruitmentWithoutUsingTargetOrForeignRegion",
+            "LordsRangersTests.MissingArmyUnitOrLeaderReserveExecutesOnlyAvailablePart"
+          ]
+        },
+        {
+          "sourceText": "Następnie wybierz jeden wolny region Północy sąsiadujący z zaatakowanym; rekrutuj tam jedną jednostkę Północy (regularną albo elitę) oraz dowódcę Północy.",
+          "tests": [
+            "LordsRangersTests.OnlyArmiesInOrAdjacentToNorthAreEligibleAndDamagePrecedesRecruitment",
+            "LordsRangersTests.ShadowChoosesEventLossesThenFreePeoplesChoosesNorthRegionAndUnitKind",
+            "LordsRangersTests.DestroyingArmyLeavesNazgulAndRecruitmentStillUsesOriginalTargetRegion",
+            "LordsRangersTests.NoFreeNorthNeighborSkipsRecruitmentWithoutUsingTargetOrForeignRegion",
+            "LordsRangersTests.MissingArmyUnitOrLeaderReserveExecutesOnlyAvailablePart"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Region armii broniącej się leży w granicach dowolnego narodu FP.",
+          "tests": [
+            "LordsCards01CombatTests.AdvantageousPositionUsesNationBordersAndOnlyModifiesCombatRoll"
+          ]
+        },
+        {
+          "sourceText": "-1 do kości rzutu walki Cienia; naturalna 6 pozostaje trafieniem. Nie zmienia przerzutu.",
+          "tests": [
+            "LordsCards01CombatTests.AdvantageousPositionUsesNationBordersAndOnlyModifiesCombatRoll"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Sąsiedztwo, brak armii celu, wybór typu jednostki i odrębna decyzja strat Cienia.",
+          "tests": [
+            "LordsRangersTests.OnlyArmiesInOrAdjacentToNorthAreEligibleAndDamagePrecedesRecruitment",
+            "LordsRangersTests.ShadowChoosesEventLossesThenFreePeoplesChoosesNorthRegionAndUnitKind",
+            "LordsRangersTests.DestroyingArmyLeavesNazgulAndRecruitmentStillUsesOriginalTargetRegion"
+          ]
+        },
+        {
+          "sourceText": "Brak narodu lub rezerwy nie uprawnia do rekrutacji w sąsiednim obcym regionie.",
+          "tests": [
+            "LordsRangersTests.NoFreeNorthNeighborSkipsRecruitmentWithoutUsingTargetOrForeignRegion",
+            "LordsRangersTests.MissingArmyUnitOrLeaderReserveExecutesOnlyAvailablePart"
+          ]
+        }
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.sh.character.17",
+      "programId": "lords.sh.character.17",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.durins-bane"
+      ],
+      "combatInitiatives": [
+        2
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Balrog musi być w grze.",
+          "tests": [
+            "LordsShadowManeuverTests.InactiveBalrogActivatesWithoutMovingAndAbsentBalrogRejectsEvent"
+          ]
+        },
+        {
+          "sourceText": "Aktywuj Balroga; aktywny ma poziom 2.",
+          "tests": [
+            "LordsShadowManeuverTests.InactiveBalrogActivatesWithoutMovingAndAbsentBalrogRejectsEvent"
+          ]
+        },
+        {
+          "sourceText": "Jeśli był już aktywny, można zamiast aktywacji ruszyć samym Balrogiem albo ruszyć/zaatakować armią, w której uczestniczy.",
+          "tests": [
+            "LordsShadowManeuverTests.ActiveBalrogCanTravelAloneWithNoExtraDieAndRejectsOtherFigures",
+            "LordsShadowManeuverTests.BalrogArmyMustIncludeBalrogAndDeclineEndsTheSameAction",
+            "LordsCaptainTests.CaptainWaitsUntilNestedBalrogBattleEndsBeforeAddingTheUsedDieToHunt"
+          ]
+        },
+        {
+          "sourceText": "Przypomnienie: dezaktywacja poza Morią eliminuje Balroga.",
+          "tests": [
+            "LordsBalrogActionTests.AnyGandalfVersionAllowsCharacterDeactivationInMoriaAndWillEliminatesOutside"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Region armii broniącej się leży w odległości do 2 regionów od Morii ALBO Balrog uczestniczy w bitwie.",
+          "tests": [
+            "LordsShadowCombatTests.DurinsBaneAllowsParticipatingBalrogAwayFromMoriaAndAppliesImmediateLosses",
+            "Shadow03CombatTests.DurinsBaneUsesDefendingArmyAndTraversableDistance"
+          ]
+        },
+        {
+          "sourceText": "Przed rzutem walki wykonaj dodatkowy atak 3 kośćmi, trafienia przy 4–6 i natychmiastowe straty.",
+          "tests": [
+            "LordsShadowCombatTests.DurinsBaneAllowsParticipatingBalrogAwayFromMoriaAndAppliesImmediateLosses"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Zastępuje base.sh.character.17; nie dopisuje drugiej karty tego slotu.",
+          "tests": [
+            "LordsCards02BoundaryTests.LordsDeckReplacesBaseBalrogAndKeepsSpecialCardOutsideShuffledDecks"
+          ]
+        },
+        {
+          "sourceText": "Aktywacja nie daje dodatkowego ruchu w tej samej akcji.",
+          "tests": [
+            "LordsShadowManeuverTests.InactiveBalrogActivatesWithoutMovingAndAbsentBalrogRejectsEvent"
+          ]
+        },
+        {
+          "sourceText": "Rozszerzony warunek walki pozwala użyć poza zasięgiem Morii z uczestniczącym Balrogiem.",
+          "tests": [
+            "LordsShadowCombatTests.DurinsBaneAllowsParticipatingBalrogAwayFromMoriaAndAppliesImmediateLosses"
+          ]
+        }
+      ],
+      "tests": [
+        "LordsCards02BoundaryTests.EveryEventValidatesPrintedCostOwnershipWindowAndModule",
+        "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures",
+        "LordsCards02PersistenceTests.EveryEventRestartsItsCostAndEffectWithoutRepeatingRecruitment",
+        "LordsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "LordsShadowCombatInteractionTests.DaringCancelsEveryLordsCombatHalfBeforeCostsOrChoices",
+        "LordsCards02PersistenceTests.BalrogPersistsModeAndTravelOrArmyMoveWithoutAnotherDie",
+        "LordsCards02PersistenceTests.SpecialAttackLossesAndFearRerollsResumeTheCorrectCombatProgram",
+        "LordsShadowManeuverTests.InactiveBalrogActivatesWithoutMovingAndAbsentBalrogRejectsEvent",
+        "LordsShadowManeuverTests.ActiveBalrogCanTravelAloneWithNoExtraDieAndRejectsOtherFigures",
+        "LordsShadowManeuverTests.BalrogArmyMustIncludeBalrogAndDeclineEndsTheSameAction",
+        "LordsCaptainTests.CaptainWaitsUntilNestedBalrogBattleEndsBeforeAddingTheUsedDieToHunt",
+        "LordsBalrogActionTests.AnyGandalfVersionAllowsCharacterDeactivationInMoriaAndWillEliminatesOutside",
+        "LordsShadowCombatTests.DurinsBaneAllowsParticipatingBalrogAwayFromMoriaAndAppliesImmediateLosses",
+        "Shadow03CombatTests.DurinsBaneUsesDefendingArmyAndTraversableDistance",
+        "LordsCards02BoundaryTests.LordsDeckReplacesBaseBalrogAndKeepsSpecialCardOutsideShuffledDecks"
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.sh.character.25",
+      "programId": "lords.sh.character.25",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.fear-of-their-masters"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Zagranie na stół wymaga Sméagola jako przewodnika.",
+          "tests": [
+            "LordsWeWontGoBackTests.GuideConditionIsRequiredAtPlayAndCardExpiresWhenSmeagolLeaves"
+          ]
+        },
+        {
+          "sourceText": "Po dobraniu kafla Sméagola podczas Polowania Cień może odrzucić kartę z talii Character z własnej ręki albo usunąć to wydarzenie ze stołu, aby dodać 2 Zepsucia.",
+          "tests": [
+            "LordsWeWontGoBackTests.BothCostsAndDeclineResolveBeforeAnyHuntProtection"
+          ]
+        },
+        {
+          "sourceText": "Zepsucie jest bezpośrednie; modyfikatory Polowania go nie zapobiegają (druk i FAQ 1.2 s.3).",
+          "tests": [
+            "LordsWeWontGoBackTests.BothCostsAndDeclineResolveBeforeAnyHuntProtection",
+            "LordsWeWontGoBackTests.ReplacementByNenyaOrMithrilOpensSmeagolCostBeforeHuntContinues"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie uczestniczy Sługus Cienia.",
+          "tests": [
+            "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures",
+            "LordsShadowCombatInteractionTests.FearWorksWithGothmogAsTheOnlyMinionAndResetsForTheNextRound"
+          ]
+        },
+        {
+          "sourceText": "Zrezygnuj z całego własnego dowodzenia, aby dodać +2 do wszystkich kości walki.",
+          "tests": [
+            "LordsShadowCombatTests.FearForfeitsAllLeadershipAndNaturalSixesCountInBothRolls",
+            "LordsShadowCombatTests.WhiteRiderPreventsEntireLeadershipCostButNotFearPenalty",
+            "LordsShadowCombatInteractionTests.FearWorksWithGothmogAsTheOnlyMinionAndResetsForTheNextRound"
+          ]
+        },
+        {
+          "sourceText": "Każda naturalna 6 FP w rzucie walki lub przerzucie powoduje jedno dodatkowe trafienie w armię Cienia.",
+          "tests": [
+            "LordsShadowCombatTests.FearForfeitsAllLeadershipAndNaturalSixesCountInBothRolls",
+            "LordsShadowCombatTests.WhiteRiderPreventsEntireLeadershipCostButNotFearPenalty"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Odmowa użycia, obie alternatywy kosztu, brak ręki i brak ujawnienia jej zawartości przeciwnikowi.",
+          "tests": [
+            "LordsWeWontGoBackTests.BothCostsAndDeclineResolveBeforeAnyHuntProtection",
+            "LordsWeWontGoBackTests.CostIsCharacterDeckAndTheOpponentNeverSeesHandOrSelectedDiscardIdentity",
+            "LordsWeWontGoBackTests.EmptyHandStillAllowsTableCostOrDeclineAndCorruptionTwelveEndsImmediately"
+          ]
+        },
+        {
+          "sourceText": "Kolejność kafla przed zwykłym Hunt; ochrona Hunt nie blokuje 2 Zepsucia.",
+          "tests": [
+            "LordsWeWontGoBackTests.BothCostsAndDeclineResolveBeforeAnyHuntProtection",
+            "LordsWeWontGoBackTests.ReplacementByNenyaOrMithrilOpensSmeagolCostBeforeHuntContinues"
+          ]
+        },
+        {
+          "sourceText": "Odejście Sméagola jako Guide usuwa kartę zgodnie z BASE 2.4.1 s.22; późniejsze kafle nie dają korupcji WWGB.",
+          "tests": [
+            "LordsWeWontGoBackTests.GuideConditionIsRequiredAtPlayAndCardExpiresWhenSmeagolLeaves"
+          ]
+        }
+      ],
+      "tests": [
+        "LordsCards02BoundaryTests.EveryEventValidatesPrintedCostOwnershipWindowAndModule",
+        "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures",
+        "LordsCards02PersistenceTests.EveryEventRestartsItsCostAndEffectWithoutRepeatingRecruitment",
+        "LordsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "LordsShadowCombatInteractionTests.DaringCancelsEveryLordsCombatHalfBeforeCostsOrChoices",
+        "LordsCards02PersistenceTests.SmeagolPersistsBothPrivateCostsAndDeclineBeforeProtection",
+        "LordsWeWontGoBackTests.GuideConditionIsRequiredAtPlayAndCardExpiresWhenSmeagolLeaves",
+        "LordsWeWontGoBackTests.BothCostsAndDeclineResolveBeforeAnyHuntProtection",
+        "LordsWeWontGoBackTests.ReplacementByNenyaOrMithrilOpensSmeagolCostBeforeHuntContinues",
+        "LordsShadowCombatInteractionTests.FearWorksWithGothmogAsTheOnlyMinionAndResetsForTheNextRound",
+        "LordsShadowCombatTests.FearForfeitsAllLeadershipAndNaturalSixesCountInBothRolls",
+        "LordsShadowCombatTests.WhiteRiderPreventsEntireLeadershipCostButNotFearPenalty",
+        "LordsWeWontGoBackTests.CostIsCharacterDeckAndTheOpponentNeverSeesHandOrSelectedDiscardIdentity",
+        "LordsWeWontGoBackTests.EmptyHandStillAllowsTableCostOrDeclineAndCorruptionTwelveEndsImmediately"
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.sh.character.26",
+      "programId": "lords.sh.character.26",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.fear-of-their-masters"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Zagranie na stół bez dodatkowego warunku.",
+          "tests": [
+            "LordsCards02BoundaryTests.EveryEventValidatesPrintedCostOwnershipWindowAndModule"
+          ]
+        },
+        {
+          "sourceText": "Przed fazą rozstrzygania akcji, jeśli którykolwiek wynik kości Keeper jest Okiem, Cień może zmienić wynik jednej kości swojego rzutu akcji na wybrany inny.",
+          "tests": [
+            "LordsLoreTests.ChooseDieAndResultTogetherOrDeclineBeforeFreePeoplesFirstAction",
+            "LordsLoreTests.ActualActionRollResolvesBothSpecialChoicesBeforeOfferingLoreOnce",
+            "LordsLoreTests.NoKeeperEyeMeansNoTriggerAndMultipleEyesStillGiveOneChange",
+            "LordsLoreTests.LesserMinionCanChangeToItsPrintedFaceAndRemoveSymbolChangesWithTheFace",
+            "LordsLoreTests.AllocatedEyesForeignDiceAndUnselectedLesserDiceCannotBeChanged"
+          ]
+        },
+        {
+          "sourceText": "FP może usunąć wydarzenie kosztem Will of the West albo dowolnej kości akcji i jednego Pierścienia.",
+          "tests": [
+            "LordsTableRemovalTests.LoreRequiresWillOrAnyDieAndChosenAvailableRing",
+            "LordsTableRemovalTests.LoreRejectsMissingOpponentAndAlreadyUsedRingWithoutSpendingAnything"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie uczestniczy Sługus Cienia.",
+          "tests": [
+            "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures",
+            "LordsShadowCombatInteractionTests.FearWorksWithGothmogAsTheOnlyMinionAndResetsForTheNextRound"
+          ]
+        },
+        {
+          "sourceText": "Zrezygnuj z całego własnego dowodzenia, aby dodać +2 do wszystkich kości walki.",
+          "tests": [
+            "LordsShadowCombatTests.FearForfeitsAllLeadershipAndNaturalSixesCountInBothRolls",
+            "LordsShadowCombatTests.WhiteRiderPreventsEntireLeadershipCostButNotFearPenalty",
+            "LordsShadowCombatInteractionTests.FearWorksWithGothmogAsTheOnlyMinionAndResetsForTheNextRound"
+          ]
+        },
+        {
+          "sourceText": "Każda naturalna 6 FP w rzucie walki lub przerzucie powoduje jedno dodatkowe trafienie w armię Cienia.",
+          "tests": [
+            "LordsShadowCombatTests.FearForfeitsAllLeadershipAndNaturalSixesCountInBothRolls",
+            "LordsShadowCombatTests.WhiteRiderPreventsEntireLeadershipCostButNotFearPenalty"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Oko Keeper a zwykłe Oko; dokładne okno przed akcjami.",
+          "tests": [
+            "LordsLoreTests.ActualActionRollResolvesBothSpecialChoicesBeforeOfferingLoreOnce",
+            "LordsLoreTests.NoKeeperEyeMeansNoTriggerAndMultipleEyesStillGiveOneChange"
+          ]
+        },
+        {
+          "sourceText": "Jeden zmieniany wynik mimo kilku Keeperów; rzeczywisty wybór kości/Pierścienia.",
+          "tests": [
+            "LordsLoreTests.ChooseDieAndResultTogetherOrDeclineBeforeFreePeoplesFirstAction",
+            "LordsLoreTests.NoKeeperEyeMeansNoTriggerAndMultipleEyesStillGiveOneChange",
+            "LordsTableRemovalTests.LoreRequiresWillOrAnyDieAndChosenAvailableRing"
+          ]
+        }
+      ],
+      "tests": [
+        "LordsCards02BoundaryTests.EveryEventValidatesPrintedCostOwnershipWindowAndModule",
+        "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures",
+        "LordsCards02PersistenceTests.EveryEventRestartsItsCostAndEffectWithoutRepeatingRecruitment",
+        "LordsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "LordsShadowCombatInteractionTests.DaringCancelsEveryLordsCombatHalfBeforeCostsOrChoices",
+        "LordsCards02PersistenceTests.LorePersistsDieAndResultInOneCommandOrDeclines",
+        "LordsCards02PersistenceTests.FinalSpecialDieChoiceRestartsIntoLoreBeforeActions",
+        "LordsCards02PersistenceTests.TableRemovalRestartsWillCharacterAndSelectedRingCosts",
+        "LordsLoreTests.ChooseDieAndResultTogetherOrDeclineBeforeFreePeoplesFirstAction",
+        "LordsLoreTests.ActualActionRollResolvesBothSpecialChoicesBeforeOfferingLoreOnce",
+        "LordsLoreTests.NoKeeperEyeMeansNoTriggerAndMultipleEyesStillGiveOneChange",
+        "LordsLoreTests.LesserMinionCanChangeToItsPrintedFaceAndRemoveSymbolChangesWithTheFace",
+        "LordsLoreTests.AllocatedEyesForeignDiceAndUnselectedLesserDiceCannotBeChanged",
+        "LordsTableRemovalTests.LoreRequiresWillOrAnyDieAndChosenAvailableRing",
+        "LordsTableRemovalTests.LoreRejectsMissingOpponentAndAlreadyUsedRingWithoutSpendingAnything",
+        "LordsShadowCombatInteractionTests.FearWorksWithGothmogAsTheOnlyMinionAndResetsForTheNextRound",
+        "LordsShadowCombatTests.FearForfeitsAllLeadershipAndNaturalSixesCountInBothRolls",
+        "LordsShadowCombatTests.WhiteRiderPreventsEntireLeadershipCostButNotFearPenalty"
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.sh.character.27",
+      "programId": "lords.sh.character.27",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.words-of-power"
+      ],
+      "combatInitiatives": [
+        1
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Zagranie na stół bez dodatkowego warunku.",
+          "tests": [
+            "LordsCards02BoundaryTests.EveryEventValidatesPrintedCostOwnershipWindowAndModule"
+          ]
+        },
+        {
+          "sourceText": "Przy deklaracji/ujawnieniu Drużyny: wejście do, wyjście z, przejście przez albo pozostanie w niezdobytej twierdzy Cienia pozwala Cieniowi odrzucić wydarzenie dla dodatkowego kafla.",
+          "tests": [
+            "LordsGatesTests.EnterLeaveAndStationaryDeclarationOfferOptionalAdditionalHunt",
+            "LordsGatesTests.ConqueredStrongholdDoesNotTriggerAndDeclineKeepsTheCard",
+            "LordsGatesTests.GatesAndChiefCanBothRespondOnceInEitherOrder"
+          ]
+        },
+        {
+          "sourceText": "Oko jest odrzucane bez efektu; dla pozostałych kafli użyj procedury udanego Polowania, ignorując Reveal.",
+          "tests": [
+            "LordsGatesTests.EnterLeaveAndStationaryDeclarationOfferOptionalAdditionalHunt",
+            "LordsGatesTests.RevealedRouteIgnoresGatesEyeButStillDrawsTheStrongholdTileLast",
+            "LordsGatesTests.GatesAndFireAndShadowKeepSeparateHuntsBeforeOrdinaryStrongholdHunt"
+          ]
+        },
+        {
+          "sourceText": "FP może usunąć wydarzenie kosztem Will of the West; Character wystarczy tylko z Gandalfem Szarym albo Gollumem jako przewodnikiem.",
+          "tests": [
+            "LordsTableRemovalTests.GatesAcceptsCharacterOnlyForEitherGreyOrGollumGuide"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie uczestniczy Nazgûl.",
+          "tests": [
+            "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures"
+          ]
+        },
+        {
+          "sourceText": "Wybierz uczestniczącego Towarzysza; jego dowodzenie i zdolności są anulowane do końca rundy.",
+          "tests": [
+            "LordsShadowCombatInteractionTests.WordsCancelsChosenCouncilCompanionLeadershipAndAbilitiesForOneRound"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Deklaracja przez twierdzę i pozostanie, dobór przed wejściem na tor Mordoru.",
+          "tests": [
+            "LordsGatesTests.EnterLeaveAndStationaryDeclarationOfferOptionalAdditionalHunt",
+            "LordsGatesTests.DeclarationMustResolveGatesBeforeEnteringMordor"
+          ]
+        },
+        {
+          "sourceText": "Koszt Character z niewłaściwym przewodnikiem jest nielegalny.",
+          "tests": [
+            "LordsTableRemovalTests.GatesAcceptsCharacterOnlyForEitherGreyOrGollumGuide"
+          ]
+        },
+        {
+          "sourceText": "Words of Power obejmuje zdolności postaci Lords.",
+          "tests": [
+            "LordsShadowCombatInteractionTests.WordsCancelsChosenCouncilCompanionLeadershipAndAbilitiesForOneRound"
+          ]
+        }
+      ],
+      "tests": [
+        "LordsCards02BoundaryTests.EveryEventValidatesPrintedCostOwnershipWindowAndModule",
+        "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures",
+        "LordsCards02PersistenceTests.EveryEventRestartsItsCostAndEffectWithoutRepeatingRecruitment",
+        "LordsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "LordsShadowCombatInteractionTests.DaringCancelsEveryLordsCombatHalfBeforeCostsOrChoices",
+        "LordsCards02PersistenceTests.GatesPersistsDeclarationReactionDamageAndRemainingChiefReaction",
+        "LordsCards02PersistenceTests.TableRemovalRestartsWillCharacterAndSelectedRingCosts",
+        "LordsCards02PersistenceTests.ServantAndWordsPersistSelectedFigureAndSubsequentRoll",
+        "LordsGatesTests.EnterLeaveAndStationaryDeclarationOfferOptionalAdditionalHunt",
+        "LordsGatesTests.ConqueredStrongholdDoesNotTriggerAndDeclineKeepsTheCard",
+        "LordsGatesTests.GatesAndChiefCanBothRespondOnceInEitherOrder",
+        "LordsGatesTests.RevealedRouteIgnoresGatesEyeButStillDrawsTheStrongholdTileLast",
+        "LordsGatesTests.GatesAndFireAndShadowKeepSeparateHuntsBeforeOrdinaryStrongholdHunt",
+        "LordsTableRemovalTests.GatesAcceptsCharacterOnlyForEitherGreyOrGollumGuide",
+        "LordsShadowCombatInteractionTests.WordsCancelsChosenCouncilCompanionLeadershipAndAbilitiesForOneRound",
+        "LordsGatesTests.DeclarationMustResolveGatesBeforeEnteringMordor"
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.sh.character.28",
+      "programId": "lords.sh.character.28",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.servant-of-the-shadow"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Zagranie na stół wymaga Witch-kinga w grze i przewodnika innego niż Gollum.",
+          "tests": [
+            "LordsCaptainTests.CaptainCannotBePlayedWithoutWitchKingOrWithGollumGuide"
+          ]
+        },
+        {
+          "sourceText": "Od następnej akcji każda użyta przez Cień kość z wynikiem Character trafia po zakończeniu akcji do Hunt jako Oko.",
+          "tests": [
+            "LordsCaptainTests.OnlyLaterUsedCharacterResultsBecomeHuntEyesAndPreserveTheirOrigin",
+            "LordsCaptainTests.CaptainWaitsUntilNestedBalrogBattleEndsBeforeAddingTheUsedDieToHunt",
+            "LordsCaptainTests.EventResultsAndDiscardedCharacterResultsDoNotBecomeHuntDice"
+          ]
+        },
+        {
+          "sourceText": "Natychmiast usuń wydarzenie przy deklaracji Drużyny w niezdobytej twierdzy FP albo gdy Gollum zostaje przewodnikiem.",
+          "tests": [
+            "LordsCaptainTests.LosingWitchKingOrGettingGollumDiscardsTheTableCard",
+            "LordsCaptainTests.DeclarationExpiresOnlyInAnUnconqueredFreeStronghold"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie uczestniczy Sługus Cienia.",
+          "tests": [
+            "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures"
+          ]
+        },
+        {
+          "sourceText": "Przed walką poświęć dowodzenie jednego Sługusa; FP rzuca o tyle mniej kośćmi walki, z minimum jednej kości.",
+          "tests": [
+            "LordsShadowCombatTests.ServantChoosesOneMinionAndAppliesPenaltyAfterFiveDieCap",
+            "LordsShadowCombatInteractionTests.ServantCannotReduceBelowOneDieAndCancelledMinionsCannotPay"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Kość płacąca za samo wydarzenie nie zasila Hunt; późniejsza czeka na koniec całej zagnieżdżonej akcji.",
+          "tests": [
+            "LordsCaptainTests.CaptainWaitsUntilNestedBalrogBattleEndsBeforeAddingTheUsedDieToHunt"
+          ]
+        },
+        {
+          "sourceText": "Odejście Witch-kinga usuwa kartę: utrata warunku zagrania, BASE 2.4.1 s.22.",
+          "tests": [
+            "LordsCaptainTests.LosingWitchKingOrGettingGollumDiscardsTheTableCard"
+          ]
+        },
+        {
+          "sourceText": "Zachować pochodzenie Oczu do Kings; KINGS s.17 wyklucza je z prób Zepsucia.",
+          "tests": [
+            "LordsCaptainTests.OnlyLaterUsedCharacterResultsBecomeHuntEyesAndPreserveTheirOrigin"
+          ]
+        }
+      ],
+      "tests": [
+        "LordsCards02BoundaryTests.EveryEventValidatesPrintedCostOwnershipWindowAndModule",
+        "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures",
+        "LordsCards02PersistenceTests.EveryEventRestartsItsCostAndEffectWithoutRepeatingRecruitment",
+        "LordsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "LordsShadowCombatInteractionTests.DaringCancelsEveryLordsCombatHalfBeforeCostsOrChoices",
+        "LordsCards02PersistenceTests.NestedCaptainBattleRestartsCardsRollAndDelayedHuntCost",
+        "LordsCards02PersistenceTests.ServantAndWordsPersistSelectedFigureAndSubsequentRoll",
+        "LordsCaptainTests.CaptainCannotBePlayedWithoutWitchKingOrWithGollumGuide",
+        "LordsCaptainTests.OnlyLaterUsedCharacterResultsBecomeHuntEyesAndPreserveTheirOrigin",
+        "LordsCaptainTests.CaptainWaitsUntilNestedBalrogBattleEndsBeforeAddingTheUsedDieToHunt",
+        "LordsCaptainTests.EventResultsAndDiscardedCharacterResultsDoNotBecomeHuntDice",
+        "LordsCaptainTests.LosingWitchKingOrGettingGollumDiscardsTheTableCard",
+        "LordsCaptainTests.DeclarationExpiresOnlyInAnUnconqueredFreeStronghold",
+        "LordsShadowCombatTests.ServantChoosesOneMinionAndAppliesPenaltyAfterFiveDieCap",
+        "LordsShadowCombatInteractionTests.ServantCannotReduceBelowOneDieAndCancelledMinionsCannotPay"
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.sh.strategy.25",
+      "programId": "lords.sh.strategy.25",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.mumakil-combat",
+        "combat.mumakil-hits"
+      ],
+      "combatInitiatives": [
+        3,
+        5
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Zagranie wymaga Nazgûla w Dol Guldur.",
+          "tests": [
+            "LordsShadowManeuverTests.WitchKingCountsLeadershipAndAbsentNazgulIsNotPlayable"
+          ]
+        },
+        {
+          "sourceText": "Rekrutuj tam regularnych Saurona w liczbie równej dowodzeniu Nazgûli w regionie, maksymalnie 5 i z zachowaniem limitu stosu.",
+          "tests": [
+            "LordsShadowManeuverTests.DolGuldurRecruitsLeadershipUpToFiveAndChecksStackBeforeOptionalMove",
+            "LordsShadowManeuverTests.WitchKingCountsLeadershipAndAbsentNazgulIsNotPlayable",
+            "LordsShadowManeuverTests.DolGuldurRespectsPartialReserveAndGarrisonLimit"
+          ]
+        },
+        {
+          "sourceText": "Następnie można ruszyć albo zaatakować tą armią.",
+          "tests": [
+            "LordsShadowManeuverTests.DolGuldurCanAttackOnlyWithItsOwnArmyAndNoAdditionalCost",
+            "LordsCards02PersistenceTests.DolGuldurPersistsOptionalMoveAndDeclineAfterRecruitment"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "W bitwie uczestniczy elita Southrons & Easterlings.",
+          "tests": [
+            "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures"
+          ]
+        },
+        {
+          "sourceText": "Inicjatywa 3: +1 do wszystkich własnych kości walki.",
+          "tests": [
+            "LordsShadowCombatInteractionTests.MumakilIncludesSpecialHitsAndRequiresStrictSuperiorityAfterBothRerolls"
+          ]
+        },
+        {
+          "sourceText": "Inicjatywa 5, po przerzucie: gdy suma trafień Cienia jest większa od trafień FP, dodaj jedno; po stronie FP uwzględnij trafienia specjalnego ataku karty przed walką.",
+          "tests": [
+            "LordsShadowCombatInteractionTests.MumakilIncludesSpecialHitsAndRequiresStrictSuperiorityAfterBothRerolls",
+            "ShadowStrategy02CombatTests.MumakilComparisonIncludesFreePeoplesChargeHitsAlreadyTaken"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Brak opłaty dodatkową kością; rekrutacja nie może przekroczyć limitu z planem późniejszego usunięcia.",
+          "tests": [
+            "LordsShadowManeuverTests.DolGuldurRecruitsLeadershipUpToFiveAndChecksStackBeforeOptionalMove",
+            "LordsShadowManeuverTests.DolGuldurCanAttackOnlyWithItsOwnArmyAndNoAdditionalCost",
+            "LordsShadowManeuverTests.DolGuldurRespectsPartialReserveAndGarrisonLimit"
+          ]
+        },
+        {
+          "sourceText": "Dwa okna combat, remis bez dodatkowego trafienia, elita musi uczestniczyć.",
+          "tests": [
+            "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures",
+            "LordsShadowCombatInteractionTests.MumakilIncludesSpecialHitsAndRequiresStrictSuperiorityAfterBothRerolls"
+          ]
+        }
+      ],
+      "tests": [
+        "LordsCards02BoundaryTests.EveryEventValidatesPrintedCostOwnershipWindowAndModule",
+        "LordsCards02BoundaryTests.EveryCombatValidatesOwnershipWindowModuleAndParticipatingFigures",
+        "LordsCards02PersistenceTests.EveryEventRestartsItsCostAndEffectWithoutRepeatingRecruitment",
+        "LordsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
+        "LordsShadowCombatInteractionTests.DaringCancelsEveryLordsCombatHalfBeforeCostsOrChoices",
+        "LordsShadowManeuverTests.WitchKingCountsLeadershipAndAbsentNazgulIsNotPlayable",
+        "LordsShadowManeuverTests.DolGuldurRecruitsLeadershipUpToFiveAndChecksStackBeforeOptionalMove",
+        "LordsShadowManeuverTests.DolGuldurRespectsPartialReserveAndGarrisonLimit",
+        "LordsShadowManeuverTests.DolGuldurCanAttackOnlyWithItsOwnArmyAndNoAdditionalCost",
+        "LordsCards02PersistenceTests.DolGuldurPersistsOptionalMoveAndDeclineAfterRecruitment",
+        "LordsShadowCombatInteractionTests.MumakilIncludesSpecialHitsAndRequiresStrictSuperiorityAfterBothRerolls",
+        "ShadowStrategy02CombatTests.MumakilComparisonIncludesFreePeoplesChargeHitsAlreadyTaken"
+      ],
+      "kind": "Event"
+    },
+    {
+      "id": "lords.sh.strategy.26",
+      "kind": "Event",
+      "programId": "lords.sh.strategy.26",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "combatPrograms": [
+        "combat.swarm-of-bats"
+      ],
+      "combatInitiatives": [
+        0
+      ],
+      "eventRules": [
+        {
+          "sourceText": "Sauron musi być At War.",
+          "tests": [
+            "LordsMadnessTests.IllegalEventCannotSpendDiscardOrRoll",
+            "LordsMadnessTests.EventPaysOneLegalDieAndWaitsForAnArmyBeforeRolling"
+          ]
+        },
+        {
+          "sourceText": "Wybierz armię FP w regionie twierdzy Saurona albo sąsiadującym.",
+          "tests": [
+            "LordsMadnessTests.TargetsUseSauronStrongholdsRegardlessOfControlButNotOtherNations",
+            "LordsMadnessTests.NoArmyLeavesEventWithoutRollingOrRecruiting"
+          ]
+        },
+        {
+          "sourceText": "Wykonaj 3 rzuty, trafienie przy 5–6; zastosuj straty od wydarzenia.",
+          "tests": [
+            "LordsMadnessTests.ThreeDiceHitOnFiveAndSixAndOpponentAllocatesEventLosses",
+            "LordsMadnessTests.DestroyingArmyRemovesLeadersButCompanionSurvivesAndRecruitmentContinues",
+            "LordsMadnessTests.DowngradingEliteWithoutRegularReserveRemovesItForOneHit"
+          ]
+        },
+        {
+          "sourceText": "Jeśli armia FP jest oblegana wewnątrz tej twierdzy Saurona, rekrutuj 2 regularnych Saurona w regionie; w przeciwnym razie w wybranym wolnym regionie sąsiadującym z celem.",
+          "tests": [
+            "LordsMadnessRecruitTests.RecruitmentIsAdjacentToTheTargetAndPlacesBothRegularsTogether",
+            "LordsMadnessRecruitTests.BesiegedSauronStrongholdRecruitsOutsideEvenWhenTheGarrisonIsDestroyed",
+            "LordsMadnessRecruitTests.FieldArmyInACapturedStrongholdStillRecruitsInAnAdjacentRegion",
+            "LordsMadnessRecruitTests.PartialReserveDoesNotUndoTheAttack",
+            "LordsMadnessRecruitTests.OccupiedAndEnemyControlledDestinationsAreExcludedAndNoFreeRegionSkipsRecruitment",
+            "LordsMadnessRecruitTests.FriendlyBesiegersMakeAdjacentEnemyStrongholdFreeButFriendlyGarrisonDoesNot",
+            "LordsMadnessRecruitTests.RecruitmentOverTenOpensStackLossesBeforeTheActionCostCompletes"
+          ]
+        }
+      ],
+      "combatRules": [
+        {
+          "sourceText": "Anuluj efekt karty bojowej FP.",
+          "tests": [
+            "LordsSwarmTests.PlayedCardIsCancelledWithoutTheNoCardBonus",
+            "LordsSwarmTests.DefenderResolvesDaringOrSwarmFirstAtInitiativeZero"
+          ]
+        },
+        {
+          "sourceText": "Tylko jeśli FP nie zagrał karty, +1 do wszystkich kości własnego przerzutu dowodzenia.",
+          "tests": [
+            "LordsSwarmTests.NoCardAddsOneOnlyToActualLeaderRerollsAndResetsNextRound",
+            "LordsSwarmTests.IneffectiveDaringAfterWhiteRiderStillCountsAsPlayed"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Sąsiedztwo rekrutacji liczy się od celu FP, nie od twierdzy Saurona; Chapman 35552456.",
+          "tests": [
+            "LordsMadnessRecruitTests.RecruitmentIsAdjacentToTheTargetAndPlacesBothRegularsTogether"
+          ]
+        },
+        {
+          "sourceText": "Oblężenie zdobytej twierdzy Saurona a zwykła armia polowa.",
+          "tests": [
+            "LordsMadnessRecruitTests.BesiegedSauronStrongholdRecruitsOutsideEvenWhenTheGarrisonIsDestroyed",
+            "LordsMadnessRecruitTests.FieldArmyInACapturedStrongholdStillRecruitsInAnAdjacentRegion"
+          ]
+        },
+        {
+          "sourceText": "Karta FP anulowana lub nieaktywna nadal została zagrana; nie daje bonusu Swarm.",
+          "tests": [
+            "LordsSwarmTests.PlayedCardIsCancelledWithoutTheNoCardBonus",
+            "LordsSwarmTests.IneffectiveDaringAfterWhiteRiderStillCountsAsPlayed"
+          ]
+        }
+      ],
+      "tests": [
+        "LordsMadnessTests.EventPaysOneLegalDieAndWaitsForAnArmyBeforeRolling",
+        "LordsMadnessTests.IllegalEventCannotSpendDiscardOrRoll",
+        "LordsMadnessTests.TargetsUseSauronStrongholdsRegardlessOfControlButNotOtherNations",
+        "LordsMadnessTests.ThreeDiceHitOnFiveAndSixAndOpponentAllocatesEventLosses",
+        "LordsMadnessTests.DestroyingArmyRemovesLeadersButCompanionSurvivesAndRecruitmentContinues",
+        "LordsMadnessTests.DowngradingEliteWithoutRegularReserveRemovesItForOneHit",
+        "LordsMadnessTests.NoArmyLeavesEventWithoutRollingOrRecruiting",
+        "LordsMadnessRecruitTests.RecruitmentIsAdjacentToTheTargetAndPlacesBothRegularsTogether",
+        "LordsMadnessRecruitTests.BesiegedSauronStrongholdRecruitsOutsideEvenWhenTheGarrisonIsDestroyed",
+        "LordsMadnessRecruitTests.FieldArmyInACapturedStrongholdStillRecruitsInAnAdjacentRegion",
+        "LordsMadnessRecruitTests.PartialReserveDoesNotUndoTheAttack",
+        "LordsMadnessRecruitTests.OccupiedAndEnemyControlledDestinationsAreExcludedAndNoFreeRegionSkipsRecruitment",
+        "LordsMadnessRecruitTests.FriendlyBesiegersMakeAdjacentEnemyStrongholdFreeButFriendlyGarrisonDoesNot",
+        "LordsMadnessRecruitTests.RecruitmentOverTenOpensStackLossesBeforeTheActionCostCompletes",
+        "LordsSwarmTests.SwarmValidatesOwnershipModuleAndCombatWindowInBothRoles",
+        "LordsSwarmTests.NoCardAddsOneOnlyToActualLeaderRerollsAndResetsNextRound",
+        "LordsSwarmTests.PlayedCardIsCancelledWithoutTheNoCardBonus",
+        "LordsSwarmTests.DefenderResolvesDaringOrSwarmFirstAtInitiativeZero",
+        "LordsSwarmTests.IneffectiveDaringAfterWhiteRiderStillCountsAsPlayed",
+        "LordsCards03PersistenceTests.MadnessRestartsPaymentTargetRollLossesAndRecruitment",
+        "LordsCards03PersistenceTests.AnnihilatedGarrisonRetainsItsRecruitmentBranchAfterRestart",
+        "LordsCards03PersistenceTests.RecruitmentAndExcessRemovalRetainOnePaidAction",
+        "LordsCards03PersistenceTests.SwarmRestartsBothSecretCommitsAndTheActualReroll"
+      ]
+    },
+    {
+      "id": "lords.sh.special.05",
+      "kind": "SpecialEvent",
+      "programId": "lords.we-shall-get-it",
+      "eventImplemented": true,
+      "combatImplemented": false,
+      "combatPrograms": [],
+      "combatInitiatives": [],
+      "automaticEntry": "SmeagolRules.Discard",
+      "reactionId": "lords.we-shall-get-it",
+      "eventRules": [
+        {
+          "sourceText": "Karta specjalna poza talią/ręką; wchodzi automatycznie po eliminacji/odrzuceniu Sméagola, bez kosztu kości (LORDS s.22).",
+          "tests": [
+            "LordsWeShallGetItTests.AutomaticEntryHasNoDieHandDeckOrCombatAndWaitsForGollum",
+            "LordsSmeagolTests.TakingSmeagolAsCasualtyReducesDamageByCurrentLevelAndImmediatelyEntersThePublicEvent",
+            "LordsSmeagolDepartureTests.SeparatingSmeagolWithTheWholeGroupEntersTheEventRegardlessOfPayloadOrder",
+            "LordsSmeagolDepartureTests.OnlyDeclarationInUnconqueredCityOrStrongholdDiscardsSmeagol"
+          ]
+        },
+        {
+          "sourceText": "Przemiana ostatniego Sméagola w Golluma nie wprowadza tej karty.",
+          "tests": [
+            "LordsWeShallGetItTests.LastSmeagolBecomingGollumDoesNotEnterTheSpecialCard"
+          ]
+        },
+        {
+          "sourceText": "Jeśli przewodnikiem jest Gollum, Cień może po doborze kafla, przed jego rozstrzyganiem, odrzucić wydarzenie i dobrać kafel zastępczy.",
+          "tests": [
+            "LordsWeShallGetItTests.PublicShadowWindowPrecedesMithrilAndOffersOnlyItsOwnerAChoice",
+            "LordsWeShallGetItTests.MissingPublicConditionDoesNotOpenAShadowWindow",
+            "LordsWeShallGetItTests.DecliningRetainsTheCardAndAllowsItOnALaterTile"
+          ]
+        },
+        {
+          "sourceText": "Zastosuj drugi kafel; zwróć pierwszy do puli. Efekty ochrony Hunt dotyczą drugiego kafla (FAQ 1.2 s.3).",
+          "tests": [
+            "LordsWeShallGetItTests.ReplacementIsDrawnOnceBeforeProtectionAndOriginalReturnsAfterResolution",
+            "LordsWeShallGetItTests.DepletedPoolRefillsDiscardedStandardsWithoutReturningTheFirstTileEarly",
+            "LordsWeShallGetItTests.ReplacementSkipsSmeagolWhoAlreadyLeftAndNeverReentersOrCostsTwice",
+            "LordsWeShallGetItInteractionTests.NenyaAndMithrilAffectSuccessiveReplacementTilesAfterTheShadowDecision",
+            "LordsWeShallGetItInteractionTests.GollumMayRevealToReduceTheReplacementTile",
+            "LordsWeShallGetItInteractionTests.ShelobIsReplacedBeforeItsDieIsRolledAndHealingTileUsesItsOwnValue",
+            "LordsWeShallGetItInteractionTests.MordorUsesOnlyTheReplacementAndCorruptionVictoryPrecedesMovement",
+            "LordsWeShallGetItInteractionTests.IgnoredGateEyeMayBeReplacedBeforeItsDamageRuleIsApplied",
+            "LordsCards03PersistenceTests.MordorReplacementRestartsAdvanceOrVictoryAndReturnsTheHeldTile"
+          ]
+        }
+      ],
+      "combatRules": [],
+      "verificationCases": [
+        {
+          "sourceText": "Nie tasować, nie dobierać, nie liczyć do limitu ręki; brak zastosowania bojowego.",
+          "tests": [
+            "LordsWeShallGetItTests.AutomaticEntryHasNoDieHandDeckOrCombatAndWaitsForGollum",
+            "LordsCards02BoundaryTests.LordsDeckReplacesBaseBalrogAndKeepsSpecialCardOutsideShuffledDecks"
+          ]
+        },
+        {
+          "sourceText": "Użycie jest wyborem, nie obowiązkiem przy pierwszym kaflu; Chapman 12467544.",
+          "tests": [
+            "LordsWeShallGetItTests.DecliningRetainsTheCardAndAllowsItOnALaterTile"
+          ]
+        },
+        {
+          "sourceText": "Wind from the West i Safe Paths mogą usuwać tę kartę; Chapman 21001986.",
+          "tests": [
+            "LordsWeShallGetItInteractionTests.RemovalCardsDiscardTheSpecialEventWithoutDrawingOrSpendingIt"
+          ]
+        }
+      ],
+      "tests": [
+        "LordsWeShallGetItTests.AutomaticEntryHasNoDieHandDeckOrCombatAndWaitsForGollum",
+        "LordsWeShallGetItTests.LastSmeagolBecomingGollumDoesNotEnterTheSpecialCard",
+        "LordsWeShallGetItTests.PublicShadowWindowPrecedesMithrilAndOffersOnlyItsOwnerAChoice",
+        "LordsWeShallGetItTests.MissingPublicConditionDoesNotOpenAShadowWindow",
+        "LordsWeShallGetItTests.DecliningRetainsTheCardAndAllowsItOnALaterTile",
+        "LordsWeShallGetItTests.ReplacementIsDrawnOnceBeforeProtectionAndOriginalReturnsAfterResolution",
+        "LordsWeShallGetItTests.DepletedPoolRefillsDiscardedStandardsWithoutReturningTheFirstTileEarly",
+        "LordsWeShallGetItTests.ReplacementSkipsSmeagolWhoAlreadyLeftAndNeverReentersOrCostsTwice",
+        "LordsWeShallGetItInteractionTests.NenyaAndMithrilAffectSuccessiveReplacementTilesAfterTheShadowDecision",
+        "LordsWeShallGetItInteractionTests.GollumMayRevealToReduceTheReplacementTile",
+        "LordsWeShallGetItInteractionTests.StaffCanPreventADrawWhileTheSpecialEventWaitsForGollum",
+        "LordsWeShallGetItInteractionTests.ShelobIsReplacedBeforeItsDieIsRolledAndHealingTileUsesItsOwnValue",
+        "LordsWeShallGetItInteractionTests.RemovalCardsDiscardTheSpecialEventWithoutDrawingOrSpendingIt",
+        "LordsWeShallGetItInteractionTests.ChallengeOfTheKingDoesNotCreateAHuntResolutionOrReplacementWindow",
+        "LordsCards03PersistenceTests.SpecialCardRestartsDeclineAndReplacementBeforeFpProtection",
+        "LordsCards03PersistenceTests.ReplacementChainRestartsNenyaAndMithrilWithoutRestoringSpentCard",
+        "LordsCards03PersistenceTests.ReplacementGuideReactionAndRevelationResumeWithoutAnotherDraw",
+        "LordsSmeagolTests.TakingSmeagolAsCasualtyReducesDamageByCurrentLevelAndImmediatelyEntersThePublicEvent",
+        "LordsSmeagolDepartureTests.SeparatingSmeagolWithTheWholeGroupEntersTheEventRegardlessOfPayloadOrder",
+        "LordsSmeagolDepartureTests.OnlyDeclarationInUnconqueredCityOrStrongholdDiscardsSmeagol",
+        "LordsCards02BoundaryTests.LordsDeckReplacesBaseBalrogAndKeepsSpecialCardOutsideShuffledDecks",
+        "LordsWeShallGetItInteractionTests.MordorUsesOnlyTheReplacementAndCorruptionVictoryPrecedesMovement",
+        "LordsWeShallGetItInteractionTests.IgnoredGateEyeMayBeReplacedBeforeItsDamageRuleIsApplied",
+        "LordsCards03PersistenceTests.MordorReplacementRestartsAdvanceOrVictoryAndReturnsTheHeldTile"
+      ]
+    }
+  ],
+  "packs": [
+    "T27-CARDS-01",
+    "T27-CARDS-02",
+    "T27-CARDS-03"
+  ]
+}

@@ -1,0 +1,719 @@
+{
+  "status": "sources_reviewed_implementation_pending",
+  "reviewedAt": "2026-10-05",
+  "audit": "docs/sources/SRC-03-AUDIT.md",
+  "note": "Reading full obverses, not implementation. Rules descriptions are a summary to track the source; before code reopen obverses. Special card has a Character icon, but does not belong to the deck.",
+  "ordering": {
+    "side": [
+      "FreePeoples",
+      "Shadow"
+    ],
+    "deck": [
+      "Character",
+      "Strategy",
+      null
+    ],
+    "then": [
+      "number",
+      "id"
+    ],
+    "specialLast": true
+  },
+  "composition": {
+    "regularEvents": 13,
+    "specialEvents": 1,
+    "addedToDecks": 12,
+    "replacedBaseCards": 1,
+    "resultDeckSizes": {
+      "fp.character": 28,
+      "fp.strategy": 26,
+      "sh.character": 28,
+      "sh.strategy": 26
+    },
+    "normalDeckTotal": 108
+  },
+  "packs": [
+    {
+      "task": "T27-CARDS-01",
+      "content_ids": [
+        "lords.fp.character.25",
+        "lords.fp.character.26",
+        "lords.fp.character.27",
+        "lords.fp.character.28",
+        "lords.fp.strategy.25",
+        "lords.fp.strategy.26"
+      ]
+    },
+    {
+      "task": "T27-CARDS-02",
+      "content_ids": [
+        "lords.sh.character.17",
+        "lords.sh.character.25",
+        "lords.sh.character.26",
+        "lords.sh.character.27",
+        "lords.sh.character.28",
+        "lords.sh.strategy.25"
+      ]
+    },
+    {
+      "task": "T27-CARDS-03",
+      "content_ids": [
+        "lords.sh.strategy.26",
+        "lords.sh.special.05"
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "id": "lords.fp.character.25",
+      "title": "You Know the Way There",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 25,
+      "printedNumber": "LM 25/24",
+      "eventType": "Character",
+      "combatTitle": "Blade of Westernesse",
+      "initiative": [
+        6
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          5436,
+          3276,
+          6342,
+          4915
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Bez dodatkowego warunku zagrania.",
+        "Dodaj do puli dwa dodatkowe kafle Sméagola. To trzeci i czwarty kafel dodatku, nie powrót usuniętych kafli (LORDS s.22)."
+      ],
+      "combatRules": [
+        "W bitwie musi uczestniczyć Hobbit.",
+        "Zużyj jedno trafienie przerzutu dowodzenia, aby wyeliminować wybranego uczestniczącego Sługusa."
+      ],
+      "verificationCases": [
+        "Brak ponownego dodawania dwóch kafli z setupu.",
+        "Koszt rzeczywistego trafienia; cel uczestnik, nie tylna straż."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.fp.character.26",
+      "title": "Safe Paths in the Dark",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 26,
+      "printedNumber": "LM 26/24",
+      "eventType": "Character",
+      "combatTitle": "It Is a Gift",
+      "initiative": [
+        3
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          906,
+          1638,
+          1812,
+          3276
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Bez dodatkowego warunku zagrania.",
+        "Zmniejsz Zepsucie o 1.",
+        "Usuń bez efektu We Shall Get It albo We Won’t Go Back, jeżeli jest na stole."
+      ],
+      "combatRules": [
+        "Region armii broniącej się musi być regionem Drużyny.",
+        "+1 do wszystkich własnych kości walki i przerzutu dowodzenia."
+      ],
+      "verificationCases": [
+        "Zepsucie 0; brak obu kart na stole.",
+        "Nie utożsamiać regionu Drużyny z abstrakcyjnym postępem."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.fp.character.27",
+      "title": "Wind from the West",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 27,
+      "printedNumber": "LM 27/24",
+      "eventType": "Character",
+      "combatTitle": "Orderly Withdrawal",
+      "initiative": [
+        6
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          3624,
+          3276,
+          4530,
+          4915
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Usuń jedną wybraną kartę wydarzenia Cienia ze stołu.",
+        "Tylko jeżeli Cień nie ma wydarzenia na stole, FP może obejrzeć jego rękę i odrzucić wybraną kartę."
+      ],
+      "combatRules": [
+        "Własny dowódca FP lub Towarzysz uczestniczy w bitwie polowej albo wypadzie.",
+        "Przed zwykłymi stratami można anulować jedno trafienie walki/przerzutu.",
+        "Po skorzystaniu z anulowania zakończ atak albo wykonaj możliwy odwrót na końcu rundy, zgodnie z rolą FP."
+      ],
+      "verificationCases": [
+        "Karta na stole blokuje alternatywę przeglądu ręki.",
+        "Restart chwilowego dostępu do obcej ręki bez utrzymania sekretu w późniejszych projekcjach.",
+        "Opcjonalne anulowanie i wymuszona konsekwencja; brak legalnego odwrotu."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.fp.character.28",
+      "title": "Three Rings for the Elven-Kings",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 28,
+      "printedNumber": "LM 28/24",
+      "eventType": "Character",
+      "combatTitle": "Orderly Withdrawal",
+      "initiative": [
+        6
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-AAA4252F",
+        "bounds": [
+          906,
+          3276,
+          1812,
+          4915
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Rzuć 3 kośćmi; każdy wynik 5–6 umożliwia odzyskanie jednego zużytego Pierścienia.",
+        "FP wybiera konkretne Pierścienie: najpierw spoza gry, a dopiero przy ich niedoborze z zasobów Cienia."
+      ],
+      "combatRules": [
+        "Własny dowódca FP lub Towarzysz uczestniczy w bitwie polowej albo wypadzie.",
+        "Przed zwykłymi stratami można anulować jedno trafienie walki/przerzutu.",
+        "Po skorzystaniu z anulowania zakończ atak albo wykonaj możliwy odwrót na końcu rundy, zgodnie z rolą FP."
+      ],
+      "verificationCases": [
+        "0–3 sukcesy, mniej dostępnych Pierścieni niż sukcesów.",
+        "Tożsamości Vilya/Nenya/Narya nie są równoważne; restart wyboru nie losuje ponownie."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.fp.strategy.25",
+      "title": "Every Little is a Gain",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 25,
+      "printedNumber": "LM 25/24",
+      "eventType": "Muster",
+      "combatTitle": "Shield-wall",
+      "initiative": [
+        6
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          7248,
+          3276,
+          8154,
+          4915
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Rekrutuj po jednym regularnym Gondoru w Pelargirze, Lossarnach i Lamedonie.",
+        "Następnie dobierz jedną kartę Strategy."
+      ],
+      "combatRules": [
+        "Przed zwykłymi stratami anuluj jedno trafienie, jeżeli przeciwnik uzyskał przynajmniej dwa z walki i przerzutu."
+      ],
+      "verificationCases": [
+        "Niedobór wspólnej rezerwy, zablokowany region i dobór po rekrutacji.",
+        "Nie anulować pojedynczego trafienia ani specjalnego ataku przed walką."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.fp.strategy.26",
+      "title": "Rangers of the North",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 26,
+      "printedNumber": "LM 26/24",
+      "eventType": "Army",
+      "combatTitle": "Advantageous Position",
+      "initiative": [
+        3
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-CC8441E3",
+        "bounds": [
+          0,
+          1638,
+          906,
+          3276
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Wybierz armię Cienia w granicach Północy albo w regionie z nimi sąsiadującym.",
+        "Wykonaj 3 rzuty, trafienie przy 5–6; zastosuj straty od wydarzenia.",
+        "Następnie wybierz jeden wolny region Północy sąsiadujący z zaatakowanym; rekrutuj tam jedną jednostkę Północy (regularną albo elitę) oraz dowódcę Północy."
+      ],
+      "combatRules": [
+        "Region armii broniącej się leży w granicach dowolnego narodu FP.",
+        "-1 do kości rzutu walki Cienia; naturalna 6 pozostaje trafieniem. Nie zmienia przerzutu."
+      ],
+      "verificationCases": [
+        "Sąsiedztwo, brak armii celu, wybór typu jednostki i odrębna decyzja strat Cienia.",
+        "Brak narodu lub rezerwy nie uprawnia do rekrutacji w sąsiednim obcym regionie."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.sh.character.17",
+      "title": "A Balrog is Come!",
+      "side": "Shadow",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 17,
+      "printedNumber": "17*/24",
+      "eventType": "Character",
+      "combatTitle": "Durin’s Bane",
+      "initiative": [
+        2
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          5436,
+          3276,
+          6342,
+          4915
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.character.17"
+      },
+      "eventRules": [
+        "Balrog musi być w grze.",
+        "Aktywuj Balroga; aktywny ma poziom 2.",
+        "Jeśli był już aktywny, można zamiast aktywacji ruszyć samym Balrogiem albo ruszyć/zaatakować armią, w której uczestniczy.",
+        "Przypomnienie: dezaktywacja poza Morią eliminuje Balroga."
+      ],
+      "combatRules": [
+        "Region armii broniącej się leży w odległości do 2 regionów od Morii ALBO Balrog uczestniczy w bitwie.",
+        "Przed rzutem walki wykonaj dodatkowy atak 3 kośćmi, trafienia przy 4–6 i natychmiastowe straty."
+      ],
+      "verificationCases": [
+        "Zastępuje base.sh.character.17; nie dopisuje drugiej karty tego slotu.",
+        "Aktywacja nie daje dodatkowego ruchu w tej samej akcji.",
+        "Rozszerzony warunek walki pozwala użyć poza zasięgiem Morii z uczestniczącym Balrogiem."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.sh.character.25",
+      "title": "We Won’t Go Back",
+      "side": "Shadow",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 25,
+      "printedNumber": "LM 25/24",
+      "eventType": "Character",
+      "combatTitle": "Fear of Their Masters",
+      "initiative": [
+        3
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          2718,
+          3276,
+          3624,
+          4915
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Zagranie na stół wymaga Sméagola jako przewodnika.",
+        "Po dobraniu kafla Sméagola podczas Polowania Cień może odrzucić kartę z talii Character z własnej ręki albo usunąć to wydarzenie ze stołu, aby dodać 2 Zepsucia.",
+        "Zepsucie jest bezpośrednie; modyfikatory Polowania go nie zapobiegają (druk i FAQ 1.2 s.3)."
+      ],
+      "combatRules": [
+        "W bitwie uczestniczy Sługus Cienia.",
+        "Zrezygnuj z całego własnego dowodzenia, aby dodać +2 do wszystkich kości walki.",
+        "Każda naturalna 6 FP w rzucie walki lub przerzucie powoduje jedno dodatkowe trafienie w armię Cienia."
+      ],
+      "verificationCases": [
+        "Odmowa użycia, obie alternatywy kosztu, brak ręki i brak ujawnienia jej zawartości przeciwnikowi.",
+        "Kolejność kafla przed zwykłym Hunt; ochrona Hunt nie blokuje 2 Zepsucia.",
+        "Odejście Sméagola jako Guide usuwa kartę zgodnie z BASE 2.4.1 s.22; późniejsze kafle nie dają korupcji WWGB."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.sh.character.26",
+      "title": "The Lore of the Elven Rings",
+      "side": "Shadow",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 26,
+      "printedNumber": "LM 26/24",
+      "eventType": "Character",
+      "combatTitle": "Fear of Their Masters",
+      "initiative": [
+        3
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          0,
+          3276,
+          906,
+          4915
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Zagranie na stół bez dodatkowego warunku.",
+        "Przed fazą rozstrzygania akcji, jeśli którykolwiek wynik kości Keeper jest Okiem, Cień może zmienić wynik jednej kości swojego rzutu akcji na wybrany inny.",
+        "FP może usunąć wydarzenie kosztem Will of the West albo dowolnej kości akcji i jednego Pierścienia."
+      ],
+      "combatRules": [
+        "W bitwie uczestniczy Sługus Cienia.",
+        "Zrezygnuj z całego własnego dowodzenia, aby dodać +2 do wszystkich kości walki.",
+        "Każda naturalna 6 FP w rzucie walki lub przerzucie powoduje jedno dodatkowe trafienie w armię Cienia."
+      ],
+      "verificationCases": [
+        "Oko Keeper a zwykłe Oko; dokładne okno przed akcjami.",
+        "Jeden zmieniany wynik mimo kilku Keeperów; rzeczywisty wybór kości/Pierścienia."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.sh.character.27",
+      "title": "The Gates are Closed",
+      "side": "Shadow",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 27,
+      "printedNumber": "LM 27/24",
+      "eventType": "Character",
+      "combatTitle": "Words of Power",
+      "initiative": [
+        1
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          7248,
+          1638,
+          8154,
+          3276
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Zagranie na stół bez dodatkowego warunku.",
+        "Przy deklaracji/ujawnieniu Drużyny: wejście do, wyjście z, przejście przez albo pozostanie w niezdobytej twierdzy Cienia pozwala Cieniowi odrzucić wydarzenie dla dodatkowego kafla.",
+        "Oko jest odrzucane bez efektu; dla pozostałych kafli użyj procedury udanego Polowania, ignorując Reveal.",
+        "FP może usunąć wydarzenie kosztem Will of the West; Character wystarczy tylko z Gandalfem Szarym albo Gollumem jako przewodnikiem."
+      ],
+      "combatRules": [
+        "W bitwie uczestniczy Nazgûl.",
+        "Wybierz uczestniczącego Towarzysza; jego dowodzenie i zdolności są anulowane do końca rundy."
+      ],
+      "verificationCases": [
+        "Deklaracja przez twierdzę i pozostanie, dobór przed wejściem na tor Mordoru.",
+        "Koszt Character z niewłaściwym przewodnikiem jest nielegalny.",
+        "Words of Power obejmuje zdolności postaci Lords."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.sh.character.28",
+      "title": "Captain of Despair",
+      "side": "Shadow",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 28,
+      "printedNumber": "LM 28/24",
+      "eventType": "Character",
+      "combatTitle": "Servant of the Shadow",
+      "initiative": [
+        3
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-72634326",
+        "bounds": [
+          6342,
+          1638,
+          7248,
+          3276
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Zagranie na stół wymaga Witch-kinga w grze i przewodnika innego niż Gollum.",
+        "Od następnej akcji każda użyta przez Cień kość z wynikiem Character trafia po zakończeniu akcji do Hunt jako Oko.",
+        "Natychmiast usuń wydarzenie przy deklaracji Drużyny w niezdobytej twierdzy FP albo gdy Gollum zostaje przewodnikiem."
+      ],
+      "combatRules": [
+        "W bitwie uczestniczy Sługus Cienia.",
+        "Przed walką poświęć dowodzenie jednego Sługusa; FP rzuca o tyle mniej kośćmi walki, z minimum jednej kości."
+      ],
+      "verificationCases": [
+        "Kość płacąca za samo wydarzenie nie zasila Hunt; późniejsza czeka na koniec całej zagnieżdżonej akcji.",
+        "Odejście Witch-kinga usuwa kartę: utrata warunku zagrania, BASE 2.4.1 s.22.",
+        "Zachować pochodzenie Oczu do Kings; KINGS s.17 wyklucza je z prób Zepsucia."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.sh.strategy.25",
+      "title": "Shadow of Dol Guldur",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 25,
+      "printedNumber": "LM 25/24",
+      "eventType": "Army",
+      "combatTitle": "Mûmakil",
+      "initiative": [
+        3,
+        5
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          1812,
+          3276,
+          2718,
+          4915
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Zagranie wymaga Nazgûla w Dol Guldur.",
+        "Rekrutuj tam regularnych Saurona w liczbie równej dowodzeniu Nazgûli w regionie, maksymalnie 5 i z zachowaniem limitu stosu.",
+        "Następnie można ruszyć albo zaatakować tą armią."
+      ],
+      "combatRules": [
+        "W bitwie uczestniczy elita Southrons & Easterlings.",
+        "Inicjatywa 3: +1 do wszystkich własnych kości walki.",
+        "Inicjatywa 5, po przerzucie: gdy suma trafień Cienia jest większa od trafień FP, dodaj jedno; po stronie FP uwzględnij trafienia specjalnego ataku karty przed walką."
+      ],
+      "verificationCases": [
+        "Brak opłaty dodatkową kością; rekrutacja nie może przekroczyć limitu z planem późniejszego usunięcia.",
+        "Dwa okna combat, remis bez dodatkowego trafienia, elita musi uczestniczyć."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.sh.strategy.26",
+      "title": "Madness and Horror",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 26,
+      "printedNumber": "LM 26/24",
+      "eventType": "Army",
+      "combatTitle": "Swarm of Bats",
+      "initiative": [
+        0
+      ],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CARD-SHEET-40183E02",
+        "bounds": [
+          0,
+          0,
+          906,
+          1638
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Sauron musi być At War.",
+        "Wybierz armię FP w regionie twierdzy Saurona albo sąsiadującym.",
+        "Wykonaj 3 rzuty, trafienie przy 5–6; zastosuj straty od wydarzenia.",
+        "Jeśli armia FP jest oblegana wewnątrz tej twierdzy Saurona, rekrutuj 2 regularnych Saurona w regionie; w przeciwnym razie w wybranym wolnym regionie sąsiadującym z celem."
+      ],
+      "combatRules": [
+        "Anuluj efekt karty bojowej FP.",
+        "Tylko jeśli FP nie zagrał karty, +1 do wszystkich kości własnego przerzutu dowodzenia."
+      ],
+      "verificationCases": [
+        "Sąsiedztwo rekrutacji liczy się od celu FP, nie od twierdzy Saurona; Chapman 35552456.",
+        "Oblężenie zdobytej twierdzy Saurona a zwykła armia polowa.",
+        "Karta FP anulowana lub nieaktywna nadal została zagrana; nie daje bonusu Swarm."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    },
+    {
+      "id": "lords.sh.special.05",
+      "title": "We Shall Get It",
+      "side": "Shadow",
+      "deck": null,
+      "kind": "SpecialEvent",
+      "number": 5,
+      "printedNumber": "LM 5/5",
+      "eventType": "Character",
+      "combatTitle": null,
+      "initiative": [],
+      "edition": "Lords of Middle-earth — Second Edition expansion, English",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          0,
+          4915,
+          906,
+          6553
+        ]
+      },
+      "setup": {
+        "operation": "set-aside",
+        "replaces": null
+      },
+      "eventRules": [
+        "Karta specjalna poza talią/ręką; wchodzi automatycznie po eliminacji/odrzuceniu Sméagola, bez kosztu kości (LORDS s.22).",
+        "Przemiana ostatniego Sméagola w Golluma nie wprowadza tej karty.",
+        "Jeśli przewodnikiem jest Gollum, Cień może po doborze kafla, przed jego rozstrzyganiem, odrzucić wydarzenie i dobrać kafel zastępczy.",
+        "Zastosuj drugi kafel; zwróć pierwszy do puli. Efekty ochrony Hunt dotyczą drugiego kafla (FAQ 1.2 s.3)."
+      ],
+      "combatRules": [],
+      "verificationCases": [
+        "Nie tasować, nie dobierać, nie liczyć do limitu ręki; brak zastosowania bojowego.",
+        "Użycie jest wyborem, nie obowiązkiem przy pierwszym kaflu; Chapman 12467544.",
+        "Wind from the West i Safe Paths mogą usuwać tę kartę; Chapman 21001986."
+      ],
+      "implementationManifest": "content/lords-card-implementation-manifest.json"
+    }
+  ]
+}

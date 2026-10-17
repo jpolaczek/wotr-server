@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Wotr.Contracts/Wotr.Contracts.csproj" />
+    <Project Path="src/Wotr.Domain/Wotr.Domain.csproj" />
+    <Project Path="src/Wotr.Releases/Wotr.Releases.csproj" />
+    <Project Path="src/Wotr.ReleaseTool/Wotr.ReleaseTool.csproj" />
+    <Project Path="src/Wotr.Server/Wotr.Server.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Wotr.Scenarios/Wotr.Scenarios.csproj" />
+    <Project Path="tests/Wotr.Tests/Wotr.Tests.csproj" />
+  </Folder>
+</Solution>

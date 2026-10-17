@@ -1,0 +1,18 @@
+[
+  {
+    "_spdisplays_pixels": "3024 x 1964",
+    "_spdisplays_resolution": "1512 x 982 @ 120.00Hz",
+    "spdisplays_main": "spdisplays_yes",
+    "spdisplays_mirror": "spdisplays_off",
+    "spdisplays_online": "spdisplays_yes",
+    "spdisplays_pixelresolution": "spdisplays_3024x1964Retina"
+  },
+  {
+    "_spdisplays_pixels": "1920 x 1080",
+    "_spdisplays_resolution": "1920 x 1080 @ 75.00Hz",
+    "spdisplays_mirror": "spdisplays_off",
+    "spdisplays_online": "spdisplays_yes",
+    "spdisplays_pixelresolution": "spdisplays_1080p",
+    "spdisplays_resolution": "1920 x 1080 @ 75.00Hz"
+  }
+]

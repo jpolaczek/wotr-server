@@ -1,0 +1,32 @@
+{
+  "version": "contours-2",
+  "sourceHashes": {
+    "graphicalassets/region-map/geometry.json": "2b5db560643401f48f8415b4a76392596ed41b0cde187a2b9e738816c735b20a",
+    "graphicalassets/region-map/map-regions.svg": "bff49f0e67035b931f7e6013ae3b0792ccbd3fb8b70f37ae7f4502ce051389e5",
+    "graphicalassets/region-map/reference/region-seeds.json": "a6adbb55c9a4c5ae9199bca1b3dc6ada7b8c15c85f363ec8e739e751260b9251",
+    "graphicalassets/region-map/reference/region-labels.png": "9621c8e78d552e0b4dd3c2fd4d4fdf1bb4c45479481a20c7141fa1807fd97675",
+    "graphicalassets/region-map/reference/raster-adjacency-audit.json": "182a6d41a63e4a87102958569e34c9b54b896e9a5bc42a423c471b34bdcb1076",
+    "content/base-board.json": "b6b0575404de0a0d8d209244a7f1ec5c299383b0b4dd1267c7561f154f8fe6d4"
+  },
+  "regions": 105,
+  "rings": 106,
+  "ringPointsWithoutClosure": 26455,
+  "sharedPaths": 323,
+  "uniqueSegments": 14348,
+  "contactPairs": 282,
+  "legalContactPairs": 232,
+  "additionalContactPairs": 50,
+  "addedSimplification": 0,
+  "sourceSimplificationWorkingPixels": 0.6,
+  "overlappingRegions": 0,
+  "waterHoleRegions": [
+    "gorgoroth"
+  ],
+  "anchorSource": "reference/region-seeds.json:point (not seed)",
+  "interpolatedSourceAreas": [
+    "Misty Mountains ridges",
+    "mountains around Mordor",
+    "South Rhun/Barad-dur/Gorgoroth under the character panel",
+    "northeast crop under the Fellowship track"
+  ]
+}

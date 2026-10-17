@@ -1,0 +1,981 @@
+{
+  "status": "sources_reviewed_implementation_pending",
+  "reviewedAt": "2026-10-05",
+  "audit": "docs/sources/SRC-05-AUDIT.md",
+  "note": "Read 19 full obverses, not implementation. Rules summary and cases indicate source; before code reopen obverses. Two Seeing Stones promos are out of range.",
+  "ordering": {
+    "side": [
+      "FreePeoples",
+      "Shadow"
+    ],
+    "deck": [
+      "Character",
+      "Strategy"
+    ],
+    "then": [
+      "number",
+      "id"
+    ]
+  },
+  "composition": {
+    "regularEvents": 19,
+    "freePeoples": 10,
+    "shadow": 9,
+    "addedToDecks": 8,
+    "replacedBaseCards": 11,
+    "resultDeckSizes": {
+      "fp.character": 26,
+      "fp.strategy": 26,
+      "sh.character": 26,
+      "sh.strategy": 26
+    },
+    "normalDeckTotal": 104,
+    "withLordsDeckSizes": {
+      "fp.character": 30,
+      "fp.strategy": 28,
+      "sh.character": 30,
+      "sh.strategy": 28
+    },
+    "withLordsNormalDeckTotal": 116
+  },
+  "excludedFronts": [
+    {
+      "title": "Knowledge of the Seeing Stones",
+      "printedNumber": "KM PROMO 1",
+      "reason": "Seeing Stones promo outside REQUIREMENTS",
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          1992,
+          600,
+          2324,
+          1200
+        ]
+      }
+    },
+    {
+      "title": "The Palantír of Minas Tirith",
+      "printedNumber": "KM PROMO 2",
+      "reason": "Seeing Stones promo outside REQUIREMENTS",
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          1328,
+          1200,
+          1660,
+          1800
+        ]
+      }
+    }
+  ],
+  "packs": [
+    {
+      "task": "T30-CARDS-01",
+      "content_ids": [
+        "kings.fp.character.23",
+        "kings.fp.character.25",
+        "kings.fp.character.26",
+        "kings.fp.strategy.08",
+        "kings.fp.strategy.16",
+        "kings.fp.strategy.19"
+      ]
+    },
+    {
+      "task": "T30-CARDS-02",
+      "content_ids": [
+        "kings.fp.strategy.22",
+        "kings.fp.strategy.24",
+        "kings.fp.strategy.25",
+        "kings.fp.strategy.26",
+        "kings.sh.character.25",
+        "kings.sh.character.26"
+      ]
+    },
+    {
+      "task": "T30-CARDS-03",
+      "content_ids": [
+        "kings.sh.strategy.01",
+        "kings.sh.strategy.03",
+        "kings.sh.strategy.05",
+        "kings.sh.strategy.06",
+        "kings.sh.strategy.18",
+        "kings.sh.strategy.25"
+      ]
+    },
+    {
+      "task": "T30-CARDS-04",
+      "content_ids": [
+        "kings.sh.strategy.26"
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "id": "kings.fp.character.23",
+      "title": "House of the Stewards",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 23,
+      "printedNumber": "23*/24",
+      "eventType": "Character",
+      "combatTitle": "Brave Stand",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          1328,
+          600,
+          1660,
+          1200
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.character.23"
+      },
+      "eventRules": [
+        "Boromir musi znajdować się w regionie Gondoru.",
+        "Wybierz: rekrutuj jedną jednostkę Regularną albo Elitarną Gondoru przy Boromirze, albo losowo usuń jeden zakryty kafel Zepsucia Denethora do puli Polowania.",
+        "Po wybranej gałęzi dobierz dwie karty z talii Strategy."
+      ],
+      "combatRules": [
+        "W bitwie musi uczestniczyć Towarzysz.",
+        "Cień rzuca o jedną kość walki mniej za każdego uczestniczącego Towarzysza, z minimum jednej kości."
+      ],
+      "verificationCases": [
+        "Warunek Boromira dotyczy obu gałęzi; brak zasobów rozpatrywać według częściowego wykonania wydarzenia.",
+        "Losowość usunięcia kafla po stronie serwera; dobór dokładnie Strategy, nie Character.",
+        "Combat: zliczać uczestników, nie tylną straż; minimum jednej kości Cienia."
+      ]
+    },
+    {
+      "id": "kings.fp.character.25",
+      "title": "Aid in Time of Need",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 25,
+      "printedNumber": "KM 25/24",
+      "eventType": "Character",
+      "combatTitle": "The King’s Banner",
+      "initiative": [
+        4
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          996,
+          600,
+          1328,
+          1200
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Przesuń dowolnych lub wszystkich Towarzyszy znajdujących się poza Drużyną.",
+        "Następnie wybierz nieprzebudzonego i nieskorumpowanego Suwerena, który dzieli region z Towarzyszem; przebudź go w tym regionie."
+      ],
+      "combatRules": [
+        "Uczestnikiem bitwy musi być Aragorn albo Przebudzony Suweren.",
+        "Przed własnym przerzutem dowodzenia poświęć całe dowodzenie Aragorna albo wybranego Suwerena, aby anulować przerzut dowodzenia Cienia."
+      ],
+      "verificationCases": [
+        "Ruch części lub wszystkich uprawnionych Towarzyszy; pozycję dla przebudzenia sprawdzać po zakończeniu ruchu.",
+        "Przebudzenie w miejscu, bez dodatkowej relokacji Suwerena; uwzględnić Your Welcome Is Doubtful.",
+        "Combat: właściwy uczestnik i rzeczywista utrata całego jego dowodzenia; anulowanie przerzutu Cienia."
+      ]
+    },
+    {
+      "id": "kings.fp.character.26",
+      "title": "It Is Not So Dark Here",
+      "side": "FreePeoples",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 26,
+      "printedNumber": "KM 26/24",
+      "eventType": "Character",
+      "combatTitle": "Like a God of Old",
+      "initiative": [
+        2
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          1660,
+          600,
+          1992,
+          1200
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Przesuń wybrany Naród Wolnych Ludów o jedno pole naprzód na torze politycznym.",
+        "Następnie obejrzyj kafle Zepsucia wybranego nieskorumpowanego Suwerena i wybierz jeden z nich do zwrotu do puli Polowania."
+      ],
+      "combatRules": [
+        "W bitwie musi uczestniczyć Przebudzony Suweren.",
+        "Przed rzutem walki wykonaj specjalny atak liczbą kości równą jego dowodzeniu; każda 3+ powoduje trafienie armii Cienia."
+      ],
+      "verificationCases": [
+        "Naród już At War i częściowe wykonanie; brak dodatkowej aktywacji w tekście wydarzenia.",
+        "Tymczasowy wgląd FP w kafle tylko w oknie tego efektu; wybór zachowany przez reconnect.",
+        "Combat: specjalny atak przed zwykłym rzutem, próg 3+, liczba kości równa dowodzeniu Suwerena."
+      ]
+    },
+    {
+      "id": "kings.fp.strategy.08",
+      "title": "Wisdom of Elrond",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 8,
+      "printedNumber": "8*/24",
+      "eventType": "Muster",
+      "combatTitle": "Confusion",
+      "initiative": [
+        4
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          996,
+          1200,
+          1328,
+          1800
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.08"
+      },
+      "eventRules": [
+        "Wybierz jedną gałąź: aktywuj Naród Wolnych Ludów i przesuń go o jedno pole na torze politycznym, albo obejrzyj kafle Zepsucia nieskorumpowanego Suwerena.",
+        "Po obejrzeniu kafli możesz wybrać jeden do zwrotu do puli Polowania; odrzut jest opcjonalny."
+      ],
+      "combatRules": [
+        "Każda naturalna jedynka Cienia w rzucie walki powoduje jedno trafienie jego armii.",
+        "Tych jedynek nie wolno ponownie rzucać w przerzucie dowodzenia Cienia."
+      ],
+      "verificationCases": [
+        "Nie łączyć polityki z przeglądem kafli; aktywacja nie znika przy Narodzie już na końcu toru.",
+        "Po wglądzie dopuszczalna odmowa usunięcia; nie ujawniać kafli poza uprawnionym widokiem.",
+        "Combat: naturalna jedynka, niezależnie od modyfikatorów; trwale wykluczyć tę kość z przerzutu."
+      ]
+    },
+    {
+      "id": "kings.fp.strategy.16",
+      "title": "Riders of Théoden",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 16,
+      "printedNumber": "16*/24",
+      "eventType": "Muster",
+      "combatTitle": "Daylight",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          332,
+          1200,
+          664,
+          1800
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.16"
+      },
+      "eventRules": [
+        "Jeżeli w grze jest Théoden, Corrupted Ruler, usuń go z gry.",
+        "W przeciwnym razie wybierz: rekrutuj jedną jednostkę Regularną albo Elitarną Rohanu oraz jednego dowódcę Rohanu w Edoras albo w regionie Rohanu z Towarzyszem, albo losowo zwróć jeden zakryty kafel Zepsucia Théodena do puli Polowania; następnie dobierz jedną kartę Strategy."
+      ],
+      "combatRules": [
+        "Cień rzuca najwyżej trzema kośćmi w swoim rzucie walki."
+      ],
+      "verificationCases": [
+        "Edoras nie wymaga Towarzysza; alternatywny region wymaga zarówno Rohanu, jak i Towarzysza.",
+        "Dobór Strategy tylko w gałęzi Otherwise; kontrola osady i rezerwy obu rodzajów figur.",
+        "Combat: maksymalnie trzy kości Cienia, również przy innych modyfikatorach liczby kości."
+      ]
+    },
+    {
+      "id": "kings.fp.strategy.19",
+      "title": "King Brand’s Men",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 19,
+      "printedNumber": "19*/24",
+      "eventType": "Muster",
+      "combatTitle": "Shield-Wall",
+      "initiative": [
+        6
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          2656,
+          600,
+          2988,
+          1200
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.19",
+        "excludedWith": [
+          "FateOfErebor"
+        ],
+        "exceptionSource": {
+          "source": "KINGS",
+          "page": 18
+        }
+      },
+      "eventRules": [
+        "Jeżeli w grze jest Brand, Corrupted Ruler, usuń go z gry.",
+        "W przeciwnym razie wybierz: rekrutuj dwie Regularne jednostki Północy w Dale, albo losowo zwróć jeden zakryty kafel Zepsucia Branda do puli Polowania; następnie dobierz jedną kartę Strategy."
+      ],
+      "combatRules": [
+        "Przed usuwaniem strat od zwykłego rzutu walki i przerzutu dowodzenia anuluj jedno trafienie przeciwnika, jeżeli uzyskał co najmniej dwa."
+      ],
+      "verificationCases": [
+        "Usunięcie Skorumpowanego Branda jest osobną gałęzią; dobór jest częścią gałęzi Otherwise.",
+        "Niedobór rezerw, zajęte Dale, brak zakrytych kafli; zakaz zastąpienia bazowej karty przy Fate of Erebor.",
+        "Combat: jedno trafienie nie wystarcza; anulowanie następuje przed zwykłymi stratami."
+      ]
+    },
+    {
+      "id": "kings.fp.strategy.22",
+      "title": "Dáin Ironfoot’s Guard",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 22,
+      "printedNumber": "22*/24",
+      "eventType": "Muster",
+      "combatTitle": "Valour",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          2988,
+          600,
+          3320,
+          1200
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.22",
+        "excludedWith": [
+          "FateOfErebor"
+        ],
+        "exceptionSource": {
+          "source": "KINGS",
+          "page": 18
+        }
+      },
+      "eventRules": [
+        "Jeżeli w grze jest Dáin, Corrupted Ruler, usuń go z gry.",
+        "W przeciwnym razie wybierz: rekrutuj w Ereborze jedną jednostkę Regularną albo Elitarną Krasnoludów oraz jednego ich dowódcę, albo losowo zwróć jeden zakryty kafel Zepsucia Dáina do puli Polowania; następnie dobierz jedną kartę Strategy."
+      ],
+      "combatRules": [
+        "W bitwie musi uczestniczyć jednostka Elitarna Wolnych Ludów.",
+        "Dodaj 1 do wszystkich własnych kości rzutu walki."
+      ],
+      "verificationCases": [
+        "Dobór Strategy należy do gałęzi Otherwise; rekrutacja i usunięcie kafla są alternatywami.",
+        "Oddzielna dostępność rezerw jednostki i dowódcy; wyłączyć tę wymianę przy Fate of Erebor.",
+        "Combat: Elita musi uczestniczyć; bonus walki nie obejmuje przerzutu."
+      ]
+    },
+    {
+      "id": "kings.fp.strategy.24",
+      "title": "Thranduil’s Archers",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 24,
+      "printedNumber": "24*/24",
+      "eventType": "Muster",
+      "combatTitle": "Valour",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          664,
+          1200,
+          996,
+          1800
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.fp.strategy.24"
+      },
+      "eventRules": [
+        "Jeżeli w grze jest Thranduil, Corrupted Ruler, usuń go z gry.",
+        "W przeciwnym razie wybierz: rekrutuj w Woodland Realm jedną Regularną albo Elitarną jednostkę Elfów, albo losowo zwróć jeden zakryty kafel Zepsucia Thranduila do puli Polowania; następnie dobierz jedną kartę Strategy."
+      ],
+      "combatRules": [
+        "W bitwie musi uczestniczyć jednostka Elitarna Wolnych Ludów.",
+        "Dodaj 1 do wszystkich własnych kości rzutu walki."
+      ],
+      "verificationCases": [
+        "Usunięcie Skorumpowanego Suwerena nie uruchamia gałęzi rekrutacji, kafla ani doboru.",
+        "Wariant widocznych kafli nie pozwala usunąć losowo kafla Kings.",
+        "Combat: uczestnicząca Elita dowolnego Narodu FP; +1 tylko do walki."
+      ]
+    },
+    {
+      "id": "kings.fp.strategy.25",
+      "title": "Ever at Your Service",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 25,
+      "printedNumber": "KM 25/24",
+      "eventType": "Muster",
+      "combatTitle": "There Is Hope for Victory",
+      "initiative": [
+        4
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          2324,
+          600,
+          2656,
+          1200
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Wybierz nieskorumpowanego Suwerena; w jego regionie rekrutuj jedną jednostkę Regularną albo Elitarną jego Narodu.",
+        "Następnie, jeżeli ma zakryte kafle Zepsucia, losowo zwróć jeden z nich do puli Polowania."
+      ],
+      "combatRules": [
+        "W bitwie musi uczestniczyć nieskorumpowany Suweren.",
+        "Jeżeli nie jest Przebudzony, przebudź go w bieżącym regionie. Dodaj 1 do wszystkich własnych kości przerzutu dowodzenia."
+      ],
+      "verificationCases": [
+        "Rekrutacja dokładnie Narodu i regionu wybranego Suwerena; brak rezerw nie może wymyślać alternatywnego regionu.",
+        "W wariancie widocznych kafli losować spośród nie-Kings, zgodnie z KINGS s.18.",
+        "Combat: nieprzebudzony kontra Przebudzony uczestnik; przebudzenie w miejscu i późniejszy bonus przerzutu."
+      ]
+    },
+    {
+      "id": "kings.fp.strategy.26",
+      "title": "Men of Little Villages",
+      "side": "FreePeoples",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 26,
+      "printedNumber": "KM 26/24",
+      "eventType": "Muster",
+      "combatTitle": "There Is Hope for Victory",
+      "initiative": [
+        4
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          0,
+          1200,
+          332,
+          1800
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Dla każdego z czterech różnych Narodów Wolnych Ludów rekrutuj po jednej jednostce Regularnej albo dowódcy w wolnym regionie zawierającym osadę."
+      ],
+      "combatRules": [
+        "W bitwie musi uczestniczyć nieskorumpowany Suweren.",
+        "Jeżeli nie jest Przebudzony, przebudź go w bieżącym regionie. Dodaj 1 do wszystkich własnych kości przerzutu dowodzenia."
+      ],
+      "verificationCases": [
+        "Wybór czterech różnych Narodów, typu figury i legalnej osady; nie wybierać automatycznie składu za gracza.",
+        "Niedobory rezerw, brak wolnej osady i częściowe wykonanie; ogólne ograniczenia rekrutacji przez wydarzenie nadal obowiązują.",
+        "Combat: przebudzenie może być objęte ograniczeniem Your Welcome Is Doubtful; bonus przerzutu jest osobnym krokiem."
+      ]
+    },
+    {
+      "id": "kings.sh.character.25",
+      "title": "Your Welcome Is Doubtful",
+      "side": "Shadow",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 25,
+      "printedNumber": "KM 25/24",
+      "eventType": "Character",
+      "combatTitle": "Servant of the Shadow",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          1660,
+          1200,
+          1992,
+          1800
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Karta pozostaje na stole. Wolne Ludy nie mogą usuwać Zepsucia z Suwerena; przebudzenie wymaga Narodu At War.",
+        "FP mogą odrzucić kartę wynikiem Will of the West, albo wynikiem Character, jeżeli nieskorumpowany Suweren i Towarzysz dzielą region."
+      ],
+      "combatRules": [
+        "W bitwie musi uczestniczyć Sługus Cienia.",
+        "Przed rzutem walki poświęć całe dowodzenie jednego Sługusa. FP rzucają o tyle kości walki mniej, z minimum jednej."
+      ],
+      "verificationCases": [
+        "Stan na stole i restrykcje obowiązują także wydarzenia; wyraźnie rozdzielić usuwanie Zepsucia od usunięcia Skorumpowanego Suwerena.",
+        "Koszt Will of the West bez warunku pozycji; alternatywny Character wymaga poprawnej pary w jednym regionie.",
+        "Combat: wybrany Sługus musi uczestniczyć; całe jego dowodzenie, minimum jednej kości FP."
+      ]
+    },
+    {
+      "id": "kings.sh.character.26",
+      "title": "The West Has Failed",
+      "side": "Shadow",
+      "deck": "Character",
+      "kind": "Event",
+      "number": 26,
+      "printedNumber": "KM 26/24",
+      "eventType": "Character",
+      "combatTitle": "Battle Is Vain",
+      "initiative": [
+        1
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          1992,
+          1200,
+          2324,
+          1800
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Rozpocznij próbę Zepsucia Suwerena w regionie Nazgûla albo sąsiadującym z nim; nie usuwa się w tym celu kości Oka z pola Polowania.",
+        "Próba jest dozwolona także wtedy, gdy FP nie mają już niewykorzystanych kości akcji."
+      ],
+      "combatRules": [
+        "Łączne dowodzenie uczestniczących Nazgûli musi wynosić co najmniej 1.",
+        "Poświęć do 5 punktów dowodzenia Nazgûli, zmniejszając dowodzenie Wolnych Ludów o tę samą wartość."
+      ],
+      "verificationCases": [
+        "Zasięg tego samego lub sąsiedniego regionu; brak pobrania Oka i brak wymogu pozostałej kości FP.",
+        "Pozostałe reguły próby Zepsucia, prywatność i wariant sekwencyjnego doboru nadal obowiązują.",
+        "Combat: od 0 do 5 poświęconych punktów, nie więcej od rzeczywistego dowodzenia Nazgûli."
+      ]
+    },
+    {
+      "id": "kings.sh.strategy.01",
+      "title": "Return to Valinor",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 1,
+      "printedNumber": "1*/24",
+      "eventType": "Army",
+      "combatTitle": "Deadly Strife",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          664,
+          1800,
+          996,
+          2400
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.01"
+      },
+      "eventRules": [
+        "Cień musi kontrolować co najmniej jedną twierdzę Elfów albo w grze musi być co najmniej jeden Skorumpowany Suweren.",
+        "W każdym regionie niezdobytej i nieobleganej twierdzy Elfów rzuć liczbą kości równą liczbie elfich jednostek armii w tym regionie, maksymalnie pięcioma.",
+        "Każda szóstka zadaje trafienie tamtejszej armii. Gdy w grze jest co najmniej dwóch Skorumpowanych Suwerenów FP, próg wynosi 5+."
+      ],
+      "combatRules": [
+        "Obie armie dodają 2 do wszystkich kości walki i przerzutu dowodzenia."
+      ],
+      "verificationCases": [
+        "Dwie alternatywy warunku; Skorumpowany Suweren nie musi znajdować się przy twierdzy Elfów.",
+        "Wykluczyć zdobyte i oblegane twierdze; liczyć jednostki Elfów, bez dowódców i jednostek innych Narodów.",
+        "Combat: obie armie +2 do obu rzutów; nie tylko armia gracza zagrywającego."
+      ]
+    },
+    {
+      "id": "kings.sh.strategy.03",
+      "title": "Denethor’s Folly",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 3,
+      "printedNumber": "3*/24",
+      "eventType": "Army",
+      "combatTitle": "Devilry of Orthanc",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          332,
+          1800,
+          664,
+          2400
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.03"
+      },
+      "eventRules": [
+        "Można położyć na stole, jeżeli Denethor jest w grze i nie jest Przebudzony.",
+        "Dopóki karta pozostaje na stole, Denethora nie można przebudzić, a FP nie mogą używać kart walki w bitwach w Minas Tirith albo w regionie Denethora.",
+        "FP mogą ją odrzucić wynikiem Will of the West albo dowolnym wynikiem kości akcji, jeżeli Gandalf, Boromir lub Aragorn dzieli region z Denethorem."
+      ],
+      "combatRules": [
+        "W bitwie musi uczestniczyć jednostka armii Isengardu, a armia obrońcy musi znajdować się w twierdzy.",
+        "Dodaj 1 do wszystkich własnych kości rzutu walki."
+      ],
+      "verificationCases": [
+        "Pełne zastąpienie starego wydarzenia: bez warunku oblężenia, bez eliminacji dowódcy przy zagraniu.",
+        "Dwa niezależne regiony zakazu; odrzut dowolną kością wymaga właściwej postaci przy Denethorze.",
+        "Combat: zastosowanie Kings to Devilry of Orthanc; nie odziedziczyć innego programu bazowej karty."
+      ]
+    },
+    {
+      "id": "kings.sh.strategy.05",
+      "title": "Threats and Promises",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 5,
+      "printedNumber": "5*/24",
+      "eventType": "Muster",
+      "combatTitle": "Devilry of Orthanc",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          0,
+          1800,
+          332,
+          2400
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.05"
+      },
+      "eventRules": [
+        "Karta pozostaje na stole. Wyniku Muster FP nie mogą użyć do przesunięcia pasywnego Narodu ani do przebudzenia Suwerena.",
+        "Odrzuć kartę, gdy Suweren staje się Skorumpowany albo Naród FP przesuwa się politycznie wskutek ataku lub specjalnej zdolności Towarzysza."
+      ],
+      "combatRules": [
+        "W bitwie musi uczestniczyć jednostka armii Isengardu, a armia obrońcy musi znajdować się w twierdzy.",
+        "Dodaj 1 do wszystkich własnych kości rzutu walki."
+      ],
+      "verificationCases": [
+        "Zakaz dotyczy wyniku Muster; nie rozszerzać automatycznie na wszystkie źródła aktywacji lub przebudzenia.",
+        "Każdy z trzech wydrukowanych powodów odrzutu; sama zmiana aktywności bez przesunięcia nie jest wydrukowanym wyzwalaczem.",
+        "Combat: wymagana jednostka Isengardu w bitwie oraz twierdza po stronie obrońcy."
+      ]
+    },
+    {
+      "id": "kings.sh.strategy.06",
+      "title": "Stormcrow",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 6,
+      "printedNumber": "6*/24",
+      "eventType": "Muster",
+      "combatTitle": "Great Host",
+      "initiative": [
+        7
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          2324,
+          1200,
+          2656,
+          1800
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.06"
+      },
+      "eventRules": [
+        "Drużyna albo Towarzysz musi być w granicach Narodu FP, który nie jest At War.",
+        "Cofnij ten Naród o jedno pole polityczne. Następnie, jeżeli jego Suweren nie jest Przebudzony, dobierz i dodaj mu jeden kafel Zepsucia oraz nakaż FP wyeliminować jedną Regularną albo Elitarną jednostkę armii tego Narodu."
+      ],
+      "combatRules": [
+        "Po usunięciu strat ze zwykłego rzutu walki i przerzutu dowodzenia porównaj pozostałe jednostki armii.",
+        "Jeżeli własnych jednostek jest co najmniej dwukrotnie więcej od wrogich, zadaj jedno automatyczne trafienie."
+      ],
+      "verificationCases": [
+        "Przebudzenie wyłącza oba późniejsze skutki: kafel i stratę jednostki, ale nie cofnięcie polityczne.",
+        "FP wybierają jednostkę właściwego Narodu; nie ograniczać wyboru do regionu Drużyny.",
+        "Combat: rzeczywista inicjatywa 7; porównać jednostki dopiero po stratach zwykłych."
+      ]
+    },
+    {
+      "id": "kings.sh.strategy.18",
+      "title": "The King Is Revealed",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 18,
+      "printedNumber": "18*/24",
+      "eventType": "Muster",
+      "combatTitle": "Relentless Assault",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          2656,
+          1200,
+          2988,
+          1800
+        ]
+      },
+      "setup": {
+        "operation": "replace",
+        "replaces": "base.sh.strategy.18"
+      },
+      "eventRules": [
+        "W grze musi być Aragorn albo Denethor, Lord Steward of Gondor.",
+        "W Minas Morgul rekrutuj pięć Regularnych jednostek Saurona i jednego Nazgûla, dodatkowo po jednej Regularnej jednostce Saurona albo Nazgûlu za każdego Przebudzonego Suwerena w grze."
+      ],
+      "combatRules": [
+        "Przed rzutem walki możesz zadać i zastosować wobec własnych jednostek do dwóch trafień.",
+        "Każde rzeczywiście zadane trafienie daje +1 do wszystkich własnych kości rzutu walki."
+      ],
+      "verificationCases": [
+        "Denethor musi być wersją Przebudzoną, nie dowolnym Suwerenem ani Skorumpowanym Władcą.",
+        "Każdy bonus ma wybór Regular/Nazgûl; rezerwy i nadmiar armii sprawdzać autorytatywnie.",
+        "Combat: opcjonalny koszt 0–2 trafienia stosowany przed rzutem; nie przyznawać premii za niezastosowane trafienie."
+      ]
+    },
+    {
+      "id": "kings.sh.strategy.25",
+      "title": "The Palantír of Barad-dûr",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 25,
+      "printedNumber": "KM 25/24",
+      "eventType": "Muster",
+      "combatTitle": "His Power Waxes",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          2988,
+          1200,
+          3320,
+          1800
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Karta pozostaje na stole; raz na turę Cień może użyć wyniku Muster jak wyniku Event.",
+        "FP mogą ją odrzucić wynikiem Will of the West albo dowolnym wynikiem kości akcji wraz z jednym Elfim Pierścieniem."
+      ],
+      "combatRules": [
+        "Armia broniąca się musi znajdować się w regionie z Suwerenem.",
+        "Jeżeli Suweren jest Skorumpowany, własna armia dostaje +1 do walki i przerzutu dowodzenia. W przeciwnym razie obie armie dostają +1 do obu rzutów."
+      ],
+      "verificationCases": [
+        "Limit raz na turę, trwałość wykorzystania przez save/reconnect; nie zmieniać fizycznego wyniku innych kości.",
+        "Dwie alternatywy kosztu odrzutu; Pierścień jest wymagany w gałęzi dowolnej kości.",
+        "Combat: Skorumpowany Suweren premiuje tylko własną armię; każdy inny Suweren premiuje obie."
+      ]
+    },
+    {
+      "id": "kings.sh.strategy.26",
+      "title": "Work of the Enemy",
+      "side": "Shadow",
+      "deck": "Strategy",
+      "kind": "Event",
+      "number": 26,
+      "printedNumber": "KM 26/24",
+      "eventType": "Muster",
+      "combatTitle": "His Power Waxes",
+      "initiative": [
+        3
+      ],
+      "edition": "Kings of Middle-earth — Second Edition expansion, English; rulebook 1.0 — 2023.08.10",
+      "verification": "second_edition_front_reviewed",
+      "effectsVerified": true,
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "KINGS-CARD-SHEET-C906DF19",
+        "bounds": [
+          996,
+          1800,
+          1328,
+          2400
+        ]
+      },
+      "setup": {
+        "operation": "add",
+        "replaces": null
+      },
+      "eventRules": [
+        "Wybierz region z Suwerenem. Rzuć trzema kośćmi, zadając armii FP w tym regionie po trafieniu za 5+; próg wynosi 4+, jeżeli ten Suweren jest Skorumpowany."
+      ],
+      "combatRules": [
+        "Armia broniąca się musi znajdować się w regionie z Suwerenem.",
+        "Jeżeli Suweren jest Skorumpowany, własna armia dostaje +1 do walki i przerzutu dowodzenia. W przeciwnym razie obie armie dostają +1 do obu rzutów."
+      ],
+      "verificationCases": [
+        "Suweren nie musi być Skorumpowany; próg zależy od jego rzeczywistego stanu.",
+        "Celem trafień jest armia FP, nie sam Suweren; weryfikacja celu i przypadków częściowego wykonania.",
+        "Combat: warunek Suwerena dotyczy regionu obrońcy; +1 do obu rzutów zgodnie ze stanem Suwerena."
+      ]
+    }
+  ]
+}

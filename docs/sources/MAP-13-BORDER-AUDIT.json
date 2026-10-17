@@ -1,0 +1,8922 @@
+{
+  "schema": 1,
+  "version": "borders-1",
+  "geometryVersion": "contours-2",
+  "reviewDate": "2026-10-08",
+  "rules": "BASE-2.4.1 pp.9-10; T04 closed movement graph",
+  "sourceHashes": {
+    "graphicalassets/highedfmap.jpeg": "67b6490f319c257d01ab57ab46da7ef4035d1d8074f306bce702a1f3e3f60db4",
+    "docs/sources/materials/base-rulebook-v2.4.1.pdf": "ebb4d6d4ab1348e8e4c604ea7d9d414e928034d93255d58bd61fa8df6d2f28a4",
+    "content/base-board.json": "b6b0575404de0a0d8d209244a7f1ec5c299383b0b4dd1267c7561f154f8fe6d4",
+    "content/map-geometry.json": "b1ed10e22091b22ea602df1d1b017387f7c5bf071d8ec5c1140a2c8721f4801a",
+    "graphicalassets/region-map/corrections/rohan-mordor-v4/correction.json": "66c2b8df7a9e1e486a36af3cbc8a70c3086e76eed1b25ffe7fc636d0735d6ba9",
+    "graphicalassets/region-map/corrections/dunland-v2/correction.json": "2cbde68fdc8a3b69813da5dc56b75d6772f3c1e535493f7819e4f2ce8db15bfa"
+  },
+  "coordinateSystem": "source working pixels, 2008x1418",
+  "segmentConvention": "fromSegment inclusive, toSegment exclusive; points[fromSegment:toSegment+1]",
+  "precision": "No retracing. Classification transitions use existing reviewed contour vertices; inherited interpolated ridges and panel-covered sections retain MAP-12 limitations.",
+  "reviewedSectors": [
+    "0-0",
+    "0-1",
+    "0-2",
+    "1-0",
+    "1-1",
+    "1-2",
+    "2-0",
+    "2-1",
+    "2-2"
+  ],
+  "boundaries": [
+    {
+      "boundaryId": "boundary-0000",
+      "owners": [
+        null,
+        "grey-havens"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        433.0,
+        362.0,
+        524.0,
+        418.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 70,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0001",
+      "owners": [
+        null,
+        "north-ered-luin"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        498.0,
+        118.0,
+        587.0,
+        186.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 63,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0002",
+      "owners": [
+        null,
+        "iron-hills"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1569.0,
+        60.0,
+        1818.0,
+        386.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 200,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0003",
+      "owners": [
+        null,
+        "anfalas"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        809.0,
+        1048.0,
+        1058.0,
+        1132.0
+      ],
+      "reviewSectors": [
+        "2-0",
+        "2-1"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 115,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0004",
+      "owners": [
+        null,
+        "dol-amroth"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1058.0,
+        1048.0,
+        1169.0,
+        1210.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 134,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0005",
+      "owners": [
+        null,
+        "lamedon"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1169.0,
+        1143.0,
+        1189.0,
+        1156.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 11,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0006",
+      "owners": [
+        null,
+        "pelargir"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1189.0,
+        1143.0,
+        1243.0,
+        1195.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 46,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0007",
+      "owners": [
+        null,
+        "north-downs"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        707.0,
+        239.0,
+        713.0,
+        266.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 11,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0008",
+      "owners": [
+        null,
+        "angmar"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        738.0,
+        60.0,
+        860.0,
+        60.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 1,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0009",
+      "owners": [
+        null,
+        "mount-gram"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        860.0,
+        60.0,
+        990.0,
+        60.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "0-1"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 1,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0010",
+      "owners": [
+        null,
+        "mount-gundabad"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        990.0,
+        60.0,
+        1569.0,
+        60.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "0-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 1,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0011",
+      "owners": [
+        null,
+        "nurn"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1711.0,
+        1076.0,
+        1780.0,
+        1097.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 42,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0012",
+      "owners": [
+        null,
+        "gorgoroth"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1695.0,
+        1003.0,
+        1833.0,
+        1079.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 110,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0013",
+      "owners": [
+        null,
+        "gorgoroth"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1775.0,
+        1032.0,
+        1833.0,
+        1097.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 49,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0014",
+      "owners": [
+        null,
+        "gorgoroth"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1833.0,
+        1023.0,
+        1880.0,
+        1033.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 38,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0015",
+      "owners": [
+        null,
+        "gorgoroth"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1947.0,
+        911.0,
+        1947.0,
+        1083.0
+      ],
+      "reviewSectors": [
+        "1-2",
+        "2-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 1,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0016",
+      "owners": [
+        null,
+        "barad-dur"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1947.0,
+        818.0,
+        1947.0,
+        911.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 1,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0017",
+      "owners": [
+        null,
+        "umbar"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1129.0,
+        1295.0,
+        1389.0,
+        1358.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 43,
+          "kind": "Coast",
+          "startSourcePoint": [
+            1235.0,
+            1295.0
+          ],
+          "endSourcePoint": [
+            1129.0,
+            1358.0
+          ]
+        },
+        {
+          "fromSegment": 43,
+          "toSegment": 44,
+          "kind": "Frame",
+          "startSourcePoint": [
+            1129.0,
+            1358.0
+          ],
+          "endSourcePoint": [
+            1389.0,
+            1358.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0018",
+      "owners": [
+        null,
+        "near-harad"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1389.0,
+        1358.0,
+        1524.0,
+        1358.0
+      ],
+      "reviewSectors": [
+        "2-1",
+        "2-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 1,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0019",
+      "owners": [
+        null,
+        "far-harad"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1524.0,
+        1205.0,
+        1947.0,
+        1358.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 2,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0020",
+      "owners": [
+        null,
+        "khand"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1947.0,
+        1083.0,
+        1947.0,
+        1205.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 1,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0021",
+      "owners": [
+        null,
+        "north-rhun"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1688.0,
+        500.0,
+        1744.0,
+        532.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 30,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0022",
+      "owners": [
+        null,
+        "south-rhun"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1722.0,
+        563.0,
+        1771.0,
+        628.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 63,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0023",
+      "owners": [
+        null,
+        "south-rhun"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1947.0,
+        516.0,
+        1947.0,
+        818.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 1,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0024",
+      "owners": [
+        null,
+        "east-rhun"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1744.0,
+        525.0,
+        1769.0,
+        563.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 30,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0025",
+      "owners": [
+        null,
+        "east-rhun"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1818.0,
+        386.0,
+        1947.0,
+        516.0
+      ],
+      "reviewSectors": [
+        "0-2",
+        "1-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 42,
+          "kind": "Frame"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0026",
+      "owners": [
+        null,
+        "forlindon"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        355.0,
+        186.0,
+        498.0,
+        400.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 171,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0027",
+      "owners": [
+        null,
+        "evendim"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        587.0,
+        72.0,
+        627.0,
+        118.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 38,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0028",
+      "owners": [
+        null,
+        "evendim"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        664.0,
+        238.0,
+        710.0,
+        286.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 67,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0029",
+      "owners": [
+        null,
+        "arnor"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        627.0,
+        60.0,
+        738.0,
+        72.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 3,
+          "kind": "Coast",
+          "startSourcePoint": [
+            627.0,
+            72.0
+          ],
+          "endSourcePoint": [
+            630.0,
+            60.0
+          ]
+        },
+        {
+          "fromSegment": 3,
+          "toSegment": 4,
+          "kind": "Frame",
+          "startSourcePoint": [
+            630.0,
+            60.0
+          ],
+          "endSourcePoint": [
+            738.0,
+            60.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0030",
+      "owners": [
+        null,
+        "harlindon"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        377.0,
+        416.0,
+        481.0,
+        579.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "1-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 109,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0031",
+      "owners": [
+        null,
+        "south-ered-luin"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        481.0,
+        579.0,
+        578.0,
+        614.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 54,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0032",
+      "owners": [
+        null,
+        "minhiriath"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        571.0,
+        601.0,
+        708.0,
+        755.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 141,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0033",
+      "owners": [
+        null,
+        "enedwaith"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        702.0,
+        734.0,
+        739.0,
+        852.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 66,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0034",
+      "owners": [
+        null,
+        "druwaith-iaur"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        698.0,
+        849.0,
+        739.0,
+        947.0
+      ],
+      "reviewSectors": [
+        "1-0",
+        "2-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 41,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0035",
+      "owners": [
+        null,
+        "andrast"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        549.0,
+        947.0,
+        809.0,
+        1180.0
+      ],
+      "reviewSectors": [
+        "2-0"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 250,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0036",
+      "owners": [
+        null,
+        "west-harondor"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1206.0,
+        1195.0,
+        1243.0,
+        1295.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 43,
+          "kind": "Coast"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0037",
+      "owners": [
+        null,
+        "northern-dorwinion"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1684.0,
+        500.0,
+        1705.0,
+        558.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 47,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0038",
+      "owners": [
+        null,
+        "southern-dorwinion"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1668.0,
+        558.0,
+        1722.0,
+        652.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Blue water, coastal shore, or board/track frame; not a region or movement edge.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 102,
+          "kind": "Lake"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0039",
+      "owners": [
+        "grey-havens",
+        "ered-luin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        471.0,
+        300.0,
+        579.0,
+        332.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 24,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            471.0,
+            301.0
+          ],
+          "endSourcePoint": [
+            514.0,
+            315.0
+          ]
+        },
+        {
+          "fromSegment": 24,
+          "toSegment": 75,
+          "kind": "Passage",
+          "startSourcePoint": [
+            514.0,
+            315.0
+          ],
+          "endSourcePoint": [
+            579.0,
+            331.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0040",
+      "owners": [
+        "grey-havens",
+        "forlindon"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        433.0,
+        301.0,
+        471.0,
+        362.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 30,
+          "kind": "Passage",
+          "startSourcePoint": [
+            433.0,
+            362.0
+          ],
+          "endSourcePoint": [
+            463.0,
+            309.0
+          ]
+        },
+        {
+          "fromSegment": 30,
+          "toSegment": 38,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            463.0,
+            309.0
+          ],
+          "endSourcePoint": [
+            471.0,
+            301.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0041",
+      "owners": [
+        "grey-havens",
+        "tower-hills"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        513.0,
+        331.0,
+        588.0,
+        514.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 127,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0042",
+      "owners": [
+        "grey-havens",
+        "harlindon"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        461.0,
+        418.0,
+        514.0,
+        520.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "1-0"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 25,
+          "kind": "Passage",
+          "startSourcePoint": [
+            461.0,
+            418.0
+          ],
+          "endSourcePoint": [
+            477.0,
+            461.0
+          ]
+        },
+        {
+          "fromSegment": 25,
+          "toSegment": 66,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            477.0,
+            461.0
+          ],
+          "endSourcePoint": [
+            514.0,
+            520.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0043",
+      "owners": [
+        "grey-havens",
+        "south-ered-luin"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        514.0,
+        514.0,
+        527.0,
+        520.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 7,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0044",
+      "owners": [
+        "rivendell",
+        "mount-gundabad"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1013.0,
+        161.0,
+        1107.0,
+        218.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 72,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0045",
+      "owners": [
+        "rivendell",
+        "ettenmoors"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1010.0,
+        218.0,
+        1013.0,
+        224.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 3,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0046",
+      "owners": [
+        "rivendell",
+        "trollshaws"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        997.0,
+        224.0,
+        1012.0,
+        318.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 8,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1010.0,
+            224.0
+          ],
+          "endSourcePoint": [
+            1006.0,
+            235.0
+          ]
+        },
+        {
+          "fromSegment": 8,
+          "toSegment": 47,
+          "kind": "River",
+          "startSourcePoint": [
+            1006.0,
+            235.0
+          ],
+          "endSourcePoint": [
+            1012.0,
+            318.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0047",
+      "owners": [
+        "rivendell",
+        "fords-of-bruinen"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1012.0,
+        303.0,
+        1070.0,
+        318.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 20,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1012.0,
+            318.0
+          ],
+          "endSourcePoint": [
+            1064.0,
+            304.0
+          ]
+        },
+        {
+          "fromSegment": 20,
+          "toSegment": 23,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1064.0,
+            304.0
+          ],
+          "endSourcePoint": [
+            1070.0,
+            304.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0048",
+      "owners": [
+        "rivendell",
+        "eagles-eyrie"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1107.0,
+        177.0,
+        1125.0,
+        245.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 42,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0049",
+      "owners": [
+        "rivendell",
+        "goblins-gate"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1120.0,
+        245.0,
+        1122.0,
+        250.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 3,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0050",
+      "owners": [
+        "rivendell",
+        "high-pass"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1070.0,
+        250.0,
+        1120.0,
+        304.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 56,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0051",
+      "owners": [
+        "lorien",
+        "north-dunland"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1073.0,
+        515.0,
+        1093.0,
+        569.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 33,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0052",
+      "owners": [
+        "lorien",
+        "moria"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1073.0,
+        464.0,
+        1143.0,
+        515.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 62,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0053",
+      "owners": [
+        "lorien",
+        "dimrill-dale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1143.0,
+        464.0,
+        1210.0,
+        579.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 68,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0054",
+      "owners": [
+        "lorien",
+        "parth-celebrant"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1080.0,
+        565.0,
+        1205.0,
+        591.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 14,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1080.0,
+            569.0
+          ],
+          "endSourcePoint": [
+            1121.0,
+            569.0
+          ]
+        },
+        {
+          "fromSegment": 14,
+          "toSegment": 65,
+          "kind": "River",
+          "startSourcePoint": [
+            1121.0,
+            569.0
+          ],
+          "endSourcePoint": [
+            1205.0,
+            579.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0055",
+      "owners": [
+        "woodland-realm",
+        "old-forest-road"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1342.0,
+        311.0,
+        1454.0,
+        348.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 74,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0056",
+      "owners": [
+        "woodland-realm",
+        "dale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1435.0,
+        283.0,
+        1454.0,
+        334.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 25,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0057",
+      "owners": [
+        "woodland-realm",
+        "northern-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1350.0,
+        239.0,
+        1369.0,
+        256.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 10,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0058",
+      "owners": [
+        "woodland-realm",
+        "withered-heath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1369.0,
+        239.0,
+        1436.0,
+        283.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 37,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0059",
+      "owners": [
+        "woodland-realm",
+        "western-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1342.0,
+        256.0,
+        1354.0,
+        311.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 31,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0060",
+      "owners": [
+        "north-ered-luin",
+        "ered-luin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        501.0,
+        206.0,
+        610.0,
+        261.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 45,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            501.0,
+            206.0
+          ],
+          "endSourcePoint": [
+            541.0,
+            238.0
+          ]
+        },
+        {
+          "fromSegment": 45,
+          "toSegment": 82,
+          "kind": "Passage",
+          "startSourcePoint": [
+            541.0,
+            238.0
+          ],
+          "endSourcePoint": [
+            610.0,
+            260.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0061",
+      "owners": [
+        "north-ered-luin",
+        "forlindon"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        498.0,
+        186.0,
+        502.0,
+        206.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 11,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0062",
+      "owners": [
+        "north-ered-luin",
+        "evendim"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        587.0,
+        118.0,
+        630.0,
+        260.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 85,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0063",
+      "owners": [
+        "ered-luin",
+        "forlindon"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        467.0,
+        206.0,
+        501.0,
+        301.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 52,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0064",
+      "owners": [
+        "ered-luin",
+        "evendim"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        602.0,
+        260.0,
+        610.0,
+        290.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 15,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0065",
+      "owners": [
+        "ered-luin",
+        "tower-hills"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        579.0,
+        290.0,
+        604.0,
+        331.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 30,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0066",
+      "owners": [
+        "erebor",
+        "iron-hills"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1521.0,
+        95.0,
+        1568.0,
+        286.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 82,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0067",
+      "owners": [
+        "erebor",
+        "dale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1474.0,
+        281.0,
+        1521.0,
+        286.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 23,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0068",
+      "owners": [
+        "erebor",
+        "mount-gundabad"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1427.0,
+        84.0,
+        1561.0,
+        112.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 86,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0069",
+      "owners": [
+        "erebor",
+        "withered-heath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1426.0,
+        112.0,
+        1479.0,
+        282.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 102,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0070",
+      "owners": [
+        "iron-hills",
+        "dale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1521.0,
+        286.0,
+        1552.0,
+        298.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 22,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0071",
+      "owners": [
+        "iron-hills",
+        "mount-gundabad"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1558.0,
+        60.0,
+        1569.0,
+        95.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 13,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0072",
+      "owners": [
+        "iron-hills",
+        "east-rhun"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1595.0,
+        278.0,
+        1818.0,
+        388.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 128,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0073",
+      "owners": [
+        "iron-hills",
+        "vale-of-the-carnen"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1552.0,
+        280.0,
+        1595.0,
+        296.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 28,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0074",
+      "owners": [
+        "anfalas",
+        "erech"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        965.0,
+        916.0,
+        1070.0,
+        1022.0
+      ],
+      "reviewSectors": [
+        "1-1",
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 87,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0075",
+      "owners": [
+        "anfalas",
+        "dol-amroth"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1058.0,
+        1022.0,
+        1070.0,
+        1048.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 16,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0076",
+      "owners": [
+        "anfalas",
+        "druwaith-iaur"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        924.0,
+        915.0,
+        969.0,
+        921.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 27,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0077",
+      "owners": [
+        "anfalas",
+        "andrast"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        788.0,
+        921.0,
+        925.0,
+        1112.0
+      ],
+      "reviewSectors": [
+        "1-0",
+        "1-1",
+        "2-0",
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 163,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0078",
+      "owners": [
+        "erech",
+        "dol-amroth"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1070.0,
+        988.0,
+        1130.0,
+        1022.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 34,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0079",
+      "owners": [
+        "erech",
+        "lamedon"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1130.0,
+        913.0,
+        1165.0,
+        988.0
+      ],
+      "reviewSectors": [
+        "1-1",
+        "2-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 8,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1130.0,
+            988.0
+          ],
+          "endSourcePoint": [
+            1134.0,
+            956.0
+          ]
+        },
+        {
+          "fromSegment": 8,
+          "toSegment": 41,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1134.0,
+            956.0
+          ],
+          "endSourcePoint": [
+            1165.0,
+            913.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0080",
+      "owners": [
+        "erech",
+        "fords-of-isen"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        971.0,
+        886.0,
+        982.0,
+        904.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 7,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0081",
+      "owners": [
+        "erech",
+        "helms-deep"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        982.0,
+        872.0,
+        1116.0,
+        908.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 77,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0082",
+      "owners": [
+        "erech",
+        "westemnet"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1116.0,
+        871.0,
+        1138.0,
+        881.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 14,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0083",
+      "owners": [
+        "erech",
+        "edoras"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1138.0,
+        881.0,
+        1165.0,
+        913.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 27,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0084",
+      "owners": [
+        "erech",
+        "druwaith-iaur"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        969.0,
+        904.0,
+        971.0,
+        916.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 5,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0085",
+      "owners": [
+        "dol-amroth",
+        "lamedon"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1130.0,
+        988.0,
+        1175.0,
+        1156.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 66,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0086",
+      "owners": [
+        "lamedon",
+        "pelargir"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1189.0,
+        1042.0,
+        1259.0,
+        1143.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 76,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0087",
+      "owners": [
+        "lamedon",
+        "lossarnach"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1259.0,
+        991.0,
+        1274.0,
+        1042.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 23,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0088",
+      "owners": [
+        "lamedon",
+        "minas-tirith"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1250.0,
+        922.0,
+        1274.0,
+        991.0
+      ],
+      "reviewSectors": [
+        "1-1",
+        "2-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 43,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0089",
+      "owners": [
+        "lamedon",
+        "edoras"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1165.0,
+        903.0,
+        1229.0,
+        919.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 38,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0090",
+      "owners": [
+        "lamedon",
+        "folde"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1229.0,
+        914.0,
+        1250.0,
+        922.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 13,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0091",
+      "owners": [
+        "pelargir",
+        "lossarnach"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1259.0,
+        1042.0,
+        1340.0,
+        1104.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 63,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0092",
+      "owners": [
+        "pelargir",
+        "osgiliath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1340.0,
+        1102.0,
+        1362.0,
+        1126.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 19,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0093",
+      "owners": [
+        "pelargir",
+        "west-harondor"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1243.0,
+        1126.0,
+        1362.0,
+        1196.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 94,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0094",
+      "owners": [
+        "lossarnach",
+        "minas-tirith"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1274.0,
+        989.0,
+        1346.0,
+        1048.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 5,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1274.0,
+            991.0
+          ],
+          "endSourcePoint": [
+            1301.0,
+            989.0
+          ]
+        },
+        {
+          "fromSegment": 5,
+          "toSegment": 51,
+          "kind": "River",
+          "startSourcePoint": [
+            1301.0,
+            989.0
+          ],
+          "endSourcePoint": [
+            1346.0,
+            1048.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0095",
+      "owners": [
+        "lossarnach",
+        "osgiliath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1340.0,
+        1048.0,
+        1346.0,
+        1102.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 9,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0096",
+      "owners": [
+        "minas-tirith",
+        "druadan-forest"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1278.0,
+        894.0,
+        1367.0,
+        952.0
+      ],
+      "reviewSectors": [
+        "1-1",
+        "2-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 32,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1278.0,
+            921.0
+          ],
+          "endSourcePoint": [
+            1320.0,
+            951.0
+          ]
+        },
+        {
+          "fromSegment": 32,
+          "toSegment": 77,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1320.0,
+            951.0
+          ],
+          "endSourcePoint": [
+            1367.0,
+            894.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0097",
+      "owners": [
+        "minas-tirith",
+        "folde"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1250.0,
+        921.0,
+        1278.0,
+        929.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0098",
+      "owners": [
+        "minas-tirith",
+        "osgiliath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1346.0,
+        894.0,
+        1421.0,
+        1048.0
+      ],
+      "reviewSectors": [
+        "1-1",
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 119,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0099",
+      "owners": [
+        "druadan-forest",
+        "eastemnet"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1285.0,
+        794.0,
+        1309.0,
+        801.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 12,
+          "kind": "River"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0100",
+      "owners": [
+        "druadan-forest",
+        "folde"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1278.0,
+        801.0,
+        1292.0,
+        921.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 55,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0101",
+      "owners": [
+        "druadan-forest",
+        "western-emyn-muil"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1309.0,
+        794.0,
+        1326.0,
+        826.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 19,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0102",
+      "owners": [
+        "druadan-forest",
+        "dead-marshes"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1326.0,
+        826.0,
+        1370.0,
+        864.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 35,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0103",
+      "owners": [
+        "druadan-forest",
+        "osgiliath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1358.0,
+        864.0,
+        1370.0,
+        894.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 23,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0104",
+      "owners": [
+        "the-shire",
+        "buckland"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        724.0,
+        310.0,
+        732.0,
+        362.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 13,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0105",
+      "owners": [
+        "the-shire",
+        "evendim"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        618.0,
+        305.0,
+        725.0,
+        316.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 53,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0106",
+      "owners": [
+        "the-shire",
+        "tower-hills"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        618.0,
+        316.0,
+        652.0,
+        411.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 49,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0107",
+      "owners": [
+        "the-shire",
+        "south-ered-luin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        647.0,
+        411.0,
+        729.0,
+        424.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 29,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0108",
+      "owners": [
+        "the-shire",
+        "old-forest"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        729.0,
+        362.0,
+        735.0,
+        418.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 19,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0109",
+      "owners": [
+        "buckland",
+        "bree"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        783.0,
+        269.0,
+        817.0,
+        342.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 36,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0110",
+      "owners": [
+        "buckland",
+        "north-downs"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        747.0,
+        269.0,
+        783.0,
+        273.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 11,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0111",
+      "owners": [
+        "buckland",
+        "evendim"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        725.0,
+        270.0,
+        747.0,
+        310.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 27,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0112",
+      "owners": [
+        "buckland",
+        "south-downs"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        817.0,
+        342.0,
+        843.0,
+        378.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 27,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0113",
+      "owners": [
+        "buckland",
+        "old-forest"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        732.0,
+        362.0,
+        819.0,
+        378.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 31,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0114",
+      "owners": [
+        "buckland",
+        "cardolan"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        819.0,
+        378.0,
+        843.0,
+        378.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 1,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0115",
+      "owners": [
+        "bree",
+        "north-downs"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        783.0,
+        234.0,
+        857.0,
+        269.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 50,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0116",
+      "owners": [
+        "bree",
+        "weather-hills"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        854.0,
+        236.0,
+        884.0,
+        329.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 51,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0117",
+      "owners": [
+        "bree",
+        "south-downs"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        817.0,
+        329.0,
+        877.0,
+        345.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 37,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0118",
+      "owners": [
+        "north-downs",
+        "evendim"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        707.0,
+        199.0,
+        759.0,
+        239.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 49,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0119",
+      "owners": [
+        "north-downs",
+        "evendim"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        710.0,
+        266.0,
+        747.0,
+        270.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 14,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0120",
+      "owners": [
+        "north-downs",
+        "arnor"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        759.0,
+        198.0,
+        812.0,
+        208.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0121",
+      "owners": [
+        "north-downs",
+        "ettenmoors"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        812.0,
+        205.0,
+        878.0,
+        227.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 26,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0122",
+      "owners": [
+        "north-downs",
+        "weather-hills"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        857.0,
+        227.0,
+        877.0,
+        236.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 14,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0123",
+      "owners": [
+        "carrock",
+        "rhosgobel"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1234.0,
+        328.0,
+        1302.0,
+        333.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 27,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0124",
+      "owners": [
+        "carrock",
+        "old-forest-road"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1298.0,
+        308.0,
+        1302.0,
+        328.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 5,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0125",
+      "owners": [
+        "carrock",
+        "mount-gundabad"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1193.0,
+        144.0,
+        1249.0,
+        174.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 48,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0126",
+      "owners": [
+        "carrock",
+        "eagles-eyrie"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1193.0,
+        174.0,
+        1221.0,
+        257.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 59,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0127",
+      "owners": [
+        "carrock",
+        "old-ford"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1215.0,
+        257.0,
+        1235.0,
+        332.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 39,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0128",
+      "owners": [
+        "carrock",
+        "northern-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1245.0,
+        145.0,
+        1279.0,
+        229.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 43,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0129",
+      "owners": [
+        "carrock",
+        "western-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1268.0,
+        229.0,
+        1298.0,
+        308.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 40,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0130",
+      "owners": [
+        "rhosgobel",
+        "old-forest-road"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1301.0,
+        328.0,
+        1308.0,
+        372.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0131",
+      "owners": [
+        "rhosgobel",
+        "old-ford"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1233.0,
+        332.0,
+        1244.0,
+        375.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 20,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0132",
+      "owners": [
+        "rhosgobel",
+        "gladden-fields"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1235.0,
+        375.0,
+        1240.0,
+        406.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 15,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0133",
+      "owners": [
+        "rhosgobel",
+        "narrows-of-the-forest"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1308.0,
+        372.0,
+        1314.0,
+        405.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 15,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0134",
+      "owners": [
+        "rhosgobel",
+        "north-anduin-vale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1238.0,
+        401.0,
+        1312.0,
+        407.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 53,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0135",
+      "owners": [
+        "old-forest-road",
+        "dale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1454.0,
+        334.0,
+        1466.0,
+        367.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 24,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0136",
+      "owners": [
+        "old-forest-road",
+        "western-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1298.0,
+        305.0,
+        1342.0,
+        311.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0137",
+      "owners": [
+        "old-forest-road",
+        "narrows-of-the-forest"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1308.0,
+        371.0,
+        1388.0,
+        383.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 57,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0138",
+      "owners": [
+        "old-forest-road",
+        "eastern-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1388.0,
+        381.0,
+        1452.0,
+        388.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 35,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0139",
+      "owners": [
+        "old-forest-road",
+        "northern-rhovanion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1452.0,
+        367.0,
+        1461.0,
+        388.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 12,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0140",
+      "owners": [
+        "dale",
+        "withered-heath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1436.0,
+        281.0,
+        1474.0,
+        283.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 5,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0141",
+      "owners": [
+        "dale",
+        "northern-rhovanion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1461.0,
+        367.0,
+        1504.0,
+        381.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0142",
+      "owners": [
+        "dale",
+        "vale-of-the-carnen"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1504.0,
+        296.0,
+        1560.0,
+        381.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 47,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0143",
+      "owners": [
+        "fords-of-isen",
+        "helms-deep"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        982.0,
+        819.0,
+        1111.0,
+        886.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 74,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0144",
+      "owners": [
+        "fords-of-isen",
+        "westemnet"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1111.0,
+        741.0,
+        1134.0,
+        819.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 51,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0145",
+      "owners": [
+        "fords-of-isen",
+        "gap-of-rohan"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        887.0,
+        809.0,
+        955.0,
+        833.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 32,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0146",
+      "owners": [
+        "fords-of-isen",
+        "orthanc"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        955.0,
+        735.0,
+        1094.0,
+        813.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 68,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0147",
+      "owners": [
+        "fords-of-isen",
+        "druwaith-iaur"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        887.0,
+        833.0,
+        971.0,
+        904.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 71,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0148",
+      "owners": [
+        "fords-of-isen",
+        "fangorn"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1094.0,
+        735.0,
+        1132.0,
+        741.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 15,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0149",
+      "owners": [
+        "helms-deep",
+        "westemnet"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1111.0,
+        819.0,
+        1116.0,
+        872.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 11,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0150",
+      "owners": [
+        "westemnet",
+        "edoras"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1138.0,
+        837.0,
+        1216.0,
+        881.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 57,
+          "kind": "River"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0151",
+      "owners": [
+        "westemnet",
+        "eastemnet"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1168.0,
+        717.0,
+        1220.0,
+        793.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 54,
+          "kind": "River"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0152",
+      "owners": [
+        "westemnet",
+        "folde"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1216.0,
+        793.0,
+        1220.0,
+        838.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 19,
+          "kind": "River"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0153",
+      "owners": [
+        "westemnet",
+        "fangorn"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1132.0,
+        717.0,
+        1168.0,
+        741.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 39,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0154",
+      "owners": [
+        "edoras",
+        "folde"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1216.0,
+        838.0,
+        1239.0,
+        918.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 53,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0155",
+      "owners": [
+        "eastemnet",
+        "folde"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1219.0,
+        793.0,
+        1285.0,
+        802.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "River"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0156",
+      "owners": [
+        "eastemnet",
+        "fangorn"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1166.0,
+        659.0,
+        1177.0,
+        717.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 39,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0157",
+      "owners": [
+        "eastemnet",
+        "parth-celebrant"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1170.0,
+        649.0,
+        1295.0,
+        676.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 74,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0158",
+      "owners": [
+        "eastemnet",
+        "western-brown-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1295.0,
+        659.0,
+        1316.0,
+        698.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 18,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0159",
+      "owners": [
+        "eastemnet",
+        "western-emyn-muil"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1291.0,
+        698.0,
+        1315.0,
+        794.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 62,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0160",
+      "owners": [
+        "north-dunland",
+        "south-dunland"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        906.0,
+        609.0,
+        1039.0,
+        620.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 45,
+          "kind": "Passage",
+          "startSourcePoint": [
+            906.0,
+            619.0
+          ],
+          "endSourcePoint": [
+            1019.0,
+            611.0
+          ]
+        },
+        {
+          "fromSegment": 45,
+          "toSegment": 51,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1019.0,
+            611.0
+          ],
+          "endSourcePoint": [
+            1039.0,
+            609.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0161",
+      "owners": [
+        "north-dunland",
+        "moria"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1032.0,
+        515.0,
+        1073.0,
+        523.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 15,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1032.0,
+            518.0
+          ],
+          "endSourcePoint": [
+            1069.0,
+            520.0
+          ]
+        },
+        {
+          "fromSegment": 15,
+          "toSegment": 21,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1069.0,
+            520.0
+          ],
+          "endSourcePoint": [
+            1073.0,
+            515.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0162",
+      "owners": [
+        "north-dunland",
+        "south-downs"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        888.0,
+        493.0,
+        913.0,
+        527.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 25,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0163",
+      "owners": [
+        "north-dunland",
+        "cardolan"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        862.0,
+        527.0,
+        888.0,
+        550.0
+      ],
+      "reviewSectors": [
+        "1-0",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0164",
+      "owners": [
+        "north-dunland",
+        "tharbad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        862.0,
+        550.0,
+        906.0,
+        619.0
+      ],
+      "reviewSectors": [
+        "1-0",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 34,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0165",
+      "owners": [
+        "north-dunland",
+        "hollin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        913.0,
+        493.0,
+        1032.0,
+        532.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 71,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0166",
+      "owners": [
+        "north-dunland",
+        "fangorn"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1039.0,
+        577.0,
+        1057.0,
+        609.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 18,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0167",
+      "owners": [
+        "north-dunland",
+        "parth-celebrant"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1057.0,
+        565.0,
+        1080.0,
+        579.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 12,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0168",
+      "owners": [
+        "south-dunland",
+        "gap-of-rohan"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        853.0,
+        722.0,
+        935.0,
+        733.0
+      ],
+      "reviewSectors": [
+        "1-0",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 42,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0169",
+      "owners": [
+        "south-dunland",
+        "orthanc"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        935.0,
+        661.0,
+        1018.0,
+        733.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 47,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0170",
+      "owners": [
+        "south-dunland",
+        "tharbad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        829.0,
+        619.0,
+        908.0,
+        703.0
+      ],
+      "reviewSectors": [
+        "1-0",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 62,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0171",
+      "owners": [
+        "south-dunland",
+        "enedwaith"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        828.0,
+        703.0,
+        853.0,
+        728.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 18,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0172",
+      "owners": [
+        "south-dunland",
+        "fangorn"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1018.0,
+        609.0,
+        1039.0,
+        661.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 22,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0173",
+      "owners": [
+        "gap-of-rohan",
+        "orthanc"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        931.0,
+        733.0,
+        955.0,
+        810.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 49,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0174",
+      "owners": [
+        "gap-of-rohan",
+        "enedwaith"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        840.0,
+        728.0,
+        857.0,
+        836.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 59,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0175",
+      "owners": [
+        "gap-of-rohan",
+        "druwaith-iaur"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        849.0,
+        833.0,
+        887.0,
+        840.0
+      ],
+      "reviewSectors": [
+        "1-0",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 18,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0176",
+      "owners": [
+        "orthanc",
+        "fangorn"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1018.0,
+        661.0,
+        1094.0,
+        735.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 60,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0177",
+      "owners": [
+        "angmar",
+        "mount-gram"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        860.0,
+        60.0,
+        886.0,
+        147.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 41,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0178",
+      "owners": [
+        "angmar",
+        "arnor"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        738.0,
+        60.0,
+        814.0,
+        152.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 56,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0179",
+      "owners": [
+        "angmar",
+        "ettenmoors"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        814.0,
+        142.0,
+        879.0,
+        151.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 27,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0180",
+      "owners": [
+        "mount-gram",
+        "mount-gundabad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        969.0,
+        60.0,
+        990.0,
+        191.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 15,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            969.0,
+            191.0
+          ],
+          "endSourcePoint": [
+            973.0,
+            152.0
+          ]
+        },
+        {
+          "fromSegment": 15,
+          "toSegment": 51,
+          "kind": "Passage",
+          "startSourcePoint": [
+            973.0,
+            152.0
+          ],
+          "endSourcePoint": [
+            990.0,
+            60.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0181",
+      "owners": [
+        "mount-gram",
+        "ettenmoors"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        879.0,
+        147.0,
+        969.0,
+        193.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "0-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 35,
+          "kind": "Passage",
+          "startSourcePoint": [
+            879.0,
+            147.0
+          ],
+          "endSourcePoint": [
+            912.0,
+            176.0
+          ]
+        },
+        {
+          "fromSegment": 35,
+          "toSegment": 68,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            912.0,
+            176.0
+          ],
+          "endSourcePoint": [
+            969.0,
+            191.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0182",
+      "owners": [
+        "mount-gundabad",
+        "ettenmoors"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        969.0,
+        191.0,
+        1013.0,
+        218.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 41,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0183",
+      "owners": [
+        "mount-gundabad",
+        "eagles-eyrie"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1107.0,
+        173.0,
+        1193.0,
+        187.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 8,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1107.0,
+            177.0
+          ],
+          "endSourcePoint": [
+            1122.0,
+            185.0
+          ]
+        },
+        {
+          "fromSegment": 8,
+          "toSegment": 23,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1122.0,
+            185.0
+          ],
+          "endSourcePoint": [
+            1165.0,
+            181.0
+          ]
+        },
+        {
+          "fromSegment": 23,
+          "toSegment": 39,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1165.0,
+            181.0
+          ],
+          "endSourcePoint": [
+            1193.0,
+            174.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0184",
+      "owners": [
+        "mount-gundabad",
+        "northern-mirkwood"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1249.0,
+        125.0,
+        1368.0,
+        145.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 64,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0185",
+      "owners": [
+        "mount-gundabad",
+        "withered-heath"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1368.0,
+        112.0,
+        1427.0,
+        128.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "0-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 35,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0186",
+      "owners": [
+        "moria",
+        "hollin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1032.0,
+        429.0,
+        1052.0,
+        518.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 51,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0187",
+      "owners": [
+        "moria",
+        "fords-of-bruinen"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1046.0,
+        390.0,
+        1063.0,
+        429.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 18,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0188",
+      "owners": [
+        "moria",
+        "old-ford"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1124.0,
+        345.0,
+        1137.0,
+        372.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 19,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0189",
+      "owners": [
+        "moria",
+        "goblins-gate"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1115.0,
+        337.0,
+        1124.0,
+        345.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 7,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0190",
+      "owners": [
+        "moria",
+        "high-pass"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1063.0,
+        337.0,
+        1115.0,
+        390.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 44,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0191",
+      "owners": [
+        "moria",
+        "gladden-fields"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1137.0,
+        372.0,
+        1169.0,
+        427.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 34,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0192",
+      "owners": [
+        "moria",
+        "dimrill-dale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1143.0,
+        427.0,
+        1170.0,
+        464.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 6,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1143.0,
+            464.0
+          ],
+          "endSourcePoint": [
+            1148.0,
+            455.0
+          ]
+        },
+        {
+          "fromSegment": 6,
+          "toSegment": 21,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1148.0,
+            455.0
+          ],
+          "endSourcePoint": [
+            1169.0,
+            427.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0193",
+      "owners": [
+        "dol-guldur",
+        "southern-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1369.0,
+        488.0,
+        1397.0,
+        597.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 41,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0194",
+      "owners": [
+        "dol-guldur",
+        "narrows-of-the-forest"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1328.0,
+        478.0,
+        1358.0,
+        483.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 17,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0195",
+      "owners": [
+        "dol-guldur",
+        "eastern-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1358.0,
+        483.0,
+        1369.0,
+        488.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 8,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0196",
+      "owners": [
+        "dol-guldur",
+        "north-anduin-vale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1298.0,
+        478.0,
+        1328.0,
+        511.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 24,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0197",
+      "owners": [
+        "dol-guldur",
+        "south-anduin-vale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1271.0,
+        511.0,
+        1298.0,
+        595.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 45,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0198",
+      "owners": [
+        "dol-guldur",
+        "western-brown-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1294.0,
+        595.0,
+        1377.0,
+        612.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 35,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0199",
+      "owners": [
+        "dol-guldur",
+        "eastern-brown-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1377.0,
+        597.0,
+        1397.0,
+        607.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 8,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0200",
+      "owners": [
+        "southern-mirkwood",
+        "eastern-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1369.0,
+        483.0,
+        1401.0,
+        488.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 17,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0201",
+      "owners": [
+        "southern-mirkwood",
+        "eastern-brown-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1397.0,
+        562.0,
+        1457.0,
+        597.0
+      ],
+      "reviewSectors": [
+        "1-1",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 39,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0202",
+      "owners": [
+        "southern-mirkwood",
+        "northern-rhovanion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1401.0,
+        484.0,
+        1440.0,
+        494.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "0-2",
+        "1-1",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 18,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0203",
+      "owners": [
+        "southern-mirkwood",
+        "southern-rhovanion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1440.0,
+        494.0,
+        1469.0,
+        562.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 49,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0204",
+      "owners": [
+        "morannon",
+        "minas-morgul"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1540.0,
+        921.0,
+        1575.0,
+        926.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 9,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0205",
+      "owners": [
+        "morannon",
+        "gorgoroth"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1575.0,
+        867.0,
+        1651.0,
+        926.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 63,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0206",
+      "owners": [
+        "morannon",
+        "barad-dur"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1643.0,
+        809.0,
+        1663.0,
+        867.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 38,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0207",
+      "owners": [
+        "morannon",
+        "north-ithilien"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1517.0,
+        804.0,
+        1542.0,
+        921.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 71,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0208",
+      "owners": [
+        "morannon",
+        "dagorlad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1537.0,
+        789.0,
+        1643.0,
+        825.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 32,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1537.0,
+            804.0
+          ],
+          "endSourcePoint": [
+            1566.0,
+            813.0
+          ]
+        },
+        {
+          "fromSegment": 32,
+          "toSegment": 55,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1566.0,
+            813.0
+          ],
+          "endSourcePoint": [
+            1637.0,
+            817.0
+          ]
+        },
+        {
+          "fromSegment": 55,
+          "toSegment": 59,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1637.0,
+            817.0
+          ],
+          "endSourcePoint": [
+            1643.0,
+            809.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0209",
+      "owners": [
+        "minas-morgul",
+        "gorgoroth"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1575.0,
+        926.0,
+        1615.0,
+        1022.0
+      ],
+      "reviewSectors": [
+        "1-2",
+        "2-2"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 49,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1575.0,
+            926.0
+          ],
+          "endSourcePoint": [
+            1604.0,
+            1001.0
+          ]
+        },
+        {
+          "fromSegment": 49,
+          "toSegment": 63,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1604.0,
+            1001.0
+          ],
+          "endSourcePoint": [
+            1590.0,
+            1022.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0210",
+      "owners": [
+        "minas-morgul",
+        "north-ithilien"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1520.0,
+        921.0,
+        1540.0,
+        961.0
+      ],
+      "reviewSectors": [
+        "1-2",
+        "2-2"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 26,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1520.0,
+            961.0
+          ],
+          "endSourcePoint": [
+            1534.0,
+            927.0
+          ]
+        },
+        {
+          "fromSegment": 26,
+          "toSegment": 29,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1534.0,
+            927.0
+          ],
+          "endSourcePoint": [
+            1540.0,
+            921.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0211",
+      "owners": [
+        "minas-morgul",
+        "south-ithilien"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1520.0,
+        961.0,
+        1590.0,
+        1030.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 8,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1520.0,
+            961.0
+          ],
+          "endSourcePoint": [
+            1525.0,
+            1009.0
+          ]
+        },
+        {
+          "fromSegment": 8,
+          "toSegment": 78,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1525.0,
+            1009.0
+          ],
+          "endSourcePoint": [
+            1590.0,
+            1022.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0212",
+      "owners": [
+        "nurn",
+        "gorgoroth"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1611.0,
+        1066.0,
+        1711.0,
+        1079.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 27,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0213",
+      "owners": [
+        "nurn",
+        "gorgoroth"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1762.0,
+        1097.0,
+        1776.0,
+        1138.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Entire eastern contact south of the Sea of Nurnen follows the mountain ridge. The same region pair crosses only on separate western path boundary-0212.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 23,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0214",
+      "owners": [
+        "nurn",
+        "near-harad"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1566.0,
+        1119.0,
+        1579.0,
+        1127.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 8,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0215",
+      "owners": [
+        "nurn",
+        "khand"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1579.0,
+        1127.0,
+        1766.0,
+        1160.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 137,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0216",
+      "owners": [
+        "nurn",
+        "south-ithilien"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1558.0,
+        1068.0,
+        1611.0,
+        1119.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 42,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0217",
+      "owners": [
+        "gorgoroth",
+        "barad-dur"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1651.0,
+        867.0,
+        1947.0,
+        912.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 100,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0218",
+      "owners": [
+        "gorgoroth",
+        "khand"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1766.0,
+        1081.0,
+        1947.0,
+        1145.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 123,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0219",
+      "owners": [
+        "gorgoroth",
+        "south-ithilien"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1590.0,
+        1022.0,
+        1611.0,
+        1068.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 30,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0220",
+      "owners": [
+        "barad-dur",
+        "south-rhun"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1747.0,
+        797.0,
+        1947.0,
+        819.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 31,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0221",
+      "owners": [
+        "barad-dur",
+        "dagorlad"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1643.0,
+        794.0,
+        1656.0,
+        809.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 7,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0222",
+      "owners": [
+        "barad-dur",
+        "ash-mountains"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1656.0,
+        772.0,
+        1747.0,
+        818.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 95,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0223",
+      "owners": [
+        "umbar",
+        "near-harad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1375.0,
+        1273.0,
+        1389.0,
+        1358.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 39,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0224",
+      "owners": [
+        "umbar",
+        "west-harondor"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1235.0,
+        1266.0,
+        1382.0,
+        1295.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 54,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0225",
+      "owners": [
+        "near-harad",
+        "far-harad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1524.0,
+        1234.0,
+        1566.0,
+        1358.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 57,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0226",
+      "owners": [
+        "near-harad",
+        "khand"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1566.0,
+        1127.0,
+        1579.0,
+        1234.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1566.0,
+            1234.0
+          ],
+          "endSourcePoint": [
+            1574.0,
+            1186.0
+          ]
+        },
+        {
+          "fromSegment": 21,
+          "toSegment": 27,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1574.0,
+            1186.0
+          ],
+          "endSourcePoint": [
+            1579.0,
+            1127.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0227",
+      "owners": [
+        "near-harad",
+        "west-harondor"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1382.0,
+        1259.0,
+        1446.0,
+        1275.0
+      ],
+      "reviewSectors": [
+        "2-1",
+        "2-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 26,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0228",
+      "owners": [
+        "near-harad",
+        "east-harondor"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1446.0,
+        1139.0,
+        1527.0,
+        1259.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 76,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0229",
+      "owners": [
+        "near-harad",
+        "south-ithilien"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1527.0,
+        1119.0,
+        1566.0,
+        1139.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 20,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0230",
+      "owners": [
+        "far-harad",
+        "khand"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1566.0,
+        1200.0,
+        1947.0,
+        1237.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 143,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0231",
+      "owners": [
+        "north-rhun",
+        "east-rhun"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1663.0,
+        371.0,
+        1769.0,
+        529.0
+      ],
+      "reviewSectors": [
+        "0-2",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 167,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0232",
+      "owners": [
+        "north-rhun",
+        "vale-of-the-carnen"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1655.0,
+        372.0,
+        1663.0,
+        416.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 9,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0233",
+      "owners": [
+        "north-rhun",
+        "vale-of-the-celduin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1655.0,
+        416.0,
+        1669.0,
+        458.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0234",
+      "owners": [
+        "north-rhun",
+        "northern-dorwinion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1669.0,
+        458.0,
+        1688.0,
+        500.0
+      ],
+      "reviewSectors": [
+        "0-2",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0235",
+      "owners": [
+        "south-rhun",
+        "east-rhun"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1769.0,
+        515.0,
+        1947.0,
+        563.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 24,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1769.0,
+            563.0
+          ],
+          "endSourcePoint": [
+            1787.0,
+            543.0
+          ]
+        },
+        {
+          "fromSegment": 24,
+          "toSegment": 74,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1787.0,
+            543.0
+          ],
+          "endSourcePoint": [
+            1947.0,
+            516.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0236",
+      "owners": [
+        "south-rhun",
+        "southern-dorwinion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1715.0,
+        628.0,
+        1726.0,
+        688.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 16,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1715.0,
+            688.0
+          ],
+          "endSourcePoint": [
+            1725.0,
+            656.0
+          ]
+        },
+        {
+          "fromSegment": 16,
+          "toSegment": 25,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1725.0,
+            656.0
+          ],
+          "endSourcePoint": [
+            1722.0,
+            628.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0237",
+      "owners": [
+        "south-rhun",
+        "ash-mountains"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1715.0,
+        688.0,
+        1747.0,
+        797.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 49,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0238",
+      "owners": [
+        "east-rhun",
+        "vale-of-the-carnen"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1583.0,
+        281.0,
+        1663.0,
+        375.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 92,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0239",
+      "owners": [
+        "evendim",
+        "arnor"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        627.0,
+        72.0,
+        759.0,
+        199.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 94,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0240",
+      "owners": [
+        "evendim",
+        "tower-hills"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        604.0,
+        290.0,
+        618.0,
+        316.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 14,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0241",
+      "owners": [
+        "arnor",
+        "ettenmoors"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        812.0,
+        151.0,
+        817.0,
+        206.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0242",
+      "owners": [
+        "ettenmoors",
+        "weather-hills"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        877.0,
+        227.0,
+        955.0,
+        251.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 42,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0243",
+      "owners": [
+        "ettenmoors",
+        "trollshaws"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        955.0,
+        220.0,
+        1010.0,
+        252.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 18,
+          "kind": "Passage",
+          "startSourcePoint": [
+            955.0,
+            251.0
+          ],
+          "endSourcePoint": [
+            973.0,
+            221.0
+          ]
+        },
+        {
+          "fromSegment": 18,
+          "toSegment": 25,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            973.0,
+            221.0
+          ],
+          "endSourcePoint": [
+            1010.0,
+            224.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0244",
+      "owners": [
+        "weather-hills",
+        "trollshaws"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        930.0,
+        251.0,
+        955.0,
+        356.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 53,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0245",
+      "owners": [
+        "weather-hills",
+        "south-downs"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        877.0,
+        329.0,
+        946.0,
+        356.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 45,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0246",
+      "owners": [
+        "trollshaws",
+        "south-downs"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        946.0,
+        356.0,
+        964.0,
+        440.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 32,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0247",
+      "owners": [
+        "trollshaws",
+        "hollin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        964.0,
+        431.0,
+        969.0,
+        438.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 5,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0248",
+      "owners": [
+        "trollshaws",
+        "fords-of-bruinen"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        967.0,
+        318.0,
+        1012.0,
+        431.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 65,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0249",
+      "owners": [
+        "south-downs",
+        "cardolan"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        843.0,
+        378.0,
+        888.0,
+        527.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "0-1",
+        "1-0",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 83,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0250",
+      "owners": [
+        "south-downs",
+        "hollin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        913.0,
+        438.0,
+        965.0,
+        493.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 44,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0251",
+      "owners": [
+        "tower-hills",
+        "south-ered-luin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        527.0,
+        411.0,
+        647.0,
+        520.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "1-0"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 20,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            527.0,
+            514.0
+          ],
+          "endSourcePoint": [
+            555.0,
+            512.0
+          ]
+        },
+        {
+          "fromSegment": 20,
+          "toSegment": 104,
+          "kind": "Passage",
+          "startSourcePoint": [
+            555.0,
+            512.0
+          ],
+          "endSourcePoint": [
+            647.0,
+            411.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0252",
+      "owners": [
+        "harlindon",
+        "south-ered-luin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        481.0,
+        520.0,
+        544.0,
+        579.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 48,
+          "kind": "Passage",
+          "startSourcePoint": [
+            481.0,
+            579.0
+          ],
+          "endSourcePoint": [
+            543.0,
+            543.0
+          ]
+        },
+        {
+          "fromSegment": 48,
+          "toSegment": 71,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            543.0,
+            543.0
+          ],
+          "endSourcePoint": [
+            514.0,
+            520.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0253",
+      "owners": [
+        "south-ered-luin",
+        "old-forest"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        723.0,
+        418.0,
+        732.0,
+        453.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 20,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0254",
+      "owners": [
+        "south-ered-luin",
+        "cardolan"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        691.0,
+        453.0,
+        733.0,
+        492.0
+      ],
+      "reviewSectors": [
+        "0-0",
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 32,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0255",
+      "owners": [
+        "south-ered-luin",
+        "minhiriath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        578.0,
+        490.0,
+        691.0,
+        601.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 81,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0256",
+      "owners": [
+        "old-forest",
+        "cardolan"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        732.0,
+        378.0,
+        828.0,
+        462.0
+      ],
+      "reviewSectors": [
+        "0-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 64,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0257",
+      "owners": [
+        "cardolan",
+        "minhiriath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        691.0,
+        492.0,
+        798.0,
+        604.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 87,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0258",
+      "owners": [
+        "cardolan",
+        "tharbad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        798.0,
+        550.0,
+        862.0,
+        604.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 51,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0259",
+      "owners": [
+        "minhiriath",
+        "tharbad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        755.0,
+        604.0,
+        798.0,
+        653.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 39,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0260",
+      "owners": [
+        "minhiriath",
+        "enedwaith"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        707.0,
+        653.0,
+        755.0,
+        734.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 60,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0261",
+      "owners": [
+        "tharbad",
+        "enedwaith"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        755.0,
+        653.0,
+        829.0,
+        703.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 47,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0262",
+      "owners": [
+        "enedwaith",
+        "druwaith-iaur"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        739.0,
+        813.0,
+        849.0,
+        849.0
+      ],
+      "reviewSectors": [
+        "1-0"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 67,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0263",
+      "owners": [
+        "druwaith-iaur",
+        "andrast"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        699.0,
+        901.0,
+        924.0,
+        947.0
+      ],
+      "reviewSectors": [
+        "1-0",
+        "1-1",
+        "2-0",
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 111,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0264",
+      "owners": [
+        "hollin",
+        "fords-of-bruinen"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        969.0,
+        428.0,
+        1046.0,
+        433.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 27,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0265",
+      "owners": [
+        "fords-of-bruinen",
+        "high-pass"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1057.0,
+        304.0,
+        1070.0,
+        390.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 4,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1063.0,
+            390.0
+          ],
+          "endSourcePoint": [
+            1059.0,
+            381.0
+          ]
+        },
+        {
+          "fromSegment": 4,
+          "toSegment": 31,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1059.0,
+            381.0
+          ],
+          "endSourcePoint": [
+            1068.0,
+            310.0
+          ]
+        },
+        {
+          "fromSegment": 31,
+          "toSegment": 34,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1068.0,
+            310.0
+          ],
+          "endSourcePoint": [
+            1070.0,
+            304.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0266",
+      "owners": [
+        "eagles-eyrie",
+        "old-ford"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1158.0,
+        246.0,
+        1215.0,
+        258.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 31,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0267",
+      "owners": [
+        "eagles-eyrie",
+        "goblins-gate"
+      ],
+      "movementPair": false,
+      "sourceBounds": [
+        1122.0,
+        245.0,
+        1158.0,
+        253.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Continuous mountain barrier; contact is absent from the closed movement graph.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 15,
+          "kind": "Impassable"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0268",
+      "owners": [
+        "old-ford",
+        "goblins-gate"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1124.0,
+        253.0,
+        1193.0,
+        351.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 80,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0269",
+      "owners": [
+        "old-ford",
+        "gladden-fields"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1137.0,
+        362.0,
+        1240.0,
+        375.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 49,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0270",
+      "owners": [
+        "goblins-gate",
+        "high-pass"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1114.0,
+        250.0,
+        1125.0,
+        337.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 1,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1115.0,
+            337.0
+          ],
+          "endSourcePoint": [
+            1115.0,
+            326.0
+          ]
+        },
+        {
+          "fromSegment": 1,
+          "toSegment": 17,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1115.0,
+            326.0
+          ],
+          "endSourcePoint": [
+            1122.0,
+            291.0
+          ]
+        },
+        {
+          "fromSegment": 17,
+          "toSegment": 31,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1122.0,
+            291.0
+          ],
+          "endSourcePoint": [
+            1120.0,
+            250.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0271",
+      "owners": [
+        "gladden-fields",
+        "dimrill-dale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1169.0,
+        423.0,
+        1232.0,
+        432.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 32,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0272",
+      "owners": [
+        "gladden-fields",
+        "north-anduin-vale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1232.0,
+        406.0,
+        1239.0,
+        432.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 11,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0273",
+      "owners": [
+        "dimrill-dale",
+        "parth-celebrant"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1205.0,
+        579.0,
+        1220.0,
+        584.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 10,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0274",
+      "owners": [
+        "dimrill-dale",
+        "north-anduin-vale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1231.0,
+        432.0,
+        1239.0,
+        493.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0275",
+      "owners": [
+        "dimrill-dale",
+        "south-anduin-vale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1220.0,
+        493.0,
+        1231.0,
+        583.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 33,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0276",
+      "owners": [
+        "fangorn",
+        "parth-celebrant"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1057.0,
+        579.0,
+        1170.0,
+        659.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 14,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1057.0,
+            579.0
+          ],
+          "endSourcePoint": [
+            1096.0,
+            605.0
+          ]
+        },
+        {
+          "fromSegment": 14,
+          "toSegment": 64,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1096.0,
+            605.0
+          ],
+          "endSourcePoint": [
+            1170.0,
+            659.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0277",
+      "owners": [
+        "parth-celebrant",
+        "south-anduin-vale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1220.0,
+        583.0,
+        1265.0,
+        613.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 36,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0278",
+      "owners": [
+        "parth-celebrant",
+        "western-brown-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1265.0,
+        612.0,
+        1295.0,
+        663.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 36,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0279",
+      "owners": [
+        "northern-mirkwood",
+        "withered-heath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1355.0,
+        128.0,
+        1369.0,
+        239.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 41,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0280",
+      "owners": [
+        "northern-mirkwood",
+        "western-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1279.0,
+        229.0,
+        1350.0,
+        256.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 43,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0281",
+      "owners": [
+        "narrows-of-the-forest",
+        "eastern-mirkwood"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1358.0,
+        382.0,
+        1388.0,
+        483.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 37,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0282",
+      "owners": [
+        "narrows-of-the-forest",
+        "north-anduin-vale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1312.0,
+        405.0,
+        1328.0,
+        478.0
+      ],
+      "reviewSectors": [
+        "0-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 33,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0283",
+      "owners": [
+        "eastern-mirkwood",
+        "northern-rhovanion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1401.0,
+        388.0,
+        1453.0,
+        487.0
+      ],
+      "reviewSectors": [
+        "0-1",
+        "0-2",
+        "1-1",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 61,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0284",
+      "owners": [
+        "north-anduin-vale",
+        "south-anduin-vale"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1231.0,
+        493.0,
+        1298.0,
+        511.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 37,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0285",
+      "owners": [
+        "south-anduin-vale",
+        "western-brown-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1265.0,
+        595.0,
+        1294.0,
+        612.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 23,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0286",
+      "owners": [
+        "western-brown-lands",
+        "eastern-brown-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1377.0,
+        607.0,
+        1396.0,
+        683.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 37,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0287",
+      "owners": [
+        "western-brown-lands",
+        "western-emyn-muil"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1315.0,
+        683.0,
+        1395.0,
+        700.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 41,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0288",
+      "owners": [
+        "eastern-brown-lands",
+        "western-emyn-muil"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1395.0,
+        683.0,
+        1413.0,
+        689.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 8,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0289",
+      "owners": [
+        "eastern-brown-lands",
+        "eastern-emyn-muil"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1413.0,
+        667.0,
+        1513.0,
+        689.0
+      ],
+      "reviewSectors": [
+        "1-1",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 39,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0290",
+      "owners": [
+        "eastern-brown-lands",
+        "southern-rhovanion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1457.0,
+        562.0,
+        1484.0,
+        591.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 24,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0291",
+      "owners": [
+        "eastern-brown-lands",
+        "noman-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1484.0,
+        591.0,
+        1513.0,
+        667.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 39,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0292",
+      "owners": [
+        "western-emyn-muil",
+        "eastern-emyn-muil"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1407.0,
+        689.0,
+        1423.0,
+        772.0
+      ],
+      "reviewSectors": [
+        "1-1",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 41,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0293",
+      "owners": [
+        "western-emyn-muil",
+        "dead-marshes"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1326.0,
+        772.0,
+        1408.0,
+        831.0
+      ],
+      "reviewSectors": [
+        "1-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 72,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0294",
+      "owners": [
+        "eastern-emyn-muil",
+        "dead-marshes"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1408.0,
+        764.0,
+        1465.0,
+        779.0
+      ],
+      "reviewSectors": [
+        "1-1",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 37,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0295",
+      "owners": [
+        "eastern-emyn-muil",
+        "north-ithilien"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1465.0,
+        740.0,
+        1513.0,
+        764.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 30,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0296",
+      "owners": [
+        "eastern-emyn-muil",
+        "noman-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1513.0,
+        667.0,
+        1544.0,
+        716.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 36,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0297",
+      "owners": [
+        "eastern-emyn-muil",
+        "dagorlad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1513.0,
+        716.0,
+        1544.0,
+        740.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 28,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0298",
+      "owners": [
+        "dead-marshes",
+        "osgiliath"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1370.0,
+        864.0,
+        1427.0,
+        885.0
+      ],
+      "reviewSectors": [
+        "1-1",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 33,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0299",
+      "owners": [
+        "dead-marshes",
+        "north-ithilien"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1427.0,
+        764.0,
+        1470.0,
+        885.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 77,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0300",
+      "owners": [
+        "osgiliath",
+        "west-harondor"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1362.0,
+        1113.0,
+        1393.0,
+        1126.0
+      ],
+      "reviewSectors": [
+        "2-1"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 21,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0301",
+      "owners": [
+        "osgiliath",
+        "north-ithilien"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1427.0,
+        885.0,
+        1449.0,
+        955.0
+      ],
+      "reviewSectors": [
+        "1-2",
+        "2-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 27,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0302",
+      "owners": [
+        "osgiliath",
+        "south-ithilien"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1393.0,
+        955.0,
+        1454.0,
+        1113.0
+      ],
+      "reviewSectors": [
+        "2-1",
+        "2-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 109,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0303",
+      "owners": [
+        "west-harondor",
+        "east-harondor"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1410.0,
+        1151.0,
+        1446.0,
+        1259.0
+      ],
+      "reviewSectors": [
+        "2-1",
+        "2-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 59,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0304",
+      "owners": [
+        "west-harondor",
+        "south-ithilien"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1393.0,
+        1113.0,
+        1426.0,
+        1151.0
+      ],
+      "reviewSectors": [
+        "2-1",
+        "2-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 33,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0305",
+      "owners": [
+        "east-harondor",
+        "south-ithilien"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1426.0,
+        1127.0,
+        1527.0,
+        1151.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 36,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1426.0,
+            1151.0
+          ],
+          "endSourcePoint": [
+            1494.0,
+            1137.0
+          ]
+        },
+        {
+          "fromSegment": 36,
+          "toSegment": 45,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1494.0,
+            1137.0
+          ],
+          "endSourcePoint": [
+            1527.0,
+            1139.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0306",
+      "owners": [
+        "north-ithilien",
+        "south-ithilien"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1449.0,
+        953.0,
+        1520.0,
+        969.0
+      ],
+      "reviewSectors": [
+        "2-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 31,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0307",
+      "owners": [
+        "north-ithilien",
+        "dagorlad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1513.0,
+        740.0,
+        1537.0,
+        804.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 34,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0308",
+      "owners": [
+        "northern-rhovanion",
+        "vale-of-the-carnen"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1504.0,
+        381.0,
+        1537.0,
+        398.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 19,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0309",
+      "owners": [
+        "northern-rhovanion",
+        "vale-of-the-celduin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1517.0,
+        398.0,
+        1537.0,
+        471.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 39,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0310",
+      "owners": [
+        "northern-rhovanion",
+        "southern-rhovanion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1440.0,
+        471.0,
+        1529.0,
+        494.0
+      ],
+      "reviewSectors": [
+        "0-2",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 47,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0311",
+      "owners": [
+        "vale-of-the-carnen",
+        "vale-of-the-celduin"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1537.0,
+        395.0,
+        1655.0,
+        416.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 51,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0312",
+      "owners": [
+        "vale-of-the-celduin",
+        "southern-rhovanion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1529.0,
+        468.0,
+        1579.0,
+        479.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 29,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0313",
+      "owners": [
+        "vale-of-the-celduin",
+        "northern-dorwinion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1579.0,
+        456.0,
+        1669.0,
+        479.0
+      ],
+      "reviewSectors": [
+        "0-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 40,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0314",
+      "owners": [
+        "southern-rhovanion",
+        "northern-dorwinion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1579.0,
+        479.0,
+        1594.0,
+        546.0
+      ],
+      "reviewSectors": [
+        "0-2",
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 31,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0315",
+      "owners": [
+        "southern-rhovanion",
+        "southern-dorwinion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1550.0,
+        546.0,
+        1593.0,
+        573.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 15,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0316",
+      "owners": [
+        "southern-rhovanion",
+        "noman-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1484.0,
+        573.0,
+        1550.0,
+        591.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 39,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0317",
+      "owners": [
+        "northern-dorwinion",
+        "southern-dorwinion"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1593.0,
+        541.0,
+        1687.0,
+        562.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "Reviewed transition between visible white border/river and mountain ridge (or coast/frame); endpoints snapped to original contour vertices, preserving the accepted source interpolation.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 30,
+          "kind": "Passage",
+          "startSourcePoint": [
+            1593.0,
+            546.0
+          ],
+          "endSourcePoint": [
+            1668.0,
+            557.0
+          ]
+        },
+        {
+          "fromSegment": 30,
+          "toSegment": 58,
+          "kind": "Impassable",
+          "startSourcePoint": [
+            1668.0,
+            557.0
+          ],
+          "endSourcePoint": [
+            1684.0,
+            558.0
+          ]
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0318",
+      "owners": [
+        "southern-dorwinion",
+        "noman-lands"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1550.0,
+        573.0,
+        1625.0,
+        694.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 79,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0319",
+      "owners": [
+        "southern-dorwinion",
+        "ash-mountains"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1625.0,
+        688.0,
+        1715.0,
+        697.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 43,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0320",
+      "owners": [
+        "noman-lands",
+        "dagorlad"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1544.0,
+        704.0,
+        1613.0,
+        719.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 29,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0321",
+      "owners": [
+        "noman-lands",
+        "ash-mountains"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1613.0,
+        694.0,
+        1625.0,
+        704.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 7,
+          "kind": "Passage"
+        }
+      ]
+    },
+    {
+      "boundaryId": "boundary-0322",
+      "owners": [
+        "dagorlad",
+        "ash-mountains"
+      ],
+      "movementPair": true,
+      "sourceBounds": [
+        1613.0,
+        704.0,
+        1656.0,
+        794.0
+      ],
+      "reviewSectors": [
+        "1-2"
+      ],
+      "evidence": "White printed land border or river; no ridge crosses this source path.",
+      "parts": [
+        {
+          "fromSegment": 0,
+          "toSegment": 58,
+          "kind": "Passage"
+        }
+      ]
+    }
+  ]
+}

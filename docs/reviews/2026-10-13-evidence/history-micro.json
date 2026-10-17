@@ -1,0 +1,98 @@
+[
+  {
+    "Events": 0,
+    "Operation": "copy",
+    "StateBytes": 47005,
+    "MedianMs": 0.7885,
+    "P95Ms": 2.7205,
+    "MeanAllocatedBytes": 214135.04
+  },
+  {
+    "Events": 0,
+    "Operation": "projection",
+    "StateBytes": 47005,
+    "MedianMs": 0.1692,
+    "P95Ms": 0.2289,
+    "MeanAllocatedBytes": 73671.04
+  },
+  {
+    "Events": 0,
+    "Operation": "execute",
+    "StateBytes": 47005,
+    "MedianMs": 0.8653,
+    "P95Ms": 2.7709,
+    "MeanAllocatedBytes": 239193.28
+  },
+  {
+    "Events": 500,
+    "Operation": "copy",
+    "StateBytes": 162505,
+    "MedianMs": 1.4427,
+    "P95Ms": 3.0768,
+    "MeanAllocatedBytes": 689604.16
+  },
+  {
+    "Events": 500,
+    "Operation": "projection",
+    "StateBytes": 162505,
+    "MedianMs": 0.1929,
+    "P95Ms": 1.1216,
+    "MeanAllocatedBytes": 76664.64
+  },
+  {
+    "Events": 500,
+    "Operation": "execute",
+    "StateBytes": 162505,
+    "MedianMs": 1.382,
+    "P95Ms": 1.8169,
+    "MeanAllocatedBytes": 714649.92
+  },
+  {
+    "Events": 2000,
+    "Operation": "copy",
+    "StateBytes": 509005,
+    "MedianMs": 4.0118,
+    "P95Ms": 6.2748,
+    "MeanAllocatedBytes": 2115212.8
+  },
+  {
+    "Events": 2000,
+    "Operation": "projection",
+    "StateBytes": 509005,
+    "MedianMs": 0.3198,
+    "P95Ms": 0.5896,
+    "MeanAllocatedBytes": 76664.64
+  },
+  {
+    "Events": 2000,
+    "Operation": "execute",
+    "StateBytes": 509005,
+    "MedianMs": 3.9903,
+    "P95Ms": 4.8555,
+    "MeanAllocatedBytes": 2140806.72
+  },
+  {
+    "Events": 10000,
+    "Operation": "copy",
+    "StateBytes": 2357005,
+    "MedianMs": 17.9364,
+    "P95Ms": 35.2742,
+    "MeanAllocatedBytes": 9816517.44
+  },
+  {
+    "Events": 10000,
+    "Operation": "projection",
+    "StateBytes": 2357005,
+    "MedianMs": 1.3192,
+    "P95Ms": 1.5282,
+    "MeanAllocatedBytes": 76895.04
+  },
+  {
+    "Events": 10000,
+    "Operation": "execute",
+    "StateBytes": 2357005,
+    "MedianMs": 10.5861,
+    "P95Ms": 20.1243,
+    "MeanAllocatedBytes": 9842122.88
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "suite": "legacy",
+    "exit_code": 1,
+    "input_sha256": "1888e6298a96a0e27260c13cb48d405985f8bea5b98b9056e289567f0fe14769",
+    "partial_report_exists": true
+  },
+  {
+    "suite": "in-game",
+    "exit_code": 1,
+    "input_sha256": "d4868da2272024609fcf03fbe377ef252b4bfd101dcec80e8b82874c30c616f4",
+    "partial_report_exists": true
+  },
+  {
+    "suite": "board",
+    "exit_code": 0,
+    "input_sha256": "11339fada5db17c38b2771cdda6655bb1305c89693826a2b35ddceafffd366f3",
+    "partial_report_exists": true
+  },
+  {
+    "suite": "figure-motion",
+    "exit_code": 0,
+    "input_sha256": "6b06dd8dd14c8cdfa49508640defd82e2285bb64574456b4dcff591a02fc31c1",
+    "partial_report_exists": true
+  }
+]

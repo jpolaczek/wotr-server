@@ -1,0 +1,23 @@
+{
+  "version": "1.0.10",
+  "files": [
+    "base-board.json",
+    "map-geometry.json",
+    "map-boundaries.json",
+    "map-border-bands.json",
+    "map-style.json",
+    "base-cards.json",
+    "base-card-text.json",
+    "base-characters.json",
+    "lords-cards.json",
+    "lords-card-text.json",
+    "lords-characters.json",
+    "kings-cards.json",
+    "kings-card-text.json",
+    "kings-characters.json",
+    "fate-cards.json",
+    "fate-card-text.json",
+    "fate-characters.json",
+    "character-ability-text.json"
+  ]
+}

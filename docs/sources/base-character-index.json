@@ -1,0 +1,522 @@
+{
+  "status": "sources_reviewed_implemented",
+  "audit": "docs/sources/SRC-02-AUDIT.md",
+  "cards": [
+    {
+      "id": "base.character.gimli",
+      "title": "Gimli",
+      "subtitle": "Son of Glóin",
+      "side": "FreePeoples",
+      "number": 1,
+      "numberOfCards": 11,
+      "identity": "gimli",
+      "role": "Companion",
+      "level": 2,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "dwarves",
+      "extraActionDice": 0,
+      "entry": {
+        "mode": "setup-fellowship"
+      },
+      "abilities": [
+        "combat-strength-plus-one",
+        "politics-dwarves-at-erebor"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          6342,
+          0,
+          7248,
+          1638
+        ]
+      }
+    },
+    {
+      "id": "base.character.boromir",
+      "title": "Boromir",
+      "subtitle": "Son of Denethor",
+      "side": "FreePeoples",
+      "number": 2,
+      "numberOfCards": 11,
+      "identity": "boromir",
+      "role": "Companion",
+      "level": 2,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "gondor",
+      "extraActionDice": 0,
+      "entry": {
+        "mode": "setup-fellowship"
+      },
+      "abilities": [
+        "combat-strength-plus-one",
+        "politics-gondor-at-city-or-stronghold"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          906,
+          0,
+          1812,
+          1638
+        ]
+      }
+    },
+    {
+      "id": "base.character.legolas",
+      "title": "Legolas",
+      "subtitle": "Son of Thranduil",
+      "side": "FreePeoples",
+      "number": 3,
+      "numberOfCards": 11,
+      "identity": "legolas",
+      "role": "Companion",
+      "level": 2,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "elves",
+      "extraActionDice": 0,
+      "entry": {
+        "mode": "setup-fellowship"
+      },
+      "abilities": [
+        "combat-strength-plus-one",
+        "politics-elves-at-stronghold"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          3624,
+          1638,
+          4530,
+          3277
+        ]
+      }
+    },
+    {
+      "id": "base.character.gandalf-grey",
+      "title": "Gandalf the Grey",
+      "subtitle": "The Grey Wanderer",
+      "side": "FreePeoples",
+      "number": 4,
+      "numberOfCards": 11,
+      "identity": "gandalf",
+      "role": "Companion",
+      "level": 3,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "any",
+      "extraActionDice": 0,
+      "entry": {
+        "mode": "setup-fellowship"
+      },
+      "abilities": [
+        "guide-draw-after-event-die-card",
+        "combat-strength-plus-one",
+        "may-transform-to-white"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          4530,
+          0,
+          5436,
+          1638
+        ]
+      }
+    },
+    {
+      "id": "base.character.strider",
+      "title": "Strider",
+      "subtitle": "Ranger of the North",
+      "side": "FreePeoples",
+      "number": 5,
+      "numberOfCards": 11,
+      "identity": "aragorn",
+      "role": "Companion",
+      "level": 3,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "north",
+      "extraActionDice": 0,
+      "entry": {
+        "mode": "setup-fellowship"
+      },
+      "abilities": [
+        "guide-hide-with-any-action-die",
+        "combat-strength-plus-one",
+        "may-transform-to-aragorn"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          5436,
+          3277,
+          6342,
+          4915
+        ]
+      }
+    },
+    {
+      "id": "base.character.pippin",
+      "title": "Peregrin Took",
+      "subtitle": "Hobbit Companion",
+      "side": "FreePeoples",
+      "number": 6,
+      "numberOfCards": 11,
+      "identity": "pippin",
+      "role": "Companion",
+      "level": 1,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "any",
+      "extraActionDice": 0,
+      "entry": {
+        "mode": "setup-fellowship"
+      },
+      "abilities": [
+        "guide-separate-to-reduce-hunt-one",
+        "return-after-fellowship-elimination-except-mordor"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          906,
+          3277,
+          1812,
+          4915
+        ]
+      }
+    },
+    {
+      "id": "base.character.merry",
+      "title": "Meriadoc Brandybuck",
+      "subtitle": "Hobbit Companion",
+      "side": "FreePeoples",
+      "number": 7,
+      "numberOfCards": 11,
+      "identity": "merry",
+      "role": "Companion",
+      "level": 1,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "any",
+      "extraActionDice": 0,
+      "entry": {
+        "mode": "setup-fellowship"
+      },
+      "abilities": [
+        "guide-separate-to-reduce-hunt-one",
+        "return-after-fellowship-elimination-except-mordor"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          5436,
+          1638,
+          6342,
+          3277
+        ]
+      }
+    },
+    {
+      "id": "base.character.gandalf-white",
+      "title": "Gandalf the White",
+      "subtitle": "Emissary from the West",
+      "side": "FreePeoples",
+      "number": 8,
+      "numberOfCards": 11,
+      "identity": "gandalf",
+      "role": "Companion",
+      "level": 3,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "any",
+      "extraActionDice": 1,
+      "entry": {
+        "cost": "WillOfTheWest",
+        "requires": [
+          "grey-eliminated-or-outside-fellowship",
+          "a-minion-has-entered-play"
+        ],
+        "placement": "replace-grey-if-present-otherwise-fangorn-or-unconquered-elven-stronghold"
+      },
+      "abilities": [
+        "move-four-alone-or-with-one-hobbit",
+        "forfeit-leadership-to-cancel-nazgul-for-battle"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          3624,
+          0,
+          4530,
+          1638
+        ]
+      }
+    },
+    {
+      "id": "base.character.aragorn",
+      "title": "Aragorn",
+      "subtitle": "Heir to Isildur",
+      "side": "FreePeoples",
+      "number": 9,
+      "numberOfCards": 11,
+      "identity": "aragorn",
+      "role": "Companion",
+      "level": 3,
+      "unlimitedMovement": false,
+      "leadership": 2,
+      "nationIcon": "any",
+      "extraActionDice": 1,
+      "entry": {
+        "cost": "WillOfTheWest",
+        "requires": [
+          "strider-at-unconquered-minas-tirith-dol-amroth-or-pelargir"
+        ],
+        "placement": "replace-strider"
+      },
+      "abilities": [
+        "combat-strength-plus-one"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          0,
+          0,
+          906,
+          1638
+        ]
+      }
+    },
+    {
+      "id": "base.character.gollum",
+      "title": "Gollum",
+      "subtitle": "Slave of the Ring",
+      "side": "FreePeoples",
+      "number": 10,
+      "numberOfCards": 11,
+      "identity": "gollum",
+      "role": "Guide",
+      "level": null,
+      "unlimitedMovement": false,
+      "leadership": null,
+      "nationIcon": null,
+      "extraActionDice": 0,
+      "entry": {
+        "mode": "automatic-guide"
+      },
+      "abilities": [
+        "enter-and-guide-when-no-companions",
+        "ignore-standard-numbered-reveal",
+        "voluntary-reveal-to-reduce-hunt-one"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          0,
+          1638,
+          906,
+          3277
+        ]
+      }
+    },
+    {
+      "id": "base.character.ring-bearers",
+      "title": "The Ring-bearers",
+      "subtitle": "Frodo & Samwise",
+      "side": "FreePeoples",
+      "number": 11,
+      "numberOfCards": 11,
+      "identity": "ring-bearers",
+      "role": "Fellowship",
+      "level": null,
+      "unlimitedMovement": false,
+      "leadership": null,
+      "nationIcon": "any",
+      "extraActionDice": 0,
+      "entry": {
+        "mode": "setup-fellowship"
+      },
+      "abilities": [
+        "add-gollum-when-no-companions"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          1812,
+          3277,
+          2718,
+          4915
+        ]
+      }
+    },
+    {
+      "id": "base.character.saruman",
+      "title": "Saruman",
+      "subtitle": "Corrupted Wizard",
+      "side": "Shadow",
+      "number": 1,
+      "numberOfCards": 3,
+      "identity": "saruman",
+      "role": "Minion",
+      "level": 0,
+      "unlimitedMovement": false,
+      "leadership": 1,
+      "nationIcon": "isengard",
+      "extraActionDice": 1,
+      "entry": {
+        "cost": "Muster",
+        "requires": [
+          "isengard-at-war",
+          "orthanc-unconquered"
+        ],
+        "placement": "orthanc"
+      },
+      "abilities": [
+        "cannot-leave-orthanc",
+        "muster-each-isengard-settlement-or-upgrade-two",
+        "isengard-elites-have-leadership"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          2718,
+          3277,
+          3624,
+          4915
+        ]
+      }
+    },
+    {
+      "id": "base.character.mouth-of-sauron",
+      "title": "The Mouth of Sauron",
+      "subtitle": "Lieutenant of Barad-dûr",
+      "side": "Shadow",
+      "number": 2,
+      "numberOfCards": 3,
+      "identity": "mouth-of-sauron",
+      "role": "Minion",
+      "level": 3,
+      "unlimitedMovement": false,
+      "leadership": 2,
+      "nationIcon": "sauron",
+      "extraActionDice": 1,
+      "entry": {
+        "cost": "Muster",
+        "requiresAny": [
+          "fellowship-on-mordor-track",
+          "all-free-peoples-at-war"
+        ],
+        "placement": "unconquered-sauron-stronghold"
+      },
+      "abilities": [
+        "muster-as-army-once-per-turn"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          7248,
+          1638,
+          8154,
+          3277
+        ]
+      }
+    },
+    {
+      "id": "base.character.witch-king",
+      "title": "The Witch-king",
+      "subtitle": "The Black Captain",
+      "side": "Shadow",
+      "number": 3,
+      "numberOfCards": 3,
+      "identity": "witch-king",
+      "role": "Minion",
+      "level": null,
+      "unlimitedMovement": true,
+      "leadership": 2,
+      "nationIcon": "sauron",
+      "extraActionDice": 1,
+      "entry": {
+        "cost": "Muster",
+        "requires": [
+          "sauron-at-war",
+          "at-least-one-free-peoples-nation-at-war"
+        ],
+        "placement": "shadow-army-with-at-least-one-sauron-unit"
+      },
+      "abilities": [
+        "entry-activates-all-free-peoples",
+        "draw-after-first-round-combat-card"
+      ],
+      "edition": "Second Edition",
+      "verification": "second_edition_front_reviewed",
+      "reviewedAt": "2026-10-05",
+      "implemented": true,
+      "source": {
+        "sheet": "BASE-CHAR-SHEET-EDA5E27F",
+        "bounds": [
+          906,
+          4915,
+          1812,
+          6554
+        ]
+      }
+    }
+  ],
+  "implementationManifest": "content/character-implementation-manifest.json"
+}

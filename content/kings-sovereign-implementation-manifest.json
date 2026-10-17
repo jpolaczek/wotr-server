@@ -1,0 +1,832 @@
+{
+  "schemaVersion": 1,
+  "scope": "T28: the obverse sovereigns, transformations, abilities, weaknesses and all cases of SRC-06. The dice Ruler and the token circulation require the integration of T29; T30, variants T31, full UI UI-09.",
+  "source": "docs/sources/kings-character-index.json",
+  "cards": [
+    {
+      "id": "kings.character.brand.awakened",
+      "entryTests": [
+        "KingsSovereignTests.AwakeningChangesOneFigureToACompanionReturnsTilesAndGrantsOneToken",
+        "KingsSovereignTests.AwakeningRequiresTheNationCostAndLegalRouteRatherThanTeleporting",
+        "KingsSovereignTests.AwakeningAcceptsEveryAvailableRulerFace"
+      ],
+      "exitTests": [
+        "KingsLifecycleTests.AwakenedDeathEndsItsCompanionStateAndFateOmitsBothNorthernSovereigns",
+        "KingsBoundaryTests.NonInitialSovereignsRejectAttemptsAndTileAttachmentWithoutMutation"
+      ],
+      "abilities": [
+        {
+          "id": "heir-of-bard",
+          "tests": [
+            "KingsBattleTests.BrandReplacesHisOwnersCardOnlyAfterRevealAndOnlyOnceForTheEntireBattle",
+            "KingsBattleTests.BrandRequiresTheActualParticipantsAndALegallyCommittedCard",
+            "KingsBattleTests.DefenderWinsInitiativeZeroSoSwarmCanCancelBrandsReplacement",
+            "KingsBoundaryTests.DaringAndCorruptedBrandRespectDefenderPriorityAtInitiativeZero"
+          ]
+        },
+        {
+          "id": "call-to-arms",
+          "tests": [
+            "KingsRulerRecruitmentTests.CallRecruitsInTwoDifferentSettlementsAndMayAddTheLocalRecruitToOneOfThem",
+            "KingsRulerRecruitmentTests.RulerRecruitmentRejectsOrdinaryDiceWrongResultsAndPeace",
+            "KingsRulerRecruitmentTests.ShortReserveAndAConqueredHomeLeaveThePlayerAChoiceAmongRemainingSettlements"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Heir of Bard: raz na bitwę, jeśli Brand i jednostka North uczestniczą, po ujawnieniu kart można zastąpić efekt własnej legalnie zagranej karty anulowaniem efektu karty SH; inicjatywa 0.",
+          "tests": [
+            "KingsBattleTests.BrandReplacesHisOwnersCardOnlyAfterRevealAndOnlyOnceForTheEntireBattle",
+            "KingsBattleTests.BrandRequiresTheActualParticipantsAndALegallyCommittedCard",
+            "KingsBattleTests.DefenderWinsInitiativeZeroSoSwarmCanCancelBrandsReplacement",
+            "KingsBoundaryTests.DaringAndCorruptedBrandRespectDefenderPriorityAtInitiativeZero"
+          ]
+        },
+        {
+          "sourceText": "Call to Arms: North At War, Muster na Ruler rekrutuje po jednym North Regular lub Leader w dwóch różnych wolnych osadach North oraz jednego North Regular lub Leader w wolnym regionie Branda.",
+          "tests": [
+            "KingsRulerRecruitmentTests.CallRecruitsInTwoDifferentSettlementsAndMayAddTheLocalRecruitToOneOfThem",
+            "KingsRulerRecruitmentTests.RulerRecruitmentRejectsOrdinaryDiceWrongResultsAndPeace",
+            "KingsRulerRecruitmentTests.ShortReserveAndAConqueredHomeLeaveThePlayerAChoiceAmongRemainingSettlements"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Awakening wymaga active, nie At War; dowolna osada FP typu City/Stronghold w zasięgu 1, także innego narodu.",
+          "tests": [
+            "KingsSovereignTests.BrandMayReachAnotherNationsUnconqueredCityButThranduilNeedsWar"
+          ]
+        },
+        {
+          "sourceText": "Heir wymaga własnej karty i jednostki North, dopiero po reveal, raz na całą bitwę.",
+          "tests": [
+            "KingsBattleTests.BrandReplacesHisOwnersCardOnlyAfterRevealAndOnlyOnceForTheEntireBattle",
+            "KingsBattleTests.BrandRequiresTheActualParticipantsAndALegallyCommittedCard"
+          ]
+        },
+        {
+          "sourceText": "Karta zastąpiona nadal played dla Sorcerer/Swarm.",
+          "tests": [
+            "KingsBattleTests.DefenderWinsInitiativeZeroSoSwarmCanCancelBrandsReplacement",
+            "KingsBoundaryTests.DaringAndCorruptedBrandRespectDefenderPriorityAtInitiativeZero"
+          ]
+        },
+        {
+          "sourceText": "Call to Arms nie rekrutuje elit; dwie osady muszą być różne, dodatkowy rekrut jest związany z regionem Branda.",
+          "tests": [
+            "KingsRulerRecruitmentTests.CallRecruitsInTwoDifferentSettlementsAndMayAddTheLocalRecruitToOneOfThem",
+            "KingsRulerRecruitmentTests.RulerRecruitmentRejectsOrdinaryDiceWrongResultsAndPeace",
+            "KingsRulerRecruitmentTests.ShortReserveAndAConqueredHomeLeaveThePlayerAChoiceAmongRemainingSettlements"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.brand.corrupted",
+      "entryTests": [
+        "KingsLifecycleTests.CorruptionOccursAtThePrintedResistanceAndNeverBefore",
+        "KingsLifecycleTests.CorruptingRevealsEverythingDiscardsTheHighestRevealTieAndReturnsKings"
+      ],
+      "exitTests": [
+        "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie",
+        "KingsSovereignTests.LosingTheInitialLeaderReturnsItsTilesWhileCorruptedDoesNotDieWithTheArmy"
+      ],
+      "abilities": [
+        {
+          "id": "corrupted-ruler",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "id": "shadows-in-the-north",
+          "tests": [
+            "KingsBattleTests.BrandReplacesHisOwnersCardOnlyAfterRevealAndOnlyOnceForTheEntireBattle",
+            "KingsBattleTests.BrandRequiresTheActualParticipantsAndALegallyCommittedCard",
+            "KingsBattleTests.DefenderWinsInitiativeZeroSoSwarmCanCancelBrandsReplacement",
+            "KingsBoundaryTests.DaringAndCorruptedBrandRespectDefenderPriorityAtInitiativeZero"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Zakaz rekrutacji North Leader i Elite, poza efektem Event. Dotyczy jednostek North niezależnie od regionu.",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "sourceText": "Shadows in the North: raz na bitwę, jeżeli jednostka North uczestniczy, po ujawnieniu kart SH może zastąpić efekt swojej legalnie zagranej karty anulowaniem efektów karty FP; inicjatywa 0. Brand nie musi być w regionie bitwy.",
+          "tests": [
+            "KingsBattleTests.BrandReplacesHisOwnersCardOnlyAfterRevealAndOnlyOnceForTheEntireBattle",
+            "KingsBattleTests.BrandRequiresTheActualParticipantsAndALegallyCommittedCard",
+            "KingsBattleTests.DefenderWinsInitiativeZeroSoSwarmCanCancelBrandsReplacement",
+            "KingsBoundaryTests.DaringAndCorruptedBrandRespectDefenderPriorityAtInitiativeZero"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Zakaz ma zasięg narodowy, a słabość bojowa może działać daleko od Dale.",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders",
+            "KingsBattleTests.BrandReplacesHisOwnersCardOnlyAfterRevealAndOnlyOnceForTheEntireBattle",
+            "KingsBattleTests.BrandRequiresTheActualParticipantsAndALegallyCommittedCard"
+          ]
+        },
+        {
+          "sourceText": "Warunek jednostki North, własna karta SH, wybór po reveal i limit raz na bitwę.",
+          "tests": [
+            "KingsBattleTests.BrandReplacesHisOwnersCardOnlyAfterRevealAndOnlyOnceForTheEntireBattle",
+            "KingsBattleTests.BrandRequiresTheActualParticipantsAndALegallyCommittedCard"
+          ]
+        },
+        {
+          "sourceText": "Corrupted nie uczestniczy w bitwie i przeżywa eliminację armii w regionie.",
+          "tests": [
+            "KingsSovereignTests.LosingTheInitialLeaderReturnsItsTilesWhileCorruptedDoesNotDieWithTheArmy"
+          ]
+        },
+        {
+          "sourceText": "Usunięcie wymaga obecnego Towarzysza z ikoną tego narodu albo Free Peoples, Character die lub odpowiedniego Event.",
+          "tests": [
+            "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie"
+          ]
+        },
+        {
+          "sourceText": "Wersja Council bez ikony nie może usunąć tej postaci.",
+          "tests": [
+            "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.dain.awakened",
+      "entryTests": [
+        "KingsSovereignTests.AwakeningChangesOneFigureToACompanionReturnsTilesAndGrantsOneToken",
+        "KingsSovereignTests.AwakeningRequiresTheNationCostAndLegalRouteRatherThanTeleporting",
+        "KingsSovereignTests.AwakeningAcceptsEveryAvailableRulerFace"
+      ],
+      "exitTests": [
+        "KingsLifecycleTests.AwakenedDeathEndsItsCompanionStateAndFateOmitsBothNorthernSovereigns",
+        "KingsBoundaryTests.NonInitialSovereignsRejectAttemptsAndTileAttachmentWithoutMutation"
+      ],
+      "abilities": [
+        {
+          "id": "dwarvenking",
+          "tests": [
+            "KingsUpgradeTests.UpgradeUsesAnyMusterAndPreservesTheArmyIncludingItsGarrison",
+            "KingsUpgradeTests.UpgradeRejectsMissingWarHomeReserveOrMatchingRegular"
+          ]
+        },
+        {
+          "id": "iron-guard",
+          "tests": [
+            "KingsRulerRecruitmentTests.DainCanRecruitAnEliteIntoSiegeButTheOtherRecruitMustUseADifferentFreeSettlement",
+            "KingsRulerRecruitmentTests.RecruitmentPreservesTheStackLimitDecisionAndItsResolvingCost"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Dwarvenking: Dwarves At War i Dáin w Ereborze, dowolny Muster Action die wymienia Dwarven Regular w jego armii na Elite, nawet podczas oblężenia Ereboru.",
+          "tests": [
+            "KingsUpgradeTests.UpgradeUsesAnyMusterAndPreservesTheArmyIncludingItsGarrison",
+            "KingsUpgradeTests.UpgradeRejectsMissingWarHomeReserveOrMatchingRegular"
+          ]
+        },
+        {
+          "sourceText": "Iron Guard: Dwarves At War, Muster na Ruler rekrutuje jednego Dwarven Regular albo Elite w regionie Dáina, jeśli wolny lub oblężony; następnie jednego Dwarven Regular albo Leader w dowolnej innej wolnej osadzie Dwarves.",
+          "tests": [
+            "KingsRulerRecruitmentTests.DainCanRecruitAnEliteIntoSiegeButTheOtherRecruitMustUseADifferentFreeSettlement",
+            "KingsRulerRecruitmentTests.RecruitmentPreservesTheStackLimitDecisionAndItsResolvingCost"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Dáin odległy od Ereboru nie teleportuje się przy awakening; ruch ma poziom 1.",
+          "tests": [
+            "KingsSovereignTests.AwakeningChangesOneFigureToACompanionReturnsTilesAndGrantsOneToken",
+            "KingsSovereignTests.AwakeningRequiresTheNationCostAndLegalRouteRatherThanTeleporting",
+            "KingsSovereignTests.AwakeningAcceptsEveryAvailableRulerFace"
+          ]
+        },
+        {
+          "sourceText": "Upgrade podczas oblężenia zwraca Regular do rezerw i wymaga Elite w rezerwach.",
+          "tests": [
+            "KingsUpgradeTests.UpgradeUsesAnyMusterAndPreservesTheArmyIncludingItsGarrison",
+            "KingsUpgradeTests.UpgradeRejectsMissingWarHomeReserveOrMatchingRegular"
+          ]
+        },
+        {
+          "sourceText": "Iron Guard może dodać Elite w bieżącym regionie, ale drugi rekrut nie jest Elite i wymaga innej wolnej osady.",
+          "tests": [
+            "KingsRulerRecruitmentTests.DainCanRecruitAnEliteIntoSiegeButTheOtherRecruitMustUseADifferentFreeSettlement",
+            "KingsRulerRecruitmentTests.RecruitmentPreservesTheStackLimitDecisionAndItsResolvingCost"
+          ]
+        },
+        {
+          "sourceText": "Dáin nie występuje w Fate.",
+          "tests": [
+            "KingsLifecycleTests.AwakenedDeathEndsItsCompanionStateAndFateOmitsBothNorthernSovereigns",
+            "KingsBoundaryTests.NonInitialSovereignsRejectAttemptsAndTileAttachmentWithoutMutation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.dain.corrupted",
+      "entryTests": [
+        "KingsLifecycleTests.CorruptionOccursAtThePrintedResistanceAndNeverBefore",
+        "KingsLifecycleTests.CorruptingRevealsEverythingDiscardsTheHighestRevealTieAndReturnsKings"
+      ],
+      "exitTests": [
+        "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie",
+        "KingsSovereignTests.LosingTheInitialLeaderReturnsItsTilesWhileCorruptedDoesNotDieWithTheArmy"
+      ],
+      "abilities": [
+        {
+          "id": "corrupted-ruler",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "id": "fate-of-the-lonely-mountain",
+          "tests": [
+            "KingsWeaknessTests.SiegeWeaknessRemovesOneParticipatingRegularAndCannotBeUsedInTheNextRound",
+            "KingsWeaknessTests.SiegeWeaknessPersistsItsFigureCostAndOncePerBattleLimit"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Zakaz rekrutacji Leader i Elite w Ereborze, poza efektem Event.",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "sourceText": "Fate of the Lonely Mountain: gdy Erebor jest oblężony, SH może raz na tę bitwę oblężniczą przedłużyć ją, usuwając własny Regular zamiast downgrade Elite.",
+          "tests": [
+            "KingsWeaknessTests.SiegeWeaknessRemovesOneParticipatingRegularAndCannotBeUsedInTheNextRound",
+            "KingsWeaknessTests.SiegeWeaknessPersistsItsFigureCostAndOncePerBattleLimit"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Zakaz miejscowy, nie ogólny dla Dwarves.",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "sourceText": "Przedłużenie wybiera Regular uczestniczący w szturmie; limit obejmuje całą bitwę i przeżywa restart.",
+          "tests": [
+            "KingsWeaknessTests.SiegeWeaknessRemovesOneParticipatingRegularAndCannotBeUsedInTheNextRound",
+            "KingsWeaknessTests.SiegeWeaknessPersistsItsFigureCostAndOncePerBattleLimit"
+          ]
+        },
+        {
+          "sourceText": "Corrupted nie uczestniczy w bitwie i przeżywa eliminację armii w regionie.",
+          "tests": [
+            "KingsSovereignTests.LosingTheInitialLeaderReturnsItsTilesWhileCorruptedDoesNotDieWithTheArmy"
+          ]
+        },
+        {
+          "sourceText": "Usunięcie wymaga obecnego Towarzysza z ikoną tego narodu albo Free Peoples, Character die lub odpowiedniego Event.",
+          "tests": [
+            "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie"
+          ]
+        },
+        {
+          "sourceText": "Wersja Council bez ikony nie może usunąć tej postaci.",
+          "tests": [
+            "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.denethor.awakened",
+      "entryTests": [
+        "KingsSovereignTests.AwakeningChangesOneFigureToACompanionReturnsTilesAndGrantsOneToken",
+        "KingsSovereignTests.AwakeningRequiresTheNationCostAndLegalRouteRatherThanTeleporting",
+        "KingsSovereignTests.AwakeningAcceptsEveryAvailableRulerFace"
+      ],
+      "exitTests": [
+        "KingsLifecycleTests.AwakenedDeathEndsItsCompanionStateAndFateOmitsBothNorthernSovereigns",
+        "KingsBoundaryTests.NonInitialSovereignsRejectAttemptsAndTileAttachmentWithoutMutation"
+      ],
+      "abilities": [
+        {
+          "id": "stewardship",
+          "tests": [
+            "KingsUpgradeTests.UpgradeUsesAnyMusterAndPreservesTheArmyIncludingItsGarrison",
+            "KingsUpgradeTests.UpgradeRejectsMissingWarHomeReserveOrMatchingRegular"
+          ]
+        },
+        {
+          "id": "palantir-of-anarion",
+          "tests": [
+            "KingsAnarionTests.RulerDrawOffersAnOptionalExtraDeckBeforeFinishingTheCost",
+            "KingsAnarionTests.RulerEventCompletesItsOwnNestedChoicesBeforeOfferingAnarion",
+            "KingsAnarionTests.OrdinaryEventDiceOrMissingDenethorDoNotGrantAnExtraDraw",
+            "KingsAnarionTests.ExtraDrawAndHandLimitKeepTheRulerCostUntilTheDiscardCompletes",
+            "KingsAnarionTests.AnarionExtraDrawRestartsAfterNestedEventAndRetriesWithoutDrawingAgain",
+            "KingsBoundaryTests.AnarionAcceptsRulerWillButDoesNotSurviveDenethorsDeathDuringTheEvent"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Stewardship: Gondor At War i Denethor w Minas Tirith, dowolny Muster Action die wymienia Gondor Regular w jego armii na Elite, nawet podczas oblężenia Minas Tirith.",
+          "tests": [
+            "KingsUpgradeTests.UpgradeUsesAnyMusterAndPreservesTheArmyIncludingItsGarrison",
+            "KingsUpgradeTests.UpgradeRejectsMissingWarHomeReserveOrMatchingRegular"
+          ]
+        },
+        {
+          "sourceText": "Palantír of Anárion: gdy Denethor jest w Minas Tirith, po użyciu Event na Ruler do doboru albo zagrania Event można natychmiast dobrać dodatkową kartę z wybranej talii.",
+          "tests": [
+            "KingsAnarionTests.RulerDrawOffersAnOptionalExtraDeckBeforeFinishingTheCost",
+            "KingsAnarionTests.RulerEventCompletesItsOwnNestedChoicesBeforeOfferingAnarion",
+            "KingsAnarionTests.OrdinaryEventDiceOrMissingDenethorDoNotGrantAnExtraDraw",
+            "KingsAnarionTests.ExtraDrawAndHandLimitKeepTheRulerCostUntilTheDiscardCompletes",
+            "KingsAnarionTests.AnarionExtraDrawRestartsAfterNestedEventAndRetriesWithoutDrawingAgain",
+            "KingsBoundaryTests.AnarionAcceptsRulerWillButDoesNotSurviveDenethorsDeathDuringTheEvent"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Awakening z Minas Tirith lub legalnej sąsiedniej lokalizacji, nie dowolny teleport.",
+          "tests": [
+            "KingsSovereignTests.AwakeningChangesOneFigureToACompanionReturnsTilesAndGrantsOneToken",
+            "KingsSovereignTests.AwakeningRequiresTheNationCostAndLegalRouteRatherThanTeleporting",
+            "KingsSovereignTests.AwakeningAcceptsEveryAvailableRulerFace"
+          ]
+        },
+        {
+          "sourceText": "Upgrade wymaga właściwej armii/narodu, At War i dostępnej Elite.",
+          "tests": [
+            "KingsUpgradeTests.UpgradeUsesAnyMusterAndPreservesTheArmyIncludingItsGarrison",
+            "KingsUpgradeTests.UpgradeRejectsMissingWarHomeReserveOrMatchingRegular"
+          ]
+        },
+        {
+          "sourceText": "Palantír działa na draw i play z Ruler Event, nie ze zwykłego Event die.",
+          "tests": [
+            "KingsAnarionTests.RulerDrawOffersAnOptionalExtraDeckBeforeFinishingTheCost",
+            "KingsAnarionTests.RulerEventCompletesItsOwnNestedChoicesBeforeOfferingAnarion",
+            "KingsAnarionTests.OrdinaryEventDiceOrMissingDenethorDoNotGrantAnExtraDraw",
+            "KingsAnarionTests.ExtraDrawAndHandLimitKeepTheRulerCostUntilTheDiscardCompletes",
+            "KingsAnarionTests.AnarionExtraDrawRestartsAfterNestedEventAndRetriesWithoutDrawingAgain",
+            "KingsBoundaryTests.AnarionAcceptsRulerWillButDoesNotSurviveDenethorsDeathDuringTheEvent"
+          ]
+        },
+        {
+          "sourceText": "Dodatkowy dobór ma wybór talii i zachowuje stan po zakończeniu zagnieżdżonego Event.",
+          "tests": [
+            "KingsAnarionTests.RulerDrawOffersAnOptionalExtraDeckBeforeFinishingTheCost",
+            "KingsAnarionTests.RulerEventCompletesItsOwnNestedChoicesBeforeOfferingAnarion",
+            "KingsAnarionTests.OrdinaryEventDiceOrMissingDenethorDoNotGrantAnExtraDraw",
+            "KingsAnarionTests.ExtraDrawAndHandLimitKeepTheRulerCostUntilTheDiscardCompletes",
+            "KingsAnarionTests.AnarionExtraDrawRestartsAfterNestedEventAndRetriesWithoutDrawingAgain",
+            "KingsBoundaryTests.AnarionAcceptsRulerWillButDoesNotSurviveDenethorsDeathDuringTheEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.denethor.corrupted",
+      "entryTests": [
+        "KingsLifecycleTests.CorruptionOccursAtThePrintedResistanceAndNeverBefore",
+        "KingsLifecycleTests.CorruptingRevealsEverythingDiscardsTheHighestRevealTieAndReturnsKings"
+      ],
+      "exitTests": [
+        "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie",
+        "KingsSovereignTests.LosingTheInitialLeaderReturnsItsTilesWhileCorruptedDoesNotDieWithTheArmy"
+      ],
+      "abilities": [
+        {
+          "id": "corrupted-ruler",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "id": "fate-of-the-white-tower",
+          "tests": [
+            "KingsWeaknessTests.SiegeWeaknessRemovesOneParticipatingRegularAndCannotBeUsedInTheNextRound",
+            "KingsWeaknessTests.SiegeWeaknessPersistsItsFigureCostAndOncePerBattleLimit"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Zakaz rekrutacji Leader i Elite w Minas Tirith, poza efektem Event.",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "sourceText": "Fate of the White Tower: gdy Minas Tirith jest oblężona, SH może raz na tę bitwę oblężniczą przedłużyć ją, usuwając własny Regular zamiast downgrade Elite.",
+          "tests": [
+            "KingsWeaknessTests.SiegeWeaknessRemovesOneParticipatingRegularAndCannotBeUsedInTheNextRound",
+            "KingsWeaknessTests.SiegeWeaknessPersistsItsFigureCostAndOncePerBattleLimit"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Zakaz miejscowy, nie ogólny dla Gondoru.",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "sourceText": "Wyjątek przedłużenia nie znosi innych warunków szturmu i nie jest dowolną liczbą rund.",
+          "tests": [
+            "KingsWeaknessTests.SiegeWeaknessRemovesOneParticipatingRegularAndCannotBeUsedInTheNextRound",
+            "KingsWeaknessTests.SiegeWeaknessPersistsItsFigureCostAndOncePerBattleLimit"
+          ]
+        },
+        {
+          "sourceText": "Corrupted nie uczestniczy w bitwie i przeżywa eliminację armii w regionie.",
+          "tests": [
+            "KingsSovereignTests.LosingTheInitialLeaderReturnsItsTilesWhileCorruptedDoesNotDieWithTheArmy"
+          ]
+        },
+        {
+          "sourceText": "Usunięcie wymaga obecnego Towarzysza z ikoną tego narodu albo Free Peoples, Character die lub odpowiedniego Event.",
+          "tests": [
+            "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie"
+          ]
+        },
+        {
+          "sourceText": "Wersja Council bez ikony nie może usunąć tej postaci.",
+          "tests": [
+            "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.theoden.awakened",
+      "entryTests": [
+        "KingsSovereignTests.AwakeningChangesOneFigureToACompanionReturnsTilesAndGrantsOneToken",
+        "KingsSovereignTests.AwakeningRequiresTheNationCostAndLegalRouteRatherThanTeleporting",
+        "KingsSovereignTests.AwakeningAcceptsEveryAvailableRulerFace"
+      ],
+      "exitTests": [
+        "KingsLifecycleTests.AwakenedDeathEndsItsCompanionStateAndFateOmitsBothNorthernSovereigns",
+        "KingsBoundaryTests.NonInitialSovereignsRejectAttemptsAndTileAttachmentWithoutMutation"
+      ],
+      "abilities": [
+        {
+          "id": "forth-eorlingas",
+          "tests": [
+            "KingsBattleTests.TheodenHasThreeLeadershipOnlyInTheFirstRoundAndDefianceForfeitsAllThree"
+          ]
+        },
+        {
+          "id": "mustering-of-the-mark",
+          "tests": [
+            "KingsRulerRecruitmentTests.CallRecruitsInTwoDifferentSettlementsAndMayAddTheLocalRecruitToOneOfThem",
+            "KingsRulerRecruitmentTests.RulerRecruitmentRejectsOrdinaryDiceWrongResultsAndPeace",
+            "KingsRulerRecruitmentTests.ShortReserveAndAConqueredHomeLeaveThePlayerAChoiceAmongRemainingSettlements"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Forth, Eorlingas!: dowodzenie Théodena w pierwszej rundzie każdej bitwy wynosi 3. Nie wymaga poświęcenia efektu karty bojowej i nie ma wydrukowanego numeru inicjatywy.",
+          "tests": [
+            "KingsBattleTests.TheodenHasThreeLeadershipOnlyInTheFirstRoundAndDefianceForfeitsAllThree"
+          ]
+        },
+        {
+          "sourceText": "Mustering of the Mark: Rohan At War, Muster na Ruler rekrutuje po jednym Rohan Regular albo Leader w dwóch różnych wolnych osadach Rohan oraz jednego Rohan Regular albo Leader w wolnym regionie Théodena.",
+          "tests": [
+            "KingsRulerRecruitmentTests.CallRecruitsInTwoDifferentSettlementsAndMayAddTheLocalRecruitToOneOfThem",
+            "KingsRulerRecruitmentTests.RulerRecruitmentRejectsOrdinaryDiceWrongResultsAndPeace",
+            "KingsRulerRecruitmentTests.ShortReserveAndAConqueredHomeLeaveThePlayerAChoiceAmongRemainingSettlements"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Ruch przed awakening do dwóch regionów; Edoras musi być unconquered.",
+          "tests": [
+            "KingsSovereignTests.AwakeningChangesOneFigureToACompanionReturnsTilesAndGrantsOneToken",
+            "KingsSovereignTests.AwakeningRequiresTheNationCostAndLegalRouteRatherThanTeleporting",
+            "KingsSovereignTests.AwakeningAcceptsEveryAvailableRulerFace"
+          ]
+        },
+        {
+          "sourceText": "Dowodzenie 3 w rundzie pierwszej i 1 w kolejnej; nowa bitwa ponownie 3.",
+          "tests": [
+            "KingsBattleTests.TheodenHasThreeLeadershipOnlyInTheFirstRoundAndDefianceForfeitsAllThree"
+          ]
+        },
+        {
+          "sourceText": "Forth działa bez karty i nie zostaje zastąpione/anulowane jak efekt karty.",
+          "tests": [
+            "KingsBattleTests.TheodenHasThreeLeadershipOnlyInTheFirstRoundAndDefianceForfeitsAllThree"
+          ]
+        },
+        {
+          "sourceText": "Mustering nie dodaje Elite i nie pomija rezerw/stosu.",
+          "tests": [
+            "KingsRulerRecruitmentTests.CallRecruitsInTwoDifferentSettlementsAndMayAddTheLocalRecruitToOneOfThem",
+            "KingsRulerRecruitmentTests.RulerRecruitmentRejectsOrdinaryDiceWrongResultsAndPeace",
+            "KingsRulerRecruitmentTests.ShortReserveAndAConqueredHomeLeaveThePlayerAChoiceAmongRemainingSettlements",
+            "KingsRulerRecruitmentTests.DainCanRecruitAnEliteIntoSiegeButTheOtherRecruitMustUseADifferentFreeSettlement",
+            "KingsRulerRecruitmentTests.RecruitmentPreservesTheStackLimitDecisionAndItsResolvingCost"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.theoden.corrupted",
+      "entryTests": [
+        "KingsLifecycleTests.CorruptionOccursAtThePrintedResistanceAndNeverBefore",
+        "KingsLifecycleTests.CorruptingRevealsEverythingDiscardsTheHighestRevealTieAndReturnsKings"
+      ],
+      "exitTests": [
+        "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie",
+        "KingsSovereignTests.LosingTheInitialLeaderReturnsItsTilesWhileCorruptedDoesNotDieWithTheArmy"
+      ],
+      "abilities": [
+        {
+          "id": "corrupted-ruler",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "id": "mark-of-the-white-hand",
+          "tests": [
+            "KingsBoardTests.WhiteHandEnablesIsengardRecruitmentVoiceAndAdditionalHuntWhilePreservingVictoryPoints",
+            "KingsBoardTests.MovementPreviewUsesTheOverlayWithoutMutatingItsSourceAndRecaptureRestoresRohan"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Zakaz rekrutacji Leader i Elite w regionach Rohan, poza efektem Event. Awers mówi „in Rohan”, nie „Rohan units”; dotyczy miejsca rekrutacji.",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "sourceText": "Mark of the White Hand: pod kontrolą SH Helm’s Deep jest traktowane jako twierdza Isengardu, nadal zdobyta przez Cień dla warunków zwycięstwa.",
+          "tests": [
+            "KingsBoardTests.WhiteHandEnablesIsengardRecruitmentVoiceAndAdditionalHuntWhilePreservingVictoryPoints",
+            "KingsBoardTests.MovementPreviewUsesTheOverlayWithoutMutatingItsSourceAndRecaptureRestoresRohan"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Tylko Helm’s Deep pod kontrolą SH korzysta z wyjątku; Rohan nie zmienia całego regionu/narodu globalnie.",
+          "tests": [
+            "KingsBoardTests.WhiteHandEnablesIsengardRecruitmentVoiceAndAdditionalHuntWhilePreservingVictoryPoints",
+            "KingsBoardTests.MovementPreviewUsesTheOverlayWithoutMutatingItsSourceAndRecaptureRestoresRohan"
+          ]
+        },
+        {
+          "sourceText": "SH zachowuje VP twierdzy; usunięcie Théodena natychmiast kończy słabość i jej zmianę typu osady.",
+          "tests": [
+            "KingsBoardTests.WhiteHandEnablesIsengardRecruitmentVoiceAndAdditionalHuntWhilePreservingVictoryPoints",
+            "KingsBoardTests.MovementPreviewUsesTheOverlayWithoutMutatingItsSourceAndRecaptureRestoresRohan"
+          ]
+        },
+        {
+          "sourceText": "Corrupted nie uczestniczy w bitwie i przeżywa eliminację armii w regionie.",
+          "tests": [
+            "KingsSovereignTests.LosingTheInitialLeaderReturnsItsTilesWhileCorruptedDoesNotDieWithTheArmy"
+          ]
+        },
+        {
+          "sourceText": "Usunięcie wymaga obecnego Towarzysza z ikoną tego narodu albo Free Peoples, Character die lub odpowiedniego Event.",
+          "tests": [
+            "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie"
+          ]
+        },
+        {
+          "sourceText": "Wersja Council bez ikony nie może usunąć tej postaci.",
+          "tests": [
+            "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie"
+          ]
+        },
+        {
+          "sourceText": "Zakaz rekrutacji obejmuje obcego Leader w Rohan; samo pochodzenie figury Rohan poza tym narodem nie uruchamia zakazu.",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.thranduil.awakened",
+      "entryTests": [
+        "KingsSovereignTests.AwakeningChangesOneFigureToACompanionReturnsTilesAndGrantsOneToken",
+        "KingsSovereignTests.AwakeningRequiresTheNationCostAndLegalRouteRatherThanTeleporting",
+        "KingsSovereignTests.AwakeningAcceptsEveryAvailableRulerFace"
+      ],
+      "exitTests": [
+        "KingsLifecycleTests.AwakenedDeathEndsItsCompanionStateAndFateOmitsBothNorthernSovereigns",
+        "KingsBoundaryTests.NonInitialSovereignsRejectAttemptsAndTileAttachmentWithoutMutation"
+      ],
+      "abilities": [
+        {
+          "id": "elvenking",
+          "tests": [
+            "KingsUpgradeTests.UpgradeUsesAnyMusterAndPreservesTheArmyIncludingItsGarrison",
+            "KingsUpgradeTests.UpgradeRejectsMissingWarHomeReserveOrMatchingRegular"
+          ]
+        },
+        {
+          "id": "far-sighted",
+          "tests": [
+            "KingsFarSightedTests.FellowshipModeReducesOnlyHuntDiceNotBonusOrRerollSources",
+            "KingsFarSightedTests.CompanionModeAddsOneRegionToSeparationOrMovementWithoutChangingPrintedLevel",
+            "KingsFarSightedTests.FarSightedRejectsAnOrdinaryDieMordorWrongFaceOrAbsentThranduil",
+            "KingsBoundaryTests.ThranduilDoesNotAutomaticallyReduceAnOrdinaryRulerMovement",
+            "KingsBoundaryTests.FarSightedStillRejectsExcessRangeAndACompanionRouteIntoABesiegedStronghold"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Elvenking: Elves At War i Thranduil w Woodland Realm, dowolny Muster Action die wymienia Elven Regular w jego armii na Elite, nawet podczas oblężenia Woodland Realm.",
+          "tests": [
+            "KingsUpgradeTests.UpgradeUsesAnyMusterAndPreservesTheArmyIncludingItsGarrison",
+            "KingsUpgradeTests.UpgradeRejectsMissingWarHomeReserveOrMatchingRegular"
+          ]
+        },
+        {
+          "sourceText": "Far-sighted: jeśli Drużyna nie jest na Mordor Track, Character na Ruler pozwala wybrać ruch Drużyny z liczbą kości Hunt zmniejszoną o 1 (minimum 1) albo ruch/oddzielenie Towarzyszy z dodatkowym jednym regionem zasięgu.",
+          "tests": [
+            "KingsFarSightedTests.FellowshipModeReducesOnlyHuntDiceNotBonusOrRerollSources",
+            "KingsFarSightedTests.CompanionModeAddsOneRegionToSeparationOrMovementWithoutChangingPrintedLevel",
+            "KingsFarSightedTests.FarSightedRejectsAnOrdinaryDieMordorWrongFaceOrAbsentThranduil",
+            "KingsBoundaryTests.ThranduilDoesNotAutomaticallyReduceAnOrdinaryRulerMovement",
+            "KingsBoundaryTests.FarSightedStillRejectsExcessRangeAndACompanionRouteIntoABesiegedStronghold"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Samo active nie wystarcza do awakening Thranduila; potrzebne At War.",
+          "tests": [
+            "KingsSovereignTests.BrandMayReachAnotherNationsUnconqueredCityButThranduilNeedsWar"
+          ]
+        },
+        {
+          "sourceText": "Far-sighted wymaga Ruler Character i wyboru jednego trybu; zwykły Character nie daje bonusu.",
+          "tests": [
+            "KingsFarSightedTests.FellowshipModeReducesOnlyHuntDiceNotBonusOrRerollSources",
+            "KingsFarSightedTests.CompanionModeAddsOneRegionToSeparationOrMovementWithoutChangingPrintedLevel",
+            "KingsFarSightedTests.FarSightedRejectsAnOrdinaryDieMordorWrongFaceOrAbsentThranduil",
+            "KingsBoundaryTests.ThranduilDoesNotAutomaticallyReduceAnOrdinaryRulerMovement",
+            "KingsBoundaryTests.FarSightedStillRejectsExcessRangeAndACompanionRouteIntoABesiegedStronghold"
+          ]
+        },
+        {
+          "sourceText": "Redukcja Hunt nie modyfikuje progu sukcesu ani przerzutów.",
+          "tests": [
+            "KingsFarSightedTests.FellowshipModeReducesOnlyHuntDiceNotBonusOrRerollSources",
+            "KingsFarSightedTests.CompanionModeAddsOneRegionToSeparationOrMovementWithoutChangingPrintedLevel",
+            "KingsFarSightedTests.FarSightedRejectsAnOrdinaryDieMordorWrongFaceOrAbsentThranduil",
+            "KingsBoundaryTests.ThranduilDoesNotAutomaticallyReduceAnOrdinaryRulerMovement",
+            "KingsBoundaryTests.FarSightedStillRejectsExcessRangeAndACompanionRouteIntoABesiegedStronghold"
+          ]
+        },
+        {
+          "sourceText": "Tor Mordoru wyłącza tę szczególną zdolność; plan Towarzyszy i trasa nadal wymagają walidacji.",
+          "tests": [
+            "KingsFarSightedTests.FellowshipModeReducesOnlyHuntDiceNotBonusOrRerollSources",
+            "KingsFarSightedTests.CompanionModeAddsOneRegionToSeparationOrMovementWithoutChangingPrintedLevel",
+            "KingsFarSightedTests.FarSightedRejectsAnOrdinaryDieMordorWrongFaceOrAbsentThranduil",
+            "KingsBoundaryTests.ThranduilDoesNotAutomaticallyReduceAnOrdinaryRulerMovement",
+            "KingsBoundaryTests.FarSightedStillRejectsExcessRangeAndACompanionRouteIntoABesiegedStronghold"
+          ]
+        },
+        {
+          "sourceText": "Upgrade zwraca Regular i wymaga dostępnej Elite.",
+          "tests": [
+            "KingsUpgradeTests.UpgradeUsesAnyMusterAndPreservesTheArmyIncludingItsGarrison",
+            "KingsUpgradeTests.UpgradeRejectsMissingWarHomeReserveOrMatchingRegular"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kings.character.thranduil.corrupted",
+      "entryTests": [
+        "KingsLifecycleTests.CorruptionOccursAtThePrintedResistanceAndNeverBefore",
+        "KingsLifecycleTests.CorruptingRevealsEverythingDiscardsTheHighestRevealTieAndReturnsKings"
+      ],
+      "exitTests": [
+        "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie",
+        "KingsSovereignTests.LosingTheInitialLeaderReturnsItsTilesWhileCorruptedDoesNotDieWithTheArmy"
+      ],
+      "abilities": [
+        {
+          "id": "corrupted-ruler",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "id": "fate-of-mirkwood",
+          "tests": [
+            "KingsWeaknessTests.SiegeWeaknessRemovesOneParticipatingRegularAndCannotBeUsedInTheNextRound",
+            "KingsWeaknessTests.SiegeWeaknessPersistsItsFigureCostAndOncePerBattleLimit"
+          ]
+        }
+      ],
+      "sourceAbilities": [
+        {
+          "sourceText": "Zakaz rekrutacji Elite w Woodland Realm, poza efektem Event. Nie zakazuje Leader.",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "sourceText": "Fate of Mirkwood: gdy Woodland Realm jest oblężone, SH może raz na tę bitwę oblężniczą przedłużyć ją, usuwając własny Regular zamiast downgrade Elite.",
+          "tests": [
+            "KingsWeaknessTests.SiegeWeaknessRemovesOneParticipatingRegularAndCannotBeUsedInTheNextRound",
+            "KingsWeaknessTests.SiegeWeaknessPersistsItsFigureCostAndOncePerBattleLimit"
+          ]
+        }
+      ],
+      "verificationCases": [
+        {
+          "sourceText": "Leader nadal może być rekrutowany; nie kopiuj zakazu Dáina/Denethora.",
+          "tests": [
+            "KingsWeaknessTests.RecruitmentWeaknessHasThePrintedNationRegionAndUnitScope",
+            "KingsWeaknessTests.MusterCannotRecruitAnEliteWhileAnEventCanAndThranduilDoesNotBlockLeaders"
+          ]
+        },
+        {
+          "sourceText": "Przedłużenie działa tylko przy wskazanej twierdzy i raz na bitwę.",
+          "tests": [
+            "KingsWeaknessTests.SiegeWeaknessRemovesOneParticipatingRegularAndCannotBeUsedInTheNextRound",
+            "KingsWeaknessTests.SiegeWeaknessPersistsItsFigureCostAndOncePerBattleLimit"
+          ]
+        },
+        {
+          "sourceText": "Corrupted nie uczestniczy w bitwie i przeżywa eliminację armii w regionie.",
+          "tests": [
+            "KingsSovereignTests.LosingTheInitialLeaderReturnsItsTilesWhileCorruptedDoesNotDieWithTheArmy"
+          ]
+        },
+        {
+          "sourceText": "Usunięcie wymaga obecnego Towarzysza z ikoną tego narodu albo Free Peoples, Character die lub odpowiedniego Event.",
+          "tests": [
+            "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie"
+          ]
+        },
+        {
+          "sourceText": "Wersja Council bez ikony nie może usunąć tej postaci.",
+          "tests": [
+            "KingsLifecycleTests.RemovingCorruptedRequiresAColocatedAppropriateCompanionAndACharacterDie"
+          ]
+        }
+      ]
+    }
+  ],
+  "integrationTests": [
+    "KingsPersistenceTests.RestartBetweenDrawsKeepsEyeCostTargetAndHiddenCursor",
+    "KingsPersistenceTests.RestartBeforePrivateChoiceAndRetryDoNotExposeOrRedrawTheTile",
+    "KingsPersistenceTests.RestartOnLastNormalDrawKeepsBothPrivateChoices",
+    "KingsPersistenceTests.RulerRecruitmentRestartsWithAllThreePlacementsAndOneCost",
+    "KingsPersistenceTests.FarSightedPersistsItsChosenModeAndReducedRollWithoutRetryEntropy",
+    "KingsPersistenceTests.RestartBeforePoliticalRemovalRetainsTheActionCostAndRandomChoice",
+    "KingsWeaknessTests.SiegeWeaknessPersistsItsFigureCostAndOncePerBattleLimit",
+    "KingsAnarionTests.AnarionExtraDrawRestartsAfterNestedEventAndRetriesWithoutDrawingAgain"
+  ]
+}

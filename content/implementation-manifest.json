@@ -1,0 +1,2338 @@
+{
+  "schemaVersion": 1,
+  "scope": "All 96 base Second Edition cards: complete event and combat programs; implementation verified by per-card behavior tests",
+  "cards": [
+    {
+      "id": "base.fp.character.12",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.12",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "FellowshipEventCardTests.EveryEventRejectsMissingCardWrongFaceAndSpentCost",
+        "LeadershipCombatCardTests.EveryCombatRequiresThePrintedParticipantAndOwnedCard",
+        "EventTests.BilbosSongHealsAccordingToGuideWithoutNegativeCorruption",
+        "CasualtyCombatCardTests.FatefulAddsChosenNazgulOrMinionEliminationWithoutSpendingItsRerollHits",
+        "CasualtyCombatCardTests.OneFatefulHitEliminatesOrdinaryNazgulButNotWitchKingAndZeroHitsDoNothing",
+        "CasualtyCombatCardTests.FatefulSurvivesLossOfAllOwnLeadersAndCanDeclineMinionOnlyAlternative",
+        "CardPack02PersistenceTests.FatefulRestoresTargetChoiceWithoutSpendingDamage"
+      ],
+      "combatPrograms": [
+        "combat.fateful-strike"
+      ],
+      "combatInitiatives": [
+        6
+      ]
+    },
+    {
+      "id": "base.fp.strategy.08",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.08",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "EventTests.WisdomActivatesChosenNationBeforeAdvancingAndAllowsPartialAtWarEffect",
+        "Strategy02ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "Strategy02PoliticsTests.WisdomActivatesThenAdvancesEvenAlreadyActiveNation",
+        "Strategy02CombatTests.ConfusionCountsNaturalOnesAsOwnHitsAndForbidsTheirReroll",
+        "Strategy02CombatTests.ConfusionIgnoresModifiedOnesAndRerollOnes",
+        "Strategy02PersistenceTests.ConfusionRestoresForbiddenRerollsAndNormalDamageTiming"
+      ],
+      "combatPrograms": [
+        "combat.confusion"
+      ],
+      "combatInitiatives": [
+        4
+      ]
+    },
+    {
+      "id": "base.fp.strategy.15",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.15",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Strategy03ValidationTests.EveryEventRejectsWrongCostSpentDieMissingCardAndWrongWindow",
+        "Strategy03ValidationTests.EveryCombatRequiresOwnedCardAndCorrectWindow",
+        "Strategy03RecruitmentTests.RecruitmentIgnoresPoliticsAndUsesPrintedNationAndRegion",
+        "Strategy03CombatTests.DaylightLimitsEnemyCombatRollToThree",
+        "Strategy03PersistenceTests.EverySingleRecruitmentRestoresAndChargesOnlyOnce",
+        "EventTests.CelebornDrawsEvenWhenRecruitmentCannotHappen",
+        "CharacterReactionTests.GreyDrawAfterCelebornPreservesHandLimitAndPaidContinuation"
+      ],
+      "combatPrograms": [
+        "combat.daylight"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.05",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.05",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy01EventTests.EveryEventValidatesOwnershipWindowPrintedCostAndSingleUse",
+        "ShadowStrategy01EventTests.ThreatsNeedsActualAttackOrCompanionAdvanceAndRespectsWormtongue",
+        "ShadowStrategy01CombatTests.BothDevilryCardsAcceptAnEliteIsengardParticipant",
+        "ShadowStrategy01PersistenceTests.EveryEventRestoresPaidCostAndTheCorrectNextOwner"
+      ],
+      "combatPrograms": [
+        "combat.devilry-of-orthanc"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.fp.character.01",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.01",
+      "combatPrograms": [
+        "combat.it-is-a-gift"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "HuntProtectionCardTests.EachEventRequiresAnOwnedCardAndCorrectAvailableCost",
+        "HuntProtectionCardTests.SpecialTileEventsPrepareExactlyTheirOwnTileAndCannotDuplicateIt",
+        "CompanionCombatCardTests.EachGiftUsesDefendingRegionAndAddsToCombatAndLeaderRolls"
+      ]
+    },
+    {
+      "id": "base.fp.character.02",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.02",
+      "combatPrograms": [
+        "combat.it-is-a-gift"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "HuntProtectionCardTests.EachEventRequiresAnOwnedCardAndCorrectAvailableCost",
+        "HuntProtectionCardTests.SpecialTileEventsPrepareExactlyTheirOwnTileAndCannotDuplicateIt",
+        "CompanionCombatCardTests.EachGiftUsesDefendingRegionAndAddsToCombatAndLeaderRolls"
+      ]
+    },
+    {
+      "id": "base.fp.character.03",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.03",
+      "combatPrograms": [
+        "combat.it-is-a-gift"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "HuntProtectionCardTests.EachEventRequiresAnOwnedCardAndCorrectAvailableCost",
+        "HuntProtectionCardTests.SpecialTileEventsPrepareExactlyTheirOwnTileAndCannotDuplicateIt",
+        "CompanionCombatCardTests.EachGiftUsesDefendingRegionAndAddsToCombatAndLeaderRolls"
+      ]
+    },
+    {
+      "id": "base.fp.character.04",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.04",
+      "combatPrograms": [
+        "combat.it-is-a-gift"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "HuntProtectionCardTests.EachEventRequiresAnOwnedCardAndCorrectAvailableCost",
+        "HuntProtectionCardTests.SpecialTileEventsPrepareExactlyTheirOwnTileAndCannotDuplicateIt",
+        "CompanionCombatCardTests.EachGiftUsesDefendingRegionAndAddsToCombatAndLeaderRolls"
+      ]
+    },
+    {
+      "id": "base.fp.character.05",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.05",
+      "combatPrograms": [
+        "combat.blade-of-westernesse"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "HuntProtectionCardTests.EachEventRequiresAnOwnedCardAndCorrectAvailableCost",
+        "HuntProtectionCardTests.MithrilPrecedesShelobRollAndAxeCanProtectTheReplacementWithOneCostEach",
+        "HuntProtectionCardTests.DecliningMithrilRollsShelobOnceBeforeTheProtectionDecision",
+        "HuntProtectionCardTests.ReplacementWaitsForAdditionalStrongholdHuntBeforeReturningOriginalTile",
+        "CompanionCombatCardTests.BladeConsumesOneLeaderHitAndChoosesOnlyParticipatingMinions",
+        "CompanionCombatCardTests.BladeSurvivesHobbitEliminationAtEarlierInitiativeButNeedsALeaderHitAndTarget",
+        "CardPackPersistenceTests.HuntReplacementAndProtectionRestoreEachWindowAndRetryNeverDrawsAgain",
+        "CardPackPersistenceTests.BladeSelectionRestoresMinionsAndCannotSpendTheSameHitTwice",
+        "BaseCardHuntInteractionTests.BaneReplacementVictoryCancelsPendingPalantirDrawAndReturnsHeldTile"
+      ]
+    },
+    {
+      "id": "base.fp.character.06",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.06",
+      "combatPrograms": [
+        "combat.mighty-attack"
+      ],
+      "combatInitiatives": [
+        4
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "HuntProtectionCardTests.EachEventRequiresAnOwnedCardAndCorrectAvailableCost",
+        "HuntProtectionCardTests.TableCardsStayAfterPlayingAndAxeExpiresAsSoonAsBothCompanionsLeave",
+        "HuntProtectionCardTests.EmptyPoolRefillsOnlyOldDiscardsAndAxeCannotMakeNegativeDamage",
+        "CompanionCombatCardTests.MightyCommitsCompanionAndMissTogetherForfeitingFullLeadership",
+        "CompanionCombatCardTests.MightyCannotUseCancelledLeadershipOrAnAbsentLeaderReroll",
+        "HuntProtectionCardTests.AxeExpiresAfterTheLastRequiredCompanionDiesBeforeTheNewGuideResponds",
+        "CardPackPersistenceTests.MightySelectionRestoresBothGroupsAndCommitsLeadershipAndHitOnlyOnce",
+        "BaseCardHuntInteractionTests.PalantirWaitsForFoulThingWornNewGuideAndHobbitPlacementAcrossRestarts"
+      ]
+    },
+    {
+      "id": "base.fp.character.07",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.07",
+      "combatPrograms": [
+        "combat.mighty-attack"
+      ],
+      "combatInitiatives": [
+        4
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "FellowshipEventCardTests.EveryEventRejectsMissingCardWrongFaceAndSpentCost",
+        "LeadershipCombatCardTests.EveryCombatRequiresThePrintedParticipantAndOwnedCard",
+        "FellowshipEventCardTests.TableCardRequiresItsCompanionAndExpiresBeforeTheNextGuideChoice",
+        "FellowshipEventCardTests.HornReducesDamageAndUsesTheSameSingleProtectionWindowAsAxe",
+        "LeadershipCombatCardTests.HornUsesTheSharedMightyAttackProgramForItsActualCombatCard"
+      ]
+    },
+    {
+      "id": "base.fp.character.08",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.08",
+      "combatPrograms": [
+        "combat.servant-of-the-secret-fire"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "FellowshipEventCardTests.EveryEventRejectsMissingCardWrongFaceAndSpentCost",
+        "LeadershipCombatCardTests.EveryCombatRequiresThePrintedParticipantAndOwnedCard",
+        "FellowshipEventCardTests.TableCardRequiresItsCompanionAndExpiresBeforeTheNextGuideChoice",
+        "FellowshipEventCardTests.StaffPreventsUnknownDrawAndMordorStillAdvances",
+        "FellowshipEventCardTests.StaffIsNotOfferedForFailedHuntFreePeoplesDrawOrMithrilReplacement",
+        "FellowshipEventCardTests.StaffMayBeKeptForTheAdditionalStrongholdTileInTheSameAction",
+        "LeadershipCombatCardTests.ServantAddsOnlyToCombatDiceEvenWithCancelledGandalfLeadership",
+        "CardPack02PersistenceTests.StaffRestoresBeforeAnyTileEntropyAndConsumesOnlyOneTableCard",
+        "BaseCardHuntInteractionTests.WornRemovesStaffBeforeAdditionalStrongholdHuntAndPalantirStillWaits",
+        "BaseCardHuntInteractionTests.StaffCancelsTileRatherThanEventAndPalantirDrawsOnceWithoutRandomness"
+      ]
+    },
+    {
+      "id": "base.fp.character.09",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.09",
+      "combatPrograms": [
+        "combat.anduril"
+      ],
+      "combatInitiatives": [
+        4
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "FellowshipEventCardTests.EveryEventRejectsMissingCardWrongFaceAndSpentCost",
+        "LeadershipCombatCardTests.EveryCombatRequiresThePrintedParticipantAndOwnedCard",
+        "FellowshipEventCardTests.AthelasRollsThreeDiceAtTheGuideThresholdAndNeverHealsBelowZero",
+        "LeadershipCombatCardTests.AndurilLetsAragornChooseUpToTwoSpecificMissesForHisWholeLeadership",
+        "LeadershipCombatCardTests.StriderConvertsExactlyOneAndCancelledRerollOrLeadershipCannotPayAnduril",
+        "CardPack02PersistenceTests.AthelasRetriesDoNotRepeatDiceHealingOrCost",
+        "CardPack02PersistenceTests.AndurilRestoresTwoChosenMissesAndForfeitsLeadershipOnce"
+      ]
+    },
+    {
+      "id": "base.fp.character.10",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.10",
+      "combatPrograms": [
+        "combat.heroic-death"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "FellowshipEventCardTests.EveryEventRejectsMissingCardWrongFaceAndSpentCost",
+        "LeadershipCombatCardTests.EveryCombatRequiresThePrintedParticipantAndOwnedCard",
+        "FellowshipTravelCardTests.AnotherWayHealsBeforeOptionalLegalMoveOrHideAndSpendsEventDie",
+        "FellowshipTravelCardTests.AnotherWayMayStopAfterHealingAndOtherGuidesDoNotOfferMovement",
+        "CasualtyCombatCardTests.HeroicDeathCommitsOneCompanionAndChosenHitCountWithNoLeadershipRequirement",
+        "CasualtyCombatCardTests.HeroicDeathLeaderCancelsExactlyOneAndDeclineCostsNothing",
+        "CasualtyCombatCardTests.HeroicDeathIgnoresSpecialHitsAndCannotSacrificeAlreadyEliminatedFigures",
+        "CasualtyCombatCardTests.EarlierBlackBreathLeavesNoFigureForHeroicDeath",
+        "CardPack02PersistenceTests.AnotherWayRestoresOptionalMoveWithoutTurningTheCardCostIntoAHuntDie",
+        "CardPack02PersistenceTests.HeroicRestoresDependentChoicesAndEliminatesExactlyOneFigure"
+      ]
+    },
+    {
+      "id": "base.fp.character.11",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.11",
+      "combatPrograms": [
+        "combat.daring-defiance"
+      ],
+      "combatInitiatives": [
+        0
+      ],
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "FellowshipEventCardTests.EveryEventRejectsMissingCardWrongFaceAndSpentCost",
+        "LeadershipCombatCardTests.EveryCombatRequiresThePrintedParticipantAndOwnedCard",
+        "FellowshipTravelCardTests.AloneSeparatesOneGroupWithOneExtraRegionAndHealsOnlyAfterGuideSelection",
+        "FellowshipTravelCardTests.AloneCannotCrossShadowStrongholdAndCannotReuseAnOutsideCompanion",
+        "FellowshipTravelCardTests.AloneInMordorRemovesGroupThenGollumBecomesGuideAndHealsEvenFromZero",
+        "LeadershipCombatCardTests.DaringAndOpposingCancellationResolveDefenderFirst",
+        "LeadershipCombatCardTests.DaringDoesNotForfeitWithoutEnemyCardAndWhiteRiderCannotPayEvenWithGimli",
+        "CardPack02PersistenceTests.AloneRestoresBonusSeparationAndGuideChoiceBeforeHealing"
+      ]
+    },
+    {
+      "id": "base.fp.character.13",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.13",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.heroic-death"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "tests": [
+        "MirrorAndChallengeTests.AllSixEventsValidateOwnershipCostAndLocation",
+        "LeadershipAttackCardTests.EveryCombatHalfChecksItsPrintedPresenceCondition",
+        "MirrorAndChallengeTests.MirrorExcludesPaidDieAndHealsAtTheFigureDespiteProgressAndSiege",
+        "MirrorAndChallengeTests.MirrorStillPlaysWithoutAnUnusedCharacterResult",
+        "CardPack03PersistenceTests.MirrorRestoresSpecificDieSelectionAndDoesNotHealTwice",
+        "CasualtyCombatCardTests.HeroicDeathCommitsOneCompanionAndChosenHitCountWithNoLeadershipRequirement",
+        "CasualtyCombatCardTests.HeroicDeathLeaderCancelsExactlyOneAndDeclineCostsNothing",
+        "CasualtyCombatCardTests.HeroicDeathIgnoresSpecialHitsAndCannotSacrificeAlreadyEliminatedFigures",
+        "MirrorAndChallengeTests.MirrorAutomaticallyConvertsItsOnlyEligibleDieAndHealingStopsAtZero"
+      ]
+    },
+    {
+      "id": "base.fp.character.14",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.14",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.sudden-strike"
+      ],
+      "combatInitiatives": [
+        2
+      ],
+      "tests": [
+        "MirrorAndChallengeTests.AllSixEventsValidateOwnershipCostAndLocation",
+        "LeadershipAttackCardTests.EveryCombatHalfChecksItsPrintedPresenceCondition",
+        "MirrorAndChallengeTests.ChallengeRequiresKingWithArmyInGondorOrRohan",
+        "MirrorAndChallengeTests.ChallengeReturnsNonEyesAndRemovesEyesUnlessAllThreeAreEyes",
+        "MirrorAndChallengeTests.ChallengeRefillsOnlyBeforeTheNextDrawAndCountsSpecialEye",
+        "CardPack03PersistenceTests.ChallengePersistsThreeTileOutcomesAndRetryDoesNotDrawAgain",
+        "LeadershipAttackCardTests.SuddenStrikeResolvesImmediateLossesBeforeCombatWithoutSpendingLeadership",
+        "LeadershipAttackCardTests.SuddenStrikeCanEndTheBattleBeforeOrdinaryRolls",
+        "LeadershipAttackCardTests.SpecialAttackIgnoresCombatModifiersAndRerollBanButUsesAvailableLeadership",
+        "LeadershipAttackCardTests.SpecialAttackCapsItsPoolAtFive",
+        "LeadershipAttackCardTests.SpecialAttackUsesSixAgainstFortificationOrSiege",
+        "CardPack03PersistenceTests.SuddenStrikeRestoresOpponentsSpecialLossesBeforeOrdinaryRolls",
+        "LeadershipAttackCardTests.EqualInitiativeUsesDefenderFirstWhenCancellingSuddenStrikeLeadership"
+      ]
+    },
+    {
+      "id": "base.fp.character.15",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.15",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.daring-defiance"
+      ],
+      "combatInitiatives": [
+        0
+      ],
+      "tests": [
+        "MirrorAndChallengeTests.AllSixEventsValidateOwnershipCostAndLocation",
+        "LeadershipAttackCardTests.EveryCombatHalfChecksItsPrintedPresenceCondition",
+        "CompanionJourneyCardTests.SeparationUsesProgressAndCardRangeForTheChosenGroup",
+        "CompanionJourneyCardTests.JourneyMayEndInSiegeButCannotCrossOrLeaveIt",
+        "CompanionJourneyCardTests.SeparationCanEnterButCannotDepartFromBesiegedFellowship",
+        "CompanionJourneyCardTests.OneOutsideGroupUsesShadowfaxOrFixedLevelAndCannotSplit",
+        "CompanionJourneyCardTests.MordorStillAllowsOutsideTravelOrRemovalOfOneSeparatedGroup",
+        "CardPack03PersistenceTests.GwaihirRestoresFixedRangeAndPlacesCompanionInsideSiege",
+        "LeadershipCombatCardTests.DaringAndOpposingCancellationResolveDefenderFirst",
+        "LeadershipCombatCardTests.DaringDoesNotForfeitWithoutEnemyCardAndWhiteRiderCannotPayEvenWithGimli",
+        "CompanionJourneyCardTests.NoRemainingCompanionsDoesNotInventAPlayConditionOrOpenAnEmptyDecision"
+      ]
+    },
+    {
+      "id": "base.fp.character.16",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.16",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.daring-defiance"
+      ],
+      "combatInitiatives": [
+        0
+      ],
+      "tests": [
+        "MirrorAndChallengeTests.AllSixEventsValidateOwnershipCostAndLocation",
+        "LeadershipAttackCardTests.EveryCombatHalfChecksItsPrintedPresenceCondition",
+        "CompanionJourneyCardTests.SeparationUsesProgressAndCardRangeForTheChosenGroup",
+        "CompanionJourneyCardTests.JourneyMayEndInSiegeButCannotCrossOrLeaveIt",
+        "CompanionJourneyCardTests.SeparationCanEnterButCannotDepartFromBesiegedFellowship",
+        "CompanionJourneyCardTests.OneOutsideGroupUsesShadowfaxOrFixedLevelAndCannotSplit",
+        "CompanionJourneyCardTests.MordorStillAllowsOutsideTravelOrRemovalOfOneSeparatedGroup",
+        "CardPack03PersistenceTests.SwifterRestoresBonusSeparationAndThenGuideChoice",
+        "LeadershipCombatCardTests.DaringAndOpposingCancellationResolveDefenderFirst",
+        "LeadershipCombatCardTests.DaringDoesNotForfeitWithoutEnemyCardAndWhiteRiderCannotPayEvenWithGimli",
+        "CompanionJourneyCardTests.NoRemainingCompanionsDoesNotInventAPlayConditionOrOpenAnEmptyDecision"
+      ]
+    },
+    {
+      "id": "base.fp.character.17",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.17",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.brave-stand"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "MirrorAndChallengeTests.AllSixEventsValidateOwnershipCostAndLocation",
+        "LeadershipAttackCardTests.EveryCombatHalfChecksItsPrintedPresenceCondition",
+        "ThereAndBackCardTests.ExistingCompanionCanTriggerPoliticsWithoutAnyCompanionsLeftToSeparate",
+        "ThereAndBackCardTests.PoliticsWaitsForSeparationAndGuideAndDoesNotActivateElves",
+        "ThereAndBackCardTests.CapturedSettlementDoesNotTriggerCardOrOrdinaryCompanionActivation",
+        "ThereAndBackCardTests.NewlySeparatedGimliQualifiesButThisCardDoesNotPermitEnteringSiege",
+        "ThereAndBackCardTests.NoEligibleFigureStillAllowsSeparationAndNoPolitics",
+        "CardPack03PersistenceTests.ThereAndBackRestoresGuideChoiceBeforePoliticalAdvancement",
+        "LeadershipAttackCardTests.BraveStandCountsCompanionFiguresEvenWithCancelledLeadership",
+        "LeadershipAttackCardTests.BraveStandCountsSurvivingCompanionsAtExecutionAndDoesNotAffectEarlierSpecialAttack"
+      ]
+    },
+    {
+      "id": "base.fp.character.18",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.18",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.heroic-death"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "tests": [
+        "MirrorAndChallengeTests.AllSixEventsValidateOwnershipCostAndLocation",
+        "LeadershipAttackCardTests.EveryCombatHalfChecksItsPrintedPresenceCondition",
+        "EaglesCardTests.TargetRequiresBothArmiesAndAnActualCompanionAndOrdinaryNazgul",
+        "EaglesCardTests.TargetIsChosenByFpButRetreatBelongsToShadowAndExcludesWrongStrongholds",
+        "EaglesCardTests.RollUsesAtMostFiveDiceAndNeverCountsWitchKing",
+        "EaglesCardTests.SameRegionSiegeQualifiesButSurvivorsCannotStayInTheirCurrentStronghold",
+        "EaglesCardTests.EachChoiceTrailBelongsToItsChooserWhileGandalfsCompletionWindowIsOpen",
+        "CardPack03PersistenceTests.EaglesRestoresBothOwnersAndRetryCannotRepeatRollsOrRetreat",
+        "CasualtyCombatCardTests.HeroicDeathCommitsOneCompanionAndChosenHitCountWithNoLeadershipRequirement",
+        "CasualtyCombatCardTests.HeroicDeathLeaderCancelsExactlyOneAndDeclineCostsNothing",
+        "CasualtyCombatCardTests.HeroicDeathIgnoresSpecialHitsAndCannotSacrificeAlreadyEliminatedFigures"
+      ]
+    },
+    {
+      "id": "base.fp.character.19",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.19",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.ents-rage"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "CardPack04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "EntsCardTests.AllEntsRequireWhiteAndCompanionButNotSaruman",
+        "EntsCardTests.ArmyDestructionRemovesCommandersAndReconcilesSiege",
+        "EntsCardTests.EmptyOrthancKillsOnlySarumanAndDoesNotAdvancePolitics",
+        "EntsCardTests.LossSelectionRejectsWrongForceTooFewTooManyAndSupportsEliteDowngrade",
+        "EntsCardTests.ThreeEntsChainIntoOneCharacterEventUsingOnlyOneDie",
+        "EntsCardTests.EmptyOrIneligibleHandStillOffersPrivateFollowUpAndDecline",
+        "EntsCombatCardTests.EntsRageModifiesOnlyCombatRollWithNaturalOneAlwaysMissing",
+        "EntsCombatCardTests.DefendingRegionConditionIsIndependentOfWhichSideAttacks",
+        "CardPack04PersistenceTests.EntsRestoresLossesThenFreeEventWithoutRepeatingDamageOrPayment"
+      ]
+    },
+    {
+      "id": "base.fp.character.20",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.20",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.huorn-dark"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "CardPack04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "EntsCardTests.AllEntsRequireWhiteAndCompanionButNotSaruman",
+        "EntsCardTests.ThreeEntsChainIntoOneCharacterEventUsingOnlyOneDie",
+        "EntsCombatCardTests.HuornDarkCapsShadowRollAtTwoAndRerollsUseOnlyItsFailures",
+        "EntsCombatCardTests.DefendingRegionConditionIsIndependentOfWhichSideAttacks",
+        "CardPack04PersistenceTests.EntsRestoresLossesThenFreeEventWithoutRepeatingDamageOrPayment"
+      ]
+    },
+    {
+      "id": "base.fp.character.21",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.21",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.nameless-wood"
+      ],
+      "combatInitiatives": [
+        5
+      ],
+      "tests": [
+        "CardPack04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "EntsCardTests.AllEntsRequireWhiteAndCompanionButNotSaruman",
+        "EntsCardTests.ThreeEntsChainIntoOneCharacterEventUsingOnlyOneDie",
+        "EntsCombatCardTests.NamelessWoodAddsTwoOnlyAfterACombatOrRerollHitAndHasNoFiveHitCap",
+        "EntsCombatCardTests.EarlierSpecialAttackHitsDoNotEnableNamelessWood",
+        "CardPack04ValidationTests.NamelessWoodCanBeEnabledByLeaderRerollAlone",
+        "EntsCombatCardTests.DefendingRegionConditionIsIndependentOfWhichSideAttacks",
+        "CardPack04PersistenceTests.EntsRestoresLossesThenFreeEventWithoutRepeatingDamageOrPayment"
+      ]
+    },
+    {
+      "id": "base.fp.character.22",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.22",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.sudden-strike"
+      ],
+      "combatInitiatives": [
+        2
+      ],
+      "tests": [
+        "CardPack04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "DeadMenCardTests.KingAndOptionalCompanionsCanLeaveSiegeButArmyCannotJoin",
+        "DeadMenCardTests.PrintedRohanConditionIsRequired",
+        "DeadMenCardTests.RetreatPrecedesOptionalRecruitmentAndOnlyUnitsCapture",
+        "DeadMenCardTests.NoRetreatDestroysSurvivorsAndCommandersBeforeRecruitment",
+        "DeadMenCardTests.NoArmyDoesNotRollOrKillLoneCommandersAndEmptyReserveCannotCapture",
+        "DeadMenCardTests.RetreatResolvesShadowStackExcessBeforeReturningToFpRecruitment",
+        "CardPack04PersistenceTests.DeadMenRestoresEveryOwnerHandoffAndRecruitment",
+        "CardPack04ValidationTests.ReusedCombatHalfStillRequiresItsPrintedCommander",
+        "EntsCombatCardTests.ReusedCombatProgramsExecuteForEveryNewCard"
+      ]
+    },
+    {
+      "id": "base.fp.character.23",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.23",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.brave-stand"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "CardPack04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "GondorRecruitCardTests.MissingPrintedCompanionConditionRejectsWithoutDrawing",
+        "GondorRecruitCardTests.StewardsRecruitsChoiceThenDrawsTwoEvenOutsideSettlement",
+        "GondorRecruitCardTests.StewardsCanRecruitOnEitherFriendlySideOfSiege",
+        "GondorRecruitCardTests.IllegalRecruitmentStillDrawsTwo",
+        "GondorRecruitCardTests.MissingReservesSkipsRecruitmentWithoutLosingRegularAndStillDraws",
+        "GondorRecruitCardTests.BothStrategyCardsPrecedeDiscardAndGreyGuideDraw",
+        "CardPack04PersistenceTests.StewardsRestoresRegionAndChoiceAndDrawsExactlyTwice",
+        "CardPack04ValidationTests.ReusedCombatHalfStillRequiresItsPrintedCommander",
+        "EntsCombatCardTests.ReusedCombatProgramsExecuteForEveryNewCard"
+      ]
+    },
+    {
+      "id": "base.fp.character.24",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.character.24",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.brave-stand"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "CardPack04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "GondorRecruitCardTests.MissingPrintedCompanionConditionRejectsWithoutDrawing",
+        "GondorRecruitCardTests.GreyCompanyReplacesLastRegularAtomicallyAndCannotUseAnotherNationsElite",
+        "GondorRecruitCardTests.GreyCompanyChoiceStaysInKingsArmyAndPreservesSiegePlacement",
+        "GondorRecruitCardTests.MissingReservesSkipsRecruitmentWithoutLosingRegularAndStillDraws",
+        "GondorRecruitCardTests.BothStrategyCardsPrecedeDiscardAndGreyGuideDraw",
+        "CardPack04PersistenceTests.GreyCompanyRestoresChoiceAndReplacementCannotRepeat",
+        "CardPack04ValidationTests.ReusedCombatHalfStillRequiresItsPrintedCommander",
+        "EntsCombatCardTests.ReusedCombatProgramsExecuteForEveryNewCard"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.01",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.01",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Strategy01ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "LastBattleCardTests.RequiresAragornWithArmyOutsideFreeNationRegardlessOfControl",
+        "LastBattleCardTests.AlreadyRevealedFellowshipDoesNotPreventPlayAndConditionWaitsForEndOfAction",
+        "LastBattleCardTests.ActualMoveSpendsDieWithoutIncreasingHuntAndDoesNotForceNextTurnsAllocation",
+        "LastBattleCardTests.DeclarationRemovesProtectionEvenWhenItStaysInSameRegion",
+        "Strategy01ValidationTests.ActualMordorTileKeepsOrRemovesLastBattleBeforeTheCost",
+        "StrategyCombatCardTests.DaylightCapsShadowCombatRollAtThree",
+        "Strategy01PersistenceTests.LastBattlePersistsAcrossHuntAndDoesNotPayMovementTwice"
+      ],
+      "combatPrograms": [
+        "combat.daylight"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.fp.strategy.02",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.02",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Strategy01ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "RegionProtectionCardTests.AdvancesInactiveNationAndBlocksArmyEntryAttackAndRetreat",
+        "RegionProtectionCardTests.ProtectedStrongholdCannotBeAssaultedButShadowCanLeaveAndMoveCharacters",
+        "RegionProtectionCardTests.RemovalIsAtomicAndAnyDiePaysButTwoExactHandTypesAreRequired",
+        "RegionProtectionCardTests.RemovingOneSourceLeavesOtherProtectionAndNeverRevealsPrivateOptions",
+        "StrategyCombatCardTests.NoQuarterRequiresActualCombatOrRerollHit",
+        "StrategyCombatCardTests.NoQuarterMayTriggerFromLeaderRerollAloneAndShieldWallDoesNotEraseIt",
+        "Strategy01PersistenceTests.ProtectionAndHiddenCardCostSurviveRestartAndRetry"
+      ],
+      "combatPrograms": [
+        "combat.no-quarter"
+      ],
+      "combatInitiatives": [
+        5
+      ]
+    },
+    {
+      "id": "base.fp.strategy.03",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.03",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Strategy01ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "RegionProtectionCardTests.AdvancesInactiveNationAndBlocksArmyEntryAttackAndRetreat",
+        "RegionProtectionCardTests.RemovingOneSourceLeavesOtherProtectionAndNeverRevealsPrivateOptions",
+        "RegionProtectionCardTests.RemovalIsAtomicAndAnyDiePaysButTwoExactHandTypesAreRequired",
+        "StrategyCombatCardTests.AdvantageousPositionUsesBordersAndModifiesOnlyShadowCombatWithNaturalSixHit",
+        "Strategy01PersistenceTests.ProtectionAndHiddenCardCostSurviveRestartAndRetry"
+      ],
+      "combatPrograms": [
+        "combat.advantageous-position"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.fp.strategy.04",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.04",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Strategy01ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "MazarbulCardTests.IndependentGroupsMoveAndPutDwarvesAtWarWithoutSpendingSecondDie",
+        "MazarbulCardTests.StayAllChecksOnlyExactUnconqueredRegions",
+        "MazarbulCardTests.BookCannotSeparateEnterSiegeOrMoveACompanionTwice",
+        "MazarbulCardTests.NoOutsideCompanionsCompletesWithoutOpeningAnEmptyDecision",
+        "StrategyCombatCardTests.AdvantageousPositionUsesBordersAndModifiesOnlyShadowCombatWithNaturalSixHit",
+        "Strategy01PersistenceTests.MazarbulKeepsMultipleGroupsAndItsRemainingPoliticalStep"
+      ],
+      "combatPrograms": [
+        "combat.advantageous-position"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.fp.strategy.05",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.05",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Strategy01ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "StrategyArmyCardTests.SpiritRequiresTwoArmyNationsAndCannotCountNazgulOrMinion",
+        "StrategyArmyCardTests.SpiritTargetChoiceRejectsSingleNationAndZeroHitsDoNotOpenLosses",
+        "StrategyArmyCardTests.BesiegedArmyDestructionReleasesSurvivingNazgulAndCapturesStronghold",
+        "StrategyCombatCardTests.ScoutsRetreatsBeforeRollAndDoesNotActivateNation",
+        "StrategyCombatCardTests.ScoutsCanWithdrawIntoStrongholdAndAttackerChoosesWhetherToAdvance",
+        "StrategyCombatCardTests.ScoutsOverstackingResolvesBeforeAttackerAdvance",
+        "StrategyCombatCardTests.InitiativeZeroCancellationPreventsScoutsButScoutsStopsLaterEffects",
+        "Strategy01PersistenceTests.SpiritRestoresTargetChoiceAndOrdinaryLossCause",
+        "Strategy01PersistenceTests.ScoutsRestoresBeforeRollingAndNeverDrawsCombatDiceOnRetry",
+        "BaseCardBattleInteractionTests.BothSwarmCardsCancelScoutsBeforeRetreatWithoutAwardingTheNoCardBonus",
+        "BaseCardBattleInteractionTests.ScoutsEndsOnslaughtAndRelentlessBeforeAnyVoluntaryLossOrCombatRoll",
+        "BaseCardBattleInteractionTests.CorsairsEndedByScoutsRestoresSorcererBeforePalantirWithoutAnotherDieOrRoll"
+      ],
+      "combatPrograms": [
+        "combat.scouts"
+      ],
+      "combatInitiatives": [
+        1
+      ]
+    },
+    {
+      "id": "base.fp.strategy.06",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.06",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Strategy01ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "StrategyArmyCardTests.ArmyDestroyedLeavesNazgulAndMinionAndDoesNotAdvancePolitics",
+        "StrategyArmyCardTests.RangersRecruitWithAnyFreeArmyEvenWithoutShadowTarget",
+        "StrategyArmyCardTests.RangersRespectPartialReservesAndResolveWithoutAnyTarget",
+        "StrategyCombatCardTests.ShieldWallCancelsOneOnlyAtTwoNormalHitsAndPreservesDice",
+        "StrategyCombatCardTests.NoQuarterMayTriggerFromLeaderRerollAloneAndShieldWallDoesNotEraseIt",
+        "Strategy01PersistenceTests.RangersRestoresLossesThenRecruitmentForOtherPlayer"
+      ],
+      "combatPrograms": [
+        "combat.shield-wall"
+      ],
+      "combatInitiatives": [
+        6
+      ]
+    },
+    {
+      "id": "base.fp.strategy.07",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.07",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.shield-wall"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "tests": [
+        "Strategy02ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "Strategy02PoliticsTests.FearOnlyActivatesNorthInExactUnconqueredSettlements",
+        "Strategy02PoliticsTests.FearMovesIndependentGroupsThenChecksNorthAndAllowsNoCompanions",
+        "Strategy02CombatTests.FearShieldWallCancelsOneAtTwoEnemyHits",
+        "Strategy02PersistenceTests.FearRestoresIndependentCompanionGroupsAndRemainingPolitics"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.09",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.09",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.scouts"
+      ],
+      "combatInitiatives": [
+        1
+      ],
+      "tests": [
+        "Strategy02ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "Strategy02PoliticsTests.ArrowRequiresActiveGondorDoesNotActivateRohanAndRecruitsChoice",
+        "Strategy02PoliticsTests.ArrowStillAdvancesWithoutRecruitsAndPreservesThreatsAndPromises",
+        "Strategy02CombatTests.ArrowScoutsRequiresDefenderAndRetreatsBeforeAnyRoll",
+        "Strategy02PersistenceTests.ArrowRestoresRecruitmentChoiceAfterPoliticalAdvance"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.10",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.10",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.no-quarter"
+      ],
+      "combatInitiatives": [
+        5
+      ],
+      "tests": [
+        "Strategy02ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "HelpUnlookedForTests.ReliefReducesAfterFiveDiceCapAndPersistsForEveryRound",
+        "HelpUnlookedForTests.ReliefRequiresLegalAtWarAttackerAndRejectsOtherBattleOrExtraDie",
+        "HelpUnlookedForTests.GreyGuideDrawWaitsForWholeReliefAndRetreatAdvance",
+        "Strategy02CombatTests.HelpNoQuarterNeedsOneActualRollHit",
+        "Strategy02PersistenceTests.ReliefRestoresNestedBattleAndReductionBeforeBothRolls"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.11",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.11",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.sudden-strike"
+      ],
+      "combatInitiatives": [
+        2
+      ],
+      "tests": [
+        "Strategy02ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "WosesCardTests.WholeGarrisonCanLeaveWithLeaderLossAndCompanionRemaining",
+        "WosesCardTests.PartialGarrisonExitKeepsSiegeAndFieldCannotAbandonLeader",
+        "WosesCardTests.UnavailableMinasTirithRequiresAdjacentFreeArmyDestination",
+        "WosesCardTests.MustUseMinasTirithWhenAvailableAndHonorRohanAndBorders",
+        "WosesCardTests.CardIsUnavailableWhenEveryDestinationIsBlocked",
+        "Strategy02CombatTests.WosesSuddenStrikeRequiresLeaderAndAppliesSpecialLossBeforeCombat",
+        "Strategy02PersistenceTests.WosesRestoresGarrisonExitAndCapturedOrigin"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.12",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.12",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.confusion"
+      ],
+      "combatInitiatives": [
+        4
+      ],
+      "tests": [
+        "Strategy02ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "ArmyEventMovementTests.MarchCapturesAlongRouteAndPaysOnlyOriginalDie",
+        "ArmyEventMovementTests.MarchRejectsForgedGroupsCostsAndRoutesAtomically",
+        "ArmyEventMovementTests.MarchDoesNotPickUpFriendlyArmyAndChecksStackingOnlyAtEnd",
+        "ArmyEventMovementTests.MarchHonorsEnemyArmiesBordersAndBesiegedStrongholds",
+        "ArmyEventMovementTests.MarchAllowsInitialSplitButCompanionMustMove",
+        "Strategy02CombatTests.ConfusionCountsNaturalOnesAsOwnHitsAndForbidsTheirReroll",
+        "Strategy02CombatTests.CancelledConfusionCannotPreventShadowRerolls",
+        "Strategy02PersistenceTests.MarchRestoresRouteRulesAndDoesNotCaptureOrPayTwice"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.13",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.13",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.charge"
+      ],
+      "combatInitiatives": [
+        2
+      ],
+      "tests": [
+        "Strategy03ValidationTests.EveryEventRejectsWrongCostSpentDieMissingCardAndWrongWindow",
+        "Strategy03ValidationTests.EveryCombatRequiresOwnedCardAndCorrectWindow",
+        "Strategy03RecruitmentTests.CirdanRecruitsBothFiguresTogetherAndRejectsPartialOrDuplicateChoice",
+        "Strategy03CombatTests.ChargeRequiresParticipatingEliteAndAppliesSpecialDamageBeforeCombat",
+        "Strategy03PersistenceTests.CirdanRestoresRegionAndTwoFigureDecisionsWithoutRepeatingRecruits",
+        "Strategy03RecruitmentTests.CirdanRecruitsOnEitherSideOfSiegeAndReturnsMixedNationExcess",
+        "Strategy03CombatTests.ChargeCountsElitesRemainingAfterEarlierDefenderSpecialAttack",
+        "Strategy03PersistenceTests.ChargeRestoresImmediateLossAndResumesCombatWithoutRepeatingSpecialRoll"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.14",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.14",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.charge"
+      ],
+      "combatInitiatives": [
+        2
+      ],
+      "tests": [
+        "Strategy03ValidationTests.EveryEventRejectsWrongCostSpentDieMissingCardAndWrongWindow",
+        "Strategy03ValidationTests.EveryCombatRequiresOwnedCardAndCorrectWindow",
+        "Strategy03RecruitmentTests.RecruitmentIgnoresPoliticsAndUsesPrintedNationAndRegion",
+        "Strategy03CombatTests.ChargeRequiresParticipatingEliteAndAppliesSpecialDamageBeforeCombat",
+        "Strategy03PersistenceTests.EverySingleRecruitmentRestoresAndChargesOnlyOnce"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.16",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.16",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.daylight"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "Strategy03ValidationTests.EveryEventRejectsWrongCostSpentDieMissingCardAndWrongWindow",
+        "Strategy03ValidationTests.EveryCombatRequiresOwnedCardAndCorrectWindow",
+        "Strategy03RecruitmentTests.RecruitmentIgnoresPoliticsAndUsesPrintedNationAndRegion",
+        "Strategy03CombatTests.DaylightLimitsEnemyCombatRollToThree",
+        "Strategy03PersistenceTests.EverySingleRecruitmentRestoresAndChargesOnlyOnce",
+        "Strategy03RecruitmentTests.RidersRequiresCompanionToRecruitInsideHelmsDeep",
+        "Strategy03PersistenceTests.RidersRestoresSelectedRegionBeforeArmyAndLeaderArriveTogether"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.17",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.17",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.scouts"
+      ],
+      "combatInitiatives": [
+        1
+      ],
+      "tests": [
+        "Strategy03ValidationTests.EveryEventRejectsWrongCostSpentDieMissingCardAndWrongWindow",
+        "Strategy03ValidationTests.EveryCombatRequiresOwnedCardAndCorrectWindow",
+        "Strategy03RecruitmentTests.RecruitmentIgnoresPoliticsAndUsesPrintedNationAndRegion",
+        "Strategy03CombatTests.GrimbeornScoutsRequiresDefenderAndRetreatsBeforeRoll",
+        "Strategy03PersistenceTests.EverySingleRecruitmentRestoresAndChargesOnlyOnce"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.18",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.18",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.shield-wall"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "tests": [
+        "Strategy03ValidationTests.EveryEventRejectsWrongCostSpentDieMissingCardAndWrongWindow",
+        "Strategy03ValidationTests.EveryCombatRequiresOwnedCardAndCorrectWindow",
+        "Strategy03RecruitmentTests.RecruitmentIgnoresPoliticsAndUsesPrintedNationAndRegion",
+        "Strategy03CombatTests.ImrahilShieldWallNeedsTwoOpponentHits",
+        "Strategy03PersistenceTests.EverySingleRecruitmentRestoresAndChargesOnlyOnce"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.19",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.19",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.shield-wall"
+      ],
+      "combatInitiatives": [
+        6
+      ],
+      "tests": [
+        "Strategy04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "Strategy04ValidationTests.EveryCombatRequiresOwnCardAndCorrectWindow",
+        "Strategy04RecruitmentTests.BrandRecruitsOnlyAvailableRegularsThenDraws",
+        "Strategy04CombatTests.BrandsShieldWallCancelsOneOnlyWithTwoHits",
+        "Strategy04PersistenceTests.FixedRecruitmentCardsRestoreEveryChoiceAndAutomaticBrandDoesNotRepeat"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.20",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.20",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.advantageous-position"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "Strategy04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "Strategy04ValidationTests.EveryCombatRequiresOwnCardAndCorrectWindow",
+        "Strategy04RecruitmentTests.SwordsCommitsIndependentNationalRecruitsTogether",
+        "Strategy04CombatTests.AdvantageousPositionUsesOriginalNationAndOnlyModifiesFirstShadowRoll",
+        "Strategy04PersistenceTests.SwordsRestoresBothGroupsThenDrawAndGreyHandLimitWithoutDuplicates"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.21",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.21",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.advantageous-position"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "Strategy04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "Strategy04ValidationTests.EveryCombatRequiresOwnCardAndCorrectWindow",
+        "Strategy04RecruitmentTests.FixedRecruitmentsUsePrintedNationAndRegionBeforeWar",
+        "Strategy04CombatTests.AdvantageousPositionUsesOriginalNationAndOnlyModifiesFirstShadowRoll",
+        "Strategy04PersistenceTests.FixedRecruitmentCardsRestoreEveryChoiceAndAutomaticBrandDoesNotRepeat"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.22",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.22",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.valour"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "Strategy04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "Strategy04ValidationTests.EveryCombatRequiresOwnCardAndCorrectWindow",
+        "Strategy04RecruitmentTests.FixedRecruitmentsUsePrintedNationAndRegionBeforeWar",
+        "Strategy04CombatTests.ValourRequiresEliteAddsToCombatButNotRerollAndNaturalOneStillMisses",
+        "Strategy04PersistenceTests.FixedRecruitmentCardsRestoreEveryChoiceAndAutomaticBrandDoesNotRepeat",
+        "Strategy04CombatTests.ValourStillAppliesAfterAllElitesAreEliminatedByEarlierSpecialAttack",
+        "Strategy04CombatTests.CancelledValourDoesNotModifyCombat"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.23",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.23",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.valour"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "Strategy04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "Strategy04ValidationTests.EveryCombatRequiresOwnCardAndCorrectWindow",
+        "Strategy04RecruitmentTests.EomerRequiresFreeSettlementAndCannotReinforceBesiegedGarrison",
+        "Strategy04CombatTests.ValourRequiresEliteAddsToCombatButNotRerollAndNaturalOneStillMisses",
+        "Strategy04PersistenceTests.EomerRestoresRegionBeforeRecruitsAndValourRestoresCombatModifier",
+        "Strategy04CombatTests.ValourStillAppliesAfterAllElitesAreEliminatedByEarlierSpecialAttack",
+        "Strategy04CombatTests.CancelledValourDoesNotModifyCombat"
+      ]
+    },
+    {
+      "id": "base.fp.strategy.24",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.fp.strategy.24",
+      "source": "docs/sources/base-card-index.json",
+      "combatPrograms": [
+        "combat.valour"
+      ],
+      "combatInitiatives": [
+        3
+      ],
+      "tests": [
+        "Strategy04ValidationTests.EveryEventRejectsWrongFaceSpentDieMissingCardAndWrongWindow",
+        "Strategy04ValidationTests.EveryCombatRequiresOwnCardAndCorrectWindow",
+        "Strategy04RecruitmentTests.FixedRecruitmentsUsePrintedNationAndRegionBeforeWar",
+        "Strategy04CombatTests.ValourRequiresEliteAddsToCombatButNotRerollAndNaturalOneStillMisses",
+        "Strategy04PersistenceTests.FixedRecruitmentCardsRestoreEveryChoiceAndAutomaticBrandDoesNotRepeat",
+        "Strategy04CombatTests.ValourStillAppliesAfterAllElitesAreEliminatedByEarlierSpecialAttack",
+        "Strategy04CombatTests.CancelledValourDoesNotModifyCombat"
+      ]
+    },
+    {
+      "id": "base.sh.character.01",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.01",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow01ValidationTests.EveryEventRequiresOwnedCardCorrectFaceAvailableCostAndActionWindow",
+        "Shadow01ValidationTests.EveryCombatRequiresOwnCardAndCombatWindow",
+        "Shadow01PersistenceTests.EveryEventRestartsBeforePaymentWithoutRepeatingItsTileOrHunt",
+        "Shadow01EventTests.SpecialCardsPrepareOnlyTheirTileAndNeverDuplicateIt",
+        "Shadow01EventTests.PreparedTilesResolveTheirActualMordorDamageRevealAndStop",
+        "Shadow01CombatTests.DarkLordRequiresFellowshipFigureAtBattleAndModifiesBothRolls"
+      ],
+      "combatPrograms": [
+        "combat.one-for-the-dark-lord"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.02",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.02",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow01ValidationTests.EveryEventRequiresOwnedCardCorrectFaceAvailableCostAndActionWindow",
+        "Shadow01ValidationTests.EveryCombatRequiresOwnCardAndCombatWindow",
+        "Shadow01PersistenceTests.EveryEventRestartsBeforePaymentWithoutRepeatingItsTileOrHunt",
+        "Shadow01EventTests.SpecialCardsPrepareOnlyTheirTileAndNeverDuplicateIt",
+        "Shadow01EventTests.PreparedTilesResolveTheirActualMordorDamageRevealAndStop",
+        "Shadow01CombatTests.DarkLordRequiresFellowshipFigureAtBattleAndModifiesBothRolls"
+      ],
+      "combatPrograms": [
+        "combat.one-for-the-dark-lord"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.03",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.03",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow01ValidationTests.EveryEventRequiresOwnedCardCorrectFaceAvailableCostAndActionWindow",
+        "Shadow01ValidationTests.EveryCombatRequiresOwnCardAndCombatWindow",
+        "Shadow01PersistenceTests.EveryEventRestartsBeforePaymentWithoutRepeatingItsTileOrHunt",
+        "Shadow01EventTests.SpecialCardsPrepareOnlyTheirTileAndNeverDuplicateIt",
+        "Shadow01EventTests.PreparedTilesResolveTheirActualMordorDamageRevealAndStop",
+        "Shadow01CombatTests.DarkLordRequiresFellowshipFigureAtBattleAndModifiesBothRolls"
+      ],
+      "combatPrograms": [
+        "combat.one-for-the-dark-lord"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.04",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.04",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow01ValidationTests.EveryEventRequiresOwnedCardCorrectFaceAvailableCostAndActionWindow",
+        "Shadow01ValidationTests.EveryCombatRequiresOwnCardAndCombatWindow",
+        "Shadow01PersistenceTests.EveryEventRestartsBeforePaymentWithoutRepeatingItsTileOrHunt",
+        "Shadow01EventTests.SpecialCardsPrepareOnlyTheirTileAndNeverDuplicateIt",
+        "Shadow01EventTests.PreparedTilesResolveTheirActualMordorDamageRevealAndStop",
+        "Shadow01CombatTests.DarkLordRequiresFellowshipFigureAtBattleAndModifiesBothRolls"
+      ],
+      "combatPrograms": [
+        "combat.one-for-the-dark-lord"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.05",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.05",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow01ValidationTests.EveryEventRequiresOwnedCardCorrectFaceAvailableCostAndActionWindow",
+        "Shadow01ValidationTests.EveryCombatRequiresOwnCardAndCombatWindow",
+        "Shadow01PersistenceTests.EveryEventRestartsBeforePaymentWithoutRepeatingItsTileOrHunt",
+        "Shadow01EventTests.HuntEventsUseOriginalSettlementRegardlessOfControlOrProgress",
+        "Shadow01EventTests.EyeAndFellowshipTilesAreDiscardedWithoutHealingRevealOrFurtherChoices",
+        "Shadow01EventTests.ShelobRollsOnceWithoutMovementAndStaffPreventsTheWholeDraw",
+        "Shadow01CombatTests.CruelCostsExactlyTwoChosenNazgulPointsAndOnlyModifiesCombat",
+        "Shadow01CombatTests.AdvantageousPositionCountersBonusButStillRequiresForfeit",
+        "Shadow01PersistenceTests.CruelRestoresIndividualLeadershipCostAndBothPrivateRerolls",
+        "Shadow01HuntTests.PatrolAllowsExactlyOneTableProtectionThenOneCasualtyAndNewGuide",
+        "Shadow01PersistenceTests.PatrolRestoresDrawReplacementProtectionCasualtyAndGuideWindows",
+        "BaseCardHuntInteractionTests.StaffCancelsTileRatherThanEventAndPalantirDrawsOnceWithoutRandomness"
+      ],
+      "combatPrograms": [
+        "combat.cruel-as-death"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.06",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.06",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow01ValidationTests.EveryEventRequiresOwnedCardCorrectFaceAvailableCostAndActionWindow",
+        "Shadow01ValidationTests.EveryCombatRequiresOwnCardAndCombatWindow",
+        "Shadow01PersistenceTests.EveryEventRestartsBeforePaymentWithoutRepeatingItsTileOrHunt",
+        "Shadow01EventTests.HuntEventsUseOriginalSettlementRegardlessOfControlOrProgress",
+        "Shadow01EventTests.EyeAndFellowshipTilesAreDiscardedWithoutHealingRevealOrFurtherChoices",
+        "Shadow01EventTests.ShelobRollsOnceWithoutMovementAndStaffPreventsTheWholeDraw",
+        "Shadow01CombatTests.CruelCostsExactlyTwoChosenNazgulPointsAndOnlyModifiesCombat",
+        "Shadow01CombatTests.AdvantageousPositionCountersBonusButStillRequiresForfeit",
+        "Shadow01PersistenceTests.CruelRestoresIndividualLeadershipCostAndBothPrivateRerolls",
+        "Shadow01HuntTests.BaneAppliesDirectCorruptionWithoutAnyDamageReductionWindow",
+        "Shadow01HuntTests.MithrilRemainsAvailableForBaneBeforeShelobRollAndReplacementStillUsesTheEventFilter",
+        "Shadow01HuntTests.BaneRevelationStartsAnIndependentStrongholdHuntThatCanBeReduced",
+        "Shadow01HuntTests.BaneEndsTheGameAtTwelveBeforeAnyRevelationChoice",
+        "Shadow01PersistenceTests.BaneRestoresDirectDamageBeforeRevealAndIndependentExtraHunt",
+        "BaseCardHuntInteractionTests.BaneReplacementVictoryCancelsPendingPalantirDrawAndReturnsHeldTile",
+        "BaseCardHuntInteractionTests.StaffCancelsTileRatherThanEventAndPalantirDrawsOnceWithoutRandomness"
+      ],
+      "combatPrograms": [
+        "combat.cruel-as-death"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.07",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.07",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow02EventTests.EveryEventRequiresOwnedCardCorrectCostActorAndWindow",
+        "Shadow02CombatTests.EveryCombatRequiresOwnershipAndItsWindow",
+        "Shadow02PersistenceTests.EveryEventRestoresBeforePaymentAndRetryCannotRepeatDamageOrCost",
+        "Shadow02HuntTests.TableProtectionPrecedesForcedRandomCasualtyAndNewGuide",
+        "Shadow02HuntTests.ZeroDamageAfterProtectionNeverDrawsACompanion",
+        "Shadow02HuntTests.HobbitCanSeparateBeforeTheRandomPickAndGollumCanReduceRemainder",
+        "Shadow02HuntTests.SoleHobbitIsStillRandomCasualtyAndMayReturnOnlyOutsideMordor",
+        "Shadow02CombatTests.TerriblePaysOneSelectedPointAfterCombatAndBonusesOnlyTheLeaderReroll",
+        "Shadow02PersistenceTests.FoulThingRestoresReplacementProtectionRandomCasualtyAndGuide",
+        "BaseCardHuntInteractionTests.PalantirWaitsForFoulThingWornNewGuideAndHobbitPlacementAcrossRestarts",
+        "BaseCardHuntInteractionTests.WornRemovesStaffBeforeAdditionalStrongholdHuntAndPalantirStillWaits",
+        "BaseCardHuntInteractionTests.StaffCancelsTileRatherThanEventAndPalantirDrawsOnceWithoutRandomness"
+      ],
+      "combatPrograms": [
+        "combat.they-are-terrible"
+      ],
+      "combatInitiatives": [
+        4
+      ]
+    },
+    {
+      "id": "base.sh.character.08",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.08",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow02EventTests.EveryEventRequiresOwnedCardCorrectCostActorAndWindow",
+        "Shadow02CombatTests.EveryCombatRequiresOwnershipAndItsWindow",
+        "Shadow02PersistenceTests.EveryEventRestoresBeforePaymentAndRetryCannotRepeatDamageOrCost",
+        "Shadow02EventTests.CandlesUsesThreeDiceAndGollumsThresholdWithoutHuntInterventions",
+        "Shadow02EventTests.CandlesChecksVictoryImmediately",
+        "Shadow02CombatTests.DreadSubtractsChosenPointsAfterFiveDiceCapAndCanForfeitMoreThanNeeded",
+        "Shadow02CombatTests.BraveStandAlsoReducesAnArmyLargerThanFiveAndCombinesWithBattleReduction",
+        "Shadow02PersistenceTests.EachLeadershipCostRestoresSelectedPointsAndRoundModifiers"
+      ],
+      "combatPrograms": [
+        "combat.dread-and-despair"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.09",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.09",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow02EventTests.EveryEventRequiresOwnedCardCorrectCostActorAndWindow",
+        "Shadow02CombatTests.EveryCombatRequiresOwnershipAndItsWindow",
+        "Shadow02PersistenceTests.EveryEventRestoresBeforePaymentAndRetryCannotRepeatDamageOrCost",
+        "Shadow02TravelTests.CardFlightAllowsEmptyOrMultipleGroupsAndNeverChargesAnotherDie",
+        "Shadow02TravelTests.CardFlightRejectsMinionsReserveDuplicateIdsWrongOriginsAndFreeStrongholds",
+        "Shadow02TravelTests.SearchRevealsAfterMovementWithFpRouteAndSeparateStrongholdHunt",
+        "Shadow02CombatTests.StenchComparesOnlyNazgulAgainstAllFpLeadershipAndCancelsOnlyReroll",
+        "Shadow02PersistenceTests.SearchRestoresFlightThenFpRevelationWithoutReapplyingMovement",
+        "Shadow02CombatTests.SuddenStrikeUsesLeadershipBeforeFoulStenchCancelsTheReroll",
+        "Shadow02CombatTests.StenchDisablesRerollDependentCardsWithoutCancellingTheirLeadership"
+      ],
+      "combatPrograms": [
+        "combat.foul-stench"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.10",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.10",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow02EventTests.EveryEventRequiresOwnedCardCorrectCostActorAndWindow",
+        "Shadow02CombatTests.EveryCombatRequiresOwnershipAndItsWindow",
+        "Shadow02PersistenceTests.EveryEventRestoresBeforePaymentAndRetryCannotRepeatDamageOrCost",
+        "Shadow02TravelTests.WeatherOnlyDisplacesFigureAcrossLegalBorderAndPreviewsWithoutChangingState",
+        "Shadow02CombatTests.WeatherUsesTheCompleteCruelAsDeathEffect",
+        "Shadow02PersistenceTests.EachLeadershipCostRestoresSelectedPointsAndRoundModifiers"
+      ],
+      "combatPrograms": [
+        "combat.cruel-as-death"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.11",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.11",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow02EventTests.EveryEventRequiresOwnedCardCorrectCostActorAndWindow",
+        "Shadow02CombatTests.EveryCombatRequiresOwnershipAndItsWindow",
+        "Shadow02PersistenceTests.EveryEventRestoresBeforePaymentAndRetryCannotRepeatDamageOrCost",
+        "Shadow02StrikeTests.StrikeCanDiscardOnlyOnePublicCharacterTableCardIncludingItsLastingEffects",
+        "Shadow02StrikeTests.OptionalStrikeCanFinishEvenWithLegalHuntAndDiscard",
+        "Shadow02StrikeTests.FailedStrikeHuntNeverDrawsTileAndDoesNotAdvanceOrAddFpHuntDie",
+        "Shadow02StrikeTests.StrikeUsesExistingFpBonusAllRerollSourcesAndEyeCountsSuccesses",
+        "Shadow02PersistenceTests.StrikeRestoresEffectChoiceRolledHuntRerollAndDamage",
+        "Shadow02BlackBreathTests.BlackBreathAddsEliminationWithoutSpendingRerollHits",
+        "Shadow02BlackBreathTests.TiedHeroicDeathAndBlackBreathResolveDefenderFirstAndCannotUseSameLeader",
+        "Shadow02BlackBreathTests.BlackBreathOnlyNeedsNazgulPresenceEvenWithWhiteRiderAndOtherLeadershipProvidingHits",
+        "Shadow02PersistenceTests.BothBlackBreathCardsRestoreEliminationDecisionWithoutSpendingTheirHits"
+      ],
+      "combatPrograms": [
+        "combat.black-breath"
+      ],
+      "combatInitiatives": [
+        6
+      ]
+    },
+    {
+      "id": "base.sh.character.12",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.12",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow02EventTests.EveryEventRequiresOwnedCardCorrectCostActorAndWindow",
+        "Shadow02CombatTests.EveryCombatRequiresOwnershipAndItsWindow",
+        "Shadow02PersistenceTests.EveryEventRestoresBeforePaymentAndRetryCannotRepeatDamageOrCost",
+        "Shadow02EventTests.WoundRequiresRevealedFellowshipAndUsesCorrectCorruptionBoundary",
+        "Shadow02BlackBreathTests.BlackBreathAddsEliminationWithoutSpendingRerollHits",
+        "Shadow02BlackBreathTests.TiedHeroicDeathAndBlackBreathResolveDefenderFirstAndCannotUseSameLeader",
+        "Shadow02BlackBreathTests.BlackBreathOnlyNeedsNazgulPresenceEvenWithWhiteRiderAndOtherLeadershipProvidingHits",
+        "Shadow02PersistenceTests.BothBlackBreathCardsRestoreEliminationDecisionWithoutSpendingTheirHits"
+      ],
+      "combatPrograms": [
+        "combat.black-breath"
+      ],
+      "combatInitiatives": [
+        6
+      ]
+    },
+    {
+      "id": "base.sh.character.13",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.13",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow03EventTests.EveryEventValidatesActorCostWindowAndOwnership",
+        "Shadow03CombatTests.EveryCombatRequiresOwnershipActorAndCorrectWindow",
+        "Shadow03PersistenceTests.EveryEventRestoresPaymentAndRetryWithoutRepeatingRandomSelection",
+        "Shadow03EventTests.LureOffersCorruptionOrTheAlreadyDrawnCompanionWithoutHuntProtection",
+        "Shadow03EventTests.LureHobbitReturnsOnlyOutsideMordor",
+        "Shadow03CombatTests.ReusedNazgulCardsUseTheirOwnCostAndPrintedInitiative"
+      ],
+      "combatPrograms": [
+        "combat.they-are-terrible"
+      ],
+      "combatInitiatives": [
+        4
+      ]
+    },
+    {
+      "id": "base.sh.character.14",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.14",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow03EventTests.EveryEventValidatesActorCostWindowAndOwnership",
+        "Shadow03CombatTests.EveryCombatRequiresOwnershipActorAndCorrectWindow",
+        "Shadow03PersistenceTests.EveryEventRestoresPaymentAndRetryWithoutRepeatingRandomSelection",
+        "Shadow03BreakingTests.BreakingSeparatesChosenCompanionsWithoutDamageOrHuntReactions",
+        "Shadow03BreakingTests.StaffPreventsBreakingAndMithrilReplacementPrecedesTheSeparationValue",
+        "Shadow03BreakingTests.ShelobSeparatesOnlyExistingCompanionsAndNeverAddsExcessCorruption",
+        "Shadow03PersistenceTests.BreakingRestoresReplacementSelectionAndNewGuide",
+        "Shadow03CombatTests.ReusedNazgulCardsUseTheirOwnCostAndPrintedInitiative",
+        "BaseCardHuntInteractionTests.StaffCancelsTileRatherThanEventAndPalantirDrawsOnceWithoutRandomness"
+      ],
+      "combatPrograms": [
+        "combat.dread-and-despair"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.15",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.15",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow03EventTests.EveryEventValidatesActorCostWindowAndOwnership",
+        "Shadow03CombatTests.EveryCombatRequiresOwnershipActorAndCorrectWindow",
+        "Shadow03PersistenceTests.EveryEventRestoresPaymentAndRetryWithoutRepeatingRandomSelection",
+        "Shadow03HuntTests.WornCanDiscardPublicTableOrRandomPrivateCharacterAndStaysInPlay",
+        "Shadow03HuntTests.WornDoesNotRevealHiddenDeckCompositionOrDiscardStrategy",
+        "Shadow03HuntTests.RandomHobbitTriggersWornButGuideSeparationDoesNot",
+        "Shadow03PersistenceTests.WornRestoresCasualtyReactionPrivateDiscardAndHuntContinuation",
+        "Shadow03CombatTests.WordsSuppressesWhiteRiderForOneRoundAndDaringCannotPayItAgain",
+        "Shadow03InteractionTests.WordsStopsAndurilPaymentButNotHeroicDeathOfThatCompanion",
+        "BaseCardHuntInteractionTests.PalantirWaitsForFoulThingWornNewGuideAndHobbitPlacementAcrossRestarts",
+        "BaseCardHuntInteractionTests.WornRemovesStaffBeforeAdditionalStrongholdHuntAndPalantirStillWaits"
+      ],
+      "combatPrograms": [
+        "combat.words-of-power"
+      ],
+      "combatInitiatives": [
+        1
+      ]
+    },
+    {
+      "id": "base.sh.character.16",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.16",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow03EventTests.EveryEventValidatesActorCostWindowAndOwnership",
+        "Shadow03CombatTests.EveryCombatRequiresOwnershipActorAndCorrectWindow",
+        "Shadow03PersistenceTests.EveryEventRestoresPaymentAndRetryWithoutRepeatingRandomSelection",
+        "Shadow03HuntTests.CrebainDecidesBeforeAnyRollAndAddsBonusToRollAndReroll",
+        "Shadow03HuntTests.CrebainAlsoAppliesToStrikeButNotToAutomaticTilesOrMordor",
+        "Shadow03PersistenceTests.CrebainRestoresBeforeRollRerollAndTileDamageWithoutRepeatingDice",
+        "Shadow03CombatTests.ReusedNazgulCardsUseTheirOwnCostAndPrintedInitiative"
+      ],
+      "combatPrograms": [
+        "combat.they-are-terrible"
+      ],
+      "combatInitiatives": [
+        4
+      ]
+    },
+    {
+      "id": "base.sh.character.17",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.17",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow03EventTests.EveryEventValidatesActorCostWindowAndOwnership",
+        "Shadow03CombatTests.EveryCombatRequiresOwnershipActorAndCorrectWindow",
+        "Shadow03PersistenceTests.EveryEventRestoresPaymentAndRetryWithoutRepeatingRandomSelection",
+        "Shadow03BalrogTests.DeclarationResolvesHealingAndExpiryBeforeBalrogAndIgnoresSettlementReveal",
+        "Shadow03BalrogTests.BalrogRevealUsesWholeDeclarationRouteBeforeStrongholdTiles",
+        "Shadow03BalrogTests.GollumCannotRevealInUnconqueredDeclaredSanctuary",
+        "Shadow03BalrogTests.StationaryMoriaTriggersBalrogBeforeAnyStrongholdTile",
+        "Shadow03CombatTests.DurinsBaneUsesDefendingArmyAndTraversableDistance",
+        "Shadow03CombatTests.BalrogTableCommitHasSamePublicCountsAsHandAndDiscardsOnlyAtReveal",
+        "Shadow03InteractionTests.TableBalrogEnablesSorcererAndExcessCardsAreDiscardedAtBattleEnd",
+        "Shadow03PersistenceTests.BalrogRestoresDeclarationRouteReactionAndAdditionalStronghold"
+      ],
+      "combatPrograms": [
+        "combat.durins-bane"
+      ],
+      "combatInitiatives": [
+        2
+      ]
+    },
+    {
+      "id": "base.sh.character.18",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.18",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow03EventTests.EveryEventValidatesActorCostWindowAndOwnership",
+        "Shadow03CombatTests.EveryCombatRequiresOwnershipActorAndCorrectWindow",
+        "Shadow03PersistenceTests.EveryEventRestoresPaymentAndRetryWithoutRepeatingRandomSelection",
+        "Shadow03EventTests.LidlessMovesUpToThreeUnusedDiceWithoutUsingThePaidDie",
+        "Shadow03CombatTests.WordsCancelsLeadershipAndCaptainOnlyForTheChosenParticipantAndRound",
+        "Shadow03PersistenceTests.WordsAndTableBalrogRestorePrivateCommitTargetAndImmediateLosses"
+      ],
+      "combatPrograms": [
+        "combat.words-of-power"
+      ],
+      "combatInitiatives": [
+        1
+      ]
+    },
+    {
+      "id": "base.sh.character.19",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.19",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow04EventTests.EveryEventValidatesActorOwnershipCostAndWindow",
+        "Shadow04CombatTests.EveryCombatValidatesOwnerCardAndWindow",
+        "Shadow04SpellsTests.TwoNazgulFiguresRollTwoDiceAndLossesPreserveCompanionsWithoutPoliticalAttack",
+        "Shadow04CombatTests.DevilryWorksForEitherSideOfASiegeButNotFieldSortieOrRelief",
+        "Shadow04PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutRepeatedRolls",
+        "Shadow04PersistenceTests.CombatRestoresConditionalModifierAndPrivateSuppressionChoices"
+      ],
+      "combatPrograms": [
+        "combat.devilry-of-orthanc"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.20",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.20",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow04EventTests.EveryEventValidatesActorOwnershipCostAndWindow",
+        "Shadow04CombatTests.EveryCombatValidatesOwnerCardAndWindow",
+        "Shadow04GrondTests.ThreeRoundsAreMandatoryThenOrdinaryEliteExtensionResumes",
+        "Shadow04CombatTests.SharedCombatProgramsRetainTheirDistinctWindowsAndCosts",
+        "Shadow04PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutRepeatedRolls",
+        "Shadow04PersistenceTests.CombatRestoresConditionalModifierAndPrivateSuppressionChoices"
+      ],
+      "combatPrograms": [
+        "combat.dread-and-despair"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.21",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.21",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow04EventTests.EveryEventValidatesActorOwnershipCostAndWindow",
+        "Shadow04CombatTests.EveryCombatValidatesOwnerCardAndWindow",
+        "Shadow04PalantirTests.BonusWaitsForWholeEventUsesPrintedFaceAndRequiresSurvivingSource",
+        "Shadow04CombatTests.SharedCombatProgramsRetainTheirDistinctWindowsAndCosts",
+        "Shadow04PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutRepeatedRolls",
+        "Shadow04PersistenceTests.CombatRestoresConditionalModifierAndPrivateSuppressionChoices",
+        "BaseCardBattleInteractionTests.CorsairsEndedByScoutsRestoresSorcererBeforePalantirWithoutAnotherDieOrRoll",
+        "BaseCardHuntInteractionTests.PalantirWaitsForFoulThingWornNewGuideAndHobbitPlacementAcrossRestarts",
+        "BaseCardHuntInteractionTests.WornRemovesStaffBeforeAdditionalStrongholdHuntAndPalantirStillWaits",
+        "BaseCardHuntInteractionTests.BaneReplacementVictoryCancelsPendingPalantirDrawAndReturnsHeldTile",
+        "BaseCardHuntInteractionTests.StaffCancelsTileRatherThanEventAndPalantirDrawsOnceWithoutRandomness"
+      ],
+      "combatPrograms": [
+        "combat.cruel-as-death"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.22",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.22",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow04EventTests.EveryEventValidatesActorOwnershipCostAndWindow",
+        "Shadow04CombatTests.EveryCombatValidatesOwnerCardAndWindow",
+        "Shadow04WormtongueTests.AttacksActivateOnlyAtTheTwoSpecifiedSettlementsAtActionEnd",
+        "Shadow04CombatTests.SharedCombatProgramsRetainTheirDistinctWindowsAndCosts",
+        "Shadow04PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutRepeatedRolls",
+        "Shadow04PersistenceTests.CombatRestoresConditionalModifierAndPrivateSuppressionChoices",
+        "BaseCardBattleInteractionTests.CorsairsEndedByScoutsRestoresSorcererBeforePalantirWithoutAnotherDieOrRoll"
+      ],
+      "combatPrograms": [
+        "combat.foul-stench"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.character.23",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.23",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow04EventTests.EveryEventValidatesActorOwnershipCostAndWindow",
+        "Shadow04CombatTests.EveryCombatValidatesOwnerCardAndWindow",
+        "Shadow04ManeuverTests.TwoArmiesMayMergeButNoFigureMovesTwiceAndExcessWaitsForBothMoves",
+        "Shadow04CombatTests.SharedCombatProgramsRetainTheirDistinctWindowsAndCosts",
+        "Shadow04PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutRepeatedRolls",
+        "Shadow04PersistenceTests.CombatRestoresConditionalModifierAndPrivateSuppressionChoices"
+      ],
+      "combatPrograms": [
+        "combat.words-of-power"
+      ],
+      "combatInitiatives": [
+        1
+      ]
+    },
+    {
+      "id": "base.sh.character.24",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.character.24",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "Shadow04EventTests.EveryEventValidatesActorOwnershipCostAndWindow",
+        "Shadow04CombatTests.EveryCombatValidatesOwnerCardAndWindow",
+        "Shadow04EventTests.CaptainRecruitmentUsesAvailableNazgulAndKingsRegionWithoutNormalMusterRestrictions",
+        "Shadow04CombatTests.SharedCombatProgramsRetainTheirDistinctWindowsAndCosts",
+        "Shadow04PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutRepeatedRolls",
+        "Shadow04PersistenceTests.CombatRestoresConditionalModifierAndPrivateSuppressionChoices"
+      ],
+      "combatPrograms": [
+        "combat.foul-stench"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.01",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.01",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy01EventTests.EveryEventValidatesOwnershipWindowPrintedCostAndSingleUse",
+        "ShadowStrategy01ValinorTests.ValinorHitsOnlyElvesCapsDiceAndKeepsLeadersWithOtherNations",
+        "ShadowStrategy01CombatTests.DeadlyStrifeBonusesExpireBeforeNextRound",
+        "ShadowStrategy01PersistenceTests.EveryEventRestoresPaidCostAndTheCorrectNextOwner"
+      ],
+      "combatPrograms": [
+        "combat.deadly-strife"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.02",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.02",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy01EventTests.EveryEventValidatesOwnershipWindowPrintedCostAndSingleUse",
+        "ShadowStrategy01UrukTests.AllIsengardUnitsMayRemainWithTheLegalRearGuard",
+        "ShadowStrategy01SacrificeTests.OnslaughtRollsOneUnmodifiedDiePerPaidHitWithFourPlusTargetAndNoReroll",
+        "ShadowStrategy01PersistenceTests.EveryEventRestoresPaidCostAndTheCorrectNextOwner",
+        "BaseCardBattleInteractionTests.ScoutsEndsOnslaughtAndRelentlessBeforeAnyVoluntaryLossOrCombatRoll"
+      ],
+      "combatPrograms": [
+        "combat.onslaught"
+      ],
+      "combatInitiatives": [
+        7
+      ]
+    },
+    {
+      "id": "base.sh.strategy.03",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.03",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy01EventTests.EveryEventValidatesOwnershipWindowPrintedCostAndSingleUse",
+        "ShadowStrategy01DenethorTests.ShadowChoosesOneFreePeoplesLeaderOfAnyNationWithoutLosingACompanion",
+        "ShadowStrategy01CombatTests.BothDevilryCardsAcceptAnEliteIsengardParticipant",
+        "ShadowStrategy01PersistenceTests.EveryEventRestoresPaidCostAndTheCorrectNextOwner"
+      ],
+      "combatPrograms": [
+        "combat.devilry-of-orthanc"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.04",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.04",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy01EventTests.EveryEventValidatesOwnershipWindowPrintedCostAndSingleUse",
+        "ShadowStrategy01EventTests.DawnDiscardsOnlyUnusedWillAndRecoveryRestoresThem",
+        "ShadowStrategy01SacrificeTests.RelentlessStillPaysTwoHitsWhenAdvantageousPositionReducesItsBonus",
+        "ShadowStrategy01PersistenceTests.EveryEventRestoresPaidCostAndTheCorrectNextOwner",
+        "BaseCardBattleInteractionTests.ScoutsEndsOnslaughtAndRelentlessBeforeAnyVoluntaryLossOrCombatRoll"
+      ],
+      "combatPrograms": [
+        "combat.relentless-assault"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.06",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.06",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy01EventTests.EveryEventValidatesOwnershipWindowPrintedCostAndSingleUse",
+        "ShadowStrategy01EventTests.StormcrowTargetsNationThenLetsOpponentEliminateWholeFigureAnywhere",
+        "ShadowStrategy01GreatHostTests.GreatHostDoesNotCountLeadersNazgulOrCharactersAsArmyUnits",
+        "ShadowStrategy01PersistenceTests.EveryEventRestoresPaidCostAndTheCorrectNextOwner"
+      ],
+      "combatPrograms": [
+        "combat.great-host"
+      ],
+      "combatInitiatives": [
+        7
+      ]
+    },
+    {
+      "id": "base.sh.strategy.07",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.07",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy02EventTests.EveryCardChecksOwnerHandWindowPrintedCostAndSpentDie",
+        "ShadowStrategy02EventTests.PrintedConditionsDoNotSilentlyRequireAnExecutableMovementOrRecruitment",
+        "ShadowStrategy02EventTests.MovingRageAndCorsairsRejectBeforePrintedNationsAreAtWarAndReturnRequiresWitchKing",
+        "ShadowStrategy02CombatTests.CombatUseRequiresOwnedCardCorrectSideAndCardWindow",
+        "ShadowStrategy02PersistenceTests.EveryEventRestoresItsPaidCardAndContinuationWithoutASecondCost",
+        "ShadowStrategy02MarchTests.GatherMovesFixedGroupThreeRegionsAndCapturesEveryTraversedSettlement",
+        "ShadowStrategy02MarchTests.GatherRejectsEmptyDestinationReturnToOwnArmyEnemyAndExcessStepsWithoutMutation",
+        "ShadowStrategy02MarchTests.LengthensMovesTwoOriginalArmiesEvenWhenTheDestinationArmyHasLeft",
+        "ShadowStrategy02MarchTests.LengthensAllowsOneOnlyWhenSecondArmyCannotCrossItsNationalBorder",
+        "ShadowStrategy02MarchTests.MovingAcceptsFourDifferentArmiesAndRejectsReuseOrAFifthArmy",
+        "ShadowStrategy02MarchTests.MovingCanFinishWithoutMovementButGatherAndLengthensCannotSkipLegalMoves",
+        "ShadowStrategy02MarchTests.MovementOrderMustPreserveAnExistingSiegeBeforeBesiegerLeaves",
+        "ShadowStrategy02MarchTests.LengthensCannotSwapTwoBesiegersThroughFreedEnemyArmies",
+        "ShadowStrategy02MarchTests.LengthensPreviewRequiresAnotherLegalArmyWithoutChangingTheFirstDraft",
+        "ShadowStrategy02MarchTests.LeavingARearguardMakesTheSecondBesiegingArmyMoveRequiredAndLegal",
+        "ShadowStrategy02MarchTests.MarchCannotMoveAnArrivingFigureAgainWithTheDestinationArmy",
+        "ShadowStrategy02MarchTests.StackingIsCheckedAfterAllMarchesAndNeverDuringAnIntermediateMerge",
+        "ShadowStrategy02MarchTests.MarchRejectsAnotherDieGlobalRouteDifferentFinalTargetAndFiguresFromOutsideTheSource",
+        "ShadowStrategy02PersistenceTests.GatherRestoresChosenRouteAndThenExcessWithoutRepeatingAnyMovement",
+        "ShadowStrategy02CombatTests.MumakilRequiresSouthronEliteAmongActualParticipants",
+        "ShadowStrategy02CombatTests.BothMumakilCardsAddOnlyCombatBonusAndCompareHitsAfterTheLeaderReroll",
+        "ShadowStrategy02CombatTests.MumakilAwardsAnExtraHitOnlyForStrictlyMoreTotalHits",
+        "ShadowStrategy02CombatTests.MumakilAlsoImprovesShadowWhenDefending",
+        "ShadowStrategy02CombatTests.MumakilComparisonIncludesFreePeoplesChargeHitsAlreadyTaken",
+        "ShadowStrategy02CombatTests.LosingTheSouthronEliteToChargeDoesNotRemoveCommittedMumakilBonus",
+        "ShadowStrategy02CombatTests.DaringCancelsMumakilDeadlyStrifeAndRelentlessIncludingItsCost",
+        "ShadowStrategy02MarchTests.GatherOffersAReentryRouteWhenAChosenRearguardCanKeepTheSiege",
+        "ShadowStrategy02MarchParityTests.DenseOptionsExactlyMatchAuthoritativePlansIncludingUnfilteredRoutes"
+      ],
+      "combatPrograms": [
+        "combat.mumakil-combat",
+        "combat.mumakil-hits"
+      ],
+      "combatInitiatives": [
+        3,
+        5
+      ]
+    },
+    {
+      "id": "base.sh.strategy.08",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.08",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy02EventTests.EveryCardChecksOwnerHandWindowPrintedCostAndSpentDie",
+        "ShadowStrategy02EventTests.PrintedConditionsDoNotSilentlyRequireAnExecutableMovementOrRecruitment",
+        "ShadowStrategy02EventTests.MovingRageAndCorsairsRejectBeforePrintedNationsAreAtWarAndReturnRequiresWitchKing",
+        "ShadowStrategy02CombatTests.CombatUseRequiresOwnedCardCorrectSideAndCardWindow",
+        "ShadowStrategy02PersistenceTests.EveryEventRestoresItsPaidCardAndContinuationWithoutASecondCost",
+        "ShadowStrategy02MarchTests.GatherMovesFixedGroupThreeRegionsAndCapturesEveryTraversedSettlement",
+        "ShadowStrategy02MarchTests.GatherRejectsEmptyDestinationReturnToOwnArmyEnemyAndExcessStepsWithoutMutation",
+        "ShadowStrategy02MarchTests.LengthensMovesTwoOriginalArmiesEvenWhenTheDestinationArmyHasLeft",
+        "ShadowStrategy02MarchTests.LengthensAllowsOneOnlyWhenSecondArmyCannotCrossItsNationalBorder",
+        "ShadowStrategy02MarchTests.MovingAcceptsFourDifferentArmiesAndRejectsReuseOrAFifthArmy",
+        "ShadowStrategy02MarchTests.MovingCanFinishWithoutMovementButGatherAndLengthensCannotSkipLegalMoves",
+        "ShadowStrategy02MarchTests.MovementOrderMustPreserveAnExistingSiegeBeforeBesiegerLeaves",
+        "ShadowStrategy02MarchTests.LengthensCannotSwapTwoBesiegersThroughFreedEnemyArmies",
+        "ShadowStrategy02MarchTests.LengthensPreviewRequiresAnotherLegalArmyWithoutChangingTheFirstDraft",
+        "ShadowStrategy02MarchTests.LeavingARearguardMakesTheSecondBesiegingArmyMoveRequiredAndLegal",
+        "ShadowStrategy02MarchTests.MarchCannotMoveAnArrivingFigureAgainWithTheDestinationArmy",
+        "ShadowStrategy02MarchTests.StackingIsCheckedAfterAllMarchesAndNeverDuringAnIntermediateMerge",
+        "ShadowStrategy02MarchTests.MarchRejectsAnotherDieGlobalRouteDifferentFinalTargetAndFiguresFromOutsideTheSource",
+        "ShadowStrategy02PersistenceTests.TwoAndFourArmyPlansRestoreAllOriginalGroupsInOneCommit",
+        "ShadowStrategy02CombatTests.MumakilRequiresSouthronEliteAmongActualParticipants",
+        "ShadowStrategy02CombatTests.BothMumakilCardsAddOnlyCombatBonusAndCompareHitsAfterTheLeaderReroll",
+        "ShadowStrategy02CombatTests.MumakilAwardsAnExtraHitOnlyForStrictlyMoreTotalHits",
+        "ShadowStrategy02CombatTests.MumakilAlsoImprovesShadowWhenDefending",
+        "ShadowStrategy02CombatTests.MumakilComparisonIncludesFreePeoplesChargeHitsAlreadyTaken",
+        "ShadowStrategy02CombatTests.LosingTheSouthronEliteToChargeDoesNotRemoveCommittedMumakilBonus",
+        "ShadowStrategy02CombatTests.DaringCancelsMumakilDeadlyStrifeAndRelentlessIncludingItsCost",
+        "ShadowStrategy02MarchParityTests.DenseOptionsExactlyMatchAuthoritativePlansIncludingUnfilteredRoutes"
+      ],
+      "combatPrograms": [
+        "combat.mumakil-combat",
+        "combat.mumakil-hits"
+      ],
+      "combatInitiatives": [
+        3,
+        5
+      ]
+    },
+    {
+      "id": "base.sh.strategy.09",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.09",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy02EventTests.EveryCardChecksOwnerHandWindowPrintedCostAndSpentDie",
+        "ShadowStrategy02EventTests.PrintedConditionsDoNotSilentlyRequireAnExecutableMovementOrRecruitment",
+        "ShadowStrategy02EventTests.MovingRageAndCorsairsRejectBeforePrintedNationsAreAtWarAndReturnRequiresWitchKing",
+        "ShadowStrategy02CombatTests.CombatUseRequiresOwnedCardCorrectSideAndCardWindow",
+        "ShadowStrategy02PersistenceTests.EveryEventRestoresItsPaidCardAndContinuationWithoutASecondCost",
+        "ShadowStrategy02MarchTests.GatherMovesFixedGroupThreeRegionsAndCapturesEveryTraversedSettlement",
+        "ShadowStrategy02MarchTests.GatherRejectsEmptyDestinationReturnToOwnArmyEnemyAndExcessStepsWithoutMutation",
+        "ShadowStrategy02MarchTests.LengthensMovesTwoOriginalArmiesEvenWhenTheDestinationArmyHasLeft",
+        "ShadowStrategy02MarchTests.LengthensAllowsOneOnlyWhenSecondArmyCannotCrossItsNationalBorder",
+        "ShadowStrategy02MarchTests.MovingAcceptsFourDifferentArmiesAndRejectsReuseOrAFifthArmy",
+        "ShadowStrategy02MarchTests.MovingCanFinishWithoutMovementButGatherAndLengthensCannotSkipLegalMoves",
+        "ShadowStrategy02MarchTests.MovementOrderMustPreserveAnExistingSiegeBeforeBesiegerLeaves",
+        "ShadowStrategy02MarchTests.LengthensCannotSwapTwoBesiegersThroughFreedEnemyArmies",
+        "ShadowStrategy02MarchTests.LengthensPreviewRequiresAnotherLegalArmyWithoutChangingTheFirstDraft",
+        "ShadowStrategy02MarchTests.LeavingARearguardMakesTheSecondBesiegingArmyMoveRequiredAndLegal",
+        "ShadowStrategy02MarchTests.MarchCannotMoveAnArrivingFigureAgainWithTheDestinationArmy",
+        "ShadowStrategy02MarchTests.StackingIsCheckedAfterAllMarchesAndNeverDuringAnIntermediateMerge",
+        "ShadowStrategy02MarchTests.MarchRejectsAnotherDieGlobalRouteDifferentFinalTargetAndFiguresFromOutsideTheSource",
+        "ShadowStrategy02PersistenceTests.TwoAndFourArmyPlansRestoreAllOriginalGroupsInOneCommit",
+        "ShadowStrategy02CombatTests.BothSwarmCardsWithoutOpponentCardImproveOnlyLeaderRerolls",
+        "ShadowStrategy02CombatTests.SwarmCancelsAnOpposingCardWithoutReceivingTheNoCardBonus",
+        "ShadowStrategy02CombatTests.SwarmAndDaringResolveTheDefendersInitiativeZeroFirst",
+        "ShadowStrategy02CombatTests.WhiteRiderMakesDaringIneffectiveButItStillBlocksTheSwarmRerollBonus",
+        "ShadowStrategy02CombatTests.SwarmBonusExpiresBeforeTheNextRound",
+        "ShadowStrategy02MarchParityTests.DenseOptionsExactlyMatchAuthoritativePlansIncludingUnfilteredRoutes",
+        "BaseCardBattleInteractionTests.BothSwarmCardsCancelScoutsBeforeRetreatWithoutAwardingTheNoCardBonus"
+      ],
+      "combatPrograms": [
+        "combat.swarm-of-bats"
+      ],
+      "combatInitiatives": [
+        0
+      ]
+    },
+    {
+      "id": "base.sh.strategy.10",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.10",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy02EventTests.EveryCardChecksOwnerHandWindowPrintedCostAndSpentDie",
+        "ShadowStrategy02EventTests.PrintedConditionsDoNotSilentlyRequireAnExecutableMovementOrRecruitment",
+        "ShadowStrategy02EventTests.MovingRageAndCorsairsRejectBeforePrintedNationsAreAtWarAndReturnRequiresWitchKing",
+        "ShadowStrategy02CombatTests.CombatUseRequiresOwnedCardCorrectSideAndCardWindow",
+        "ShadowStrategy02PersistenceTests.EveryEventRestoresItsPaidCardAndContinuationWithoutASecondCost",
+        "CorsairMovementTests.PrintedConditionAllowsPaymentWithoutArmyInUmbar",
+        "CorsairMovementTests.SouthronsAtWarIsThePlayConditionAndBesiegedUmbarCannotSail",
+        "CorsairMovementTests.OptionsContainExactlyTheFourGondorCoastsIncludingLamedon",
+        "CorsairMovementTests.DirectArrivalCapturesEmptySettlementAndResolvesPoliticsOnce",
+        "CorsairMovementTests.APartialMixedArmySailsWithChosenNazgulAndLeavesOtherFiguresInUmbar",
+        "CorsairMovementTests.DepartingLastBesiegerReleasesUmbarGarrisonWithoutCapturingIntermediateRegions",
+        "CorsairMovementTests.PeacefulArrivalMergesBeforeFinishingThePaidEvent",
+        "CorsairMovementTests.IllegalLandingPayloadIsRejectedWithoutStateChangeOrRandomness",
+        "CorsairMovementTests.LandingPreviewShowsCaptureAndUnknownBattleWithoutMovingOrRolling",
+        "CorsairBattleTests.ShelterRemovesExcessGarrisonBeforeCompletingTheLandingEvent",
+        "CorsairBattleTests.DefenderChoosesShelterAfterArrivalAndShadowCannotDeclineOccupation",
+        "CorsairBattleTests.NonSiegeRoundsMustContinueWhileDefenderRetainsRetreatChoice",
+        "CorsairBattleTests.NoRetreatDestinationAutomaticallyBeginsAnotherRound",
+        "CorsairBattleTests.EliminationAutomaticallyCapturesTheLandingRegion",
+        "CorsairBattleTests.MutualEliminationDoesNotCaptureTheLandingSettlement",
+        "CorsairBattleTests.ExistingSiegeMergesAndRemovesExcessBeforeCombatThenAllowsNormalSiegeExtension",
+        "CorsairBattleTests.ThreeStackReliefKeepsGarrisonOutOfCombatThenMergesAfterDefenderRetreat",
+        "CorsairBattleTests.LosingTheArrivingArmyLeavesOriginalShadowGarrisonUnderSiege",
+        "CorsairBattleTests.MutualReliefEliminationFreesTheSurvivingGarrison",
+        "CorsairBattleTests.ScoutsCanWithdrawBeforeRollWithoutSendingShadowBackToUmbar",
+        "CorsairPersistenceTests.PaymentAndLandingRestoreTheirDecisionAndNeverRepeatMovement",
+        "CorsairPersistenceTests.ArrivalRestoresStrongholdDefenseAndShelterWithoutAdvanceChoice",
+        "CorsairPersistenceTests.ImmediateMergeLimitRestoresBeforeTheFirstSiegeCard",
+        "CorsairPersistenceTests.CombatRerollLossesAndForcedContinuationRestoreUntilDefenderRetreats",
+        "CorsairPersistenceTests.ThreeStackReliefRestoresFinalMergeBeforePalantirDraw",
+        "ShadowStrategy02CombatTests.CorsairsCombatUsesTheSharedDeadlyStrifeForBothArmies",
+        "ShadowStrategy02CombatTests.DaringCancelsMumakilDeadlyStrifeAndRelentlessIncludingItsCost",
+        "BaseCardBattleInteractionTests.CorsairsEndedByScoutsRestoresSorcererBeforePalantirWithoutAnotherDieOrRoll"
+      ],
+      "combatPrograms": [
+        "combat.deadly-strife"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.11",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.11",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy02EventTests.EveryCardChecksOwnerHandWindowPrintedCostAndSpentDie",
+        "ShadowStrategy02EventTests.PrintedConditionsDoNotSilentlyRequireAnExecutableMovementOrRecruitment",
+        "ShadowStrategy02EventTests.MovingRageAndCorsairsRejectBeforePrintedNationsAreAtWarAndReturnRequiresWitchKing",
+        "ShadowStrategy02CombatTests.CombatUseRequiresOwnedCardCorrectSideAndCardWindow",
+        "ShadowStrategy02PersistenceTests.EveryEventRestoresItsPaidCardAndContinuationWithoutASecondCost",
+        "ShadowStrategy02EventTests.RageRecruitsBeforeOptionalDirectMovementAndExcludesOtherFigures",
+        "ShadowStrategy02EventTests.RageWithOneReserveRegularStillAllowsMovementAndWithZeroDoesNothing",
+        "ShadowStrategy02EventTests.RageCanDeclineMovementAndRejectsFiveFiguresDuplicateOrEnemyControlledRecruitment",
+        "ShadowStrategy02PersistenceTests.RageRestoresRegionRecruitmentAndOptionalMovementWithoutReusingReserves",
+        "ShadowStrategy02CombatTests.RageCombatPaysVoluntaryHitsBeforeRollingAndExcludesRearGuard",
+        "ShadowStrategy02CombatTests.RageAcceptsEachPrintedVoluntaryCostIncludingZero",
+        "ShadowStrategy02CombatTests.DaringCancelsMumakilDeadlyStrifeAndRelentlessIncludingItsCost"
+      ],
+      "combatPrograms": [
+        "combat.relentless-assault"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.12",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.12",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy02EventTests.EveryCardChecksOwnerHandWindowPrintedCostAndSpentDie",
+        "ShadowStrategy02EventTests.PrintedConditionsDoNotSilentlyRequireAnExecutableMovementOrRecruitment",
+        "ShadowStrategy02EventTests.MovingRageAndCorsairsRejectBeforePrintedNationsAreAtWarAndReturnRequiresWitchKing",
+        "ShadowStrategy02CombatTests.CombatUseRequiresOwnedCardCorrectSideAndCardWindow",
+        "ShadowStrategy02PersistenceTests.EveryEventRestoresItsPaidCardAndContinuationWithoutASecondCost",
+        "ShadowStrategy02EventTests.ReturnMovesWitchKingBeforeRecruitmentAndPreservesMoveIfAngmarIsUnavailable",
+        "ShadowStrategy02EventTests.ReturnRecruitsAvailableRegularEvenWhenNoEliteRemainsAndChecksFinalStack",
+        "ShadowStrategy02PersistenceTests.ReturnRestoresFinalExcessAndKeepsWitchKingInAngmar",
+        "ShadowStrategy02CombatTests.BothSwarmCardsWithoutOpponentCardImproveOnlyLeaderRerolls",
+        "ShadowStrategy02CombatTests.SwarmCancelsAnOpposingCardWithoutReceivingTheNoCardBonus",
+        "ShadowStrategy02CombatTests.SwarmAndDaringResolveTheDefendersInitiativeZeroFirst",
+        "ShadowStrategy02CombatTests.WhiteRiderMakesDaringIneffectiveButItStillBlocksTheSwarmRerollBonus",
+        "ShadowStrategy02CombatTests.SwarmBonusExpiresBeforeTheNextRound",
+        "BaseCardBattleInteractionTests.BothSwarmCardsCancelScoutsBeforeRetreatWithoutAwardingTheNoCardBonus"
+      ],
+      "combatPrograms": [
+        "combat.swarm-of-bats"
+      ],
+      "combatInitiatives": [
+        0
+      ]
+    },
+    {
+      "id": "base.sh.strategy.19",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.19",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy04EventTests.EveryCardRequiresOwnershipWindowAndMusterOrEventCost",
+        "ShadowStrategy04CombatTests.EveryCombatRequiresOwnerCardAndCombatDecision",
+        "ShadowStrategy04CombatTests.DaringDefianceCancelsAllSixEffects",
+        "ShadowStrategy04PersistenceTests.EveryEventRestoresItsCostAndMandatoryContinuationExactlyOnce",
+        "ShadowStrategy04PersistenceTests.OnslaughtAndDesperateBattleRestoreResolutionAndEntropy",
+        "ShadowStrategy04EventTests.MistyMountainsRequiresTwoChosenArmyUnitsAndNazgulTogether",
+        "ShadowStrategy04EventTests.MistyMountainsAcceptsMixedArmyAndMissingNazgulWithoutDroppingArmyRecruitment",
+        "ShadowStrategy04RecruitmentTests.MistyMountainsRecruitsOnEitherSideOfSiegeThenRemovesChosenExcess",
+        "ShadowStrategy04RecruitmentTests.PlanPreviewAndPrivateProjectionExposeOnlyLegalPublicPlacements",
+        "ShadowStrategy04PersistenceTests.ExcessAndPalantirResumeAfterTheWholePaidPlanWithoutRepeatingIt",
+        "ShadowStrategy04EventTests.UnconditionalRecruitmentDoesNotActivateOrAdvanceNations",
+        "ShadowStrategy04CombatTests.OnslaughtKeepsOptionalZeroOrResolvesAttackEvenAfterOwnElimination",
+        "ShadowStrategy04PersistenceTests.EveryRecruitmentChoiceRestoresPlacementsWithoutDoubleRecruitment"
+      ],
+      "combatPrograms": [
+        "combat.onslaught"
+      ],
+      "combatInitiatives": [
+        7
+      ]
+    },
+    {
+      "id": "base.sh.strategy.20",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.20",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy04EventTests.EveryCardRequiresOwnershipWindowAndMusterOrEventCost",
+        "ShadowStrategy04CombatTests.EveryCombatRequiresOwnerCardAndCombatDecision",
+        "ShadowStrategy04CombatTests.DaringDefianceCancelsAllSixEffects",
+        "ShadowStrategy04PersistenceTests.EveryEventRestoresItsCostAndMandatoryContinuationExactlyOnce",
+        "ShadowStrategy04PersistenceTests.OnslaughtAndDesperateBattleRestoreResolutionAndEntropy",
+        "ShadowStrategy04EventTests.OrcsShortageCanBeDistributedWithoutPrintedRegionPriority",
+        "ShadowStrategy04EventTests.OrcsRecruitThreeInEachStrongholdAutomaticallyWhenThereIsNoStrategicChoice",
+        "ShadowStrategy04EventTests.UnconditionalRecruitmentDoesNotActivateOrAdvanceNations",
+        "ShadowStrategy04CombatTests.OnslaughtKeepsOptionalZeroOrResolvesAttackEvenAfterOwnElimination",
+        "ShadowStrategy04PersistenceTests.EveryRecruitmentChoiceRestoresPlacementsWithoutDoubleRecruitment"
+      ],
+      "combatPrograms": [
+        "combat.onslaught"
+      ],
+      "combatInitiatives": [
+        7
+      ]
+    },
+    {
+      "id": "base.sh.strategy.21",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.21",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy04EventTests.EveryCardRequiresOwnershipWindowAndMusterOrEventCost",
+        "ShadowStrategy04CombatTests.EveryCombatRequiresOwnerCardAndCombatDecision",
+        "ShadowStrategy04CombatTests.DaringDefianceCancelsAllSixEffects",
+        "ShadowStrategy04PersistenceTests.EveryEventRestoresItsCostAndMandatoryContinuationExactlyOnce",
+        "ShadowStrategy04PersistenceTests.OnslaughtAndDesperateBattleRestoreResolutionAndEntropy",
+        "ShadowStrategy04EventTests.HordeUsesExactlyTheFourPrintedEasternBorderRegions",
+        "ShadowStrategy04EventTests.HordeCannotUseEnemyOccupiedRegionButCanResolveAnEmptyEffect",
+        "ShadowStrategy04EventTests.PrintedWarConditionsAreMandatory",
+        "ShadowStrategy04CombatTests.PrintedBonusesModifyBothArmiesCombatAndRerollsWithNaturalOneMissing",
+        "ShadowStrategy04PersistenceTests.EveryRecruitmentChoiceRestoresPlacementsWithoutDoubleRecruitment"
+      ],
+      "combatPrograms": [
+        "combat.deadly-strife"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.22",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.22",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy04EventTests.EveryCardRequiresOwnershipWindowAndMusterOrEventCost",
+        "ShadowStrategy04CombatTests.EveryCombatRequiresOwnerCardAndCombatDecision",
+        "ShadowStrategy04CombatTests.DaringDefianceCancelsAllSixEffects",
+        "ShadowStrategy04PersistenceTests.EveryEventRestoresItsCostAndMandatoryContinuationExactlyOnce",
+        "ShadowStrategy04PersistenceTests.OnslaughtAndDesperateBattleRestoreResolutionAndEntropy",
+        "ShadowStrategy04EventTests.MonstersShareRegularReserveAcrossThreeRegionsAndUseIndependentEliteReserve",
+        "ShadowStrategy04EventTests.UnconditionalRecruitmentDoesNotActivateOrAdvanceNations",
+        "ShadowStrategy04CombatTests.PrintedBonusesModifyBothArmiesCombatAndRerollsWithNaturalOneMissing",
+        "ShadowStrategy04CombatTests.DesperateBattleStacksWithOpponentCombatPenaltyAndExpiresNextRound",
+        "ShadowStrategy04PersistenceTests.EveryRecruitmentChoiceRestoresPlacementsWithoutDoubleRecruitment"
+      ],
+      "combatPrograms": [
+        "combat.desperate-battle"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.23",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.23",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy04EventTests.EveryCardRequiresOwnershipWindowAndMusterOrEventCost",
+        "ShadowStrategy04CombatTests.EveryCombatRequiresOwnerCardAndCombatDecision",
+        "ShadowStrategy04CombatTests.DaringDefianceCancelsAllSixEffects",
+        "ShadowStrategy04PersistenceTests.EveryEventRestoresItsCostAndMandatoryContinuationExactlyOnce",
+        "ShadowStrategy04PersistenceTests.OnslaughtAndDesperateBattleRestoreResolutionAndEntropy",
+        "ShadowStrategy04EventTests.MusteringsRecruitsIndependentReservesInTheirPrintedForeignAndHomeRegions",
+        "ShadowStrategy04RecruitmentTests.MusteringsTenRecruitsFinishBeforeIndependentExcessDecisions",
+        "ShadowStrategy04EventTests.PrintedWarConditionsAreMandatory",
+        "ShadowStrategy04CombatTests.PrintedBonusesModifyBothArmiesCombatAndRerollsWithNaturalOneMissing",
+        "ShadowStrategy04CombatTests.DesperateBattleStacksWithOpponentCombatPenaltyAndExpiresNextRound"
+      ],
+      "combatPrograms": [
+        "combat.desperate-battle"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.24",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.24",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy04EventTests.EveryCardRequiresOwnershipWindowAndMusterOrEventCost",
+        "ShadowStrategy04CombatTests.EveryCombatRequiresOwnerCardAndCombatDecision",
+        "ShadowStrategy04CombatTests.DaringDefianceCancelsAllSixEffects",
+        "ShadowStrategy04PersistenceTests.EveryEventRestoresItsCostAndMandatoryContinuationExactlyOnce",
+        "ShadowStrategy04PersistenceTests.OnslaughtAndDesperateBattleRestoreResolutionAndEntropy",
+        "ShadowStrategy04RecruitmentTests.PitsRequiresAvailableMaximumWithoutEmptyRegionSelections",
+        "ShadowStrategy04RecruitmentTests.PitsRejectsFourthRegionThirdUnitForeignStrongholdAndForgedFigures",
+        "ShadowStrategy04RecruitmentTests.PitsCanSplitScarceFiguresAndOmitsCapturedEmptyStrongholds",
+        "ShadowStrategy04EventTests.PrintedWarConditionsAreMandatory",
+        "ShadowStrategy04CombatTests.PrintedBonusesModifyBothArmiesCombatAndRerollsWithNaturalOneMissing",
+        "ShadowStrategy04CombatTests.DesperateBattleStacksWithOpponentCombatPenaltyAndExpiresNextRound",
+        "ShadowStrategy04PersistenceTests.EveryRecruitmentChoiceRestoresPlacementsWithoutDoubleRecruitment"
+      ],
+      "combatPrograms": [
+        "combat.desperate-battle"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    },
+    {
+      "id": "base.sh.strategy.13",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.13",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy03EventTests.EveryCardRequiresItsOwnerWindowAndPrintedCost",
+        "ShadowStrategy03CombatTests.EveryCombatValidatesOwnedCardAndDecision",
+        "ShadowStrategy03CombatTests.DaringDefianceCancelsEveryCombatApplication",
+        "ShadowStrategy03PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutDoubleExecution",
+        "ShadowStrategy03EventTests.ArmyEventsRequirePrintedNationAtWarEvenWithoutTargets",
+        "ShadowStrategy03EventTests.ArmyRecruitmentChoosesAnyShadowArmyAndPrintedNationKind",
+        "ShadowStrategy03EventTests.ArmyRecruitmentPreservesSiegeSideAndAllowsChoosingOldExcess",
+        "ShadowStrategy03EventTests.ArmyRecruitmentPerformsOnlyAvailableFiguresWithoutExtraDecision",
+        "ShadowStrategy03IntegrationTests.RecruitmentAndReplacementRemainLegalInsideProtectedRegion",
+        "ShadowStrategy03PersistenceTests.ArmyRecruitRestoresRegionThenKindChoiceAndOnlyOneFigure",
+        "ShadowStrategy03CombatTests.WeComeToKillRequiresAnEliteParticipantNotAnEliteRearGuard",
+        "ShadowStrategy03CombatTests.WeComeToKillRollsAfterCombatAndImmediatelyAssignsHits",
+        "ShadowStrategy03CombatTests.SpecialAttackAlwaysHitsOnFiveDespiteNormalBattleThreshold",
+        "ShadowStrategy03CombatTests.SpecialAttackIgnoresDaylightAndAdvantageousPosition",
+        "ShadowStrategy03CombatTests.DowngradedEliteDoesNotRollAfterNormalCasualties",
+        "ShadowStrategy03CombatTests.SpecialAttackCountsSurvivingElitesOnceAndCapsDiceAtFive",
+        "ShadowStrategy03CombatTests.SarumanLeadershipAndRearGuardDoNotAddSpecialDice",
+        "ShadowStrategy03PersistenceTests.SpecialAttackRestoresLastCommitAndHitLossWithoutRerolling"
+      ],
+      "combatPrograms": [
+        "combat.we-come-to-kill"
+      ],
+      "combatInitiatives": [
+        7
+      ]
+    },
+    {
+      "id": "base.sh.strategy.14",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.14",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy03EventTests.EveryCardRequiresItsOwnerWindowAndPrintedCost",
+        "ShadowStrategy03CombatTests.EveryCombatValidatesOwnedCardAndDecision",
+        "ShadowStrategy03CombatTests.DaringDefianceCancelsEveryCombatApplication",
+        "ShadowStrategy03PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutDoubleExecution",
+        "ShadowStrategy03EventTests.ArmyEventsRequirePrintedNationAtWarEvenWithoutTargets",
+        "ShadowStrategy03EventTests.ArmyRecruitmentChoosesAnyShadowArmyAndPrintedNationKind",
+        "ShadowStrategy03EventTests.ArmyRecruitmentPreservesSiegeSideAndAllowsChoosingOldExcess",
+        "ShadowStrategy03EventTests.ArmyRecruitmentPerformsOnlyAvailableFiguresWithoutExtraDecision",
+        "ShadowStrategy03IntegrationTests.RecruitmentAndReplacementRemainLegalInsideProtectedRegion",
+        "ShadowStrategy03CombatTests.WeComeToKillRequiresAnEliteParticipantNotAnEliteRearGuard",
+        "ShadowStrategy03CombatTests.WeComeToKillRollsAfterCombatAndImmediatelyAssignsHits",
+        "ShadowStrategy03CombatTests.SpecialAttackAlwaysHitsOnFiveDespiteNormalBattleThreshold",
+        "ShadowStrategy03CombatTests.SpecialAttackIgnoresDaylightAndAdvantageousPosition",
+        "ShadowStrategy03CombatTests.DowngradedEliteDoesNotRollAfterNormalCasualties",
+        "ShadowStrategy03CombatTests.SpecialAttackCountsSurvivingElitesOnceAndCapsDiceAtFive",
+        "ShadowStrategy03CombatTests.SarumanLeadershipAndRearGuardDoNotAddSpecialDice",
+        "ShadowStrategy03PersistenceTests.SpecialAttackRestoresLastCommitAndHitLossWithoutRerolling"
+      ],
+      "combatPrograms": [
+        "combat.we-come-to-kill"
+      ],
+      "combatInitiatives": [
+        7
+      ]
+    },
+    {
+      "id": "base.sh.strategy.15",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.15",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy03EventTests.EveryCardRequiresItsOwnerWindowAndPrintedCost",
+        "ShadowStrategy03CombatTests.EveryCombatValidatesOwnedCardAndDecision",
+        "ShadowStrategy03CombatTests.DaringDefianceCancelsEveryCombatApplication",
+        "ShadowStrategy03PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutDoubleExecution",
+        "ShadowStrategy03EventTests.ArmyEventsRequirePrintedNationAtWarEvenWithoutTargets",
+        "ShadowStrategy03EventTests.HillTrollsReplacesTwoChosenRegularsInOneOrTwoRegions",
+        "ShadowStrategy03EventTests.HillTrollsNeverRemovesARegularWithoutAnElite",
+        "ShadowStrategy03PreviewTests.UpgradePreviewIdentifiesBothReplacementsWithoutRemovingRegulars",
+        "ShadowStrategy03IntegrationTests.RecruitmentAndReplacementRemainLegalInsideProtectedRegion",
+        "ShadowStrategy03PersistenceTests.HillTrollsRestoresBothReplacementsExactlyOnce",
+        "ShadowStrategy03CombatTests.WeComeToKillRequiresAnEliteParticipantNotAnEliteRearGuard",
+        "ShadowStrategy03CombatTests.WeComeToKillRollsAfterCombatAndImmediatelyAssignsHits",
+        "ShadowStrategy03CombatTests.SpecialAttackAlwaysHitsOnFiveDespiteNormalBattleThreshold",
+        "ShadowStrategy03CombatTests.SpecialAttackIgnoresDaylightAndAdvantageousPosition",
+        "ShadowStrategy03CombatTests.DowngradedEliteDoesNotRollAfterNormalCasualties",
+        "ShadowStrategy03CombatTests.SpecialAttackCountsSurvivingElitesOnceAndCapsDiceAtFive",
+        "ShadowStrategy03CombatTests.SarumanLeadershipAndRearGuardDoNotAddSpecialDice",
+        "ShadowStrategy03PersistenceTests.SpecialAttackRestoresLastCommitAndHitLossWithoutRerolling"
+      ],
+      "combatPrograms": [
+        "combat.we-come-to-kill"
+      ],
+      "combatInitiatives": [
+        7
+      ]
+    },
+    {
+      "id": "base.sh.strategy.16",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.16",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy03EventTests.EveryCardRequiresItsOwnerWindowAndPrintedCost",
+        "ShadowStrategy03CombatTests.EveryCombatValidatesOwnedCardAndDecision",
+        "ShadowStrategy03CombatTests.DaringDefianceCancelsEveryCombatApplication",
+        "ShadowStrategy03PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutDoubleExecution",
+        "ShadowStrategy03BatchTests.NewPowerOffersEveryOrthancRegularEliteMixInOnePlan",
+        "ShadowStrategy03BatchTests.SharedReserveShortageDoesNotPrioritizePrintedRegionOrder",
+        "ShadowStrategy03BatchTests.SharedRegularEliteShortageRequiresMaximumPossibleWholeClause",
+        "ShadowStrategy03BatchTests.NewPowerOmitsUnavailableRegionButRequiresAllOtherRecruits",
+        "ShadowStrategy03BatchTests.NewPowerRequiresSarumanAndStillAllowsEmptyRecruitment",
+        "ShadowStrategy03BatchTests.PlanRejectsDuplicateWrongNationWrongTypeOffboardAndMixedPayload",
+        "ShadowStrategy03PreviewTests.PlacementPreviewIsExactAndDoesNotMutateOrRevealOpponentHand",
+        "ShadowStrategy03IntegrationTests.NewPowerCanRecruitInsideBesiegedOrthancDespiteNormalSarumanRestriction",
+        "ShadowStrategy03CombatTests.BothGreatHostAliasesApplyOneAutomaticHitWithDoubleArmy",
+        "ShadowStrategy03PersistenceTests.SharedRecruitmentPlanRestoresPlacementsAndExcessCursor"
+      ],
+      "combatPrograms": [
+        "combat.great-host"
+      ],
+      "combatInitiatives": [
+        7
+      ]
+    },
+    {
+      "id": "base.sh.strategy.17",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.17",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy03EventTests.EveryCardRequiresItsOwnerWindowAndPrintedCost",
+        "ShadowStrategy03CombatTests.EveryCombatValidatesOwnedCardAndDecision",
+        "ShadowStrategy03CombatTests.DaringDefianceCancelsEveryCombatApplication",
+        "ShadowStrategy03PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutDoubleExecution",
+        "ShadowStrategy03BatchTests.ManyKingsUsesOnlyAvailableRegularsAcrossAtMostThreeSettlementsWithoutPolitics",
+        "ShadowStrategy03BatchTests.ManyKingsRejectsNonsettlementsAndForeignSettlements",
+        "ShadowStrategy03BatchTests.ManyKingsRejectsFourthRegionAndThirdFigureInOneRegion",
+        "ShadowStrategy03BatchTests.ManyKingsShortageCanSplitTwoRecruitsBetweenTwoSettlements",
+        "ShadowStrategy03BatchTests.TooFewFreeSettlementsPerformOnlyPossiblePartWithoutEmptyChoices",
+        "ShadowStrategy03PreviewTests.OpponentPrivateCardsDoNotChangeRecruitmentProjection",
+        "ShadowStrategy03IntegrationTests.ManyKingsRecruitsOnEitherSideOfUmbarSiege",
+        "ShadowStrategy03CombatTests.BothGreatHostAliasesApplyOneAutomaticHitWithDoubleArmy",
+        "ShadowStrategy03PersistenceTests.ManyKingsShortageRestoresChosenRegionsWithoutRefillingReserve"
+      ],
+      "combatPrograms": [
+        "combat.great-host"
+      ],
+      "combatInitiatives": [
+        7
+      ]
+    },
+    {
+      "id": "base.sh.strategy.18",
+      "eventImplemented": true,
+      "combatImplemented": true,
+      "programId": "base.sh.strategy.18",
+      "source": "docs/sources/base-card-index.json",
+      "tests": [
+        "ShadowStrategy03EventTests.EveryCardRequiresItsOwnerWindowAndPrintedCost",
+        "ShadowStrategy03CombatTests.EveryCombatValidatesOwnedCardAndDecision",
+        "ShadowStrategy03CombatTests.DaringDefianceCancelsEveryCombatApplication",
+        "ShadowStrategy03PersistenceTests.EveryEventRestoresItsPaidCostAndContinuationWithoutDoubleExecution",
+        "ShadowStrategy03KingTests.KingRevealedRequiresAragornVersionInPlay",
+        "ShadowStrategy03KingTests.KingRevealedRecruitsEachAvailableKindWithoutWarOrExtraChoice",
+        "ShadowStrategy03KingTests.CapturedMinasMorgulPerformsNoRecruitmentAndDoesNotRecallBoardNazgul",
+        "ShadowStrategy03KingTests.KingRevealedRecruitsOnCorrectSiegeSideAndResolvesExcessAfterNazgul",
+        "ShadowStrategy03KingTests.PalantirDrawFollowsWholeRecruitmentAndExcessChoice",
+        "ShadowStrategy03IntegrationTests.MissingReserveNazgulDoesNotMoveAnExistingNazgulToMinasMorgul",
+        "ShadowStrategy03CombatTests.KingRevealedRelentlessAliasOffersOptionalLossBeforeCombat"
+      ],
+      "combatPrograms": [
+        "combat.relentless-assault"
+      ],
+      "combatInitiatives": [
+        3
+      ]
+    }
+  ],
+  "infrastructureTests": [
+    "EffectRuntimeTests.NestedReactionsRestoreEachCursorAndConsumeCostsOnce",
+    "EffectRuntimeTests.EmptyPrivateReactionWindowStillExistsAndCannotRevealAvailableResponses",
+    "EffectRuntimeTests.PrivateLastingEffectDoesNotLeakSourceOrExpiryAndBoundariesRespectScope",
+    "EffectRuntimeTests.CharacterBoundEffectExpiresWhenItsCharacterLeavesPlay",
+    "EffectPersistenceTests.HttpRestartsBetweenRecruitAndDrawAndReplaysOnlyOriginalReceipt",
+    "CasualtyTests.LastUnitUsesCauseToResolveLeadersAndCharacters",
+    "CasualtyTests.BattleRearguardNeitherProtectsNorDiesWithAttackingForce",
+    "EventTests.EffectContinuesThroughDiscardAndStackLimitWithoutRepaying",
+    "Strategy02ValidationTests.NewDecisionsOfferOnlyAuthorizedArmyOperationAndPreviewIsPure"
+  ]
+}

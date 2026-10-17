@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "tls": "explicit local CA; hostname verified",
+  "wss": true,
+  "restored_database": "wotr_restore_5b391b638261",
+  "snapshot_schema": 2,
+  "restored_tables": 9,
+  "before_revision": 5,
+  "after_revision": 8,
+  "preserved_rng_samples": 98,
+  "new_rng_samples": 6,
+  "retry_mutated_state": false,
+  "existing_database_overwrite_refused": true,
+  "backup_after_database_switch": true,
+  "completed_utc": "2026-10-06T16:17:31.980480+00:00",
+  "server_image": "sha256:9673073ddf7cd870cae67816fd0d3f9957a43c66d631e736edbd5e6080363af9",
+  "migrations": "1,2,3",
+  "source_report": ".artifacts/deployment-8da8dbc1/result.json",
+  "command": ".artifacts/deployment-venv/bin/python scripts/test-deployment.py",
+  "public_host_tested": false
+}

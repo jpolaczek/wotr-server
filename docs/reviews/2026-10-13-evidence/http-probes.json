@@ -1,0 +1,45 @@
+{
+  "NullPayload": [
+    {
+      "field": "rulerTokenId",
+      "status": 500,
+      "state_revision_before": 0,
+      "state_revision_after": 0,
+      "response": {
+        "response_bytes": 4215,
+        "content_type": "text/plain; charset=utf-8"
+      }
+    },
+    {
+      "field": "councilTokenId",
+      "status": 500,
+      "state_revision_before": 0,
+      "state_revision_after": 0,
+      "response": {
+        "response_bytes": 4215,
+        "content_type": "text/plain; charset=utf-8"
+      }
+    },
+    {
+      "field": "regionId",
+      "status": 500,
+      "state_revision_before": 0,
+      "state_revision_after": 0,
+      "response": {
+        "response_bytes": 4215,
+        "content_type": "text/plain; charset=utf-8"
+      }
+    }
+  ],
+  "RejectedRequests": {
+    "attempts": 150,
+    "statuses": {
+      "200": 150
+    },
+    "errors": {
+      "DecisionExpired": 150
+    },
+    "stored_receipts": 150,
+    "elapsed_seconds": 0.47146441601216793
+  }
+}

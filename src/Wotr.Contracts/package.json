@@ -1,0 +1,7 @@
+{
+  "name": "com.wotr.contracts",
+  "version": "0.9.0",
+  "displayName": "WoTR shared contracts",
+  "unity": "6000.6",
+  "description": "Transport values shared by Unity and the authoritative server."
+}

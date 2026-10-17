@@ -1,0 +1,29 @@
+{
+  "svg": {
+    "named_regions": 105,
+    "visible_text_elements": 0
+  },
+  "png": {
+    "size": [
+      6144,
+      5037
+    ],
+    "white_components": 105,
+    "minimum_white_component_area": 61422,
+    "transparent_exterior": true
+  },
+  "accepted_fragment_interior_retention": {
+    "western-mirkwood": 1.0,
+    "woodland-realm": 1.0,
+    "old-forest-road": 0.999863,
+    "narrows-of-the-forest": 1.0,
+    "eastern-mirkwood": 1.0,
+    "dol-guldur": 1.0,
+    "southern-mirkwood": 1.0
+  },
+  "sha256": {
+    "map-regions.svg": "bff49f0e67035b931f7e6013ae3b0792ccbd3fb8b70f37ae7f4502ce051389e5",
+    "map-regions.png": "3bc9dfb196dff8f7db6af133aaf1696242fa86ddd9133393754206fa77744110",
+    "reference/region-labels.png": "9621c8e78d552e0b4dd3c2fd4d4fdf1bb4c45479481a20c7141fa1807fd97675"
+  }
+}

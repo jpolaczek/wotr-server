@@ -1,0 +1,97 @@
+<a id="scenariusze-testowe"></a>
+# Test scenarios
+
+The test scenario mode (R31) launches the ready-to-use, named game situations without clicking multiple rounds. The mechanism describes TEST-01 , scenarios dice base game TEST-02 , client service TEST-03 From 2026-10-14 MVP I'll see you later. base game ( TEST-05 ): scenarios dice expansions ( TEST-04 ) lie on branches `expansion-test-scenarios` And they'll come back after they've merged it.
+
+<a id="jak-działa-scenariusz"></a>
+## How the Screenplay Works
+
+- Each dice scenario starts with standard base game setting in turn 1, in the action phase, with
+  dice already thrown to the selected results. The change is only what the tested action (policy
+  track, card in hand, figure, characters) requires.
+- The page in the column “Start” has the first decision. The game continues to run normally, both
+  sides on a change.
+- Free Peoples have four dice. Shadow in Free Peoples scenarios has five results and Hunt with one
+  assigned dice and one Eye; in its scenarios six results and one assigned die.
+- The same scenario always builds the same situation (solid grain), also the order of the deck.
+  Draws during the game (fight, Hunt) are normal.
+- `BaseDiceScenarioTests` tests check for each scenario:
+  - action option is enabled;
+  - die with the tested result can pay it;
+  - example command passes through the server engine.
+
+<a id="katalog"></a>
+## Catalog
+
+| Id | Start | Title in Game | What I'm testing |
+| --- | --- | --- | --- |
+| `setup` | Free Peoples | Standard setup | New batch from standard setting, from the Fellowship phase. |
+| `fp-character-move-fellowship` | Free Peoples | Move the Fellowship | Character: movement Fellowship; in Hunt die and Eye, so Shadow hunts. |
+| `fp-character-hide-fellowship` | Free Peoples | Hide the Fellowship | Character: Hidden the revealed Fellowship in Rivendell. |
+| `fp-character-separate-companions` | Free Peoples | Separate companions | Character: separation Companion from Fellowship. |
+| `fp-character-move-companions` | Free Peoples | Move companions | Character: the movement of Legolas (Lorien) and Gimlego (Erebor). |
+| `fp-character-lead-army` | Free Peoples | Move or attack with a leader | Character: Army movement or attack with Gondor leader from Minas Tirith on Osgiliath. |
+| `fp-character-event` | Free Peoples | Play a Character event | Character: Bilbo's Song, Wizard's Staff, Mirror of Galadriel. |
+| `fp-army-move` | Free Peoples | Move armies | Army: move to two armies. |
+| `fp-army-attack` | Free Peoples | Attack an army | Army: an attack from Minas Tirith on Sauron's army in Osgiliath (Gondor and Sauron in the war). |
+| `fp-army-event` | Free Peoples | Play an Army event | Army: Faramir's Rangers, A Power too Great, The Power of Tom Bombadil. |
+| `fp-muster-politics` | Free Peoples | Advance a nation | Muster: politics; passive Gondor step away from war cannot move (BASE p. 33–35). |
+| `fp-muster-recruit` | Free Peoples | Recruit reinforcements | Muster: recruiting Gondor at war. |
+| `fp-muster-event` | Free Peoples | Play a Muster event | Muster: Wisdom of Elrond, Book of Mazarbul, Guards of the Citadel. |
+| `fp-army-muster` | Free Peoples | Army or Muster action | Army/Muster: movement, attack, recruitment or politics. |
+| `fp-event-draw` | Free Peoples | Draw an event card | Event: Picking from the Character deck or Strategy. |
+| `fp-event-play` | Free Peoples | Play any event card | Event: Play card of any type. |
+| `fp-will-any-action` | Free Peoples | Will of the West as any result | Will of the West as Character, Army, Muster or Event. |
+| `fp-will-gandalf-white` | Free Peoples | Bring in Gandalf the White | Will of the West: Gandalf the White (Grey outside the team., Saruman game). |
+| `fp-will-aragorn` | Free Peoples | Bring in Aragorn | Will of the West: Aragorn (Strider In the Minas Tirith). |
+| `fp-elven-ring` | Free Peoples | Use an Elven Ring | Change result dice The Ring of Elves, which goes to Shadow. |
+| `fp-pass` | Free Peoples | Pass | pass with fewer unused dice. |
+| `sh-character-move-minions` | Shadow | Move Nazgûl and Minions | Character: Nazgûla and Witch-king movement. |
+| `sh-character-lead-army` | Shadow | Move or attack with a Nazgûl | Character: Army movement or attack with Nazgûl from Minas Morgul on North Ithilien. |
+| `sh-character-event` | Shadow | Play a Character event | Character: The Ringwraiths Are Abroad, Flocks of Crebain, The Lidless Eye. |
+| `sh-army-move` | Shadow | Move armies | Army: move to two armies. |
+| `sh-army-attack` | Shadow | Attack an army | Army: attack from Minas Morgul on Gondor's army in North Ithilien. |
+| `sh-army-event` | Shadow | Play an Army event | Army: Shadows Gather, The Shadow Lengthens. |
+| `sh-muster-politics` | Shadow | Advance a nation | Muster: the Shadow nation's policy. |
+| `sh-muster-recruit` | Shadow | Recruit reinforcements | Muster: Sauron's recruitment at war. |
+| `sh-muster-saruman` | Shadow | Bring in Saruman | Muster: Saruman In the Orthanku (Isengard In the War). |
+| `sh-muster-witch-king` | Shadow | Bring in the Witch-king | Muster: Witch-king at Sauron's Army (Sauron and Gondor in the War). |
+| `sh-muster-mouth` | Shadow | Bring in the Mouth of Sauron | Muster: Mouth of Sauron (all nations of Free Peoples in war). |
+| `sh-muster-event` | Shadow | Play a Muster event | Muster: Orcs Multiplying Again, Many Kings to the Service of Mordor, Monsters Roused. |
+| `sh-army-muster` | Shadow | Army or Muster action | Army/Muster: movement, attack, recruitment or politics. |
+| `sh-event-draw` | Shadow | Draw an event card | Event: Selecting card. |
+| `sh-event-play` | Shadow | Play any event card | Event: Play card of any type. |
+| `sh-eye-hunt-allocation` | Shadow | Allocate dice to the Hunt | Allocation of dice to Hunt before the throw; the cast-out Eye comes after the throw. |
+| `sh-elven-ring` | Shadow | Use a captured Elven Ring | The Elves' Ring taken over: the result is changed, also to the Eye. |
+
+<a id="tor-mordoru--test-06"></a>
+### Tor Mordor — TEST-06
+
+Fellowship stands hidden in Minas Morgul (Corruption   3 It's like she's finished wandering. command   `EnterMordor` Phase Fellowship, so the pool Hunt is prepared as in the game (BASE  s.  43,  T17 Step and Corruption the final scenario sets the builder upon entry; tiles Hunt They usually do.
+
+| Id | Start | Title in Game | What I'm testing |
+| --- | --- | --- | --- |
+| `fp-mordor-enter` | Free Peoples | Enter Mordor | Fellowship phase in Minas Morgul: track input (gate on map or panel button), camera with Free Peoples and track pulse with Shadow; then Hunt and a simple throw. |
+| `fp-mordor-track` | Free Peoples | Walk the Mordor Track | Step 0, three dice Character and Will of the West: attempts to move with the tile (Stop, Reveal, injury), hiding, Corruption behind turn without attempt. |
+| `fp-mordor-crack` | Free Peoples | One step from the Crack of Doom | Step 4, Corruption 6: step without Stop reaches the Doomsday Slit and destroys the Ring if Corruption stays below 12 (B20). |
+
+<a id="koniec-gry--test-07"></a>
+### Game over — TEST-07
+
+Four ways to complete the base game, each command (BASE p. 44, LOGIC B19, B20). Situations build real figure and real entrance to Mordor. The certainty of the result gives only the Hunt pool where the tiles remain guaranteeing the end; the rest waits in the rejected. Victory gives the usual rule: The Extinction Slit, Corruption 12 or the victory check at the end of turn. The end of the game screen in the client (UI-169) is proven on these scenarios.
+
+| Id | Start | Title in Game | What I'm testing |
+| --- | --- | --- | --- |
+| `fp-ring-destroyed` | Free Peoples | The Ring is destroyed | Step 4 track, Corruption 6, in the pool only the 0 tiles: move Fellowship dice Character comes to the rift and destroys the Ring. |
+| `sh-ring-corrupted` | Free Peoples | The Ring-bearers are corrupted | Step 1 track, Corruption 11, in the pool only the damage-taking tiles: movement Fellowship and the injuries accepted on the Ring give Corruption 12. |
+| `sh-military` | Shadow | Shadow military victory | Shadow holds Minas Tirith, Dol Amroth, Helm's Deep, Erebor and Lorien (10 PZ), has the last die turn; its use ends action and the victory check gives military victory. |
+| `fp-military` | Free Peoples | Free Peoples military victory | Free Peoples hold Orthanc and Dol Guldur (4 PZ), have the last die turn; its use ends action and gives military victory. |
+
+The `GameEndScenarioTests` tests check for each scenario with eight seeds of the server winner and reason after command and a view of both sides.
+
+The eye as a result of the throw also works in `fp-character-move-fellowship`: The eye lies in Hunt and strengthens the hunt after the Fellowship movement.
+
+<a id="dodawanie-scenariusza"></a>
+## Adding a scenario
+
+The script is an entry in `src/Wotr.Domain/Testing` (`FreePeoplesDiceScenarios`, `ShadowDiceScenarios` or a new group included in `TestScenarioCatalog`). The builder `ScenarioBoard` sets dice, Hunt, policy track, hand, figure and characters. The new script requires waiting in `BaseDiceScenarioTests` (or the appropriate group test) and a row in this directory.

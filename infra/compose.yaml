@@ -1,0 +1,125 @@
+name: wotr
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  database:
+    image: postgres:17.11-bookworm@sha256:3645570cccdfa447589da9f57dd740faa29b30938e861289a5574b6ca6b03826
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_admin_password
+    secrets: [db_admin_password, db_password]
+    volumes:
+      - database:/var/lib/postgresql/data
+      - ./init-database.sql:/docker-entrypoint-initdb.d/10-wotr.sql:ro
+    networks: [storage]
+    healthcheck:
+      test: ["CMD", "psql", "-U", "wotr", "-d", "wotr", "-c", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    logging: *logging
+
+  server:
+    image: wotr-server:${WOTR_VERSION:?Set WOTR_VERSION}
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      WOTR_DB_FILE: /run/secrets/db_connection
+      WOTR_DATABASE: ${WOTR_DATABASE:-wotr}
+      WOTR_TRUSTED_PROXY: ${WOTR_PROXY_IP:-172.30.93.2}
+      AllowedHosts: ${WOTR_DOMAIN:?Set WOTR_DOMAIN};localhost;127.0.0.1
+      Logging__LogLevel__Default: Warning
+      Logging__LogLevel__Microsoft.Hosting.Lifetime: Information
+      # UI-96: the live MVP offers only the base game for new tables; set true to offer expansions.
+      Wotr__Release__Expansions: ${WOTR_EXPANSIONS:-false}
+      # DIST-05: client release catalog. Empty root announces nothing; see infra/README.md.
+      Wotr__Releases__Root: ${WOTR_RELEASES_ROOT:-}
+      Wotr__Releases__DownloadsUrl: ${WOTR_DOWNLOADS_URL:-}
+      Wotr__Releases__PublicKey: ${WOTR_RELEASE_PUBLIC_KEY:-}
+      # Transition for ZIP clients without version headers; production rejects them unless set to true.
+      Wotr__Clients__AcceptUnversioned: ${WOTR_ACCEPT_UNVERSIONED_CLIENTS:-false}
+      # TEST-01: test scenarios (not saved games) for testing on this server.
+      Wotr__Testing__Scenarios: ${WOTR_TEST_SCENARIOS:-false}
+      # AUTH-02: account emails (confirmation, password reset). none sends nothing; resend needs the sender and the key
+      # file (production: secrets/resend_api_key) and Wotr__PublicUrl for the links.
+      Wotr__Email__Provider: ${WOTR_EMAIL_PROVIDER:-none}
+      Wotr__Email__From: ${WOTR_EMAIL_FROM:-}
+      Wotr__Email__ResendApiKeyFile: /run/secrets/resend_api_key
+    secrets: [db_connection]
+    volumes:
+      - ${WOTR_DISTRIBUTION_DIR:-./distribution}:/distribution:ro
+    networks:
+      frontend:
+        ipv4_address: ${WOTR_SERVER_IP:-172.30.93.3}
+      storage:
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "dotnet", "Wotr.Server.dll", "--health-check"]
+      interval: 20s
+      timeout: 7s
+      start_period: 30s
+      retries: 3
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    stop_grace_period: 30s
+    restart: unless-stopped
+    logging: *logging
+
+  proxy:
+    image: caddy:2.11.2-alpine@sha256:834468128c7696cec0ceea6172f7d692daf645ae51983ca76e39da54a97c570d
+    environment:
+      WOTR_DOMAIN: ${WOTR_DOMAIN:?Set WOTR_DOMAIN}
+    ports:
+      - "${WOTR_BIND:-127.0.0.1}:${WOTR_HTTP_PORT:-80}:80"
+      - "${WOTR_BIND:-127.0.0.1}:${WOTR_HTTPS_PORT:-443}:443"
+    volumes:
+      - ${WOTR_CADDYFILE:-./Caddyfile}:/etc/caddy/Caddyfile:ro
+      - certificates:/data
+      - caddy_config:/config
+    networks:
+      frontend:
+        ipv4_address: ${WOTR_PROXY_IP:-172.30.93.2}
+    depends_on:
+      server:
+        condition: service_healthy
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    cap_add: [NET_BIND_SERVICE]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+    logging: *logging
+
+secrets:
+  db_admin_password:
+    file: ./secrets/db_admin_password
+  db_password:
+    file: ./secrets/db_password
+  db_connection:
+    file: ./secrets/db_connection
+
+volumes:
+  database:
+  certificates:
+  caddy_config:
+
+networks:
+  storage:
+    internal: true
+  frontend:
+    ipam:
+      config:
+        - subnet: ${WOTR_PROXY_SUBNET:-172.30.93.0/24}

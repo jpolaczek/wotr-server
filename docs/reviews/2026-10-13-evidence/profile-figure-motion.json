@@ -1,0 +1,2772 @@
+{
+  "RecordedAt": "2026-10-13T22:56:55.757936Z",
+  "Suite": "figure-motion",
+  "InputSha256": "6b06dd8dd14c8cdfa49508640defd82e2285bb64574456b4dcff591a02fc31c1",
+  "Unity": "6000.6.0f1",
+  "Development": true,
+  "Editor": false,
+  "Platform": "OSXPlayer",
+  "OS": "Mac OS X 15.6.1",
+  "CPU": "Apple M1 Pro",
+  "MemoryMB": 16384,
+  "GPU": "Apple M1 Pro",
+  "GraphicsAPI": "Metal",
+  "TargetFPS": 60,
+  "VSync": 1,
+  "Workload": "Offline presentation projections; no server commands. Render-end timing excludes display/input hardware latency.",
+  "Refresh": "Consecutive public HTTP/WebSocket projections replay through the production motion renderer; no fabricated connection or edits to positions/revisions.",
+  "Results": [
+    {
+      "Kind": "motion-army-fp",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 119.33725034256456,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3796132148967857,
+          "P95": 9.1607067734003067,
+          "P99": 9.3435449525713921,
+          "Max": 17.163081094622612
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3768770777777775,
+          "P95": 9.075333,
+          "P99": 9.32125,
+          "Max": 18.129875
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6623.9638888888885,
+          "P95": 2099.0,
+          "P99": 18599.0,
+          "Max": 724274.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.0706833333333332,
+          "P95": 3.763,
+          "P99": 7.1167,
+          "Max": 7.1167
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 2.309225,
+          "P95": 5.989,
+          "P99": 9.2177,
+          "Max": 9.2177
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "9e8e4c332b2a41bf9a57bc09ec56f78b",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 5,
+        "ExpectedTranslation": true,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0028231669999989606,
+            "ActiveGroups": 1,
+            "X": 638.0001,
+            "Y": 256.000549
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.25430141699999886,
+            "ActiveGroups": 1,
+            "X": 644.7879,
+            "Y": 281.971069
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.363477917,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-army-sh",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 117.06593585575006,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5421945563414035,
+          "P95": 9.1910427436232567,
+          "P99": 16.632795333862305,
+          "Max": 24.608708918094635
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5362846138888884,
+          "P95": 9.414333,
+          "P99": 15.970959,
+          "Max": 24.732583
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6211.8888888888887,
+          "P95": 2099.0,
+          "P99": 17817.0,
+          "Max": 669192.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.0951041666666672,
+          "P95": 5.9089,
+          "P99": 6.4859,
+          "Max": 6.4859
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 4.5151083333333331,
+          "P95": 7.7404,
+          "P99": 9.4707,
+          "Max": 9.4707
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "9e8e4c332b2a41bf9a57bc09ec56f78b",
+        "BeforeRevision": 1,
+        "AfterRevision": 2,
+        "ExpectedFigures": 5,
+        "ExpectedTranslation": true,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0018514580000008607,
+            "ActiveGroups": 1,
+            "X": 801.9994,
+            "Y": 330.000061
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.25520820800000088,
+            "ActiveGroups": 1,
+            "X": 763.3659,
+            "Y": 333.836
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3715212920000006,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-character-fp",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 119.01633309306835,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4022081172507672,
+          "P95": 9.2257941141724586,
+          "P99": 9.5205428078770638,
+          "Max": 16.604620963335037
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3998202666666639,
+          "P95": 9.242833,
+          "P99": 10.5435,
+          "Max": 17.614375
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6577.1416666666664,
+          "P95": 2099.0,
+          "P99": 13956.0,
+          "Max": 725418.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.6539916666666665,
+          "P95": 6.4803,
+          "P99": 8.3805,
+          "Max": 8.3805
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 3.4275250000000006,
+          "P95": 8.4676,
+          "P99": 10.677,
+          "Max": 10.677
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "3e0bee9c76a14bdf82bddc7a46889a65",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": true,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0024217079999999669,
+            "ActiveGroups": 1,
+            "X": 620.000366,
+            "Y": 452.999084
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.25381662499999891,
+            "ActiveGroups": 1,
+            "X": 631.606934,
+            "Y": 422.142548
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3713931250000009,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-character-sh",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 116.79393008679089,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5620887939714727,
+          "P95": 9.2918723821640015,
+          "P99": 17.226962372660637,
+          "Max": 25.999497622251511
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5574228972222244,
+          "P95": 9.578,
+          "P99": 16.25125,
+          "Max": 28.3995
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6167.8277777777776,
+          "P95": 2099.0,
+          "P99": 14212.0,
+          "Max": 675486.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.3202041666666671,
+          "P95": 9.0211,
+          "P99": 11.5319,
+          "Max": 11.5319
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 4.9259166666666667,
+          "P95": 13.1236,
+          "P99": 17.8612,
+          "Max": 17.8612
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "3e0bee9c76a14bdf82bddc7a46889a65",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": true,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.003925999999999874,
+            "ActiveGroups": 1,
+            "X": 620.000854,
+            "Y": 452.997772
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26608679200000296,
+            "ActiveGroups": 1,
+            "X": 631.9307,
+            "Y": 421.281738
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3769752080000011,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-hidden-fp",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 118.04195135556138,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.47156446090796,
+          "P95": 9.2590423300862312,
+          "P99": 16.524454578757286,
+          "Max": 17.239874228835106
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4679946888888864,
+          "P95": 9.467417,
+          "P99": 14.171666,
+          "Max": 19.868292
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6392.6111111111113,
+          "P95": 2082.0,
+          "P99": 16953.0,
+          "Max": 693147.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.4989958333333331,
+          "P95": 3.6109,
+          "P99": 5.1245,
+          "Max": 5.1245
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 3.7329375000000002,
+          "P95": 8.6455,
+          "P99": 9.6744,
+          "Max": 9.6744
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 0,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0076210410000001616,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.27038137499999948,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3985375830000066,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-hidden-sh",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 116.76122960665698,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5644867167704639,
+          "P95": 9.3245822936296463,
+          "P99": 16.594961285591125,
+          "Max": 17.112210392951965
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.561007738888879,
+          "P95": 9.664541,
+          "P99": 15.572708,
+          "Max": 16.423333
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 5963.8388888888885,
+          "P95": 2099.0,
+          "P99": 16793.0,
+          "Max": 641987.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.7562875,
+          "P95": 4.7155,
+          "P99": 9.6302,
+          "Max": 9.6302
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 3.7604208333333329,
+          "P95": 7.7495,
+          "P99": 11.5041,
+          "Max": 11.5041
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 0,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0017954580000036913,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.25249866600000104,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3695393750000022,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-separation-fp",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 117.10149272380025,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5396007919270129,
+          "P95": 9.2525435611605644,
+          "P99": 16.352500766515732,
+          "Max": 33.3879180252552
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5207062722222169,
+          "P95": 9.394167,
+          "P99": 13.994292,
+          "Max": 27.4765
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 7980.5666666666666,
+          "P95": 2166.0,
+          "P99": 14136.0,
+          "Max": 894637.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.3313583333333336,
+          "P95": 14.6235,
+          "P99": 16.4242,
+          "Max": 16.4242
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 4.356020833333333,
+          "P95": 19.2555,
+          "P99": 20.2399,
+          "Max": 20.2399
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 2,
+        "AfterRevision": 3,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0033884159999999497,
+            "ActiveGroups": 1,
+            "X": 661.0,
+            "Y": 344.0
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.2611132079999976,
+            "ActiveGroups": 1,
+            "X": 661.0,
+            "Y": 344.0
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3795543330000015,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-separation-sh",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 114.32064424487635,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.7473264921249623,
+          "P95": 9.33633092790842,
+          "P99": 17.263080924749374,
+          "Max": 34.127041697502136
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.7411491972222244,
+          "P95": 10.422583,
+          "P99": 16.136417,
+          "Max": 33.936417
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 7473.15,
+          "P95": 2099.0,
+          "P99": 13796.0,
+          "Max": 833254.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.6931083333333334,
+          "P95": 10.4794,
+          "P99": 16.3157,
+          "Max": 16.3157
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 5.4721749999999991,
+          "P95": 15.3102,
+          "P99": 24.596,
+          "Max": 24.596
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 2,
+        "AfterRevision": 3,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0024149589999993282,
+            "ActiveGroups": 1,
+            "X": 661.0,
+            "Y": 344.0
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.25689066700000041,
+            "ActiveGroups": 1,
+            "X": 661.0,
+            "Y": 344.0
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3821390000000022,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-army-fp",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 117.72073323011567,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.49468035545821,
+          "P95": 9.242708794772625,
+          "P99": 16.619203612208366,
+          "Max": 17.228748649358749
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4915480666666632,
+          "P95": 9.657459,
+          "P99": 14.722708,
+          "Max": 16.72275
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6555.7194444444449,
+          "P95": 2114.0,
+          "P99": 17671.0,
+          "Max": 707741.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.5838541666666668,
+          "P95": 3.8625,
+          "P99": 8.8431,
+          "Max": 8.8431
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 3.8782375000000004,
+          "P95": 10.9664,
+          "P99": 11.0527,
+          "Max": 11.0527
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "9e8e4c332b2a41bf9a57bc09ec56f78b",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 5,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0019668750000008117,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.25663679100000536,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3720688750000036,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-army-sh",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 120.00354173801622,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.33308738656342,
+          "P95": 8.7382514029741287,
+          "P99": 9.087124839425087,
+          "Max": 9.3245822936296463
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.33070126111111,
+          "P95": 8.729459,
+          "P99": 9.085,
+          "Max": 9.32275
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6178.0333333333338,
+          "P95": 2082.0,
+          "P99": 16953.0,
+          "Max": 665224.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 0.92399999999999993,
+          "P95": 3.2476,
+          "P99": 3.3009,
+          "Max": 3.3009
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 1.9617833333333332,
+          "P95": 5.0613,
+          "P99": 5.1911,
+          "Max": 5.1911
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "9e8e4c332b2a41bf9a57bc09ec56f78b",
+        "BeforeRevision": 1,
+        "AfterRevision": 2,
+        "ExpectedFigures": 5,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0017167919999963033,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.25568716699999783,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3722165419999968,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-character-fp",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 119.00706458345616,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4028624981227846,
+          "P95": 8.92612710595131,
+          "P99": 9.3215415254235268,
+          "Max": 16.723958775401115
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4002719722222228,
+          "P95": 8.986625,
+          "P99": 10.563459,
+          "Max": 16.637875
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6859.6305555555555,
+          "P95": 2439.0,
+          "P99": 98859.0,
+          "Max": 724091.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 0.97037083333333329,
+          "P95": 3.6305,
+          "P99": 6.8057,
+          "Max": 6.8057
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 2.6422916666666665,
+          "P95": 5.7512,
+          "P99": 8.9058,
+          "Max": 8.9058
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "3e0bee9c76a14bdf82bddc7a46889a65",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0024020000000035679,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.25177374999999813,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3685964590000026,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-character-sh",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 119.02714947413875,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.401444581492493,
+          "P95": 9.0285856276750565,
+          "P99": 9.33091714978218,
+          "Max": 16.681838780641556
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3978515916666669,
+          "P95": 9.051583,
+          "P99": 11.906708,
+          "Max": 16.631083
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6188.775,
+          "P95": 2439.0,
+          "P99": 14039.0,
+          "Max": 674807.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.0360250000000002,
+          "P95": 3.7313,
+          "P99": 7.2497,
+          "Max": 7.2497
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 2.8645208333333332,
+          "P95": 6.073,
+          "P99": 9.5575,
+          "Max": 9.5575
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "3e0bee9c76a14bdf82bddc7a46889a65",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0025129170000042222,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.25498291700000664,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3710126250000059,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-hidden-fp",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 118.3582171621937,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4489275352098048,
+          "P95": 9.2125851660966873,
+          "P99": 16.6254173964262,
+          "Max": 17.030583694577217
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4438191888888845,
+          "P95": 9.286583,
+          "P99": 14.819708,
+          "Max": 16.729041
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6411.666666666667,
+          "P95": 2262.0,
+          "P99": 16685.0,
+          "Max": 693427.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.18565,
+          "P95": 4.247,
+          "P99": 6.8711,
+          "Max": 6.8711
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 3.0726791666666671,
+          "P95": 6.8832,
+          "P99": 9.3938,
+          "Max": 9.3938
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 0,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0032098749999960319,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26254166700000781,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3791719590000042,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-hidden-sh",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 119.33718625498302,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3796177149957245,
+          "P95": 9.1366637498140335,
+          "P99": 9.363831952214241,
+          "Max": 17.174497246742249
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3769527749999977,
+          "P95": 9.101542,
+          "P99": 9.71925,
+          "Max": 16.569833
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 5979.0166666666664,
+          "P95": 2279.0,
+          "P99": 16702.0,
+          "Max": 641682.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.086125,
+          "P95": 3.7491,
+          "P99": 6.726,
+          "Max": 6.726
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 2.6452416666666663,
+          "P95": 6.0366,
+          "P99": 8.9345,
+          "Max": 8.9345
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 0,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0021319999999889205,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.25548354199999324,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3717137499999978,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-separation-fp",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 118.9767586946124,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4050028843598241,
+          "P95": 9.1250427067279816,
+          "P99": 9.3442108482122421,
+          "Max": 16.631795093417168
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4022152861111152,
+          "P95": 9.139916,
+          "P99": 10.900209,
+          "Max": 16.271459
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 8017.8027777777779,
+          "P95": 2439.0,
+          "P99": 14792.0,
+          "Max": 895069.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.0578291666666668,
+          "P95": 4.6111,
+          "P99": 4.676,
+          "Max": 4.676
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 3.1014541666666662,
+          "P95": 7.5188,
+          "P99": 9.9112,
+          "Max": 9.9112
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 2,
+        "AfterRevision": 3,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0031976669999949081,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26707408299999713,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3827486670000013,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-separation-sh",
+      "Width": 1366,
+      "Height": 768,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 119.00915604521899,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4027148265805511,
+          "P95": 9.1400016099214554,
+          "P99": 9.3657458201050758,
+          "Max": 17.099248245358467
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4001881666666627,
+          "P95": 9.18625,
+          "P99": 10.847708,
+          "Max": 14.80925
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 7494.6416666666664,
+          "P95": 2439.0,
+          "P99": 13768.0,
+          "Max": 832510.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 0.97274583333333331,
+          "P95": 4.2415,
+          "P99": 4.4698,
+          "Max": 4.4698
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 2.8659541666666666,
+          "P95": 7.0177,
+          "P99": 7.0885,
+          "Max": 7.0885
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 2,
+        "AfterRevision": 3,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0026399170000104277,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26041308400000673,
+            "ActiveGroups": 1,
+            "X": 524.4,
+            "Y": 267.2
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3707810840000008,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-army-fp",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 119.01001200416071,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.40265439150648,
+          "P95": 9.1904196888208389,
+          "P99": 9.3376701697707176,
+          "Max": 16.752962023019791
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3837276722222231,
+          "P95": 9.169667,
+          "P99": 10.454375,
+          "Max": 14.275625
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6569.65,
+          "P95": 2099.0,
+          "P99": 17496.0,
+          "Max": 709460.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.0460458333333333,
+          "P95": 4.5142,
+          "P99": 5.0619,
+          "Max": 5.0619
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 2.393875,
+          "P95": 6.9315,
+          "P99": 7.8057,
+          "Max": 7.8057
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "9e8e4c332b2a41bf9a57bc09ec56f78b",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 5,
+        "ExpectedTranslation": true,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0023616670000023987,
+            "ActiveGroups": 1,
+            "X": 637.8334,
+            "Y": 256.0943
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26367762499999969,
+            "ActiveGroups": 1,
+            "X": 644.663757,
+            "Y": 282.2279
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3803652920000076,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-army-sh",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 118.66279869617578,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4272409802199242,
+          "P95": 9.1548329219222069,
+          "P99": 16.416411846876144,
+          "Max": 16.716878861188889
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.4235219944444442,
+          "P95": 9.202833,
+          "P99": 14.248583,
+          "Max": 16.425375
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6193.9277777777779,
+          "P95": 2099.0,
+          "P99": 16682.0,
+          "Max": 666937.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.2619833333333335,
+          "P95": 4.1092,
+          "P99": 7.3214,
+          "Max": 7.3214
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 2.5887708333333337,
+          "P95": 6.9296,
+          "P99": 9.4898,
+          "Max": 9.4898
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "9e8e4c332b2a41bf9a57bc09ec56f78b",
+        "BeforeRevision": 1,
+        "AfterRevision": 2,
+        "ExpectedFigures": 5,
+        "ExpectedTranslation": true,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0020124159999994617,
+            "ActiveGroups": 1,
+            "X": 801.8326,
+            "Y": 330.093781
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.27137604099999635,
+            "ActiveGroups": 1,
+            "X": 758.770264,
+            "Y": 334.369476
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3878670829999891,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-character-fp",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 119.32471360569205,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.380493610942116,
+          "P95": 9.1940835118293762,
+          "P99": 9.3292444944381714,
+          "Max": 16.656454652547836
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.377940311111109,
+          "P95": 9.187834,
+          "P99": 10.246084,
+          "Max": 14.233084
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6579.5194444444442,
+          "P95": 2195.0,
+          "P99": 13444.0,
+          "Max": 724866.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.1378125,
+          "P95": 4.2173,
+          "P99": 4.7583,
+          "Max": 4.7583
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 2.6507166666666668,
+          "P95": 6.5995,
+          "P99": 7.189,
+          "Max": 7.189
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "3e0bee9c76a14bdf82bddc7a46889a65",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": true,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0022667090000112466,
+            "ActiveGroups": 1,
+            "X": 619.8335,
+            "Y": 453.093079
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26277625000000171,
+            "ActiveGroups": 1,
+            "X": 631.4981,
+            "Y": 422.0823
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3792624590000031,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-character-sh",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 114.91728376439589,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.7019112116346751,
+          "P95": 9.4265798106789589,
+          "P99": 16.833793371915817,
+          "Max": 17.014704644680023
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.679025463888884,
+          "P95": 10.090167,
+          "P99": 16.509584,
+          "Max": 22.199083
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6168.166666666667,
+          "P95": 2178.0,
+          "P99": 13732.0,
+          "Max": 674879.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.433125,
+          "P95": 5.0553,
+          "P99": 8.4069,
+          "Max": 8.4069
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 5.8772625000000005,
+          "P95": 10.8712,
+          "P99": 14.524,
+          "Max": 14.524
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "3e0bee9c76a14bdf82bddc7a46889a65",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": true,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0019724160000009761,
+            "ActiveGroups": 1,
+            "X": 619.833435,
+            "Y": 453.09317
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26479725000000087,
+            "ActiveGroups": 1,
+            "X": 632.294739,
+            "Y": 419.9644
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3873860830000098,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-hidden-fp",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 117.10570505350557,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5392936197523444,
+          "P95": 9.15308203548193,
+          "P99": 16.737790778279305,
+          "Max": 25.290872901678085
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5346708027777751,
+          "P95": 9.418625,
+          "P99": 16.319042,
+          "Max": 18.958042
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6385.6833333333334,
+          "P95": 2099.0,
+          "P99": 16313.0,
+          "Max": 692859.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.4042499999999998,
+          "P95": 7.4156,
+          "P99": 8.009,
+          "Max": 8.009
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 5.0342916666666673,
+          "P95": 9.7988,
+          "P99": 11.6635,
+          "Max": 11.6635
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 0,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0019960000000054379,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26374341700000059,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3857854170000081,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-hidden-sh",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 116.73461838329553,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5664391064912913,
+          "P95": 9.306703694164753,
+          "P99": 16.771577298641205,
+          "Max": 23.98366667330265
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.5630128694444423,
+          "P95": 9.661833,
+          "P99": 16.755291,
+          "Max": 23.915875
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 5956.7722222222219,
+          "P95": 2099.0,
+          "P99": 16522.0,
+          "Max": 641131.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.3649458333333335,
+          "P95": 9.1473,
+          "P99": 11.4055,
+          "Max": 11.4055
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 5.4872625000000008,
+          "P95": 12.3812,
+          "P99": 16.7829,
+          "Max": 16.7829
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 0,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0021288750000110213,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26486287500000572,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.389986332999996,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-separation-fp",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 114.13079372429075,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.7618772056885064,
+          "P95": 9.4864154234528542,
+          "P99": 16.895875334739685,
+          "Max": 24.719748646020889
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.7659339277777732,
+          "P95": 11.727708,
+          "P99": 16.79725,
+          "Max": 24.53525
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 9092.6111111111113,
+          "P95": 2279.0,
+          "P99": 14519.0,
+          "Max": 1267280.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.3124458333333333,
+          "P95": 6.2405,
+          "P99": 7.3002,
+          "Max": 7.3002
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 5.7226375,
+          "P95": 9.7421,
+          "P99": 10.01,
+          "Max": 10.01
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 2,
+        "AfterRevision": 3,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0038820410000255379,
+            "ActiveGroups": 1,
+            "X": 660.833252,
+            "Y": 344.093719
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26900550000002,
+            "ActiveGroups": 1,
+            "X": 660.833252,
+            "Y": 344.093719
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.4025326660000133,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-separation-sh",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.0,
+      "ReducedMotion": false,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 116.46106175796059,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.58656090632495,
+          "P95": 9.25350096076727,
+          "P99": 16.590001061558723,
+          "Max": 24.763371795415878
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.58517181388889,
+          "P95": 9.433584,
+          "P99": 16.329,
+          "Max": 22.378167
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 7472.4722222222226,
+          "P95": 2195.0,
+          "P99": 13444.0,
+          "Max": 831783.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.5226458333333333,
+          "P95": 8.6929,
+          "P99": 10.723,
+          "Max": 10.723
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 5.7463000000000006,
+          "P95": 10.8854,
+          "P99": 15.0758,
+          "Max": 15.0758
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 2,
+        "AfterRevision": 3,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.004858541999993804,
+            "ActiveGroups": 1,
+            "X": 660.833252,
+            "Y": 344.093719
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.27166595799999982,
+            "ActiveGroups": 1,
+            "X": 660.833252,
+            "Y": 344.093719
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3967113330000132,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-army-fp",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 114.57185911126689,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.7281467522391019,
+          "P95": 9.3675032258033752,
+          "P99": 17.464207485318184,
+          "Max": 24.8842965811491
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.7188556277777778,
+          "P95": 10.811625,
+          "P99": 16.897417,
+          "Max": 25.031166
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6566.1305555555555,
+          "P95": 2131.0,
+          "P99": 17223.0,
+          "Max": 707741.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.7414625000000004,
+          "P95": 12.5668,
+          "P99": 12.7838,
+          "Max": 12.7838
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 6.3007333333333326,
+          "P95": 15.5912,
+          "P99": 17.165,
+          "Max": 17.165
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "9e8e4c332b2a41bf9a57bc09ec56f78b",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 5,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0021664580000049227,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26280754100000081,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.383157916000016,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-army-sh",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 115.20555897261133,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.68013669581463,
+          "P95": 9.2833330854773521,
+          "P99": 16.917120665311813,
+          "Max": 25.689002126455307
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.6748897999999972,
+          "P95": 10.087375,
+          "P99": 16.865291,
+          "Max": 22.818541
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6175.9638888888885,
+          "P95": 2082.0,
+          "P99": 16490.0,
+          "Max": 665224.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.8708875000000007,
+          "P95": 9.5309,
+          "P99": 10.3375,
+          "Max": 10.3375
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 5.7558916666666669,
+          "P95": 14.1542,
+          "P99": 14.2184,
+          "Max": 14.2184
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "9e8e4c332b2a41bf9a57bc09ec56f78b",
+        "BeforeRevision": 1,
+        "AfterRevision": 2,
+        "ExpectedFigures": 5,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0018700419999788664,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26082020799998418,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3851971249999906,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-character-fp",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 115.51097549203529,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.6571860010735691,
+          "P95": 9.3284156173467636,
+          "P99": 17.058078199625015,
+          "Max": 25.762876495718956
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.64791260277777,
+          "P95": 10.105625,
+          "P99": 14.953916,
+          "Max": 24.20875
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6597.6444444444442,
+          "P95": 2439.0,
+          "P99": 13768.0,
+          "Max": 724074.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.7367041666666665,
+          "P95": 3.8092,
+          "P99": 11.3381,
+          "Max": 11.3381
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 5.2720875,
+          "P95": 11.5333,
+          "P99": 15.3835,
+          "Max": 15.3835
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "3e0bee9c76a14bdf82bddc7a46889a65",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0023507500000050641,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.27208962500000666,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.4054886250000038,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-character-sh",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 114.89529431922709,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.7035766427612131,
+          "P95": 9.4097079709172249,
+          "P99": 16.988122835755348,
+          "Max": 25.683915242552757
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.6973272250000022,
+          "P95": 10.614,
+          "P99": 16.689333,
+          "Max": 24.879333
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6177.1444444444442,
+          "P95": 2439.0,
+          "P99": 13768.0,
+          "Max": 674790.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.9967208333333331,
+          "P95": 7.5916,
+          "P99": 10.7455,
+          "Max": 10.7455
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 5.9992833333333335,
+          "P95": 12.9925,
+          "P99": 16.9157,
+          "Max": 16.9157
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "3e0bee9c76a14bdf82bddc7a46889a65",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.002955709000019624,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26372795899999346,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3879167919999986,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-hidden-fp",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 115.81370503702269,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.6345566760024255,
+          "P95": 9.3856649473309517,
+          "P99": 16.632292419672012,
+          "Max": 17.053961753845215
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.629989833333326,
+          "P95": 9.632375,
+          "P99": 16.650875,
+          "Max": 17.164708
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 6405.9416666666666,
+          "P95": 2294.0,
+          "P99": 16734.0,
+          "Max": 693459.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 2.9112000000000005,
+          "P95": 10.0255,
+          "P99": 10.1143,
+          "Max": 10.1143
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 6.5181458333333326,
+          "P95": 12.9999,
+          "P99": 13.1629,
+          "Max": 13.1629
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 0,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0038555000000144446,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26907683300001395,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3928360410000096,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-hidden-sh",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 120.00052361046261,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3332969716543133,
+          "P95": 8.9960815384984016,
+          "P99": 9.3195009976625443,
+          "Max": 9.35270730406046
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3310141111111111,
+          "P95": 8.959125,
+          "P99": 9.267875,
+          "Max": 9.333958
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 5973.95,
+          "P95": 2294.0,
+          "P99": 16222.0,
+          "Max": 641731.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 0.83643750000000006,
+          "P95": 2.9939,
+          "P99": 3.0629,
+          "Max": 3.0629
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 2.3551833333333332,
+          "P95": 5.1523,
+          "P99": 5.375,
+          "Max": 5.375
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 0,
+        "AfterRevision": 1,
+        "ExpectedFigures": 0,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0020168329999989965,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.26434887499999604,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3867770829999984,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-separation-fp",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 119.67709465911692,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.35581781834157,
+          "P95": 8.85662529617548,
+          "P99": 9.2434165999293327,
+          "Max": 16.675453633069992
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3539993833333313,
+          "P95": 9.095542,
+          "P99": 9.262875,
+          "Max": 16.771084
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 8022.2666666666664,
+          "P95": 2422.0,
+          "P99": 13911.0,
+          "Max": 898660.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 0.98144999999999982,
+          "P95": 4.5078,
+          "P99": 4.5932,
+          "Max": 4.5932
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 2.8676791666666666,
+          "P95": 7.6525,
+          "P99": 8.116,
+          "Max": 8.116
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 2,
+        "AfterRevision": 3,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0029927500000042073,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.2605660000000114,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3771937920000141,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "Kind": "motion-separation-sh",
+      "Width": 1920,
+      "Height": 1080,
+      "Scale": 1.25,
+      "ReducedMotion": true,
+      "Metrics": {
+        "WarmupFrames": 120,
+        "SampleFrames": 360,
+        "Fps": 119.64644471018643,
+        "FrameMilliseconds": {
+          "Count": 360,
+          "Mean": 8.3579583365159724,
+          "P95": 9.2034582048654556,
+          "P99": 9.3007013201713562,
+          "Max": 16.705712303519249
+        },
+        "MainThreadMilliseconds": {
+          "Count": 360,
+          "Mean": 8.35190127222222,
+          "P95": 9.000291,
+          "P99": 9.240708,
+          "Max": 16.960083
+        },
+        "GcBytesPerFrame": {
+          "Count": 360,
+          "Mean": 7479.8611111111113,
+          "P95": 2422.0,
+          "P99": 13768.0,
+          "Max": 832510.0
+        },
+        "MainThreadCounter": {
+          "Valid": true,
+          "Unit": "TimeNanoseconds"
+        },
+        "AllocationCounter": {
+          "Valid": true,
+          "Unit": "Bytes"
+        },
+        "HandlerMilliseconds": {
+          "Count": 24,
+          "Mean": 1.0566416666666667,
+          "P95": 4.6142,
+          "P99": 5.047,
+          "Max": 5.047
+        },
+        "ToRenderEndMilliseconds": {
+          "Count": 24,
+          "Mean": 3.1731250000000006,
+          "P95": 7.6759,
+          "P99": 8.724,
+          "Max": 8.724
+        }
+      },
+      "MotionEvidence": {
+        "Source": "Recorded public HTTP/WebSocket projections; offline rendering only",
+        "MatchId": "8fe89955b63949c5837dd3b438cfaa2c",
+        "BeforeRevision": 2,
+        "AfterRevision": 3,
+        "ExpectedFigures": 1,
+        "ExpectedTranslation": false,
+        "Frames": [
+          {
+            "Phase": "start",
+            "Elapsed": 0.0026563330000044516,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "middle",
+            "Elapsed": 0.2690908750000176,
+            "ActiveGroups": 1,
+            "X": 524.2666,
+            "Y": 267.274963
+          },
+          {
+            "Phase": "finished",
+            "Elapsed": 1.3857801670000072,
+            "ActiveGroups": 0,
+            "X": 0.0,
+            "Y": 0.0
+          }
+        ]
+      }
+    }
+  ]
+}
