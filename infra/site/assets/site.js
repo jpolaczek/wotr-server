@@ -1,9 +1,13 @@
 // DIST-04: download buttons from the server's release catalog (GET /api/client/downloads), never a fixed version.
-// D14/D18: players get the installers that passed acceptance — macOS, and Linux (also for the Steam Deck); Windows
-// joins after its acceptance (DIST-13).
+// D18: macOS, Linux (also for the Steam Deck) and, from 2026-10-17 before its tester acceptance (DIST-13), Windows
+// as experimental.
 "use strict";
 
-const OFFERED = { "macos-universal": "Download for macOS", "linux-x64": "Download for Linux (AppImage)" };
+const OFFERED = {
+  "windows-x64": "Download for Windows (experimental)",
+  "macos-universal": "Download for macOS",
+  "linux-x64": "Download for Linux (AppImage)",
+};
 
 function element(tag, properties, children) {
   const node = Object.assign(document.createElement(tag), properties || {});

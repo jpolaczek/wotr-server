@@ -124,7 +124,9 @@ Windows but also Linux and the Steam Deck console") and their answers of that da
   non-Steam game. Its 1280×800 screen, trackpads, touch and on-screen keyboard get their own task;
   until the game is checked on a device, the game page calls the Steam Deck experimental.
 - Testing: the owner's Mac, the owner's Linux PC and external Windows testers (DIST-13). The game
-  page offers a platform once its installer passed acceptance.
+  page offers a platform once its installer passed acceptance. Exception (user's order of
+  2026-10-17, after 0.9.0-rc.2 was published): Windows is offered right away, marked experimental,
+  with the SmartScreen steps; DIST-13 still records its acceptance on real PCs.
 - Before the release, production runs the newest server, so the installed client connects to it.
 
 Specification: [LNX-01](tasks/LNX-01.md), [LNX-02](tasks/LNX-02.md), [DECK-01](tasks/DECK-01.md).

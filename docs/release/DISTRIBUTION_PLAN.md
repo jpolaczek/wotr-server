@@ -247,5 +247,5 @@ packs and smoke-tests three platforms (`windows-x64`, `macos-universal`, `linux-
 installer is the AppImage `WotrOnline-<version>-linux.AppImage` and its package
 `WotrOnline-<version>-linux-full.nupkg`. The catalog announces a release only with all three
 platforms, so the publisher's command and the release tool require the Linux files. The game page
-offers the installers that passed acceptance (macOS and Linux; Windows after DIST-13), and the
-Steam Deck runs the Linux AppImage, experimental until DECK-01.
+offers macOS and Linux, and from 2026-10-17 also Windows marked experimental before its acceptance
+(DIST-13); the Steam Deck runs the Linux AppImage, experimental until DECK-01.
