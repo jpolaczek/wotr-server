@@ -1227,16 +1227,16 @@
         "exception": ""
       },
       "CombatLeadership": {
-        "host": "Battle window buttons",
+        "host": "Battle window figures and hit indicators",
         "target": "Battle window figures and hit indicators",
         "objects": "Leadership sources, sacrificed figure, hits",
         "cost": "exact points",
         "commit": "one confirmation",
         "owner": "UI-246",
-        "exception": "Keep all stays explicit"
+        "exception": "Keep all and Keep hits stay explicit buttons"
       },
       "CombatTarget": {
-        "host": "Battle window buttons",
+        "host": "Battle window dice and figures",
         "target": "Battle window dice and figures",
         "objects": "battle dice, force portraits",
         "cost": "shown before the final click",
@@ -1245,13 +1245,13 @@
         "exception": "Keep misses stays a paid outcome"
       },
       "CompanionJourney": {
-        "host": "decision window groups",
+        "host": "roster clicks + map route; group progress label",
         "target": "map groups + shared console",
         "objects": "companion groups and regions",
         "cost": "the die",
         "commit": "one confirmation",
         "owner": "UI-250",
-        "exception": ""
+        "exception": "Stay and Stay all stay explicit no-move choices"
       },
       "Deck": {
         "host": "card decks",
@@ -1263,7 +1263,7 @@
         "exception": ""
       },
       "DiceChoice": {
-        "host": "dice pool + console",
+        "host": "dice pool",
         "target": "dice pool",
         "objects": "action dice",
         "cost": "the dice",
@@ -1272,7 +1272,7 @@
         "exception": ""
       },
       "EventLosses": {
-        "host": "casualty tray",
+        "host": "regional loss panel (no battle scene)",
         "target": "region panel figures",
         "objects": "figures to remove",
         "cost": "the losses",
@@ -1281,13 +1281,13 @@
         "exception": ""
       },
       "FellowshipChoice": {
-        "host": "decision window list",
+        "host": "Fellowship and Hunt panel portraits, track and Ring",
         "target": "Fellowship panel portraits and tracks",
         "objects": "companions, Guide, corruption",
         "cost": "none",
         "commit": "portrait click",
         "owner": "UI-249",
-        "exception": ""
+        "exception": "There Is Another Way's Stay and Lure of the Ring's outcomes stay console options"
       },
       "Nation": {
         "host": "politics panel",
@@ -1299,13 +1299,13 @@
         "exception": ""
       },
       "Reaction": {
-        "host": "console options / decision window",
+        "host": "source card, portrait or table card x; Decline in the console",
         "target": "source card or portrait",
         "objects": "reaction source",
         "cost": "the source card",
         "commit": "source click; Decline stays",
         "owner": "UI-247",
-        "exception": "Decline stays explicit"
+        "exception": "Decline stays explicit; Worn with Sorrow and Toil keeps its three alternatives"
       },
       "Region": {
         "host": "map highlights + console",
@@ -1317,7 +1317,7 @@
         "exception": ""
       },
       "RegionArmy": {
-        "host": "region panel",
+        "host": "region panel field/garrison sections + console",
         "target": "region panel field/garrison rows",
         "objects": "army row or figure",
         "cost": "none",

@@ -61,7 +61,7 @@ Joining as an observer works in Waiting and during the party. The public list sh
 
 The default connection lease: Renewing every 15 s, Expiring after 60 s without renewal, the server clock. Returning before expiration is idmpotent. Closing one of the several connections of this account does not remove the others. Once the return expires requires a re-acceptation and can end with a lack of seats. The expiry of the observer does not receive or give the player a place. The room cleaning mechanism takes into account active observers. The host identity does not disappear with the termination of the connection.
 
-Chat remains a chat waiting room for its participants, with the name and role of the author instead of a mandatory page. We do not add chat during the party.
+Chat belongs to the waiting room's participants, with the name and role of the author instead of a mandatory page; since CHAT-01 it continues on the board during the game (see below).
 
 <a id="widok-tylko-do-oglądania"></a>
 ## View only for viewing
