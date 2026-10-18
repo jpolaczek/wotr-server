@@ -29,7 +29,21 @@ public static class AccountEndpoints
                 PasswordResetResult.InvalidPassword => Invalid("InvalidPassword"),
                 _ => Invalid("InvalidToken")
             }).RequireRateLimiting(AuthenticationRateLimit.Login);
+        // AUTH-06: a signed-in player changes their account name: { username: the new name, password: the current one }.
+        account.MapPost("/name", async (LoginRequest request, HttpContext context, AccountRename rename, CancellationToken cancellation) =>
+            RenameResult(await rename.RenameSelf(MatchEndpoints.Account(context), request.Username, request.Password, cancellation),
+                MatchEndpoints.Account(context)))
+            .RequireAuthorization().RequireRateLimiting(AuthenticationRateLimit.Login);
     }
+
+    // A wrong password is a 400, never a 401: the session itself is fine and the client must not sign out.
+    private static IResult RenameResult(RenameResult result, string account) => result.Error switch
+    {
+        RenameError.None => Results.Ok(new SessionView { AccountId = account, Username = result.Username }),
+        RenameError.NameTaken => Results.Conflict(new ApiError { Error = "NameTaken" }),
+        RenameError.WrongPassword => Invalid("WrongPassword"),
+        _ => Invalid("InvalidName")
+    };
 
     private static IResult Invalid(string code) => Results.BadRequest(new ApiError { Error = code });
 }

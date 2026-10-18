@@ -9,8 +9,13 @@ public static class LobbyEndpoints
     {
         // AUTH-02: the game's web page registers (the client only opens it); registration sends an email, so it
         // has the stricter email budget instead of the login one.
-        app.MapPost("/api/auth/register", async (RegisterRequest request, AccountService accounts, CancellationToken cancellation) =>
-            RegistrationResult(await accounts.Register(request, cancellation))).RequireRateLimiting(AuthenticationRateLimit.Email);
+        // AUTH-06: a name on the administrators' list is never registered by someone else; it reads as taken.
+        app.MapPost("/api/auth/register", async (RegisterRequest request, AccountService accounts, AdminOptions admins,
+                CancellationToken cancellation) =>
+            admins.Allows(request.Username ?? "")
+                ? RegistrationResult(new RegistrationResult(null, RegistrationError.UsernameTaken))
+                : RegistrationResult(await accounts.Register(request, cancellation)))
+            .RequireRateLimiting(AuthenticationRateLimit.Email);
         app.MapPost("/api/auth/login", async (LoginRequest request, AccountService accounts, CancellationToken cancellation) =>
             SessionResult(await accounts.Login(request, cancellation))).RequireRateLimiting(AuthenticationRateLimit.Login);
         app.MapPost("/api/auth/logout", async (HttpContext context, SessionStore sessions) =>

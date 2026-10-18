@@ -54,6 +54,12 @@ a reload or a closed tab signs out.
   (`infra/nginx/security-headers.conf`: own scripts and styles only, no inline script, no form submission).
 
 <a id="konfiguracja-na-hoscie"></a>
+## Names on the list are reserved — AUTH-06
+
+Administrators are named by account name, so a name on the list is never given to another account: registration and
+renaming refuse it as taken. To rename an administrator, rename the account with the operator command and then put the
+new name on the list (`WOTR_ADMIN_ACCOUNTS`) and restart `server`.
+
 ## Configure it on the host
 
 1. In `infra/.env` set `WOTR_ADMIN_ACCOUNTS=<your account name>` (several: `name1,name2`). The account must already

@@ -12,6 +12,7 @@ if (args.Contains("--health-check", StringComparer.Ordinal))
     return;
 }
 var setEmail = OperatorCommands.SetEmail(args);
+var rename = OperatorCommands.Rename(args);
 var builder = WebApplication.CreateBuilder(OperatorCommands.HostArguments(args));
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 65536);
 builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -33,6 +34,7 @@ builder.Services.AddSingleton<BattleReportStore>();
 builder.Services.AddSingleton<RevisionHub>();
 builder.Services.AddSingleton<MatchSocket>();
 builder.Services.AddSingleton<AccountService>();
+builder.Services.AddSingleton<AccountRename>();
 builder.Services.AddSingleton<AccountRecovery>();
 builder.Services.AddSingleton(services => EmailOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
 builder.Services.AddSingleton<IEmailSender>(EmailSenders.Create);
@@ -80,6 +82,13 @@ app.UseServerTransport(app.Environment.IsDevelopment());
 if (setEmail is not null)
 {
     Environment.ExitCode = await OperatorCommands.RunSetEmail(app.Services, setEmail.Value.Username, setEmail.Value.Email);
+    await app.DisposeAsync();
+    return;
+}
+// AUTH-06: the operator renames an account, e.g. its owner's.
+if (rename is not null)
+{
+    Environment.ExitCode = await OperatorCommands.RunRename(app.Services, rename.Value.Current, rename.Value.Name);
     await app.DisposeAsync();
     return;
 }

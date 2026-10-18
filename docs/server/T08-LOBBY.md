@@ -179,3 +179,23 @@ User order with 2026-10-16: "implement replay and watcherow" (project: [OBSERVER
   relevance only to the player.
 - `EmptyRoomSweeper` does not remove the open waiting room that the viewer sees with valid lease.
   The closed room removes so far.
+
+## Changing the account name — AUTH-06 (2026-10-18)
+
+A signed-in player changes their account name with `POST /api/account/name` and `{ "username": <new name>,
+"password": <current password> }` (game session, the login budget). The answer is the session's account with its new
+name (`SessionView.Username`; the token stays valid), or 400 `InvalidName` / `WrongPassword` (never 401, so the client
+stays signed in), or 409 `NameTaken`. The operator renames any account without a password:
+`dotnet Wotr.Server.dll --rename <current name> <new name>` (infra/README.md).
+
+- The new name follows the registration rules (`AccountInput`: 3–32 letters a–z, digits or `. _ -`, never an email
+  address) and is unique in any case (AUTH-05); a change of case alone is allowed.
+- A name on the administrators' list (`WOTR_ADMIN_ACCOUNTS`, ADMIN-01) is never given to another account, by rename
+  or by registration; it reads as taken, so the list is not revealed. Renaming an administrator therefore needs the
+  new name on the list (the owner's account: operator rename, then the list changed to the new name).
+- One transaction renames the account and the copies of the name in rooms (`hostName`, `freePeoplesName`,
+  `shadowName`, each room's version moves on) and in the audience (`room_observers`). Game lists, replays and the admin
+  panel read the name from the account; chat lines keep the name they were written under. Sessions stay valid.
+- Every rename is logged with the old and the new name.
+
+Tests: `AccountRenameTests` (rename and its rooms, refusals, reserved names, operator).

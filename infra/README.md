@@ -253,6 +253,7 @@ An account before AUTH-02 gets an address with the operator's command (a confirm
 
 ```sh
 infra/production.sh exec -T server dotnet Wotr.Server.dll --set-email <name> <adres>
+infra/production.sh exec -T server dotnet Wotr.Server.dll --rename <current name> <new name>   # AUTH-06
 ```
 
 <a id="poczta-kont-resend"></a>
