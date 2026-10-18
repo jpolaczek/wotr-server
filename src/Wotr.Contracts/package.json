@@ -1,6 +1,6 @@
 {
   "name": "com.wotr.contracts",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "displayName": "WoTR shared contracts",
   "unity": "6000.6",
   "description": "Transport values shared by Unity and the authoritative server."

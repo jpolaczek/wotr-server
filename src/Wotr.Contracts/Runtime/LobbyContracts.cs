@@ -81,6 +81,30 @@ namespace Wotr.Contracts
         public bool Ready { get; set; }
     }
 
+    // EXP-01: the expansion modules a release offers, by id, in release order (Fate, then Lords, then Kings).
+    public static class ExpansionModules
+    {
+        public const string Fate = "fate";
+        public const string Lords = "lords";
+        public const string Kings = "kings";
+        public static readonly IReadOnlyList<string> All = new[] { Fate, Lords, Kings };
+
+        public static bool IsKnown(string module) => module == Fate || module == Lords || module == Kings;
+
+        // The modules a configuration enables; its variants need these modules (the server refuses them otherwise).
+        public static List<string> Of(MatchConfiguration configuration)
+        {
+            var modules = new List<string>();
+            if (configuration.Fate)
+                modules.Add(Fate);
+            if (configuration.Lords)
+                modules.Add(Lords);
+            if (configuration.Kings)
+                modules.Add(Kings);
+            return modules;
+        }
+    }
+
     public sealed class PublicRoomSummary
     {
         public string Id { get; set; } = "";
@@ -93,6 +117,8 @@ namespace Wotr.Contracts
         public int Observers { get; set; }
         public bool CanPlay { get; set; }
         public bool CanObserve { get; set; }
+        // EXP-01: the room's current configuration, so the Open games list can show its expansions.
+        public MatchConfiguration Configuration { get; set; } = new MatchConfiguration();
     }
 
     public sealed class PublicRoomListView
@@ -122,7 +148,9 @@ namespace Wotr.Contracts
         public string MatchId { get; set; } = "";
         public string StartUnavailableReason { get; set; } = "";
         // UI-96: false when this server offers only the base game; the client then hides expansion choices.
+        // EXP-01: true when any module is released; OfferedModules names them (ExpansionModules ids).
         public bool ExpansionsAvailable { get; set; }
+        public List<string> OfferedModules { get; set; } = new List<string>();
         // OBS-01: the viewer's role (You names a seat only for a player) and the room's audience.
         public RoomRole Role { get; set; }
         public List<RoomObserverView> Observers { get; set; } = new List<RoomObserverView>();

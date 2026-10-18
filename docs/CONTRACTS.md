@@ -639,6 +639,16 @@ Contracts 0.11.0 (LOBBY-01) add `LobbyMessage` (`Sequence`, `Author`, `Text`, `A
 the protocol and commands are unchanged. Public content 1.0.12 has the same files as 1.0.11 and requires Contracts
 0.11.0. Endpoints: [T08-LOBBY](server/T08-LOBBY.md#lobby-chat-players-online-and-challenges--lobby-01-2026-10-18).
 
+Contracts 0.12.0 (EXP-01, release per module) add `ExpansionModules` (the ids `Fate` = `fate`, `Lords` = `lords`,
+`Kings` = `kings`, `All` in release order, `IsKnown`, and `Of(MatchConfiguration)`, the modules a configuration
+enables), `RoomView.OfferedModules` (`offeredModules` in JSON: the modules this server releases for new tables,
+lower-case ids in release order; empty when it offers only the base game) and `PublicRoomSummary.Configuration`
+(`configuration`: the room's current configuration, so the Open games list can show its expansions).
+`RoomView.ExpansionsAvailable` stays and is true when any module is released, so clients from before 0.12.0 keep
+working; such a client shows every expansion switch while only some modules are released, and the server refuses the
+others with 409 `ExpansionsUnavailable`. The protocol and commands are unchanged. Public content 1.0.13 has the same
+files as 1.0.12 and requires Contracts 0.12.0. Rules: [T08-LOBBY](server/T08-LOBBY.md#release-per-module--exp-01-2026-10-19).
+
 <a id="wersje-klienta-katalog-wydań-i-zgodność--dist-05"></a>
 ## Client versions, release directory and compliance — DIST-05
 
