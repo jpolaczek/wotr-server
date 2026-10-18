@@ -127,7 +127,9 @@ Windows but also Linux and the Steam Deck console") and their answers of that da
 - Testing: the owner's Mac, the owner's Linux PC and external Windows testers (DIST-13). The game
   page offers a platform once its installer passed acceptance. Exception (user's order of
   2026-10-17, after 0.9.0-rc.2 was published): Windows is offered right away, marked experimental,
-  with the SmartScreen steps; DIST-13 still records its acceptance on real PCs.
+  with the SmartScreen steps; DIST-13 still records its acceptance on real PCs. Update (owner, 2026-10-18): the owner
+  checked the game on Windows and it works, so Windows is no longer marked experimental (DIST-13 done); the Linux and
+  Steam Deck labels stay.
 - Before the release, production runs the newest server, so the installed client connects to it.
 
 Specification: LNX-01, LNX-02, DECK-01.

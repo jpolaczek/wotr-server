@@ -1,10 +1,10 @@
 // DIST-04: download buttons from the server's release catalog (GET /api/client/downloads), never a fixed version.
-// D18: macOS, Linux (also for the Steam Deck) and, from 2026-10-17 before its tester acceptance (DIST-13), Windows
-// as experimental.
+// D18: macOS, Linux (also for the Steam Deck) and Windows; Windows is no longer experimental since the owner's check
+// of 2026-10-18 (DIST-13).
 "use strict";
 
 const OFFERED = {
-  "windows-x64": "Download for Windows (experimental)",
+  "windows-x64": "Download for Windows",
   "macos-universal": "Download for macOS",
   "linux-x64": "Download for Linux (AppImage)",
 };
