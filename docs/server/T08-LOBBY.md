@@ -182,6 +182,9 @@ User order with 2026-10-16: "implement replay and watcherow" (project: [OBSERVER
 
 ## Changing the account name — AUTH-06 (2026-10-18)
 
+AUTH-07 (2026-10-18, the owner's request): Change name is removed from the client's code; the released 0.9.0-rc.9
+and rc.10 still show it, later releases will not. The endpoint below and the operator's `--rename` stay on the server.
+
 A signed-in player changes their account name with `POST /api/account/name` and `{ "username": <new name>,
 "password": <current password> }` (game session, the login budget). The answer is the session's account with its new
 name (`SessionView.Username`; the token stays valid), or 400 `InvalidName` / `WrongPassword` (never 401, so the client
@@ -201,6 +204,10 @@ stays signed in), or 409 `NameTaken`. The operator renames any account without a
 Tests: `AccountRenameTests` (rename and its rooms, refusals, reserved names, operator).
 
 ## Lobby chat, players online and challenges — LOBBY-01 (2026-10-18)
+
+Release status: the first client with the lobby, 0.9.0-rc.10, was withdrawn from the release catalog the same day at
+the owner's request (`release_host.py withdraw --version 0.9.0-rc.10`, catalog revision 8); 0.9.0-rc.9 is the newest
+offered again. The server endpoints below stay deployed and the client code stays for a later release.
 
 The Open games screen polls `GET /api/lobby?after=<sequence>` every `LobbyLimits.PollSeconds` (3 s). Every endpoint
 needs the game session (401 without it) and stands behind the client version gate (DIST-05). The poll uses the reads
