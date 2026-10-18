@@ -1,6 +1,6 @@
 {
   "repository": "jpolaczek/wotr-client",
-  "commit": "4b1bfdcc8e172220d7153a15a8956e4d8e480186",
+  "commit": "2f90ffd1dc4bcd3bf02cc85c38b98edd9d004bbb",
   "files": [
     ".editorconfig",
     ".env.example",
@@ -503,6 +503,7 @@
     "release/icons/wotr.icns",
     "release/icons/wotr.ico",
     "release/icons/wotr.png",
+    "release/notes/0.9.0-rc.10.md",
     "release/notes/0.9.0-rc.2.md",
     "release/notes/0.9.0-rc.3.md",
     "release/notes/0.9.0-rc.4.md",
