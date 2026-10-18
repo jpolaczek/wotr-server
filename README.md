@@ -31,7 +31,7 @@ guides choices on the map and in a permanent tray without mandatory numeric
 entry; artwork is provisional.
 
 The local **0.1.0-rc1** release candidate covers Windows x64 and macOS Universal.
-The [player guide](https://github.com/jpolaczek/wotr-client/blob/812d0cc579759f6585cb6b243b7845318ec75768/docs/release/PLAYER-GUIDE.md)
+The [player guide](https://github.com/jpolaczek/wotr-client/blob/497eac04d380b1247624471d672e00a2ec654217/docs/release/PLAYER-GUIDE.md)
 explains installation, invitations, tables and save recovery. The
 [T39 report](docs/release/T39-RELEASE.md) records actual results and package
 locations. There is no target host yet; Windows runtime and cross-platform
@@ -45,13 +45,22 @@ covers 93 legal configurations; UI evidence and its limits are in
 [TESTING](docs/TESTING.md). Final client regression: **198/198 EditMode and
 270/270 PlayMode PASS**, including complete base and expansion games.
 
-[Setup and tests](docs/DEVELOPMENT.md) · [Building packages](https://github.com/jpolaczek/wotr-client/blob/812d0cc579759f6585cb6b243b7845318ec75768/release/README.md)
+[Setup and tests](docs/DEVELOPMENT.md) · [Building packages](https://github.com/jpolaczek/wotr-client/blob/497eac04d380b1247624471d672e00a2ec654217/release/README.md)
+
+<a id="bezpieczeństwo"></a>
+## Security and official endpoints
+
+The maintainer runs only these endpoints: the game site and API at `https://wotr.vibestudios.org` (admin panel at
+`/admin`), installers and update packages at `https://downloads.vibestudios.org:50443/`, and the two GitHub
+repositories. Updates are signed with the Ed25519 release key `95ffc109e1bb9b15`
+(SHA-256 `95ffc109e1bb9b15710cb7ba298fb959751630ae8d96ab3e9dcab9ddadd8b5d3`). Report vulnerabilities privately as
+described in [SECURITY](SECURITY.md); what the service stores is in the [privacy note](docs/PRIVACY.md).
 
 <a id="od-czego-zacząć"></a>
 ## Where to start
 
 1. Read the [requirements](docs/REQUIREMENTS.md) and [agent working instructions](AGENTS.md).
-2. Learn the [UI and interactions](https://github.com/jpolaczek/wotr-client/blob/812d0cc579759f6585cb6b243b7845318ec75768/docs/ui/UX_SPEC.md), [game logic](docs/rules/LOGIC.md) and [architecture](docs/ARCHITECTURE.md).
+2. Learn the [UI and interactions](https://github.com/jpolaczek/wotr-client/blob/497eac04d380b1247624471d672e00a2ec654217/docs/ui/UX_SPEC.md), [game logic](docs/rules/LOGIC.md) and [architecture](docs/ARCHITECTURE.md).
 3. Check [sources and gaps](docs/sources/README.md).
 4. Work on a task from the local task registry (not in the repository) within the stage commissioned by the user.
 
@@ -92,7 +101,7 @@ the relevant task rather than the entire project.
 - [Test scenarios and gates](docs/TESTING.md)
 - [Expansion integration rules](docs/rules/EXPANSIONS.md)
 - [Design decisions](docs/DECISIONS.md)
-- [UI scenario list](https://github.com/jpolaczek/wotr-client/blob/812d0cc579759f6585cb6b243b7845318ec75768/docs/ui/SCENARIOS.md)
+- [UI scenario list](https://github.com/jpolaczek/wotr-client/blob/497eac04d380b1247624471d672e00a2ec654217/docs/ui/SCENARIOS.md)
 Documents describe required behavior; a description alone does not mean a feature is ready.
 
 ## The board game
