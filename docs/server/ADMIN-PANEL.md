@@ -70,6 +70,42 @@ new name on the list (`WOTR_ADMIN_ACCOUNTS`) and restart `server`.
    `assets/site.css`) and `infra/nginx/game.conf` (`location = /admin`), then restart `server` and `web`.
 3. Open `https://<WOTR_DOMAIN>/admin` and sign in with that account's name and password.
 
+<a id="cloudflare-access"></a>
+## Cloudflare Access in front of the panel — SEC-05 (optional, free)
+
+The panel already refuses everyone but an administrator's admin session. Cloudflare Access adds a second, separate
+lock in front of it: Cloudflare asks for a login before a request for the panel reaches the home server at all, so
+nobody else can even try the panel's password. The game site already goes through the portfolio's Cloudflare Tunnel,
+so nothing moves and nothing new is hosted. Cloudflare Zero Trust is free for up to 50 users (the onboarding may still
+ask for a payment method).
+
+What it covers: `https://<WOTR_DOMAIN>/admin` (the page) and `https://<WOTR_DOMAIN>/api/admin` with everything under
+it (its data and sign-in). Nothing else: the game API, account pages, update catalog and downloads stay public, since
+players' games and the updater must reach them without a Cloudflare login.
+
+Steps in the Cloudflare dashboard (Zero Trust):
+
+1. **Zero Trust → Settings → Authentication → Login methods:** keep **One-time PIN** (a code sent to your email) or add
+   GitHub. No other identity provider is needed.
+2. **Access → Applications → Add an application → Self-hosted.** Name: `WoTR admin`. Session duration: 24 hours.
+3. **Public hostnames (destinations):** add two, both with domain `<WOTR_DOMAIN>`: path `admin` and path `api/admin`.
+   A path covers itself and everything under it.
+4. **Policy:** action **Allow**, name `Owner`, include **Emails** = the owner's address only. Save the application.
+5. **Check** (from a browser in a private window and from a terminal):
+   - `https://<WOTR_DOMAIN>/admin` shows Cloudflare's login page first; after the PIN, the panel's own sign-in.
+   - `curl -sI https://<WOTR_DOMAIN>/admin` answers `302` with a `Location` on `<team>.cloudflareaccess.com`.
+   - `curl -s -o /dev/null -w '%{http_code}' -X POST https://<WOTR_DOMAIN>/api/admin/session` answers `302` (or
+     `403`), not the server's `404`.
+   - The game still works: `curl -s https://<WOTR_DOMAIN>/health` answers, and a game client signs in and lists tables.
+
+Notes:
+
+- The panel's scripts call `/api/admin` from the same page, so the Access cookie set at `/admin` covers them. When the
+  Access session ends, the panel's next request fails ("The server is not reachable right now"); reload the page and
+  log in again.
+- `/assets/admin.js` stays public on purpose: it is the same open-source file as in this repository.
+- To undo, delete the application in Access; the panel's own sign-in keeps working unchanged.
+
 <a id="testy"></a>
 ## Tests
 

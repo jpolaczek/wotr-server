@@ -53,6 +53,10 @@ in `infra/.env`: `WOTR_ADMIN_ACCOUNTS=<account name>[,<account name>…]` (passe
 security model: [ADMIN-PANEL](../docs/server/ADMIN-PANEL.md).
 
 <a id="zakres-wydania-ui-96"></a>
+
+Optional second lock (SEC-05): Cloudflare Access in front of `/admin` and `/api/admin` — steps in
+[ADMIN-PANEL](../docs/server/ADMIN-PANEL.md#cloudflare-access).
+
 ## Scope of release (UI-96)
 
 The server in Production offers only new tables base game. `WOTR_EXPANSIONS=false` in `infra/.env` (default) transfers `Wotr__Release__Expansions` to the container; `true` also provides expansions and their variants. The change requires the restart of the `server` service; the started parts retain their configuration.
