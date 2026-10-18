@@ -123,3 +123,12 @@ It is not enough to pass a full batch that does not accidentally select difficul
 ## acceptance UI and performance
 
 Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/67afe639608723d73c332cd19d7317c9760e4b81/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
+
+## Platform acceptance on real machines
+
+| Platform | Accepted | Evidence |
+| --- | --- | --- |
+| macOS (Universal) | DIST-06 (DS14) | The owner's Mac: install, start, update, uninstall. |
+| Linux x64 (AppImage) | LNX-02, 2026-10-18 | The owner's Linux PC with the released client and in-game updates. |
+| Windows 10/11 x64 | DIST-13, 2026-10-18 | The owner's check: the released game installs and runs on Windows. Uninstall and reinstall were not reported separately. |
+| Steam Deck | open (DECK-01) | Runs the Linux AppImage; still marked experimental. |
