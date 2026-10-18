@@ -22,20 +22,22 @@ public class HardeningBoundaryTests
         await using var host = source.WithWebHostBuilder(b => b.ConfigureLogging(l => l.AddProvider(logs)));
         using var client = host.CreateClient(new() { BaseAddress = new Uri("https://localhost") });
         var secret = "credential-sentinel-" + Guid.NewGuid().ToString("N");
-        var request = new LoginRequest { Username = "missing-" + Guid.NewGuid().ToString("N"), Password = secret };
+        // A new name per attempt: this is the per-address limit, not the per-name lock (SEC-02, SignInLockTests).
+        var prefix = "missing-" + Guid.NewGuid().ToString("N")[..12] + "-";
+        LoginRequest Attempt(int attempt) => new() { Username = prefix + attempt, Password = secret };
         for (var attempt = 0; attempt < 20; attempt++)
         {
-            using var rejected = await client.PostAsJsonAsync("/api/auth/login", request);
+            using var rejected = await client.PostAsJsonAsync("/api/auth/login", Attempt(attempt));
             Assert.Equal(HttpStatusCode.Unauthorized, rejected.StatusCode);
         }
-        using var limited = await client.PostAsJsonAsync("/api/auth/login", request);
+        using var limited = await client.PostAsJsonAsync("/api/auth/login", Attempt(20));
         Assert.Equal(HttpStatusCode.TooManyRequests, limited.StatusCode);
         Assert.InRange(limited.Headers.RetryAfter!.Delta!.Value.TotalSeconds, 1, 60);
         Assert.Equal("TooManyRequests", (await limited.Content.ReadFromJsonAsync<JsonObject>())!["error"]!.GetValue<string>());
         using var health = await client.GetAsync("/health");
         Assert.Equal(HttpStatusCode.OK, health.StatusCode);
         Assert.DoesNotContain(secret, logs.Text);
-        Assert.DoesNotContain(request.Username, logs.Text);
+        Assert.DoesNotContain(prefix, logs.Text);
     }
 
     [PostgresFact]

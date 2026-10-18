@@ -81,3 +81,33 @@ The validation of the recording structure includes the header and basic collecti
 - The login limit remains 20 trial/min/IP, without queue. The server returns TooManyRequests and
   Retry-After 1–60 p. GameApi preserves the code and delay; it does not repeat the passwords or
   commands themselves. UI shows the right reason.
+
+<a id="sign-in-lock"></a>
+## Sign-in lock — SEC-02 (2026-10-18)
+
+On top of the per-address budget (20 sign-ins per minute per network address, `AuthenticationRateLimit.Login`), each
+account name has a temporary lock (`Authentication/SignInGuard.cs`), at the owner's request after external security
+feedback:
+
+- **Rule:** 10 failed sign-ins of one name within 15 minutes lock that name for 15 minutes, from every address. A new
+  15-minute window starts when the lock ends; a successful sign-in clears the name's failures.
+- **During the lock** every sign-in of the name answers `429 {"error":"SignInLocked"}` with `Retry-After` (seconds
+  left), even with the right password, and the password is not checked (no PBKDF2 work for a locked name).
+- **What counts:** a wrong password, a name with no account, and an admin-panel sign-in of an account that is not an
+  administrator. Malformed names and passwords are refused before the count. Names are compared in any case.
+- **Shared:** game sign-in (`/api/auth/login`), the admin panel (`/api/admin/session`) and the password check of the
+  account rename (`/api/account/name`, keyed by the account's current name) use the same lock.
+- **Privacy:** an unknown name locks exactly like an account, so the lock says nothing about which names exist. The
+  log records that a name was locked, never which.
+- **Storage:** in memory of the single server process, at most 10 000 names; when full, names whose window and lock
+  are over are forgotten first, then the one active longest ago. A restart clears all counts.
+- **Configuration:** `Authentication:SignInFailures` (10), `Authentication:SignInWindowSeconds` (900),
+  `Authentication:SignInLockSeconds` (900); a value that is not a positive whole number stops the server at start.
+- **Client:** the game and the account-name dialog say "Too many failed sign-ins for this name. Try again in N
+  minutes."; the admin page says the same.
+- **Trade-off:** someone who knows a player's name can keep that name locked by failing on purpose. The lock is short and
+  the per-address budget slows this down; the player can still use an open session.
+
+Tests: `tests/Wotr.Tests/SignInLockTests.cs` (counter, window, bound, configuration, game, unknown name, admin panel and
+rename over HTTP); `HardeningBoundaryTests` keeps the per-address limit on distinct names. Client:
+`wotr-client:unity/Wotr.Client/Assets/Wotr/Tests/Editor/SignInLockTests.cs`.

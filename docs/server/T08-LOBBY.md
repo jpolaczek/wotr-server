@@ -6,7 +6,7 @@
 <a id="konta"></a>
 ## Accounts
 
-From AUTH-02 ( [D16](../DECISIONS.md) ) account is set up on the game side `/account/register` Name ASCII 3–32 characters (visible to the opponent), email address and password 12–128 characters. Invitations to accounts do not exist (table `invitations` is not used to enable the older image of the server to work on this basis. Registration creates an account with an unconfirmed address, confirmation link and session in one transaction; the account works immediately. Name and address are unique without case distinction. Login takes the name or address. Hashing by ASP . NET Identity PasswordHasher ed 600 000 Iteration; update the older hash after correct login. The incorrect login has one code; registration distinguishes the wrong format, the busy name and the occupied address. Login: 20 requests/minute/address IP ; registration and request for reset: 5 au 10 minutes to address IP , without queue. Before using reverse proxy, you should consciously configure trusted forwarded headers (T38).
+From AUTH-02 ( [D16](../DECISIONS.md) ) account is set up on the game side `/account/register` Name ASCII 3–32 characters (visible to the opponent), email address and password 12–128 characters. Invitations to accounts do not exist (table `invitations` is not used to enable the older image of the server to work on this basis. Registration creates an account with an unconfirmed address, confirmation link and session in one transaction; the account works immediately. Name and address are unique without case distinction. Login takes the name or address. Hashing by ASP . NET Identity PasswordHasher ed 600 000 Iteration; update the older hash after correct login. The incorrect login has one code; registration distinguishes the wrong format, the busy name and the occupied address. Login: 20 requests/minute/address IP, and 10 failed sign-ins of one name within 15 minutes lock that name for 15 minutes (`429 SignInLocked`, SEC-02, [T37](T37-HARDENING.md#sign-in-lock)); registration and request for reset: 5 au 10 minutes to address IP , without queue. Before using reverse proxy, you should consciously configure trusted forwarded headers (T38).
 
 Client from AUTH-03 only log in: the “User or email” field and password. The “Create account” and “Forgot password?” buttons open in the browser `<adres serwera>/account/register` and `/account/forgot` Tests PlayMode log in with the seeder accounts ( `AccountA` , `AccountB` ) or establish accounts by API with address in domain `example.test` ; `scripts/test-client.sh` client sets `Wotr__Email__PermitsPerAddress=10000` Because the registration counts for the mail limit.
 
@@ -17,7 +17,7 @@ Session: Separate 256 -bit random tokens, validity 30 days, the server saves onl
 | Method and path | Entry → result |
 | --- | --- |
 | POST `/api/auth/register` | username, email, password → SessionView; 400 `InvalidRegistration`, 409 `UsernameTaken`/`EmailTaken` (name and address each unique, case-insensitively) |
-| POST `/api/auth/login` | username (the account name only, any case; AUTH-05), password → SessionView; 401 otherwise |
+| POST `/api/auth/login` | username (the account name only, any case; AUTH-05), password → SessionView; 401 otherwise; 429 `SignInLocked` with Retry-After while the name is locked (SEC-02) |
 | POST `/api/auth/logout` | active session → 204 |
 | POST `/api/account/verify-email` | token → 204; 400 `InvalidToken` |
 | POST `/api/account/password-reset` | login (name or email) → always 202 |

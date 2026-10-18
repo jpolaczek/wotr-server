@@ -41,13 +41,19 @@ async function request(method, path, body) {
   try {
     const response = await fetch(path, { method, headers, body: body ? JSON.stringify(body) : undefined, cache: "no-store" });
     const text = await response.text();
-    return { status: response.status, data: text ? JSON.parse(text) : null };
+    const retryAfter = Number(response.headers.get("Retry-After")) || 0;
+    return { status: response.status, data: text ? JSON.parse(text) : null, retryAfter };
   } catch (failure) {
     return { status: 0, data: null };
   }
 }
 
 function problem(result) {
+  // SEC-02: a name locked after a series of failed sign-ins waits for its lock, in whole minutes.
+  if (result.status === 429 && result.data && result.data.error === "SignInLocked") {
+    const minutes = Math.max(1, Math.ceil(result.retryAfter / 60));
+    return `Too many failed sign-ins for this name. Try again in ${minutes} ${minutes === 1 ? "minute" : "minutes"}.`;
+  }
   if (result.status === 429) return "Too many requests. Wait a minute and try again.";
   if (result.status === 0) return "The server is not reachable right now.";
   return "Something went wrong on the server.";

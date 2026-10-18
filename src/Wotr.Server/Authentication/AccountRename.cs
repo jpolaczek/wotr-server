@@ -10,10 +10,12 @@ public enum RenameError
     InvalidName,
     NameTaken,
     WrongPassword,
-    NoAccount
+    NoAccount,
+    // SEC-02: the account's name is locked after failed sign-ins; LockedFor is the time left.
+    Locked
 }
 
-public sealed record RenameResult(RenameError Error, string Username);
+public sealed record RenameResult(RenameError Error, string Username, TimeSpan? LockedFor = null);
 
 // AUTH-06: a player changes their account name; the operator renames any account (--rename). The new name follows the
 // registration rules (AccountInput: 3–32 letters a–z, digits or . _ -, never an email address), is unique in any case
@@ -21,7 +23,8 @@ public sealed record RenameResult(RenameError Error, string Username);
 // handed to another account, and the answer does not tell it apart from a taken one. The rename runs in one
 // transaction with the copies of the name in open rooms (host, seats, audience); game lists, replays and the admin
 // panel read the name from the account, and chat lines keep the name they were written under. Sessions stay valid.
-public sealed class AccountRename(Database database, AdminOptions admins, ILogger<AccountRename> log)
+// SEC-02: the password check shares the sign-in lock of the account's current name (SignInGuard).
+public sealed class AccountRename(Database database, AdminOptions admins, SignInGuard guard, ILogger<AccountRename> log)
 {
     // A player's own rename, confirmed with the current password.
     public Task<RenameResult> RenameSelf(string account, string? newName, string? password,
@@ -41,8 +44,8 @@ public sealed class AccountRename(Database database, AdminOptions admins, ILogge
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         await using var transaction = await connection.BeginTransactionAsync(cancellation);
         var current = await Lock(connection, transaction, key, cancellation);
-        if (checkPassword && !PasswordMatches(current, password))
-            return new(RenameError.WrongPassword, "");
+        if (checkPassword && CheckPassword(current, password) is { } refused)
+            return refused;
         if (current is null)
             return new(RenameError.NoAccount, "");
         var sameName = Normalize(name) == Normalize(current.Username);
@@ -71,6 +74,21 @@ public sealed class AccountRename(Database database, AdminOptions admins, ILogge
                 Normalize(key.Name ?? ""));
         await using var reader = await command.ExecuteReaderAsync(cancellation);
         return await reader.ReadAsync(cancellation) ? new(reader.GetString(0), reader.GetString(1), reader.GetString(2)) : null;
+    }
+
+    // A locked name is refused before its password is checked; a wrong password counts towards the lock.
+    private RenameResult? CheckPassword(LockedAccount? account, string password)
+    {
+        if (account is not null && guard.LockedFor(account.Username) is { } locked)
+            return new(RenameError.Locked, "", locked);
+        if (PasswordMatches(account, password))
+        {
+            guard.Succeeded(account!.Username);
+            return null;
+        }
+        if (account is not null)
+            guard.Failed(account.Username);
+        return new(RenameError.WrongPassword, "");
     }
 
     // A missing account is checked against a throwaway hash, so its answer costs the same time.

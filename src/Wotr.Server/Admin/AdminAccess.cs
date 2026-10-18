@@ -9,14 +9,17 @@ public sealed class AdminAccess(Database database, AccountService accounts, Admi
 {
     private const int TokenLength = 43;
 
-    public async Task<SessionView?> SignIn(LoginRequest request, CancellationToken cancellation)
+    // SEC-02: the panel shares the game's sign-in lock, so a locked name is refused here too.
+    public async Task<SignInResult> SignIn(LoginRequest request, CancellationToken cancellation)
     {
-        var session = await accounts.Login(request, options.Allows, SessionPurpose.Admin, cancellation);
-        if (session is null)
+        var result = await accounts.SignIn(request, options.Allows, SessionPurpose.Admin, cancellation);
+        if (result.LockedFor is not null)
+            log.LogWarning("Admin panel sign-in refused: the name is locked after failed sign-ins.");
+        else if (result.Session is null)
             log.LogWarning("Admin panel sign-in refused.");
         else
-            log.LogInformation("Admin panel sign-in by {Admin}.", session.Username);
-        return session;
+            log.LogInformation("Admin panel sign-in by {Admin}.", result.Session.Username);
+        return result;
     }
 
     // The administrator's account name, or null for anyone else.

@@ -23,10 +23,13 @@ public enum SetEmailResult
     EmailTaken
 }
 
+// SEC-02: a refused sign-in has no session; LockedFor is set while the name is locked after failed sign-ins.
+public sealed record SignInResult(SessionView? Session, TimeSpan? LockedFor);
+
 // T08 accounts with AUTH-02 (D16) addresses: registration needs an email address, which gets a confirmation link.
 // AUTH-05: the account name and the address are each unique (case-insensitively), and sign-in takes the account name
 // only; a password reset may still name the account or its address. Account invitations are gone.
-public sealed class AccountService(Database database, AccountRecovery recovery, EmailOutbox outbox)
+public sealed class AccountService(Database database, AccountRecovery recovery, EmailOutbox outbox, SignInGuard guard)
 {
     private const string EmailIndex = "accounts_normalized_email";
 
@@ -36,7 +39,8 @@ public sealed class AccountService(Database database, AccountRecovery recovery, 
         var options = new EmailOptions(EmailProvider.None, "", "", new Uri("https://localhost/"));
         var outbox = new EmailOutbox(new DisabledEmailSender(NullLogger<DisabledEmailSender>.Instance), NullLogger<EmailOutbox>.Instance);
         var recovery = new AccountRecovery(database, options, outbox, TimeProvider.System, NullLogger<AccountRecovery>.Instance);
-        return new AccountService(database, recovery, outbox);
+        var guard = new SignInGuard(SignInLimits.Default, TimeProvider.System, NullLogger<SignInGuard>.Instance);
+        return new AccountService(database, recovery, outbox, guard);
     }
 
     public async Task<bool> IsAdmin(string account, CancellationToken cancellation)
@@ -71,26 +75,40 @@ public sealed class AccountService(Database database, AccountRecovery recovery, 
         return new(session, RegistrationError.None);
     }
 
-    public Task<SessionView?> Login(LoginRequest request, CancellationToken cancellation = default) =>
-        Login(request, _ => true, SessionPurpose.Game, cancellation);
+    public async Task<SessionView?> Login(LoginRequest request, CancellationToken cancellation = default) =>
+        (await SignIn(request, _ => true, SessionPurpose.Game, cancellation)).Session;
 
     // ADMIN-01: a sign-in only some accounts may make (the admin panel's). The password is checked first either way, so
     // an account outside the list costs the same time and gets the same answer as a wrong password.
-    public async Task<SessionView?> Login(LoginRequest request, Func<string, bool> allowed, SessionPurpose purpose,
+    // SEC-02: a locked name is refused before its password is checked; every refusal of a well-formed name counts.
+    public async Task<SignInResult> SignIn(LoginRequest request, Func<string, bool> allowed, SessionPurpose purpose,
         CancellationToken cancellation)
     {
         var login = request.Username?.Trim() ?? "";
         if (!AccountInput.ValidUsername(login) || !AccountInput.ValidPassword(request.Password))
-            return null;
+            return new(null, null);
+        if (guard.LockedFor(login) is { } locked)
+            return new(null, locked);
+        var session = await CheckPassword(login, request.Password, allowed, purpose, cancellation);
+        if (session is null)
+            guard.Failed(login);
+        else
+            guard.Succeeded(login);
+        return new(session, null);
+    }
+
+    private async Task<SessionView?> CheckPassword(string login, string password, Func<string, bool> allowed,
+        SessionPurpose purpose, CancellationToken cancellation)
+    {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         var account = await FindAccount(connection, login, cancellation);
-        var result = Passwords.Verify(account?.Id, account?.Hash, request.Password);
+        var result = Passwords.Verify(account?.Id, account?.Hash, password);
         if (account is null || result == PasswordVerificationResult.Failed || !allowed(account.Username))
             return null;
         if (result == PasswordVerificationResult.SuccessRehashNeeded)
         {
             await using var update = Database.Command(connection, null, "UPDATE accounts SET password_hash=$1 WHERE id=$2",
-                Passwords.Hash(account.Id, request.Password), account.Id);
+                Passwords.Hash(account.Id, password), account.Id);
             await update.ExecuteNonQueryAsync(cancellation);
         }
         return await SessionStore.Issue(connection, null, account.Id, account.Username, purpose, cancellation);

@@ -33,6 +33,8 @@ builder.Services.AddSingleton<ActionLogStore>();
 builder.Services.AddSingleton<BattleReportStore>();
 builder.Services.AddSingleton<RevisionHub>();
 builder.Services.AddSingleton<MatchSocket>();
+builder.Services.AddSingleton(services => SignInLimits.Read(services.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton<SignInGuard>();
 builder.Services.AddSingleton<AccountService>();
 builder.Services.AddSingleton<AccountRename>();
 builder.Services.AddSingleton<AccountRecovery>();
@@ -104,6 +106,8 @@ app.Services.GetRequiredService<EmailOptions>();
 app.Services.GetRequiredService<ClientReleaseOptions>();
 // QUAL-02: a broken budget configuration stops the server at start.
 app.Services.GetRequiredService<GameRateLimitOptions>();
+// SEC-02: a broken sign-in lock configuration stops the server at start.
+app.Services.GetRequiredService<SignInLimits>();
 // ADMIN-01: a malformed list of administrators stops the server at start.
 app.Services.GetRequiredService<AdminOptions>();
 app.UseClientCompatibility();

@@ -17,7 +17,8 @@ public static class LobbyEndpoints
                 : RegistrationResult(await accounts.Register(request, cancellation)))
             .RequireRateLimiting(AuthenticationRateLimit.Email);
         app.MapPost("/api/auth/login", async (LoginRequest request, AccountService accounts, CancellationToken cancellation) =>
-            SessionResult(await accounts.Login(request, cancellation))).RequireRateLimiting(AuthenticationRateLimit.Login);
+            SignInResult(await accounts.SignIn(request, _ => true, SessionPurpose.Game, cancellation)))
+            .RequireRateLimiting(AuthenticationRateLimit.Login);
         app.MapPost("/api/auth/logout", async (HttpContext context, SessionStore sessions) =>
         {
             await sessions.Revoke(context.Request.Headers.Authorization.ToString()[7..], context.RequestAborted);
@@ -85,6 +86,10 @@ public static class LobbyEndpoints
     }
 
     private static string Account(HttpContext context) => context.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+    // SEC-02: a locked name gets 429 with the time left on its lock.
+    private static IResult SignInResult(SignInResult result) => result.LockedFor is { } locked
+        ? AuthenticationRateLimit.Locked(locked) : SessionResult(result.Session);
+
     private static IResult SessionResult(SessionView? session) => session is null
         ? Results.Json(new ApiError { Error = "InvalidCredentialsOrInvitation" }, statusCode: 401) : Results.Ok(session);
     private static IResult RegistrationResult(RegistrationResult result) => result.Error switch

@@ -42,6 +42,7 @@ public static class AccountEndpoints
         RenameError.None => Results.Ok(new SessionView { AccountId = account, Username = result.Username }),
         RenameError.NameTaken => Results.Conflict(new ApiError { Error = "NameTaken" }),
         RenameError.WrongPassword => Invalid("WrongPassword"),
+        RenameError.Locked => AuthenticationRateLimit.Locked(result.LockedFor ?? TimeSpan.Zero),
         _ => Invalid("InvalidName")
     };
 

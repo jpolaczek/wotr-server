@@ -11,6 +11,20 @@ internal static class AuthenticationRateLimit
     public const int EmailPermits = 5;
     public static readonly TimeSpan EmailWindow = TimeSpan.FromMinutes(10);
 
+    // SEC-02: the answer to a sign-in while its account name is locked (SignInGuard).
+    public const string SignInLocked = "SignInLocked";
+
+    public static IResult Locked(TimeSpan remaining) => new LockedResult(remaining);
+
+    private sealed class LockedResult(TimeSpan remaining) : IResult
+    {
+        public Task ExecuteAsync(HttpContext context)
+        {
+            context.Response.Headers.RetryAfter = Math.Max(1, (int)Math.Ceiling(remaining.TotalSeconds)).ToString(CultureInfo.InvariantCulture);
+            return Results.Json(new { error = SignInLocked }, statusCode: StatusCodes.Status429TooManyRequests).ExecuteAsync(context);
+        }
+    }
+
     public static void AddAuthenticationRateLimit(this IServiceCollection services) => services.AddRateLimiter(options =>
     {
         options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;

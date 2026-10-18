@@ -32,8 +32,11 @@ public static class AdminEndpoints
         if (request is null)
             return Results.NotFound();
         var login = new LoginRequest { Username = request.Username ?? "", Password = request.Password ?? "" };
-        var session = await access.SignIn(login, context.RequestAborted);
-        return session is null ? Results.NotFound() : Results.Ok(new AdminSessionView(session.Token, session.Username, session.ExpiresAt));
+        var result = await access.SignIn(login, context.RequestAborted);
+        if (result.LockedFor is { } locked)
+            return AuthenticationRateLimit.Locked(locked);
+        return result.Session is not { } session ? Results.NotFound()
+            : Results.Ok(new AdminSessionView(session.Token, session.Username, session.ExpiresAt));
     }
 
     // A body that is not the sign-in request is answered like a refused sign-in.

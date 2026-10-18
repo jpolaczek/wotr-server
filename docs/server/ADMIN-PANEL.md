@@ -39,7 +39,9 @@ a reload or a closed tab signs out.
   stops the server at start. The old `accounts.is_admin` column is not used.
 - **Sign-in** (`POST /api/admin/session` with `{ "username", "password" }`) checks the password first (PBKDF2, the same
   cost for a wrong name, a wrong password or an account outside the list) and then issues an **admin session** of
-  8 hours (`sessions.purpose = 'admin'`). It has the login rate limit (20 per minute per address).
+  8 hours (`sessions.purpose = 'admin'`). It has the login rate limit (20 per minute per address) and shares the game's
+  per-name sign-in lock (SEC-02, [T37](T37-HARDENING.md#sign-in-lock)): after 10 failures in 15 minutes the name gets
+  `429 SignInLocked` for 15 minutes instead of the 404, even with the right password.
 - **Every data request** is checked afresh (`AdminAccess`): an open, unrevoked admin session of a non-technical account
   still named in the configuration. A game session — even of an administrator — never reads the panel, so a game token
   left on a player's computer cannot. Data requests have the per-account read rate limit.
