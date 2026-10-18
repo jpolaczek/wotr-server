@@ -239,7 +239,7 @@ On Mac, the publishers `python3 scripts/release_client.py v<version> [--required
   [nginx WebSocket](https://nginx.org/en/docs/http/websocket.html),
   [Certbot DNS Cloudflare](https://certbot-dns-cloudflare.readthedocs.io/en/stable/).
 - [T38](../server/T38-DEPLOYMENT.md), [T39](T39-RELEASE.md),
-  [menu](https://github.com/jpolaczek/wotr-client/blob/2f90ffd1dc4bcd3bf02cc85c38b98edd9d004bbb/docs/ui/MAIN_MENU_UX.md), [tests](../TESTING.md).
+  [menu](https://github.com/jpolaczek/wotr-client/blob/34a2e1170f8286b35c4e38f65ec934a6d99f65bf/docs/ui/MAIN_MENU_UX.md), [tests](../TESTING.md).
 
 The Velopack installers/signatures documentation, for example Unity Mono, Cloudflare Tunnel, nginx WebSocket and Certbot plugin have been checked by 2026-10-12. The Mono example describes an additional Windows boottrap and ending by Application.Quit; it does not provide proof of the current WoTR nor macOS Universal. pinned versions of tools and compatibility check again in DIST-06.
 
@@ -315,12 +315,25 @@ The owner asked for a link to a page with a short, plain note on each update (a 
   release is an entry `#v<version>`. Notes are plain text: lines starting with `- ` become list items, other lines
   paragraphs, everything through `textContent` under the site's CSP. The game page links it in the download section and
   the footer.
-- **Game:** the update bar's `What's new` opens `<server>/updates#v<version>` for an offered, downloading or ready release
-  (not a repair); the first start of a newer version than the one that last ran (`UpdateState.LastRunVersion`) shows
-  `Updated to version …` with `What's new` and `Close` until closed. A first installation shows nothing.
+- **Game:** `What's new` opens `<server>/updates#v<version>` for an offered, downloading or ready release (not a
+  repair). Since DIST-17 it sits in the Updates row of Settings; the bar and its one-time `Updated to version …` notice
+  are gone.
 - **Writing notes:** one plain line per change for players (`- New: …`, `- Fixed: …`), see
   `wotr-client:release/notes/README.md`.
 
 Tests: server `ClientReleaseScheduleTests.TheWhatsNewPageListsTheSignedNotesNewestFirst`; client EditMode
 `UpdateCoordinatorTests` (arrival once, What's new on an offer, version comparison).
+
+<a id="dist-17--settings-note"></a>
+## DIST-17 — Updates shown only at Settings in the first menus (2026-10-18)
+
+The owner's request: no global update display. DS15/DS22's bar over every screen (`UpdateNotice`) is removed. Only the
+sign-in screen and the main menu show an update: their Settings button glows gently (`update-glow`) and carries a small,
+non-interactive note from `UpdateHint` — `Update available`, `Downloading n%`, `Update ready`, `Update required soon`,
+`Update required`; a repair, a failure, no release or a server behind this copy say nothing. The download, the install
+and `What's new` happen only in the Updates row of Settings. The required-update window (`update-required`) stays (owner's
+decision of 2026-10-18), and a required release still downloads by itself before its deadline.
+
+Tests: client EditMode `FirstMenuUpdateTests`, `UpdateCoordinatorTests` (the note's states, the Settings row's What's
+new); PlayMode `MainMenuLayoutTests` (the note on both screens in four layouts, no control moves).
 
