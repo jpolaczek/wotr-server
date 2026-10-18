@@ -199,3 +199,50 @@ stays signed in), or 409 `NameTaken`. The operator renames any account without a
 - Every rename is logged with the old and the new name.
 
 Tests: `AccountRenameTests` (rename and its rooms, refusals, reserved names, operator).
+
+## Lobby chat, players online and challenges — LOBBY-01 (2026-10-18)
+
+The Open games screen polls `GET /api/lobby?after=<sequence>` every `LobbyLimits.PollSeconds` (3 s). Every endpoint
+needs the game session (401 without it) and stands behind the client version gate (DIST-05). The poll uses the reads
+budget; posts and challenge answers use the rooms budget. One poll marks the caller online and returns `LobbyView`:
+
+- `messages`: the messages after `after`, oldest first. A first read (`after` ≤ 0) or a sequence from before a reset
+  gets the latest 50 (`LobbyChat.FirstRead`). `latest` is the newest sequence; the client passes it back as `after`.
+- `online`: accounts that polled within `LobbyLimits.OnlineSeconds` (20 s), technical accounts (`demo-cpu`) never,
+  sorted by name, with `you` on the caller's own line.
+- `incoming`: the pending, unexpired challenges to the caller. `outgoing`: the caller's challenges of the last
+  5 minutes with their status, so the outcome reaches the challenger.
+
+| Endpoint | Answer | Refusals |
+| --- | --- | --- |
+| `POST /api/lobby/messages` `{text}` | 200 `LobbyMessage` | 400 `InvalidMessage` |
+| `POST /api/lobby/challenges` `{name}` | 200 `ChallengeView` (`Pending`) | 404 `PlayerNotFound`; 409 `SelfChallenge`, `PlayerOffline`, `AlreadyChallenged`, `TooManyChallenges` |
+| `POST /api/lobby/challenges/{id}/accept` | 200 `RoomView` | 404 `ChallengeNotFound`; 409 `ChallengeClosed`, `RoomUnavailable` |
+| `POST /api/lobby/challenges/{id}/decline` | 204 | 404 `ChallengeNotFound`; 409 `ChallengeClosed` |
+| `POST /api/lobby/challenges/{id}/cancel` | 204 | 404 `ChallengeNotFound`; 409 `ChallengeClosed` |
+
+- Chat text follows the room chat (`RoomChat.Clean`): 1–200 characters after trimming, no control characters. A
+  message keeps its author's name as written (AUTH-06); only the newest `LobbyLimits.MessagesKept` (200) stay. Posts
+  take turns under a transaction lock, so sequences commit in order and a poll after a sequence never misses one.
+- A challenge names an online, non-technical player (any case). One pending challenge between two players at a time,
+  either way (a lock on the pair keeps two simultaneous ones out), and at most 3 pending from one player. It waits
+  `LobbyLimits.ChallengeSeconds` (120 s); past that it reads `Expired` and cannot be accepted.
+- Only the challenged player accepts or declines, and only the challenger cancels; someone else's id, or an unknown one,
+  is 404. A challenge that is no longer pending is 409 `ChallengeClosed`.
+- Accepting claims the challenge in one update, so a second accept finds it closed. The server then sets a private
+  table like any other: the challenger hosts it on the Free Peoples seat under the name `<challenger> vs <challenged>`
+  (cut to 64 characters) and opens its invitation, and the challenged player takes the Shadow seat through the code.
+  The challenge names its room only then: until that moment it still reads `Pending`, then `Accepted` with `roomId`,
+  which tells the challenger which table to open. If the table cannot be set, it is removed (both leave), the challenge
+  goes back to `Pending` and the answer is 409 `RoomUnavailable` (or 500 for a database fault).
+- The table is an ordinary waiting room: both players open it within MENU-27's 30 seconds, as after a join by code;
+  the sides can be swapped there before the start.
+- Names in `online` and challenges come from the accounts, so a renamed player shows their new name at once.
+- Configuration (tests): `Wotr:Lobby:OnlineSeconds`, `Wotr:Lobby:ChallengeSeconds`.
+
+Persistence: migration `015_lobby.sql` (`lobby_messages`, `lobby_presence`, `lobby_challenges`; an account's rows go
+with the account). The lobby is in the database alone, so every server instance sees the same chat and presence.
+
+Tests: `LobbyChatTests` (presence and its expiry, chat text, retention and first read, challenge refusals, acceptance
+and its table, a failed acceptance leaving no table, decline, cancel and expiry, 401 without a session);
+`MigrationRecoveryTests` (migration 15).

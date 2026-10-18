@@ -632,6 +632,13 @@ Contracts remain a project. NET Standard 2.1 without reference to projects; DTO 
 
 The package version is `version` ed `src/Wotr.Contracts/package.json` (from DIST-05 : 0.2.0 The change of contract requires it to be conquered; the published version is not replaced by other bytes. The manifesto of the package saves the commit, SHA-256 and `Protocol.Version` , `RulesVersion` and `ContentVersion` . A package of public content saves the version of Contracts with which it was created; the client bootstrap rejects the lock in which these versions do not agree. HTTP/WebSocket describes the section DIST-05 below.
 
+Contracts 0.11.0 (LOBBY-01) add `LobbyMessage` (`Sequence`, `Author`, `Text`, `At`), `LobbyMessageRequest` (`Text`),
+`OnlinePlayer` (`Name`, `You`), `ChallengeStatus` (`Pending`, `Accepted`, `Declined`, `Cancelled`, `Expired`),
+`ChallengeView` (`Id`, `From`, `To`, `Status`, `ExpiresAt`, `RoomId`), `ChallengeRequest` (`Name`), `LobbyView`
+(`Messages`, `Latest`, `Online`, `Incoming`, `Outgoing`) and `LobbyLimits`. They only add types; existing DTOs,
+the protocol and commands are unchanged. Public content 1.0.12 has the same files as 1.0.11 and requires Contracts
+0.11.0. Endpoints: [T08-LOBBY](server/T08-LOBBY.md#lobby-chat-players-online-and-challenges--lobby-01-2026-10-18).
+
 <a id="wersje-klienta-katalog-wydań-i-zgodność--dist-05"></a>
 ## Client versions, release directory and compliance — DIST-05
 
