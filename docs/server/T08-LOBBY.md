@@ -213,8 +213,8 @@ The Open games screen polls `GET /api/lobby?after=<sequence>` every `LobbyLimits
 needs the game session (401 without it) and stands behind the client version gate (DIST-05). The poll uses the reads
 budget; posts and challenge answers use the rooms budget. One poll marks the caller online and returns `LobbyView`:
 
-- `messages`: the messages after `after`, oldest first. A first read (`after` ≤ 0) or a sequence from before a reset
-  gets the latest 50 (`LobbyChat.FirstRead`). `latest` is the newest sequence; the client passes it back as `after`.
+- `messages`: the messages after `after`, oldest first. A first read (`after` ≤ 0) or a sequence the server never gave
+  out gets none (LOBBY-03). `latest` is the newest sequence; the client passes it back as `after`.
 - `online`: accounts that polled within `LobbyLimits.OnlineSeconds` (20 s), technical accounts (`demo-cpu`) never,
   sorted by name, with `you` on the caller's own line.
 - `incoming`: the pending, unexpired challenges to the caller. `outgoing`: the caller's challenges of the last
@@ -229,8 +229,12 @@ budget; posts and challenge answers use the rooms budget. One poll marks the cal
 | `POST /api/lobby/challenges/{id}/cancel` | 204 | 404 `ChallengeNotFound`; 409 `ChallengeClosed` |
 
 - Chat text follows the room chat (`RoomChat.Clean`): 1–200 characters after trimming, no control characters. A
-  message keeps its author's name as written (AUTH-06); only the newest `LobbyLimits.MessagesKept` (200) stay. Posts
-  take turns under a transaction lock, so sequences commit in order and a poll after a sequence never misses one.
+  message keeps its author's name as written (AUTH-06).
+- **The chat is relayed, never stored (LOBBY-03, 2026-10-18, the owner's decision).** A message waits in the server's
+  memory only for `LobbyChat.RelayWindow` (1 minute) and at most `LobbyLimits.MessagesKept` (200), long enough for the
+  menus polling every 3 s to fetch it; a restart forgets it, and nothing reaches the database or the logs. Sequences
+  start from the clock at start-up, so they keep rising across restarts. Each client keeps the messages of its own
+  sign-in (LOBBY-02). Migration `016_lobby_chat_relay.sql` drops `lobby_messages` with the messages stored before.
 - A challenge names an online, non-technical player (any case). One pending challenge between two players at a time,
   either way (a lock on the pair keeps two simultaneous ones out), and at most 3 pending from one player. It waits
   `LobbyLimits.ChallengeSeconds` (120 s); past that it reads `Expired` and cannot be accepted.
@@ -247,9 +251,10 @@ budget; posts and challenge answers use the rooms budget. One poll marks the cal
 - Names in `online` and challenges come from the accounts, so a renamed player shows their new name at once.
 - Configuration (tests): `Wotr:Lobby:OnlineSeconds`, `Wotr:Lobby:ChallengeSeconds`.
 
-Persistence: migration `015_lobby.sql` (`lobby_messages`, `lobby_presence`, `lobby_challenges`; an account's rows go
-with the account). The lobby is in the database alone, so every server instance sees the same chat and presence.
+Persistence: migration `015_lobby.sql` (`lobby_presence`, `lobby_challenges`; an account's rows go with the account; its
+`lobby_messages` was dropped by 016). Presence and challenges are in the database; the chat relay lives in the one
+server process.
 
-Tests: `LobbyChatTests` (presence and its expiry, chat text, retention and first read, challenge refusals, acceptance
+Tests: `LobbyChatTests` (presence and its expiry, chat text, the in-memory relay and first read, challenge refusals, acceptance
 and its table, a failed acceptance leaving no table, decline, cancel and expiry, 401 without a session);
 `MigrationRecoveryTests` (migration 15).

@@ -108,24 +108,34 @@ public class LobbyChatTests
         }
     }
 
+    // LOBBY-03: messages are relayed in memory for a minute (at most MessagesKept), never stored; a first read gets no
+    // history, only the sequence to go on from.
     [PostgresFact]
-    public async Task OnlyTheNewestMessagesStayAndAFirstReadGetsTheLatestOnes()
+    public async Task TheChatIsRelayedBrieflyInMemoryAndNeverStored()
     {
-        using var host = new AccountHost(extra: TestBudgets.Stress);
+        var clock = new TestClock(DateTimeOffset.UtcNow);
+        using var host = new AccountHost(extra: TestBudgets.Stress, services: services => services.AddSingleton<TimeProvider>(clock));
         var alice = await MenuAccounts.Register(host);
         var chat = host.Services.GetRequiredService<LobbyChat>();
+        var start = chat.Read(0).Latest;
         LobbyMessage? last = null;
         for (var i = 0; i < LobbyLimits.MessagesKept + 5; i++)
             last = await chat.Post(alice.AccountId, "message " + i);
 
-        await using var data = NpgsqlDataSource.Create(PostgresTests.Connection);
-        await using var count = data.CreateCommand("SELECT count(*) FROM lobby_messages");
-        Assert.True((long)(await count.ExecuteScalarAsync())! <= LobbyLimits.MessagesKept);
-        using var reader = MenuAccounts.Client(host, alice);
-        var first = (await reader.GetFromJsonAsync<LobbyView>("/api/lobby", BoardCatalog.Json))!;
-        Assert.True(first.Messages.Count <= LobbyChat.FirstRead);
-        Assert.Contains(first.Messages, m => m.Sequence == last!.Sequence);
-        Assert.Equal(first.Messages.OrderBy(m => m.Sequence).Select(m => m.Sequence), first.Messages.Select(m => m.Sequence));
+        Assert.Equal(LobbyLimits.MessagesKept, chat.Relayed);
+        var first = chat.Read(0);
+        Assert.Empty(first.Messages);
+        Assert.Equal(last!.Sequence, first.Latest);
+        var recent = chat.Read(last.Sequence - 3).Messages;
+        Assert.Equal(new[] { "message " + (LobbyLimits.MessagesKept + 2), "message " + (LobbyLimits.MessagesKept + 3),
+            "message " + (LobbyLimits.MessagesKept + 4) }, recent.Select(m => m.Text));
+        Assert.Equal(LobbyLimits.MessagesKept, chat.Read(start).Messages.Count);
+        Assert.Empty(chat.Read(last.Sequence + 1000).Messages);
+
+        clock.Advance(LobbyChat.RelayWindow);
+        Assert.Empty(chat.Read(start).Messages);
+        Assert.Equal(0, chat.Relayed);
+        Assert.Equal(0, await Count("SELECT count(*) FROM information_schema.tables WHERE table_name = $1", "lobby_messages"));
     }
 
     [PostgresFact]

@@ -12,7 +12,7 @@ keeps and why. It covers the official endpoints listed in [SECURITY](../SECURITY
 | Password | Only as a PBKDF2 hash (HMAC-SHA512, 600 000 iterations, random salt); the password itself is never stored | Until the account is deleted |
 | Sessions | Keeping you signed in; stored as SHA-256 hashes of the tokens | Until they expire or you sign out |
 | Games, moves, room chat, replays | Playing, resuming and replaying games | While the game exists |
-| Lobby chat | The Open games chat; the latest 200 messages are kept, older ones are deleted | Until pushed out by newer messages |
+| Lobby chat | Passed on to the players on the Open games screen; held in the server's memory only, never stored | About a minute |
 | Technical logs | Errors, sign-in refusals, admin panel use; they can contain network addresses | Rotated after about 30 MB per service |
 | Failed sign-in counts | The temporary sign-in lock; kept in memory only | 15 minutes, or until the server restarts |
 

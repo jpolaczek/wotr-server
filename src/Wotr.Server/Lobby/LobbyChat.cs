@@ -1,110 +1,72 @@
-using Npgsql;
 using Wotr.Contracts;
 
 namespace Wotr.Server;
 
-// LOBBY-01: the Open games screen's chat, kept in the database and nowhere else. A message keeps its author's name as
-// it was when written; only the newest LobbyLimits.MessagesKept stay. The text follows the room chat's rule
-// (RoomChat.Clean: 1–200 characters after trimming, no control characters). Posts take turns, so messages commit in
-// sequence order: a poll after a sequence never misses an earlier message committed later, and the cut stays exact.
-public sealed class LobbyChat(Database database)
+// LOBBY-01, LOBBY-03: the Open games screen's chat is relayed, never stored. A posted message waits in this server's
+// memory only as long as the menus, which poll every few seconds, need to fetch it — RelayWindow, and at most
+// LobbyLimits.MessagesKept messages — and a restart forgets it; nothing reaches the database or the logs. Each client keeps
+// what it saw for its own sign-in (LOBBY-02). A first read (no sequence yet) gets no history, only the sequence to go on
+// from. The text follows the room chat's rule (RoomChat.Clean: 1–200 characters after trimming, no control characters);
+// a message carries its author's name as it was when written.
+public sealed class LobbyChat(Database database, TimeProvider clock)
 {
-    // A first read (no sequence yet) gets this many of the latest messages.
-    public const int FirstRead = 50;
+    public static readonly TimeSpan RelayWindow = TimeSpan.FromMinutes(1);
+    private readonly Lock gate = new();
+    private readonly List<LobbyMessage> relay = new();
+    // Sequences start from the clock, so after a restart they go on above any sequence a client still holds.
+    private long sequence = clock.GetUtcNow().ToUnixTimeMilliseconds();
 
     public async Task<LobbyMessage?> Post(string account, string? text, CancellationToken cancellation = default)
     {
         var clean = RoomChat.Clean(text);
         if (clean is null)
             return null;
+        var author = await Author(account, cancellation);
+        if (author is null)
+            return null;
+        lock (gate)
+        {
+            var message = new LobbyMessage { Sequence = ++sequence, Author = author, Text = clean, At = clock.GetUtcNow() };
+            relay.Add(message);
+            Forget(message.At);
+            return message;
+        }
+    }
+
+    // Messages after `after`, oldest first, with the sequence to continue from. A first read (0) or a sequence this
+    // server never gave out gets no messages.
+    public (List<LobbyMessage> Messages, long Latest) Read(long after)
+    {
+        lock (gate)
+        {
+            Forget(clock.GetUtcNow());
+            var messages = after <= 0 || after > sequence
+                ? new List<LobbyMessage>()
+                : relay.Where(message => message.Sequence > after).ToList();
+            return (messages, sequence);
+        }
+    }
+
+    public int Relayed
+    {
+        get
+        {
+            lock (gate)
+                return relay.Count;
+        }
+    }
+
+    private void Forget(DateTimeOffset now)
+    {
+        relay.RemoveAll(message => now - message.At >= RelayWindow);
+        if (relay.Count > LobbyLimits.MessagesKept)
+            relay.RemoveRange(0, relay.Count - LobbyLimits.MessagesKept);
+    }
+
+    private async Task<string?> Author(string account, CancellationToken cancellation)
+    {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
-        await using var transaction = await connection.BeginTransactionAsync(cancellation);
-        await TakeTurn(connection, transaction, cancellation);
-        var message = await Insert(connection, transaction, account, clean, cancellation);
-        await Prune(connection, transaction, cancellation);
-        await transaction.CommitAsync(cancellation);
-        return message;
+        await using var command = Database.Command(connection, null, "SELECT username FROM accounts WHERE id = $1", account);
+        return await command.ExecuteScalarAsync(cancellation) as string;
     }
-
-    // Messages after `after`, oldest first; a first read or a sequence from before a reset gets the latest ones.
-    public async Task<(List<LobbyMessage> Messages, long Latest)> Read(NpgsqlConnection connection, long after,
-        CancellationToken cancellation)
-    {
-        var latest = await Latest(connection, cancellation);
-        var messages = after <= 0 || after > latest
-            ? await Newest(connection, cancellation)
-            : await After(connection, after, cancellation);
-        return (messages, latest);
-    }
-
-    private static async Task TakeTurn(NpgsqlConnection connection, NpgsqlTransaction transaction,
-        CancellationToken cancellation)
-    {
-        await using var command = Database.Command(connection, transaction,
-            "SELECT pg_advisory_xact_lock(hashtext('lobby-chat'))");
-        await command.ExecuteNonQueryAsync(cancellation);
-    }
-
-    private static async Task<LobbyMessage> Insert(NpgsqlConnection connection, NpgsqlTransaction transaction, string account,
-        string text, CancellationToken cancellation)
-    {
-        await using var command = Database.Command(connection, transaction,
-            """
-            INSERT INTO lobby_messages(account_id, username, text)
-            SELECT id, username, $2 FROM accounts WHERE id = $1
-            RETURNING sequence, username, text, created_at
-            """, account, text);
-        await using var reader = await command.ExecuteReaderAsync(cancellation);
-        await reader.ReadAsync(cancellation);
-        return Message(reader);
-    }
-
-    private static async Task Prune(NpgsqlConnection connection, NpgsqlTransaction transaction, CancellationToken cancellation)
-    {
-        await using var command = Database.Command(connection, transaction,
-            """
-            DELETE FROM lobby_messages WHERE sequence < (
-                SELECT min(sequence) FROM (SELECT sequence FROM lobby_messages ORDER BY sequence DESC LIMIT $1) kept)
-            """, LobbyLimits.MessagesKept);
-        await command.ExecuteNonQueryAsync(cancellation);
-    }
-
-    private static async Task<long> Latest(NpgsqlConnection connection, CancellationToken cancellation)
-    {
-        await using var command = Database.Command(connection, null, "SELECT COALESCE(max(sequence), 0) FROM lobby_messages");
-        return (long)(await command.ExecuteScalarAsync(cancellation))!;
-    }
-
-    private static async Task<List<LobbyMessage>> Newest(NpgsqlConnection connection, CancellationToken cancellation)
-    {
-        var messages = await Query(connection,
-            "SELECT sequence, username, text, created_at FROM lobby_messages ORDER BY sequence DESC LIMIT $1",
-            FirstRead, cancellation);
-        messages.Reverse();
-        return messages;
-    }
-
-    private static Task<List<LobbyMessage>> After(NpgsqlConnection connection, long after, CancellationToken cancellation) =>
-        Query(connection,
-            "SELECT sequence, username, text, created_at FROM lobby_messages WHERE sequence > $1 ORDER BY sequence LIMIT " +
-            LobbyLimits.MessagesKept, after, cancellation);
-
-    private static async Task<List<LobbyMessage>> Query(NpgsqlConnection connection, string sql, object value,
-        CancellationToken cancellation)
-    {
-        await using var command = Database.Command(connection, null, sql, value);
-        await using var reader = await command.ExecuteReaderAsync(cancellation);
-        var messages = new List<LobbyMessage>();
-        while (await reader.ReadAsync(cancellation))
-            messages.Add(Message(reader));
-        return messages;
-    }
-
-    private static LobbyMessage Message(NpgsqlDataReader reader) => new()
-    {
-        Sequence = reader.GetInt64(0),
-        Author = reader.GetString(1),
-        Text = reader.GetString(2),
-        At = reader.GetFieldValue<DateTimeOffset>(3)
-    };
 }
