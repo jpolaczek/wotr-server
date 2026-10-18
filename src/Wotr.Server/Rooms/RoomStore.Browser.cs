@@ -6,7 +6,8 @@ namespace Wotr.Server;
 public sealed partial class RoomStore
 {
     // OBS-01: the open public rooms of other hosts — waiting or with a match still going — with their seats and
-    // audience; a finished match is not listed. The join code never leaves through this list.
+    // audience; a finished match is not listed. The join code never leaves through this list. OBS-07: a room the viewer
+    // plays in is theirs (My games), never one to watch, and a room is listed only while its match still exists.
     public async Task<PublicRoomListView> ListPublic(string account, string cursor, int limit,
         CancellationToken cancellation = default)
     {
@@ -16,8 +17,10 @@ public sealed partial class RoomStore
                 (SELECT count(*)::int FROM room_observers o WHERE o.room_id=r.id AND o.lease_until > now())
             FROM rooms r JOIN accounts a ON a.id=r.host_account
             LEFT JOIN matches m ON m.id=r.match_id
-            WHERE r.visibility='Public' AND NOT r.closed AND (m.id IS NULL OR m.state->>'phase'<>'Finished')
-                AND r.host_account<>$1 AND r.id COLLATE "C">$2
+            WHERE r.visibility='Public' AND NOT r.closed
+                AND (r.match_id IS NULL OR (m.id IS NOT NULL AND m.state->>'phase'<>'Finished'))
+                AND r.host_account<>$1 AND r.fp_account IS DISTINCT FROM $1 AND r.sh_account IS DISTINCT FROM $1
+                AND r.id COLLATE "C">$2
             ORDER BY r.id COLLATE "C" LIMIT $3
             """, account, cursor, limit + 1);
         await using var reader = await query.ExecuteReaderAsync(cancellation);

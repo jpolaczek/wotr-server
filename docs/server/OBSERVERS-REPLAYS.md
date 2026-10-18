@@ -202,3 +202,14 @@ unknown game, gets 404. What a reader sees depends on the reader's role, in the 
 an observer reads every message, a player reads only the players' messages, so the audience never talks into the
 game. Messages stay in the server's memory only (the latest 50 per room, 1–200 characters of plain text, no history
 after a restart). Tests: `RoomChatTests.ObserversReadEveryoneAndPlayersOnlyThePlayersAlsoThroughTheGame`.
+
+## A player never watches their own game — OBS-07 (2026-10-18)
+
+The owner's requests: "a game we take part in should be closed to us for observation; one cannot be an observer and a
+player in one game", and "make sure finished and deleted games disappear from Open games". The open public list
+(`RoomStore.ListPublic`) listed every public table of another host, so a guest who joined someone's table saw that
+table among Open games with Observe. It now leaves out any table the viewer sits at as a player (they find it in My
+games), lists a started table only while its match exists and is not finished, and keeps leaving out closed tables.
+Asking to watch one's own table by code or from the list already keeps the seat without a place in the audience
+(`Admit`), and the observer endpoints answer players with 404 (OBS-02). A removed match deletes its room
+(`MatchRemoval`), so it leaves the list with it. Test: `RoomObserverTests.APlayerNeverSeesTheirOwnTableAmongOpenGamesNorJoinsItsAudience`.

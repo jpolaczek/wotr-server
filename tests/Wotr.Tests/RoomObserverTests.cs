@@ -254,6 +254,36 @@ public sealed class RoomObserverTests
         Assert.NotEmpty(match.MatchId);
     }
 
+    // OBS-07: nobody watches a game they play: the guest's own public table is not in their open games, and asking to
+    // watch it by code or from the list keeps the seat without a place in the audience.
+    [PostgresFact]
+    public async Task APlayerNeverSeesTheirOwnTableAmongOpenGamesNorJoinsItsAudience()
+    {
+        using var host = new AccountHost(extra: TestBudgets.Stress);
+        var rooms = Store(host, new ObserverOptions(16, TimeSpan.FromSeconds(60)));
+        var stranger = await Account(host);
+        var (waiting, _, waitingGuest) = await FullTable(host, rooms, RoomVisibility.Public);
+        var (started, hostAccount, guest) = await FullTable(host, rooms, RoomVisibility.Public);
+        await Start(rooms, started.Id, hostAccount, hostAccount, guest);
+        var (ended, endedHost, endedGuest) = await FullTable(host, rooms, RoomVisibility.Public);
+        var endedMatch = await Start(rooms, ended.Id, endedHost, endedHost, endedGuest);
+        await Finish(endedMatch.MatchId);
+
+        Assert.DoesNotContain(await AllPublic(rooms, waitingGuest), r => r.Id == waiting.Id);
+        Assert.DoesNotContain(await AllPublic(rooms, guest), r => r.Id == started.Id);
+        var seen = await AllPublic(rooms, stranger);
+        Assert.Contains(seen, r => r.Id == waiting.Id);
+        Assert.Contains(seen, r => r.Id == started.Id);
+        Assert.DoesNotContain(seen, r => r.Id == ended.Id);
+
+        var fromList = await rooms.JoinPublic(started.Id, guest, RoomRole.Observer);
+        Assert.True(string.IsNullOrEmpty(fromList.Error), fromList.Error);
+        var view = (await rooms.Read(started.Id, guest))!;
+        Assert.NotEqual(RoomRole.Observer, view.Role);
+        Assert.DoesNotContain(view.Observers, o => o.Name == view.Shadow || o.Name == view.FreePeoples);
+        Assert.Equal(0L, await ObserverRows(started.Id));
+    }
+
     [PostgresFact]
     public async Task TheHttpApiJoinsWatchesMovesAndRemovesObservers()
     {
