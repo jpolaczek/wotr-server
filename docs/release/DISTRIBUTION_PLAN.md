@@ -141,6 +141,7 @@ The minimum can be raised only after the availability of the tested packages of 
 | DS24 | Releases built in CI with tag, that smokes Windows N → N+1. | DIST-10 |
 | DS25 | One command from the publisher on Mac: verification, signature, upload, publication, check. | DIST-11 |
 | DS26 | Instructions for the first installation of the unsigned application and page buttons from the directory. | DIST-11 |
+| DS27 | Install guard (2026-10-18): only a newer version installs, the same one only as a repair; the package's own version equals its manifest's; the copy Velopack applies is hashed again against the signed SHA-256; `--wotr-self-check` writes only a new `.json` at an absolute path. | SEC-01 |
 
 DIST-01 → DIST-02 → DIST-03 After DIST-03 parallel DIST-04 , DIST-05 and DIST-06 From D13: DIST-09 au DIST-05 ; DIST-10 au DIST-06 ; DIST-07 au DIST-05/06/09 ; DIST-11 au DIST-09/10. Collective DIST-08 After all DIST-01 – 07 and 09–11 . DIST-12 (system signature) is postponed and does not block DIST-08 . MENU-08 is an external dependence DIST-01 . DIST-00 He's not a parent.
 
@@ -256,3 +257,28 @@ installer is the AppImage `WotrOnline-<version>-linux.AppImage` and its package
 platforms, so the publisher's command and the release tool require the Linux files. The game page
 offers macOS and Linux, and from 2026-10-17 also Windows, marked experimental until the owner's check of 2026-10-18
 (DIST-13) and since then a regular platform; the Steam Deck runs the Linux AppImage, experimental until DECK-01.
+
+<a id="sec-01--install-guard"></a>
+## SEC-01 — Install guard and self-check (2026-10-18)
+
+External security feedback asked for no downgrades outside a repair, a hash check right before installation, a
+sequence or expiry on manifests, and a restricted self-check path. The owner asked for the free measures only.
+
+- **No rollback.** `UpdatePolicy` already offers only a newer release, and a signed manifest names one version and
+  platform. Since SEC-01, `InstallGuard.CheckVersions` (client `Runtime/Updates/InstallGuard.cs`) also refuses at
+  staging time an update that is not newer than Velopack's installed version and a repair that is not exactly that
+  version, and `AllowVersionDowngrade` is set only for a repair.
+- **The package is the signed one.** The nupkg's own version must equal the manifest's version. The coordinator hashes
+  the ready file before staging (DIST-07); `VelopackBridge` then hashes Velopack's copy in its packages folder, the
+  file its helper applies after the game quits, and deletes it on a mismatch.
+- **No manifest sequence or expiry (decision).** Replaying an older signed manifest cannot install anything, because of
+  the two checks above. Withholding a newer release ("freeze") would need the catalog, which the game server serves
+  over TLS; an expiry signed with the offline release key would stop every update whenever the owner does not re-sign
+  in time, and an expiry signed by the server adds nothing over TLS. Revisit if releases are ever served by a third
+  party (DIST-16).
+- **Self-check.** `--wotr-self-check <file>` writes only a new `.json` file named by an absolute path in an existing
+  folder (`FileMode.CreateNew`, so an existing file, folder or link, dangling or not, is never written through);
+  anything else exits with code 2 and writes nothing. The smoke scripts delete their own previous report first.
+
+Tests: client EditMode `InstallGuardTests`, `InstallationSelfCheckTests` and the staged-release assertions in
+`UpdateCoordinatorTests`.
