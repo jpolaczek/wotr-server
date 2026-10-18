@@ -3,9 +3,15 @@ using Wotr.Releases;
 
 namespace Wotr.Server;
 
-// One announced release this server can serve: its offers per platform and, from schema 2, its installers.
+// One announced release this server can serve: its offers per platform, from schema 2 its installers, and the notes
+// of its signed manifests (DIST-15).
 public sealed record SnapshotRelease(ClientVersion Version, DateTimeOffset PublishedAt,
-    IReadOnlyDictionary<string, ClientReleaseOffer> Offers, IReadOnlyList<ClientInstallerOffer> Installers);
+    IReadOnlyDictionary<string, ClientReleaseOffer> Offers, IReadOnlyList<ClientInstallerOffer> Installers, string Notes = "");
+
+// DIST-15: one release on the game site's What's new page (GET /api/client/notes).
+public sealed record ClientReleaseNote(string Version, DateTimeOffset PublishedAt, string Notes);
+
+public sealed record ClientNotesView(IReadOnlyList<ClientReleaseNote> Releases);
 
 public sealed record SnapshotSchedule(ClientVersion Version, DateTimeOffset EffectiveAt);
 
@@ -36,6 +42,12 @@ public sealed class ReleaseSnapshot(int revision, ClientVersion? minimum, Snapsh
             Installers = release.Installers.ToList()
         })
         .FirstOrDefault();
+
+    // DIST-15: the notes of the newest announced releases, newest first, for the What's new page.
+    public IReadOnlyList<ClientReleaseNote> Notes(int limit) => newestFirst
+        .Take(limit)
+        .Select(release => new ClientReleaseNote(release.Version.Text, release.PublishedAt, release.Notes))
+        .ToList();
 }
 
 // DS12: reloads catalog.json when its bytes change, at most once per refresh interval, without a redeploy.
@@ -98,7 +110,7 @@ public sealed class ReleaseCatalogStore(ClientReleaseOptions options, TimeProvid
         {
             var verified = ReleaseVerifier.VerifyPublished(layout, release, trust, PackageCheck.Size);
             offered.Add(new SnapshotRelease(ClientVersion.Parse(release.Version), release.PublishedAt,
-                Offers(release, trust.Downloads), Installers(verified)));
+                Offers(release, trust.Downloads), Installers(verified), Notes(verified)));
         }
         var minimum = catalog.MinimumVersion.Length == 0 ? null : ClientVersion.Parse(catalog.MinimumVersion);
         var scheduled = catalog.ScheduledMinimum is { } next
@@ -107,6 +119,9 @@ public sealed class ReleaseCatalogStore(ClientReleaseOptions options, TimeProvid
         return new ReleaseSnapshot(catalog.Revision, minimum, scheduled,
             offered.OrderByDescending(release => release.Version).ToList());
     }
+
+    // Every platform's manifest is signed with the same notes (release/notes/<version>.md); the first one is read.
+    private static string Notes(VerifiedRelease release) => release.Platforms[ClientPlatforms.All[0]].Manifest.Notes;
 
     private static IReadOnlyList<ClientInstallerOffer> Installers(VerifiedRelease release) => ClientPlatforms.All
         .Select(platform => (Platform: platform, File: release.Platforms[platform].Manifest.Installer))

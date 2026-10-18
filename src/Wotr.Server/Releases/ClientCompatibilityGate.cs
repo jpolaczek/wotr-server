@@ -34,7 +34,8 @@ public static class ClientCompatibilityGate
     // neither is its admin panel (ADMIN-01).
     private static bool Applies(PathString path) =>
         path.StartsWithSegments("/api") && !path.StartsWithSegments(ClientReleaseEndpoints.Path) &&
-        !path.StartsWithSegments(ClientReleaseEndpoints.DownloadsPath) && !path.StartsWithSegments("/api/auth/logout") &&
+        !path.StartsWithSegments(ClientReleaseEndpoints.DownloadsPath) && !path.StartsWithSegments(ClientReleaseEndpoints.NotesPath) &&
+        !path.StartsWithSegments("/api/auth/logout") &&
         !path.StartsWithSegments("/api/auth/register") && !path.StartsWithSegments("/api/account") &&
         !path.StartsWithSegments(AdminEndpoints.Path);
 

@@ -398,3 +398,21 @@ ol li { margin-bottom: .45rem; }
 .admin .number { text-align: right; font-variant-numeric: tabular-nums; }
 .pager { display: flex; align-items: center; justify-content: flex-end; gap: .8rem; margin-top: .8rem; }
 .pager .meta { margin: 0; }
+
+/* DIST-15: the What's new page (/updates). */
+.updates-page .account { max-width: 46rem; }
+.release-notes { display: grid; gap: 1rem; margin-top: 1.25rem; }
+.release-note {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: .9rem 1.1rem;
+  background: var(--card);
+  scroll-margin-top: 5rem;
+}
+.release-note.current { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.release-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem 1rem; }
+.release-head h2 { font-size: 1.15rem; margin: 0; }
+.release-head .meta { margin: 0; }
+.release-body p { margin: .6rem 0 0; }
+.release-body ul { margin: .6rem 0 0; padding-left: 1.25rem; }
+.release-body li + li { margin-top: .25rem; }

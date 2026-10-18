@@ -298,3 +298,29 @@ Tests: client EditMode `InstallGuardTests`, `InstallationSelfCheckTests` and the
   attestation lets anyone tie an installer to the tagged commit and workflow run.
 - All of this is free for public repositories. Evidence of the first CodeQL and attestation runs is recorded after the
   owner pushes and releases.
+
+<a id="dist-15--whats-new"></a>
+## DIST-15 — What's new page and link (2026-10-18)
+
+The owner asked for a link to a page with a short, plain note on each update (a bug fix, the new chat and so on).
+
+- **Source:** the notes the release command already signs into every platform's manifest
+  (`wotr-client:release/notes/<version>.md`, `RELEASE-NOTES.md` of the draft). The server reads them from the
+  manifests it verifies when it loads the catalog (`ReleaseCatalogStore`), so the page shows only signed text of
+  announced releases; a withdrawn release leaves it.
+- **API:** `GET /api/client/notes` → `{ releases: [{ version, publishedAt, notes }] }`, the 30 newest announced releases,
+  newest first, `Cache-Control: no-cache`, without client version headers (`ClientCompatibilityGate` lets it through
+  like `/api/client/downloads`).
+- **Page:** `infra/site/updates.html` with `assets/updates.js`, served at `/updates` (`infra/nginx/game.conf`); each
+  release is an entry `#v<version>`. Notes are plain text: lines starting with `- ` become list items, other lines
+  paragraphs, everything through `textContent` under the site's CSP. The game page links it in the download section and
+  the footer.
+- **Game:** the update bar's `What's new` opens `<server>/updates#v<version>` for an offered, downloading or ready release
+  (not a repair); the first start of a newer version than the one that last ran (`UpdateState.LastRunVersion`) shows
+  `Updated to version …` with `What's new` and `Close` until closed. A first installation shows nothing.
+- **Writing notes:** one plain line per change for players (`- New: …`, `- Fixed: …`), see
+  `wotr-client:release/notes/README.md`.
+
+Tests: server `ClientReleaseScheduleTests.TheWhatsNewPageListsTheSignedNotesNewestFirst`; client EditMode
+`UpdateCoordinatorTests` (arrival once, What's new on an offer, version comparison).
+

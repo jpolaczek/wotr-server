@@ -8,11 +8,15 @@ public static class ClientReleaseEndpoints
     public const string Path = "/api/client/releases";
     // DIST-09: installers for the public game page, which sends no client version headers.
     public const string DownloadsPath = "/api/client/downloads";
+    // DIST-15: release notes for the game site's What's new page (/updates), which sends no client version headers.
+    public const string NotesPath = "/api/client/notes";
+    public const int NotesShown = 30;
 
     public static void Map(WebApplication app)
     {
         app.MapGet(Path, Releases);
         app.MapGet(DownloadsPath, Downloads);
+        app.MapGet(NotesPath, Notes);
     }
 
     private static IResult Releases(string? platform, string? version, string? protocol, HttpContext context,
@@ -54,6 +58,12 @@ public static class ClientReleaseEndpoints
     {
         context.Response.Headers.CacheControl = "no-store";
         return Results.Ok(new ClientDownloadsView { Latest = releases.Current().LatestInstallers() });
+    }
+
+    private static IResult Notes(HttpContext context, ReleaseCatalogStore releases)
+    {
+        context.Response.Headers.CacheControl = "no-cache";
+        return Results.Ok(new ClientNotesView(releases.Current().Notes(NotesShown)));
     }
 
     private static ClientScheduledMinimum? Scheduled(SnapshotSchedule? upcoming) => upcoming is null

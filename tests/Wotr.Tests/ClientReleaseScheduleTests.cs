@@ -92,6 +92,34 @@ public class ClientReleaseScheduleTests
             .Latest!.Version);
     }
 
+    // DIST-15: the game site's What's new page reads the notes signed into the announced releases' manifests, newest
+    // first, without client version headers; a withdrawn release leaves the page.
+    [PostgresFact]
+    public async Task TheWhatsNewPageListsTheSignedNotesNewestFirst()
+    {
+        using var releases = new ReleaseFixture();
+        await using var host = new TestHost(settings: releases.ServerSettings(), clock: releases.Clock);
+        using var browser = host.Client();
+
+        using var empty = await browser.GetAsync(ClientReleaseEndpoints.NotesPath);
+        Assert.Equal(HttpStatusCode.OK, empty.StatusCode);
+        Assert.Equal("no-cache", empty.Headers.CacheControl!.ToString());
+        Assert.Empty((await empty.Content.ReadFromJsonAsync<ClientNotesView>(BoardCatalog.Json))!.Releases);
+
+        releases.Publish("0.3.0", minimum: true);
+        releases.Publish("0.4.0");
+        var notes = await Notes(browser);
+        Assert.Equal(["0.4.0", "0.3.0"], notes.Select(note => note.Version));
+        Assert.Equal(["Changes in 0.4.0.", "Changes in 0.3.0."], notes.Select(note => note.Notes));
+        Assert.All(notes, note => Assert.Equal(releases.Clock.GetUtcNow(), note.PublishedAt));
+
+        releases.Publisher.Withdraw("0.4.0");
+        Assert.Equal(["0.3.0"], (await Notes(browser)).Select(note => note.Version));
+    }
+
+    private static async Task<IReadOnlyList<ClientReleaseNote>> Notes(HttpClient client) =>
+        (await client.GetFromJsonAsync<ClientNotesView>(ClientReleaseEndpoints.NotesPath, BoardCatalog.Json))!.Releases;
+
     private static async Task<ClientReleaseView> Read(HttpClient client, string query) =>
         (await client.GetFromJsonAsync<ClientReleaseView>(ClientReleaseEndpoints.Path + "?" + query, BoardCatalog.Json))!;
 }
