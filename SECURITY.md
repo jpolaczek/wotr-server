@@ -47,6 +47,19 @@ The key id is the first 8 bytes of that SHA-256. The private key stays on the re
 repositories and the download host. `python3 scripts/check_release_key.py` compares this table with the key the
 game pins (`wotr-client:unity/Wotr.Client/Assets/Wotr/Runtime/Networking/ReleasePublisher.cs`).
 
+### Checking a download
+
+- Each GitHub Release of the client lists `SHA256SUMS`; the signed manifest on the downloads host names the same
+  SHA-256 for the update package.
+- Releases built after SEC-04 also carry GitHub build-provenance attestations, which tie each file to the workflow run
+  that built it from a tagged commit: `gh attestation verify <file> --repo jpolaczek/wotr-client`.
+
+## Supply chain
+
+Every third-party GitHub Action in both repositories is pinned to a full commit SHA (checked by
+`tests/ci/test_workflow_pins.py` here and `tests/release/test_workflow_pins.py` in the client); Dependabot proposes
+updates weekly, and CodeQL scans C#, Python, JavaScript and the workflows on every push to `main` and weekly.
+
 Installers are not signed with Apple or Microsoft certificates (decision D13, task DIST-12); the
 [player guide](https://github.com/jpolaczek/wotr-client/blob/main/docs/release/PLAYER-GUIDE.md) explains the system
 warning on first installation.

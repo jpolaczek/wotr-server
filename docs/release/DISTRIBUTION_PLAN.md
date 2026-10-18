@@ -282,3 +282,19 @@ sequence or expiry on manifests, and a restricted self-check path. The owner ask
 
 Tests: client EditMode `InstallGuardTests`, `InstallationSelfCheckTests` and the staged-release assertions in
 `UpdateCoordinatorTests`.
+
+<a id="sec-04--supply-chain"></a>
+## SEC-04 — Pinned actions, Dependabot, CodeQL and attestations (2026-10-18)
+
+- Every third-party action in both repositories is pinned to the commit its moving tag pointed to on 2026-10-18
+  (`actions/checkout` v4.4.0, `upload-artifact` v4.6.2, `download-artifact` v4.3.0, `setup-dotnet` v4.3.1; GameCI was
+  already pinned), with the version in a comment. A unit test in each repository's CI refuses a `uses:` on a tag.
+- `.github/dependabot.yml`: weekly updates for GitHub Actions in both repositories and NuGet in the server.
+- `.github/workflows/codeql.yml`: CodeQL with `build-mode: none` for C#, Python and the workflows (and the game site's
+  JavaScript in the server) on pushes and pull requests to `main` and every Monday.
+- The client's release workflow (`release.yml`, job `draft`) records a build-provenance attestation
+  (`actions/attest-build-provenance` v4.2.2) for every file it drafts; the job alone gets `id-token: write` and
+  `attestations: write`. The publisher's Ed25519 manifest signature (DS16) stays the trust anchor of the updater; the
+  attestation lets anyone tie an installer to the tagged commit and workflow run.
+- All of this is free for public repositories. Evidence of the first CodeQL and attestation runs is recorded after the
+  owner pushes and releases.
