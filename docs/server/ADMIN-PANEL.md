@@ -83,20 +83,27 @@ What it covers: `https://<WOTR_DOMAIN>/admin` (the page) and `https://<WOTR_DOMA
 it (its data and sign-in). Nothing else: the game API, account pages, update catalog and downloads stay public, since
 players' games and the updater must reach them without a Cloudflare login.
 
-Steps in the Cloudflare dashboard (Zero Trust):
+Steps in the Cloudflare dashboard (Zero Trust), as applied on 2026-10-18:
 
-1. **Zero Trust → Settings → Authentication → Login methods:** keep **One-time PIN** (a code sent to your email) or add
-   GitHub. No other identity provider is needed.
-2. **Access → Applications → Add an application → Self-hosted.** Name: `WoTR admin`. Session duration: 24 hours.
-3. **Public hostnames (destinations):** add two, both with domain `<WOTR_DOMAIN>`: path `admin` and path `api/admin`.
-   A path covers itself and everything under it.
-4. **Policy:** action **Allow**, name `Owner`, include **Emails** = the owner's address only. Save the application.
+1. **Login method:** nothing to add. Zero Trust organizations created since mid-2026 sign in with the **Cloudflare
+   account** by default (restricted to the account's members). One-time PIN is optional: Integrations → Identity
+   providers → Add new identity provider → One-time PIN.
+2. **Access controls → Applications → Add an application → Self-hosted.** Name: `WoTR admin`. Session duration:
+   24 hours.
+3. **Public hostnames:** add two, both subdomain `wotr`, domain `vibestudios.org` (`<WOTR_DOMAIN>`): path `admin` and
+   path `api/admin`. A path covers itself and everything under it.
+4. **Policy:** create `Owner`, action **Allow**, include **Emails** = the owner's Cloudflare login address only. Keep the
+   default login method. Save the application.
 5. **Check** (from a browser in a private window and from a terminal):
-   - `https://<WOTR_DOMAIN>/admin` shows Cloudflare's login page first; after the PIN, the panel's own sign-in.
-   - `curl -sI https://<WOTR_DOMAIN>/admin` answers `302` with a `Location` on `<team>.cloudflareaccess.com`.
-   - `curl -s -o /dev/null -w '%{http_code}' -X POST https://<WOTR_DOMAIN>/api/admin/session` answers `302` (or
-     `403`), not the server's `404`.
-   - The game still works: `curl -s https://<WOTR_DOMAIN>/health` answers, and a game client signs in and lists tables.
+   - `https://<WOTR_DOMAIN>/admin` shows Cloudflare's login page first; after it, the panel's own sign-in.
+   - `curl -s -o /dev/null -w '%{http_code}' https://<WOTR_DOMAIN>/admin` and
+     `curl -s -o /dev/null -w '%{http_code}' -X POST https://<WOTR_DOMAIN>/api/admin/session` answer `302` with a
+     `Location` on `<team>.cloudflareaccess.com`, not the server's page or `404`.
+   - The game still works: `/`, `/account/register`, `/health`, `/api/client/downloads` and `/api/client/releases`
+     answer `200` without a Cloudflare login.
+
+Applied on 2026-10-18 (SEC-05): the checks above gave `302` to the team's Access login for `/admin`, `/admin/`,
+`POST /api/admin/session` and `/api/admin/summary`, and `200` for the public paths listed.
 
 Notes:
 
