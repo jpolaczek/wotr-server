@@ -77,7 +77,7 @@ internal static class LordsCharacterScenario
     private static MatchState Spear(IRandomSource random)
     {
         var state = State(random, Side.Shadow, DieFace.Character);
-        Put(state, LordsCharacters.WitchKing, "hollin");
+        Chief(state, "hollin");
         return Play(state, ShadowCharacterCards03.Lidless);
     }
 
@@ -85,7 +85,7 @@ internal static class LordsCharacterScenario
     private static MatchState HeSees(IRandomSource random)
     {
         var state = State(random, Side.FreePeoples);
-        Put(state, LordsCharacters.WitchKing, "minas-morgul");
+        Chief(state, "minas-morgul");
         state.Phase = GamePhase.Fellowship;
         state.Fellowship.RegionId = "edoras";
         state.Control["edoras"] = Side.FreePeoples;
@@ -100,6 +100,9 @@ internal static class LordsCharacterScenario
         Put(state, LordsCharacters.Balrog, "moria").Level = 2;
         return Play(state, LordsShadowCards.Balrog);
     }
+
+    // The Chief stands on the Witch-king's figure, as his entry places him.
+    private static void Chief(MatchState state, string region) => Put(state, LordsCharacters.WitchKing, region).Id = CharacterRules.WitchKing;
 
     private static MatchState Play(MatchState state, string card)
     {

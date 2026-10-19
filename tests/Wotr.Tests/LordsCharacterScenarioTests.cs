@@ -56,6 +56,7 @@ public class LordsCharacterScenarioTests
         var respond = view.Options.Single(o => o.Kind == CommandKind.RespondEffect && o.Enabled);
         Assert.Contains(respond.EffectChoices, c => c.Id == reaction);
         Assert.Contains(view.Options, o => o.Kind == CommandKind.DeclineReaction && o.Enabled);
+        Assert.Equal(LordsCharacters.WitchKing, state.Characters.Single(c => c.Id == CharacterRules.WitchKing).DefinitionId);
     }
 
     [Fact]
