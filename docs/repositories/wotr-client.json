@@ -1,6 +1,6 @@
 {
   "repository": "jpolaczek/wotr-client",
-  "commit": "5232df93b04f773ed01a0718e4f0ef6fd54fce1f",
+  "commit": "ba0e6ad14bbea67b9382aab8cab330d1d8491db2",
   "files": [
     ".editorconfig",
     ".env.example",
@@ -3201,6 +3201,8 @@
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/ExpansionTokenNetworkTests.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/ExpansionWindowNetworkTests.cs",
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/ExpansionWindowNetworkTests.cs.meta",
+    "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/FateAcceptanceNetworkTests.cs",
+    "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/FateAcceptanceNetworkTests.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/FateCardsNetworkTests.cs",
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/FateCardsNetworkTests.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/FateGimliNetworkTests.cs",

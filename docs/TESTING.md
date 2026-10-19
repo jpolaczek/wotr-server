@@ -82,7 +82,7 @@ Fuzz/property tests generate only source-compatible input states or consciously 
 <a id="macierz-sieci-i-zapisu"></a>
 ## Network and write Matrix
 
-UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/5232df93b04f773ed01a0718e4f0ef6fd54fce1f/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/5232df93b04f773ed01a0718e4f0ef6fd54fce1f/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/5232df93b04f773ed01a0718e4f0ef6fd54fce1f/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
+UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/ba0e6ad14bbea67b9382aab8cab330d1d8491db2/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/ba0e6ad14bbea67b9382aab8cab330d1d8491db2/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/ba0e6ad14bbea67b9382aab8cab330d1d8491db2/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
 
 T07: `PostgresTests` and `TransportTests` require `WOTR_TEST_DB`. `bash scripts/test.sh` launches a separate local cluster and a full set without skip. Without the variable `dotnet test` explicitly skips integration. CI has PostgreSQL 17 and sets the variable; it does not replace the database with the atrap. [Test range T07](server/T07-TRANSACTIONS.md).
 
@@ -122,7 +122,7 @@ It is not enough to pass a full batch that does not accidentally select difficul
 <a id="odbiór-ui-i-wydajności"></a>
 ## acceptance UI and performance
 
-Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/5232df93b04f773ed01a0718e4f0ef6fd54fce1f/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
+Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/ba0e6ad14bbea67b9382aab8cab330d1d8491db2/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
 
 ## Platform acceptance on real machines
 
@@ -172,3 +172,21 @@ belongs to QUAL-06 (isolated PlayMode runs).
 - `ExpansionHttpGameTests`: one all-expansions game over the HTTP command route and PostgreSQL, restarted every 120
   moves, with identical projections after each restart (2026-10-19: 687 moves, six server runs, Shadow by corruption
   in turn 23).
+
+## Fate of Erebor release gate — EXP-04 (2026-10-19)
+
+The automated part of the Fate gate passed; the owner's playtest on a test server is still open, so Fate is not yet
+released (EXP-05 waits for it).
+
+| Gate item | Check | Result |
+| --- | --- | --- |
+| Bot games and saves | `ExpansionBotGameTests` (EXP-03): Fate alone, with New Cities, in the pairs and with all three, two seeds each; saves and privacy at every expansion decision | PASS |
+| Whole game over HTTP with an observer and its replay | `ReplayEndToEndTests.AWholeFateGameWithALateObserverGivesTheSameReplayToPlayerAndObserver`: Fate + New Cities, demo CPUs on both sides, the observer joins in turn 3; the player's and the observer's replay are the same file, keep the Fate rules and match the recording | PASS (25 s) |
+| Client full games on two clients | `wotr-client:FateAcceptanceNetworkTests`: Fate at 100% (10 turns, 146 decisions) and Fate + New Cities at 125% with reduced motion (12 turns, 180 decisions), both through the normal lobby with reconnects; every decision has its object host and the generic decision window never opens (`GenericWindowWatch`); the 125% game checks both roles' layouts at every decision | PASS |
+| Replay in the library | the 100% game's replay is saved from the end screen and played before sign-in: the Fate crest on its row and the phase plaque, the Fate board with the Shadow's Erebor, the last step opens the end screen | PASS |
+| Observer | `wotr-client:ObserverBoardNetworkTests.AnObserverWatchesAFateGameFromBothSides`: the crest and the Fate board for both viewing sides | PASS |
+| Fate cards and Gimli | UI-266: `FateCardsNetworkTests` 6/6, `FateGimliNetworkTests` 3/3, each step on its object; the six cards in the test menu's Fate tab | PASS |
+| Owner playtest | a Fate game by the owner on a test server, with an observer and a saved replay | open |
+
+Limit: the client full-game driver (`FullGameChoices`) plays a narrow strategy and plays no Fate card; the cards'
+client steps are covered card by card (UI-266) and every Fate decision by the bot games.
