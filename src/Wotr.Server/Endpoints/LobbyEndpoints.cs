@@ -27,6 +27,8 @@ public static class LobbyEndpoints
         MapRooms(app.MapGroup("/api/rooms").RequireAuthorization().RequireRateLimiting(GameRateLimits.Rooms));
     }
 
+    // EXP-02: joining, reading, configuring, confirming, readying and starting a room need a client that plays the
+    // room's modules (ModuleCompatibility); leaving, removing and changing roles stay open to every client.
     private static void MapRooms(RouteGroupBuilder rooms)
     {
         rooms.MapGet("/", async (HttpContext context, RoomStore store) =>
@@ -38,12 +40,12 @@ public static class LobbyEndpoints
         // OBS-01: ?role=Observer joins the audience of a public room, also after the start.
         rooms.MapPost("/{id}/join", async (string id, HttpContext context, RoomStore store, RoomRole role = RoomRole.Player) =>
             !Enum.IsDefined(role) ? Results.BadRequest(new ApiError { Error = "InvalidRole" })
-                : RoomResult(await store.JoinPublic(id, Account(context), role, context.RequestAborted)));
+                : RoomResult(await store.JoinPublic(id, Account(context), role, context.RequestAborted))).ForRoom();
         rooms.MapGet("/{id}", async (string id, HttpContext context, RoomStore store) =>
             await store.Read(id, Account(context), context.RequestAborted) is { } room ? Results.Ok(room)
                 : await store.WasRemoved(id, Account(context), context.RequestAborted)
                     ? Results.Json(new ApiError { Error = "RemovedFromRoom" }, statusCode: StatusCodes.Status410Gone)
-                    : Results.NotFound());
+                    : Results.NotFound()).ForRoom();
         rooms.MapPost("/", async (CreateRoomRequest request, HttpContext context, RoomStore store) =>
             Enum.IsDefined(request.Side) && Enum.IsDefined(request.Visibility) && request.Name is not null &&
                 (request.Name.Length == 0 || RoomInput.ValidName(request.Name))
@@ -52,14 +54,15 @@ public static class LobbyEndpoints
         rooms.MapPost("/join", async (JoinRoomRequest request, HttpContext context, RoomStore store) =>
             request.Code is not { Length: 43 } ? Results.NotFound()
                 : !Enum.IsDefined(request.Role) ? Results.BadRequest(new ApiError { Error = "InvalidRole" })
-                : RoomResult(await store.Join(request.Code, Account(context), request.Role, context.RequestAborted)));
+                : RoomResult(await store.Join(request.Code, Account(context), request.Role, context.RequestAborted))).ForRoom();
         rooms.MapPut("/{id}/configuration", async (string id, ConfigureRoomRequest request, HttpContext context, RoomStore store) =>
             request.Configuration is null ? Results.BadRequest(new ApiError { Error = "InvalidConfiguration" }) :
-                RoomResult(await store.Configure(id, Account(context), request, context.RequestAborted)));
+                RoomResult(await store.Configure(id, Account(context), request, context.RequestAborted)))
+            .ForRequestedConfiguration();
         rooms.MapPost("/{id}/confirm", async (string id, RoomRevisionRequest request, HttpContext context, RoomStore store) =>
-            RoomResult(await store.Confirm(id, Account(context), request.ExpectedVersion, context.RequestAborted)));
+            RoomResult(await store.Confirm(id, Account(context), request.ExpectedVersion, context.RequestAborted))).ForRoom();
         rooms.MapPut("/{id}/ready", async (string id, RoomReadyRequest request, HttpContext context, RoomStore store) =>
-            RoomResult(await store.SetReady(id, Account(context), request, context.RequestAborted)));
+            RoomResult(await store.SetReady(id, Account(context), request, context.RequestAborted))).ForRoom();
         rooms.MapPost("/{id}/invitation", async (string id, HttpContext context, RoomStore store) =>
             RoomResult(await store.Invitation(id, Account(context), context.RequestAborted)));
         rooms.MapPost("/{id}/leave", async (string id, HttpContext context, RoomStore store, RoomChat chat) =>
@@ -71,7 +74,7 @@ public static class LobbyEndpoints
             return result.Error is "" or "RoomNotFound" ? Results.NoContent() : RoomResult(result);
         });
         rooms.MapPost("/{id}/start", async (string id, RoomRevisionRequest request, HttpContext context, RoomStore store) =>
-            RoomResult(await store.Start(id, Account(context), request.ExpectedVersion, context.RequestAborted)));
+            RoomResult(await store.Start(id, Account(context), request.ExpectedVersion, context.RequestAborted))).ForRoom();
         // OBS-01: an optional body names the participant (a player or an observer) the host removes.
         rooms.MapPost("/{id}/remove", async (string id, HttpContext context, RoomStore store, RemoveParticipantRequest? request) =>
             RoomResult(await store.Remove(id, Account(context), request ?? new(), context.RequestAborted)));
@@ -81,7 +84,8 @@ public static class LobbyEndpoints
                 : RoomResult(await store.ChangeRole(id, Account(context), request, context.RequestAborted)));
         // OBS-01: the observer's heartbeat (every 15 s); a lapsed place or a closed room answers 404.
         rooms.MapPost("/{id}/presence", async (string id, HttpContext context, RoomStore store) =>
-            await store.Presence(id, Account(context), context.RequestAborted) ? Results.NoContent() : Results.NotFound());
+            await store.Presence(id, Account(context), context.RequestAborted) ? Results.NoContent() : Results.NotFound())
+            .ForRoom();
         RoomChatEndpoints.Map(rooms);
     }
 

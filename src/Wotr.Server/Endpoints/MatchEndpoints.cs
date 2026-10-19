@@ -16,7 +16,7 @@ public static class MatchEndpoints
             if (match is not null)
                 demos.Wake(id);
             return match is null ? Results.NotFound() : Results.Ok(projection.For(match.State, match.Side));
-        }).RequireRateLimiting(GameRateLimits.Reads);
+        }).RequireRateLimiting(GameRateLimits.Reads).ForMatch();
         api.MapPost("/{id}/commands", async (string id, Wotr.Contracts.GameCommand request, HttpContext context, MatchStore store, RevisionHub hub,
             DemoBotRunner demos) =>
         {
@@ -42,7 +42,7 @@ public static class MatchEndpoints
             else if (receipt.Accepted && receipt.AutoDecision is not null)
                 hub.Publish(id, receipt.Revision, Account(context));
             return Results.Ok(receipt);
-        }).RequireRateLimiting(GameRateLimits.Commands);
+        }).RequireRateLimiting(GameRateLimits.Commands).ForMatch();
         api.MapGet("/{id}/receipts/{commandId}", async (string id, string commandId, HttpContext context, MatchStore store) =>
         {
             var receipt = await store.Receipt(id, commandId, Account(context), context.RequestAborted);
@@ -52,7 +52,7 @@ public static class MatchEndpoints
         {
             var match = await store.Read(id, Account(context), context.RequestAborted);
             return match is null ? Results.NotFound() : Results.Ok(preview.Preview(match.State, match.Side, request));
-        }).RequireRateLimiting(GameRateLimits.Previews);
+        }).RequireRateLimiting(GameRateLimits.Previews).ForMatch();
         api.MapDelete("/{id}", async (string id, HttpContext context, MatchRemoval removal, RevisionHub hub) =>
         {
             if (!await removal.Delete(id, Account(context), context.RequestAborted))
@@ -61,6 +61,7 @@ public static class MatchEndpoints
             hub.Publish(id, 0);
             return Results.NoContent();
         }).RequireRateLimiting(GameRateLimits.Commands);
-        api.MapGet("/{id}/updates", (string id, HttpContext context, MatchSocket socket) => socket.Run(id, context));
+        // EXP-02: a client older than one of the match's modules gets ClientUpdateRequired instead of the game.
+        api.MapGet("/{id}/updates", (string id, HttpContext context, MatchSocket socket) => socket.Run(id, context)).ForMatch();
     }
 }

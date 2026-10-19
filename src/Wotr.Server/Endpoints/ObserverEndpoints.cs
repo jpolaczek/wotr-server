@@ -11,7 +11,8 @@ public static class ObserverEndpoints
 {
     public static void Map(WebApplication app)
     {
-        var observe = app.MapGroup("/api/observe/{id}").RequireAuthorization();
+        // EXP-02: an observer's client must play the match's modules too.
+        var observe = app.MapGroup("/api/observe/{id}").RequireAuthorization().ForMatch();
         observe.MapGet("", View).RequireRateLimiting(GameRateLimits.Reads);
         observe.MapGet("/actions", Actions).RequireRateLimiting(GameRateLimits.Reads);
         observe.MapGet("/actions/{actionId}", Action).RequireRateLimiting(GameRateLimits.Reads);

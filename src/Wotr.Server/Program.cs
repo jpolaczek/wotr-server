@@ -49,6 +49,8 @@ builder.Services.AddSingleton(services => ClientReleaseOptions.Read(services.Get
 builder.Services.TryAddSingleton(TimeProvider.System);
 builder.Services.AddSingleton<ReleaseCatalogStore>();
 builder.Services.AddSingleton<ClientCompatibilityPolicy>();
+builder.Services.AddSingleton(services => ModuleClientPolicy.Read(services.GetRequiredService<IConfiguration>(),
+    services.GetRequiredService<IHostEnvironment>(), services.GetRequiredService<ReleaseScope>()));
 builder.Services.AddSingleton(services => EmptyRoomOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<EmptyRoomSweeper>();
 builder.Services.AddHostedService(services => services.GetRequiredService<EmptyRoomSweeper>());
@@ -112,6 +114,8 @@ app.Services.GetRequiredService<SignInLimits>();
 app.Services.GetRequiredService<AdminOptions>();
 // EXP-01: an unknown released module stops the server at start.
 app.Services.GetRequiredService<ReleaseScope>();
+// EXP-02: a released module without its first client version stops Production at start.
+app.Services.GetRequiredService<ModuleClientPolicy>();
 app.UseClientCompatibility();
 app.UseWebSockets();
 app.UseAuthentication();

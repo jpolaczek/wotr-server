@@ -294,3 +294,36 @@ cannot start after the release narrowed, and over HTTP a named table with `Wotr_
 public summary); `LobbyChatTests.AcceptingSetsThePrivateTableOfTheChallengerWithBothSeated` (a challenge's table takes
 Fate); `MenuLifecycleTests.ReadinessCanBeWithdrawnAndOnlyHostStartsExactlyOneNamedBaseGame` (a named room takes
 Lords); `LobbyTests` (the UI-96 alias, `OfferedModules` of a full and a base-only release).
+
+## Client compatibility per module — EXP-02 (2026-10-19)
+
+A module goes live with the first client release that plays it, so an older client must never sit at a table it
+cannot show. `ModuleClientPolicy` pairs each module with that first version.
+
+- `Wotr:Release:ModuleClients` (`Wotr__Release__ModuleClients`, `WOTR_MODULE_CLIENTS` in infra/.env) lists
+  `module=version` pairs separated by commas, semicolons or spaces, e.g. `fate=0.10.0` and later
+  `fate=0.10.0,lords=0.11.0`; no spaces around `=`. Module names are case-insensitive; versions are SemVer
+  (`ClientVersion`, a pre-release is older than its release). An unknown module, a malformed version or a repeated
+  module stops the server at start. A module without a version is open to every client.
+- In Production every released module (`ReleaseScope.Modules`) needs its version; a missing one stops the server at
+  start with the module's name. Other environments may leave the setting empty.
+- `ModuleCompatibility` is an endpoint filter. A client (by `X-Wotr-Client-Version`, already checked by the DS11 gate)
+  older than a restricted module, or one without a version, is refused with 409 `ClientUpdateRequired` (`no-store`)
+  before the endpoint runs when the table uses that module. A client that plays every restricted module passes
+  without a query; only an older one reads the table's `state->'configuration'`.
+- Rooms: `GET /api/rooms/{id}`, `POST /api/rooms/{id}/join` (player or observer), `POST /api/rooms/join` (by code),
+  `confirm`, `ready`, `start` and `presence` check the room's configuration; `PUT .../configuration` checks the
+  configuration the host asks for. Leaving, removing a participant, changing a role and the invitation stay open, so
+  an older client can still leave. The lists (`GET /api/rooms`, `/public`) still show such tables; their join is the
+  refusal.
+- Matches: `GET /api/matches/{id}`, `commands`, `preview`, the `updates` socket, `GET /api/matches/{id}/replay`, the
+  whole `/api/observe/{id}` group and its replay check the match's configuration. Deleting a game stays open.
+- The client's existing DIST-07 path turns this 409 into the required update (`UpdateCoordinator.Refused`), and the
+  updater installs the newest announced release; base tables stay open to it until then. Set a module's version only
+  to a release the catalog announces.
+- A configuration change resets both confirmations and bumps the room's version, and every confirmation, Ready and
+  start carries that version, so a confirmation checked against the old configuration cannot confirm a new one.
+
+Tests: `ModuleClientTests` (parsing, broken settings, which versions play which modules, the Production rule, and over
+HTTP an older client refused at a Fate table's join, read, confirm, start, match, updates, replay and observe while a
+current client plays it and the older one keeps base tables; without the setting nothing is restricted).

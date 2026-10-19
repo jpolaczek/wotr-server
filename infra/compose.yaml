@@ -44,6 +44,8 @@ services:
       # EXP-01: the released expansion modules one by one (fate, lords, kings, comma-separated); when set it wins over
       # WOTR_EXPANSIONS, empty leaves the choice to it. An unknown name stops the server at start.
       Wotr__Release__Modules: ${WOTR_RELEASE_MODULES:-}
+      # EXP-02: the first client version of each released module, e.g. fate=0.10.0; Production needs one per module.
+      Wotr__Release__ModuleClients: ${WOTR_MODULE_CLIENTS:-}
       # DIST-05: client release catalog. Empty root announces nothing; see infra/README.md.
       Wotr__Releases__Root: ${WOTR_RELEASES_ROOT:-}
       Wotr__Releases__DownloadsUrl: ${WOTR_DOWNLOADS_URL:-}

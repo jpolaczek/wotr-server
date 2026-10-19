@@ -125,7 +125,7 @@ The minimum can be raised only after the availability of the tested packages of 
 | DS08 | All packages on PC, direct HTTPS and resume download. | DIST-04 |
 | DS09 | Trusted proxy, secrets, backup/restore and availability after reboot. | DIST-04 |
 | DS10 | Separate versions and application identification in runtime. Made 2026-10-13: `ClientBuildInfo`, one client generator for the player resource and `build-info.json`, a manifesto from the same fields. | DIST-05 |
-| DS11 | Compatibility enforced by HTTP and WebSocket. 2026-10-13: version headers, 409 `ClientUpdateRequired`/`ServerUpdateRequired` before auth and command, transition period for ZIP. | DIST-05 |
+| DS11 | Compatibility enforced by HTTP and WebSocket. 2026-10-13: version headers, 409 `ClientUpdateRequired`/`ServerUpdateRequired` before auth and command, transition period for ZIP. 2026-10-19 (EXP-02): also per expansion module — `Wotr:Release:ModuleClients` names the first client version of each released module, and an older client gets the same 409 `ClientUpdateRequired` at a table using that module ([T08-LOBBY](../server/T08-LOBBY.md#client-compatibility-per-module--exp-02-2026-10-19)). | DIST-05, EXP-02 |
 | DS12 | Public directory, manifest signature and safe announcement. Made 2026-10-13: `GET /api/client/releases`, Ed25519 (BouncyCastle), `Wotr.ReleaseTool` with atomic directory. | DIST-05 |
 | DS13 | Windows installer for a regular player (from D13 without Authenticode; signature in DIST-12). | DIST-06 |
 | DS14 | MacOS installer of both architectures (from D13 ad-hoc, without notation; signature in DIST-12). | DIST-06 |

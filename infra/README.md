@@ -70,6 +70,12 @@ empty, the default, leaves the choice to `WOTR_EXPANSIONS`. An unknown name stop
 `server` after a change. A waiting table configured with a module the release no longer offers keeps its settings but
 cannot start until its host changes them; started games are not affected.
 
+EXP-02 (2026-10-19): `WOTR_MODULE_CLIENTS` (passed as `Wotr__Release__ModuleClients`) names the first client release
+that plays each module, e.g. `fate=0.10.0`, later `fate=0.10.0,lords=0.11.0` (no spaces around `=`). Production does
+not start when a module in `WOTR_RELEASE_MODULES` has no version there. A client older than that version gets 409
+`ClientUpdateRequired` at every table using the module, and its updater installs the newest release; base tables
+stay open to it. Publish that client release in the catalog before setting its version here.
+
 <a id="katalog-wydań-klienta--dist-05"></a>
 ## Customer release directory — DIST-05
 
