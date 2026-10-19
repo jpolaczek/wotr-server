@@ -1,6 +1,6 @@
 {
   "repository": "jpolaczek/wotr-client",
-  "commit": "af4ea9340bb2ed178219802631e02ef0ccb6b820",
+  "commit": "97e6580ebeaa6255bb6fe48a73eb99ff030adb25",
   "files": [
     ".editorconfig",
     ".env.example",
@@ -231,6 +231,8 @@
     "graphicalassets/figures/v3/raw/gandalf-grey.png",
     "graphicalassets/figures/v3/raw/gandalf-white-portrait.png",
     "graphicalassets/figures/v3/raw/gandalf-white.png",
+    "graphicalassets/figures/v3/raw/gimli-dwarven-lord-portrait.png",
+    "graphicalassets/figures/v3/raw/gimli-dwarven-lord.png",
     "graphicalassets/figures/v3/raw/gimli-portrait.png",
     "graphicalassets/figures/v3/raw/gimli.png",
     "graphicalassets/figures/v3/raw/gollum-portrait.png",
@@ -276,6 +278,7 @@
     "graphicalassets/landmarks/v1/raw/barad-dur.png",
     "graphicalassets/landmarks/v1/raw/dol-amroth.png",
     "graphicalassets/landmarks/v1/raw/dol-guldur.png",
+    "graphicalassets/landmarks/v1/raw/erebor-shadow.png",
     "graphicalassets/landmarks/v1/raw/erebor.png",
     "graphicalassets/landmarks/v1/raw/grey-havens.png",
     "graphicalassets/landmarks/v1/raw/helms-deep.png",
@@ -1369,6 +1372,8 @@
     "unity/Wotr.Client/Assets/Wotr/Resources/Wotr/Art/map-landmarks/dol-amroth.png.meta",
     "unity/Wotr.Client/Assets/Wotr/Resources/Wotr/Art/map-landmarks/dol-guldur.png",
     "unity/Wotr.Client/Assets/Wotr/Resources/Wotr/Art/map-landmarks/dol-guldur.png.meta",
+    "unity/Wotr.Client/Assets/Wotr/Resources/Wotr/Art/map-landmarks/erebor-shadow.png",
+    "unity/Wotr.Client/Assets/Wotr/Resources/Wotr/Art/map-landmarks/erebor-shadow.png.meta",
     "unity/Wotr.Client/Assets/Wotr/Resources/Wotr/Art/map-landmarks/erebor.png",
     "unity/Wotr.Client/Assets/Wotr/Resources/Wotr/Art/map-landmarks/erebor.png.meta",
     "unity/Wotr.Client/Assets/Wotr/Resources/Wotr/Art/map-landmarks/grey-havens.png",
