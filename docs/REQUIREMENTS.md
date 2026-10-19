@@ -94,6 +94,18 @@ their selection. R02/R03 code and tests remain; setting
 `Wotr__Release__Expansions=true` (or using an environment other than Production)
 restores the full configuration. Existing expansion games still load.
 
+**Release per module — owner decision, 2026-10-19 (EXP-01):** the expansions
+are released one by one, in the order Fate, Lords, Kings.
+`Wotr__Release__Modules` names the released modules (`fate`, `lords`, `kings`);
+the older `Wotr__Release__Expansions` stays as an alias (`true` all, `false`
+none), and the module list wins when both are set. Production without either
+releases none. A variant comes with its module (the dependencies above). Any
+room, a named one or a challenge's table too, may use the released modules; an
+unreleased one is refused with `ExpansionsUnavailable`, and a waiting table set
+up before the release narrowed cannot start until its host changes it. The
+room view lists the released modules, and the Open games list shows each
+table's configuration.
+
 Changing configuration invalidates the other player's earlier acceptance. Starting
 requires both players to accept the same version. Configuration is immutable after
 start. Private setup decisions do not enter the shared summary.

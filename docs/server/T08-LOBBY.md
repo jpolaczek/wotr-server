@@ -45,7 +45,7 @@ The default Dismay is calculated only when the value is omitted; the apparent fa
 
 The acceptance T08 only had a base module available for launch, and expansions had `StartUnavailableReason=ContentNotImplemented`. T34 opens all 93 legal configurations after acceptance engine and client windows. The dependencies are validated, two consents of one version, atomic start and invariability of configuration of the started batch; [report T34](https://github.com/jpolaczek/wotr-client/blob/60ea00814c48f12e8931dbcd3cf336789785360d/docs/ui/T34-ACCEPTANCE.md).
 
-From UI-96 `ReleaseScope` (`Wotr:Release:Expansions`, default excluded in Production) limits new tables to base game: configuration with module or variant expansions and start of the table preset give 409 `ExpansionsUnavailable`; `RoomView.ExpansionsAvailable` tells the client whether to show switches. Started parties and other environments unchanged.
+From UI-96 `ReleaseScope` (`Wotr:Release:Expansions`, default excluded in Production) limits new tables to base game: configuration with module or variant expansions and start of the table preset give 409 `ExpansionsUnavailable`; `RoomView.ExpansionsAvailable` tells the client whether to show switches. Started parties and other environments unchanged. EXP-01 releases the expansions one module at a time ([below](#release-per-module--exp-01-2026-10-19)).
 
 <a id="weryfikacja"></a>
 ## Verification
@@ -67,7 +67,7 @@ Historical ( AUTH-02 removes invitations to accounts and requires an email addre
 <a id="wynik-menu-04--2026-10-11"></a>
 ## Result MENU-04 — 2026-10-11
 
-`./scripts/test-menu.sh --no-restore --filter 'FullyQualifiedName~MenuLifecycleTests|FullyQualifiedName~PublicRoomTests|FullyQualifiedName~LobbyTests' --logger 'trx;LogFileName=menu04.trx' --results-directory .artifacts/results`: **14/14 PASS, 0 skip**. One transaction and room lock protect zaproszenia/Ready/leave/start. New rooms accept only the base also in Development; host-only start, unready, code invalidation, idmpotent leave and rebooted readings received. Eight races host/guest leave with start have retained all participants of each started batch. Old tables without name retain common configuration/start.
+`./scripts/test-menu.sh --no-restore --filter 'FullyQualifiedName~MenuLifecycleTests|FullyQualifiedName~PublicRoomTests|FullyQualifiedName~LobbyTests' --logger 'trx;LogFileName=menu04.trx' --results-directory .artifacts/results`: **14/14 PASS, 0 skip**. One transaction and room lock protect zaproszenia/Ready/leave/start. New rooms accept only the base also in Development (lifted by EXP-01: named rooms take the released modules); host-only start, unready, code invalidation, idmpotent leave and rebooted readings received. Eight races host/guest leave with start have retained all participants of each started batch. Old tables without name retain common configuration/start.
 
 <a id="menu-09--lokalny-serwer-i-kody-publicznych-stolików"></a>
 ## MENU-09 — local server and public table codes
@@ -258,3 +258,39 @@ server process.
 Tests: `LobbyChatTests` (presence and its expiry, chat text, the in-memory relay and first read, challenge refusals, acceptance
 and its table, a failed acceptance leaving no table, decline, cancel and expiry, 401 without a session);
 `MigrationRecoveryTests` (migration 15).
+
+## Release per module — EXP-01 (2026-10-19)
+
+Owner decision 2026-10-19: the expansions are released one by one, in the order Fate, Lords, Kings. `ReleaseScope`
+holds the set of released modules instead of one switch.
+
+- `Wotr:Release:Modules` (`Wotr__Release__Modules`, `WOTR_RELEASE_MODULES` in infra/.env) lists the released modules
+  by id, `fate`, `lords` or `kings`, separated by commas, semicolons or spaces, in any case. An unknown name stops the
+  server at start (`InvalidOperationException` naming the key and the name); repeats count once.
+- `Wotr:Release:Expansions` stays as an alias: `true` releases all three modules, `false` none. When both are set,
+  `Modules` wins. An empty or blank `Modules` counts as unset, because compose passes it empty by default.
+- Without either key, Production releases no module and every other environment all of them (as in UI-96).
+- `ReleaseScope.Offers` accepts a configuration when it is valid (`ConfigurationRules.Conflict`) and every module it
+  enables is released. The base game is always offered. A variant comes with its module: Conflict already refuses a
+  variant without the module it needs (New Cities needs Fate, Council needs Lords, the two tile variants need Kings,
+  Dismay and Removing Ruler Tokens need Lords and Kings), so no separate list of variants is kept.
+- Any room may use the released modules: the earlier rule that named rooms (`Managed`) play only the base game is
+  gone, and so is the limit for a challenge's table (LOBBY-01), which is an ordinary named private room configured in
+  the waiting room. `CreateRoomRequest` is unchanged.
+- `PUT /api/rooms/{id}/configuration` with an unreleased module answers 409 `ExpansionsUnavailable` and changes
+  nothing. A table configured before the release narrowed keeps its settings and shows `StartUnavailableReason =
+  ExpansionsUnavailable`; its start is refused with the same code until the host picks released modules. Started games
+  are not affected.
+- `RoomView.OfferedModules` lists the released modules (lower-case ids in release order) and
+  `RoomView.ExpansionsAvailable` stays true when any module is released, for clients from before EXP-01.
+  `PublicRoomSummary.Configuration` carries the room's configuration, so the Open games list can show the expansion
+  crests of each table (read from `rooms.state`, normalized; a room saved without one reads as the base game).
+- Contracts 0.12.0 (`ExpansionModules`, `RoomView.OfferedModules`, `PublicRoomSummary.Configuration`); public content
+  1.0.13 requires them.
+
+Tests: `ReleaseModuleTests` (the module list, the alias, both set, an empty list, an unknown name in `Read` and at the
+start of the server, the defaults per environment, `Offers`, a named room taking Fate and refusing Kings, a table that
+cannot start after the release narrowed, and over HTTP a named table with `Wotr__Release__Modules=fate` and its
+public summary); `LobbyChatTests.AcceptingSetsThePrivateTableOfTheChallengerWithBothSeated` (a challenge's table takes
+Fate); `MenuLifecycleTests.ReadinessCanBeWithdrawnAndOnlyHostStartsExactlyOneNamedBaseGame` (a named room takes
+Lords); `LobbyTests` (the UI-96 alias, `OfferedModules` of a full and a base-only release).

@@ -41,6 +41,9 @@ services:
       Logging__LogLevel__Microsoft.Hosting.Lifetime: Information
       # UI-96: the live MVP offers only the base game for new tables; set true to offer expansions.
       Wotr__Release__Expansions: ${WOTR_EXPANSIONS:-false}
+      # EXP-01: the released expansion modules one by one (fate, lords, kings, comma-separated); when set it wins over
+      # WOTR_EXPANSIONS, empty leaves the choice to it. An unknown name stops the server at start.
+      Wotr__Release__Modules: ${WOTR_RELEASE_MODULES:-}
       # DIST-05: client release catalog. Empty root announces nothing; see infra/README.md.
       Wotr__Releases__Root: ${WOTR_RELEASES_ROOT:-}
       Wotr__Releases__DownloadsUrl: ${WOTR_DOWNLOADS_URL:-}

@@ -61,6 +61,15 @@ Optional second lock (SEC-05): Cloudflare Access in front of `/admin` and `/api/
 
 The server in Production offers only new tables base game. `WOTR_EXPANSIONS=false` in `infra/.env` (default) transfers `Wotr__Release__Expansions` to the container; `true` also provides expansions and their variants. The change requires the restart of the `server` service; the started parts retain their configuration.
 
+EXP-01 (2026-10-19): the expansions are released one by one, Fate, then Lords, then Kings.
+`WOTR_RELEASE_MODULES` in `infra/.env` is passed as `Wotr__Release__Modules` and names the released modules,
+separated by commas (`fate`, then `fate,lords`, then `fate,lords,kings`; any case). Each module brings its variants
+(New Cities with Fate, Council with Lords, the Kings tiles with Kings, Dismay and Removing Ruler Tokens with Lords and
+Kings). When it is set it wins over `WOTR_EXPANSIONS`, which stays as an alias (`true`: all three, `false`: none);
+empty, the default, leaves the choice to `WOTR_EXPANSIONS`. An unknown name stops the server at start. Restart
+`server` after a change. A waiting table configured with a module the release no longer offers keeps its settings but
+cannot start until its host changes them; started games are not affected.
+
 <a id="katalog-wydań-klienta--dist-05"></a>
 ## Customer release directory — DIST-05
 

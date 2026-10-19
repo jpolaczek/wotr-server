@@ -816,6 +816,15 @@ Appearance gives `Resources/Wotr/Styles/TopBar.uss`, imported at the beginning o
 
 `Wotr.Server.ReleaseScope` reads `Wotr:Release:Expansions` from container DI (lausely to see the configuration of the test host); valueless expansions are only disabled in Production. `RoomStore` transmits the range to `RoomRules.Configure` / `CanStart` and `RoomState.View`; common `RoomRules.Unavailable` ♪ give ♪ `ExpansionsUnavailable` before `ContentNotImplemented`.  `ConfigurationRules.IsBase` belongs to the domain. Client: `ConfigurationEditor.Render(..., expansions, ...)` without expansions shows “Base game” and possibly return the older table to base game Engine, projections and batch records expansions unchanged; the sovereigns of Kings do not rise in the projection without Kings.
 
+EXP-01 (2026-10-19) turns the switch into a set of released modules: `ReleaseScope.Read` takes
+`Wotr:Release:Modules` (ids from `Wotr.Contracts.ExpansionModules`; an unknown one stops the server, which resolves
+the scope at start) and falls back to the `Wotr:Release:Expansions` alias and then to the environment default.
+`ReleaseScope.Offers` asks `ConfigurationRules.IsValid` (variants need their modules) and checks each module of
+`ExpansionModules.Of(configuration)` against the set. `RoomRules.Configure` no longer treats named rooms differently.
+`RoomState.View` fills `ExpansionsAvailable` and `OfferedModules`; `RoomStore.ListPublic` reads
+`rooms.state->'configuration'` into `PublicRoomSummary.Configuration`. Details:
+[T08-LOBBY](server/T08-LOBBY.md#release-per-module--exp-01-2026-10-19).
+
 <a id="panel-kości--ui-97"></a>
 ## Panel dice — UI-97
 

@@ -204,9 +204,15 @@ public class LobbyChatTests
         var outgoing = (await Poll(alice)).Outgoing.Single(c => c.Id == challenge.Id);
         Assert.Equal((ChallengeStatus.Accepted, room.Id), (outgoing.Status, outgoing.RoomId));
         Assert.DoesNotContain((await Poll(bob)).Incoming, c => c.Id == challenge.Id);
-        var hostView = (await host.Services.GetRequiredService<RoomStore>().Read(room.Id, alice.Session.AccountId))!;
+        var rooms = host.Services.GetRequiredService<RoomStore>();
+        var hostView = (await rooms.Read(room.Id, alice.Session.AccountId))!;
         Assert.True(hostView.IsHost);
         Assert.Equal(bob.Name, hostView.Shadow);
+        // EXP-01: the table is an ordinary named room, so its host may choose the released modules (Testing: all).
+        var fate = await rooms.Configure(room.Id, alice.Session.AccountId,
+            new() { ExpectedVersion = hostView.Version, Configuration = new() { Fate = true, NewCities = true } });
+        Assert.Empty(fate.Error);
+        Assert.True(fate.Room!.Configuration.Fate);
     }
 
     // The seat cannot be taken (a trigger refuses this one player's seating): the half-set table goes and the challenge

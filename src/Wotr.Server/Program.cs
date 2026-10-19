@@ -110,6 +110,8 @@ app.Services.GetRequiredService<GameRateLimitOptions>();
 app.Services.GetRequiredService<SignInLimits>();
 // ADMIN-01: a malformed list of administrators stops the server at start.
 app.Services.GetRequiredService<AdminOptions>();
+// EXP-01: an unknown released module stops the server at start.
+app.Services.GetRequiredService<ReleaseScope>();
 app.UseClientCompatibility();
 app.UseWebSockets();
 app.UseAuthentication();

@@ -89,22 +89,28 @@ public class MenuLifecycleTests
         var store = host.Services.GetRequiredService<RoomStore>();
         var room = await store.Create(alice.AccountId, new CreateRoomRequest { Name = "Persistent game", Visibility = RoomVisibility.Public, Side = Side.Shadow });
         var joined = (await store.JoinPublic(room.Id, bob.AccountId)).Room!;
-        Assert.Equal("ExpansionsUnavailable", (await store.Configure(room.Id, alice.AccountId, new()
+        // EXP-01: a named room takes the released modules (Testing releases all); this table goes back to the base game.
+        var lords = (await store.Configure(room.Id, alice.AccountId, new()
         {
             ExpectedVersion = joined.Version, Configuration = new() { Lords = true }
-        })).Error);
-        await store.Confirm(room.Id, alice.AccountId, joined.Version);
-        await store.Confirm(room.Id, bob.AccountId, joined.Version);
+        })).Room!;
+        Assert.True(lords.Configuration.Lords);
+        var version = (await store.Configure(room.Id, alice.AccountId, new()
+        {
+            ExpectedVersion = lords.Version, Configuration = new()
+        })).Room!.Version;
+        await store.Confirm(room.Id, alice.AccountId, version);
+        await store.Confirm(room.Id, bob.AccountId, version);
         using var guest = MenuAccounts.Client(host, bob);
         using var unready = await guest.PutAsJsonAsync("/api/rooms/" + room.Id + "/ready", new RoomReadyRequest
         {
-            ExpectedVersion = joined.Version, Ready = false
+            ExpectedVersion = version, Ready = false
         });
         Assert.Equal(HttpStatusCode.OK, unready.StatusCode);
-        Assert.Equal("ConfirmationRequired", (await store.Start(room.Id, alice.AccountId, joined.Version)).Error);
-        Assert.Equal("HostRequired", (await store.Start(room.Id, bob.AccountId, joined.Version)).Error);
-        await store.Confirm(room.Id, bob.AccountId, joined.Version);
-        var starts = await Task.WhenAll(store.Start(room.Id, alice.AccountId, joined.Version), store.Start(room.Id, alice.AccountId, joined.Version));
+        Assert.Equal("ConfirmationRequired", (await store.Start(room.Id, alice.AccountId, version)).Error);
+        Assert.Equal("HostRequired", (await store.Start(room.Id, bob.AccountId, version)).Error);
+        await store.Confirm(room.Id, bob.AccountId, version);
+        var starts = await Task.WhenAll(store.Start(room.Id, alice.AccountId, version), store.Start(room.Id, alice.AccountId, version));
         Assert.NotEmpty(starts[0].Room!.MatchId);
         Assert.Equal(starts[0].Room!.MatchId, starts[1].Room!.MatchId);
         var matchId = starts[0].Room!.MatchId;
