@@ -8,6 +8,10 @@ internal static class ExpansionUiScenario
     {
         ["ui09-council"] = Start(random, new() { Lords = true, Council = true, Kings = true, Fate = true, NewCities = true }),
         ["ui09-dice"] = Rolling(random),
+        ["ui267-tie"] = SpecialRoll(random, 3, (LordsDiceCatalog.Vilya, 0), (LordsDiceCatalog.Nenya, 2),
+            (LordsDiceCatalog.Balrog, 0), (LordsDiceCatalog.Gothmog, 2)),
+        ["ui267-forced-eye"] = SpecialRoll(random, 0, (LordsDiceCatalog.Vilya, 5), (LordsDiceCatalog.Nenya, 0),
+            (LordsDiceCatalog.Balrog, 1), (LordsDiceCatalog.Gothmog, 4)),
         ["ui09-dismay"] = Dismay(random),
         ["ui09-ruler-recruit"] = Recruitment(random),
         ["ui09-ruler-event"] = TokenEvent(random),
@@ -41,6 +45,27 @@ internal static class ExpansionUiScenario
         DiceRules.Recover(state);
         var samples = state.Dice.Where(d => d.Location == DieLocation.Unrolled).Select(d => d.Special is null ? 0 : 5).ToArray();
         // Each sample is valid but no gameplay outcome is automatically chosen by the client.
+        TurnFlow.RollAndBeginActions(state, new Values(samples));
+        return state;
+    }
+
+    // UI-267: a Lords game in turn 2 with Elrond, Galadriel, the Balrog and Gothmog in play; the Shadow first puts
+    // `hunt` standard dice in the Hunt Box and the special dice roll the given faces (indices of LORDS p. 9/11:
+    // Vilya 0 = Army★, 5 = Eye★; Nenya 0 = Character★, 2 = Event; Balrog 0 = Character★, 1 = Use Balrog; Gothmog
+    // 2 = Muster, 4 = Card Draw). Three dice in the Hunt tie the rolled dice, so the Free Peoples choose first.
+    private static MatchState SpecialRoll(IRandomSource random, int hunt, params (string Die, int Face)[] faces)
+    {
+        var state = Actions(random, new() { Lords = true });
+        foreach (var (id, region) in new[] { (KeeperRings.Elrond, "rivendell"), (KeeperRings.Galadriel, "lorien"),
+            (LordsCharacters.Balrog, "moria"), (LordsCharacters.Gothmog, "minas-morgul") })
+            Put(state, id, region);
+        state.Turn++;
+        DiceRules.Recover(state);
+        foreach (var id in DiceRules.HuntCandidates(state).Take(hunt))
+            state.Dice.Single(d => d.Id == id).Location = DieLocation.Hunt;
+        var chosen = faces.ToDictionary(f => f.Die, f => f.Face);
+        var samples = state.Dice.Where(d => d.Location == DieLocation.Unrolled)
+            .Select(d => d.Special is null ? 0 : chosen[d.Id]).ToArray();
         TurnFlow.RollAndBeginActions(state, new Values(samples));
         return state;
     }

@@ -76,6 +76,7 @@ module is the module its game uses.
 | Id | Module | Start | Title in game | What it tests |
 | --- | --- | --- | --- | --- |
 | `lords-special-dice-choice` | Lords | Shadow | Choose a special die | Choosing one of the special dice after the roll; the side with more rolled dice first (LORDS pp. 9–13). |
+| `lords-forced-eye` | Lords | Shadow | An Eye forces the choice | Vilya's Eye beside Nenya's Character: after the Shadow keeps a die, the client keeps the Eye for the Free Peoples without a click (UI-267). |
 | `lords-keeper-eye-choice` | Lords | Free Peoples | Keeper Eyes go to the Hunt | Eyes on both Keeper dice: only an Eye can be kept, and it joins the Shadow's Hunt. |
 | `lords-fp-card-draw` | Lords | Free Peoples | Card Draw with a Keeper die | The Card Draw face of the Vilya die (Elrond): draw a card. |
 | `lords-fp-narya-die` | Lords | Free Peoples | Muster with the Narya die | The Narya die (Gandalf the Keeper as Guide): Muster for politics. |

@@ -32,6 +32,10 @@ public static class ExpansionDiceScenarios
             "Elrond, Galadriel, the Balrog and Gothmog are in play. After the roll each side keeps one of its special dice; " +
             "the Shadow rolled more dice and chooses first.",
             Side.Shadow, SpecialDiceChoice),
+        new("lords-forced-eye", LordsDice, "An Eye forces the choice",
+            "Vilya rolled an Eye and Nenya a Character, so the Free Peoples must keep the Eye: once the Shadow has kept " +
+            "the Balrog's or Gothmog's die, the game keeps the Eye for them.",
+            Side.Shadow, ForcedEye),
         new("lords-fp-card-draw", LordsDice, "Card Draw with a Keeper die",
             "Elrond is in play and his Vilya die shows Card Draw: draw a card from either deck with it.",
             Side.FreePeoples, (id, random) => Act(Elrond(id, random), Side.FreePeoples, state => Show(state, LordsDiceCatalog.Vilya, DieFace.CardDraw))),
@@ -167,7 +171,19 @@ public static class ExpansionDiceScenarios
     }
 
     // Next turn's roll: one special die per character, each showing an action result rather than an Eye.
-    private static MatchState SpecialDiceChoice(string id, IRandomSource random)
+    private static MatchState SpecialDiceChoice(string id, IRandomSource random) => SpecialRoll(id, random, new()
+    {
+        [LordsDiceCatalog.Vilya] = 3, [LordsDiceCatalog.Nenya] = 0, [LordsDiceCatalog.Balrog] = 1, [LordsDiceCatalog.Gothmog] = 0
+    });
+
+    // UI-267: Vilya's Eye (face 5) beside Nenya's Character (face 0); the Shadow keeps Use Balrog or Card Draw first.
+    private static MatchState ForcedEye(string id, IRandomSource random) => SpecialRoll(id, random, new()
+    {
+        [LordsDiceCatalog.Vilya] = 5, [LordsDiceCatalog.Nenya] = 0, [LordsDiceCatalog.Balrog] = 1, [LordsDiceCatalog.Gothmog] = 4
+    });
+
+    // Elrond, Galadriel, the Balrog and Gothmog in play; turn 2 rolls the special dice on the given faces (LORDS p. 9/11).
+    private static MatchState SpecialRoll(string id, IRandomSource random, Dictionary<string, int> faces)
     {
         var state = Actions(id, random, Lords);
         foreach (var (character, region) in new[] { (KeeperRings.Elrond, "rivendell"), (KeeperRings.Galadriel, "lorien"),
@@ -175,10 +191,6 @@ public static class ExpansionDiceScenarios
             Put(state, character, region);
         state.Turn++;
         DiceRules.Recover(state);
-        var faces = new Dictionary<string, int>
-        {
-            [LordsDiceCatalog.Vilya] = 3, [LordsDiceCatalog.Nenya] = 0, [LordsDiceCatalog.Balrog] = 1, [LordsDiceCatalog.Gothmog] = 0
-        };
         var samples = state.Dice.Where(d => d.Location == DieLocation.Unrolled)
             .Select(d => d.Special is null ? 1 : faces.GetValueOrDefault(d.Id)).ToArray();
         TurnFlow.RollAndBeginActions(state, new Samples(samples));

@@ -20,6 +20,7 @@ public class ExpansionDiceScenarioTests
     private static readonly IReadOnlyDictionary<string, Expectation> Expected = new Dictionary<string, Expectation>
     {
         ["lords-special-dice-choice"] = new(CommandKind.ChooseSpecialDie, Eligible, (_, _, die) => new() { DieId = die!.Id }),
+        ["lords-forced-eye"] = new(CommandKind.ChooseSpecialDie, Eligible, (_, _, die) => new() { DieId = die!.Id }),
         ["lords-keeper-eye-choice"] = new(CommandKind.ChooseSpecialDie, OnlyEyes, (_, _, die) => new() { DieId = die!.Id }),
         ["lords-fp-narya-die"] = new(CommandKind.AdvancePolitics, Special(LordsDiceCatalog.Narya, DieFace.Muster),
             (_, option, die) => new() { DieId = die!.Id, NationId = option.Targets[0] }),
@@ -59,6 +60,27 @@ public class ExpansionDiceScenarioTests
 
     [Fact]
     public void EveryExpansionScenarioHasAnExpectation() => Assert.Equal(Expected.Keys.Order(), Ids.Order());
+
+    // UI-267: once the Shadow keeps a die, the Free Peoples' choice allows only Vilya's Eye, which their client sends.
+    [Fact]
+    public void TheForcedEyeScenarioLeavesTheFreePeoplesOnlyTheEye()
+    {
+        var state = TestScenarioCatalog.Find("lords-forced-eye")!.Create("forced-eye");
+        var command = new GameCommand
+        {
+            MatchId = state.Id,
+            CommandId = "shadow-keeps",
+            ExpectedRevision = state.Revision,
+            DecisionId = state.Pending!.Id,
+            Kind = CommandKind.ChooseSpecialDie,
+            Payload = new() { DieId = LordsDiceCatalog.Balrog }
+        };
+        var result = Engine.Execute(state, Side.Shadow, command, new SeededRandom(1));
+        Assert.True(result.Receipt.Accepted, result.Receipt.Error);
+        Assert.Equal((DecisionKind.SpecialDieChoice, Side.FreePeoples), (result.State.Pending!.Kind, result.State.Pending.Owner));
+        Assert.Equal([LordsDiceCatalog.Vilya], LordsDiceRoll.LegalChoices(result.State, Side.FreePeoples));
+        Assert.Equal([LordsDiceCatalog.Vilya], Views.For(result.State, Side.FreePeoples).Options.Single().EligibleDice);
+    }
 
     [Theory]
     [MemberData(nameof(Scenarios))]
