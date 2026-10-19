@@ -94,7 +94,9 @@ explicit client pin.
   Since UI-142 (user decision), the game does not use double-clicks: a click that
   completes a selection (e.g. a guide, Hunt response, or since UI-194 a card with
   one payment method) executes it immediately; a fast second click after a
-  committed step is ignored. Grouped casualties/rerolls have one confirmation.
+  committed step is ignored. Since UI-279 (user decision 2026-10-19), nothing is sent without a click, even
+  when only one option is legal: the single option glows and says what its click does. Grouped
+  casualties/rerolls have one confirmation.
   Discard excess hand cards one at a time with a single click and no Confirm;
   since UI-222 every discard from the hand is made by clicking red-marked cards
   in the hand and is sent once the selection is complete. The permanent tray shows the
