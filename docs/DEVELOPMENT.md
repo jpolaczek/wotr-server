@@ -17,7 +17,7 @@ The script uses the local `.artifacts/dotnet` if there is, otherwise SDK with PA
 
 ## Unity
 
-Unity Client is in a separate `jpolaczek/wotr-client` repository (DIST-03). Building, EditMode/PlayMode tests and packages describes its [DEVELOPMENT](https://github.com/jpolaczek/wotr-client/blob/e155dc11c747298c58f7336d6199316a4f7e78b0/docs/DEVELOPMENT.md); this link moves `python3 scripts/tasks.py pin-repo wotr-client`.
+Unity Client is in a separate `jpolaczek/wotr-client` repository (DIST-03). Building, EditMode/PlayMode tests and packages describes its [DEVELOPMENT](https://github.com/jpolaczek/wotr-client/blob/1232d72e5b3f71c9f8d1e688a4f268e0000a20f2/docs/DEVELOPMENT.md); this link moves `python3 scripts/tasks.py pin-repo wotr-client`.
 
 <a id="środowisko-po-podziale--dist-03"></a>
 ## Environment after division — DIST-03
@@ -108,7 +108,7 @@ python3 scripts/test_map_profile.py
 
 Confirm the executable path in Info.plist of a specific build. Start with behaviour/przywr distorting player preferences (helper `clean_profile` In the scripts/smoke-macos.py ); final acceptance It's a wrapper. `.artifacts/map17-build-smoke.py profile` The values from the Development Player are distinct from smoke nonDevelopment and Editor tests. Check all images after automatic PASS . Measurement report without accounts/secret you can keep in docs/ui/profiles ; private exports remain in .artifacts.
 
-`scripts/test-map-tls.py` is a separate test of two script accounts on the local HTTPS/WSS proxy for the Test Kestrel5088: checks the CA certificate and localhost, private hands, notifications/reconnect and the same receipt. It does not change the implemented stack and removes the temporary leaf certificate key. It requires a real test host and fixture; do not run parallel with the batch using the same accounts or login limit. Units `scripts/test-client.sh` still uses HTTP/WS. Final command and results: [MAP17_ACCEPTANCE](https://github.com/jpolaczek/wotr-client/blob/e155dc11c747298c58f7336d6199316a4f7e78b0/docs/ui/MAP17_ACCEPTANCE.md).
+`scripts/test-map-tls.py` is a separate test of two script accounts on the local HTTPS/WSS proxy for the Test Kestrel5088: checks the CA certificate and localhost, private hands, notifications/reconnect and the same receipt. It does not change the implemented stack and removes the temporary leaf certificate key. It requires a real test host and fixture; do not run parallel with the batch using the same accounts or login limit. Units `scripts/test-client.sh` still uses HTTP/WS. Final command and results: [MAP17_ACCEPTANCE](https://github.com/jpolaczek/wotr-client/blob/1232d72e5b3f71c9f8d1e688a4f268e0000a20f2/docs/ui/MAP17_ACCEPTANCE.md).
 
 <a id="zgodność-klienta-i-lokalnego-serwera--ui-83"></a>
 ## Client and local server compatibility — UI-83
