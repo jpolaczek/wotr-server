@@ -82,7 +82,7 @@ Fuzz/property tests generate only source-compatible input states or consciously 
 <a id="macierz-sieci-i-zapisu"></a>
 ## Network and write Matrix
 
-UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/dcbc68abd6986917b5747eaf7ed722f876342c36/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/dcbc68abd6986917b5747eaf7ed722f876342c36/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/dcbc68abd6986917b5747eaf7ed722f876342c36/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
+UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/8842c26e1cc52c015eb87c8e596b6cdf15ec13f3/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/8842c26e1cc52c015eb87c8e596b6cdf15ec13f3/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/8842c26e1cc52c015eb87c8e596b6cdf15ec13f3/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
 
 T07: `PostgresTests` and `TransportTests` require `WOTR_TEST_DB`. `bash scripts/test.sh` launches a separate local cluster and a full set without skip. Without the variable `dotnet test` explicitly skips integration. CI has PostgreSQL 17 and sets the variable; it does not replace the database with the atrap. [Test range T07](server/T07-TRANSACTIONS.md).
 
@@ -122,7 +122,7 @@ It is not enough to pass a full batch that does not accidentally select difficul
 <a id="odbiór-ui-i-wydajności"></a>
 ## acceptance UI and performance
 
-Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/dcbc68abd6986917b5747eaf7ed722f876342c36/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
+Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/8842c26e1cc52c015eb87c8e596b6cdf15ec13f3/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
 
 ## Platform acceptance on real machines
 
@@ -157,7 +157,10 @@ Totals: 115 of 127 expansion PlayMode tests pass, including the full desktop gam
 Resolved since (2026-10-19): UI-271 fixed the Balrog's reserve figure (the Reserve panel unrolls when that plan begins
 after the Muster die; `ExpansionTokenNetworkTests.BalrogEntry…` passes). UI-272 moved Lore onto the pool and a result
 popover (`LordsShadowNetworkTests.Lore…` rewritten) and `LordsFinalCardsNetworkTests.Madness…` now checks the console's
-card headline: its trail button lived in the closed decision window, out of the player's reach.
+card headline: its trail button lived in the closed decision window, out of the player's reach. UI-274 moved the
+corruption attempt to the button beside the king's portrait (`ExpansionCorruptionNetworkTests` ×4 rewritten and passing)
+and `InGameDenseLayoutTests.…FiveSovereigns…` counts the portraits by class and the Effects header without its scope
+badge (passing).
 
 Process finding: the five Council/CompanionSetup/FellowshipGuide/ResourcePanel/Sovereign classes run together in one
 Unity process hung for over three hours (repeated `MatchConnection` receive errors), while each finished alone; this
