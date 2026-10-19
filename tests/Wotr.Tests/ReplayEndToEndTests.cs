@@ -19,7 +19,7 @@ namespace Wotr.Tests;
 // stands in for both people), an observer joins half-way and keeps watching to the end, and both the player and the
 // observer download the replay. The two files show the same game, which is exactly the server's recording: every
 // step from the first state to the final one, both sides' history and the turns. Deleting the game afterwards, and a
-// finished demo replaced by a new one, leave the files whole.
+// finished demo replaced by a new one, leave the files whole. EXP-04: a whole Fate game gives the same.
 public sealed class ReplayEndToEndTests(ITestOutputHelper output)
 {
     private const int MoveLimit = 3000;
@@ -27,10 +27,17 @@ public sealed class ReplayEndToEndTests(ITestOutputHelper output)
         new Dictionary<string, string?>(TestBudgets.Stress) { [DemoOptions.DelayKey] = "0" };
 
     [PostgresFact]
-    public async Task AWholeGameWithALateObserverGivesTheSameReplayToPlayerAndObserver()
+    public Task AWholeGameWithALateObserverGivesTheSameReplayToPlayerAndObserver() => WatchAndReplay(new MatchConfiguration());
+
+    // EXP-04: the same for a whole Fate of Erebor game with New Cities; the replay keeps its rules and the Shadow's Erebor.
+    [PostgresFact]
+    public Task AWholeFateGameWithALateObserverGivesTheSameReplayToPlayerAndObserver() =>
+        WatchAndReplay(new MatchConfiguration { Fate = true, NewCities = true });
+
+    private async Task WatchAndReplay(MatchConfiguration configuration)
     {
         using var host = new AccountHost(extra: Instant);
-        var game = await Game.Start(host);
+        var game = await Game.Start(host, configuration);
         var half = await game.Play(MoveLimit, stopAtTurn: 3);
         using (var joined = await game.Observer.PostAsync($"/api/rooms/{game.Room}/join?role=Observer", null))
             Assert.Equal(HttpStatusCode.OK, joined.StatusCode);
@@ -58,6 +65,8 @@ public sealed class ReplayEndToEndTests(ITestOutputHelper output)
         Assert.Equal(player.Frames.GroupBy(f => f.FreePeoples.Turn).Select(g => g.Min(f => f.Step)), player.Turns.Select(t => t.Step));
         Assert.Equal(await LogSteps(game.FreePeoples, game.Match), player.History[Side.FreePeoples]);
         Assert.Equal(await LogSteps(game.Shadow, game.Match), player.History[Side.Shadow]);
+        Assert.Equal(ExpansionModules.Of(configuration), ExpansionModules.Of(player.Manifest.Configuration));
+        Assert.All(player.Frames, frame => Assert.Equal(configuration.Fate, frame.Shadow.Configuration.Fate));
 
         Assert.True(await host.Services.GetRequiredService<MatchRemoval>().Delete(game.Match, game.FreePeoplesAccount));
         Assert.Equal(HttpStatusCode.NotFound, (await game.FreePeoples.GetAsync($"/api/matches/{game.Match}/replay")).StatusCode);
@@ -197,13 +206,16 @@ public sealed class ReplayEndToEndTests(ITestOutputHelper output)
         public required string FreePeoplesAccount { get; init; }
         public required AccountHost Host { get; init; }
 
-        public static async Task<Game> Start(AccountHost host)
+        public static async Task<Game> Start(AccountHost host, MatchConfiguration configuration)
         {
             var (fp, sh, watcher) = (await MenuAccounts.Register(host), await MenuAccounts.Register(host), await MenuAccounts.Register(host));
             var rooms = host.Services.GetRequiredService<RoomStore>();
             var room = await rooms.Create(fp.AccountId, new CreateRoomRequest { Name = "Whole game", Visibility = RoomVisibility.Public });
             await rooms.JoinPublic(room.Id, sh.AccountId);
             var version = (await rooms.Read(room.Id, fp.AccountId))!.Version;
+            if (!ConfigurationRules.IsBase(configuration))
+                version = (await rooms.Configure(room.Id, fp.AccountId,
+                    new ConfigureRoomRequest { ExpectedVersion = version, Configuration = configuration })).Room!.Version;
             await rooms.Confirm(room.Id, fp.AccountId, version);
             await rooms.Confirm(room.Id, sh.AccountId, version);
             var started = await rooms.Start(room.Id, fp.AccountId, version);
