@@ -649,6 +649,12 @@ working; such a client shows every expansion switch while only some modules are 
 others with 409 `ExpansionsUnavailable`. The protocol and commands are unchanged. Public content 1.0.13 has the same
 files as 1.0.12 and requires Contracts 0.12.0. Rules: [T08-LOBBY](server/T08-LOBBY.md#release-per-module--exp-01-2026-10-19).
 
+Contracts 0.13.0 (TEST-10) add `TestScenarioView.Modules` (`modules` in JSON: the expansion modules a test scenario
+plays with, lower-case `ExpansionModules` ids; empty for the base game). The server lists and starts a scenario only
+when all its modules are released; otherwise it is absent from `GET /api/test-scenarios` and its start answers 404
+`ScenarioNotFound`. The protocol and commands are unchanged. Public content 1.0.14 has the same files as 1.0.13 and
+requires Contracts 0.13.0. Scenarios: [TEST_SCENARIOS](TEST_SCENARIOS.md).
+
 <a id="wersje-klienta-katalog-wydań-i-zgodność--dist-05"></a>
 ## Client versions, release directory and compliance — DIST-05
 

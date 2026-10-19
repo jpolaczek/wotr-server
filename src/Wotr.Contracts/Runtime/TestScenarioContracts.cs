@@ -10,6 +10,9 @@ namespace Wotr.Contracts
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
         public Side StartingSide { get; set; }
+        // TEST-10: the expansion modules the scenario plays with (ExpansionModules ids); empty for the base game.
+        // The server lists and starts a scenario only when every one of them is released.
+        public List<string> Modules { get; set; } = new List<string>();
     }
 
     public sealed class TestScenarioCatalogView

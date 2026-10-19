@@ -87,6 +87,23 @@ public class TestScenarioSessionTests
     }
 
     // TEST-02: every catalog scenario starts through the server and the starting side holds the decision.
+    // TEST-10: with only Fate released, Fate's scenario is listed and the Lords and Kings ones are hidden and refused
+    // like an unknown id; the base-game scenarios stay.
+    [PostgresFact]
+    public async Task AScenarioOfAnUnreleasedModuleIsHiddenAndRefused()
+    {
+        await using var host = new AccountHost(extra: new Dictionary<string, string?> { [ReleaseScope.ModulesKey] = "fate" });
+        using var owner = await Owner(host);
+        var catalog = (await owner.GetFromJsonAsync<TestScenarioCatalogView>("/api/test-scenarios", BoardCatalog.Json))!;
+        Assert.Contains(catalog.Scenarios, s => s.Id == "setup" && s.Modules.Count == 0);
+        Assert.Contains(catalog.Scenarios, s => s.Id == "fate-gimli-renown" && s.Modules.SequenceEqual(["fate"]));
+        Assert.DoesNotContain(catalog.Scenarios, s => s.Modules.Contains("lords") || s.Modules.Contains("kings"));
+        using var refused = await owner.PostAsync("/api/test-scenarios/lords-fp-vilya/start", null);
+        Assert.Equal(System.Net.HttpStatusCode.NotFound, refused.StatusCode);
+        Assert.Equal("ScenarioNotFound", (await refused.Content.ReadFromJsonAsync<ApiError>(BoardCatalog.Json))!.Error);
+        Assert.Equal(Side.FreePeoples, (await Start(owner, "fate-gimli-renown")).OwnerSide);
+    }
+
     [PostgresFact]
     public async Task EveryScenarioStartsOverHttpWithItsSideToAct()
     {

@@ -64,6 +64,43 @@ The test scenario mode (R31) launches the ready-to-use, named game situations wi
 | `sh-eye-hunt-allocation` | Shadow | Allocate dice to the Hunt | Allocation of dice to Hunt before the throw; the cast-out Eye comes after the throw. |
 | `sh-elven-ring` | Shadow | Use a captured Elven Ring | The Elves' Ring taken over: the result is changed, also to the Eye. |
 
+### Expansions — TEST-04, restored by TEST-10 (2026-10-19)
+
+The expansion scenarios start in turn 1 of a game with the named module. The setup (the Gandalf version, the
+Council) and the Fellowship phase go through the engine with fixed choices; the characters in a description entered
+the game earlier. Each scenario names its module (`TestScenarioView.Modules`); the server lists and starts it only
+while that module is released (`Wotr:Release:Modules`), otherwise it is hidden and its start answers 404
+`ScenarioNotFound`. `ExpansionDiceScenarioTests` checks each one like the base dice scenarios, and that its declared
+module is the module its game uses.
+
+| Id | Module | Start | Title in game | What it tests |
+| --- | --- | --- | --- | --- |
+| `lords-special-dice-choice` | Lords | Shadow | Choose a special die | Choosing one of the special dice after the roll; the side with more rolled dice first (LORDS pp. 9–13). |
+| `lords-keeper-eye-choice` | Lords | Free Peoples | Keeper Eyes go to the Hunt | Eyes on both Keeper dice: only an Eye can be kept, and it joins the Shadow's Hunt. |
+| `lords-fp-card-draw` | Lords | Free Peoples | Card Draw with a Keeper die | The Card Draw face of the Vilya die (Elrond): draw a card. |
+| `lords-fp-narya-die` | Lords | Free Peoples | Muster with the Narya die | The Narya die (Gandalf the Keeper as Guide): Muster for politics. |
+| `lords-fp-nenya-die` | Lords | Free Peoples | Character with the Nenya die | The Nenya die (Galadriel): Character to move the Fellowship. |
+| `lords-sh-use-balrog` | Lords | Shadow | Use Balrog | The Use Balrog face: activate the Balrog in Moria. |
+| `lords-sh-gothmog-die` | Lords | Shadow | Army with the Gothmog die | The Army face of Gothmog's die: move or attack with an army. |
+| `lords-sh-balrog-entry` | Lords | Shadow | Bring in the Balrog | Muster: the Balrog enters (the Elves and the Dwarves at war). |
+| `lords-sh-gothmog-muster` | Lords | Shadow | Gothmog's Muster abilities | Muster: recruit or upgrade with Gothmog's ability. |
+| `lords-fp-narya` | Lords | Free Peoples | Narya | Narya: Gandalf the Keeper in Bree activates the North and puts it at war. |
+| `lords-fp-vilya` | Lords | Free Peoples | Vilya | Vilya: keep the die just used to draw a card. |
+| `lords-council-token` | Lords | Shadow | Shadow Council token | The Advance Politics token instead of a die (Council of Rivendell). |
+| `kings-fp-ruler-ability` | Kings | Free Peoples | Ruler die: Mustering of the Mark | The Ruler die (Muster): recruit with Théoden's ability. |
+| `kings-fp-ruler-token` | Kings | Free Peoples | Ruler token | Denethor's token turns the Ruler die into his other ability (draw or play a card). |
+| `kings-ruler-discard` | Kings | Shadow | Discard a Ruler die | The discard after the roll: the Shadow first, then the Free Peoples (KINGS pp. 6–7). |
+| `kings-sh-chieftain-entry` | Kings | Shadow | Bring in a Dark Chieftain | Muster: the Black Serpent enters with a Southron army (Gondor at war). |
+| `kings-sh-ruler-die` | Kings | Shadow | Shadow Ruler die | The Shadow's Ruler die (any result but the Eye) pays for another chieftain's entry. |
+| `fate-gimli-renown` | Fate | Free Peoples | Gimli's Renown | Event: Gimli in the Iron Hills moves the Dwarves on the political track. |
+| `kings-fp-awaken` | Kings | Free Peoples | Awaken a sovereign | Muster: awaken a sovereign (every nation at war). |
+| `kings-fp-remove-corrupted` | Kings | Free Peoples | Remove a corrupted sovereign | Boromir in Minas Tirith removes the corrupted Denethor. |
+| `kings-sh-corruption` | Kings | Shadow | Attempt corruption | A corruption attempt instead of an action: two Eyes in the Hunt (KINGS pp. 10–13). |
+
+Not yet here: the Nenya reaction (swapping a drawn Eye in the Hunt) and Dismay; they are not die results. Scenarios
+per mechanic are added with the UI tasks of each module (UI-265–UI-278).
+
+
 <a id="tor-mordoru--test-06"></a>
 ### Tor Mordor — TEST-06
 

@@ -55,5 +55,8 @@ public sealed class ReleaseScope
     // EXP-01: the base game is always offered, and a module only once it is released. A variant needs its module,
     // which ConfigurationRules.Conflict enforces, so a configuration it refuses is never offered.
     public bool Offers(MatchConfiguration configuration) =>
-        ConfigurationRules.IsValid(configuration) && ExpansionModules.Of(configuration).All(released.Contains);
+        ConfigurationRules.IsValid(configuration) && Offers(ExpansionModules.Of(configuration));
+
+    // TEST-10: a test scenario, by the modules it plays with.
+    public bool Offers(IEnumerable<string> modules) => modules.All(released.Contains);
 }
