@@ -57,7 +57,7 @@ In Waiting, the player can only go to the observers at a free place; the observe
 
 The host is a separate administrative function. After moving to the audience, he still manages the waiting room and starts the game; a room with the host-observer and two empty player seats is allowed. Removing the participant before the start indicates the account, also the observer; he keeps protection against the immediate reentry of the deleted person. The public way of the host from the waiting room continues to close it. After the start, the player roles are blocked and the observer does not get game management.
 
-Joining as an observer works in Waiting and during the party. The public list shows the status, the space volume and the corresponding Play/Observe. Private room still requires code. The code allows you to watch also after taking the player's seats and after the start; it does not go to the public DTO. After the end the party disappears from the list of open games and does not accept new observers. The current players can watch the score and download the replay before leaving; players also after reopening the completed batch with My games.
+Joining as an observer works in Waiting and during the party. The public list shows the status, the space volume and the corresponding Play/Observe; since LOBBY-05 it lists only tables before the start. Private room still requires code. The code allows you to watch also after taking the player's seats and after the start; it does not go to the public DTO. A finished game does not accept new observers. The current players can watch the score and download the replay before leaving; since LOBBY-05 a finished game is no longer in My games, so it cannot be reopened from there to save the replay later.
 
 The default connection lease: Renewing every 15 s, Expiring after 60 s without renewal, the server clock. Returning before expiration is idmpotent. Closing one of the several connections of this account does not remove the others. Once the return expires requires a re-acceptation and can end with a lack of seats. The expiry of the observer does not receive or give the player a place. The room cleaning mechanism takes into account active observers. The host identity does not disappear with the termination of the connection.
 
@@ -176,9 +176,9 @@ The `wotr_restore_20261016obs` database stays to acceptance; it can be removed l
 ### User Manual
 
 - Watching the game:
-  - in Open games, select “Observe” for the game;
+  - in Open games, select “Observe” for a game that has not started yet;
   - either enter the code in “Join by code” and click “Observe” also when the seats are taken or the
-    game is in progress.
+    game is in progress (since LOBBY-05 the only way into a game in progress).
 - In the waiting room, the viewer can take a free seat (Take Seat) and the player goes to the
   audience (Observe). Host removes the viewer with a cross at his name.
 - On board, the “Observing” bar switches Free Peoples/Shadow. Clicks only show (regions, card, Log,
@@ -213,3 +213,31 @@ games), lists a started table only while its match exists and is not finished, a
 Asking to watch one's own table by code or from the list already keeps the seat without a place in the audience
 (`Admit`), and the observer endpoints answer players with 404 (OBS-02). A removed match deletes its room
 (`MatchRemoval`), so it leaves the list with it. Test: `RoomObserverTests.APlayerNeverSeesTheirOwnTableAmongOpenGamesNorJoinsItsAudience`.
+
+<a id="listy-gier-po-stronie-serwera--lobby-05-2026-10-19"></a>
+## Game lists decided by the server — LOBBY-05 (2026-10-19)
+
+The owner's request: "on the server side so players are not forced to update: 1) in 'open games' do not show players
+games that are already in progress 2) as the game's name let the server give 'name player1_nickname vs
+player2_nickname' 3) in my games do not show games that have already finished". The installed client (0.9.0-rc.11)
+renders what these lists hold, so the server alone changes them; no contract or client changes.
+
+- Open games (`RoomStore.ListPublic`) lists only public tables before their start, also with both seats taken. A
+  game in progress is watched by its invitation code (or `POST /api/rooms/{id}/join?role=Observer`); the list no
+  longer offers it. This narrows OBS-01, OBS-04 and OBS-07.
+- My games: `GET /api/matches` without `status` (what the client asks) lists only unfinished games;
+  `status=All` and `status=Finished` keep their meaning. `GET /api/rooms` leaves out a room whose game is finished or
+  removed, so the audience's "Watching · In progress" row of a finished game goes too. A player who left the end
+  screen without saving the replay can no longer reopen the finished game to save it.
+- Name: `MatchSummary.Name` of a game between two people is `<name> · <Free Peoples> vs <Shadow>` (usernames; only
+  the players when the stored name is empty), composed when read, so games already started get it and the stored
+  name (replays, demo) stays. The " · " separator follows the existing "Demo · …" names. A game with a technical
+  account (the demo CPU) keeps "Demo · <side> vs CPU".
+
+Tests: `CorrespondenceListTests.MyGamesListsOnlyTheGamesStillGoingInStablePages`,
+`CorrespondenceListTests.AGameBetweenTwoPeopleNamesBothPlayersForBoth`,
+`RoomObserverTests.ThePublicListShowsOnlyRoomsBeforeTheStartWithTheirSeatsAndAudience`,
+`RoomObserverTests.AFinishedGameLeavesTheRoomsItsObserversHave`, `MenuLifecycleTests` (named base game),
+`DemoSessionTests` (the demo keeps its name). The client documents (`wotr-client:docs/ui/MAIN_MENU_UX.md`,
+`OBSERVER_UX.md`, OB05 in `SCENARIOS.md`) still describe started tables in Open games and change with the next
+client commit.

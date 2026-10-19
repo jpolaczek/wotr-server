@@ -13,7 +13,7 @@ The contract is implemented in stages T05–T07. In T06 there are DTO `PlayerVie
 
 | Endpoint | Answer and Semantics |
 | --- | --- |
-| `GET /api/matches?status=All&limit=20&cursor=` | `MatchListView`: list of `MatchSummary` and `NextCursor`; limit of 1–50, empty cursor ends list. Filters All/YourDecision/Waiting/Finished; stable order of ID. |
+| `GET /api/matches?status=All&limit=20&cursor=` | `MatchListView`: list of `MatchSummary` and `NextCursor`; limit of 1–50, empty cursor ends list. Filters All/YourDecision/Waiting/Finished; stable order of ID. LOBBY-05: without `status` the list is My games, the unfinished games only (YourDecision and Waiting); `status=All` adds the finished ones. `Name` of a game between two people is `<name> · <Free Peoples username> vs <Shadow username>` (only the players when the stored name is empty), the same for both; a game with a technical account (demo CPU) keeps its stored name. |
 | `GET /api/matches/{id}/activity?afterRevision=` | `MatchActivityView` : Current revision, own LastSeenRevision used AfterRevision , 50 last visible entries and HasEarlierEntries The omitting parameter uses the saved LastSeenRevision . . |
 | `PUT /api/matches/{id}/seen` | `SeenRevisionRequest.Revision` must be given and belong to 0...current revision. `SeenRevisionView.LastSeenRevision` returns the monotonous maximum of both positions. |
 | `DELETE /api/matches/{id}` | MENU-21: Party player removes it for both sides (204 without content); foreign account and no party give 404. Party disappears from the list of both players, and open update sockets close. |
@@ -782,7 +782,8 @@ Public content 1.0.9 requires this version. `You` viewer has the value of Free P
 | `POST /api/rooms/{id}/presence` | Refurbishment of the viewer's lease: 204; 404 after expiry, removal or closure of the room. |
 | `POST /api/rooms/{id}/remove` | Optional `RemoveParticipantRequest`: player name or viewer; 409 `ParticipantNotFound`. |
 | `PUT /api/rooms/{id}/ready`, `POST /api/rooms/{id}/confirm` | The viewer gets 409 `PlayerRequired`. |
-| `GET /api/rooms/public` | Also rooms with an ongoing party; without finished ones. |
+| `GET /api/rooms/public` | LOBBY-05: only rooms whose game has not started (also with both seats taken), so `Status` is always `Waiting`; a game in progress is watched by its code. |
+| `GET /api/rooms` | LOBBY-05: without the rooms whose game is finished or removed. |
 
 Details: [T08-LOBBY](server/T08-LOBBY.md).
 
