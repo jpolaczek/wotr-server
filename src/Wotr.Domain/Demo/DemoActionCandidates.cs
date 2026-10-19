@@ -17,7 +17,9 @@ internal static class DemoActionCandidates
     private static readonly (CommandKind, int)[] Shadow =
     [
         (CommandKind.AttackArmy, 8), (CommandKind.MoveArmies, 4), (CommandKind.Recruit, 4), (CommandKind.EnterCharacter, 4),
-        (CommandKind.AdvancePolitics, 3), (CommandKind.DrawCard, 3), (CommandKind.PlayEvent, 2), (CommandKind.MoveShadowCharacters, 1)
+        (CommandKind.AdvancePolitics, 3), (CommandKind.DrawCard, 3), (CommandKind.PlayEvent, 2), (CommandKind.MoveShadowCharacters, 1),
+        // EXP-03: with Kings the Shadow now and then spends a Hunt Box Eye to corrupt a sovereign.
+        (CommandKind.AttemptCorruption, 3)
     ];
 
     public static IEnumerable<(CommandKind, CommandPayload)> For(DemoContext context)
@@ -72,8 +74,15 @@ internal static class DemoActionCandidates
         CommandKind.AttackArmy => Attacks(context),
         CommandKind.MoveArmies => Moves(context),
         CommandKind.MoveShadowCharacters => CharacterMoves(context),
+        CommandKind.AttemptCorruption => Corruptions(context),
         _ => []
     };
+
+    private static IEnumerable<(CommandKind, CommandPayload)> Corruptions(DemoContext context) =>
+        from option in context.Options(CommandKind.AttemptCorruption)
+        from sovereign in context.Choice.Shuffled(option.EligibleIds)
+        from eye in option.EligibleDice
+        select (CommandKind.AttemptCorruption, new CommandPayload { CharacterId = sovereign, DieId = eye });
 
     private static IEnumerable<(CommandKind, CommandPayload)> DiceOnly(DemoContext context, CommandKind kind) =>
         context.Options(kind).SelectMany(o => o.EligibleDice).Select(die => (kind, new CommandPayload { DieId = die }));

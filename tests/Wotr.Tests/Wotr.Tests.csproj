@@ -16,6 +16,7 @@
     <Compile Include="../Wotr.Scenarios/BattleScenario.cs" Link="Fixtures/BattleScenario.cs" />
     <Compile Include="../Wotr.Scenarios/FellowshipScenario.cs" Link="Fixtures/FellowshipScenario.cs" />
     <None Include="../fixtures/base-regression/**/*.json" Link="Fixtures/Base/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../fixtures/expansion-regression/**/*.json" Link="Fixtures/Expansions/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../fixtures/contract-legacy/*.json;../fixtures/contract-legacy/*.txt" Link="Fixtures/Legacy/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../fixtures/replays/*.wotrreplay" Link="Fixtures/Replays/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.12" />

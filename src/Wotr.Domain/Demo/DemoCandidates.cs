@@ -28,6 +28,12 @@ internal static class DemoCandidates
         DecisionKind.EffectChoice => DemoChoiceCandidates.Effect(context),
         DecisionKind.Reaction => Plain(CommandKind.DeclineReaction),
         DecisionKind.ArmyEvent or DecisionKind.CharacterEvent => DemoActionCandidates.EventMoves(context),
+        // EXP-03: the expansions' own decisions.
+        DecisionKind.CouncilVersions => DemoExpansionCandidates.Versions(context),
+        DecisionKind.CouncilHomelands => DemoExpansionCandidates.Homelands(context),
+        DecisionKind.CouncilToken => DemoExpansionCandidates.CouncilToken(context),
+        DecisionKind.Dismay => DemoExpansionCandidates.Dismay(context),
+        DecisionKind.CorruptionTile => DemoExpansionCandidates.CorruptionTile(context),
         _ => []
     };
 

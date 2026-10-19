@@ -158,3 +158,17 @@ Process finding: the five Council/CompanionSetup/FellowshipGuide/ResourcePanel/S
 Unity process hung for over three hours (repeated `MatchConnection` receive errors), while each finished alone; this
 belongs to QUAL-06 (isolated PlayMode runs).
 
+## Expansion bot games and saves — EXP-03 (2026-10-19)
+
+- `ExpansionBotGameTests`: two demo CPUs play 14 configurations (each expansion alone, with each of its variants, the
+  pairs, all three, all variants) with two seeds each. At every expansion decision and every 25th step the save reads
+  back to the same bytes and projections, and each side's projection is unchanged by the other side's hidden
+  information (`HiddenInformation.Perturbed`: hand against deck, deck order, random samples, unreadable corruption
+  tiles). `EveryExpansionDecisionKindComesUp` plays four families with three seeds; Dismay comes from
+  `TheBotAnswersADismayWindowBothWays`. About three minutes in the default suite.
+- `ExpansionCorpusTests` over `tests/fixtures/expansion-regression` (11 frozen saves from CPU games, 1.6 MB, exported
+  with `bash scripts/dotnet.sh run --project tests/Wotr.Scenarios -c Release -- --export-expansion-corpus <empty dir>`;
+  see its README): read-back, the recorded answer and the following decision, and privacy.
+- `ExpansionHttpGameTests`: one all-expansions game over the HTTP command route and PostgreSQL, restarted every 120
+  moves, with identical projections after each restart (2026-10-19: 687 moves, six server runs, Shadow by corruption
+  in turn 23).
