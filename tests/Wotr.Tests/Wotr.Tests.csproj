@@ -10,6 +10,7 @@
     <Compile Include="../Wotr.Scenarios/ExpansionUiMatrix.cs" Link="Fixtures/ExpansionUiMatrix.cs" />
     <Compile Include="../Wotr.Scenarios/ExpansionUiFixture.cs" Link="Fixtures/ExpansionUiFixture.cs" />
     <Compile Include="../Wotr.Scenarios/LordsCharacterScenario.cs" Link="Fixtures/LordsCharacterScenario.cs" />
+    <Compile Include="../Wotr.Scenarios/LordsCardScenario.cs" Link="Fixtures/LordsCardScenario.cs" />
     <Compile Include="../Wotr.Scenarios/BoardProfileScenario.cs" Link="Fixtures/BoardProfileScenario.cs" />
     <Compile Include="../Wotr.Scenarios/CharacterRosterScenario.cs" Link="Fixtures/CharacterRosterScenario.cs" />
     <Compile Include="../Wotr.Scenarios/CharacterScenario.cs" Link="Fixtures/CharacterScenario.cs" />
