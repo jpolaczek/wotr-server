@@ -198,3 +198,52 @@ released (EXP-05 waits for it).
 
 Limit: the client full-game driver (`FullGameChoices`) plays a narrow strategy and plays no Fate card; the cards'
 client steps are covered card by card (UI-266) and every Fate decision by the bot games.
+
+<a id="exp-10"></a>
+## Every module on its own and in every combination — EXP-10 (2026-10-19)
+
+The owner's order: "make sure all the expansions and the whole game logic work correctly INDEPENDENTLY of each other".
+On `expansions` at `4193fe7`:
+
+- `ModuleIndependenceGameTests`: two demo CPUs play a complete game of each of the 93 legal configurations, one after
+  another in one class (split across four classes they ran in 10 minutes but crowded the suite's timing-sensitive
+  restart and demo tests on an 8-core machine).
+  At every step a module that is off opens none of its decisions (`SpecialDieChoice`, `KeepActionDie`,
+  `CouncilVersions` → Lords; `CouncilHomelands`, `CouncilToken` → Council; `RulerDiscard`, `CorruptionTile` → Kings;
+  `Dismay`), allows, offers or sends none of its handlers' commands (ownership read from each module handler's
+  `Handles`), and keeps no Lords/Council/Kings state, special or Ruler die or module character. Pieces: no card in two
+  places, every card from the decks the configuration built (or an enabled module's special card), no new army unit and
+  only a Kings sovereign that left its initial state leaves the armies, unique dice, Hunt tiles and characters. At every
+  module decision and every 25th step both sides' options are checked, the save reads back to the same bytes and
+  projections, and each projection ignores the other side's secrets. Default suite: one seed, 93/93 PASS (about 16
+  minutes on one core); `WOTR_SOAK_SEEDS=5`: 465/465 PASS in 47 m 3 s.
+- `ReleaseModuleTests.EveryReleaseOffersExactlyTheLegalConfigurationsOfItsOwnModules`: each of the eight sets of released
+  modules offers exactly the legal configurations of its own modules, over all 512 flag combinations, against an
+  independent oracle (13/13 PASS with the class).
+- `HiddenInformation.Perturbed` no longer changes the opponent's hand while Wind from the West lets the viewer inspect it
+  (the new games found that false alarm in Lords+Kings games; the projection itself was right).
+- CI coverage scripts: base 96 cards and 14 characters, Lords 14 cards, Kings 19 cards (11 replacements, 8 additions,
+  two Fate exclusions), Fate six cards and Gimli, catalog 30 rule families and 35 decision windows — all PASS.
+- Static audit of every configuration-flag read in Domain and Server, the engine's per-command hooks, the command
+  handlers, the option providers, deck composition and module state: no command of a module validates without it and
+  no module state is created in a base match. Cross-module points it found are documented rules: Mithril or Nenya
+  reopening the Shadow's replacement window under Lords (T24, T27-LORDS-03); Lore changing the Shadow Ruler die (T31's
+  order Lords → SH discard → FP discard → Dismay/Lore). Not specified but without effect today: when the Council's Hobbit
+  return and the Kings corruption removal queue in one command, the removal resolves first (Council Merry and Pippin
+  have no nation icon, so they cannot be the sovereign's companion). A loaded save does not re-validate its
+  configuration (`ConfigurationRules.Conflict` runs at match creation and in the room rules).
+- Full backend suite with these tests, in six test hosts (`expansion`, `kings`, `lords`, Fate/Council/Release/the module
+  games, base persistence, the rest; disjoint filters that cover every test): **4481/4481 PASS**, no failure, no abort;
+  the largest host peaked at 4.1 GB.
+- Open finding — the suite does not fit one test host on a 16 GB Mac. On `expansions` a single `dotnet test` run is
+  killed by the kernel for memory (exit 137; the system log reads `memorystatus: killing largest compressed process
+  dotnet … 21491 MB`) after 4–16 minutes, before and after EXP-10's tests alike, while `main`'s suite still runs in one
+  host. The memory is held, not merely unreleased: `ExpansionPersistenceTests` alone climbs steadily to 2.2–2.4 GB in
+  three minutes with the configuration-reload watchers off (`DOTNET_hostBuilder__reloadConfigOnChange=false`) and with the
+  workstation GC (`DOTNET_gcServer=0`) alike, while the bot games stay near 400 MB. Something the HTTP/PostgreSQL
+  persistence tests create (`AccountHost` hosts, their services or data sources) outlives its test; a heap snapshot
+  (`dotnet-gcdump`) of that class should name it. Until then run the suite in parts as above. Under that memory pressure
+  timing-sensitive tests also failed (HTTP restarts after 100 s, the demo CPU's 20-second hand-over), so the module games
+  run in one class, not four side by side.
+- `MatchObserverTests.ALapsedObserverLosesTheBoardAndItsOpenSocket` (a 2-second lease) fails under a loaded full run on
+  `main` and `expansions` alike and passes alone; its fix is a base change prepared on `main`.

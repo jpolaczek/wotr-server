@@ -93,6 +93,30 @@ public class ReleaseModuleTests
         Assert.False(ReleaseScope.Full.Offers(Normalized(new() { Council = true })));
     }
 
+    // EXP-10: each module is released on its own. For every set of released modules and every one of the 512 flag
+    // combinations, a configuration is offered exactly when it is legal and each expansion it turns on is released.
+    [Fact]
+    public void EveryReleaseOffersExactlyTheLegalConfigurationsOfItsOwnModules()
+    {
+        for (var release = 0; release < 8; release++)
+        {
+            var modules = ExpansionModules.All.Where((_, index) => (release & (1 << index)) != 0).ToList();
+            var scope = new ReleaseScope(modules);
+            for (var flags = 0; flags < 512; flags++)
+            {
+                var configuration = ExpansionConfigurations.FromFlags(flags);
+                var used = new[]
+                {
+                    (configuration.Fate, ExpansionModules.Fate), (configuration.Lords, ExpansionModules.Lords),
+                    (configuration.Kings, ExpansionModules.Kings)
+                }.Where(m => m.Item1).Select(m => m.Item2);
+                var expected = ExpansionConfigurations.Allowed(flags) && used.All(modules.Contains);
+                Assert.True(expected == scope.Offers(Normalized(configuration)),
+                    $"release [{string.Join(",", modules)}], flags {flags}: expected offered {expected}.");
+            }
+        }
+    }
+
     [Fact]
     public void ANamedRoomTakesAReleasedModuleAndRefusesAnUnreleasedOne()
     {
