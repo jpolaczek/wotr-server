@@ -59,6 +59,8 @@ internal static class CardPackScenario
             scenarios.Add(pair.Key, pair.Value);
         foreach (var pair in ExpansionWindowScenario.Create(random))
             scenarios.Add(pair.Key, pair.Value);
+        foreach (var pair in LordsCharacterScenario.Create(random))
+            scenarios.Add(pair.Key, pair.Value);
         scenarios.Add("hunt-protection", Protection(random));
         scenarios.Add("ui54-hunt-protection", Protection(random));
         scenarios.Add("mighty-attack", Combat(random, false));
