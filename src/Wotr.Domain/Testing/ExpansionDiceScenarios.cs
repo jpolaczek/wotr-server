@@ -13,7 +13,7 @@ public static class ExpansionDiceScenarios
     private const string KingsRuler = "Kings · Ruler dice";
     private const string KingsSovereigns = "Kings · Sovereigns and corruption";
     private const string KingsChieftainsGroup = "Kings · Dark Chieftains";
-    private const string Fate = "Fate of Erebor";
+    private const string Fate = "Fate · Gimli";
 
     private static MatchConfiguration Lords => new() { Lords = true };
     private static MatchConfiguration Kings => new() { Kings = true };

@@ -100,6 +100,23 @@ module is the module its game uses.
 Not yet here: the Nenya reaction (swapping a drawn Eye in the Hunt) and Dismay; they are not die results. Scenarios
 per mechanic are added with the UI tasks of each module (UI-265–UI-278).
 
+### Fate cards — UI-266 (2026-10-19)
+
+The six Fate of Erebor cards whose choices have their own objects on the board (`FateCardScenarios`, group
+`Fate · Cards`, module Fate; the client shows the group as "Cards" in the Fate tab, beside "Gimli"). Each one starts
+like a base card's event scenario (TEST-09) in a Fate game: the owner acts on turn 1 with the card in hand, a die of its
+event type and an Event die, and the board meets the card's condition. `FateCardScenarioTests` plays each card from the
+hand and checks that the game then waits on the card's own choice.
+
+| Id | Start | Title in game | What it tests |
+| --- | --- | --- | --- |
+| `fate-card-there-and-back-again` | Free Peoples | There and Back Again · Event | Separation on the Fellowship portraits; Legolas in the Carrock advances the North, the Dwarves and the Elves. |
+| `fate-card-book-of-mazarbul` | Free Peoples | Book of Mazarbul · Event | Moving the companions outside the Fellowship on the map (Gimli in the Iron Hills, Legolas in Ered Luin), then the Dwarven recruit. |
+| `fate-card-bardings` | Free Peoples | Bardings · Event | The recruitment region next to Dale or Dale itself, and the North reserve plan. |
+| `fate-card-dwarves-of-the-iron-hills` | Free Peoples | Dwarves of the Iron Hills · Event | The recruitment region next to Dale or Dale itself, and the Dwarven reserve plan. |
+| `fate-card-orcs-multiplying-again` | Shadow | Orcs Multiplying Again · Event | Mount Gundabad or Erebor on the map; four Sauron Regulars left, so the reserve is split. |
+| `fate-card-monsters-roused` | Shadow | Monsters Roused · Event | The West or East plan in the console; one Sauron Regular left, so the reserve plan decides what is placed. |
+
 
 <a id="tor-mordoru--test-06"></a>
 ### Tor Mordor — TEST-06

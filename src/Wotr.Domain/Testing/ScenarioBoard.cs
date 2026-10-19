@@ -13,9 +13,12 @@ public sealed class ScenarioBoard
 
     public MatchState State { get; }
 
-    public static ScenarioBoard Setup(string matchId, IRandomSource random)
+    public static ScenarioBoard Setup(string matchId, IRandomSource random) => Setup(matchId, random, new());
+
+    // UI-266: the same situation in a game with expansion modules (FateCardScenarios).
+    public static ScenarioBoard Setup(string matchId, IRandomSource random, MatchConfiguration configuration)
     {
-        var state = MatchFactory.Create(matchId, random);
+        var state = MatchFactory.Create(matchId, random, configuration);
         TurnFlow.Start(state);
         return new(state);
     }
