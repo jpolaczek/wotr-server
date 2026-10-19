@@ -655,6 +655,12 @@ when all its modules are released; otherwise it is absent from `GET /api/test-sc
 `ScenarioNotFound`. The protocol and commands are unchanged. Public content 1.0.14 has the same files as 1.0.13 and
 requires Contracts 0.13.0. Scenarios: [TEST_SCENARIOS](TEST_SCENARIOS.md).
 
+Contracts 0.14.0 (DEMO-06) add `OfferedModulesView` (`modules`: the expansion modules this server releases for new
+tables), answered by `GET /api/rooms/offered-modules` so the menu's demo page can show the rules before any room
+exists. A demo (`POST /api/rooms/{id}/demo`) now plays with its room's configuration and is refused with 409
+`ExpansionsUnavailable` while a module of it is not released. The protocol and commands are unchanged. Public content
+1.0.15 has the same files as 1.0.14 and requires Contracts 0.14.0. Rules: [DEMO-MODE](server/DEMO-MODE.md).
+
 <a id="wersje-klienta-katalog-wydań-i-zgodność--dist-05"></a>
 ## Client versions, release directory and compliance — DIST-05
 

@@ -33,6 +33,8 @@ public static class LobbyEndpoints
     {
         rooms.MapGet("/", async (HttpContext context, RoomStore store) =>
             Results.Ok(await store.List(Account(context), context.RequestAborted)));
+        // DEMO-06: the released modules, for the rules of a table not made yet (the menu's demo page).
+        rooms.MapGet("/offered-modules", (ReleaseScope release) => Results.Ok(new OfferedModulesView { Modules = [.. release.Modules] }));
         rooms.MapGet("/public", async (HttpContext context, RoomStore store, string cursor = "", int limit = 20) =>
             limit is < 1 or > 50 || cursor.Length > 32 || cursor.Any(char.IsControl)
                 ? Results.BadRequest(new ApiError { Error = "InvalidPage" })

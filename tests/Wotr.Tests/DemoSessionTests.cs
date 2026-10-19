@@ -10,8 +10,9 @@ using Xunit;
 
 namespace Wotr.Tests;
 
-// DEMO-01 (DM01–DM03): a member of a waiting room starts one demo of the base game against the CPU; a new demo
-// replaces the previous one with everything stored for it; the room, other matches and other demos stay.
+// DEMO-01 (DM01–DM03): a member of a waiting room starts one demo against the CPU; a new demo replaces the previous
+// one with everything stored for it; the room, other matches and other demos stay. DEMO-06: the demo plays with the
+// room's rules while every module of them is released.
 public sealed class DemoSessionTests
 {
     [PostgresFact]
@@ -27,7 +28,7 @@ public sealed class DemoSessionTests
         Assert.Equal(Side.Shadow, demo.You);
         var view = (await client.GetFromJsonAsync<PlayerView>(Route(demo.MatchId), BoardCatalog.Json))!;
         Assert.Equal(Side.Shadow, view.You);
-        Assert.True(ConfigurationRules.IsBase(view.Configuration), "A demo is always the base game.");
+        Assert.True(ConfigurationRules.IsBase(view.Configuration), "A base room's demo is the base game.");
         Assert.Equal("demo-cpu", await Text("SELECT fp_account FROM matches WHERE id=$1", demo.MatchId));
         Assert.Equal(alice.AccountId, await Text("SELECT sh_account FROM matches WHERE id=$1", demo.MatchId));
         Assert.Equal("FreePeoples", await Text("SELECT cpu_side FROM demo_matches WHERE match_id=$1", demo.MatchId));
@@ -40,6 +41,50 @@ public sealed class DemoSessionTests
         Assert.Equal(RoomStatus.Waiting, after.Status);
         Assert.Equal(room.Version, after.Version);
         Assert.Equal("", after.MatchId);
+    }
+
+    // DEMO-06: a room set to Fate with New Cities starts a Fate demo; GET offered-modules names what the server releases.
+    [PostgresFact]
+    public async Task ADemoPlaysWithTheRoomsReleasedRules()
+    {
+        using var host = new AccountHost(extra: new Dictionary<string, string?>(TestBudgets.Stress) { [ReleaseScope.ModulesKey] = "fate" });
+        var alice = await MenuAccounts.Register(host);
+        using var client = MenuAccounts.Client(host, alice);
+        var offered = (await client.GetFromJsonAsync<OfferedModulesView>("/api/rooms/offered-modules", BoardCatalog.Json))!;
+        Assert.Equal(["fate"], offered.Modules);
+        var rooms = host.Services.GetRequiredService<RoomStore>();
+        var room = await rooms.Create(alice.AccountId, Side.FreePeoples);
+        var configured = await rooms.Configure(room.Id, alice.AccountId, new ConfigureRoomRequest
+        {
+            ExpectedVersion = room.Version, Configuration = new() { Fate = true, NewCities = true }
+        });
+        Assert.NotNull(configured.Room);
+
+        var demo = await Start(client, room.Id);
+
+        var view = (await client.GetFromJsonAsync<PlayerView>(Route(demo.MatchId), BoardCatalog.Json))!;
+        Assert.True(view.Configuration.Fate && view.Configuration.NewCities);
+        Assert.False(view.Configuration.Lords || view.Configuration.Kings);
+    }
+
+    // DEMO-06: a room set up before the release narrowed cannot start its demo, as it cannot start its game.
+    [PostgresFact]
+    public async Task ADemoOfAnUnreleasedModuleIsRefused()
+    {
+        using var host = new AccountHost(extra: new Dictionary<string, string?>(TestBudgets.Stress) { [ReleaseScope.ModulesKey] = "fate" });
+        var alice = await MenuAccounts.Register(host);
+        var everything = new RoomStore(host.Services.GetRequiredService<Database>(), new SeededRandom(1), ReleaseScope.Full);
+        var room = await everything.Create(alice.AccountId, Side.Shadow);
+        var configured = await everything.Configure(room.Id, alice.AccountId, new ConfigureRoomRequest
+        {
+            ExpectedVersion = room.Version, Configuration = new() { Kings = true }
+        });
+        Assert.NotNull(configured.Room);
+        using var client = MenuAccounts.Client(host, alice);
+        using var refused = await client.PostAsync("/api/rooms/" + room.Id + "/demo", null);
+        Assert.Equal(HttpStatusCode.Conflict, refused.StatusCode);
+        Assert.Equal("ExpansionsUnavailable", (await refused.Content.ReadFromJsonAsync<ApiError>(BoardCatalog.Json))!.Error);
+        Assert.Equal(0, await Count("SELECT count(*) FROM demo_matches WHERE owner_account=$1", alice.AccountId));
     }
 
     [PostgresFact]

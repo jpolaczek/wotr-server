@@ -105,6 +105,12 @@ namespace Wotr.Contracts
         }
     }
 
+    // DEMO-06: the modules this server releases for new tables, before any room exists (the menu's demo page).
+    public sealed class OfferedModulesView
+    {
+        public List<string> Modules { get; set; } = new List<string>();
+    }
+
     public sealed class PublicRoomSummary
     {
         public string Id { get; set; } = "";
