@@ -132,3 +132,29 @@ Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/60ea00
 | Linux x64 (AppImage) | LNX-02, 2026-10-18 | The owner's Linux PC with the released client and in-game updates. |
 | Windows 10/11 x64 | DIST-13, 2026-10-18 | The owner's check: the released game installs and runs on Windows. Uninstall and reinstall were not reported separately. |
 | Steam Deck | open (DECK-01) | Runs the Linux AppImage; still marked experimental. |
+
+<a id="exp-00"></a>
+## Expansion client tests — triage EXP-00 (2026-10-19)
+
+Run on client 60ea0081 (test clone) against test backend `ddae9b1de03c`, fresh database, one Unity process per pack
+(`packs.sh`), the Council/Setup/Guide/Resource/Sovereign classes then one class per process with a 20-minute watchdog.
+Totals: 115 of 127 expansion PlayMode tests pass, including the full desktop game with all expansions
+(`T36DesktopGameTests.AllExpansions…`). Every failure has an owner in the expansions program
+(~/.claude/plans/validated-sleeping-dahl.md); none points at the rules engine.
+
+| Test | Cause | Kind | Owner |
+| --- | --- | --- | --- |
+| ExpansionCorruptionNetworkTests ×4 (Hidden, Sequential draw/stop, Visible) | the attempt starts from the Nenya die in the pool row, which is no longer there | obsolete host | UI-274 (attempt button beside the portrait) |
+| ExpansionTokenNetworkTests.BalrogEntryOffersAnOptionalReserveFigure | the reserve figure click adds no Elite since the reserve-plan change | regression | UI-271 |
+| ExpansionTokenNetworkTests.RulerTokenPaysForAllThreeExplicitRecruitments | dragging the text Ruler-token chip times out | obsolete host | UI-276 |
+| KingsCards04NetworkTests.EnemySeparatesFieldArmyFromGarrison | Field/Garrison buttons left the decision tray | obsolete host | UI-278 |
+| LordsFinalCardsNetworkTests.Madness… | the card window no longer shows the resolving card id | regression | UI-272 |
+| LordsShadowNetworkTests.LoreChangesOneRolledEye… | Lore choices are no longer tray buttons | obsolete host | UI-272 |
+| FellowshipGuideNetworkTests.CouncilVersionAppears… | the Guide tooltip of Gandalf Keeper reads the base Gandalf text (no "Narya") | regression | UI-269 |
+| InGameDenseLayoutTests.…FiveSovereigns… | the Effects window header now has two buttons | obsolete expectation | UI-274 |
+| CouncilHomelandPanelNetworkTests.TwoAndFiveDepartures… | `TooManyRequests`: the per-address sign-in limit (20/min) is fixed in `AuthenticationRateLimit` and cannot be raised for client integration like the other budgets | test environment | EXP-00 (configurable sign-in budget, raised by `wotr-client:scripts/test-client.sh`) |
+
+Process finding: the five Council/CompanionSetup/FellowshipGuide/ResourcePanel/Sovereign classes run together in one
+Unity process hung for over three hours (repeated `MatchConnection` receive errors), while each finished alone; this
+belongs to QUAL-06 (isolated PlayMode runs).
+

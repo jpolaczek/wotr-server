@@ -126,12 +126,22 @@ public sealed class GameRateLimitTests
     [InlineData("WOTR_LIMIT_PREVIEWS", "-3")]
     [InlineData("WOTR_LIMIT_SOCKETS", "1000")]
     [InlineData("WOTR_LIMIT_WINDOW_SECONDS", "ten")]
+    [InlineData("WOTR_LIMIT_SIGNINS", "0")]
     public void ConfiguredBudgetsAreValidated(string key, string value)
     {
         var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { [key] = value }).Build();
         var error = Assert.Throws<InvalidOperationException>(() => GameRateLimitOptions.Read(configuration));
         Assert.Contains(key, error.Message);
         Assert.Equal(new GameRateLimitOptions(), GameRateLimitOptions.Read(new ConfigurationBuilder().Build()));
+    }
+
+    // EXP-00: the per-address sign-in budget comes from configuration; 20 per minute unless raised.
+    [Fact]
+    public void TheSignInBudgetIsConfigurable()
+    {
+        Assert.Equal(20, GameRateLimitOptions.Read(new ConfigurationBuilder().Build()).SignInsPerMinute);
+        var raised = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { ["WOTR_LIMIT_SIGNINS"] = "5000" }).Build();
+        Assert.Equal(5000, GameRateLimitOptions.Read(raised).SignInsPerMinute);
     }
 
     private static async Task<MatchState> Game(TestHost host)

@@ -14,6 +14,9 @@ public sealed record GameRateLimitOptions
     public int RoomRequestsPerWindow { get; init; } = 60;
     public int ConcurrentRequests { get; init; } = 8;
     public int UpdateSockets { get; init; } = 4;
+    // EXP-00: sign-ins per network address and minute (AuthenticationRateLimit.Login). Client integration runs raise it,
+    // since every PlayMode room signs its two fixture accounts in from one address.
+    public int SignInsPerMinute { get; init; } = 20;
 
     public TimeSpan Window => TimeSpan.FromSeconds(WindowSeconds);
 
@@ -28,7 +31,8 @@ public sealed record GameRateLimitOptions
             ReadsPerWindow = Value(configuration, "WOTR_LIMIT_READS", defaults.ReadsPerWindow, 1, 10000),
             RoomRequestsPerWindow = Value(configuration, "WOTR_LIMIT_ROOMS", defaults.RoomRequestsPerWindow, 1, 10000),
             ConcurrentRequests = Value(configuration, "WOTR_LIMIT_CONCURRENT", defaults.ConcurrentRequests, 1, 256),
-            UpdateSockets = Value(configuration, "WOTR_LIMIT_SOCKETS", defaults.UpdateSockets, 1, 64)
+            UpdateSockets = Value(configuration, "WOTR_LIMIT_SOCKETS", defaults.UpdateSockets, 1, 64),
+            SignInsPerMinute = Value(configuration, "WOTR_LIMIT_SIGNINS", defaults.SignInsPerMinute, 1, 10000)
         };
     }
 
