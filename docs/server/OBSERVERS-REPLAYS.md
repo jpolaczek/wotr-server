@@ -241,3 +241,12 @@ Tests: `CorrespondenceListTests.MyGamesListsOnlyTheGamesStillGoingInStablePages`
 `DemoSessionTests` (the demo keeps its name). The client documents (`wotr-client:docs/ui/MAIN_MENU_UX.md`,
 `OBSERVER_UX.md`, OB05 in `SCENARIOS.md`) still describe started tables in Open games and change with the next
 client commit.
+
+Production deployment, 2026-10-19 (owner's order "deploy lobby-05 to the production server, the expansions still
+wait"): the server went from `d3a734abf604` to `48953f68b5fc`, i.e. only LOBBY-05 on top of the rc.11 line; the
+expansions work was not deployed. Copy before the update: `/srv/wotr/backups/2026-10-19-before-lobby05` (complete
+manifest, previous image inside). No migration. `infra/production.sh build server` and `up -d --wait` recreated only
+`server`; the previous image `wotr-server:d3a734abf604` stays for a rollback (`WOTR_VERSION=d3a734abf604`, `up -d
+--wait`). Checks: `/health` ok (protocol 2), `/health/ready` 200; from the new start, players' `GET /api/matches`,
+`/api/rooms`, `/api/rooms/public` and `/api/lobby` all 200, one 502 at the swap (80 ms before the start); no other
+5xx. On production data it hid 2 public games in progress from Open games and 6 finished games from My games.
