@@ -50,8 +50,25 @@ public class BaseCardScenarioEffectTests
             BoardRules.Regions[s.Fellowship.RegionId].Settlement != "Stronghold" &&
             Player(s, Side.FreePeoples).Table.Any(id => CardCatalog.Base[id].Deck == "character")),
         ["base.sh.character.19"] = ("several Nazgûl to roll for", (s, _) => s.Units.Count(u => u.Kind == UnitKind.Nazgul && u.Location == "minas-morgul") >= 3),
-        ["base.sh.strategy.04"] = ("an unused Will of the West result", (s, _) => AvailableDice(s, Side.FreePeoples, DieFace.WillOfTheWest) > 0)
+        ["base.sh.strategy.04"] = ("an unused Will of the West result", (s, _) => AvailableDice(s, Side.FreePeoples, DieFace.WillOfTheWest) > 0),
+        ["base.fp.strategy.02"] = ("a Sauron army at war next to Lórien", (s, _) => AtWar(s, "sauron") && Army(s, "dimrill-dale", Side.Shadow)),
+        ["base.fp.strategy.03"] = ("a Sauron army at war next to the Old Forest and Buckland", (s, _) => AtWar(s, "sauron") && Army(s, "cardolan", Side.Shadow)),
+        ["base.sh.character.15"] = ("a Hunt ahead and a Character Event in the Free Peoples hand", (s, _) =>
+            HuntAhead(s) && Player(s, Side.FreePeoples).Hand.Any(id => CardCatalog.Base[id].Deck == "character")),
+        ["base.sh.character.16"] = ("a Hunt ahead", (s, _) => HuntAhead(s)),
+        ["base.sh.character.17"] = ("a Hunt ahead of Reveal tiles next to Moria", (s, _) => HuntAhead(s) && Near(s.Fellowship.RegionId, "moria") &&
+            s.HuntTiles.Where(t => t.Location == "pool").All(t => HuntPool.Definitions[t.Id].Reveal)),
+        ["base.sh.character.21"] = ("another Shadow Event in hand for the Event die", (s, card) => Player(s, Side.Shadow).Hand.Any(id => id != card)),
+        ["base.sh.character.22"] = ("Wisdom of Elrond in the Free Peoples hand", (s, _) => Player(s, Side.FreePeoples).Hand.Contains("base.fp.strategy.08"))
     };
+
+    // UI-300: cards kept on the table for the Hunt; the scenario's next move of the Fellowship meets a Hunt that offers them.
+    public static TheoryData<string> HuntCards => new("base.fp.character.05", "base.fp.character.06", "base.fp.character.07",
+        "base.fp.character.08", "base.sh.character.16");
+
+    // UI-300: special Hunt tiles; the scenario stands on the Mordor Track, where the played tile is drawn within two steps.
+    public static TheoryData<string> MordorTiles => new("base.fp.character.01", "base.fp.character.02", "base.fp.character.03",
+        "base.fp.character.04", "base.sh.character.01", "base.sh.character.02", "base.sh.character.03", "base.sh.character.04");
 
     public static TheoryData<string> ConditionalCards => new(Conditions.Keys.Order(StringComparer.Ordinal));
 
@@ -70,6 +87,92 @@ public class BaseCardScenarioEffectTests
         var state = TestScenarioCatalog.Find(CardScenarios.EventId(cardId))!.Create("card-clause-" + cardId);
         var (clause, holds) = Conditions[cardId];
         Assert.True(holds(state, cardId), $"{cardId} ({CardCatalog.Base[cardId].Title}) needs {clause}.");
+    }
+
+    [Theory]
+    [MemberData(nameof(HuntCards))]
+    public void TheNextFellowshipMoveOffersTheTableCardInTheHunt(string cardId) =>
+        Assert.True(Seeds.Any(seed => Offered(cardId, seed)), $"{cardId} ({CardCatalog.Base[cardId].Title}): no Hunt offered it.");
+
+    [Theory]
+    [MemberData(nameof(MordorTiles))]
+    public void TheSpecialTileIsDrawnOnTheMordorTrack(string cardId) =>
+        Assert.True(Seeds.Any(seed => Drawn(cardId, seed)), $"{cardId} ({CardCatalog.Base[cardId].Title}): its tile was not drawn.");
+
+    private static bool Offered(string cardId, int seed)
+    {
+        var state = Play(cardId, seed, out _);
+        state = Move(Resolve(state, seed), seed);
+        for (var step = 0; step < StepLimit && state.Pending is { } pending; step++)
+        {
+            if (pending.Kind == DecisionKind.Action)
+                return false;
+            var view = Views.For(state, pending.Owner);
+            if (view.Options.Any(o => o.Kind == CommandKind.RespondEffect && o.EffectChoices.Any(c => c.SourceId == cardId)))
+                return true;
+            state = Execute(state, pending.Owner, Bot.Next(state, pending.Owner)!, seed + step);
+        }
+        return false;
+    }
+
+    private static bool Drawn(string cardId, int seed)
+    {
+        var before = TestScenarioCatalog.Find(CardScenarios.EventId(cardId))!.Create("card-tile-" + cardId).HuntTiles
+            .Where(t => t.Location == "pool").Select(t => t.Id).ToHashSet();
+        var state = Play(cardId, seed, out _);
+        var tile = state.HuntTiles.Single(t => t.Location == "pool" && !before.Contains(t.Id)).Id;
+        for (var move = 0; move < 3 && state.Winner is null; move++)
+        {
+            state = Move(Resolve(state, seed + move), seed + move);
+            state = Resolve(state, seed + move);
+            if (state.HuntTiles.Single(t => t.Id == tile).Location != "pool")
+                return true;
+        }
+        return false;
+    }
+
+    // The card is played with the Event die when it has one, so the Character die stays for the Fellowship's move.
+    private static MatchState Play(string cardId, int seed, out string dieId)
+    {
+        var scenario = TestScenarioCatalog.Find(CardScenarios.EventId(cardId))!;
+        var state = scenario.Create("card-trigger-" + cardId);
+        var side = scenario.StartingSide;
+        var view = Views.For(state, side);
+        var play = view.Options.First(o => o.Kind == CommandKind.PlayEvent).Events.First(e => e.CardId == cardId);
+        var costs = play.Costs.Where(c => c.AbilityId.Length == 0).ToList();
+        var cost = costs.FirstOrDefault(c => state.Dice.Single(d => d.Id == c.DieId).Face == DieFace.Event) ?? costs[0];
+        dieId = cost.DieId;
+        return Resolve(Execute(state, side, new GameCommand
+        {
+            MatchId = state.Id,
+            CommandId = "card-trigger-" + cardId,
+            ExpectedRevision = state.Revision,
+            DecisionId = view.Decision!.Id,
+            Kind = CommandKind.PlayEvent,
+            Payload = new() { CardId = cardId, DieId = cost.DieId, CardCost = cost.Face, NationId = play.NationTargets.FirstOrDefault() ?? "" }
+        }, seed), seed);
+    }
+
+    // The Free Peoples move the Fellowship with a die the move accepts; the Shadow's actions in between go to the CPU.
+    private static MatchState Move(MatchState state, int seed)
+    {
+        for (var step = 0; step < StepLimit && state.Pending is { Kind: DecisionKind.Action } pending && pending.Owner == Side.Shadow; step++)
+            state = Resolve(Execute(state, Side.Shadow, Bot.Next(state, Side.Shadow)!, seed + step), seed + step);
+        if (state.Pending is not { Kind: DecisionKind.Action, Owner: Side.FreePeoples })
+            return state;
+        var view = Views.For(state, Side.FreePeoples);
+        var option = view.Options.FirstOrDefault(o => o.Kind == CommandKind.MoveFellowship && o.Enabled && o.EligibleDice.Count > 0);
+        if (option is null)
+            return state;
+        return Execute(state, Side.FreePeoples, new GameCommand
+        {
+            MatchId = state.Id,
+            CommandId = "card-move-" + state.Revision,
+            ExpectedRevision = state.Revision,
+            DecisionId = view.Decision!.Id,
+            Kind = CommandKind.MoveFellowship,
+            Payload = new() { DieId = option.EligibleDice[0] }
+        }, seed);
     }
 
     private static bool ChangesTheBoard(string cardId, int seed)
@@ -183,6 +286,12 @@ public class BaseCardScenarioEffectTests
         state.HuntTiles.Count(t => t.Location == "pool" && (HuntPool.Definitions[t.Id].Value == "eye") == eye);
 
     private static PlayerState Player(MatchState state, Side side) => state.Players.Single(p => p.Side == side);
+
+    private static bool AtWar(MatchState state, string nation) => state.Nations.Single(n => n.Id == nation).StepsToWar == 0;
+
+    private static bool HuntAhead(MatchState state) => state.Dice.Count(DiceRules.IsShadowHuntDie) >= 5 &&
+        state.Dice.Count(d => d.Location == DieLocation.Hunt && d.HuntOrigin == DiceRules.FellowshipMove) >= 2 &&
+        AvailableDice(state, Side.FreePeoples, DieFace.Character) > 0;
 
     private static bool OtherCharacterEvent(MatchState state, string cardId) =>
         Player(state, Side.FreePeoples).Hand.Any(id => id != cardId && CardCatalog.Base[id].Deck == "character");

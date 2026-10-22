@@ -158,6 +158,58 @@ public sealed class ScenarioBoard
         return this;
     }
 
+    // UI-300: the Fellowship's next move this turn meets an almost certain Hunt that deals damage: five Shadow dice in the
+    // Hunt Box, two Free Peoples dice that already moved the Fellowship this turn (+2, so the Hunt hits on 4 or more) and
+    // a pool of the chosen tiles (damage tiles by default). The card's owner keeps its event die and an Event die; the
+    // Free Peoples keep a Character die for the move, and a Shadow without a card to play has no die left, so the Free
+    // Peoples act again at once.
+    public ScenarioBoard HuntAhead(Side owner, DieFace eventType, Func<HuntTileDefinition, bool>? tiles = null)
+    {
+        var shadow = StandardDice(Side.Shadow).ToArray();
+        DieFace[] kept = owner == Side.Shadow ? [eventType, DieFace.Event] : [];
+        for (var index = 0; index < shadow.Length; index++)
+        {
+            var die = shadow[index];
+            die.HuntOrigin = "";
+            if (index < kept.Length)
+                (die.Location, die.Face) = (DieLocation.Available, kept[index]);
+            else if (index < kept.Length + 5)
+                (die.Location, die.Face, die.HuntOrigin) = (DieLocation.Hunt, DieFace.Eye, index == kept.Length ? "allocated" : "rolled-eye");
+            else
+                (die.Location, die.Face) = (DieLocation.Spent, DieFace.Army);
+        }
+        var free = StandardDice(Side.FreePeoples).ToArray();
+        DieFace[] left = owner == Side.FreePeoples ? [DieFace.Character, DieFace.Event] : [DieFace.Character, DieFace.Muster];
+        for (var index = 0; index < free.Length; index++)
+        {
+            var die = free[index];
+            die.HuntOrigin = index < 2 ? DiceRules.FellowshipMove : "";
+            (die.Location, die.Face) = index < 2 ? (DieLocation.Hunt, DieFace.Character)
+                : index - 2 < left.Length ? (DieLocation.Available, left[index - 2]) : (DieLocation.Spent, DieFace.Army);
+        }
+        State.Fellowship.Progress += 2;
+        return KeepHuntTiles(tiles ?? (tile => tile.Value is "1" or "2" or "3"));
+    }
+
+    // UI-300: the Fellowship stands on step 0 of the Mordor Track (MordorRules.Enter), where a special tile played now
+    // joins the Hunt Pool at once; the pool keeps one other tile, so each special tile is drawn within two steps.
+    public ScenarioBoard OnMordorTrack()
+    {
+        State.Fellowship.RegionId = MordorRules.Track;
+        State.Fellowship.MordorStep = 0;
+        State.Fellowship.Progress = 0;
+        var kept = false;
+        return KeepHuntTiles(tile => tile.Value != "eye" && !kept && (kept = true));
+    }
+
+    // UI-300: the side has spent every die it rolled, so the other side takes the remaining actions in a row.
+    public ScenarioBoard NoActions(Side side)
+    {
+        foreach (var die in StandardDice(side).Where(d => d.Location == DieLocation.Available))
+            die.Location = DieLocation.Spent;
+        return this;
+    }
+
     // UI-300: a card already kept on the side's table.
     public ScenarioBoard Table(Side side, string card)
     {

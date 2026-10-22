@@ -15,6 +15,14 @@ public static class FreePeoplesCardEvents
 
     public static IReadOnlyDictionary<string, CardEventSetup> Setups { get; } = new Dictionary<string, CardEventSetup>
     {
+        ["base.fp.character.01"] = MordorTile(),
+        ["base.fp.character.02"] = MordorTile(),
+        ["base.fp.character.03"] = MordorTile(),
+        ["base.fp.character.04"] = MordorTile(),
+        ["base.fp.character.05"] = HuntCard(),
+        ["base.fp.character.06"] = HuntCard(),
+        ["base.fp.character.07"] = HuntCard(),
+        ["base.fp.character.08"] = HuntCard(),
         ["base.fp.character.09"] = new("Strider guides the Fellowship, which carries 3 Corruption.",
             board => board.Guide(CharacterRules.Strider).Corruption(3)),
         ["base.fp.character.10"] = new("Every Companion has left the Fellowship in Rivendell, so Gollum guides it; it carries 2 Corruption and has been revealed.",
@@ -43,9 +51,11 @@ public static class FreePeoplesCardEvents
             board => board.Companion(Boromir, "minas-tirith")),
         ["base.fp.character.24"] = new("Strider has left the Fellowship and stands with the Gondor army in Minas Tirith.",
             board => board.Companion(CharacterRules.Strider, "minas-tirith")),
-        ["base.fp.strategy.01"] = new("Aragorn is in play with a Gondor army in Osgiliath, outside the Free Peoples nations.",
+        ["base.fp.strategy.01"] = new("Aragorn is in play with a Gondor army in Osgiliath, outside the Free Peoples nations. Move the Fellowship with the Character die afterwards: its die stays out of the Hunt Box.",
             board => board.Companion(CharacterRules.Strider, "minas-tirith").Replace(CharacterRules.Aragorn)
                 .Clear("osgiliath").Place("gondor", UnitKind.Regular, "osgiliath", 2).Relocate(CharacterRules.Aragorn, "osgiliath")),
+        ["base.fp.strategy.02"] = Barred("dimrill-dale", "Dimrill Dale, next to Lórien"),
+        ["base.fp.strategy.03"] = Barred("cardolan", "Cardolan, next to the Old Forest and Buckland"),
         ["base.fp.strategy.04"] = new("Gimli has left the Fellowship and stands in Dale, next to Erebor, and Legolas in the Woodland Realm.",
             board => board.Companion(Gimli, "dale").Companion(Legolas, "woodland-realm")),
         ["base.fp.strategy.05"] = new("An Isengard Regular has joined the Sauron army in Dol Guldur.",
@@ -67,6 +77,18 @@ public static class FreePeoplesCardEvents
         ["base.fp.strategy.16"] = new("Gimli has left the Fellowship and stands in Helm's Deep, a Rohan region, so the riders may also muster there.",
             board => board.Companion(Gimli, "helms-deep"))
     };
+
+    // UI-300: a card kept on the table for the Hunt meets a Hunt at the next move (ScenarioBoard.HuntAhead).
+    private static CardEventSetup HuntCard() => new("Play it with the Event die, then move the Fellowship with the Character die: five Shadow dice wait in the Hunt Box, the Fellowship already moved twice this turn (+2 to the roll) and the Hunt Pool holds only damage tiles. The Shadow has no die left.",
+        board => board.HuntAhead(Side.FreePeoples, DieFace.Character));
+
+    // UI-300: a special tile played on the Mordor Track joins the pool at once and is drawn within two steps.
+    private static CardEventSetup MordorTile() => new("The Fellowship stands on step 0 of the Mordor Track and the Hunt Pool holds one other tile, so the special tile is drawn within two steps; three Character dice move the Fellowship and the Shadow has no die left.",
+        board => board.OnMordorTrack().Dice(Side.FreePeoples, DieFace.Character, DieFace.Event, DieFace.Character, DieFace.Character).NoActions(Side.Shadow));
+
+    // UI-300: a Sauron army at war waits next to the regions the card protects; switch side to see its move barred.
+    private static CardEventSetup Barred(string region, string name) => new($"A Sauron army at war stands in {name}; switch side and try to move it in.",
+        board => board.AtWar("sauron").Place("sauron", UnitKind.Regular, region, 2));
 
     // A Companion outside the Fellowship can be moved, and the Fellowship's own can be separated.
     private static CardEventSetup OutsideAndInside() => new("Strider has left the Fellowship and stands in Bree; the others are still in it.",
