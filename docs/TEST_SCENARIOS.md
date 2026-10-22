@@ -109,6 +109,18 @@ its uses without playing up to it. They are built from the card catalog (`CardSc
   e.g. Gandalf the White and a Companion in Fangorn for The Ents Awake, Strider with the Minas Tirith army for
   Challenge of the King, a Sauron army besieging Minas Tirith for Denethor's Folly, the Fellowship in Hollin for the
   Hunt cards that need it outside a Free Peoples settlement, a nation at war or a Minion in play.
+- **Every clause can act (UI-300, owner's decision 2026-10-22):** a scenario is not complete while its card would do
+  nothing, so the board also lets the clauses the engine may skip act. Corruption to heal (Athelas with Strider as
+  Guide; There is Another Way and Bilbo's Song with Gollum as Guide after every Companion left; I Will Go Alone;
+  Mirror of Galadriel in unconquered Lórien with a second Character result). Companions outside the Fellowship within
+  a move of the clause's regions (Book of Mazarbul: Gimli in Dale and Legolas in the Woodland Realm; Fear! Fire!
+  Foes!: Strider in the Weather Hills and Merry in Buckland; Gwaihir and Swifter: Strider in Bree; There and Back
+  Again: Legolas in the Woodland Realm; Riders of Théoden: Gimli in Helm's Deep; Dead Men: Gimli beside Strider in
+  Edoras and a Southron army in Erech). A target (Faramir's Rangers: a Sauron army in North Ithilien). A Hunt Pool of
+  the 4 Eyes and 2 other tiles for Challenge of the King, so a draw shows Eyes. A second Character Event (Elven
+  Cloaks) for the Ents' free play. The Fellowship in Hollin, outside a Stronghold the Nazgûl may not enter, for
+  Nazgûl Search, Cruel Weather and The Nazgûl Strike, which also finds Mithril Coat and Sting on the table. Three
+  Nazgûl in Minas Morgul for Dreadful Spells, and two Free Peoples Will of the West results for The Day Without Dawn.
 - **Combat scenario:** a battle at the card owner's Combat card choice, started by the engine's own attack command
   (`CardBattles`). Free Peoples cards: Isengard attacks the Rohan army at the Fords of Isen, a field battle in a Rohan
   region where the Fellowship stands with Strider, Gandalf the Grey, Boromir and Merry (Leader, Elites, Companions and a
@@ -118,6 +130,10 @@ its uses without playing up to it. They are built from the card catalog (`CardSc
 - **Proof:** `BaseCardScenarioTests` builds all 192: the event scenario offers the card as a legal `PlayEvent` paid by a
   die of the turn and the play is accepted by the engine; the combat scenario waits on the owner's `CombatCard`
   decision, offers the card in `CommitCombatCard` and committing it is accepted.
+  `BaseCardScenarioEffectTests` (UI-300) plays every event scenario with its event die, lets the demo CPU answer the
+  effect's decisions (a journey of Companions outside the Fellowship moves one of them a region) and requires a board
+  that differs from the card merely discarded, under one of six seeds for cards that roll or draw; it also checks on the
+  starting board each clause listed above.
 
 <a id="dodawanie-scenariusza"></a>
 ## Adding a scenario

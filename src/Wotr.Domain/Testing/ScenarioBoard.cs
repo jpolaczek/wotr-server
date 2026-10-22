@@ -133,6 +133,42 @@ public sealed class ScenarioBoard
         return this;
     }
 
+    // UI-300: Corruption the Fellowship carries already, so a card that heals it has something to heal.
+    public ScenarioBoard Corruption(int value)
+    {
+        State.Fellowship.Corruption = value;
+        return this;
+    }
+
+    // UI-300: a Companion of the Fellowship's highest Level guides it.
+    public ScenarioBoard Guide(string definitionId)
+    {
+        var guide = CharacterCatalog.Companion(State, definitionId).Id;
+        if (!CompanionRules.Guides(State).Contains(guide))
+            throw new ArgumentException($"{definitionId} cannot guide the Fellowship now.", nameof(definitionId));
+        State.Fellowship.Guide = guide;
+        return this;
+    }
+
+    // UI-300: every Companion has left the Fellowship into a region, so Gollum guides it.
+    public ScenarioBoard GollumGuides(string region)
+    {
+        foreach (var companion in State.Fellowship.Companions.ToList())
+            Companion(companion, region);
+        return this;
+    }
+
+    // UI-300: a card already kept on the side's table.
+    public ScenarioBoard Table(Side side, string card)
+    {
+        var player = State.Players.Single(p => p.Side == side);
+        var source = player.Decks.Values.FirstOrDefault(deck => deck.Contains(card)) ?? player.Discard;
+        if (!source.Remove(card))
+            throw new ArgumentException($"{card} is not available to {side}.", nameof(card));
+        player.Table.Add(card);
+        return this;
+    }
+
     // TEST-09: a nation turned active without changing its distance from war.
     public ScenarioBoard Activate(string nation)
     {

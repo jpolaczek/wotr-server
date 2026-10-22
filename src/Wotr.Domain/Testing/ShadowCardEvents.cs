@@ -3,8 +3,12 @@ using Wotr.Contracts;
 namespace Wotr.Domain;
 
 // TEST-09: the board each conditional Shadow event needs; the conditions are the engine's own (Cards/*.cs).
+// UI-300: the board also lets every clause of the card act: a Fellowship the Nazgûl can reach, a card on the table to
+// discard, Will of the West dice to discard.
 public static class ShadowCardEvents
 {
+    private const string MithrilCoat = "base.fp.character.05";
+
     public static IReadOnlyDictionary<string, CardEventSetup> Setups { get; } = new Dictionary<string, CardEventSetup>
     {
         ["base.sh.character.05"] = Outside(),
@@ -13,12 +17,14 @@ public static class ShadowCardEvents
         ["base.sh.character.08"] = Outside(),
         ["base.sh.character.09"] = Progress(),
         ["base.sh.character.10"] = Progress(),
-        ["base.sh.character.11"] = Progress(),
+        ["base.sh.character.11"] = new("The Fellowship stands in Hollin, outside any Stronghold, one step on (Progress 1); Mithril Coat and Sting lies on the Free Peoples table.",
+            board => board.FellowshipAt("hollin", 1).Table(Side.FreePeoples, MithrilCoat)),
         ["base.sh.character.12"] = Revealed(),
         ["base.sh.character.13"] = Revealed(),
         ["base.sh.character.14"] = Revealed(),
-        ["base.sh.character.19"] = new("A Gondor army holds North Ithilien next to the Minas Morgul army and its Nazgûl.",
-            board => board.AtWar("sauron", "gondor").Clear("osgiliath").Place("gondor", UnitKind.Regular, "north-ithilien", 2)),
+        ["base.sh.character.19"] = new("A Gondor army holds North Ithilien next to the Minas Morgul army and its three Nazgûl.",
+            board => board.AtWar("sauron", "gondor").Clear("osgiliath").Place("gondor", UnitKind.Regular, "north-ithilien", 2)
+                .Place("sauron", UnitKind.Nazgul, "minas-morgul", 2)),
         ["base.sh.character.20"] = new("The Witch-king leads a Sauron army besieging Minas Tirith; Sauron and Gondor are at war.",
             board => board.AtWar("sauron", "gondor").Besiege("minas-tirith", "sauron", 3).Enter(CharacterRules.WitchKing, "minas-tirith")),
         ["base.sh.character.21"] = Saruman(),
@@ -30,7 +36,9 @@ public static class ShadowCardEvents
             board => board.AtWar("isengard", "rohan").Enter(CharacterRules.Saruman, "orthanc").Besiege("helms-deep", "isengard", 3)),
         ["base.sh.strategy.03"] = new("A Sauron army besieges Minas Tirith, whose army has withdrawn into the stronghold.",
             board => board.AtWar("sauron", "gondor").Besiege("minas-tirith", "sauron", 3)),
-        ["base.sh.strategy.04"] = ShadowAtWar(),
+        ["base.sh.strategy.04"] = new("Every Shadow nation is at war; the Free Peoples rolled two Will of the West results.",
+            board => board.AtWar("sauron", "isengard", "southrons")
+                .Dice(Side.FreePeoples, DieFace.WillOfTheWest, DieFace.Army, DieFace.Muster, DieFace.WillOfTheWest)),
         ["base.sh.strategy.06"] = new("The Fellowship is in Rivendell, an Elven region whose nation is not at war.", _ => { }),
         ["base.sh.strategy.09"] = ShadowAtWar(),
         ["base.sh.strategy.10"] = AtWar("southrons", "The Southrons & Easterlings are at war."),
@@ -50,8 +58,9 @@ public static class ShadowCardEvents
     private static CardEventSetup Outside() => new("The Fellowship has moved on from Rivendell to Hollin, outside any Free Peoples settlement.",
         board => board.FellowshipAt("hollin"));
 
-    private static CardEventSetup Progress() => new("The Fellowship has moved one step since Rivendell (Progress 1).",
-        board => board.FellowshipAt("rivendell", 1));
+    // UI-300: outside a Stronghold, where the Nazgûl may enter the Fellowship's region.
+    private static CardEventSetup Progress() => new("The Fellowship stands in Hollin, outside any Stronghold, one step on (Progress 1).",
+        board => board.FellowshipAt("hollin", 1));
 
     private static CardEventSetup Revealed() => new("The Fellowship has been revealed.",
         board => board.Reveal());
