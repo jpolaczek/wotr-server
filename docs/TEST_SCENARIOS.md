@@ -156,6 +156,12 @@ its uses without playing up to it. They are built from the card catalog (`CardSc
   responses in the second of the swap (10:44:29 UTC) and none after; the lobby, rooms, matches and test-scenario
   requests since then answer 200. A first attempt fed the remote steps on stdin and the backup consumed them, so only
   the first copy was made; the steps now run from a copied script.
+- **Production deployment of the follow-up, 2026-10-22** (the owner reported the Axe and Bow scenario unchanged and
+  asked for the new version): the server went from `94c0c87ac09c` to `5fca25377bfa` (the triggered cards above and
+  the first deployment record), again as a git bundle. Copy before the update:
+  `/srv/wotr/backups/2026-10-22-before-ui300-triggers`; the image `wotr-server:94c0c87ac09c` stays for a rollback.
+  Checks: `/health` ok, `/health/ready` 200; no 5xx after the restart (20:07 UTC), the lobby, rooms and matches
+  answer 200. The client needed no new build: the scenarios are built by the server.
 
 <a id="dodawanie-scenariusza"></a>
 ## Adding a scenario
