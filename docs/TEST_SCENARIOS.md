@@ -134,6 +134,15 @@ its uses without playing up to it. They are built from the card catalog (`CardSc
   effect's decisions (a journey of Companions outside the Fellowship moves one of them a region) and requires a board
   that differs from the card merely discarded, under one of six seeds for cards that roll or draw; it also checks on the
   starting board each clause listed above.
+- **Production deployment, 2026-10-22** (owner's order "tak" to deploying UI-300): the server went from
+  `48953f68b5fc` to `94c0c87ac09c` (UI-300, the LOBBY-05 deployment record and the observer lease test on top of
+  LOBBY-05; the rules engine is unchanged, the expansions were not deployed). The commits reached the host as a git
+  bundle; nothing was pushed. Copies before the update: `/srv/wotr/backups/2026-10-22-before-ui300` and `…-ui300-b`.
+  No migration; `infra/production.sh build server` and `up -d --wait` recreated only `server`, and the image
+  `wotr-server:48953f68b5fc` stays for a rollback. Checks: `/health` ok (protocol 2), `/health/ready` 200; five 502
+  responses in the second of the swap (10:44:29 UTC) and none after; the lobby, rooms, matches and test-scenario
+  requests since then answer 200. A first attempt fed the remote steps on stdin and the backup consumed them, so only
+  the first copy was made; the steps now run from a copied script.
 
 <a id="dodawanie-scenariusza"></a>
 ## Adding a scenario
