@@ -147,3 +147,29 @@ test server on the Mac; for now they should be available to all accounts").
   scenarios stay off `main` (TEST-05).
 
 Specification: TEST-08.
+
+## D20 — strategic opponents in a private external service (2026-10-23)
+
+Source: the owner's request for two scripted strategic opponents, followed by
+the explicit requirement for a separate closed-source application with no extra
+software installed by players. The owner selected only the operator's server
+for v1 and adding CPU in the empty opposing seat of a hosted room.
+
+- `wotr-bot` is a private headless application on operator infrastructure. Its
+  policies, weights and deployment artifacts do not enter the public repositories
+  or game packages. D17's public game code and existing licenses remain unchanged.
+- The server persists assignments and restricts seat credentials; the bot reads
+  exactly its own side's player information through the ordinary gameplay API.
+  It receives no game DB credentials, full saves, admin or observer access.
+- Keep the accepted two-faction plans, probability analysis, one strong level,
+  complete base/expansion/variant scope and multiple saved PvE games. Module
+  release and mechanic acceptance gates still control availability.
+- Human host Ready/Start follows CPU readiness for the current room version.
+  Play vs CPU is a shortcut to the same room. No extra installer or service UI.
+- Separate bot memory/journal and normal game receipts replace the earlier shared
+  transaction proposal. Uncertain submissions recover by the same command ID;
+  rejected commands do not advance the plan. Outages preserve the waiting game.
+- These are approved plans, not completed features or deployment authorization.
+
+Canonical specification: [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). The local
+21-task program remains planned; its aggregate acceptance is BOT-14.

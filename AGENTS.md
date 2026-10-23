@@ -143,7 +143,14 @@ explicit client pin.
   a verification plan and documents to update. Use the template.
 - A scope or dependency change requires a ROADMAP update and a graph check. Do
   not remove dependencies merely to start blocked work.
-- Do not deploy or publish without authorization in the request. Do not add
-  notifications outside the app, public matchmaking, AI or Warriors of Middle-earth
-  features. User-approved exception (2026-10-15, R32): a simple CPU exclusively in
-  demo mode (docs/server/DEMO-MODE.md).
+- Do not deploy or publish without authorization in the request. Notifications
+  outside the app, public matchmaking and Warriors of Middle-earth remain outside
+  scope. Owner-approved CPU scope (R32, 2026-10-23): retain the legacy simple demo
+  CPU and plan two strategic opponents in a separate private `wotr-bot` service
+  on the operator's infrastructure. New saved PvE uses the same player API and
+  information boundary, with no bot installation or closed-source component on
+  players' devices. The host requests CPU in the empty opposing room seat. Bot
+  memory and command recovery belong to the bot service; the game server owns
+  authoritative state and receipts. This approval does not automate human choices
+  or establish implementation acceptance. Code for the private bot must not enter
+  public game repositories, dependency archives or installers.

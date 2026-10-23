@@ -57,7 +57,7 @@ These requirements apply to the engine, server, client and acceptance testing. A
 | R29 | The client detects releases announced by the server. It downloads an optional version only with consent and allows deferral. It automatically downloads a required version in the background, including one scheduled with a deadline, and allows continued play until that deadline (D13). Players can repair the current installation. Replacement happens after a safe shutdown and a player click, preserving the journal/commandId, data and ability to resume games. The server enforces compatibility; packages and manifests are verified with an Ed25519 signature. |
 | R30 | The server, database, public website and packages are hosted on a personal Linux PC. The game and website use Cloudflare Tunnel/nginx; large packages use direct HTTPS to nginx through the provider's public IP. Acceptance covers access outside the LAN, autostart, certificate renewal, resumed transfers and restore. |
 | R31 | Test-scenario mode: named situations (e.g. “test Will of the West”) launched from the menu on a server with this option enabled. After setup the game proceeds normally, one client plays both sides, the result does not enter saved games, and restarting recreates the same situation. |
-| R32 | Demo mode (user decision, 2026-10-15): from the lobby, a player starts a base game against a simple CPU that selects legal moves for the other side through the same server rules engine. One demo per account: a new one replaces the previous one; normal games remain unlimited and have no CPU. |
+| R32 | CPU opponents: preserve the implemented legacy demo and its existing saves. Owner-approved extension (2026-10-23, planned): multiple ordinary saved PvE games against scripted Shadow/Free Peoples policies, covering the base game and released, accepted expansions/variants. The host requests CPU in the empty opposing room seat. A separate closed-source bot application runs on the operator's infrastructure and uses the ordinary player API with exactly its own side's information. Players install only the game client. The bot keeps plans and a command journal in its own store; server receipts reconcile accepted moves. One strong level, normally 3 seconds and at most 5 seconds of computation per difficult decision; queue/network time measured separately. New PvE never replaces another saved game. Specification: [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). |
 
 <a id="obserwowanie-i-replaye--plan-z-2026-10-16"></a>
 ## Observing and replays — plan of 2026-10-16
@@ -113,12 +113,13 @@ start. Private setup decisions do not enter the shared summary.
 <a id="poza-mvp"></a>
 ## Outside the MVP
 
-Warriors of Middle-earth, other expansions and promos, 3–4 players, AI opponents
-in normal games (exception: the simple demo CPU in R32), public matchmaking,
+Warriors of Middle-earth, other expansions and promos, 3–4 players, bot hosting
+for third-party servers, offline/local bot installation, public matchmaking,
 rankings, mobile and browser apps, and notifications outside the app. Observing
 and local replays were added to the plan by the user's decision of 2026-10-16
 (R33/R34); this does not claim implementation. Original artwork does not block
-a playable version.
+a playable version. Scripted strategic PvE was added on 2026-10-23 (R32);
+its separate-service design is approved, while implementation remains planned.
 
 <a id="priorytet-przy-konflikcie"></a>
 ## Priority when requirements conflict

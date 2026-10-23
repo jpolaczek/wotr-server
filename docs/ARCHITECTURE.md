@@ -5,6 +5,28 @@ The Unity client presents the player's role and prepares intents. The pure C#
 engine resolves rules on the server. ASP.NET Core persists the result before
 responding and sends each side only its authorized view.
 
+## Planned private bot service — 2026-10-23
+
+The [strategic bot design](server/STRATEGIC-BOTS.md) adds a third application,
+`wotr-bot`, with a private repository and independent deployment. This is a plan,
+not a change already present in the runtime. The game/client remain buildable
+without private bot code; no bot artifacts are installed on a player's device.
+
+The host requests CPU in an empty opposing seat. The server persists a reserved
+seat and assignment; the private service claims it, verifies configuration and
+readies that seat. Normal human Ready/Start and server authority still apply.
+Restricted bot credentials reach the same player projection, updates, history,
+previews and command/receipt endpoints. Neither assignment delivery nor simulation
+may reveal authoritative state, opposing secrets, observer data or DB access.
+
+Policies, plans and simulations run in the bot application using pinned shared
+rules code and hypothetical states reconstructed from player information. Its
+private store journals an exact outgoing command and proposed memory before POST;
+an accepted receipt advances memory once. Recovery checks receipts or resends the
+same command. This replaces the proposed shared game-state/bot-memory transaction.
+The server stores assignment/profile identity, game state and receipts; it never
+executes the strategic policy in-process. Legacy demo behavior remains separate.
+
 <a id="planowane-obserwowanie-i-replaye--obs-00-2026-10-16"></a>
 ## Planned observing and replays — OBS-00 (2026-10-16)
 

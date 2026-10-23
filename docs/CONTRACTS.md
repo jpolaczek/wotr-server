@@ -3,6 +3,29 @@
 
 The contract is implemented in stages T05–T07. In T06 there are DTO `PlayerView`, `ActionOption`, `DecisionView`, `ActionPreview`; endpoints adds T07. Each field has a specific visibility and version. The table below also includes target contracts for later tasks.
 
+## Planned external CPU contracts — 2026-10-23
+
+Design only; see [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). The current demo route
+below keeps its existing semantics until the new PvE integration is implemented.
+
+- `PUT /api/rooms/{id}/bot`: seated host requests the empty opposing CPU seat with
+  expected room version and request ID; identical retries reserve one seat.
+  Existing removal and Start operations handle cancellation and human start.
+- `RoomView` adds occupant-kind and CPU readiness metadata; `MatchSummary` marks
+  PvE/CPU opponents. No private strategy or service credentials reach human DTOs.
+- Internal assignment claim/readiness/renewal operations carry assignment metadata
+  only. A service credential cannot access player data or execute game commands.
+- A renewable seat credential is restricted to its assigned room/match/side and
+  an allowlist of necessary operations. It cannot observe the opposite side,
+  manage accounts, remove participants, delete games or access unrelated matches.
+- Gameplay uses the ordinary player endpoints and `PlayerView`, `GameCommand`,
+  `CommandReceipt`, preview and history semantics. Missing nonsecret version data
+  belongs in shared player metadata, not a privileged bot snapshot.
+- Protocol/rules/content compatibility uses authenticated bot identity, independently
+  of Unity release numbering. A bot header alone grants no exemption.
+- Bot memory never travels in a game command. Its private outgoing journal and
+  ordinary receipts provide restart/retry recovery across separate transactions.
+
 <a id="główne-komunikaty"></a>
 ## Main messages
 

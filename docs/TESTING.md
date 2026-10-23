@@ -198,3 +198,31 @@ released (EXP-05 waits for it).
 
 Limit: the client full-game driver (`FullGameChoices`) plays a narrow strategy and plays no Fate card; the cards'
 client steps are covered card by card (UI-266) and every Fate decision by the bot games.
+
+## Planned strategic bot service acceptance — 2026-10-23
+
+These are required future checks, not executed results. The
+[service specification](server/STRATEGIC-BOTS.md) defines their ownership.
+
+- Pure policy tests run in the private bot repository; public server tests use
+  protocol fixtures/test doubles. Private integration runs the real bot against
+  the ordinary HTTP/WebSocket server and isolated persistence.
+- Compare human/bot same-side snapshots, options, previews, history, reports,
+  updates and errors. Test opposite-side/foreign-game/admin/observer denials and
+  invariance when only unobserved true state changes.
+- Exercise CPU admission, competing human joins, duplicate requests, configuration
+  changes, cancellation, abandoned rooms, readiness and stale assignment workers.
+- Inject failure before POST, after game commit and before private memory commit;
+  include nested battle/Hunt/card decisions and the final move. Require one game
+  effect and one memory advancement, including receipt lookup/retry after restart.
+- Verify no bot artifacts in player/public server/seeder packages, independent
+  game builds without private credentials, isolated bot storage and version refusal.
+- Retain the mechanic matrix, tactical plans, complete legal configuration coverage,
+  all victories, fixed-seed games and 200-game/70%-win floor for each faction
+  against frozen DemoBot. Human review remains at least three games per faction.
+- Measure 3-second normal/5-second maximum computation separately from queue and
+  network latency, including late games and eight active matches. Verify normal
+  opponent presentation, human handoff, reconnect and Reduced motion in the client.
+
+Record policy/server/client/package versions, seeds, actual selected counts and
+results. Publishing documentation does not satisfy these runtime checks.
