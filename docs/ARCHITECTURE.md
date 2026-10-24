@@ -14,6 +14,11 @@ planned. It consumes the versioned [pure rules source package](bots/RULES-PACKAG
 and reports itself unready for gameplay. The game/client remain buildable
 without private bot code; no bot artifacts are installed on a player's device.
 
+BOT-01 adds the pure seat-bound observation, versioned strategic memory and
+policy entry guard in that application. It distinguishes remembered revelations
+from current certainty and rejects stale/wrong-seat/unsupported memory before
+policy execution. Persistence and live service integration remain separate.
+
 The host requests CPU in an empty opposing seat. The server persists a reserved
 seat and assignment; the private service claims it, verifies configuration and
 readies that seat. Normal human Ready/Start and server authority still apply.

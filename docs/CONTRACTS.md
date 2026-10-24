@@ -11,7 +11,9 @@ below keeps its existing semantics until the new PvE integration is implemented.
 BOT-15 adds only private in-process policy/proposal interfaces around the existing
 `PlayerView`, `GameCommand` and `CommandReceipt`. It does not add wire DTOs or
 endpoints. Their version-1 [handoff contract](bots/README.md) remains the integration
-requirement; full observation/memory semantics belong to BOT-01.
+requirement. BOT-01 now implements private schema-2 observation and strategic
+memory with explicit recovery, current/historical knowledge and a guarded policy
+entry point. No plan or memory type enters these shared player contracts.
 
 - `PUT /api/rooms/{id}/bot`: seated host requests the empty opposing CPU seat with
   expected room version and request ID; identical retries reserve one seat.

@@ -228,6 +228,15 @@ Contracts `0.14.0`; public builds and human client packages do not depend on it.
 Build/fixture checks establish the foundation, not playing strength or gameplay
 information parity (BOT-01/BOT-20).
 
+BOT-01 implements private observation/memory schema 2: explicit seat and
+rules/content/profile identity, copied player/history responses, typed main and
+supporting plans, current versus historical knowledge, deterministic work/seed
+inputs and a guarded policy entry point. Unknown memory versions require journal
+reconciliation before rebuilding plans; stale views require refresh. Private
+tests compare actual engine projections under hidden-state permutations. This is
+the pure boundary; live authenticated API parity remains BOT-16/BOT-20, and
+durable command/memory reconciliation remains BOT-18.
+
 BOT-00 establishes contracts and the exhaustive mechanic inventory. BOT-15 creates
 the private application foundation; BOT-01 defines observations/memory and BOT-16
 implements restricted service/seat identity. BOT-02–BOT-11 implement simulation,

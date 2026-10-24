@@ -237,6 +237,11 @@ tests are not evidence of a working strategic bot.
 
 ## Private bot foundation checks
 
+BOT-01's private `BotObservationTests`, `BotKnowledgePrivacyTests` and
+`BotMemoryTests` cover actual projection/hidden-state pairs, owner/observer
+isolation, deterministic work/seed inputs, plan round trips and explicit memory
+recovery. They do not replace HTTP/WebSocket authorization or journal crash tests.
+
 The private application runs `bash scripts/verify.sh`: verified offline rules
 inputs, module boundaries, locked restore, Release build, fixture tests and an
 operator CLI check. Repeat from a clean checkout without a sibling server or
