@@ -73,6 +73,16 @@ class CoverageTests(unittest.TestCase):
         runtime = dict(self.runtime, sourceDigest="old")
         self.assertTrue(any("stale" in error for error in validate(self.ledger, runtime)))
 
+    def test_new_compiled_ability_requires_a_source_manifest_entry(self):
+        runtime = copy.deepcopy(self.runtime)
+        runtime["characters"][0]["abilities"].append("new-ability")
+        self.assertTrue(any("ability/manifest mismatch" in error for error in validate(self.ledger, runtime)))
+
+    def test_missing_compiled_content_reports_a_source_mismatch(self):
+        runtime = copy.deepcopy(self.runtime)
+        runtime["cards"].pop()
+        self.assertTrue(any("content/manifest mismatch" in error for error in validate(self.ledger, runtime)))
+
     def test_export_changes_force_compiled_verification(self):
         self.assertTrue(needs_code([str(RUNTIME)]))
 

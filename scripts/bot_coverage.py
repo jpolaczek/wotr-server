@@ -6,11 +6,14 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from bot_catalog import LEDGER, ROOT, RUNTIME, inventory, read, runtime_digest, write_catalog
+from bot_catalog import LEDGER, ROOT, RUNTIME, inventory, read, runtime_digest, source_coverage, write_catalog
 
 
 def validate(document, runtime, root=ROOT):
-    errors = []
+    errors, content_ids = source_coverage(runtime, root)
+    if errors:
+        return errors
+    rule_ids = {rule["id"] for rule in read("docs/rules/catalog.json", root)["rules"]}
     if runtime.get("sourceDigest") != runtime_digest(root):
         errors.append("Runtime catalog is stale: regenerate using ConfigurationRules.")
     expected = inventory(runtime, root)
@@ -34,6 +37,10 @@ def validate(document, runtime, root=ROOT):
                     errors.append(f"Invalid {section} {identity}.{field}; expected source-derived value (behavior evidence remains pending).")
     scenarios = {row["id"] for row in document.get("scenarios", [])}
     for row in document.get("mechanics", []):
+        if not set(row.get("rules", [])).issubset(rule_ids):
+            errors.append("Unknown rule ID: " + row["id"])
+        if row.get("content") is not None and row["content"] not in content_ids:
+            errors.append("Unknown content ID: " + row["id"])
         for field in ("positive", "negative"):
             if row.get(field) not in scenarios:
                 errors.append(f"Orphan scenario: {row['id']}.{field}")

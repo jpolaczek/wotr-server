@@ -1,8 +1,9 @@
 # Strategic bots as a private service
 
-Owner-approved design, 2026-10-23; implementation and behavioral acceptance are
-pending. This specification replaces the earlier proposal to run strategic bots
-inside the game server and save their memory in the game's transaction.
+Owner-approved design, 2026-10-23. The inventory and private application foundation
+are implemented; strategic policies, live service integration and behavioral
+acceptance remain pending. This specification replaces the earlier proposal to
+run strategic bots inside the game server and save their memory in the game's transaction.
 The existing CPU is documented separately in [DEMO-MODE](DEMO-MODE.md).
 
 ## Product and ownership
@@ -212,6 +213,20 @@ an update must preserve ongoing matches and pending receipts.
   never invokes the destructive one-demo-per-owner replacement operation.
 
 ## Program and acceptance
+
+BOT-00 supplies the source-derived inventory. BOT-15 supplies an independently
+buildable private headless application with separate Core, Policy, Simulation,
+Transport and Persistence modules. Its production policy registry is empty;
+`--check` reports `gameplayReady: false`, and the unimplemented worker refuses to
+start. Fixture policies are test-only. There is no new game endpoint, CPU room
+flow, durable journal or deployed service yet.
+
+The public [pure rules source package](../bots/RULES-PACKAGE.md), version `0.1.0`,
+is the shared build input. It excludes legacy Demo policy and server code and
+preserves MIT notices. The private application vendors its exact archive/hash and
+Contracts `0.14.0`; public builds and human client packages do not depend on it.
+Build/fixture checks establish the foundation, not playing strength or gameplay
+information parity (BOT-01/BOT-20).
 
 BOT-00 establishes contracts and the exhaustive mechanic inventory. BOT-15 creates
 the private application foundation; BOT-01 defines observations/memory and BOT-16

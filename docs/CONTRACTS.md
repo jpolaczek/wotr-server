@@ -8,6 +8,11 @@ The contract is implemented in stages T05–T07. In T06 there are DTO `PlayerVie
 Design only; see [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). The current demo route
 below keeps its existing semantics until the new PvE integration is implemented.
 
+BOT-15 adds only private in-process policy/proposal interfaces around the existing
+`PlayerView`, `GameCommand` and `CommandReceipt`. It does not add wire DTOs or
+endpoints. Their version-1 [handoff contract](bots/README.md) remains the integration
+requirement; full observation/memory semantics belong to BOT-01.
+
 - `PUT /api/rooms/{id}/bot`: seated host requests the empty opposing CPU seat with
   expected room version and request ID; identical retries reserve one seat.
   Existing removal and Start operations handle cancellation and human start.

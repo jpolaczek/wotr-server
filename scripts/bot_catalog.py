@@ -34,6 +34,30 @@ def runtime_digest(root=ROOT):
     return digest.hexdigest()
 
 
+def source_coverage(runtime, root=ROOT):
+    """Manifests cannot quietly omit newly compiled cards, characters or abilities."""
+    cards, characters, tokens = {}, {}, set()
+    errors = []
+    for path in MANIFESTS:
+        manifest = read(path, root)
+        tokens.update(token["id"] for token in manifest.get("tokens", []))
+        for entry in manifest["cards"]:
+            target = cards if "eventImplemented" in entry else characters
+            if entry["id"] in target:
+                errors.append("Duplicate content manifest entry: " + entry["id"])
+            target[entry["id"]] = entry
+    for name, entries in (("cards", cards), ("characters", characters)):
+        compiled = {entry["id"]: entry for entry in runtime[name]}
+        if set(compiled) != set(entries):
+            errors.append("Compiled content/manifest mismatch: " + name)
+        if name == "characters":
+            for identity in compiled.keys() & entries.keys():
+                declared = {ability["id"] for ability in entries[identity]["abilities"]}
+                if set(compiled[identity]["abilities"]) != declared:
+                    errors.append("Compiled ability/manifest mismatch: " + identity)
+    return errors, set(cards) | set(characters) | tokens
+
+
 def write_catalog(path, document):
     """One record per line keeps generated inventories diffable without thousands of wrapper lines."""
     lines = ["{"]

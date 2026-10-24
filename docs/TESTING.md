@@ -234,3 +234,18 @@ Run `python3 scripts/bot_coverage.py` and
 The compiled exporter regenerates with `python3 scripts/bot_coverage.py --generate`.
 See [inventory and handoff](bots/README.md): planned scenarios and existing rule
 tests are not evidence of a working strategic bot.
+
+## Private bot foundation checks
+
+The private application runs `bash scripts/verify.sh`: verified offline rules
+inputs, module boundaries, locked restore, Release build, fixture tests and an
+operator CLI check. Repeat from a clean checkout without a sibling server or
+private feed credentials. Publish locally to `.artifacts/private/wotr-bot` and
+inspect that tests/fixtures/server assemblies are absent; this output is never a
+human client dependency. The current CLI must report unready and refuse `run`.
+
+Public verification remains independent: run the server's package suites and
+isolated Release build, plus the existing client release/bootstrap CI fixtures.
+The [rules package](bots/RULES-PACKAGE.md) has deterministic archive/member checks.
+Full Unity builds and three-process gameplay acceptance are separate from these
+foundation checks; no changed player runtime or package pin is introduced here.

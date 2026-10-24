@@ -5,11 +5,13 @@ The Unity client presents the player's role and prepares intents. The pure C#
 engine resolves rules on the server. ASP.NET Core persists the result before
 responding and sends each side only its authorized view.
 
-## Planned private bot service — 2026-10-23
+## Private bot service — foundation 2026-10-24
 
 The [strategic bot design](server/STRATEGIC-BOTS.md) adds a third application,
-`wotr-bot`, with a private repository and independent deployment. This is a plan,
-not a change already present in the runtime. The game/client remain buildable
+`wotr-bot`, with a private repository and independent deployment. The isolated
+application/build foundation is implemented; game integration and policies remain
+planned. It consumes the versioned [pure rules source package](bots/RULES-PACKAGE.md)
+and reports itself unready for gameplay. The game/client remain buildable
 without private bot code; no bot artifacts are installed on a player's device.
 
 The host requests CPU in an empty opposing seat. The server persists a reserved
