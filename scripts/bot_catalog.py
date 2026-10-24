@@ -26,7 +26,7 @@ def runtime_digest(root=ROOT):
     for folder in ("src/Wotr.Domain", "src/Wotr.Contracts"):
         paths.extend(p for p in (root / folder).rglob("*") if p.suffix in (".cs", ".csproj")
                      and not {"bin", "obj"}.intersection(p.parts))
-    paths.extend((root / "content").glob("*.json"))
+    paths.extend(p for p in (root / "content").glob("*.json") if p.name != "rules-package.json")
     paths.extend((root / "tools/Wotr.BotCatalog").glob("*.cs"))
     digest = hashlib.sha256()
     for path in sorted(set(paths)):
