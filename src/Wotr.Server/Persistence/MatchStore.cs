@@ -90,7 +90,8 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
     // QUAL-03: rejections of one account in one match kept at the latest revision; older ones go when it moves on.
     public const int RejectionsKept = 32;
 
-    public async Task<CommandReceipt?> Execute(GameCommand request, string account, CancellationToken cancellation = default, Func<Task>? beforeCommit = null)
+    public async Task<CommandReceipt?> Execute(GameCommand request, string account, CancellationToken cancellation = default,
+        Func<Task>? beforeCommit = null, BotSeatAuthority? botAuthority = null)
     {
         if (!CommandShape.IsValid(request))
             return await Malformed(request, account, cancellation);
@@ -99,6 +100,12 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
         var match = await LockMatch(connection, transaction, request.MatchId, account, cancellation);
         if (match is null)
             return null;
+        if (botAuthority is not null)
+        {
+            if (botAuthority.MatchId != request.MatchId || botAuthority.ParticipantId != account || botAuthority.Side != match.Side)
+                throw new BotAuthorityExpiredException();
+            await BotCredentialStore.VerifyLocked(connection, transaction, botAuthority, cancellation);
+        }
         var fingerprint = CommandFingerprint.Create(request);
         var existing = await ExistingReceipt(connection, transaction, request, account, fingerprint, match.State.Revision, cancellation);
         if (existing is not null)

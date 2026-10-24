@@ -4,7 +4,8 @@ using System.Threading.Channels;
 
 namespace Wotr.Server;
 
-public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResolver sessions, UpdateSocketBudget budget)
+public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResolver sessions, UpdateSocketBudget budget,
+    BotCredentialStore bots)
 {
     // OBS-02: observing opens the same update stream for an observer of the match's room.
     public async Task Run(string id, HttpContext context, bool observing = false)
@@ -48,7 +49,7 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
             try
             {
                 await SendUpdates(id, account, observing, context.Request.Headers.Authorization.ToString()[7..],
-                    socket, subscription.Channel.Reader, lifetime.Token);
+                    socket, subscription.Channel.Reader, BotIdentity.Of(context)?.Seat, lifetime.Token);
             }
             catch (OperationCanceledException) { }
             catch (WebSocketException) { }
@@ -58,6 +59,16 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
             }
             finally
             {
+                // Give a policy/busy close frame time to reach the peer and receive its acknowledgement.
+                // Aborting immediately after CloseOutputAsync can reset TCP before the client reads the reason.
+                if (socket.State == WebSocketState.CloseSent)
+                {
+                    try
+                    {
+                        await receive.WaitAsync(TimeSpan.FromSeconds(2));
+                    }
+                    catch (Exception error) when (error is TimeoutException or OperationCanceledException or WebSocketException) { }
+                }
                 await lifetime.CancelAsync();
                 try
                 {
@@ -65,7 +76,8 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
                 }
                 catch (OperationCanceledException) { }
                 catch (WebSocketException) { }
-                socket.Abort();
+                if (socket.State != WebSocketState.Closed)
+                    socket.Abort();
             }
         }
         finally { hub.Remove(id, subscription.Id); }
@@ -89,12 +101,22 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
     }
 
     private async Task SendUpdates(string id, string account, bool observing, string token, WebSocket socket,
-        ChannelReader<long> updates, CancellationToken cancellation)
+        ChannelReader<long> updates, BotSeatAuthority? authority, CancellationToken cancellation)
     {
         // Reading after subscribing closes the read/subscribe race; refresh recovers dropped notifications.
         while (!cancellation.IsCancellationRequested && socket.State == WebSocketState.Open)
         {
-            if (await sessions.Resolve(token, cancellation) is null)
+            if (authority is not null)
+            {
+                var active = await bots.ResolveSeat(token, cancellation);
+                if (active is null || active.GrantId != authority.GrantId || active.Generation != authority.Generation ||
+                    active.MatchId != id || active.ParticipantId != account || active.Side != authority.Side)
+                {
+                    await socket.CloseOutputAsync(WebSocketCloseStatus.PolicyViolation, "Seat authority expired", cancellation);
+                    return;
+                }
+            }
+            else if (await sessions.Resolve(token, cancellation) is null)
                 return;
             var version = await Version(id, account, observing, cancellation);
             if (version is null)

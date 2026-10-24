@@ -3,10 +3,11 @@
 
 The contract is implemented in stages T05–T07. In T06 there are DTO `PlayerView`, `ActionOption`, `DecisionView`, `ActionPreview`; endpoints adds T07. Each field has a specific visibility and version. The table below also includes target contracts for later tasks.
 
-## Planned external CPU contracts — 2026-10-23
+## External CPU contracts — implementation boundary
 
-Design only; see [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). The current demo route
-below keeps its existing semantics until the new PvE integration is implemented.
+See [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). CPU room admission, assignment
+delivery and the remote worker remain planned. The current demo route below
+keeps its existing semantics until the new PvE integration is implemented.
 
 BOT-15 adds only private in-process policy/proposal interfaces around the existing
 `PlayerView`, `GameCommand` and `CommandReceipt`. It does not add wire DTOs or
@@ -14,6 +15,16 @@ endpoints. Their version-1 [handoff contract](bots/README.md) remains the integr
 requirement. BOT-01 now implements private schema-2 observation and strategic
 memory with explicit recovery, current/historical knowledge and a guarded policy
 entry point. No plan or memory type enters these shared player contracts.
+
+BOT-16 implements the [server authorization contract](server/BOT-AUTHORIZATION.md):
+distinct control/seat identities, short-lived hashed seat credentials bound to
+room/match/side/generation, an explicit operation allowlist, post-lock mutation
+fencing and stream revocation. Compatibility is selected only after bot
+authentication and is independent of Unity versions. `GET /api/runtime` shares
+nonsecret protocol/rules/content metadata with humans; `POST /api/bot/seat/renew`
+renews only an active seat token within its grant lease. Ordinary player DTOs,
+command validation and receipt retention remain unchanged; no package bump is
+needed. The room/assignment additions below remain future integration.
 
 - `PUT /api/rooms/{id}/bot`: seated host requests the empty opposing CPU seat with
   expected room version and request ID; identical retries reserve one seat.

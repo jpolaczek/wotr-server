@@ -11,7 +11,7 @@ internal sealed class KestrelProcess : IAsyncDisposable
     private readonly Task<string> error;
     private readonly Uri address;
 
-    private KestrelProcess(string connection)
+    private KestrelProcess(string connection, IReadOnlyDictionary<string, string?>? settings)
     {
         address = new Uri($"http://127.0.0.1:{IsolatedPostgres.FreePort()}");
         var info = new ProcessStartInfo(Environment.GetEnvironmentVariable("DOTNET_HOST_PATH") ?? "dotnet")
@@ -24,14 +24,16 @@ internal sealed class KestrelProcess : IAsyncDisposable
         info.Environment["WOTR_DB"] = connection;
         info.Environment["ASPNETCORE_ENVIRONMENT"] = "Development";
         info.Environment["Logging__LogLevel__Default"] = "Warning";
+        foreach (var setting in settings ?? new Dictionary<string, string?>())
+            info.Environment[setting.Key.Replace(":", "__", StringComparison.Ordinal)] = setting.Value;
         process = Process.Start(info)!;
         output = process.StandardOutput.ReadToEndAsync();
         error = process.StandardError.ReadToEndAsync();
     }
 
-    public static async Task<KestrelProcess> Start(string connection)
+    public static async Task<KestrelProcess> Start(string connection, IReadOnlyDictionary<string, string?>? settings = null)
     {
-        var server = new KestrelProcess(connection);
+        var server = new KestrelProcess(connection, settings);
         try
         {
             using var client = server.Client();

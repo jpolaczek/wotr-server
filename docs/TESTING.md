@@ -242,6 +242,20 @@ BOT-01's private `BotObservationTests`, `BotKnowledgePrivacyTests` and
 isolation, deterministic work/seed inputs, plan round trips and explicit memory
 recovery. They do not replace HTTP/WebSocket authorization or journal crash tests.
 
+BOT-16 adds `BotSeatAuthorizationTests`, `BotPlayerApiParityTests`,
+`BotCredentialRevocationTests` and `BotCompatibilityTests`. They run real Kestrel
+HTTP/WebSocket requests against an isolated temporary PostgreSQL cluster, using
+fixed `SequenceRandom` setup/battle fixtures (battle rolls 1, 1). They compare
+serialized same-side player information for both factions, enforce route/method
+denials, test token/generation/lease invalidation and renewal, and hold actual
+database locks to exercise delayed command/readiness requests and revocation
+after the mutation boundary. Expiry tests put the deadline after transaction
+start to distinguish a fresh clock from PostgreSQL `now()`. Room polling/readiness
+must not extend human presence. Existing `ClientCompatibilityTests`,
+`ModuleClientTests` and migration/transport/lobby suites remain required regressions.
+`BotAccessOptionsTests` checks configuration without a database. See the
+[authorization contract and lifecycle handoff](server/BOT-AUTHORIZATION.md).
+
 The private application runs `bash scripts/verify.sh`: verified offline rules
 inputs, module boundaries, locked restore, Release build, fixture tests and an
 operator CLI check. Repeat from a clean checkout without a sibling server or

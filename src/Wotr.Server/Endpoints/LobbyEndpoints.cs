@@ -44,10 +44,10 @@ public static class LobbyEndpoints
             !Enum.IsDefined(role) ? Results.BadRequest(new ApiError { Error = "InvalidRole" })
                 : RoomResult(await store.JoinPublic(id, Account(context), role, context.RequestAborted))).ForRoom();
         rooms.MapGet("/{id}", async (string id, HttpContext context, RoomStore store) =>
-            await store.Read(id, Account(context), context.RequestAborted) is { } room ? Results.Ok(room)
+            await store.Read(id, Account(context), context.RequestAborted, refreshPresence: BotIdentity.Of(context) is null) is { } room ? Results.Ok(room)
                 : await store.WasRemoved(id, Account(context), context.RequestAborted)
                     ? Results.Json(new ApiError { Error = "RemovedFromRoom" }, statusCode: StatusCodes.Status410Gone)
-                    : Results.NotFound()).ForRoom();
+                    : Results.NotFound()).ForRoom().AllowBot(BotOperation.Room);
         rooms.MapPost("/", async (CreateRoomRequest request, HttpContext context, RoomStore store) =>
             Enum.IsDefined(request.Side) && Enum.IsDefined(request.Visibility) && request.Name is not null &&
                 (request.Name.Length == 0 || RoomInput.ValidName(request.Name))
@@ -64,7 +64,8 @@ public static class LobbyEndpoints
         rooms.MapPost("/{id}/confirm", async (string id, RoomRevisionRequest request, HttpContext context, RoomStore store) =>
             RoomResult(await store.Confirm(id, Account(context), request.ExpectedVersion, context.RequestAborted))).ForRoom();
         rooms.MapPut("/{id}/ready", async (string id, RoomReadyRequest request, HttpContext context, RoomStore store) =>
-            RoomResult(await store.SetReady(id, Account(context), request, context.RequestAborted))).ForRoom();
+            RoomResult(await store.SetReady(id, Account(context), request, context.RequestAborted, BotIdentity.Of(context)?.Seat)))
+            .ForRoom().AllowBot(BotOperation.Room);
         rooms.MapPost("/{id}/invitation", async (string id, HttpContext context, RoomStore store) =>
             RoomResult(await store.Invitation(id, Account(context), context.RequestAborted)));
         rooms.MapPost("/{id}/leave", async (string id, HttpContext context, RoomStore store, RoomChat chat) =>

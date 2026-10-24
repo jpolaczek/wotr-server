@@ -9,8 +9,9 @@ responding and sends each side only its authorized view.
 
 The [strategic bot design](server/STRATEGIC-BOTS.md) adds a third application,
 `wotr-bot`, with a private repository and independent deployment. The isolated
-application/build foundation is implemented; game integration and policies remain
-planned. It consumes the versioned [pure rules source package](bots/RULES-PACKAGE.md)
+application/build foundation and restricted server API authority are implemented;
+room admission, assignment delivery, the worker and policies remain planned.
+It consumes the versioned [pure rules source package](bots/RULES-PACKAGE.md)
 and reports itself unready for gameplay. The game/client remain buildable
 without private bot code; no bot artifacts are installed on a player's device.
 
@@ -19,7 +20,16 @@ policy entry guard in that application. It distinguishes remembered revelations
 from current certainty and rejects stale/wrong-seat/unsupported memory before
 policy execution. Persistence and live service integration remain separate.
 
-The host requests CPU in an empty opposing seat. The server persists a reserved
+BOT-16 implements [separate control and seat authority](server/BOT-AUTHORIZATION.md)
+in the game server. Hashed credentials bind a technical participant to one
+room/match/side and active generation. An operation allowlist reuses ordinary
+player handlers. Match/room mutations recheck authority after their row lock and
+hold grant/credential locks through commit; streams reauthenticate on updates
+and heartbeats. Trusted capability settings and independent bot versions never
+relax human compatibility. Bot reads/readiness cannot keep an abandoned human
+room alive. No private policy code or memory enters the public server.
+
+In the planned room integration, the host requests CPU in an empty opposing seat. The server persists a reserved
 seat and assignment; the private service claims it, verifies configuration and
 readies that seat. Normal human Ready/Start and server authority still apply.
 Restricted bot credentials reach the same player projection, updates, history,

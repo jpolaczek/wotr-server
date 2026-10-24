@@ -43,6 +43,8 @@ builder.Services.AddSingleton<IEmailSender>(EmailSenders.Create);
 builder.Services.AddSingleton<EmailOutbox>();
 builder.Services.AddHostedService(services => services.GetRequiredService<EmailOutbox>());
 builder.Services.AddSingleton<SessionStore>();
+builder.Services.AddSingleton(services => BotAccessOptions.Read(services.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton<BotCredentialStore>();
 builder.Services.AddSingleton<ISessionResolver>(services => services.GetRequiredService<SessionStore>());
 builder.Services.AddSingleton(services => ReleaseScope.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
 builder.Services.AddSingleton(services => ClientReleaseOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
@@ -116,14 +118,17 @@ app.Services.GetRequiredService<AdminOptions>();
 app.Services.GetRequiredService<ReleaseScope>();
 // EXP-02: a released module without its first client version stops Production at start.
 app.Services.GetRequiredService<ModuleClientPolicy>();
+app.Services.GetRequiredService<BotAccessOptions>();
 app.UseClientCompatibility();
 app.UseWebSockets();
 app.UseAuthentication();
+app.UseBotAccess();
 // QUAL-02: after authentication, so signed-in budgets follow the account.
 app.UseRateLimiter();
 app.UseTestSeatGate();
 app.UseAuthorization();
 ServerHealth.Map(app);
+BotEndpoints.Map(app);
 ClientReleaseEndpoints.Map(app);
 MatchEndpoints.Map(app);
 CorrespondenceEndpoints.Map(app);

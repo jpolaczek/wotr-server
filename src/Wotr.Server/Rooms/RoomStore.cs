@@ -12,7 +12,7 @@ public sealed record RoomParticipant(RoomView Room, string Name);
 // UI-96: the release scope decides which configurations new tables may use; tests built without DI keep everything.
 // OBS-01: a room has two seats and an audience of up to sixteen observers (ObserverOptions).
 public sealed partial class RoomStore(Database database, IRandomSource random, ReleaseScope? release = null,
-    ObserverOptions? observerOptions = null)
+    ObserverOptions? observerOptions = null, BotAccessOptions? bots = null)
 {
     private readonly ReleaseScope scope = release ?? ReleaseScope.Full;
     private readonly ObserverOptions audience = observerOptions ?? ObserverOptions.Default;
@@ -78,8 +78,8 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         return rooms;
     }
 
-    public async Task<RoomView?> Read(string id, string account, CancellationToken cancellation = default) =>
-        (await Participant(id, account, cancellation))?.Room;
+    public async Task<RoomView?> Read(string id, string account, CancellationToken cancellation = default, bool refreshPresence = true) =>
+        (await Participant(id, account, cancellation, refreshPresence))?.Room;
 
     // CHAT-01: the room that started a game; the caller still checks that the reader takes part in it.
     public async Task<string?> RoomOfMatch(string matchId, CancellationToken cancellation = default)
@@ -89,14 +89,17 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         return await command.ExecuteScalarAsync(cancellation) as string;
     }
 
-    public async Task<RoomParticipant?> Participant(string id, string account, CancellationToken cancellation = default)
+    public async Task<RoomParticipant?> Participant(string id, string account, CancellationToken cancellation = default,
+        bool refreshPresence = true)
     {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         // OBS-01: an observer reading the room renews the lease, as the heartbeat does; a lapsed one is out.
-        var observing = await RoomObservers.Renew(connection, id, account, audience.Lease, cancellation);
-        await using var command = Database.Command(connection, null,
-            // MENU-27: a participant reading their room (the waiting room refreshes every 2 s) keeps it alive.
-            "UPDATE rooms SET seen_at=now() WHERE id=$1 AND (fp_account=$2 OR sh_account=$2 OR $3) RETURNING state::text",
+        var observing = refreshPresence && await RoomObservers.Renew(connection, id, account, audience.Lease, cancellation);
+        // MENU-27: human waiting-room refreshes keep it alive. A bot cannot keep an abandoned host's room alive.
+        var sql = refreshPresence
+            ? "UPDATE rooms SET seen_at=now() WHERE id=$1 AND (fp_account=$2 OR sh_account=$2 OR $3) RETURNING state::text"
+            : "SELECT state::text FROM rooms WHERE id=$1 AND (fp_account=$2 OR sh_account=$2 OR $3)";
+        await using var command = Database.Command(connection, null, sql,
             id, account, observing);
         if (await command.ExecuteScalarAsync(cancellation) is not string json)
             return null;
@@ -144,7 +147,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         room.HostAccount == account || (!room.Managed && room.Contains(account));
 
     private async Task<RoomResult> Change(string lookupColumn, string key, string account, Access access,
-        Func<LockedRoom, Task<string?>> change, CancellationToken cancellation)
+        Func<LockedRoom, Task<string?>> change, CancellationToken cancellation, BotSeatAuthority? botAuthority = null)
     {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         await using var transaction = await connection.BeginTransactionAsync(cancellation);
@@ -158,11 +161,20 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         var state = Deserialize(json);
         if (state.Closed)
             return new(Error: "RoomNotFound");
+        if (botAuthority is not null)
+        {
+            var participant = botAuthority.Side == Side.FreePeoples ? state.FreePeoples : state.Shadow;
+            if (botAuthority.RoomId != state.Id || botAuthority.ParticipantId != account || participant != account)
+                throw new BotAuthorityExpiredException();
+            await BotCredentialStore.VerifyLocked(connection, transaction, botAuthority, cancellation);
+            if (bots is null || !bots.Supports(state.Configuration))
+                return new(Error: "BotConfigurationUnsupported");
+        }
         var room = await LockedRoom.Load(state, audience, connection, transaction, cancellation);
         var error = Refusal(room, account, access) ?? await change(room);
         if (error is not null)
             return new(Error: error);
-        await Save(room, cancellation);
+        await Save(room, cancellation, refreshPresence: botAuthority is null);
         await transaction.CommitAsync(cancellation);
         return new(state.View(account, scope, room.Observers, audience.Limit));
     }
@@ -176,14 +188,14 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         return access == Access.Player && !room.State.Contains(account) ? "PlayerRequired" : null;
     }
 
-    private static async Task Save(LockedRoom room, CancellationToken cancellation)
+    private static async Task Save(LockedRoom room, CancellationToken cancellation, bool refreshPresence = true)
     {
         var state = room.State;
         await using var save = Database.Command(room.Connection, room.Transaction,
             """
             UPDATE rooms SET fp_account=NULLIF($1,''),sh_account=NULLIF($2,''),state=$3::jsonb,
-                join_code=$5,closed=$6,match_id=NULLIF($7,''),seen_at=now() WHERE id=$4
-            """, state.FreePeoples, state.Shadow, Serialize(state), state.Id, state.JoinCode, state.Closed, state.MatchId);
+                join_code=$5,closed=$6,match_id=NULLIF($7,''),seen_at=CASE WHEN $8 THEN now() ELSE seen_at END WHERE id=$4
+            """, state.FreePeoples, state.Shadow, Serialize(state), state.Id, state.JoinCode, state.Closed, state.MatchId, refreshPresence);
         await save.ExecuteNonQueryAsync(cancellation);
     }
 

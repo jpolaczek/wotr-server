@@ -41,7 +41,10 @@ verifier exists the public schema accepts **only pending** behavioral evidence.
 
 ## Frozen handoff contracts (version 1)
 
-These are implementation requirements; endpoint integration remains pending.
+These are implementation requirements. BOT-01 implements the pure observation/
+memory boundary; BOT-16 implements [restricted server authority and player API
+access](../server/BOT-AUTHORIZATION.md). Room admission, assignment delivery and
+the private worker/journal remain pending.
 
 | Contract | Required data and responsibility | Owner |
 | --- | --- | --- |

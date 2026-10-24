@@ -95,7 +95,10 @@ stops future work.
 
 ## Planned interfaces and authorization
 
-The interfaces below are design requirements, not implemented endpoints/types.
+BOT-16 now implements the [identity, allowlist, renewal and compatibility
+boundary](BOT-AUTHORIZATION.md), including shared runtime metadata and mutation
+fencing. CPU room admission and assignment delivery below remain design
+requirements, not implemented endpoints/types.
 The version-1 [implementation handoff and coverage inventory](../bots/README.md)
 fix their ownership, evidence requirements and failure handling.
 
@@ -218,15 +221,15 @@ BOT-00 supplies the source-derived inventory. BOT-15 supplies an independently
 buildable private headless application with separate Core, Policy, Simulation,
 Transport and Persistence modules. Its production policy registry is empty;
 `--check` reports `gameplayReady: false`, and the unimplemented worker refuses to
-start. Fixture policies are test-only. There is no new game endpoint, CPU room
-flow, durable journal or deployed service yet.
+start. Fixture policies are test-only. There is no CPU room flow, assignment
+delivery, durable journal or deployed service yet.
 
 The public [pure rules source package](../bots/RULES-PACKAGE.md), version `0.1.0`,
 is the shared build input. It excludes legacy Demo policy and server code and
 preserves MIT notices. The private application vendors its exact archive/hash and
 Contracts `0.14.0`; public builds and human client packages do not depend on it.
-Build/fixture checks establish the foundation, not playing strength or gameplay
-information parity (BOT-01/BOT-20).
+Build/fixture checks establish the foundation, not playing strength or
+three-process gameplay acceptance (BOT-20).
 
 BOT-01 implements private observation/memory schema 2: explicit seat and
 rules/content/profile identity, copied player/history responses, typed main and
@@ -234,8 +237,17 @@ supporting plans, current versus historical knowledge, deterministic work/seed
 inputs and a guarded policy entry point. Unknown memory versions require journal
 reconciliation before rebuilding plans; stale views require refresh. Private
 tests compare actual engine projections under hidden-state permutations. This is
-the pure boundary; live authenticated API parity remains BOT-16/BOT-20, and
-durable command/memory reconciliation remains BOT-18.
+the pure boundary; durable command/memory reconciliation remains BOT-18.
+
+BOT-16 implements opt-in control and renewable seat credentials, a default-deny
+operation allowlist and the ordinary player handlers. PostgreSQL grant/generation
+checks run after the match/room lock and remain held through commit. Streams
+revalidate on every notification/heartbeat. Bot compatibility authenticates first
+and uses separate application versions and trusted feature coverage. Shared
+runtime metadata and seat renewal are available; internal issuance/lifecycle
+seams await BOT-12/BOT-17. Real HTTP/WebSocket fixtures compare both sides' player
+outputs and denied/racing operations. This boundary does not implement a playing
+worker or establish strategic behavior acceptance.
 
 BOT-00 establishes contracts and the exhaustive mechanic inventory. BOT-15 creates
 the private application foundation; BOT-01 defines observations/memory and BOT-16

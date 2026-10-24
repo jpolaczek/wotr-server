@@ -1,15 +1,37 @@
 using Microsoft.Extensions.Primitives;
+using Microsoft.AspNetCore.Authentication;
 using Wotr.Contracts;
 
 namespace Wotr.Server;
 
-// DS11: an incompatible client is stopped before authentication, rate limits, WebSocket upgrade or any
+// DS11: an incompatible human client is stopped before authentication, rate limits, WebSocket upgrade or any
 // command. Health, the release catalog, the installer list and logout stay open, so a client can still
 // learn what to install; so do the website's account endpoints (AUTH-02).
+// BOT-16: a bot credential must authenticate before its independent compatibility policy can be selected.
 public static class ClientCompatibilityGate
 {
     public static IApplicationBuilder UseClientCompatibility(this IApplicationBuilder app) => app.Use(async (context, next) =>
     {
+        var authorization = context.Request.Headers.Authorization.ToString();
+        if (authorization.StartsWith("Bearer ", StringComparison.Ordinal) && BotTokens.IsBot(authorization[7..]))
+        {
+            var authenticated = await context.AuthenticateAsync("Bearer");
+            if (!authenticated.Succeeded || BotIdentity.Of(context) is null)
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }
+            context.User = authenticated.Principal!;
+            if (!BotCompatibility.Compatible(context, context.RequestServices.GetRequiredService<BotAccessOptions>()))
+            {
+                context.Response.StatusCode = StatusCodes.Status409Conflict;
+                context.Response.Headers.CacheControl = "no-store";
+                await context.Response.WriteAsJsonAsync(new { error = "BotUpdateRequired" }, context.RequestAborted);
+                return;
+            }
+            await next();
+            return;
+        }
         if (!Applies(context.Request.Path))
         {
             await next();
