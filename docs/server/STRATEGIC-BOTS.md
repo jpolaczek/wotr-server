@@ -95,6 +95,8 @@ stops future work.
 ## Planned interfaces and authorization
 
 The interfaces below are design requirements, not implemented endpoints/types.
+The version-1 [implementation handoff and coverage inventory](../bots/README.md)
+fix their ownership, evidence requirements and failure handling.
 
 - `PUT /api/rooms/{id}/bot` requests the empty opposing CPU seat using the expected
   room version and a request ID. An identical retry is idempotent; a conflicting
@@ -245,4 +247,6 @@ Required evidence includes:
   client source/cost/effect presentation, reconnect and Reduced motion evidence.
 
 Each task records actual versions, commands, seeds and results. Documenting this
-design does not complete BOT-00's coverage validator or any runtime acceptance.
+design alone does not establish runtime acceptance. BOT-00 now provides the
+source-derived [mechanic inventory and validator](../bots/README.md); all
+strategic behavior evidence remains pending.

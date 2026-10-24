@@ -205,8 +205,8 @@ def validate(data):
         if task["status"] != "planned":
             if not task["started_at"] or not task["assignee"] or not history:
                 error("missing start metadata")
-            elif history[0]["event"] != "start" or history[0]["at"] != task["started_at"]:
-                error("history does not begin with the recorded start")
+            elif not task_registry.matching_start(history, task["started_at"]):
+                error("execution history does not begin with the recorded start")
         if task["status"] == "blocked" and not task["blocked_reason"]:
             error("missing blocking reason")
         if task["status"] == "done":

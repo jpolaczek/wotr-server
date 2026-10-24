@@ -15,7 +15,7 @@ EMPTY = "0" * 40
 
 
 def documentation(path):
-    if path == READ_BY_TESTS or path.startswith("docs/sources/") and not path.endswith(".md"):
+    if path == READ_BY_TESTS or path == "docs/bots/runtime-catalog.json" or path.startswith("docs/sources/") and not path.endswith(".md"):
         return False
     return path.startswith("docs/") or ("/" not in path and path.endswith(".md"))
 

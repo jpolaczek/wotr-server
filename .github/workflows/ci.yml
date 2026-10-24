@@ -28,6 +28,8 @@ jobs:
       - run: python3 -m unittest discover -s tests/ci -p 'test_*.py' -v
       - run: python3 -m unittest discover -s tests/packages -p 'test_*.py' -v
       - run: python3 -m unittest discover -s tests/release -p 'test_*.py' -v
+      - run: python3 -m unittest discover -s tests/bots -p 'test_*.py' -v
+      - run: python3 scripts/bot_coverage.py
       - run: python3 scripts/source_cards.py
       - run: python3 scripts/card_coverage.py --check
       - run: python3 scripts/source_lords_cards.py
@@ -71,6 +73,11 @@ jobs:
           fi
           ls -d /usr/lib/postgresql/*/bin
       - run: dotnet restore --locked-mode
+      - name: Verify bot inventory against the compiled public engine
+        run: |
+          dotnet restore tools/Wotr.BotCatalog --locked-mode
+          python3 scripts/bot_coverage.py --generate
+          git diff --exit-code -- docs/bots
       - run: dotnet test --no-restore --configuration Release --logger 'trx;LogFileName=backend.trx' --results-directory .artifacts/test-results
       - run: python3 scripts/card_coverage.py --check --results .artifacts/test-results/backend.trx
       - run: python3 scripts/lords_card_coverage.py --check --results .artifacts/test-results/backend.trx

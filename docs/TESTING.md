@@ -226,3 +226,11 @@ These are required future checks, not executed results. The
 
 Record policy/server/client/package versions, seeds, actual selected counts and
 results. Publishing documentation does not satisfy these runtime checks.
+
+## Bot inventory checks
+
+Run `python3 scripts/bot_coverage.py` and
+`python3 -m unittest discover -s tests/bots -v` for the public mechanic inventory.
+The compiled exporter regenerates with `python3 scripts/bot_coverage.py --generate`.
+See [inventory and handoff](bots/README.md): planned scenarios and existing rule
+tests are not evidence of a working strategic bot.
