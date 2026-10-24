@@ -255,6 +255,8 @@ must not extend human presence. Existing `ClientCompatibilityTests`,
 `ModuleClientTests` and migration/transport/lobby suites remain required regressions.
 `BotAccessOptionsTests` checks configuration without a database. See the
 [authorization contract and lifecycle handoff](server/BOT-AUTHORIZATION.md).
+`ExpansionHttpGameTests` restarts after the first committed move, then every 120
+moves, so an early legal victory cannot bypass its projection/restart assertions.
 
 The private application runs `bash scripts/verify.sh`: verified offline rules
 inputs, module boundaries, locked restore, Release build, fixture tests and an

@@ -10,8 +10,8 @@ using Xunit.Abstractions;
 namespace Wotr.Tests;
 
 // EXP-03: one game with every expansion and variant, start to end, through the real command route and PostgreSQL.
-// Each move is the demo CPU's choice for the side to act, sent by that player over HTTP; the server restarts every
-// 120 moves, and after each restart both players read exactly the projections they read before it.
+// Each move is the demo CPU's choice for the side to act, sent by that player over HTTP. Restart after the first
+// committed move, then every 120 moves; both players must read exactly their pre-restart projections.
 public sealed class ExpansionHttpGameTests(ITestOutputHelper output)
 {
     private const int MoveLimit = 3000;
@@ -44,7 +44,9 @@ public sealed class ExpansionHttpGameTests(ITestOutputHelper output)
                 Assert.Equal(before, await ReadBoth(alice, bob, id));
             var store = host.Services.GetRequiredService<MatchStore>();
             var bot = host.Services.GetRequiredService<DemoBot>();
-            for (var batch = 0; batch < RestartEvery && moves < MoveLimit; batch++, moves++)
+            // A legal early victory must not skip the restart coverage this test promises.
+            var batchLimit = moves == 0 ? 1 : RestartEvery;
+            for (var batch = 0; batch < batchLimit && moves < MoveLimit; batch++, moves++)
             {
                 var current = (await store.Read(id, "alice"))!.State;
                 if (current.Winner is not null)
