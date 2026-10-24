@@ -23,7 +23,9 @@ public static class BotTokens
 {
     public const string ControlPrefix = "wbc1_";
     public const string SeatPrefix = "wbs1_";
-    public static bool IsBot(string token) => token.StartsWith(ControlPrefix, StringComparison.Ordinal) || token.StartsWith(SeatPrefix, StringComparison.Ordinal);
+    // Human tokens are 43 random characters and can coincidentally begin with either prefix.
+    public static bool IsBot(string token) => token.Length == SeatPrefix.Length + 43 &&
+        (token.StartsWith(ControlPrefix, StringComparison.Ordinal) || token.StartsWith(SeatPrefix, StringComparison.Ordinal));
 }
 
 public sealed class BotAuthorityExpiredException : Exception;

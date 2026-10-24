@@ -26,9 +26,10 @@ response. Credential/authority string representations redact secrets.
 using the caller's PostgreSQL transaction. BOT-12/BOT-17 must create the reserved
 seat and grant atomically and bind the started match under the room lock. Issuance
 invalidates previous tokens for that grant; reassignment increments generation;
-revocation permanently closes the grant. Neither renewal nor issuance can revive
-expired/revoked authority. An authenticated token must still map to its current
-side in the room/match. One grant cannot represent a human participant.
+revocation permanently closes the grant. Neither renewal nor issuance can extend
+an expired/revoked grant; renewal cannot revive an expired credential. An
+authenticated token must still map to its current side in the room/match.
+One grant cannot represent a human participant.
 
 ## Explicit operation allowlist
 
@@ -87,6 +88,8 @@ owned by the game server; private plans and outgoing journals stay in the bot st
 
 Bot credentials are authenticated **before** the server selects bot compatibility.
 Bot-looking headers alone never select it or bypass human/Unity gates. Bot
+credentials use a distinct length and prefix; a human token that coincidentally
+starts with the same characters remains a human session. Bot
 requests and WebSocket handshakes supply exactly one value for each header:
 
 | Header | Supported value |

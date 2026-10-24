@@ -133,4 +133,22 @@ public class BotCompatibilityTests(BotApiFixture fixture)
         Assert.Equal(HttpStatusCode.Unauthorized, (await control.GetAsync("/api/runtime")).StatusCode);
     }
 
+    [PostgresFact]
+    public async Task HumanTokensThatCoincidentallyBeginWithBotPrefixesRemainHumanSessions()
+    {
+        foreach (var prefix in new[] { BotTokens.ControlPrefix, BotTokens.SeatPrefix })
+        {
+            var seat = await fixture.Seat();
+            var humanToken = prefix + SessionStore.NewToken()[prefix.Length..];
+            Assert.Equal(43, humanToken.Length);
+            await fixture.Sql("UPDATE sessions SET token_hash=$2 WHERE token_hash=$1",
+                SessionStore.Hash(seat.Human.Token), SessionStore.Hash(humanToken));
+            using var human = fixture.Client(humanToken, bot: false);
+            Assert.Equal(HttpStatusCode.OK, (await human.GetAsync($"/api/matches/{seat.State.Id}")).StatusCode);
+            using var stream = await fixture.Socket(humanToken, seat.State.Id, bot: false);
+            Assert.Equal(WebSocketMessageType.Text, (await BotApiFixture.Receive(stream)).Type);
+            stream.Abort();
+        }
+    }
+
 }
