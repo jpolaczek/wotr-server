@@ -61,6 +61,17 @@ public sealed class BotCredentialStore(Database database, BotAccessOptions optio
         if (!options.Enabled || string.IsNullOrWhiteSpace(id) || id.Length > 100 || !Enum.IsDefined(side) ||
             roomId is null && matchId is null || leaseUntil <= DateTimeOffset.UtcNow)
             throw new ArgumentException("Invalid bot seat grant.");
+        await EnsureParticipant(connection, transaction, id, cancellation);
+        await using var grant = Database.Command(connection, transaction, """
+            INSERT INTO bot_seat_grants(id,service_id,participant_id,room_id,match_id,side,generation,lease_until)
+            VALUES ($1,$2,$3,$4,$5,$6,1,$7)
+            """, id, options.ServiceId, Participant(id), (object?)roomId ?? DBNull.Value, (object?)matchId ?? DBNull.Value, side.ToString(), leaseUntil);
+        await grant.ExecuteNonQueryAsync(cancellation);
+    }
+
+    internal static async Task EnsureParticipant(NpgsqlConnection connection, NpgsqlTransaction transaction,
+        string id, CancellationToken cancellation)
+    {
         var participant = Participant(id);
         await using var account = Database.Command(connection, transaction, """
             INSERT INTO accounts(id,username,normalized_name,password_hash,is_admin,technical)
@@ -71,11 +82,6 @@ public sealed class BotCredentialStore(Database database, BotAccessOptions optio
             "SELECT technical AND NOT is_admin FROM accounts WHERE id=$1", participant);
         if (await technical.ExecuteScalarAsync(cancellation) is not true)
             throw new InvalidOperationException("Bot authority requires a non-login technical participant.");
-        await using var grant = Database.Command(connection, transaction, """
-            INSERT INTO bot_seat_grants(id,service_id,participant_id,room_id,match_id,side,generation,lease_until)
-            VALUES ($1,$2,$3,$4,$5,$6,1,$7)
-            """, id, options.ServiceId, participant, (object?)roomId ?? DBNull.Value, (object?)matchId ?? DBNull.Value, side.ToString(), leaseUntil);
-        await grant.ExecuteNonQueryAsync(cancellation);
     }
 
     public async Task<BotSeatSession> Issue(string grantId, long generation, CancellationToken cancellation = default)

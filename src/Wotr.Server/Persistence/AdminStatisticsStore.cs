@@ -25,7 +25,9 @@ public sealed class AdminStatisticsStore(Database database)
             (SELECT count(*) FROM match_ledger WHERE kind = 'game' AND winner = 'FreePeoples'),
             (SELECT count(*) FROM match_ledger WHERE kind = 'game' AND winner = 'Shadow'),
             (SELECT count(*) FROM match_ledger WHERE kind = 'test'),
-            (SELECT count(*) FROM match_ledger WHERE kind = 'demo')
+            (SELECT count(*) FROM match_ledger WHERE kind = 'demo'),
+            (SELECT count(*) FROM match_ledger WHERE kind = 'pve'),
+            (SELECT count(*) FROM match_ledger WHERE kind = 'pve' AND finished_at IS NOT NULL)
         """;
 
     // Newest accounts first; accounts from before the panel have no known creation time and come last by name.
@@ -61,7 +63,10 @@ public sealed class AdminStatisticsStore(Database database)
         await reader.ReadAsync(cancellation);
         return new(reader.GetInt64(0), reader.GetInt64(1), reader.GetInt64(2), reader.GetInt64(3), reader.GetInt64(4),
             reader.GetInt64(5), reader.GetInt64(6), reader.GetInt64(7), reader.GetInt64(8), reader.GetInt64(9),
-            reader.GetInt64(10), reader.GetInt64(11), reader.GetInt64(12), DateTimeOffset.UtcNow);
+            reader.GetInt64(10), reader.GetInt64(11), reader.GetInt64(12), DateTimeOffset.UtcNow)
+        {
+            PveGames = reader.GetInt64(13), PveFinished = reader.GetInt64(14)
+        };
     }
 
     public async Task<AdminUserPage> Users(int page, int pageSize, CancellationToken cancellation)

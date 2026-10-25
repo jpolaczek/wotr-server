@@ -12,7 +12,7 @@ public sealed record RoomParticipant(RoomView Room, string Name);
 // UI-96: the release scope decides which configurations new tables may use; tests built without DI keep everything.
 // OBS-01: a room has two seats and an audience of up to sixteen observers (ObserverOptions).
 public sealed partial class RoomStore(Database database, IRandomSource random, ReleaseScope? release = null,
-    ObserverOptions? observerOptions = null, BotAccessOptions? bots = null)
+    ObserverOptions? observerOptions = null, BotAccessOptions? bots = null, BotRoomOptions? botRooms = null)
 {
     private readonly ReleaseScope scope = release ?? ReleaseScope.Full;
     private readonly ObserverOptions audience = observerOptions ?? ObserverOptions.Default;
@@ -48,7 +48,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
             room.Name, account, room.Visibility.ToString());
         await command.ExecuteNonQueryAsync(cancellation);
         await MatchLedger.TableSet(connection, room.Id, account, cancellation);
-        return room.View(account, scope, [], audience.Limit);
+        return View(room, account, []);
     }
 
     // The open rooms this account plays in or watches.
@@ -57,7 +57,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         var rooms = await Participating(connection, account, cancellation);
         var observers = await RoomObservers.ActiveIn(connection, null, rooms.Select(r => r.Id).ToArray(), cancellation);
-        return rooms.Select(room => room.View(account, scope, observers.GetValueOrDefault(room.Id) ?? [], audience.Limit))
+        return rooms.Select(room => View(room, account, observers.GetValueOrDefault(room.Id) ?? []))
             .ToList();
     }
 
@@ -106,7 +106,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         var room = Deserialize(json);
         var observers = await RoomObservers.Active(connection, null, id, cancellation);
         var name = room.Contains(account) ? room.PlayerName(account) : observers.Find(o => o.Account == account)?.Name;
-        return new RoomParticipant(room.View(account, scope, observers, audience.Limit), name ?? "");
+        return new RoomParticipant(View(room, account, observers), name ?? "");
     }
 
     // OBS-01: the heartbeat of a participant who is not reading the waiting room (a live observer, every 15 s).
@@ -115,10 +115,13 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
 
     public Task<RoomResult> Configure(string id, string account, ConfigureRoomRequest request, CancellationToken cancellation = default) =>
         Change("id", id, account, Access.Participant, room => Task.FromResult(
-            Manages(room.State, account) ? RoomRules.Configure(room.State, request, scope) : "HostRequired"), cancellation);
+            !Manages(room.State, account) ? "HostRequired" :
+            room.State.Bot is not null && BotRoomUnavailable(request.Configuration, room.State.Bot.PolicyVersion) is { } error ? error :
+            RoomRules.Configure(room.State, request, scope)), cancellation);
 
     public Task<RoomResult> Confirm(string id, string account, int version, CancellationToken cancellation = default) =>
-        Change("id", id, account, Access.Player, room => Task.FromResult(RoomRules.Confirm(room.State, account, version)),
+        Change("id", id, account, Access.Player, room => Task.FromResult(SetRoomReady(room.State, account,
+                new() { ExpectedVersion = version, Ready = true }, null)),
             cancellation);
 
     public Task<RoomResult> Start(string id, string account, int version, CancellationToken cancellation = default) =>
@@ -129,13 +132,16 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
                 return "HostRequired";
             if (state.MatchId.Length > 0)
                 return null;
-            var error = RoomRules.CanStart(state, version, scope);
+            var error = RoomRules.CanStart(state, version, scope) ?? await CanStartBot(room, cancellation);
             if (error is not null)
                 return error;
             var match = MatchFactory.Create(Guid.NewGuid().ToString("N"), random, state.Configuration);
             TurnFlow.Start(match);
-            await MatchStore.Insert(room.Connection, room.Transaction, match, state.FreePeoples, state.Shadow, cancellation);
+            await MatchStore.Insert(room.Connection, room.Transaction, match, state.FreePeoples, state.Shadow,
+                state.Bot is null ? MatchKind.Game : MatchKind.Pve, cancellation);
             state.MatchId = match.Id;
+            if (state.Bot is not null)
+                await BindBotMatch(room, cancellation);
             await using var title = Database.Command(room.Connection, room.Transaction,
                 "UPDATE matches SET display_name=$1 WHERE id=$2", state.Name, match.Id);
             await title.ExecuteNonQueryAsync(cancellation);
@@ -144,7 +150,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
 
     // The host runs the room even from the audience; in a quick game without a name either player does.
     private static bool Manages(RoomState room, string account) =>
-        room.HostAccount == account || (!room.Managed && room.Contains(account));
+        room.HostAccount == account || (room.Bot is null && !room.Managed && room.Contains(account));
 
     private async Task<RoomResult> Change(string lookupColumn, string key, string account, Access access,
         Func<LockedRoom, Task<string?>> change, CancellationToken cancellation, BotSeatAuthority? botAuthority = null)
@@ -176,7 +182,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
             return new(Error: error);
         await Save(room, cancellation, refreshPresence: botAuthority is null);
         await transaction.CommitAsync(cancellation);
-        return new(state.View(account, scope, room.Observers, audience.Limit));
+        return new(View(state, account, room.Observers));
     }
 
     private static string? Refusal(LockedRoom room, string account, Access access)
@@ -191,6 +197,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
     private static async Task Save(LockedRoom room, CancellationToken cancellation, bool refreshPresence = true)
     {
         var state = room.State;
+        await ReconcileBot(room, cancellation);
         await using var save = Database.Command(room.Connection, room.Transaction,
             """
             UPDATE rooms SET fp_account=NULLIF($1,''),sh_account=NULLIF($2,''),state=$3::jsonb,

@@ -61,6 +61,8 @@ public static class LobbyEndpoints
             request.Configuration is null ? Results.BadRequest(new ApiError { Error = "InvalidConfiguration" }) :
                 RoomResult(await store.Configure(id, Account(context), request, context.RequestAborted)))
             .ForRequestedConfiguration();
+        rooms.MapPut("/{id}/bot", async (string id, AddRoomBotRequest request, HttpContext context, RoomStore store) =>
+            RoomResult(await store.AddBot(id, Account(context), request, context.RequestAborted))).ForRoom();
         rooms.MapPost("/{id}/confirm", async (string id, RoomRevisionRequest request, HttpContext context, RoomStore store) =>
             RoomResult(await store.Confirm(id, Account(context), request.ExpectedVersion, context.RequestAborted))).ForRoom();
         rooms.MapPut("/{id}/ready", async (string id, RoomReadyRequest request, HttpContext context, RoomStore store) =>

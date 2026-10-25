@@ -97,8 +97,8 @@ stops future work.
 
 BOT-16 now implements the [identity, allowlist, renewal and compatibility
 boundary](BOT-AUTHORIZATION.md), including shared runtime metadata and mutation
-fencing. CPU room admission and assignment delivery below remain design
-requirements, not implemented endpoints/types.
+fencing. CPU room admission is implemented in [BOT-ROOMS](BOT-ROOMS.md). Assignment
+delivery below remains a design requirement.
 The version-1 [implementation handoff and coverage inventory](../bots/README.md)
 fix their ownership, evidence requirements and failure handling.
 
@@ -128,6 +128,15 @@ fix their ownership, evidence requirements and failure handling.
   metadata. Pins for rule simulation must match the supported game versions.
 
 ## Strategic decisions and simulation
+
+Implementation checkpoint (2026-10-25): the private application has an internal
+bounded pure-engine kernel and constrained card partition sampler. Production
+reconstruction is blocked on a reviewed mapping from player information/history
+to rule continuations; the current view omits suspended returns and effect cursors.
+It also has an initial observation-only candidate generator for simple selections,
+exact costs and constrained event recruitment. Complete candidate families,
+validated fallback, battle/Hunt/card-chain parity and performance benchmarks remain
+pending. Neither BOT-02 nor BOT-03 is accepted and no production policy is enabled.
 
 The pure policy interface remains
 `Decide(BotObservation, BotMemory, DecisionBudget)`: one current command, proposed
@@ -221,8 +230,8 @@ BOT-00 supplies the source-derived inventory. BOT-15 supplies an independently
 buildable private headless application with separate Core, Policy, Simulation,
 Transport and Persistence modules. Its production policy registry is empty;
 `--check` reports `gameplayReady: false`, and the unimplemented worker refuses to
-start. Fixture policies are test-only. There is no CPU room flow, assignment
-delivery, durable journal or deployed service yet.
+start. Fixture policies are test-only. Server CPU room admission is implemented; client controls, assignment
+delivery, durable journal and deployment remain pending.
 
 The public [pure rules source package](../bots/RULES-PACKAGE.md), version `0.1.0`,
 is the shared build input. It excludes legacy Demo policy and server code and
@@ -245,7 +254,7 @@ checks run after the match/room lock and remain held through commit. Streams
 revalidate on every notification/heartbeat. Bot compatibility authenticates first
 and uses separate application versions and trusted feature coverage. Shared
 runtime metadata and seat renewal are available; internal issuance/lifecycle
-seams await BOT-12/BOT-17. Real HTTP/WebSocket fixtures compare both sides' player
+seams are integrated with BOT-12 rooms; claim delivery awaits BOT-17. Real HTTP/WebSocket fixtures compare both sides' player
 outputs and denied/racing operations. This boundary does not implement a playing
 worker or establish strategic behavior acceptance.
 

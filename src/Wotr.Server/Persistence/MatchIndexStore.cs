@@ -35,7 +35,10 @@ public sealed class MatchIndexStore(Database database)
         WITH owned AS (
             SELECT m.*, CASE WHEN m.fp_account=$1 THEN 'FreePeoples' ELSE 'Shadow' END AS viewer,
                 COALESCE(r.revision, -1) AS seen,
-                COALESCE(a.username, 'Opponent') AS opponent
+                COALESCE(a.username, 'Opponent') AS opponent,
+                EXISTS (SELECT 1 FROM match_ledger l WHERE l.match_id=m.id AND l.kind='pve') AS pve,
+                (SELECT jsonb_build_object('side',b.side,'profileId',b.profile_id,'policyVersion',b.policy_version,
+                    'status','Ready') FROM bot_assignments b WHERE b.match_id=m.id) AS bot
             FROM matches m
             LEFT JOIN match_reads r ON r.match_id=m.id AND r.account_id=$1
             LEFT JOIN accounts a ON a.id=CASE WHEN m.fp_account=$1 THEN m.sh_account ELSE m.fp_account END
@@ -49,7 +52,7 @@ public sealed class MatchIndexStore(Database database)
             FROM owned
         )
         SELECT jsonb_build_object(
-            'matchId', id, 'name', display_name, 'opponent', opponent, 'you', viewer,
+            'matchId', id, 'name', display_name, 'opponent', opponent, 'you', viewer, 'isPve',pve,'bot',bot,
             'configuration', state->'configuration', 'turn', state->'turn', 'phase', state->'phase',
             'revision', revision, 'lastSeenRevision', seen, 'status', status,
             'decisionOwner', CASE WHEN status<>'Finished' THEN state->'pending'->'owner' END,

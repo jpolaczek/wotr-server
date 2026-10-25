@@ -1,6 +1,8 @@
 <a id="obserwatorzy-i-lokalne-replaye--projekt-z-2026-10-16"></a>
 # Observers and local replays
 
+[Saved PvE rooms](BOT-ROOMS.md) preserve normal human/observer memberships and recording/export. The CPU is a player; its restricted credential never acquires observer or replay-export rights. Authorized humans can observe and export completed PvE replays.
+
 This document specifies observers and local replay behavior (R33/R34). The server
 and client implementation and acceptance tasks have completed; remaining work is
 listed in the active registry. The implementation details below

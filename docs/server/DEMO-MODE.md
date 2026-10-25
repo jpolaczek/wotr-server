@@ -1,6 +1,8 @@
 <a id="tryb-demonstracyjny-z-prostym-cpu--demo-00demo-05"></a>
 # Demo mode with straight CPU — DEMO-00-DEMO-05
 
+BOT-12 adds [ordinary saved PvE](BOT-ROOMS.md) alongside this legacy demo. Each PvE reservation/match is independent; its creation never invokes `DemoSessionStore` or replaces a demo/another saved game. Legacy demo behavior and saves remain supported.
+
 This document describes the implemented legacy demo. The owner-approved
 [strategic bot service](STRATEGIC-BOTS.md), 2026-10-23, is a separate planned PvE
 program: a private remote application, ordinary player information and multiple

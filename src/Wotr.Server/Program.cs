@@ -45,6 +45,7 @@ builder.Services.AddHostedService(services => services.GetRequiredService<EmailO
 builder.Services.AddSingleton<SessionStore>();
 builder.Services.AddSingleton(services => BotAccessOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<BotCredentialStore>();
+builder.Services.AddSingleton(services => BotRoomOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<ISessionResolver>(services => services.GetRequiredService<SessionStore>());
 builder.Services.AddSingleton(services => ReleaseScope.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
 builder.Services.AddSingleton(services => ClientReleaseOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
@@ -119,6 +120,7 @@ app.Services.GetRequiredService<ReleaseScope>();
 // EXP-02: a released module without its first client version stops Production at start.
 app.Services.GetRequiredService<ModuleClientPolicy>();
 app.Services.GetRequiredService<BotAccessOptions>();
+app.Services.GetRequiredService<BotRoomOptions>();
 app.UseClientCompatibility();
 app.UseWebSockets();
 app.UseAuthentication();

@@ -1,6 +1,8 @@
 <a id="weryfikacja-i-odbiór"></a>
 # Verification and acceptance
 
+BOT-12 adds `PveRoomTests`, `PveSeatRaceTests`, `PveSaveCompatibilityTests` and `BotRoomOptionsTests`. The PvE collection owns an isolated real PostgreSQL cluster and uses the actual room/player API, with a trusted claim stub until BOT-17. See [scope and fixture limitations](server/BOT-ROOMS.md). BOT-02/BOT-03 private checkpoints pass 315 C# cases, including 265 named scenario positions; this does not establish complete reconstruction, candidate coverage or strategy acceptance.
+
 This document states what every change must prove and how the tests run. Results of individual checks are recorded
 in the local task registry and its testing log (`docs/tasks/`, ignored by Git since 2026-10-17); earlier per-task
 evidence remains in Git history. Environment setup is in [DEVELOPMENT](DEVELOPMENT.md).

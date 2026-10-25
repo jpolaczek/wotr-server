@@ -43,8 +43,8 @@ verifier exists the public schema accepts **only pending** behavioral evidence.
 
 These are implementation requirements. BOT-01 implements the pure observation/
 memory boundary; BOT-16 implements [restricted server authority and player API
-access](../server/BOT-AUTHORIZATION.md). Room admission, assignment delivery and
-the private worker/journal remain pending.
+access](../server/BOT-AUTHORIZATION.md). BOT-12 implements [room admission](../server/BOT-ROOMS.md);
+assignment delivery and the private worker/journal remain pending.
 
 | Contract | Required data and responsibility | Owner |
 | --- | --- | --- |

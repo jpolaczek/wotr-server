@@ -7,7 +7,8 @@ public enum MatchKind
 {
     Game,
     Test,
-    Demo
+    Demo,
+    Pve
 }
 
 // ADMIN-01: every match that ever started and every table that was set, kept apart from the live rows so the admin
@@ -44,6 +45,7 @@ public static class MatchLedger
     {
         MatchKind.Test => "test",
         MatchKind.Demo => "demo",
+        MatchKind.Pve => "pve",
         _ => "game"
     };
 }

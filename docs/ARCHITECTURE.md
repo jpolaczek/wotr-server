@@ -1,6 +1,8 @@
 <a id="architektura"></a>
 # Architecture
 
+BOT-12 now implements [saved PvE rooms](server/BOT-ROOMS.md): atomic CPU admission, durable assignments, scoped readiness/start and cancellation. Assignment delivery and the private playing worker remain BOT-17/BOT-18. BOT-02/BOT-03 have private checkpoints only; reconstruction and complete candidate coverage remain pending.
+
 The Unity client presents the player's role and prepares intents. The pure C#
 engine resolves rules on the server. ASP.NET Core persists the result before
 responding and sends each side only its authorized view.
@@ -10,7 +12,7 @@ responding and sends each side only its authorized view.
 The [strategic bot design](server/STRATEGIC-BOTS.md) adds a third application,
 `wotr-bot`, with a private repository and independent deployment. The isolated
 application/build foundation and restricted server API authority are implemented;
-room admission, assignment delivery, the worker and policies remain planned.
+room admission is implemented; assignment delivery, the worker and policies remain planned.
 It consumes the versioned [pure rules source package](bots/RULES-PACKAGE.md)
 and reports itself unready for gameplay. The game/client remain buildable
 without private bot code; no bot artifacts are installed on a player's device.
@@ -29,7 +31,7 @@ and heartbeats. Trusted capability settings and independent bot versions never
 relax human compatibility. Bot reads/readiness cannot keep an abandoned human
 room alive. No private policy code or memory enters the public server.
 
-In the planned room integration, the host requests CPU in an empty opposing seat. The server persists a reserved
+In the room integration, the host requests CPU in an empty opposing seat. The server persists a reserved
 seat and assignment; the private service claims it, verifies configuration and
 readies that seat. Normal human Ready/Start and server authority still apply.
 Restricted bot credentials reach the same player projection, updates, history,

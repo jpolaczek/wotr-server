@@ -20,7 +20,11 @@ public sealed record AdminSummaryView(
     long ShadowWins,
     long TestSessions,
     long DemoGames,
-    DateTimeOffset At);
+    DateTimeOffset At)
+{
+    public long PveGames { get; init; }
+    public long PveFinished { get; init; }
+}
 
 public sealed record AdminUserView(
     string Username,

@@ -1,13 +1,15 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.15.0 add [CPU room admission and safe metadata](server/BOT-ROOMS.md): `PUT /api/rooms/{id}/bot`, `AddRoomBotRequest`, seat kinds/status, `RoomView.Bot` and `MatchSummary.IsPve/Bot`. Public content 1.0.16 pins the new contracts. Ordinary commands, player views, protocol 2 and save schema 3 are unchanged. Claim delivery and the private worker remain pending.
+
 The contract is implemented in stages T05–T07. In T06 there are DTO `PlayerView`, `ActionOption`, `DecisionView`, `ActionPreview`; endpoints adds T07. Each field has a specific visibility and version. The table below also includes target contracts for later tasks.
 
 ## External CPU contracts — implementation boundary
 
-See [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). CPU room admission, assignment
-delivery and the remote worker remain planned. The current demo route below
-keeps its existing semantics until the new PvE integration is implemented.
+See [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). CPU room admission is implemented by BOT-12; assignment
+delivery and the remote worker remain pending. The current demo route below
+keeps its independent legacy semantics.
 
 BOT-15 adds only private in-process policy/proposal interfaces around the existing
 `PlayerView`, `GameCommand` and `CommandReceipt`. It does not add wire DTOs or
@@ -24,7 +26,8 @@ authentication and is independent of Unity versions. `GET /api/runtime` shares
 nonsecret protocol/rules/content metadata with humans; `POST /api/bot/seat/renew`
 renews only an active seat token within its grant lease. Ordinary player DTOs,
 command validation and receipt retention remain unchanged; no package bump is
-needed. The room/assignment additions below remain future integration.
+needed for BOT-16 itself. BOT-12 versions the room additions below; internal
+assignment delivery remains pending.
 
 - `PUT /api/rooms/{id}/bot`: seated host requests the empty opposing CPU seat with
   expected room version and request ID; identical retries reserve one seat.

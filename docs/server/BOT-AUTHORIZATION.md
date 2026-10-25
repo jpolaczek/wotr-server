@@ -1,5 +1,7 @@
 # Bot authority and player API
 
+[BOT-12 room admission](BOT-ROOMS.md) now reserves CPU seats and assignments. Readiness binds the existing scoped grant generation to the room version; Start rechecks it under the room/grant locks and binds it to the match. Reservations do not issue tokens: BOT-17 still owns claim/lease delivery.
+
 BOT-16 implements the server boundary for the private service described in
 [STRATEGIC-BOTS](STRATEGIC-BOTS.md). CPU room admission (BOT-12), assignment
 claim/lease delivery (BOT-17) and the remote worker/journal (BOT-18) remain separate.
@@ -23,8 +25,9 @@ hashes are persisted. No credential is returned in a human room, match or histor
 response. Credential/authority string representations redact secrets.
 
 `BotCredentialStore.Register` is a trusted lifecycle seam, including an overload
-using the caller's PostgreSQL transaction. BOT-12/BOT-17 must create the reserved
-seat and grant atomically and bind the started match under the room lock. Issuance
+using the caller's PostgreSQL transaction. BOT-12 atomically reserves the seat
+and assignment; BOT-17 must claim that reservation and register its grant under
+the room lock. BOT-12 binds the started match under that same lock. Issuance
 invalidates previous tokens for that grant; reassignment increments generation;
 revocation permanently closes the grant. Neither renewal nor issuance can extend
 an expired/revoked grant; renewal cannot revive an expired credential. An

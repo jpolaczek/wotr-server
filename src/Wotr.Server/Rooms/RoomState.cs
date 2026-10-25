@@ -23,6 +23,7 @@ public sealed class RoomState
     public int? ShadowAccepted { get; set; }
     public MatchConfiguration Configuration { get; set; } = ConfigurationRules.Normalize(new());
     public string MatchId { get; set; } = "";
+    public RoomBotState? Bot { get; set; }
     // MENU-24: accounts the host removed; they cannot take a seat in this room again.
     public List<string> Removed { get; set; } = [];
 
@@ -46,6 +47,15 @@ public sealed class RoomState
         JoinCode = InvitationEnabled && (HostAccount == account || (!Managed && Contains(account))) ? JoinCode : "",
         FreePeoples = FreePeoplesName,
         Shadow = ShadowName,
+        FreePeoplesKind = Occupant(Side.FreePeoples),
+        ShadowKind = Occupant(Side.Shadow),
+        Bot = Bot is null ? null : new()
+        {
+            Side = Bot.Side, ProfileId = Bot.ProfileId, PolicyVersion = Bot.PolicyVersion,
+            Status = Closed ? BotSeatStatus.Unavailable :
+                (Bot.Side == Side.FreePeoples ? FreePeoplesAccepted : ShadowAccepted) == Version
+                    ? BotSeatStatus.Ready : BotSeatStatus.Joining
+        },
         You = account == Shadow ? Side.Shadow : Side.FreePeoples,
         Role = Contains(account) ? RoomRole.Player : RoomRole.Observer,
         Observers = RoomObservers.Views(this, observers),
@@ -59,6 +69,19 @@ public sealed class RoomState
         ExpansionsAvailable = release.OffersExpansions,
         OfferedModules = release.Modules.ToList()
     };
+
+    private SeatOccupantKind Occupant(Side side) => RoomRules.Seat(this, side).Length == 0
+        ? SeatOccupantKind.Empty : Bot?.Side == side ? SeatOccupantKind.Cpu : SeatOccupantKind.Human;
+}
+
+public sealed class RoomBotState
+{
+    public string AssignmentId { get; set; } = "";
+    public string ParticipantId { get; set; } = "";
+    public Side Side { get; set; }
+    public string ProfileId { get; set; } = "";
+    public string PolicyVersion { get; set; } = "";
+    public long? ReadyGeneration { get; set; }
 }
 
 public sealed record RoomResult(RoomView? Room = null, string Error = "");
