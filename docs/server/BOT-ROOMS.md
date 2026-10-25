@@ -91,3 +91,12 @@ saves with a human game and legacy demo, restart, commands/receipts/privacy/hist
 and completed replay. The replay fixture seeds a verified near-victory position;
 it does not demonstrate strategic gameplay. BOT-20 repeats the integration with
 the real private process. BOT-13 owns minimal Add CPU/seat-status client controls.
+
+The implementation at `4b345b6` passed 20 focused PvE/options cases and the final
+140-case room, correspondence, replay, authorization, migration, statistics and
+release regression, with no skipped cases. Dependency packaging passed seven
+Python checks; the client bootstrap passed 16. Contracts/content and the server/
+seeder archives were built from that commit and verified from a local channel.
+Client commit `8e6d2579` on `codex/bot-room-contracts` pins those exact archives
+and records the UI handoff. They have not been published; no Unity gameplay or
+real private worker acceptance is claimed by these checks.
