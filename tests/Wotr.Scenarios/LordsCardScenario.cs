@@ -17,7 +17,10 @@ internal static class LordsCardScenario
         // UI-347: the test menu's builders of Orderly Withdrawal, the Balrog card and Evil Knowledge.
         ["ui347-orderly-withdrawal"] = LordsDecisionScenarios.OrderlyWithdrawal(Guid.NewGuid().ToString("N"), random),
         ["ui347-balrog"] = LordsDecisionScenarios.Balrog(Guid.NewGuid().ToString("N"), random),
-        ["ui347-evil-knowledge"] = LordsDecisionScenarios.EvilKnowledge(Guid.NewGuid().ToString("N"), random)
+        ["ui347-evil-knowledge"] = LordsDecisionScenarios.EvilKnowledge(Guid.NewGuid().ToString("N"), random),
+        // Tests share a seeded match by its name, so a second test of the same situation has its own.
+        ["ui347-wind-finish"] = WindHand(random),
+        ["ui347-balrog-finish"] = LordsDecisionScenarios.Balrog(Guid.NewGuid().ToString("N"), random)
     };
 
     private static MatchState State(IRandomSource random, Side actor)

@@ -72,16 +72,17 @@ public static class LordsDecisionScenarios
         return Play(state, Side.Shadow, LordsShadowCards.Balrog, DieFace.Character);
     }
 
-    // The Lords Mouth of Sauron and a Sauron regular besiege Minas Tirith; a round without hits ends at the Shadow's
-    // continuation, where Evil Knowledge is offered.
+    // The Lords Mouth of Sauron, entered as in play on the Mouth's one figure, and a Sauron regular besiege Minas Tirith;
+    // a round without hits ends at the Shadow's continuation, where Evil Knowledge is offered.
     public static MatchState EvilKnowledge(string id, IRandomSource random)
     {
         var state = ScenarioBoard.Setup(id, random, Lords)
             .AtWar("sauron", "gondor")
             .Besiege(MinasTirith, "sauron", 1)
+            .Enter(LordsCharacters.Mouth, MinasTirith)
             .Dice(Side.Shadow, DieFace.Army, DieFace.Character, DieFace.Muster, DieFace.Event, DieFace.Army, DieFace.Muster)
             .Act(Side.Shadow);
-        var mouth = Put(state, LordsCharacters.Mouth, MinasTirith);
+        var mouth = state.Characters.Single(c => c.DefinitionId == LordsCharacters.Mouth);
         var units = state.Units.Where(u => u.Location == MinasTirith && !u.Garrison && BoardRules.Owner(u) == Side.Shadow)
             .Select(u => u.Id).ToList();
         var die = state.Dice.First(d => d.Owner == Side.Shadow && d.Location == DieLocation.Available && d.Face == DieFace.Army);

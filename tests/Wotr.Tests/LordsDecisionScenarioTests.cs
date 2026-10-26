@@ -50,6 +50,7 @@ public class LordsDecisionScenarioTests
         var view = Views.For(state, Side.Shadow);
         Assert.Contains(view.Options, o => o.Kind == CommandKind.UseEvilKnowledge && o.Enabled);
         Assert.Contains(view.Battle!.Attacker.Characters, c => c.DefinitionId == LordsCharacters.Mouth);
+        Assert.Single(state.Characters, c => CharacterCatalog.All[c.DefinitionId].Identity == "mouth-of-sauron" && CharacterRules.OnBoard(c));
     }
 
     private static List<string> Choices(MatchState state, Side side) =>
