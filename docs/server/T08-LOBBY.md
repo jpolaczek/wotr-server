@@ -43,7 +43,7 @@ Invalid format stops approval locally, indicates the field and sets focus. An em
 
 The default Dismay is calculated only when the value is omitted; the apparent false remains false. Council requires Lords; Dismay and Renovating Ruler Tokens require Lords + Kings (Removing also Dismay); two variants of tiles require Kings; New Cities requires Fate. Sources: REQUIREMENTS and the L03/X02/F01. Test rule checks all 512 settings: 93 legal, 419 rejected. They do not contain private versions of Companion.
 
-The acceptance T08 only had a base module available for launch, and expansions had `StartUnavailableReason=ContentNotImplemented`. T34 opens all 93 legal configurations after acceptance engine and client windows. The dependencies are validated, two consents of one version, atomic start and invariability of configuration of the started batch; [report T34](https://github.com/jpolaczek/wotr-client/blob/60ea00814c48f12e8931dbcd3cf336789785360d/docs/ui/T34-ACCEPTANCE.md).
+The acceptance T08 only had a base module available for launch, and expansions had `StartUnavailableReason=ContentNotImplemented`. T34 opens all 93 legal configurations after acceptance engine and client windows. The dependencies are validated, two consents of one version, atomic start and invariability of configuration of the started batch; [report T34](https://github.com/jpolaczek/wotr-client/blob/84da400a55e714621cc912d8a2b341890de06edb/docs/ui/T34-ACCEPTANCE.md).
 
 From UI-96 `ReleaseScope` (`Wotr:Release:Expansions`, default excluded in Production) limits new tables to base game: configuration with module or variant expansions and start of the table preset give 409 `ExpansionsUnavailable`; `RoomView.ExpansionsAvailable` tells the client whether to show switches. Started parties and other environments unchanged.
 
@@ -171,9 +171,10 @@ User order with 2026-10-16: "implement replay and watcherow" (project: [OBSERVER
   - host-visitors after takeoff just stop watching.
 - The invitation code of the host can always be enabled, including after filling the seats and after
   the start, because it allows viewers in. The viewer does not see the room code with the name.
-- `GET /api/rooms` returns open rooms where the account is playing or watching.
-- The public list shows open rooms of other hosts in Waiting and in an ongoing party (without
-  finished) with status, number of players and viewers and `CanPlay`/`CanObserve`. The code does not
+- `GET /api/rooms` returns open rooms where the account is playing or watching; since LOBBY-05 not
+  those whose game is finished or removed.
+- The public list shows open rooms of other hosts before their start (LOBBY-05: a game in progress is
+  not listed) with status, number of players and viewers and `CanPlay`/`CanObserve`. The code does not
   enter the list.
 - The chat includes viewers. The message has `Author` (account name) and `Role`; `Side` is of
   relevance only to the player.

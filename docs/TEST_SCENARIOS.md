@@ -109,6 +109,30 @@ its uses without playing up to it. They are built from the card catalog (`CardSc
   e.g. Gandalf the White and a Companion in Fangorn for The Ents Awake, Strider with the Minas Tirith army for
   Challenge of the King, a Sauron army besieging Minas Tirith for Denethor's Folly, the Fellowship in Hollin for the
   Hunt cards that need it outside a Free Peoples settlement, a nation at war or a Minion in play.
+- **Every clause can act (UI-300, owner's decision 2026-10-22):** a scenario is not complete while its card would do
+  nothing, so the board also lets the clauses the engine may skip act. Corruption to heal (Athelas with Strider as
+  Guide; There is Another Way and Bilbo's Song with Gollum as Guide after every Companion left; I Will Go Alone;
+  Mirror of Galadriel in unconquered Lórien with a second Character result). Companions outside the Fellowship within
+  a move of the clause's regions (Book of Mazarbul: Gimli in Dale and Legolas in the Woodland Realm; Fear! Fire!
+  Foes!: Strider in the Weather Hills and Merry in Buckland; Gwaihir and Swifter: Strider in Bree; There and Back
+  Again: Legolas in the Woodland Realm; Riders of Théoden: Gimli in Helm's Deep; Dead Men: Gimli beside Strider in
+  Edoras and a Southron army in Erech). A target (Faramir's Rangers: a Sauron army in North Ithilien). A Hunt Pool of
+  the 4 Eyes and 2 other tiles for Challenge of the King, so a draw shows Eyes. A second Character Event (Elven
+  Cloaks) for the Ents' free play. The Fellowship in Hollin, outside a Stronghold the Nazgûl may not enter, for
+  Nazgûl Search, Cruel Weather and The Nazgûl Strike, which also finds Mithril Coat and Sting on the table. Three
+  Nazgûl in Minas Morgul for Dreadful Spells, and two Free Peoples Will of the West results for The Day Without Dawn.
+- **A kept card meets its trigger (UI-300, follow-up the same day):** a card kept on the table or put into play acts
+  only later, so its scenario brings that moment within reach. Mithril Coat and Sting, Axe and Bow, Horn of Gondor and
+  Wizard's Staff: played with the Event die, the next move with the Character die meets a Hunt that almost surely
+  hits (`ScenarioBoard.HuntAhead`: five Shadow dice in the Hunt Box, two Free Peoples dice that already moved the
+  Fellowship this turn for +2, a pool of damage tiles only) and the Shadow has no die left, so the move follows at
+  once. Flocks of Crebain and Worn with Sorrow and Toil (Athelas in the Free Peoples hand) prepare the same Hunt for the
+  Free Peoples' move after a Switch side; Balrog of Moria stands the Fellowship in Hollin, next to Moria, with a pool
+  of Reveal tiles. The eight special Hunt tile cards start on step 0 of the Mordor Track with one other tile in the
+  pool, so the played tile is drawn within two steps (`ScenarioBoard.OnMordorTrack`). The Palantír of Orthanc finds
+  Orcs Multiplying Again in hand for the Event die, Wormtongue Wisdom of Elrond in the Free Peoples hand, A Power too
+  Great and The Power of Tom Bombadil a Sauron army at war next to the regions they protect; The Last Battle and
+  Threats and Promises say what to try after the play.
 - **Combat scenario:** a battle at the card owner's Combat card choice, started by the engine's own attack command
   (`CardBattles`). Free Peoples cards: Isengard attacks the Rohan army at the Fords of Isen, a field battle in a Rohan
   region where the Fellowship stands with Strider, Gandalf the Grey, Boromir and Merry (Leader, Elites, Companions and a
@@ -118,6 +142,26 @@ its uses without playing up to it. They are built from the card catalog (`CardSc
 - **Proof:** `BaseCardScenarioTests` builds all 192: the event scenario offers the card as a legal `PlayEvent` paid by a
   die of the turn and the play is accepted by the engine; the combat scenario waits on the owner's `CombatCard`
   decision, offers the card in `CommitCombatCard` and committing it is accepted.
+  `BaseCardScenarioEffectTests` (UI-300) plays every event scenario with its event die, lets the demo CPU answer the
+  effect's decisions (a journey of Companions outside the Fellowship moves one of them a region) and requires a board
+  that differs from the card merely discarded, under one of six seeds for cards that roll or draw; it also checks on the
+  starting board each clause listed above; for the Hunt cards it moves the Fellowship and requires a Hunt that offers
+  the card, and for the special tiles it walks the Mordor Track until the played tile is drawn.
+- **Production deployment, 2026-10-22** (owner's order "tak" to deploying UI-300): the server went from
+  `48953f68b5fc` to `94c0c87ac09c` (UI-300, the LOBBY-05 deployment record and the observer lease test on top of
+  LOBBY-05; the rules engine is unchanged, the expansions were not deployed). The commits reached the host as a git
+  bundle; nothing was pushed. Copies before the update: `/srv/wotr/backups/2026-10-22-before-ui300` and `…-ui300-b`.
+  No migration; `infra/production.sh build server` and `up -d --wait` recreated only `server`, and the image
+  `wotr-server:48953f68b5fc` stays for a rollback. Checks: `/health` ok (protocol 2), `/health/ready` 200; five 502
+  responses in the second of the swap (10:44:29 UTC) and none after; the lobby, rooms, matches and test-scenario
+  requests since then answer 200. A first attempt fed the remote steps on stdin and the backup consumed them, so only
+  the first copy was made; the steps now run from a copied script.
+- **Production deployment of the follow-up, 2026-10-22** (the owner reported the Axe and Bow scenario unchanged and
+  asked for the new version): the server went from `94c0c87ac09c` to `5fca25377bfa` (the triggered cards above and
+  the first deployment record), again as a git bundle. Copy before the update:
+  `/srv/wotr/backups/2026-10-22-before-ui300-triggers`; the image `wotr-server:94c0c87ac09c` stays for a rollback.
+  Checks: `/health` ok, `/health/ready` 200; no 5xx after the restart (20:07 UTC), the lobby, rooms and matches
+  answer 200. The client needed no new build: the scenarios are built by the server.
 
 <a id="dodawanie-scenariusza"></a>
 ## Adding a scenario

@@ -51,7 +51,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         return room.View(account, scope, [], audience.Limit);
     }
 
-    // The open rooms this account plays in or watches.
+    // The open rooms this account plays in or watches. LOBBY-05: a room whose match finished or is gone has left My games.
     public async Task<List<RoomView>> List(string account, CancellationToken cancellation = default)
     {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
@@ -69,6 +69,8 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
             SELECT state::text FROM rooms r
             WHERE NOT closed AND (fp_account=$1 OR sh_account=$1 OR EXISTS (SELECT 1 FROM room_observers o
                 WHERE o.room_id=r.id AND o.account_id=$1 AND o.lease_until > now()))
+                AND (match_id IS NULL OR EXISTS (SELECT 1 FROM matches m
+                    WHERE m.id=r.match_id AND m.state->>'phase'<>'Finished'))
             ORDER BY id
             """, account);
         await using var reader = await command.ExecuteReaderAsync(cancellation);
