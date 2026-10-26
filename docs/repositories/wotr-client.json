@@ -1,6 +1,6 @@
 {
   "repository": "jpolaczek/wotr-client",
-  "commit": "cafae9bf664e0691bc0c4523edc9edea6d6c830e",
+  "commit": "abb3f838530e143a221e7c25cd557dcde434c6de",
   "files": [
     ".editorconfig",
     ".env.example",
@@ -34,6 +34,7 @@
     "docs/ui/CARD_CHOICES_UX.md",
     "docs/ui/CHARACTERS_SETUP_MENU_UX.md",
     "docs/ui/DEMO_UX.md",
+    "docs/ui/EXPANSIONS_UI_AUDIT.md",
     "docs/ui/FELLOWSHIP_UX.md",
     "docs/ui/HUNT_UX.md",
     "docs/ui/IN_GAME_UX.md",

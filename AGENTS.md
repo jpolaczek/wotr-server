@@ -27,7 +27,7 @@ explicit client pin.
 2. Read [REQUIREMENTS](docs/REQUIREMENTS.md), the relevant parts of
    [ARCHITECTURE](docs/ARCHITECTURE.md), [LOGIC](docs/rules/LOGIC.md),
    [EXPANSIONS](docs/rules/EXPANSIONS.md),
-   [UX_SPEC](https://github.com/jpolaczek/wotr-client/blob/cafae9bf664e0691bc0c4523edc9edea6d6c830e/docs/ui/UX_SPEC.md)
+   [UX_SPEC](https://github.com/jpolaczek/wotr-client/blob/abb3f838530e143a221e7c25cd557dcde434c6de/docs/ui/UX_SPEC.md)
    and the task's `read_before` documents.
 3. Check dependencies, open [source gaps](docs/sources/gaps.json), current file
    changes and recent history entries. Do not overwrite the user's work.
