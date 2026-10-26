@@ -22,6 +22,9 @@ BOT-03 adds only private candidate construction and a local public-board route
 validation port. It uses the existing player projection and pinned rules; it
 introduces no wire DTO, privileged read or remote validation endpoint. Full
 simulation reconstruction still requires a reviewed information contract.
+Expansion choices consume the existing grouped quotas, exact token/die identities
+and temporarily inspected tile options. A card's private inspection permission
+does not make other sovereigns' concealed tiles available to the bot.
 
 BOT-16 implements the [server authorization contract](server/BOT-AUTHORIZATION.md):
 distinct control/seat identities, short-lived hashed seat credentials bound to

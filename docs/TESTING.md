@@ -1,7 +1,7 @@
 <a id="weryfikacja-i-odbiór"></a>
 # Verification and acceptance
 
-BOT-12 adds `PveRoomTests`, `PveSeatRaceTests`, `PveSaveCompatibilityTests` and `BotRoomOptionsTests`. The PvE collection owns an isolated real PostgreSQL cluster and uses the actual room/player API, with a trusted claim stub until BOT-17. See [scope and fixture limitations](server/BOT-ROOMS.md). BOT-02/BOT-03 private checkpoints pass 315 C# cases, including 265 named scenario positions; this does not establish complete reconstruction, candidate coverage or strategy acceptance.
+BOT-12 adds `PveRoomTests`, `PveSeatRaceTests`, `PveSaveCompatibilityTests` and `BotRoomOptionsTests`. The PvE collection owns an isolated real PostgreSQL cluster and uses the actual room/player API, with a trusted claim stub until BOT-17. See [scope and fixture limitations](server/BOT-ROOMS.md). BOT-02/BOT-03 have private checkpoints only; the [current foundation checks](#private-bot-foundation-checks) do not establish complete reconstruction, candidate coverage or strategy acceptance.
 
 This document states what every change must prove and how the tests run. Results of individual checks are recorded
 in the local task registry and its testing log (`docs/tasks/`, ignored by Git since 2026-10-17); earlier per-task
@@ -244,13 +244,20 @@ BOT-01's private `BotObservationTests`, `BotKnowledgePrivacyTests` and
 isolation, deterministic work/seed inputs, plan round trips and explicit memory
 recovery. They do not replace HTTP/WebSocket authorization or journal crash tests.
 
-BOT-03's private checkpoint (2026-10-26) passes 558 C# and 9 Python cases through
+BOT-03's private checkpoint (2026-10-26) passes 664 C# and 9 Python cases through
 `bash scripts/verify.sh`, including candidate execution/invalid pairs and ten
 public-board march checks. The 192 bounded base-card event/combat walks use seed
 73, at most 24 committed steps and 64 proposals per decision: 13,763 proposals
 validate, 1,270 commands execute, and every walk reaches the next ordinary action.
-Only one branch is executed per window. This is not exhaustive reachable-decision,
-all-configuration, strategic-strength or general simulation/fallback acceptance.
+An additional 93 walks start from real setup, one per normalized configuration,
+using seed 137, at most 80 commands and 32 proposals per decision. They validate
+155,296 proposals and execute 7,440 commands through the acting player's own view;
+all end at the deliberate step cap. Twelve targeted expansion cases cover
+constrained recruitment, Ring recovery, temporary corruption inspection and
+Dismay, including invalid-command state/RNG checks and bounded work.
+Only one branch is executed per walk window. These results are not completed
+games, exhaustive reachable-decision coverage, strategic-strength or general
+simulation/fallback acceptance.
 The CLI still reports unready for gameplay; no player/server package changes
 are needed for this private checkpoint.
 

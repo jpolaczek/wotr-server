@@ -26,6 +26,9 @@ BOT-03 constructs candidate actions from those observations, including grouped
 placements and paid continuations. Its local march-rule adapter uses a reviewed
 public board subset; that subset cannot be treated as a complete simulation
 position. General reconstruction and guaranteed fallback remain unaccepted.
+Private configuration walks validate proposals against controlled engine states
+while construction and fixture selection receive only the acting player's view.
+These test-only states are never inputs to a production policy or transport port.
 
 BOT-16 implements [separate control and seat authority](server/BOT-AUTHORIZATION.md)
 in the game server. Hashed credentials bind a technical participant to one

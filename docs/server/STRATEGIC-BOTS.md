@@ -137,8 +137,10 @@ Its observation-only candidate generator now covers military choices, character
 and Fellowship travel, constrained/grouped effects, Council decisions and Ruler
 recruitment/token payments. Separate-route army card events use a narrowly scoped
 local rules check built from public board information. The private checkpoint
-passed 558 C# and 9 Python cases; this does not accept the public behavioral
-inventory. Full reachable-decision coverage, validated fallback, simulation
+passed 664 C# and 9 Python cases, including bounded own-view execution walks over
+all 93 normalized configurations and targeted expansion choices. Each configuration
+walk ends at its 80-command cap; these are not completed games or acceptance of the
+public behavioral inventory. Full reachable-decision coverage, validated fallback, simulation
 battle/Hunt/card-chain parity and performance benchmarks remain pending. Neither
 BOT-02 nor BOT-03 is accepted and no production policy is enabled.
 
