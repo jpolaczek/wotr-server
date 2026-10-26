@@ -27,7 +27,7 @@ explicit client pin.
 2. Read [REQUIREMENTS](docs/REQUIREMENTS.md), the relevant parts of
    [ARCHITECTURE](docs/ARCHITECTURE.md), [LOGIC](docs/rules/LOGIC.md),
    [EXPANSIONS](docs/rules/EXPANSIONS.md),
-   [UX_SPEC](https://github.com/jpolaczek/wotr-client/blob/60ea00814c48f12e8931dbcd3cf336789785360d/docs/ui/UX_SPEC.md)
+   [UX_SPEC](https://github.com/jpolaczek/wotr-client/blob/74335178b47b569af15aa75d82d8e99447b96f94/docs/ui/UX_SPEC.md)
    and the task's `read_before` documents.
 3. Check dependencies, open [source gaps](docs/sources/gaps.json), current file
    changes and recent history entries. Do not overwrite the user's work.
@@ -94,7 +94,9 @@ explicit client pin.
   Since UI-142 (user decision), the game does not use double-clicks: a click that
   completes a selection (e.g. a guide, Hunt response, or since UI-194 a card with
   one payment method) executes it immediately; a fast second click after a
-  committed step is ignored. Grouped casualties/rerolls have one confirmation.
+  committed step is ignored. Since UI-279 (user decision 2026-10-19), nothing is sent without a click, even
+  when only one option is legal: the single option glows and says what its click does. Grouped
+  casualties/rerolls have one confirmation.
   Discard excess hand cards one at a time with a single click and no Confirm;
   since UI-222 every discard from the hand is made by clicking red-marked cards
   in the hand and is sent once the selection is complete. The permanent tray shows the
