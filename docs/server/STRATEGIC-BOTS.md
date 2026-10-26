@@ -129,14 +129,17 @@ fix their ownership, evidence requirements and failure handling.
 
 ## Strategic decisions and simulation
 
-Implementation checkpoint (2026-10-25): the private application has an internal
+Implementation checkpoint (2026-10-26): the private application has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
 reconstruction is blocked on a reviewed mapping from player information/history
 to rule continuations; the current view omits suspended returns and effect cursors.
-It also has an initial observation-only candidate generator for simple selections,
-exact costs and constrained event recruitment. Complete candidate families,
-validated fallback, battle/Hunt/card-chain parity and performance benchmarks remain
-pending. Neither BOT-02 nor BOT-03 is accepted and no production policy is enabled.
+Its observation-only candidate generator now covers military choices, character
+and Fellowship travel, constrained/grouped effects, Council decisions and Ruler
+recruitment/token payments. The private checkpoint passed 548 C# and 9 Python
+cases; this does not accept the public behavioral inventory. Separate-route army
+card events, full reachable-decision coverage, validated fallback, simulation
+battle/Hunt/card-chain parity and performance benchmarks remain pending. Neither
+BOT-02 nor BOT-03 is accepted and no production policy is enabled.
 
 The pure policy interface remains
 `Decide(BotObservation, BotMemory, DecisionBudget)`: one current command, proposed
