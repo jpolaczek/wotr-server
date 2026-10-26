@@ -230,16 +230,19 @@ public sealed class RoomObserverTests
         Assert.Equal("RoomNotFound", (await chat.Post(room.Id, await Account(host), "Let me in")).Error);
     }
 
+    // LOBBY-05: Open games lists only tables whose game has not started, also with both seats taken; a game in
+    // progress is still watched by its code.
     [PostgresFact]
-    public async Task ThePublicListShowsWaitingAndStartedRoomsWithTheirSeatsAndAudienceButNoFinishedOne()
+    public async Task ThePublicListShowsOnlyRoomsBeforeTheStartWithTheirSeatsAndAudience()
     {
         using var host = new AccountHost(extra: TestBudgets.Stress);
         var rooms = Store(host, new ObserverOptions(1, TimeSpan.FromSeconds(60)));
         var viewer = await Account(host);
         var open = await rooms.Create(await Account(host), new CreateRoomRequest { Name = "Open seat", Visibility = RoomVisibility.Public });
+        var (full, _, _) = await FullTable(host, rooms, RoomVisibility.Public);
+        await rooms.JoinPublic(full.Id, await Account(host), RoomRole.Observer);
         var (started, hostAccount, guest) = await FullTable(host, rooms, RoomVisibility.Public);
         var match = await Start(rooms, started.Id, hostAccount, hostAccount, guest);
-        await rooms.JoinPublic(started.Id, await Account(host), RoomRole.Observer);
         var (ended, endedHost, endedGuest) = await FullTable(host, rooms, RoomVisibility.Public);
         var endedMatch = await Start(rooms, ended.Id, endedHost, endedHost, endedGuest);
         await Finish(endedMatch.MatchId);
@@ -248,10 +251,31 @@ public sealed class RoomObserverTests
 
         var waiting = listed.Single(r => r.Id == open.Id);
         Assert.Equal((RoomStatus.Waiting, 1, 0, true, true), (waiting.Status, waiting.Players, waiting.Observers, waiting.CanPlay, waiting.CanObserve));
-        var playing = listed.Single(r => r.Id == started.Id);
-        Assert.Equal((RoomStatus.Started, 2, 1, false, false), (playing.Status, playing.Players, playing.Observers, playing.CanPlay, playing.CanObserve));
+        var seated = listed.Single(r => r.Id == full.Id);
+        Assert.Equal((RoomStatus.Waiting, 2, 1, false, false), (seated.Status, seated.Players, seated.Observers, seated.CanPlay, seated.CanObserve));
+        Assert.DoesNotContain(listed, r => r.Id == started.Id);
         Assert.DoesNotContain(listed, r => r.Id == ended.Id);
+        var code = (await rooms.Invitation(started.Id, hostAccount)).Room!.JoinCode;
+        Assert.Equal(RoomRole.Observer, (await rooms.Join(code, viewer, RoomRole.Observer)).Room!.Role);
         Assert.NotEmpty(match.MatchId);
+    }
+
+    // LOBBY-05: the audience of a finished game no longer has it among its rooms in My games.
+    [PostgresFact]
+    public async Task AFinishedGameLeavesTheRoomsItsObserversHave()
+    {
+        using var host = new AccountHost(extra: TestBudgets.Stress);
+        var rooms = Store(host, new ObserverOptions(16, TimeSpan.FromSeconds(60)));
+        var watcher = await Account(host);
+        var (table, owner, guest) = await FullTable(host, rooms, RoomVisibility.Public);
+        await rooms.JoinPublic(table.Id, watcher, RoomRole.Observer);
+        var match = await Start(rooms, table.Id, owner, owner, guest);
+        Assert.Contains(await rooms.List(watcher), r => r.Id == table.Id && r.Status == RoomStatus.Started);
+
+        await Finish(match.MatchId);
+
+        Assert.DoesNotContain(await rooms.List(watcher), r => r.Id == table.Id);
+        Assert.DoesNotContain(await rooms.List(owner), r => r.Id == table.Id);
     }
 
     // OBS-07: nobody watches a game they play: the guest's own public table is not in their open games, and asking to
@@ -273,7 +297,7 @@ public sealed class RoomObserverTests
         Assert.DoesNotContain(await AllPublic(rooms, guest), r => r.Id == started.Id);
         var seen = await AllPublic(rooms, stranger);
         Assert.Contains(seen, r => r.Id == waiting.Id);
-        Assert.Contains(seen, r => r.Id == started.Id);
+        Assert.DoesNotContain(seen, r => r.Id == started.Id);
         Assert.DoesNotContain(seen, r => r.Id == ended.Id);
 
         var fromList = await rooms.JoinPublic(started.Id, guest, RoomRole.Observer);

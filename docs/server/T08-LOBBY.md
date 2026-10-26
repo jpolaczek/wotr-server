@@ -171,9 +171,10 @@ User order with 2026-10-16: "implement replay and watcherow" (project: [OBSERVER
   - host-visitors after takeoff just stop watching.
 - The invitation code of the host can always be enabled, including after filling the seats and after
   the start, because it allows viewers in. The viewer does not see the room code with the name.
-- `GET /api/rooms` returns open rooms where the account is playing or watching.
-- The public list shows open rooms of other hosts in Waiting and in an ongoing party (without
-  finished) with status, number of players and viewers and `CanPlay`/`CanObserve`. The code does not
+- `GET /api/rooms` returns open rooms where the account is playing or watching; since LOBBY-05 not
+  those whose game is finished or removed.
+- The public list shows open rooms of other hosts before their start (LOBBY-05: a game in progress is
+  not listed) with status, number of players and viewers and `CanPlay`/`CanObserve`. The code does not
   enter the list.
 - The chat includes viewers. The message has `Author` (account name) and `Role`; `Side` is of
   relevance only to the player.
