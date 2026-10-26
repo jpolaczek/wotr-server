@@ -20,7 +20,8 @@ internal static class LordsCardScenario
         ["ui347-evil-knowledge"] = LordsDecisionScenarios.EvilKnowledge(Guid.NewGuid().ToString("N"), random),
         // Tests share a seeded match by its name, so a second test of the same situation has its own.
         ["ui347-wind-finish"] = WindHand(random),
-        ["ui347-balrog-finish"] = LordsDecisionScenarios.Balrog(Guid.NewGuid().ToString("N"), random)
+        ["ui347-balrog-finish"] = LordsDecisionScenarios.Balrog(Guid.NewGuid().ToString("N"), random),
+        ["ui347-orderly-withdrawal-pass"] = LordsDecisionScenarios.OrderlyWithdrawal(Guid.NewGuid().ToString("N"), random)
     };
 
     private static MatchState State(IRandomSource random, Side actor)
