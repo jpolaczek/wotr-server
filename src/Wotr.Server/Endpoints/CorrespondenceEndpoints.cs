@@ -12,10 +12,12 @@ public static class CorrespondenceEndpoints
         api.MapPut("/{id}/seen", Seen);
     }
 
+    // LOBBY-05: no status is My games (the unfinished games); status=All also lists the finished ones.
     private static async Task<IResult> List(HttpContext context, MatchIndexStore store,
-        MatchListFilter status = MatchListFilter.All, string cursor = "", int limit = 20)
+        MatchListFilter? status = null, string cursor = "", int limit = 20)
     {
-        if (limit is < 1 or > 50 || cursor.Length > 100 || cursor.Any(char.IsControl) || !Enum.IsDefined(status))
+        if (limit is < 1 or > 50 || cursor.Length > 100 || cursor.Any(char.IsControl) ||
+            status is { } filter && !Enum.IsDefined(filter))
             return Results.BadRequest(new ApiError { Error = "InvalidPage" });
         return Results.Ok(await store.List(MatchEndpoints.Account(context), status, cursor, limit, context.RequestAborted));
     }
