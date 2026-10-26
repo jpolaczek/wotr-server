@@ -82,7 +82,7 @@ Fuzz/property tests generate only source-compatible input states or consciously 
 <a id="macierz-sieci-i-zapisu"></a>
 ## Network and write Matrix
 
-UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/40f84df7c2f006983895c7b56826fdecc224865b/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/40f84df7c2f006983895c7b56826fdecc224865b/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/40f84df7c2f006983895c7b56826fdecc224865b/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
+UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/cafae9bf664e0691bc0c4523edc9edea6d6c830e/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/cafae9bf664e0691bc0c4523edc9edea6d6c830e/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/cafae9bf664e0691bc0c4523edc9edea6d6c830e/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
 
 T07: `PostgresTests` and `TransportTests` require `WOTR_TEST_DB`. `bash scripts/test.sh` launches a separate local cluster and a full set without skip. Without the variable `dotnet test` explicitly skips integration. CI has PostgreSQL 17 and sets the variable; it does not replace the database with the atrap. [Test range T07](server/T07-TRANSACTIONS.md).
 
@@ -122,7 +122,7 @@ It is not enough to pass a full batch that does not accidentally select difficul
 <a id="odbiór-ui-i-wydajności"></a>
 ## acceptance UI and performance
 
-Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/40f84df7c2f006983895c7b56826fdecc224865b/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
+Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/cafae9bf664e0691bc0c4523edc9edea6d6c830e/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
 
 ## Platform acceptance on real machines
 

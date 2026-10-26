@@ -1,6 +1,6 @@
 {
   "repository": "jpolaczek/wotr-client",
-  "commit": "40f84df7c2f006983895c7b56826fdecc224865b",
+  "commit": "cafae9bf664e0691bc0c4523edc9edea6d6c830e",
   "files": [
     ".editorconfig",
     ".env.example",
@@ -42,6 +42,7 @@
     "docs/ui/MAP17_ACCEPTANCE.md",
     "docs/ui/MAP_CONTOURS_UX.md",
     "docs/ui/OBJECT_CONTROLS_AUDIT.md",
+    "docs/ui/OBJECT_CONTROLS_AUDIT_EXPANSIONS.md",
     "docs/ui/OBSERVER_UX.md",
     "docs/ui/OPPONENT_ACTIONS_UX.md",
     "docs/ui/POLITICS_REINFORCEMENTS_UX.md",
@@ -2040,6 +2041,8 @@
     "unity/Wotr.Client/Assets/Wotr/Runtime/Map/MapScreenPointer.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Map/MapSettlementVisual.cs",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Map/MapSettlementVisual.cs.meta",
+    "unity/Wotr.Client/Assets/Wotr/Runtime/Map/MapSourceGlow.cs",
+    "unity/Wotr.Client/Assets/Wotr/Runtime/Map/MapSourceGlow.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Map/MapSovereignMarkers.cs",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Map/MapSovereignMarkers.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Map/MapTargetGlow.cs",
@@ -2401,6 +2404,8 @@
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/SovereignPresentation.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/SpecialDice.cs",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/SpecialDice.cs.meta",
+    "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/TestScenarioSearch.cs",
+    "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/TestScenarioSearch.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/TestScenarioTabs.cs",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/TestScenarioTabs.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/TrackSequence.cs",

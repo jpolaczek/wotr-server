@@ -31,7 +31,7 @@ guides choices on the map and in a permanent tray without mandatory numeric
 entry; artwork is provisional.
 
 The local **0.1.0-rc1** release candidate covers Windows x64 and macOS Universal.
-The [player guide](https://github.com/jpolaczek/wotr-client/blob/40f84df7c2f006983895c7b56826fdecc224865b/docs/release/PLAYER-GUIDE.md)
+The [player guide](https://github.com/jpolaczek/wotr-client/blob/cafae9bf664e0691bc0c4523edc9edea6d6c830e/docs/release/PLAYER-GUIDE.md)
 explains installation, invitations, tables and save recovery. The
 [T39 report](docs/release/T39-RELEASE.md) records actual results and package
 locations. There is no target host yet; Windows runtime and cross-platform
@@ -45,7 +45,7 @@ covers 93 legal configurations; UI evidence and its limits are in
 [TESTING](docs/TESTING.md). Final client regression: **198/198 EditMode and
 270/270 PlayMode PASS**, including complete base and expansion games.
 
-[Setup and tests](docs/DEVELOPMENT.md) · [Building packages](https://github.com/jpolaczek/wotr-client/blob/40f84df7c2f006983895c7b56826fdecc224865b/release/README.md)
+[Setup and tests](docs/DEVELOPMENT.md) · [Building packages](https://github.com/jpolaczek/wotr-client/blob/cafae9bf664e0691bc0c4523edc9edea6d6c830e/release/README.md)
 
 <a id="bezpieczeństwo"></a>
 ## Security and official endpoints
@@ -60,7 +60,7 @@ described in [SECURITY](SECURITY.md); what the service stores is in the [privacy
 ## Where to start
 
 1. Read the [requirements](docs/REQUIREMENTS.md) and [agent working instructions](AGENTS.md).
-2. Learn the [UI and interactions](https://github.com/jpolaczek/wotr-client/blob/40f84df7c2f006983895c7b56826fdecc224865b/docs/ui/UX_SPEC.md), [game logic](docs/rules/LOGIC.md) and [architecture](docs/ARCHITECTURE.md).
+2. Learn the [UI and interactions](https://github.com/jpolaczek/wotr-client/blob/cafae9bf664e0691bc0c4523edc9edea6d6c830e/docs/ui/UX_SPEC.md), [game logic](docs/rules/LOGIC.md) and [architecture](docs/ARCHITECTURE.md).
 3. Check [sources and gaps](docs/sources/README.md).
 4. Work on a task from the local task registry (not in the repository) within the stage commissioned by the user.
 
@@ -101,7 +101,7 @@ the relevant task rather than the entire project.
 - [Test scenarios and gates](docs/TESTING.md)
 - [Expansion integration rules](docs/rules/EXPANSIONS.md)
 - [Design decisions](docs/DECISIONS.md)
-- [UI scenario list](https://github.com/jpolaczek/wotr-client/blob/40f84df7c2f006983895c7b56826fdecc224865b/docs/ui/SCENARIOS.md)
+- [UI scenario list](https://github.com/jpolaczek/wotr-client/blob/cafae9bf664e0691bc0c4523edc9edea6d6c830e/docs/ui/SCENARIOS.md)
 Documents describe required behavior; a description alone does not mean a feature is ready.
 
 ## The board game
