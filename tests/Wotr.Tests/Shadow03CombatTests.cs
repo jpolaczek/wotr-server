@@ -115,12 +115,16 @@ public class Shadow03CombatTests
     {
         var state = MoriaBattle(shadowAttacks: true, table: true);
         EventTests.GiveCard(state, Side.Shadow, Worn);
-        var before = new Projection().For(state, Side.FreePeoples).Players.Single(p => p.Side == Side.Shadow).HandCount;
+        var seen = new Projection().For(state, Side.FreePeoples).Players.Single(p => p.Side == Side.Shadow);
+        var before = seen.HandCount;
+        // UI-361: the Balrog's table card counts in the hand's split by deck as it counts in the hand.
+        Assert.Equal(before, seen.HandDeckCounts.Values.Sum());
         var card = useBalrog ? Balrog : Worn;
         state = Do(state, CommandKind.CommitCombatCard, new() { CardId = card });
         var other = new Projection().For(state, Side.FreePeoples);
         Assert.Null(other.Players.Single(p => p.Side == Side.Shadow).VisibleCombatCard);
         Assert.Equal(before - 1, other.Players.Single(p => p.Side == Side.Shadow).HandCount);
+        Assert.Equal(before - 1, other.Players.Single(p => p.Side == Side.Shadow).HandDeckCounts.Values.Sum());
         Assert.Contains(other.Effects, e => e.SourceId == Balrog);
         state = Do(state, CommandKind.CommitCombatCard, new(), new SequenceRandom(useBalrog ? [3, 0, 0] : []));
         Assert.Equal(!useBalrog, state.Player(Side.Shadow).Table.Contains(Balrog));

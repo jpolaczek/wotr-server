@@ -639,6 +639,9 @@ Contracts 0.11.0 (LOBBY-01) add `LobbyMessage` (`Sequence`, `Author`, `Text`, `A
 the protocol and commands are unchanged. Public content 1.0.12 has the same files as 1.0.11 and requires Contracts
 0.11.0. Endpoints: [T08-LOBBY](server/T08-LOBBY.md#lobby-chat-players-online-and-challenges--lobby-01-2026-10-18).
 
+On the expansions line, Contracts 0.12.0–0.14.0 and public content 1.0.13–1.0.15 below were local builds that
+were never published; `main` published its own Contracts 0.12.0 and content 1.0.13 (UI-361, after them).
+
 Contracts 0.12.0 (EXP-01, release per module) add `ExpansionModules` (the ids `Fate` = `fate`, `Lords` = `lords`,
 `Kings` = `kings`, `All` in release order, `IsKnown`, and `Of(MatchConfiguration)`, the modules a configuration
 enables), `RoomView.OfferedModules` (`offeredModules` in JSON: the modules this server releases for new tables,
@@ -660,6 +663,16 @@ tables), answered by `GET /api/rooms/offered-modules` so the menu's demo page ca
 exists. A demo (`POST /api/rooms/{id}/demo`) now plays with its room's configuration and is refused with 409
 `ExpansionsUnavailable` while a module of it is not released. The protocol and commands are unchanged. Public content
 1.0.15 has the same files as 1.0.14 and requires Contracts 0.14.0. Rules: [DEMO-MODE](server/DEMO-MODE.md).
+
+Contracts 0.12.0 on `main` (UI-361) add `PlayerSummary.HandDeckCounts`: each player's hand by deck (`character`, `strategy`, the
+keys of `DeckCounts`), from the same cards as `HandCount` (a battle's Balrog table card included). It is public in both
+views, as the decks' backs differ; the cards themselves stay hidden
+(`ProjectionTests.EachHandsSplitByDeckIsPublicAndItsCardsStayHidden`). The field only adds data: an older client ignores
+it and the protocol is unchanged. Public content 1.0.13 has the same files as 1.0.12 and requires Contracts 0.12.0.
+
+Contracts 0.15.0 (EXP-16, the expansions line after `main`'s 0.12.0) hold both lines: the expansions' 0.12.0–0.14.0
+above and `main`'s `PlayerSummary.HandDeckCounts`. Public content 1.0.16 has the same files as 1.0.15 and requires
+Contracts 0.15.0.
 
 <a id="wersje-klienta-katalog-wydań-i-zgodność--dist-05"></a>
 ## Client versions, release directory and compliance — DIST-05

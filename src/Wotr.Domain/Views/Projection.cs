@@ -166,6 +166,7 @@ public sealed class Projection(params IActionOptionsProvider[] providers)
         TableCards = [.. player.Table],
         VictoryPoints = MilitaryVictory.Points(state, player.Side),
         HandCount = BattleTableCards.PublicHandCount(state, player),
+        HandDeckCounts = BattleTableCards.PublicHandDecks(state, player),
         DiscardCount = player.Discard.Count,
         DeckCounts = player.Decks.ToDictionary(d => d.Key, d => d.Value.Count),
         CombatCardCommitted = player.CombatCardCommitted,

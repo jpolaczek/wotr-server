@@ -120,7 +120,8 @@ public class LordsCards01InteractionTests
         EventTests.GiveCard(state, Side.Shadow, "base.sh.character.01");
         state = Play(state, Wind);
         var other = StateCodec.Copy(state);
-        other.Player(Side.Shadow).Hand[0] = "base.sh.strategy.24";
+        // UI-361: a hand card's deck is public (BASE 2.4.1 pp. 14, 29), so the hidden card changes within its deck.
+        other.Player(Side.Shadow).Hand[0] = "base.sh.character.24";
         Assert.Equal(Json(state, Side.FreePeoples), Json(other, Side.FreePeoples));
         var command = BattleFixture.Command(state, CommandKind.ChooseEffect, new() { Ids = ["base.sh.character.01"] });
         var previews = new PreviewService(LordsFixture.Engine());

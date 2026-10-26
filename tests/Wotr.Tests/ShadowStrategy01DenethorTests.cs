@@ -143,7 +143,8 @@ public class ShadowStrategy01DenethorTests
     {
         var first = RestrictedBattleState(mode);
         var second = StateCodec.Copy(first);
-        second.Player(Side.FreePeoples).Hand[0] = "base.fp.character.05";
+        // UI-361: a hand card's deck is public (BASE 2.4.1 pp. 14, 29), so the hidden card changes within its deck.
+        second.Player(Side.FreePeoples).Hand[0] = "base.fp.strategy.02";
         second.Player(Side.FreePeoples).Decks["character"].Reverse();
         first = BeginRestrictedBattle(first, mode);
         second = BeginRestrictedBattle(second, mode);
