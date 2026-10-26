@@ -88,6 +88,10 @@ module is the module its game uses.
 | `lords-fp-narya` | Lords | Free Peoples | Narya | Narya: Gandalf the Keeper in Bree activates the North and puts it at war. |
 | `lords-fp-vilya` | Lords | Free Peoples | Vilya | Vilya: keep the die just used to draw a card. |
 | `lords-council-token` | Lords | Shadow | Shadow Council token | The Advance Politics token instead of a die (Council of Rivendell). |
+| `lords-card-wind-finish` | Lords | Free Peoples | Wind from the West · Finish | UI-347 (D7): no Shadow table card; Inspect the hand is the console's button, Pass finishes. |
+| `lords-card-orderly-withdrawal` | Lords | Free Peoples | Orderly Withdrawal | UI-347 (D10): Wind's Combat side at the Fords of Isen after every die hit; the "−1" on the Shadow's hits cancels one and withdraws, Pass keeps it. |
+| `lords-card-balrog` | Lords | Shadow | A Balrog is Come! | UI-347 (D11): the active Balrog in Moria with two Orcs; his figure moves him alone, a figure of the army moves it with him, Pass finishes. |
+| `lords-evil-knowledge` | Lords | Shadow | Evil Knowledge | UI-347 (D12): the Lords Mouth of Sauron besieges Minas Tirith after a round without hits; his portrait extends the siege. |
 | `kings-fp-ruler-ability` | Kings | Free Peoples | Ruler die: Mustering of the Mark | The Ruler die (Muster): recruit with Théoden's ability. |
 | `kings-fp-ruler-token` | Kings | Free Peoples | Ruler token | Denethor's token turns the Ruler die into his other ability (draw or play a card). |
 | `kings-ruler-discard` | Kings | Shadow | Discard a Ruler die | The discard after the roll: the Shadow first, then the Free Peoples (KINGS pp. 6–7). |

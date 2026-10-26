@@ -5,7 +5,8 @@ namespace Wotr.Domain;
 // Every scenario offered by the test mode: the standard setup (TEST-01), the base-game dice (TEST-02),
 // the Mordor Track (TEST-06), the endings of the game (TEST-07), each base-game card's event and combat card (TEST-09)
 // and, since TEST-10, the expansions' dice and actions (TEST-04, restored) and, since UI-266, the Fate cards with their
-// own choices; the server offers a scenario only when its modules are released.
+// own choices, since UI-349 Gimli's Fate mechanics and since UI-347 the Lords decisions of the owner's playtest; the
+// server offers a scenario only when its modules are released.
 public static class TestScenarioCatalog
 {
     public const string General = "General";
@@ -22,7 +23,8 @@ public static class TestScenarioCatalog
         .. CardScenarios.All(),
         .. ExpansionDiceScenarios.All(),
         .. FateCardScenarios.All(),
-        .. FateGimliScenarios.All()
+        .. FateGimliScenarios.All(),
+        .. LordsDecisionScenarios.All()
     ];
 
     public static TestScenario? Find(string id) => All.FirstOrDefault(scenario => scenario.Id == id);

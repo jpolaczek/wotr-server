@@ -13,7 +13,11 @@ internal static class LordsCardScenario
         ["ui272-wind-table"] = WindTable(random),
         ["ui272-wind-hand"] = WindHand(random),
         ["ui272-safe-paths"] = SafePaths(random),
-        ["ui272-three-rings"] = ThreeRings(random)
+        ["ui272-three-rings"] = ThreeRings(random),
+        // UI-347: the test menu's builders of Orderly Withdrawal, the Balrog card and Evil Knowledge.
+        ["ui347-orderly-withdrawal"] = LordsDecisionScenarios.OrderlyWithdrawal(Guid.NewGuid().ToString("N"), random),
+        ["ui347-balrog"] = LordsDecisionScenarios.Balrog(Guid.NewGuid().ToString("N"), random),
+        ["ui347-evil-knowledge"] = LordsDecisionScenarios.EvilKnowledge(Guid.NewGuid().ToString("N"), random)
     };
 
     private static MatchState State(IRandomSource random, Side actor)
