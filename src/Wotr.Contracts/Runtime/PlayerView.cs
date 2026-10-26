@@ -100,6 +100,8 @@ namespace Wotr.Contracts
         public int VictoryPoints { get; set; }
         public Side Side { get; set; }
         public int HandCount { get; set; }
+        // UI-361: the hand's cards by deck ("character", "strategy"); public, as the decks' backs differ.
+        public Dictionary<string, int> HandDeckCounts { get; set; } = new Dictionary<string, int>();
         public int DiscardCount { get; set; }
         public Dictionary<string, int> DeckCounts { get; set; } = new Dictionary<string, int>();
         public bool CombatCardCommitted { get; set; }
