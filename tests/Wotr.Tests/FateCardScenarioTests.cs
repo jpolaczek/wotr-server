@@ -20,7 +20,8 @@ public class FateCardScenarioTests
     [Fact]
     public void TheSixFateCardsStandInTheFateTab()
     {
-        var scenarios = TestScenarioCatalog.All.Where(s => s.Group == FateCardScenarios.Group).ToList();
+        // UI-349: the group also holds one Fate Combat card (FateGimliScenarioTests).
+        var scenarios = TestScenarioCatalog.All.Where(s => s.Group == FateCardScenarios.Group && s.Title.EndsWith(" · Event")).ToList();
         Assert.Equal(Cards.Select(Id), scenarios.Select(s => s.Id));
         foreach (var scenario in scenarios)
         {

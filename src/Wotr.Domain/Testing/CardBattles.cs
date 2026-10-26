@@ -16,14 +16,15 @@ public static class CardBattles
         ? $"Isengard attacks the Rohan army at the Fords of Isen, where the Fellowship stands with Strider, Gandalf the Grey, Boromir and Merry; choose {card.Title} as the defender's Combat card."
         : $"A Sauron, Isengard and Southron army with two Nazgûl attacks the Elves besieged in Lórien, where the Fellowship shelters; choose {card.Title} as the attacker's Combat card.";
 
-    public static MatchState Build(string id, IRandomSource random, CardDefinition card) =>
-        card.Side == Side.FreePeoples ? FreePeoplesDefence(id, random, card.Id) : ShadowSiege(id, random, card.Id);
+    public static MatchState Build(string id, IRandomSource random, CardDefinition card, MatchConfiguration? configuration = null) =>
+        card.Side == Side.FreePeoples ? FreePeoplesDefence(id, random, card.Id, configuration ?? new())
+            : ShadowSiege(id, random, card.Id, configuration ?? new());
 
     // A field battle in a Rohan region of the Free Peoples, defended by an army with a Leader, Elites and Companions (a
     // hobbit and both Gandalf the Grey and Strider among them) in the Fellowship's region. The Shadow attacker plays no card.
-    private static MatchState FreePeoplesDefence(string id, IRandomSource random, string card)
+    private static MatchState FreePeoplesDefence(string id, IRandomSource random, string card, MatchConfiguration configuration)
     {
-        var board = Roll(ScenarioBoard.Setup(id, random))
+        var board = Roll(ScenarioBoard.Setup(id, random, configuration))
             .AtWar("isengard", "rohan")
             .Place("rohan", UnitKind.Elite, Ford)
             .Companion(CharacterRules.Strider, Ford)
@@ -39,9 +40,9 @@ public static class CardBattles
 
     // A siege of Lórien, two regions from Moria: the Elves have withdrawn into the stronghold, where the Fellowship
     // shelters, and the besieging army with Elites, Isengard units, a Southron Elite and two Nazgûl attacks them.
-    private static MatchState ShadowSiege(string id, IRandomSource random, string card)
+    private static MatchState ShadowSiege(string id, IRandomSource random, string card, MatchConfiguration configuration)
     {
-        var board = Roll(ScenarioBoard.Setup(id, random))
+        var board = Roll(ScenarioBoard.Setup(id, random, configuration))
             .AtWar("sauron", "isengard", "southrons", "elves")
             .Besiege(Lorien, "sauron", 2)
             .Place("sauron", UnitKind.Elite, Lorien)

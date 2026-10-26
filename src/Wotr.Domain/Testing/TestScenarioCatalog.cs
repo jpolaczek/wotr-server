@@ -21,7 +21,8 @@ public static class TestScenarioCatalog
         .. GameEndScenarios.All(),
         .. CardScenarios.All(),
         .. ExpansionDiceScenarios.All(),
-        .. FateCardScenarios.All()
+        .. FateCardScenarios.All(),
+        .. FateGimliScenarios.All()
     ];
 
     public static TestScenario? Find(string id) => All.FirstOrDefault(scenario => scenario.Id == id);
