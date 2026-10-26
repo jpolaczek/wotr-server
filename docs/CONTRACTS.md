@@ -18,6 +18,11 @@ requirement. BOT-01 now implements private schema-2 observation and strategic
 memory with explicit recovery, current/historical knowledge and a guarded policy
 entry point. No plan or memory type enters these shared player contracts.
 
+BOT-03 adds only private candidate construction and a local public-board route
+validation port. It uses the existing player projection and pinned rules; it
+introduces no wire DTO, privileged read or remote validation endpoint. Full
+simulation reconstruction still requires a reviewed information contract.
+
 BOT-16 implements the [server authorization contract](server/BOT-AUTHORIZATION.md):
 distinct control/seat identities, short-lived hashed seat credentials bound to
 room/match/side/generation, an explicit operation allowlist, post-lock mutation

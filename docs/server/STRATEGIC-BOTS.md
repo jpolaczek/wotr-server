@@ -135,9 +135,10 @@ reconstruction is blocked on a reviewed mapping from player information/history
 to rule continuations; the current view omits suspended returns and effect cursors.
 Its observation-only candidate generator now covers military choices, character
 and Fellowship travel, constrained/grouped effects, Council decisions and Ruler
-recruitment/token payments. The private checkpoint passed 548 C# and 9 Python
-cases; this does not accept the public behavioral inventory. Separate-route army
-card events, full reachable-decision coverage, validated fallback, simulation
+recruitment/token payments. Separate-route army card events use a narrowly scoped
+local rules check built from public board information. The private checkpoint
+passed 558 C# and 9 Python cases; this does not accept the public behavioral
+inventory. Full reachable-decision coverage, validated fallback, simulation
 battle/Hunt/card-chain parity and performance benchmarks remain pending. Neither
 BOT-02 nor BOT-03 is accepted and no production policy is enabled.
 

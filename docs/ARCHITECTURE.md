@@ -22,6 +22,11 @@ policy entry guard in that application. It distinguishes remembered revelations
 from current certainty and rejects stale/wrong-seat/unsupported memory before
 policy execution. Persistence and live service integration remain separate.
 
+BOT-03 constructs candidate actions from those observations, including grouped
+placements and paid continuations. Its local march-rule adapter uses a reviewed
+public board subset; that subset cannot be treated as a complete simulation
+position. General reconstruction and guaranteed fallback remain unaccepted.
+
 BOT-16 implements [separate control and seat authority](server/BOT-AUTHORIZATION.md)
 in the game server. Hashed credentials bind a technical participant to one
 room/match/side and active generation. An operation allowlist reuses ordinary
