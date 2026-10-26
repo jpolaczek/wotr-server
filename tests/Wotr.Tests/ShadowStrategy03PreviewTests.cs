@@ -36,9 +36,10 @@ public class ShadowStrategy03PreviewTests
         var projection = new Projection(new EffectOptions());
         var before = JsonSerializer.Serialize(projection.For(state, Side.Shadow));
         var enemy = state.Player(Side.FreePeoples);
+        // UI-361: a hand card's deck is public (BASE 2.4.1 pp. 14, 29), so the hidden card changes within its deck.
         var hidden = enemy.Hand[0];
-        enemy.Hand[0] = enemy.Decks["strategy"][0];
-        enemy.Decks["strategy"][0] = hidden;
+        enemy.Hand[0] = enemy.Decks["character"][0];
+        enemy.Decks["character"][0] = hidden;
         Assert.Equal(before, JsonSerializer.Serialize(projection.For(state, Side.Shadow)));
         Assert.Null(projection.For(state, Side.FreePeoples).Decision);
         Assert.Empty(projection.For(state, Side.FreePeoples).Options);
