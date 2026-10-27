@@ -674,6 +674,11 @@ Contracts 0.15.0 (EXP-16, the expansions line after `main`'s 0.12.0) hold both l
 above and `main`'s `PlayerSummary.HandDeckCounts`. Public content 1.0.16 has the same files as 1.0.15 and requires
 Contracts 0.15.0.
 
+Public content 1.0.17 (UI-365) rewrites the expansions' ability texts (`character-ability-text.json`, the `lords.`,
+`kings.` and `fate.` cards) and some Lords, Kings and Fate card texts (`<module>-card-text.json`) so each is short,
+names its subject and matches the rules; the files, keys and ids are unchanged and it still requires Contracts 0.15.0.
+The base-game entries are unchanged.
+
 <a id="wersje-klienta-katalog-wydań-i-zgodność--dist-05"></a>
 ## Client versions, release directory and compliance — DIST-05
 
