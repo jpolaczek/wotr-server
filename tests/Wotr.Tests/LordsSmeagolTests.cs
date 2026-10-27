@@ -153,6 +153,9 @@ public class LordsSmeagolTests
         Assert.Equal("removed", state.Characters.Single(c => c.Id == LordsCharacters.Smeagol).Location);
         foreach (var side in new[] { Side.FreePeoples, Side.Shadow })
             Assert.Contains(SmeagolRules.WeShallGetIt, Views().For(state, side).Players.Single(p => p.Side == Side.Shadow).TableCards);
+        // UI-344: his departure is a public figure change, so the opponent's presentation can show him leave.
+        Assert.Contains(ActionLogFamilyTests.Steps(state).SelectMany(s => s.Facts.Figures), f =>
+            f.After?.DefinitionId == LordsCharacters.Smeagol && f.From == "fellowship" && f.To == "removed");
         state = Do(state, CommandKind.SelectGuide, new() { GuideId = CharacterRules.Strider });
         Assert.Equal(0, state.Fellowship.Corruption);
         Assert.Empty(state.Resolution.Frames);
