@@ -28,20 +28,20 @@ public static class KingsChieftainScenarios
     [
         new("kings-ugluk-entry", Group, "Uglúk beside the revealed Fellowship",
             "Rohan is not at war, but the Fellowship has been revealed in Hollin: with a Muster die Uglúk enters with an " +
-            "Isengard army, in Hollin or in a free region next to it.",
+            "Isengard army, or in Hollin or a free region next to it.",
             Side.Shadow, UglukEntry),
         new("kings-mirkwood-lord-of-the-bats", Group, "The Shadow of Mirkwood's Lord of the Bats",
-            "The North's army attacks the Sauron Regulars beside the Shadow of Mirkwood; the Shadow committed The Shadow is " +
+            "The North's army attacks the Shadow of Mirkwood and two Sauron Regulars; the Shadow committed The Shadow is " +
             "Moving (Swarm of Bats). Before the reveal the Shadow may give up the card's effects and his Leadership: +1 to the " +
             "Leader re-roll at initiative 4, and with Swarm of Bats the Free Peoples card is cancelled at 0.",
             Side.Shadow, (id, random) => NorthAttack(id, random, KingsChieftains.Mirkwood, ShadowStrategyCards02.Moving, false)),
         new("kings-brand-vs-swarm", Group, "Brand against the Swarm: initiative 0",
-            "As in the Shadow of Mirkwood's scenario, with Brand Awakened among the attacking North: take Lord of the Bats, then " +
+            "As in the Shadow of Mirkwood's scenario, with Brand Awakened among the attacking North: choose Lord of the Bats, then " +
             "after the reveal Heir of Bard is offered to the Free Peoples; both cancel at initiative 0 and the defender resolves " +
             "first, so the Swarm cancels the Free Peoples card before Brand's replacement acts.",
             Side.Shadow, (id, random) => NorthAttack(id, random, KingsChieftains.Mirkwood, ShadowStrategyCards02.Moving, true)),
         new("kings-serpent-relentless-assault", Group, "The Black Serpent's Red Wrath with Relentless Assault",
-            "The North's army attacks the Sauron Regulars beside the Black Serpent; the Shadow committed The King Is Revealed " +
+            "The North's army attacks the Black Serpent and two Sauron Regulars; the Shadow committed The King Is Revealed " +
             "(Relentless Assault). Before the reveal Red Wrath takes one hit on the Shadow's army and, with Relentless Assault " +
             "printed, adds +2 to the Combat roll instead of +1.",
             Side.Shadow, (id, random) => NorthAttack(id, random, KingsChieftains.Serpent, KingsCards03.King, false)),

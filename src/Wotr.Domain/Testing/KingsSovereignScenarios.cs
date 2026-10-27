@@ -48,7 +48,7 @@ public static class KingsSovereignScenarios
         new("kings-far-sighted-hunt", Abilities, "Thranduil's Far-sighted against the Hunt",
             "Thranduil is Awakened in the Woodland Realm, the Ruler die shows a Character, three dice wait in the Hunt Box and " +
             "Legolas has left the Fellowship to Lórien: Far-sighted moves the Fellowship with one Hunt die fewer, or moves or " +
-            "separates companions one region further. The existing kings-far-sighted shows where the ability is clicked.",
+            "separates Companions one region further. The Far-sighted decision scenario shows where to click.",
             Side.FreePeoples, FarSightedHunt)
     ];
 

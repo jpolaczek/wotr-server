@@ -110,9 +110,7 @@ public static class InGameEffectProjection
         {
             Id = $"{sovereign.Id}:recruitment", SourceId = definition.CorruptedCard, SourceKind = "Ability",
             Title = definition.Title, Owner = Side.Shadow, SourceReference = "KINGS pp.12–13; " + definition.CorruptedCard,
-            Description = sovereign.Id == SovereignCatalog.Thranduil
-                ? "Prevents recruiting Elites here through Muster or character abilities. Event recruitment keeps its own rules."
-                : "Prevents recruiting Leaders and Elites in this scope through Muster or character abilities. Event recruitment keeps its own rules.",
+            Description = RecruitmentWeakness(sovereign.Id),
             Duration = "WhileCorrupted", ExpiresWhen = "SovereignRemoved",
             ExpiryDescription = "When this corrupted sovereign is removed.", Targets = [target]
         };
@@ -122,9 +120,11 @@ public static class InGameEffectProjection
             Title = definition.Title, Owner = Side.Shadow, SourceReference = "KINGS pp.12–13; " + definition.CorruptedCard,
             Description = sovereign.Id switch
             {
-                SovereignCatalog.Brand => "Once per battle involving North, Shadow may replace its combat card effect with Brand's cancellation.",
-                SovereignCatalog.Theoden => "Shadow-controlled Helm's Deep is an Isengard stronghold; its original victory-point ownership is unchanged.",
-                _ => "Once per siege battle here, Shadow may remove a participating Regular instead of reducing an Elite to extend the siege."
+                SovereignCatalog.Brand => "Once per battle in which a North unit takes part, Shadow may replace its Combat card's " +
+                    "effect: cancel the Free Peoples card at initiative 0.",
+                SovereignCatalog.Theoden => "While Shadow controls Helm's Deep, it is an Isengard Stronghold but still counts as a " +
+                    "captured Free Peoples Stronghold for victory points.",
+                _ => "Once per siege battle here, Shadow may eliminate a participating Regular instead of downgrading an Elite to continue the siege."
             },
             Duration = "WhileCorrupted", ExpiresWhen = "SovereignRemoved",
             ExpiryDescription = "When this corrupted sovereign is removed.",
@@ -132,4 +132,13 @@ public static class InGameEffectProjection
                 ? [new() { Kind = "Region", Id = "helms-deep", Label = BoardRules.Regions["helms-deep"].Name }] : [target]
         };
     }
+
+    // The ban covers Muster and character abilities (KingsWeaknesses.BlocksRecruit), never an Event card's recruit.
+    private static string RecruitmentWeakness(string sovereignId) => sovereignId switch
+    {
+        SovereignCatalog.Brand => "North Leaders and Elites cannot be recruited anywhere, except by Event cards.",
+        SovereignCatalog.Theoden => "Free Peoples Leaders and Elites cannot be recruited in Rohan's regions, except by Event cards.",
+        SovereignCatalog.Thranduil => "Elites cannot be recruited here, except by Event cards; Leaders still can.",
+        _ => "Leaders and Elites cannot be recruited here, except by Event cards."
+    };
 }

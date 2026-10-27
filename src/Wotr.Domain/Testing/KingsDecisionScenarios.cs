@@ -22,29 +22,31 @@ public static class KingsDecisionScenarios
     public static IEnumerable<TestScenario> All() =>
     [
         new("kings-brand-heir", Group, "Heir of Bard",
-            "Brand, King of Dale, and the North's army attack from Dale; after the reveal the gilt chip with Brand's arms " +
-            "beside your Combat card cancels the Shadow card at initiative 0, Pass keeps your card's effects.",
+            "The Awakened Brand and the North's army attack from Dale. After the reveal, click the gilt chip with Brand's arms " +
+            "beside your Combat card to cancel the Shadow card at initiative 0; Pass keeps your card's effects.",
             Side.FreePeoples, (id, random) => Brand(id, random, true)) { Modules = [ExpansionModules.Kings] },
         new("kings-brand-shadows", Group, "Shadows in the North",
-            "Brand is Corrupted and the North's army attacks from Dale; after the reveal the Shadow's gilt chip with " +
-            "Brand's arms cancels the Free Peoples card, Pass keeps the Shadow card's effects.",
+            "Brand is Corrupted and the North's army attacks from Dale. After the reveal, click the Shadow's gilt chip with " +
+            "Brand's arms to cancel the Free Peoples card; Pass keeps the Shadow card's effects.",
             Side.Shadow, (id, random) => Brand(id, random, false)) { Modules = [ExpansionModules.Kings] },
         new("kings-anarion", Group, "Palantír of Anárion",
-            "Denethor, Lord Steward, stands in Minas Tirith and the Ruler die drew a card: click a deck for the extra " +
+            "The Awakened Denethor stands in Minas Tirith and the Ruler die drew a card: click a deck for the extra " +
             "card, or Pass to finish the action without it.",
             Side.FreePeoples, Anarion) { Modules = [ExpansionModules.Kings] },
         new("kings-chieftain-substitution", Group, "A Chieftain's substitution",
-            "The North's army attacks the Black Serpent's Sauron regulars beside Dale; before the reveal the Shadow's gilt " +
-            "chip with the Southrons' arms beside its Combat card substitutes Red Wrath, Pass keeps the card's effects.",
+            "The North's army attacks the Black Serpent and two Sauron Regulars beside Dale. Before the reveal, click the " +
+            "Shadow's gilt chip with the Southrons' arms beside its Combat card to use Red Wrath instead; Pass keeps the " +
+            "card's effects.",
             Side.Shadow, Chieftain) { Modules = [ExpansionModules.Kings] },
         // TEST-13: Kings is named first, so the client shows Dismay in the Kings tab.
         new("kings-dismay", Group, "Dismay",
-            "Turn 2 after the roll: Théoden fell as an Awakened king, so the Shadow holds his Dismay token; a click on the " +
-            "Free Peoples' glowing Ruler die spends it and re-rolls the die, Pass keeps the token.",
+            "Turn 2, after the roll: Théoden fell as an Awakened king, so the Shadow holds his Dismay token. Click the " +
+            "Free Peoples' glowing Ruler die to spend the token and re-roll the die; Pass keeps the token.",
             Side.Shadow, Dismay) { Modules = [ExpansionModules.Kings, ExpansionModules.Lords] },
         new("kings-far-sighted", Group, "Far-sighted",
-            "Thranduil is Awakened in the Woodland Realm and the Free Peoples' Ruler die shows a Character: with it selected, " +
-            "Thranduil's glowing picture moves the Fellowship or companions with Far-sighted; the usual move needs no click.",
+            "Thranduil is Awakened in the Woodland Realm and the Free Peoples' Ruler die shows a Character. Select the die, " +
+            "then click Thranduil's glowing picture to move the Fellowship or Companions with Far-sighted; a normal move " +
+            "skips the picture.",
             Side.FreePeoples, FarSighted) { Modules = [ExpansionModules.Kings] }
     ];
 

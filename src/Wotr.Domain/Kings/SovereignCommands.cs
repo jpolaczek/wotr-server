@@ -78,12 +78,12 @@ public sealed class SovereignCommands : ICommandHandler, IActionOptionsProvider,
         var title = SovereignCatalog.All[p.CharacterId].Title;
         if (command.Kind == CommandKind.AwakenSovereign)
         {
-            preview.Summary = $"Awaken {title} in {p.Route[^1]}; return all their Corruption tiles.";
+            preview.Summary = $"Awaken {title} in {BoardRules.Regions[p.Route[^1]].Name}; return all his Corruption tiles.";
             preview.Placements.Add(new() { UnitId = p.CharacterId, RegionId = p.Route[^1] });
         }
         else
         {
-            preview.Summary = $"Remove corrupted {title} and end their weaknesses.";
+            preview.Summary = $"Remove the Corrupted {title} and end his weaknesses.";
             preview.RemovedIds.Add(p.CharacterId);
         }
     }

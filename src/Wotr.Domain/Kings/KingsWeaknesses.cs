@@ -41,6 +41,6 @@ public static class KingsWeaknesses
         battle.Stage = BattleStage.NextRound;
         state.Pending = null;
         state.Events.Add(new() { Revision = state.Revision, Kind = "SiegeExtended",
-            Text = $"Shadow removed {regularId} to use the corrupted sovereign's siege weakness." });
+            Text = "Shadow eliminated a Regular instead of downgrading an Elite to continue the siege (Corrupted sovereign's weakness)." });
     }
 }

@@ -140,12 +140,12 @@ internal static class ResourceAvailabilityProjection
         };
         // Inspect only plans targets after its cost, limit and source prerequisites pass.
         if (KingsRulerTokens.ConditionsMet(state, token))
-            conditions.Add(Condition("Target", "ruler-action", "The bound ability has a legal target and its required figures or deck are available.",
+            conditions.Add(Condition("Target", "ruler-action", "The token's ability has a legal target and the figures or deck it needs are available.",
                 actions.Any(a => a.TokenId == KingsRulerTokens.Id(token.SovereignId))));
         var result = Create(state, Side.FreePeoples, KingsRulerTokens.Id(token.SovereignId), "ruler-token",
             "Use " + SovereignCatalog.All[token.SovereignId].Title + "'s Ruler token", "KINGS p.10",
             "Spend this token and the Ruler die together to perform the sovereign's second ability.",
-            "Immediately before the bound Ruler action during your normal action.", ActionWindow(state, Side.FreePeoples),
+            "During your normal action, together with the ability it pays for.", ActionWindow(state, Side.FreePeoples),
             conditions.ToArray());
         if (die?.Location == DieLocation.Available)
             result.EligibleDice = [die.Id];

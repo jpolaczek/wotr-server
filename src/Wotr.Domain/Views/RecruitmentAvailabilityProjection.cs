@@ -83,7 +83,7 @@ internal static class RecruitmentAvailabilityProjection
         RecruitmentBlock.EnemyArmy => $"{name} has an enemy army.",
         RecruitmentBlock.UsedThisAction => $"{name} already took a reinforcement in this action.",
         RecruitmentBlock.NazgulStronghold => $"{name}: Nazgûl enter only a Stronghold.",
-        RecruitmentBlock.KingsWeakness => $"{name}: a weakness card forbids these figures here.",
+        RecruitmentBlock.KingsWeakness => $"{name}: a Corrupted sovereign forbids recruiting these figures here.",
         "reserves" => $"{name}: no figure left to recruit.",
         _ => $"{name} cannot take a reinforcement now."
     };

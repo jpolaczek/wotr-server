@@ -33,8 +33,8 @@ public static class KingsCardDecisionScenarios
             "tile. Four dice: play any four of the five cards.",
             Side.FreePeoples, RecruitOrCleanse) { Modules = [ExpansionModules.Kings] },
         new("kings-card-hope", Group, "There Is Hope for Victory",
-            "Denethor and Théoden attack Osgiliath with Gondor's army and Ever at Your Service; after the reveal both kings " +
-            "glow in the battle window's army: the one you click awakens and adds one to the Leader re-roll.",
+            "Denethor and Théoden attack Osgiliath with Gondor's army, with Ever at Your Service as the Combat card. After the " +
+            "reveal both kings glow in the battle window's army: the one you click awakens, and your Leader re-roll gets +1.",
             Side.FreePeoples, Hope) { Modules = [ExpansionModules.Kings] },
         new("kings-card-power-waxes", Group, "His Power Waxes",
             "The Shadow attacks Edoras with the Palantír of Barad-dûr as its Combat card; Denethor defends Edoras, the " +
