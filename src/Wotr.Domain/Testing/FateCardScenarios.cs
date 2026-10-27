@@ -21,8 +21,8 @@ public static class FateCardScenarios
             board => board.Companion(Legolas, "carrock")),
         Card(FateCards.Book, "Gimli waits in the Iron Hills and Legolas in Ered Luin: move them, then the Dwarves go to war and recruit.",
             board => board.Companion(FateGimli.Figure, "iron-hills").Companion(Legolas, "ered-luin")),
-        Card(FateCards.Bardings, "Dale holds a Free Peoples army, so Dale itself and the regions next to it can recruit.", _ => { }),
-        Card(FateCards.Dwarves, "Dale holds a Free Peoples army, so Dale itself and the regions next to it can recruit.", _ => { }),
+        Card(FateCards.Bardings, "Dale holds a Free Peoples army, so Dale itself and the regions next to it can recruit.", DaleArmy),
+        Card(FateCards.Dwarves, "Dale holds a Free Peoples army, so Dale itself and the regions next to it can recruit.", DaleArmy),
         Card(FateCards.Orcs, "Only four Sauron Regulars are left in the reserve: choose Mount Gundabad or Erebor and split them.",
             board => board.Change(state => Reserve(state, 4))),
         Card(FateCards.Monsters, "Only one Sauron Regular is left in the reserve: choose West or East and place what it allows.",
@@ -41,6 +41,9 @@ public static class FateCardScenarios
             Modules = [ExpansionModules.Fate]
         };
     }
+
+    // TEST-14: the Fate setup leaves Dale empty, so a North Regular stands there for the cards' "Dale itself" clause.
+    private static void DaleArmy(ScenarioBoard board) => board.Place("north", UnitKind.Regular, "dale");
 
     private static void Reserve(MatchState state, int regulars)
     {

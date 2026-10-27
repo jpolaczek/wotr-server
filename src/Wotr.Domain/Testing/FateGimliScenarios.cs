@@ -1,5 +1,4 @@
 using Wotr.Contracts;
-using Wotr.Domain.Content;
 using static Wotr.Domain.ExpansionBoard;
 
 namespace Wotr.Domain;
@@ -28,17 +27,9 @@ public static class FateGimliScenarios
             "The Council of Rivendell's setup: Gimli, Dwarven Lord, was chosen, so he may start in one of his homelands, " +
             "the Iron Hills or Ered Luin.",
             Side.FreePeoples, Homeland) { Modules = [ExpansionModules.Fate, ExpansionModules.Lords] },
-        Combat(FateCards.Bardings)
+        // TEST-14: the Fate cards' battles share one builder (FateCardCombatScenarios).
+        FateCardCombatScenarios.Combat(FateCards.Bardings)
     ];
-
-    // The Fate card's battle, as a base card's (TEST-09), in a Fate game; the client shows it in the Fate tab.
-    private static TestScenario Combat(string cardId)
-    {
-        var card = CardCatalog.All[cardId];
-        return new(FateCardScenarios.Id(card) + "-combat", FateCardScenarios.Group,
-            card.Title + " · Combat: " + CardTextCatalog.CombatTitle(card.Id), CardBattles.Describe(card), card.Side,
-            (id, random) => CardBattles.Build(id, random, card, new() { Fate = true })) { Modules = [ExpansionModules.Fate] };
-    }
 
     private static MatchState Messenger(string id, IRandomSource random)
     {

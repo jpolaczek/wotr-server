@@ -137,6 +137,96 @@ hand and checks that the game then waits on the card's own choice.
 | `fate-card-monsters-roused` | Shadow | Monsters Roused · Event | The West or East plan in the console; one Sauron Regular left, so the reserve plan decides what is placed. |
 | `fate-card-bardings-combat` | Free Peoples | Bardings · Combat: Shield Wall | UI-349: the base cards' defence at the Fords of Isen (TEST-09) in a Fate game; choose Bardings as the defender's Combat card. |
 
+#### Fate end to end — TEST-14 (2026-10-27)
+
+The owner's request of 2026-10-27: every new Fate card, ability and map rule can be tried whole, with the condition that
+makes it act met on the board. The scenarios stand in the Fate tab (their first module is Fate; Kings or Lords follow
+where the mechanic needs them) in the groups `Fate · Cards`, `Fate · Gimli`, `Fate · Board` and `Fate · Kings`
+(`FateCardCombatScenarios`, `FateCardPlayScenarios`, `FateGimliAbilityScenarios`, `FateBoardScenarios`). They start
+from the real Fate setup; pieces a description moves entered their regions earlier in the imagined game, and only a
+builder that names a fixed roll fixes one (the Shield-wall reveal, the Hunt that reveals the Fellowship).
+
+Since TEST-14 the Bardings and Dwarves of the Iron Hills event scenarios place one North Regular in Dale: the Fate
+setup leaves Dale empty, so their "or Dale itself if it contains a Free Peoples Army" clause could not act before.
+`FateEndToEndScenarioTests` checks every `fate-` scenario (Fate tab, unique id and title, declared modules, the same
+state on every build); `FateCardEndToEndScenarioTests`, `FateGimliEndToEndScenarioTests` and `FateBoardScenarioTests`
+take each scenario's effect from the server's projection, commit it through the engine and check its result on the
+board.
+
+| Id | Modules | Start | Title in game | What it tests |
+| --- | --- | --- | --- | --- |
+| `fate-card-there-and-back-again-combat` | Fate | Free Peoples | There and Back Again · Combat: Brave Stand | The Fords of Isen battle (TEST-09): four Companions take part, so Isengard's five Combat dice fall to one. |
+| `fate-card-book-of-mazarbul-combat` | Fate | Free Peoples | Book of Mazarbul · Combat: Advantageous Position | The Fords of Isen lie in Rohan, a Free Peoples nation: −1 to every Shadow Combat die. |
+| `fate-card-dwarves-of-the-iron-hills-combat` | Fate | Free Peoples | Dwarves of the Iron Hills · Combat: Valour | A Rohan Elite takes part: +1 to every Free Peoples Combat die. |
+| `fate-card-orcs-multiplying-again-combat` | Fate | Shadow | Orcs Multiplying Again · Combat: Onslaught | The siege of Lórien: after the casualties the Shadow may take up to four hits for as many dice hitting on 4. |
+| `fate-card-monsters-roused-combat` | Fate | Shadow | Monsters Roused · Combat: Desperate Battle | The siege of Lórien: both armies +1 on Combat dice and Leader re-rolls. |
+| `fate-card-bardings-shield-wall` | Fate | Free Peoples | Bardings · Shield-wall cancels a hit | After the reveal at the Fords: every Shadow die hit, Shield-wall cancelled one of the five hits, the Free Peoples take four. |
+| `fate-card-orcs-erebor-held` | Fate | Shadow | Orcs Multiplying Again · Erebor held | EXP-15 D8: the Free Peoples hold Erebor, so Mount Gundabad and the full reserve's plan apply without a click (3 + 3 Regulars). |
+| `fate-kings-dale-cards` | Fate, Kings | Free Peoples | Bardings and Dwarves with Kings | X03: no Brand or Dáin among the sovereigns; Bardings and Dwarves of the Iron Hills replace King Brand's Men and Dáin Ironfoot's Guard and recruit in Dale. |
+| `fate-gimli-captain` | Fate | Free Peoples | Captain of the West | The Sauron army of Erebor attacks the Iron Hills; Gimli adds a Combat die; the City's first round hits only on 6. |
+| `fate-gimli-champion` | Fate, Lords | Free Peoples | Dwarven Champion | The same battle with Gimli, Dwarven Lord: the defence of a Dwarven region adds his Combat die. |
+| `fate-gimli-journey` | Fate, Lords | Free Peoples | The Dwarven Lord's journey | Gimli, Dwarven Lord, level 1, moves two regions from Ered Luin with a Character die. |
+| `fate-erebor-victory` | Fate | Free Peoples | Erebor's two points | The last Army die moves the Iron Hills army into the emptied Erebor: 2 points, 4 with Mount Gundabad, Free Peoples military victory at the Victory check. |
+| `fate-erebor-muster` | Fate | Shadow | Muster in Erebor | A Muster die recruits Sauron units in Erebor (the Dwarves no longer can) or brings in the Mouth of Sauron there. |
+| `fate-erebor-revealed` | Fate | Free Peoples | Revealed into Erebor | The Hunt revealed the Fellowship one step from Dale: placed in Erebor the Shadow draws one more tile; the Iron Hills cannot take it. |
+| `fate-dale-fortification` | Fate | Shadow | Dale, a neutral Fortification | Erebor's army attacks Dwarves in Dale: first round on 6, no siege, Dale uncontrolled and worth nothing. |
+| `fate-dwarves-to-war` | Fate | Free Peoples | The active Dwarves go to war | A Muster die takes the active Dwarves from one step to At War; the second recruits in the Iron Hills City, not in Erebor. |
+| `fate-iron-hills-captured` | Fate | Shadow | The Iron Hills fall | The Sauron army of Erebor enters the empty Iron Hills: 1 point for the Shadow. |
+| `fate-iron-hills-sanctuary` | Fate | Free Peoples | Declared in the Iron Hills | Fellowship phase: declared in the Iron Hills the Fellowship heals 1 Corruption; Erebor and Dale do not heal. |
+| `fate-new-cities-ered-luin` | Fate | Shadow | New Cities: Ered Luin | A Sauron army enters the empty Ered Luin, a City: 1 point for the Shadow. |
+| `fate-new-cities-defence` | Fate | Shadow | New Cities: Ered Luin defends | The attack on Ered Luin's Dwarves hits only on 6 in the first round, as against a City; no siege. |
+| `fate-new-cities-south-rhun` | Fate | Free Peoples | New Cities: South Rhûn | A Dwarven army enters the empty South Rhûn, a City: 1 point for the Free Peoples. |
+
+Coverage of the Fate of Erebor module (EXPANSIONS F01, X03; T32-SETUP, T32-CARDS, T32-GIMLI): each card clause,
+ability and rule, the scenario that shows it and the condition that scenario meets.
+
+| Card, ability or rule | Scenario | Condition met |
+| --- | --- | --- |
+| There and Back Again: separate a Companion or group, one region further | `fate-card-there-and-back-again` | The Fellowship holds Companions; Merry's range is 2. |
+| There and Back Again: if Gimli or Legolas is in the Carrock, Iron Hills or Woodland Realm, activate the North and advance the Dwarves, Elves and North | `fate-card-there-and-back-again` | Legolas stands in the Carrock; the three nations are short of war. |
+| Brave Stand (Combat): one Shadow die less per participating Companion, at least one | `fate-card-there-and-back-again-combat` | Strider, Gandalf, Boromir and Merry defend the Fords against five dice. |
+| Book of Mazarbul: move any Companions outside the Fellowship, none included | `fate-card-book-of-mazarbul` | Gimli and Legolas stand outside it. |
+| Book of Mazarbul: if a Companion is in the Iron Hills or Ered Luin, the Dwarves go to war and recruit there | `fate-card-book-of-mazarbul` | Gimli in the Iron Hills, Legolas in Ered Luin; the Dwarves 3 steps from war; Dwarven Regular and Elites in the reserve. Moving one of them away leaves one region, taken without a click (D8). |
+| Advantageous Position (Combat): defender inside a Free Peoples nation, −1 to Shadow dice | `fate-card-book-of-mazarbul-combat` | The Fords of Isen are in Rohan. |
+| Bardings / Dwarves of the Iron Hills: recruit next to Dale, or in Dale with a Free Peoples army; then draw a Strategy card | `fate-card-bardings`, `fate-card-dwarves-of-the-iron-hills` | A North Regular holds Dale; Iron Hills, Woodland Realm and the open regions next to Dale are free. |
+| Shield-wall (Combat): two or more enemy hits, cancel one | `fate-card-bardings-combat`, `fate-card-bardings-shield-wall` | The choice in the Fords' battle; the fixed reveal gives the Shadow five hits. |
+| Valour (Combat): a participating Free Peoples Elite, +1 to Combat dice | `fate-card-dwarves-of-the-iron-hills-combat` | A Rohan Elite defends the Fords. |
+| Orcs Multiplying Again: three in Dol Guldur, three in Mount Gundabad or Erebor, a scarce reserve shared | `fate-card-orcs-multiplying-again` | Four Sauron Regulars left; both second regions legal. |
+| Orcs Multiplying Again: a blocked second region is not offered; a single choice applies itself (D8) | `fate-card-orcs-erebor-held` | A North army holds Erebor; the reserve is full. |
+| Onslaught (Combat): up to four voluntary hits, a die hitting on 4 for each | `fate-card-orcs-multiplying-again-combat` | The Shadow has units to sacrifice besieging Lórien. |
+| Monsters Roused: the West or East plan, the Elite's region, the reserve plan (D21) | `fate-card-monsters-roused` | One Sauron Regular and the Elites left. |
+| Desperate Battle (Combat): both sides +1 | `fate-card-monsters-roused-combat` | Unconditional. |
+| Gimli (Fate): Captain of the West, +1 Combat die | `fate-gimli-captain` | Gimli takes part in the Iron Hills' defence. |
+| Gimli (Fate): Dwarf of Renown, any die in the Iron Hills or Ered Luin advances the Dwarves (D22) | `fate-gimli-renown` | Gimli in the Iron Hills, the Dwarves active and short of war. |
+| Gimli, Dwarven Lord: Messenger, any die activates and advances the Dwarves (D22) | `fate-gimli-messenger` | Gimli in Ered Luin; the Dwarves passive, 2 steps from war. |
+| Gimli, Dwarven Lord: Guide response in the Hunt, leaves and reduces the damage by one (D9) | `fate-gimli-guide` | He guides alone and the Hunt hits with a damaging tile. |
+| Gimli, Dwarven Lord: Dwarven Champion, +1 Combat die defending a Dwarven region | `fate-gimli-champion` | The battle is in the Iron Hills. |
+| Gimli, Dwarven Lord: level 1, moves two | `fate-gimli-journey` | He stands outside the Fellowship with a Character die. |
+| Gimli, Dwarven Lord: the Council's start in the Iron Hills or Ered Luin (D14) | `fate-gimli-homeland` | The Council's versions chose him. |
+| Erebor a Sauron Stronghold: the Free Peoples' capture is worth 2 | `fate-erebor-victory` | Erebor empty, the Dwarves at war, Mount Gundabad already held. |
+| Erebor a Sauron Stronghold: Sauron recruitment and the Mouth of Sauron's entry; no Dwarven recruitment | `fate-erebor-muster` | Sauron and every Free Peoples nation at war. |
+| Erebor a Shadow Stronghold in the Hunt: a revealed Fellowship placed there draws another tile | `fate-erebor-revealed` | The Hunt revealed the Fellowship with progress 1 from Dale. |
+| Dale a neutral Fortification: first round on 6, no siege, no control or points | `fate-dale-fortification` | Dwarves stand in Dale, Sauron at war next to it. |
+| The Iron Hills a Dwarven City: recruitment, 1 point to the Shadow, first round on 6, a sanctuary that refuses a revealed Fellowship | `fate-dwarves-to-war`, `fate-iron-hills-captured`, `fate-gimli-captain`, `fate-iron-hills-sanctuary`, `fate-erebor-revealed` | The Dwarves at war; the Iron Hills empty; attacked; the Fellowship one step away. |
+| The Dwarves active from the setup | `fate-dwarves-to-war` | One step from war, a Muster die. |
+| New Cities: Ered Luin and South Rhûn Cities worth 1 point | `fate-new-cities-ered-luin`, `fate-new-cities-south-rhun` | Each city empty, an enemy army at war next to it. |
+| New Cities: the City's first-round defence | `fate-new-cities-defence` | Sauron attacks Ered Luin's Dwarves. |
+| Kings with Fate: Brand and Dáin are not sovereigns; the Fate cards take the slots of King Brand's Men and Dáin Ironfoot's Guard | `fate-kings-dale-cards` | Kings and Fate configured; both Fate cards in hand. |
+
+Not shown by a scenario, with the reason:
+
+- Gimli, Dwarven Lord, has no nation icon, and in Kings with Fate the ordinary Gimli's Dwarven icon does not bring Dáin
+  back: in a Fate game the Dwarves are active from the setup and Dáin is absent, so no rule a player can reach reads the
+  icon. `FateGimliAbilityTests` covers both.
+- Shield-wall at the Combat card choice (`fate-card-bardings-combat`) acts only when the server's roll gives two hits;
+  the Fords' first round hits on 6 alone. `fate-card-bardings-shield-wall` shows the cancellation after a fixed reveal.
+- Dale staying uncontrolled after the Shadow wins there follows the server's battle roll; `FateBoardRuleTests` captures
+  Dale and keeps it uncontrolled.
+- Ered Luin with New Cities heals a declared Fellowship by the rule `fate-iron-hills-sanctuary` shows;
+  `FateBoardScenarioTests` checks the rule with and without New Cities, and no scenario declares the Fellowship there.
+- New Cities do not change recruitment: Ered Luin and South Rhûn were already settlements of their nations, so the
+  Muster reads them as before.
+
 
 <a id="tor-mordoru--test-06"></a>
 ### Tor Mordor — TEST-06
