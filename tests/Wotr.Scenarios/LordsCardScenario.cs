@@ -29,7 +29,9 @@ internal static class LordsCardScenario
         ["ui348-anarion"] = KingsDecisionScenarios.Anarion(Guid.NewGuid().ToString("N"), random),
         // UI-277: the Black Serpent's substitution before the reveal: the chip and the Pass.
         ["ui277-chieftain"] = KingsDecisionScenarios.Chieftain(Guid.NewGuid().ToString("N"), random),
-        ["ui277-chieftain-keep"] = KingsDecisionScenarios.Chieftain(Guid.NewGuid().ToString("N"), random)
+        ["ui277-chieftain-keep"] = KingsDecisionScenarios.Chieftain(Guid.NewGuid().ToString("N"), random),
+        // UI-277: a Chieftain's entry without a Council token, as the test menu starts it.
+        ["ui277-chieftain-entry"] = TestScenarioCatalog.Find("kings-sh-chieftain-entry")!.Create(Guid.NewGuid().ToString("N"))
     };
 
     private static MatchState State(IRandomSource random, Side actor)
