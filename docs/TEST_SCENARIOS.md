@@ -97,6 +97,10 @@ module is the module its game uses.
 | `kings-chieftain-substitution` | Kings | Shadow | A Chieftain's substitution | UI-277 (D7, D17): the Black Serpent beside the Sauron regulars the North attacks; before the reveal the Shadow's gilt chip substitutes Red Wrath, Pass keeps the card. |
 | `kings-dismay` | Lords, Kings | Shadow | Dismay | UI-276 (D7, D20): turn 2 after the roll, the Shadow holds Théoden's Dismay token; the click on the Free Peoples' glowing Ruler die spends it, Pass keeps it. |
 | `kings-far-sighted` | Kings | Free Peoples | Far-sighted | UI-276 (D18): Thranduil Awakened and the Ruler die on a Character; with it selected, his glowing picture moves with Far-sighted. |
+| `kings-card-wisdom` | Kings | Free Peoples | Wisdom of Elrond | UI-278 (D15): Wisdom of Elrond and It Is Not So Dark Here in the hand, Dáin and Denethor with tiles; a nation token activates and advances its nation, a king shows his tiles, Pass keeps them. |
+| `kings-card-recruit-or-cleanse` | Kings | Free Peoples | Recruit or remove corruption | UI-278 (D15): the Stewards, the Riders, Brand's Men, Dáin's Guard and Thranduil's Archers in the hand, every king with a tile; a Reserve figure of the king's nation recruits, the king cleanses. |
+| `kings-card-hope` | Kings | Free Peoples | There Is Hope for Victory | UI-278 (D16): Denethor and Théoden attack Osgiliath; after the reveal both glow in the battle window's army and the one clicked awakens. |
+| `kings-card-power-waxes` | Kings | Shadow | His Power Waxes | UI-278 (D16): the Shadow attacks Edoras; Denethor glows in the defending army, the Corrupted Théoden on his portrait. |
 | `lords-evil-knowledge` | Lords | Shadow | Evil Knowledge | UI-347 (D12): the Lords Mouth of Sauron besieges Minas Tirith after a round without hits; his portrait extends the siege. |
 | `kings-fp-ruler-ability` | Kings | Free Peoples | Ruler die: Mustering of the Mark | The Ruler die (Muster): recruit with Théoden's ability. |
 | `kings-fp-ruler-token` | Kings | Free Peoples | Ruler token | Denethor's token turns the Ruler die into his other ability (draw or play a card). |

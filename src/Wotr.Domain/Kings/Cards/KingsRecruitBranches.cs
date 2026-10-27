@@ -13,6 +13,8 @@ public sealed record KingsNationalCardStep(string Sovereign, string OtherwisePro
     }
 }
 
+// UI-278 (EXP-15 D15): each branch names its object — the recruit the sovereign's nation, whose Reserve figures choose it,
+// the cleanse the sovereign himself.
 public sealed record KingsRecruitOrCleanseStep(string Sovereign, string RecruitProgram) : EffectChoiceStep
 {
     public override string Presentation => "SovereignCardBranch";
@@ -20,6 +22,7 @@ public sealed record KingsRecruitOrCleanseStep(string Sovereign, string RecruitP
     public override EffectChoiceView Describe(MatchState state, EffectExecution execution, string id) => new()
     {
         Id = id,
+        TargetId = id == "recruit" ? SovereignCatalog.All[Sovereign].Nation : Sovereign,
         Title = id == "recruit" ? "Recruit" : "Remove corruption",
         Detail = id == "recruit" ? "Recruit the available figures specified by this card."
             : $"Return one randomly chosen {KingsCorruptionRemoval.TileDescription(state)}, if possible. Then complete the card's draw."
