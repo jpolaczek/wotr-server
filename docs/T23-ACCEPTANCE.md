@@ -1,7 +1,7 @@
 <a id="t23--odbiór-bazy-i-korpus-zapisów"></a>
 # T23 — acceptance database and registration body
 
-acceptance completed 2026-10-05 UTC : ** 1753/1753 . NET , 118/118 EditMode , 173/173 PlayMode Two full parties from a normal lobby, 28 The regression records and the set of base content have evidence below. Sources: [logic B01–B20](rules/LOGIC.md) , [FAQ and the manual 2.4.1](sources/SRC-08-AUDIT.md) , [96 kart](../content/implementation-manifest.json) , [14 characters](../content/character-implementation-manifest.json) . acceptance UI and 22 types of base decisions: [T22](https://github.com/jpolaczek/wotr-client/blob/abb3f838530e143a221e7c25cd557dcde434c6de/docs/ui/T22-ACCEPTANCE.md) .
+acceptance completed 2026-10-05 UTC : ** 1753/1753 . NET , 118/118 EditMode , 173/173 PlayMode Two full parties from a normal lobby, 28 The regression records and the set of base content have evidence below. Sources: [logic B01–B20](rules/LOGIC.md) , [FAQ and the manual 2.4.1](sources/SRC-08-AUDIT.md) , [96 kart](../content/implementation-manifest.json) , [14 characters](../content/character-implementation-manifest.json) . acceptance UI and 22 types of base decisions: [T22](https://github.com/jpolaczek/wotr-client/blob/1e81512f4f33819ef08b357776fa221372bf2396/docs/ui/T22-ACCEPTANCE.md) .
 
 <a id="pełna-partia"></a>
 ## Full batch
