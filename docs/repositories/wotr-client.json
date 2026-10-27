@@ -1,6 +1,6 @@
 {
   "repository": "jpolaczek/wotr-client",
-  "commit": "e31ff7b5675ba549dc5ee9c5fcab41a5d0acebe4",
+  "commit": "cee738b36f76b4998c1470e59a7035b3e3380e06",
   "files": [
     ".editorconfig",
     ".env.example",
@@ -2220,6 +2220,8 @@
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/CharacterDraft.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/CharacterLibrary.cs",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/CharacterLibrary.cs.meta",
+    "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/CharacterPolitics.cs",
+    "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/CharacterPolitics.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/CharacterRecruitDraft.cs",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/CharacterRecruitDraft.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Runtime/Presentation/CharacterReinforcements.cs",
@@ -3588,6 +3590,8 @@
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/CharacterLayoutTests.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/CharacterNetworkTests.cs",
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/CharacterNetworkTests.cs.meta",
+    "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/CharacterPoliticsNetworkTests.cs",
+    "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/CharacterPoliticsNetworkTests.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/CharacterRosterActionLayoutChecks.cs",
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/CharacterRosterActionLayoutChecks.cs.meta",
     "unity/Wotr.Client/Assets/Wotr/Tests/PlayMode/CharacterRosterActionNetworkTests.cs",
