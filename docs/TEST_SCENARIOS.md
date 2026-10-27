@@ -91,6 +91,9 @@ module is the module its game uses.
 | `lords-card-wind-finish` | Lords | Free Peoples | Wind from the West · Finish | UI-347 (D7): no Shadow table card; Inspect the hand is the console's button, Pass finishes. |
 | `lords-card-orderly-withdrawal` | Lords | Free Peoples | Orderly Withdrawal | UI-347 (D10): Wind's Combat side at the Fords of Isen after every die hit; the "−1" on the Shadow's hits cancels one and withdraws, Pass keeps it. |
 | `lords-card-balrog` | Lords | Shadow | A Balrog is Come! | UI-347 (D11): the active Balrog in Moria with two Orcs; his figure moves him alone, a figure of the army moves it with him, Pass finishes. |
+| `kings-brand-heir` | Kings | Free Peoples | Heir of Bard | UI-348 (D17): Brand Awakened and the North attack from Dale; after the reveal the gilt chip beside the own card cancels the Shadow card, Pass keeps the card. |
+| `kings-brand-shadows` | Kings | Shadow | Shadows in the North | UI-348 (D17): Brand Corrupted; the Shadow's chip cancels the Free Peoples card after the reveal, Pass keeps the card. |
+| `kings-anarion` | Kings | Free Peoples | Palantír of Anárion | UI-348 (D7): the Ruler die drew a card with Denethor in Minas Tirith; a deck's click draws the extra card, Pass skips it. |
 | `lords-evil-knowledge` | Lords | Shadow | Evil Knowledge | UI-347 (D12): the Lords Mouth of Sauron besieges Minas Tirith after a round without hits; his portrait extends the siege. |
 | `kings-fp-ruler-ability` | Kings | Free Peoples | Ruler die: Mustering of the Mark | The Ruler die (Muster): recruit with Théoden's ability. |
 | `kings-fp-ruler-token` | Kings | Free Peoples | Ruler token | Denethor's token turns the Ruler die into his other ability (draw or play a card). |

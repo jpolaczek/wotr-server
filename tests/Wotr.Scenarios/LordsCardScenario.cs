@@ -21,7 +21,12 @@ internal static class LordsCardScenario
         // Tests share a seeded match by its name, so a second test of the same situation has its own.
         ["ui347-wind-finish"] = WindHand(random),
         ["ui347-balrog-finish"] = LordsDecisionScenarios.Balrog(Guid.NewGuid().ToString("N"), random),
-        ["ui347-orderly-withdrawal-pass"] = LordsDecisionScenarios.OrderlyWithdrawal(Guid.NewGuid().ToString("N"), random)
+        ["ui347-orderly-withdrawal-pass"] = LordsDecisionScenarios.OrderlyWithdrawal(Guid.NewGuid().ToString("N"), random),
+        // UI-348: Brand's Combat card replacement, Awakened (twice: the chip and the Pass) and Corrupted.
+        ["ui348-brand-heir"] = KingsDecisionScenarios.Brand(Guid.NewGuid().ToString("N"), random, true),
+        ["ui348-brand-heir-keep"] = KingsDecisionScenarios.Brand(Guid.NewGuid().ToString("N"), random, true),
+        ["ui348-brand-shadows"] = KingsDecisionScenarios.Brand(Guid.NewGuid().ToString("N"), random, false),
+        ["ui348-anarion"] = KingsDecisionScenarios.Anarion(Guid.NewGuid().ToString("N"), random)
     };
 
     private static MatchState State(IRandomSource random, Side actor)
