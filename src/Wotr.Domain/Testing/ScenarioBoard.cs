@@ -23,6 +23,9 @@ public sealed class ScenarioBoard
         return new(state);
     }
 
+    // TEST-12: the same changes on a game already set up another way, e.g. through the real Lords setup (LordsBoard).
+    public static ScenarioBoard Of(MatchState state) => new(state);
+
     // The side's standard dice show these results in order; dice beyond them stay in the pool unrolled.
     public ScenarioBoard Dice(Side side, params DieFace[] faces)
     {
