@@ -7,7 +7,8 @@ namespace Wotr.Domain;
 // and, since TEST-10, the expansions' dice and actions (TEST-04, restored) and, since UI-266, the Fate cards with their
 // own choices, since UI-349 Gimli's Fate mechanics and since UI-347, UI-348 and UI-278 the Lords and Kings decisions of the owner's playtest;
 // since TEST-14 every Fate card's Combat side, Gimli's remaining abilities, the Fate map rules and Kings with Fate, and
-// since TEST-13 every Kings card's event and combat and each Kings mechanic at the step it acts; the
+// since TEST-13 every Kings card's event and combat and each Kings mechanic at the step it acts, and
+// since TEST-12 each Lords card's event and combat card and every Lords mechanic; the
 // server offers a scenario only when its modules are released.
 public static class TestScenarioCatalog
 {
@@ -31,6 +32,11 @@ public static class TestScenarioCatalog
         .. FateGimliAbilityScenarios.All(),
         .. FateBoardScenarios.All(),
         .. LordsDecisionScenarios.All(),
+        .. LordsCardScenarios.All(),
+        .. LordsCharacterScenarios.All(),
+        .. LordsSmeagolScenarios.All(),
+        .. LordsCouncilScenarios.All(),
+        .. LordsKingsScenarios.All(),
         .. KingsDecisionScenarios.All(),
         .. KingsCardDecisionScenarios.All(),
         .. KingsCardScenarios.All(),
