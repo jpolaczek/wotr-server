@@ -76,16 +76,16 @@ module is the module its game uses.
 | Id | Module | Start | Title in game | What it tests |
 | --- | --- | --- | --- | --- |
 | `lords-special-dice-choice` | Lords | Shadow | Choose a special die | Choosing one of the special dice after the roll; the side with more rolled dice first (LORDS pp. 9–13). |
-| `lords-forced-eye` | Lords | Shadow | An Eye forces the choice | Vilya's Eye beside Nenya's Character: after the Shadow keeps a die, the client keeps the Eye for the Free Peoples without a click (UI-267). |
-| `lords-keeper-eye-choice` | Lords | Free Peoples | Keeper Eyes go to the Hunt | Eyes on both Keeper dice: only an Eye can be kept, and it joins the Shadow's Hunt. |
+| `lords-forced-eye` | Lords | Shadow | An Eye forces the choice | Vilya's Eye beside Nenya's Character: after the Shadow keeps a die, the Eye is the Free Peoples' only legal choice and glows for their click (UI-267, UI-279). |
+| `lords-keeper-eye-choice` | Lords | Free Peoples | Keeper Eyes go to the Hunt | Eyes on both Keeper dice: only an Eye can be kept, and it goes to the Hunt Box. |
 | `lords-fp-card-draw` | Lords | Free Peoples | Card Draw with a Keeper die | The Card Draw face of the Vilya die (Elrond): draw a card. |
 | `lords-fp-narya-die` | Lords | Free Peoples | Muster with the Narya die | The Narya die (Gandalf the Keeper as Guide): Muster for politics. |
 | `lords-fp-nenya-die` | Lords | Free Peoples | Character with the Nenya die | The Nenya die (Galadriel): Character to move the Fellowship. |
 | `lords-sh-use-balrog` | Lords | Shadow | Use Balrog | The Use Balrog face: activate the Balrog in Moria. |
 | `lords-sh-gothmog-die` | Lords | Shadow | Army with the Gothmog die | The Army face of Gothmog's die: move or attack with an army. |
-| `lords-sh-balrog-entry` | Lords | Shadow | Bring in the Balrog | Muster: the Balrog enters (the Elves and the Dwarves at war). |
+| `lords-sh-balrog-entry` | Lords | Shadow | Bring in the Balrog | Muster: the Balrog enters, with an optional Sauron unit (the Elves and the Dwarves already at war). |
 | `lords-sh-gothmog-muster` | Lords | Shadow | Gothmog's Muster abilities | Muster: recruit or upgrade with Gothmog's ability. |
-| `lords-fp-narya` | Lords | Free Peoples | Narya | Narya: Gandalf the Keeper in Bree activates the North and puts it at war. |
+| `lords-fp-narya` | Lords | Free Peoples | Narya | Narya: Gandalf, Keeper of Narya, in Bree gives Narya to the Shadow and moves the North to At War. |
 | `lords-fp-vilya` | Lords | Free Peoples | Vilya | Vilya: keep the die just used to draw a card. |
 | `lords-council-token` | Lords | Shadow | Shadow Council token | The Advance Politics token instead of a die (Council of Rivendell). |
 | `lords-card-wind-finish` | Lords | Free Peoples | Wind from the West · Finish | UI-347 (D7): no Shadow table card; Inspect the hand is the console's button, Pass finishes. |
@@ -215,11 +215,11 @@ dice say "almost certain" (five Hunt dice and +2, as UI-300). Every scenario nam
 | `lords-council-token-choice` | Shadow | Council of Rivendell: the Shadow chooses a token | Boromir alone started outside → the Shadow chooses Move Nazgûl and Minions or Advance Politics. |
 | `lords-council-token-travel` | Shadow | Shadow Council token: move Nazgûl and Minions | Two Companions started outside, both tokens held → the Travel token moves a Nazgûl without a die. |
 | `lords-council-messengers` | Free Peoples | Messengers of Elrond and the Prince of Mirkwood | Boromir, Gimli, Legolas and Merry started at home → any die activates and advances Gondor, the Dwarves or the North, or advances the Elves. |
-| `lords-council-champion` | Free Peoples | Champion of Gondor: the alternative Boromir in battle | Sauron attacks Minas Tirith where Boromir started → +1 Combat strength in Gondor's region. |
-| `lords-council-guide-separate` | Free Peoples | Alternative Boromir, Gimli or Legolas as Guide: lessen the Hunt | Only those three walk, Boromir guiding, an almost certain damaging Hunt → each Guide in turn separates to lessen it by one. |
-| `lords-council-hobbit-guide` | Free Peoples | Alternative Merry or Pippin as Guide: cancel a Hunt tile | Only the hobbits walk, Merry guiding, an almost certain Hunt of Eye and Reveal tiles → the Guide cancels the standard tile. |
-| `lords-council-art-of-disappearing` | Free Peoples | Art of Disappearing: the hobbits escape a lost battle | Merry and Pippin started in the Shire, Sauron scored two hits → the army is lost and each hobbit escapes to a neighbouring region. |
-| `lords-council-strider-guide` | Free Peoples | Alternative Strider as Guide: the first move die stays out of the Hunt | The alternative Strider guides, Progress 1 → this turn's first move die goes to the Fellowship box; the Hunt still happens. |
+| `lords-council-champion` | Free Peoples | Champion of Gondor: the alternative Boromir in battle | Sauron attacks Minas Tirith where Boromir started → his Champion adds 1 to the Combat Strength (defender in a Gondor region). |
+| `lords-council-guide-separate` | Free Peoples | Alternative Boromir, Gimli or Legolas as Guide: reduce Hunt damage | Only those three walk, Boromir guiding, an almost certain damaging Hunt → each Guide in turn separates to reduce it by 1. |
+| `lords-council-hobbit-guide` | Free Peoples | Alternative Merry or Pippin as Guide: cancel a Hunt tile | Only the hobbits walk, Merry guiding, an almost certain Hunt of Eye and Reveal tiles → eliminating both Hobbits cancels the standard tile. |
+| `lords-council-art-of-disappearing` | Free Peoples | Art of Disappearing: the Hobbits escape a lost battle | Merry and Pippin started in the Shire, Sauron scored two hits → the Hobbits fall with their army and each returns to a neighbouring region. |
+| `lords-council-strider-guide` | Free Peoples | Alternative Strider as Guide: the first move die stays out of the Hunt | The alternative Strider guides, Progress 1 → this turn's first move die goes to the Fellowship Box; the Hunt still happens. |
 | `lords-council-strider-aragorn` | Free Peoples | Alternative Strider becomes Aragorn | The alternative Strider in Minas Tirith, Will of the West → Aragorn on his figure. |
 | `lords-kings-smeagol-corruption` | Shadow | Sméagol's tiles are redrawn in a corruption attempt | Lords + Kings, two Eyes, Sméagol's four tiles and one tile of value 1 → drawn Sméagol tiles are set aside and redrawn. |
 | `lords-kings-captain-corruption` | Shadow | Captain of Despair Eyes cannot pay a corruption attempt | The Captain's Eye beside three allocated Eyes → it cannot pay and the draw limit counts only the others. |

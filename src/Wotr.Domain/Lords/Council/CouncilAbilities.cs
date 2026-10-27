@@ -12,6 +12,14 @@ public static class CouncilAbilities
         ["prince-of-mirkwood"] = "elves"
     };
 
+    private static readonly IReadOnlyDictionary<string, string> Details = new Dictionary<string, string>
+    {
+        ["messenger-gondor"] = "Activate Gondor and move it one step toward war.",
+        ["messenger-dwarves"] = "Activate the Dwarves and move them one step toward war.",
+        ["messenger-north"] = "Activate the North and move it one step toward war.",
+        ["prince-of-mirkwood"] = "Move the Elves one step toward war."
+    };
+
     public static bool Handles(string ability) => Nations.ContainsKey(ability);
     public static bool Activates(string ability) => ability.StartsWith("messenger-", StringComparison.Ordinal);
 
@@ -32,7 +40,7 @@ public static class CouncilAbilities
                     CharacterId = character.Id,
                     AbilityId = ability.Key,
                     Title = Activates(ability.Key) ? "Messenger of Elrond" : "Prince of Mirkwood",
-                    Detail = Activates(ability.Key) ? "Activate and advance " + nation.Id + "." : "Advance Elves.",
+                    Detail = Details[ability.Key],
                     Targets = [character.Location],
                     Dice = dice
                 };

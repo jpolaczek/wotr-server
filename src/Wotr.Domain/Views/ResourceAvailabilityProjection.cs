@@ -58,7 +58,7 @@ internal static class ResourceAvailabilityProjection
         {
             title = "Use Narya";
             timing = "During your normal action.";
-            detail = "Gandalf the Keeper is in an unconquered Free Peoples settlement, with an unused action die.";
+            detail = "Gandalf, Keeper of Narya, is outside the Fellowship in an unconquered Free Peoples Settlement, and an Action die is available.";
             dice = state.Dice.Where(d => d.Owner == Side.FreePeoples && d.Location == DieLocation.Available).Select(d => d.Id).ToList();
             if (KeeperRings.NaryaNation(state) is { } nation)
                 targets.Add(nation);
@@ -76,8 +76,8 @@ internal static class ResourceAvailabilityProjection
         else if (ring == LordsDiceSetup.VilyaRing)
         {
             title = "Use Vilya";
-            timing = "After the entire paid action resolves, before completing its cost.";
-            detail = "Elrond is in play and a paid die other than a Will of the West can be retained.";
+            timing = "After an action you paid with an Action die has fully resolved.";
+            detail = "Elrond is in play and the Action die you used is not a Will of the West.";
             dice = VilyaCompletion.EligibleDice(state);
             condition = dice.Count > 0;
             window = state.Pending?.Kind == DecisionKind.KeepActionDie && state.Lords?.ActionCompletion is not null;

@@ -18,10 +18,10 @@ public static class LordsCharacterAbilities
         if (CharacterRules.InPlay(state, LordsCharacters.Balrog) is { } balrog)
         {
             if (actor == Side.Shadow && balrog.Level == 0)
-                yield return Option(balrog, ActivateBalrog, "Activate Balrog", "Activate without moving.",
+                yield return Option(balrog, ActivateBalrog, "Activate Balrog", ActivationDetail,
                     state.Dice.Where(d => BalrogDie(d)).Select(d => d.Id));
             if (actor == Side.FreePeoples && balrog.Level > 0)
-                yield return Option(balrog, DeactivateBalrog, "Deactivate Balrog", balrog.Location == "moria" ? "Return to Level 0." : "Eliminate the Balrog.",
+                yield return Option(balrog, DeactivateBalrog, "Deactivate Balrog", DeactivationDetail(balrog),
                     state.Dice.Where(d => d.Owner == actor && d.Location == DieLocation.Available &&
                         (d.Face == DieFace.WillOfTheWest || DiceRules.CanPay(d, DieFace.Character) &&
                             state.Characters.Any(c => CharacterRules.SameIdentity(c, CharacterRules.Grey) && c.Location == balrog.Location)))
@@ -32,10 +32,18 @@ public static class LordsCharacterAbilities
             yield break;
         var dice = state.Dice.Where(d => d.Owner == actor && DiceRules.CanPay(d, DieFace.Muster)).Select(d => d.Id).ToArray();
         if (Reserve(state, UnitKind.Regular) is not null)
-            yield return Option(gothmog, GothmogRecruit, "Fling into the fray · recruit", "Recruit one Sauron Regular with Gothmog.", dice);
+            yield return Option(gothmog, GothmogRecruit, "Fling Them into the Fray · Recruit",
+                "Recruit one Sauron Regular in Gothmog's region.", dice);
         if (Reserve(state, UnitKind.Elite) is not null && Regular(state, gothmog.Location) is not null)
-            yield return Option(gothmog, GothmogUpgrade, "Fling into the fray · upgrade", "Replace a Sauron Regular with an Elite.", dice);
+            yield return Option(gothmog, GothmogUpgrade, "Fling Them into the Fray · Upgrade",
+                "Replace one Sauron Regular in Gothmog's region with an Elite.", dice);
     }
+
+    private const string ActivationDetail = "The Balrog becomes active (level 2) but does not move now.";
+
+    private static string DeactivationDetail(CharacterState balrog) => balrog.Location == "moria"
+        ? "In Moria the Balrog becomes inactive (level 0)."
+        : "Outside Moria, deactivating eliminates the Balrog.";
 
     public static bool BalrogDie(DieState die) => die.Owner == Side.Shadow && die.Source == LordsDiceCatalog.Balrog &&
         die.Location == DieLocation.Available && die.Face == DieFace.UseBalrog && die.Special?.Chosen == true;

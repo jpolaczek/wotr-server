@@ -30,7 +30,7 @@ internal static class LordsCardEvents
             "Back on its table earlier this turn: heal one Corruption and discard it.",
             board => LordsBoard.Played(board.Corruption(2).Change(SmeagolGuides), Side.Shadow, LordsShadowCards.WeWontGoBack)),
         [LordsFreePeoplesCards.Wind] = new("The Shadow played The Gates are Closed and The Lore of the Elven Rings on its table earlier this " +
-            "turn: discard one of them (lords-card-wind-finish plays the hand inspection without table cards).",
+            "turn: discard one of them (the scenario Wind from the West · Finish plays the hand inspection without table cards).",
             board => LordsBoard.Played(LordsBoard.Played(board, Side.Shadow, LordsShadowCards.Gates), Side.Shadow, LordsShadowCards.Lore)),
         [LordsFreePeoplesCards.ThreeRings] = new("The Shadow used Narya, which is out of play, and holds Nenya and Vilya: each 5 or 6 of the " +
             "three dice recovers one, Narya first.",
@@ -41,8 +41,8 @@ internal static class LordsCardEvents
         [LordsFreePeoplesCards.Rangers] = new("A Sauron army stands in the Weather Hills, next to Bree and the North Downs: the Rangers roll " +
             "against it, then a North unit and a North Leader enter a free North region beside it.",
             board => board.Place("sauron", UnitKind.Regular, "weather-hills", 2)),
-        [LordsShadowCards.Balrog] = new("The Balrog waits inactive in Moria: the card activates him at Level 2 (lords-card-balrog plays " +
-            "the active Balrog's move).",
+        [LordsShadowCards.Balrog] = new("The Balrog waits inactive in Moria: the card activates him at Level 2 (the scenario A Balrog is " +
+            "Come! in Lords · Decisions plays the active Balrog's move).",
             board => board.Change(state => LordsBoard.Put(state, LordsCharacters.Balrog, Moria).Level = 0)),
         [LordsShadowCards.WeWontGoBack] = new("Sméagol guides the Fellowship. Play the card on the table, then switch side and move the " +
             "Fellowship with the Character die: five Shadow dice wait in the Hunt Box, it already moved twice (+2) and the pool holds " +
@@ -50,7 +50,8 @@ internal static class LordsCardEvents
             board => board.Change(SmeagolGuides).HuntAhead(Side.Shadow, DieFace.Character, tile => tile.Pool == SmeagolTiles.Pool)
                 .Hand(Side.Shadow, ShadowCharacterCard)),
         [LordsShadowCards.Lore] = new("Elrond stands in Rivendell, so the Vilya die rolls from the next turn. Play the card on the table; " +
-            "when a Keeper die rolls an Eye, change one Shadow result before the actions (lords-card-lore-change-die).",
+            "when a Keeper die rolls an Eye, change one Shadow result before the actions (the scenario The Lore of the " +
+            "Elven Rings · Change a die).",
             board => board.Change(state => LordsBoard.Put(state, LordsCharacters.Elrond, "rivendell"))),
         [LordsShadowCards.Gates] = new("The Fellowship stands in Hollin, next to Moria. Play the card on the table, then switch side and " +
             "move the Fellowship with the Character die: the Hunt is almost certain and draws a Reveal tile, and a reveal into Moria, an " +

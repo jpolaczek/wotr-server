@@ -34,7 +34,7 @@ public sealed class EffectCommands : ICommandHandler, IResolutionContinuation, I
         if (command.Kind == CommandKind.RespondEffect && command.Payload.ReactionId.StartsWith(LordsShadowCards.GatesReaction, StringComparison.Ordinal))
         {
             preview.Costs.Add(LordsShadowCards.Gates);
-            preview.Summary = "Discard The Gates are Closed; draw an additional Hunt tile, ignoring Eye and Reveal.";
+            preview.Summary = "Discard The Gates are Closed for an additional Hunt tile; an Eye has no effect and Reveal is ignored.";
         }
         if (command.Kind == CommandKind.DiscardWelcome)
             preview.Summary = "Spend the selected die; discard Your Welcome Is Doubtful.";

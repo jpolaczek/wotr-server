@@ -20,7 +20,7 @@ internal static class DieInspection
                 ? "At the next Recover, available only while an awakened sovereign remains in play; one shared Ruler die."
                 : "At the next Recover, available only while a Dark Chieftain remains in play; one shared Ruler die.";
         if (die.Source == LordsDiceCatalog.Narya)
-            return "At Recover, requires Gandalf the Keeper as Guide and a recovered Fellowship movement die (except the initial Guide in turn one).";
+            return "At Recover, requires Gandalf, Keeper of Narya, as Guide and a Fellowship movement die recovered from the Hunt Box (in turn one, the starting Guide is enough).";
         if (die.Special is null)
             return "Recovered at the next Recover phase while its source remains eligible.";
         var text = die.Owner == Side.FreePeoples

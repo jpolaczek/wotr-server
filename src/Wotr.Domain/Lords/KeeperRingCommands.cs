@@ -61,7 +61,7 @@ public sealed class KeeperRingCommands : ICommandHandler, IActionOptionsProvider
     {
         if (command.Kind == CommandKind.UseNarya)
         {
-            preview.Summary = "Use Narya and this die to activate the settlement's nation and bring it to war.";
+            preview.Summary = "Give Narya to the Shadow and spend this die: the Settlement's Nation becomes active and moves to At War.";
             preview.PoliticsChanges.Add(new() { Id = KeeperRings.NaryaNation(state)!, Active = true, StepsToWar = 0 });
         }
         else
