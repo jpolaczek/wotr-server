@@ -95,7 +95,7 @@ module is the module its game uses.
 | `kings-brand-shadows` | Kings | Shadow | Shadows in the North | UI-348 (D17): Brand Corrupted; the Shadow's chip cancels the Free Peoples card after the reveal, Pass keeps the card. |
 | `kings-anarion` | Kings | Free Peoples | Palantír of Anárion | UI-348 (D7): the Ruler die drew a card with Denethor in Minas Tirith; a deck's click draws the extra card, Pass skips it. |
 | `kings-chieftain-substitution` | Kings | Shadow | A Chieftain's substitution | UI-277 (D7, D17): the Black Serpent beside the Sauron regulars the North attacks; before the reveal the Shadow's gilt chip substitutes Red Wrath, Pass keeps the card. |
-| `kings-dismay` | Lords, Kings | Shadow | Dismay | UI-276 (D7, D20): turn 2 after the roll, the Shadow holds Théoden's Dismay token; the click on the Free Peoples' glowing Ruler die spends it, Pass keeps it. |
+| `kings-dismay` | Kings, Lords | Shadow | Dismay | UI-276 (D7, D20): turn 2 after the roll, the Shadow holds Théoden's Dismay token; the click on the Free Peoples' glowing Ruler die spends it, Pass keeps it. |
 | `kings-far-sighted` | Kings | Free Peoples | Far-sighted | UI-276 (D18): Thranduil Awakened and the Ruler die on a Character; with it selected, his glowing picture moves with Far-sighted. |
 | `kings-card-wisdom` | Kings | Free Peoples | Wisdom of Elrond | UI-278 (D15): Wisdom of Elrond and It Is Not So Dark Here in the hand, Dáin and Denethor with tiles; a nation token activates and advances its nation, a king shows his tiles, Pass keeps them. |
 | `kings-card-recruit-or-cleanse` | Kings | Free Peoples | Recruit or remove corruption | UI-278 (D15): the Stewards, the Riders, Brand's Men, Dáin's Guard and Thranduil's Archers in the hand, every king with a tile; a Reserve figure of the king's nation recruits, the king cleanses. |
@@ -236,6 +236,161 @@ its uses without playing up to it. They are built from the card catalog (`CardSc
   `/srv/wotr/backups/2026-10-22-before-ui300-triggers`; the image `wotr-server:94c0c87ac09c` stays for a rollback.
   Checks: `/health` ok, `/health/ready` 200; no 5xx after the restart (20:07 UTC), the lobby, rooms and matches
   answer 200. The client needed no new build: the scenarios are built by the server.
+
+<a id="kings-of-middle-earth--test-13"></a>
+## Kings of Middle-earth — TEST-13 (2026-10-27)
+
+Owner's request (2026-10-27): every new Kings card and mechanic can be tried end to end from the Kings tab of the test
+menu, on a board where whatever condition makes the effect act is met. Every Kings scenario names Kings first in its
+modules (`kings-dismay`, which named Lords first and so stood in the Lords tab, now names Kings first), so the client
+shows it in the Kings tab; a scenario that needs Lords as well (Dismay, the Council) names Lords second, and the server
+offers it only while both modules are released. The client strips "Kings · " from the group inside the tab.
+
+- **Cards** (`KingsCardScenarios`, groups `Kings · Free Peoples cards` and `Kings · Shadow cards`): a combat scenario
+  for each of the 19 cards, `kings-combat-<title>`, titled `<card> · Combat: <printed combat title>`, and an event
+  scenario `kings-event-<title>` for each card whose event no decision scenario shows whole yet. The event starts as a
+  base card's (TEST-09): turn 1 of a Kings game, the card in hand, a die of its event type and an Event die, and the board
+  of `KingsCardEvents`, where every clause acts, an "if" clause included (UI-300). The four national cards' event
+  scenarios show the removal of their Corrupted king; their recruit-or-cleanse branch is `kings-card-recruit-or-cleanse`.
+- **Battles** (`KingsCardBattles`): the Free Peoples cards share a defence at the Fords of Isen against Isengard and a
+  Nazgûl, with five Companions (the Awakened Théoden among them), the Initial Denethor and a Rohan Elite in the army; the
+  Shadow cards share a siege of Minas Tirith by ten army units (Sauron and Isengard) and two Nazgûl against Gondor's three
+  units and the Initial Denethor, with the Black Serpent added for Your Welcome Is Doubtful. Each waits at the card
+  owner's Combat card choice after the engine's own attack command.
+- **Mechanics** (`KingsSovereignScenarios`, `KingsCorruptionScenarios`, `KingsRulerScenarios`,
+  `KingsChieftainScenarios`, `KingsVariantScenarios`): one scenario per step a player wants to try, with the acting side
+  holding what pays for it. Battles are played up to the step through the engine, with dice that miss
+  (`KingsBattleSteps`).
+- **Proof:** `KingsCardEndToEndScenarioTests` plays each event (new or reused) as a legal `PlayEvent` accepted by the
+  engine, requires the board to change once the demo CPU answers the effect's decisions, checks each clause's condition on
+  the starting board and plays the conditional clauses to their result (the Corrupted king removed, Dáin awakened in
+  Erebor, Brand corrupted without an Eye spent, no Free Peoples Combat card at Minas Tirith under Denethor's Folly, Threats
+  and Promises discarded by a corruption); each combat scenario offers its card at the owner's choice in a battle where
+  its effect has something to act on, and committing it is accepted. `KingsMechanicScenarioTests` checks that every
+  scenario whose id starts with `kings-` stands in the Kings tab with the modules its game uses and an enabled option,
+  that each mechanic is offered and, committed, acts (the king awakens, the tile returns, the recruits arrive, the token
+  is spent, the substitution is made), and plays the following steps where the scenario promises them.
+
+| Id | Group | Start | Title in game | Condition met · effect seen |
+| --- | --- | --- | --- | --- |
+| `kings-combat-house-of-the-stewards` | Free Peoples cards | Free Peoples | House of the Stewards · Combat: Brave Stand | Five Companions defend; the Shadow's five dice drop to one. |
+| `kings-event-aid-in-time-of-need` | Free Peoples cards | Free Peoples | Aid in Time of Need · Event | Gimli in Dale, Merry in Westemnet, Dáin with a tile: move them, then the king a Companion joined awakens there and his tile returns, with no political requirement. |
+| `kings-combat-aid-in-time-of-need` | Free Peoples cards | Free Peoples | Aid in Time of Need · Combat: The King’s Banner | The Awakened Théoden takes part and the Shadow's Nazgûl gives it a Leader re-roll to cancel. |
+| `kings-combat-it-is-not-so-dark-here` | Free Peoples cards | Free Peoples | It Is Not So Dark Here · Combat: Like a God of Old | The Awakened Théoden (Leadership 3 in round 1) rolls a special attack of three dice. |
+| `kings-combat-wisdom-of-elrond` | Free Peoples cards | Free Peoples | Wisdom of Elrond · Combat: Confusion | The Shadow rolls five dice whose 1s hit its own army. |
+| `kings-event-riders-of-theoden` | Free Peoples cards | Free Peoples | Riders of Théoden · Event: remove the Corrupted Théoden | Théoden is Corrupted: the card removes him and draws nothing. |
+| `kings-combat-riders-of-theoden` | Free Peoples cards | Free Peoples | Riders of Théoden · Combat: Daylight | Five Shadow dice are cut to three. |
+| `kings-event-king-brands-men` | Free Peoples cards | Free Peoples | King Brand’s Men · Event: remove the Corrupted Brand | Brand is Corrupted: the card removes him. |
+| `kings-combat-king-brands-men` | Free Peoples cards | Free Peoples | King Brand’s Men · Combat: Shield-Wall | Five Shadow dice, so two hits can come and one is cancelled. |
+| `kings-event-dain-ironfoots-guard` | Free Peoples cards | Free Peoples | Dáin Ironfoot’s Guard · Event: remove the Corrupted Dáin Ironfoot | Dáin is Corrupted: the card removes him. |
+| `kings-combat-dain-ironfoots-guard` | Free Peoples cards | Free Peoples | Dáin Ironfoot’s Guard · Combat: Valour | A Rohan Elite defends: +1 to the Combat roll. |
+| `kings-event-thranduils-archers` | Free Peoples cards | Free Peoples | Thranduil’s Archers · Event: remove the Corrupted Thranduil | Thranduil is Corrupted: the card removes him. |
+| `kings-combat-thranduils-archers` | Free Peoples cards | Free Peoples | Thranduil’s Archers · Combat: Valour | A Rohan Elite defends: +1 to the Combat roll. |
+| `kings-event-ever-at-your-service` | Free Peoples cards | Free Peoples | Ever at Your Service · Event | Dáin carries two tiles: he recruits a Dwarf in Erebor and one tile returns at random. |
+| `kings-combat-ever-at-your-service` | Free Peoples cards | Free Peoples | Ever at Your Service · Combat: There Is Hope for Victory | The Initial Denethor takes part: chosen, he awakens; +1 to the Leader re-roll. |
+| `kings-event-men-of-little-villages` | Free Peoples cards | Free Peoples | Men of Little Villages · Event | Four nations with free settlements and figures in the reserve: a Regular or Leader of each. |
+| `kings-combat-men-of-little-villages` | Free Peoples cards | Free Peoples | Men of Little Villages · Combat: There Is Hope for Victory | As Ever at Your Service's combat. |
+| `kings-event-your-welcome-is-doubtful` | Shadow cards | Shadow | Your Welcome Is Doubtful · Event | Gondor active but not at war, Boromir with Denethor (a tile): Denethor's awakening and every tile return are barred; the Character die discards the card. |
+| `kings-combat-your-welcome-is-doubtful` | Shadow cards | Shadow | Your Welcome Is Doubtful · Combat: Servant of the Shadow | The Black Serpent, a Chieftain counted as a Minion, gives up Leadership 2: the defenders' three dice drop to one (his own substitution is offered before the reveal; Pass keeps the card). |
+| `kings-event-the-west-has-failed` | Shadow cards | Shadow | The West Has Failed · Event | Brand (a tile) beside a Nazgûl, three Eyes, no Free Peoples die, a pool of counting tiles: three tiles drawn without spending an Eye corrupt Brand. |
+| `kings-combat-the-west-has-failed` | Shadow cards | Shadow | The West Has Failed · Combat: The Battle Is Vain | Two Nazgûl's Leadership against the defenders' Leadership 2. |
+| `kings-event-return-to-valinor` | Shadow cards | Shadow | Return to Valinor · Event | Théoden and Denethor Corrupted: playable without a captured Elven Stronghold, and the four Elven Strongholds' armies are hit on 5+. |
+| `kings-combat-return-to-valinor` | Shadow cards | Shadow | Return to Valinor · Combat: Deadly Strife | Both armies +2 in the siege. |
+| `kings-event-denethors-folly` | Shadow cards | Shadow | Denethor’s Folly · Event | Gondor at war, Boromir with Denethor, a Sauron army in Osgiliath: Denethor cannot awaken, any die discards the card, and the Shadow's second Army die attacks Minas Tirith, where the Free Peoples play no Combat card. |
+| `kings-combat-denethors-folly` | Shadow cards | Shadow | Denethor’s Folly · Combat: Devilry of Orthanc | Isengard units besiege the stronghold. |
+| `kings-event-threats-and-promises` | Shadow cards | Shadow | Threats and Promises · Event | The Elves at war (Thranduil awakenable), Brand with a tile, two Eyes, a counting pool: Muster no longer awakens or advances a passive nation; corrupting Brand discards the card. |
+| `kings-combat-threats-and-promises` | Shadow cards | Shadow | Threats and Promises · Combat: Devilry of Orthanc | Isengard units besiege the stronghold. |
+| `kings-event-stormcrow` | Shadow cards | Shadow | Stormcrow · Event | Boromir in Minas Tirith, Gondor two steps from war: Gondor steps back, Denethor draws a tile (a 3 corrupts him at once), the Free Peoples lose a Gondor unit. |
+| `kings-combat-stormcrow` | Shadow cards | Shadow | Stormcrow · Combat: Great Host | Ten besiegers against three, so they stay twice the defenders whatever the casualties. |
+| `kings-event-the-king-is-revealed` | Shadow cards | Shadow | The King Is Revealed · Event | Denethor and Théoden Awakened (no Aragorn), Minas Morgul empty: five Regulars and a Nazgûl, then two more figures. |
+| `kings-combat-the-king-is-revealed` | Shadow cards | Shadow | The King Is Revealed · Combat: Relentless Assault | Ten Shadow units to take up to two hits. |
+| `kings-event-the-palantir-of-barad-dur` | Shadow cards | Shadow | The Palantír of Barad-dûr · Event | Played with a Muster die it stays on the table; the second Muster die pays as an Event; the Free Peoples may discard it with Will of the West or a die and an Elven Ring. |
+| `kings-combat-the-palantir-of-barad-dur` | Shadow cards | Shadow | The Palantír of Barad-dûr · Combat: His Power Waxes | The Initial Denethor stands in the besieged region: both armies +1. |
+| `kings-event-work-of-the-enemy` | Shadow cards | Shadow | Work of the Enemy · Event | The Corrupted Théoden at Edoras with Rohan's army: hits on 4+, the other kings' regions 5+. |
+| `kings-combat-work-of-the-enemy` | Shadow cards | Shadow | Work of the Enemy · Combat: His Power Waxes | As the Palantír's combat. |
+| `kings-fp-awaken-ruler-die` | Sovereigns and corruption | Free Peoples | Awaken a sovereign with the Ruler die | Thranduil's Ruler die on an Event, Rohan at war, Théoden (two tiles) in Westemnet: he awakens with the Ruler die, travels home to Edoras and his tiles return. |
+| `kings-politics-cleanse` | Sovereigns and corruption | Free Peoples | Politics return a Corruption tile | Boromir with Denethor (two tiles): advancing Gondor offers a random tile back; Pass keeps them. |
+| `kings-corruption-three-tiles` | Sovereigns and corruption | Shadow | Corruption attempt: choose one of three tiles | Four Eyes: one paid, three tiles drawn, one kept face down. |
+| `kings-corruption-kings-tile` | Sovereigns and corruption | Shadow | Corruption attempt: the Kings tile | Only Kings tiles in the pool: the first ends the draw, face up, worth zero. |
+| `kings-corruption-reaches-resistance` | Sovereigns and corruption | Shadow | Corruption attempt: Brand is corrupted | Brand at 1 of 2, a counting pool: the tile drawn corrupts him (tiles revealed, the highest discarded, his marker at Dale). |
+| `kings-brand-call-to-arms` | Sovereign abilities | Free Peoples | Brand's Call to Arms | Ruler die on Muster, the North at war: three recruits in two settlements and his region. |
+| `kings-dain-iron-guard` | Sovereign abilities | Free Peoples | Dáin's Iron Guard | Ruler die on Muster, the Dwarves at war: an Elite in Erebor and a Regular in another settlement. |
+| `kings-sovereign-upgrades` | Sovereign abilities | Free Peoples | Dwarvenking, Stewardship and Elvenking | Three kings at home, their nations at war, Muster dice: each upgrades a Regular to an Elite. |
+| `kings-theoden-forth-eorlingas` | Sovereign abilities | Free Peoples | Théoden's Forth Eorlingas | The Awakened Théoden in the Fords battle: Leadership 3 in round 1, 1 after. |
+| `kings-far-sighted-hunt` | Sovereign abilities | Free Peoples | Thranduil's Far-sighted against the Hunt | Ruler die on a Character, three Hunt dice, Legolas outside the Fellowship: the move rolls two Hunt dice; companions go one region further. |
+| `kings-corrupted-recruitment` | Corrupted sovereigns | Free Peoples | Corrupted kings forbid recruits | All five Corrupted, every nation at war, Muster dice: the printed Leader and Elite bans by nation and region; Regulars still come. |
+| `kings-theoden-white-hand` | Corrupted sovereigns | Shadow | Théoden's Mark of the White Hand | Théoden Corrupted, Isengard holds Helm's Deep: an Isengard Stronghold where Isengard recruits. |
+| `kings-siege-lonely-mountain` | Corrupted sovereigns | Shadow | Dáin's Fate of the Lonely Mountain | Dáin Corrupted, Erebor besieged, a round without hits: a Sauron Regular is removed to go on, not the Elite downgraded. |
+| `kings-siege-white-tower` | Corrupted sovereigns | Shadow | Denethor's Fate of the White Tower | The same at Minas Tirith. |
+| `kings-siege-mirkwood` | Corrupted sovereigns | Shadow | Thranduil's Fate of Mirkwood | The same at the Woodland Realm. |
+| `kings-ruler-token-brand` | Ruler dice | Free Peoples | Brand's Ruler token: Call to Arms | Ruler die on an Event: the token turns it into Muster for Call to Arms in one command and is spent. |
+| `kings-ruler-token-dain` | Ruler dice | Free Peoples | Dáin's Ruler token: Iron Guard | The same for Iron Guard. |
+| `kings-ruler-token-theoden` | Ruler dice | Free Peoples | Théoden's Ruler token: Mustering of the Mark | The same for Mustering of the Mark. |
+| `kings-ruler-token-thranduil` | Ruler dice | Free Peoples | Thranduil's Ruler token: Far-sighted | Ruler die on Muster, three Hunt dice: the token makes it a Character for Far-sighted; the Hunt rolls two dice. |
+| `kings-ruler-token-or-ring` | Ruler dice | Free Peoples | A Ruler token or an Elven Ring | Denethor's token and the Elven Rings: a Ring used blocks the token this turn, the token used blocks the Rings. |
+| `kings-ruler-die-recovery` | Ruler dice | Free Peoples | The Ruler die leaves at the next Recover | The only Awakened king fell: his Ruler die still pays now; at the next Recover it is gone while the Serpent keeps the Shadow's. |
+| `kings-dismay-from-token` | Ruler dice | Free Peoples | Dismay from a spent Ruler token | Lords and Kings: Denethor's token spent for the Palantír of Anárion becomes the Shadow's Dismay token. |
+| `kings-ugluk-entry` | Dark Chieftains | Shadow | Uglúk beside the revealed Fellowship | Rohan not at war, the Fellowship revealed in Hollin: Uglúk enters in or next to its region. |
+| `kings-mirkwood-lord-of-the-bats` | Dark Chieftains | Shadow | The Shadow of Mirkwood's Lord of the Bats | The Shadow is Moving committed: his Leadership given up, +1 re-roll at 4 and the Free Peoples card cancelled at 0. |
+| `kings-brand-vs-swarm` | Dark Chieftains | Shadow | Brand against the Swarm: initiative 0 | Brand Awakened among the attackers: after Lord of the Bats, Heir of Bard is offered, but the defending Swarm cancels the Free Peoples card first. |
+| `kings-serpent-relentless-assault` | Dark Chieftains | Shadow | The Black Serpent's Red Wrath with Relentless Assault | Red Wrath takes a hit before the reveal and gives +2 with Relentless Assault printed. |
+| `kings-ugluk-i-command` | Dark Chieftains | Shadow | Uglúk's I Command | Return to Valinor committed: I Command gives both armies +1. |
+| `kings-ugluk-desperate-battle` | Dark Chieftains | Shadow | Uglúk's I Command with Desperate Battle | Desperate Battle printed: only the Shadow gains +1. |
+| `kings-ugluk-hunt` | Dark Chieftains | Free Peoples | Uglúk's We March Day and Night | Uglúk next to the Fellowship, a Nazgûl with it, three Hunt dice: each Hunt re-roll adds +1. |
+| `kings-council-chieftain-entry` | Dark Chieftains | Shadow | A Council token brings in a Chieftain | Lords with the Council: no Chieftain's condition holds, the Council token and a Muster die bring one in. |
+| `kings-variant-visible-corruption` | Variants | Shadow | Visible Corruption Tiles | Both sides see Dáin's tile values; the attempt places its tile face up. |
+| `kings-variant-sequential-corruption` | Variants | Shadow | Sequential Corruption Tile Draw | Four Eyes: tiles one at a time; stopping keeps the last. |
+| `kings-variant-removing-ruler-tokens` | Variants | Shadow | Removing Ruler Tokens | Lords and Kings: no tokens; the fallen Awakened Théoden gave the Shadow Dismay, spent on the Free Peoples' Ruler die. |
+
+### Kings coverage
+
+Every Kings card, ability and mechanic, the scenario that shows it and the condition met there (EXPANSIONS K01–K03, X01,
+X02; rules T28–T31). Existing scenarios are reused where they already show the effect whole.
+
+| Card, ability or mechanic | Scenario | Condition met |
+| --- | --- | --- |
+| House of the Stewards · event | `kings-card-recruit-or-cleanse` | Boromir in Minas Tirith, Denethor with a tile: recruit at Boromir or cleanse, then two Strategy cards. |
+| House of the Stewards · Brave Stand | `kings-combat-house-of-the-stewards` | Five participating Companions. |
+| Aid in Time of Need · event and The King's Banner | `kings-event-aid-in-time-of-need`, `kings-combat-aid-in-time-of-need` | Companions a move from Dáin and Théoden; an Awakened king and a Shadow re-roll. |
+| It Is Not So Dark Here · event | `kings-card-wisdom` | A nation to advance; Dáin and Denethor with tiles to inspect. |
+| It Is Not So Dark Here · Like a God of Old | `kings-combat-it-is-not-so-dark-here` | An Awakened king with Leadership. |
+| Wisdom of Elrond · event and Confusion | `kings-card-wisdom`, `kings-combat-wisdom-of-elrond` | Both branches; five Shadow dice. |
+| Riders of Théoden, King Brand's Men, Dáin Ironfoot's Guard, Thranduil's Archers · event | `kings-event-riders-of-theoden`, `kings-event-king-brands-men`, `kings-event-dain-ironfoots-guard`, `kings-event-thranduils-archers`; `kings-card-recruit-or-cleanse` | The king Corrupted (removal); otherwise each king with a tile and the recruits in the reserve. |
+| Daylight, Shield-Wall, Valour ×2 | `kings-combat-riders-of-theoden`, `kings-combat-king-brands-men`, `kings-combat-dain-ironfoots-guard`, `kings-combat-thranduils-archers` | Five Shadow dice; a Rohan Elite. |
+| Ever at Your Service · event and There Is Hope for Victory | `kings-event-ever-at-your-service`, `kings-combat-ever-at-your-service`; `kings-card-hope` | Dáin with tiles; an Initial king in the battle (at the choice, and after the reveal). |
+| Men of Little Villages · event and There Is Hope for Victory | `kings-event-men-of-little-villages`, `kings-combat-men-of-little-villages` | Four nations' free settlements; an Initial king in the battle. |
+| Your Welcome Is Doubtful · event and Servant of the Shadow | `kings-event-your-welcome-is-doubtful`, `kings-combat-your-welcome-is-doubtful` | An awakenable king of a nation not at war with a tile and a Companion; a Chieftain as Minion. |
+| The West Has Failed · event and The Battle Is Vain | `kings-event-the-west-has-failed`, `kings-combat-the-west-has-failed` | A Nazgûl beside Brand, three Eyes, no Free Peoples die; Nazgûl and Free Peoples Leadership. |
+| Return to Valinor · event and Deadly Strife | `kings-event-return-to-valinor`, `kings-combat-return-to-valinor` | Two Corrupted kings. |
+| Denethor's Folly · event and Devilry of Orthanc | `kings-event-denethors-folly`, `kings-combat-denethors-folly` | Denethor awakenable, Boromir with him, an attack on Minas Tirith; Isengard in a siege. |
+| Threats and Promises · event and Devilry of Orthanc | `kings-event-threats-and-promises`, `kings-combat-threats-and-promises` | An awakenable king, a corruption that succeeds; Isengard in a siege. |
+| Stormcrow · event and Great Host | `kings-event-stormcrow`, `kings-combat-stormcrow` | A Companion in a nation that can step back with an Initial king; ten against three. |
+| The King Is Revealed · event and Relentless Assault | `kings-event-the-king-is-revealed`, `kings-combat-the-king-is-revealed` | Denethor and Théoden Awakened, room in Minas Morgul. |
+| The Palantír of Barad-dûr · event and His Power Waxes | `kings-event-the-palantir-of-barad-dur`, `kings-card-palantir`; `kings-combat-the-palantir-of-barad-dur`, `kings-card-power-waxes` | A second Muster die, Will of the West and a Ring; an Initial king in the battle (and a Corrupted one). |
+| Work of the Enemy · event and His Power Waxes | `kings-event-work-of-the-enemy`, `kings-combat-work-of-the-enemy` | A Corrupted king with a Free Peoples army. |
+| Ruler die · entry and discard | `kings-ruler-discard` | Thranduil Awakened and the Serpent in play: both dice rolled on turn 2, the Shadow discards first. |
+| Ruler die · results | `kings-fp-ruler-ability`, `kings-sh-ruler-die` | Muster for Théoden's ability; any Shadow result but the Eye for a Chieftain. |
+| Ruler die · loss at Recover | `kings-ruler-die-recovery` | The last Awakened king fell this turn. |
+| Ruler tokens · each king | `kings-ruler-token-brand`, `kings-ruler-token-dain`, `kings-ruler-token-theoden`, `kings-ruler-token-thranduil`, `kings-fp-ruler-token` | The Ruler die on a face the ability cannot use; the nation at war; Hunt dice for Far-sighted. |
+| Ruler token and Elven Ring | `kings-ruler-token-or-ring` | Both available in one turn. |
+| Awakening | `kings-fp-awaken`, `kings-fp-awaken-ruler-die` | Muster with every nation at war (Dáin travels to Erebor, Brand chooses a city); the Ruler die, a journey home, tiles returned. |
+| Awakened abilities | `kings-brand-heir`, `kings-brand-call-to-arms`, `kings-sovereign-upgrades`, `kings-dain-iron-guard`, `kings-anarion`, `kings-theoden-forth-eorlingas`, `kings-far-sighted`, `kings-far-sighted-hunt` | Each with the die or battle it needs. |
+| Corruption attempt | `kings-sh-corruption`, `kings-corruption-three-tiles`, `kings-corruption-kings-tile`, `kings-corruption-reaches-resistance` | Two to four Eyes and unused Free Peoples dice. |
+| Corrupted weaknesses | `kings-corrupted-recruitment`, `kings-brand-shadows`, `kings-theoden-white-hand`, `kings-siege-lonely-mountain`, `kings-siege-white-tower`, `kings-siege-mirkwood` | The king Corrupted and the region or battle his weakness names. |
+| Cleansing | `kings-politics-cleanse`, `kings-card-wisdom`, `kings-card-recruit-or-cleanse`, `kings-event-ever-at-your-service`, `kings-fp-awaken-ruler-die` | A king with tiles and the Companion, card or awakening that returns them. |
+| Removal of a Corrupted king | `kings-fp-remove-corrupted`, the four national cards' event scenarios | Boromir with the Corrupted Denethor and a Character die; the Corrupted king of the card. |
+| Dark Chieftains · entry | `kings-sh-chieftain-entry`, `kings-sh-ruler-die`, `kings-ugluk-entry`, `kings-council-chieftain-entry` | Gondor at war; the Elves at war; a revealed Fellowship; a Council token. |
+| Dark Chieftains · substitutions and initiative | `kings-chieftain-substitution`, `kings-serpent-relentless-assault`, `kings-mirkwood-lord-of-the-bats`, `kings-ugluk-i-command`, `kings-ugluk-desperate-battle`, `kings-brand-vs-swarm` | The Chieftain in the battle and a committed card, before the reveal; Brand after it. |
+| Uglúk's Hunt bonus | `kings-ugluk-hunt` | Uglúk next to the Fellowship and a re-roll source. |
+| Dismay | `kings-dismay-from-token`, `kings-dismay`, `kings-variant-removing-ruler-tokens` | Lords and Kings: a token spent; an Awakened king fallen; a Ruler die to re-roll. |
+| Variants | `kings-variant-visible-corruption`, `kings-variant-sequential-corruption`, `kings-variant-removing-ruler-tokens` | Each in the configuration that enables it. |
+
+Not given a scenario, with the reason: a Chieftain never enables Gandalf the White and Muster's corrupted-king bans spare
+event recruitment (rules that only forbid; `KingsChieftainEntryTests`, `KingsWeaknessTests`); the Lords + Kings
+exceptions of X01 — Sméagol tiles redrawn in a corruption draw, the Captain of Despair's dice paying no attempt, Keeper
+and Lesser Eyes, Companions without a nation icon unable to cleanse or remove (`KingsLordsIntegrationTests`,
+`KingsCouncilIntegrationTests`); the two cards left out with Fate of Erebor (`KingsCardCatalogTests`); and an Awakened
+king falling during play, which no scenario can make certain — `kings-dismay` starts just after Théoden fell.
 
 <a id="dodawanie-scenariusza"></a>
 ## Adding a scenario

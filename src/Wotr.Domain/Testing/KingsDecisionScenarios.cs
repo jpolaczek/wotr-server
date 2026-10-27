@@ -37,10 +37,11 @@ public static class KingsDecisionScenarios
             "The North's army attacks the Black Serpent's Sauron regulars beside Dale; before the reveal the Shadow's gilt " +
             "chip with the Southrons' arms beside its Combat card substitutes Red Wrath, Pass keeps the card's effects.",
             Side.Shadow, Chieftain) { Modules = [ExpansionModules.Kings] },
+        // TEST-13: Kings is named first, so the client shows Dismay in the Kings tab.
         new("kings-dismay", Group, "Dismay",
             "Turn 2 after the roll: Théoden fell as an Awakened king, so the Shadow holds his Dismay token; a click on the " +
             "Free Peoples' glowing Ruler die spends it and re-rolls the die, Pass keeps the token.",
-            Side.Shadow, Dismay) { Modules = [ExpansionModules.Lords, ExpansionModules.Kings] },
+            Side.Shadow, Dismay) { Modules = [ExpansionModules.Kings, ExpansionModules.Lords] },
         new("kings-far-sighted", Group, "Far-sighted",
             "Thranduil is Awakened in the Woodland Realm and the Free Peoples' Ruler die shows a Character: with it selected, " +
             "Thranduil's glowing picture moves the Fellowship or companions with Far-sighted; the usual move needs no click.",
@@ -49,10 +50,13 @@ public static class KingsDecisionScenarios
 
     // Turn 2's roll after Théoden fell as an Awakened king: the Shadow holds his Dismay token, and Thranduil's Awakening
     // keeps the Free Peoples' Ruler die in their pool.
-    public static MatchState Dismay(string id, IRandomSource random)
+    // Dismay needs Lords as well as Kings (rules X02, KINGS pp. 17-18).
+    public static MatchState Dismay(string id, IRandomSource random) => Dismay(id, random, new() { Lords = true, Kings = true });
+
+    // TEST-13: the same turn in a configuration with a Dismay variant (Removing Ruler Tokens, KingsVariantScenarios).
+    public static MatchState Dismay(string id, IRandomSource random, MatchConfiguration configuration)
     {
-        // Dismay needs Lords as well as Kings (rules X02, KINGS pp. 17-18).
-        var state = Actions(id, random, new() { Lords = true, Kings = true });
+        var state = Actions(id, random, configuration);
         // Thranduil, still Awakened, keeps the Free Peoples' Ruler die in play.
         SovereignLifecycle.Awaken(state, Sovereign(state, SovereignCatalog.Thranduil), "woodland-realm");
         SovereignLifecycle.Awaken(state, Sovereign(state, SovereignCatalog.Theoden), "edoras");
