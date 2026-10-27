@@ -82,8 +82,8 @@ public static class LordsCharacterScenarios
             "in his region) or Will of the West deactivates him, which outside Moria eliminates him.",
             Side.FreePeoples, BalrogDeactivate)),
         Lords(new("lords-dice-removed-at-recovery", DiceGroup, "Remove symbol: a Keeper die leaves at Recovery",
-            "Gandalf the White is in play and the Free Peoples kept Vilya's Eye with the Remove symbol, which went to the Hunt. Use " +
-            "the last die: at the next Recovery the Vilya die leaves the game for good.",
+            "Gandalf the White is in play and the Free Peoples kept the Vilya die's Eye with the Remove symbol, which went to the " +
+            "Hunt Box. Use the last die: at the next Recovery the Vilya die leaves the game for good.",
             Side.FreePeoples, RemovedAtRecovery))
     ];
 

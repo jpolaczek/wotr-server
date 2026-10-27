@@ -296,14 +296,14 @@
         {
           "id": "vilya",
           "title": "Vilya",
-          "text": "After a paid action fully resolves, you may give the Vilya Ring to the Shadow to keep the just-used Action die and its result available. You cannot keep a Will of the West result. A die used to move the Fellowship does not enter the Hunt box when kept this way. Elrond must still be in play.",
+          "text": "After you finish an action, you may give Vilya to the Shadow to keep the Action die you used available (not a Will of the West). A kept Fellowship movement die does not go to the Hunt Box.",
           "source": "LORDS · LM 1/10; pp. 16–17",
           "sourceDocument": "LORDS · LM 1/10; pp. 16–17; T25; T24"
         },
         {
           "id": "household-of-elrond",
           "title": "Household of Elrond",
-          "text": "Elven Elites in Elrond’s region also count as Leaders for all combat purposes. This does not grant Leadership for movement; an Elite downgraded to a Regular immediately loses the benefit.",
+          "text": "Each Elven Elite in Elrond’s region also counts as a Leader for all combat purposes, but not for movement.",
           "source": "LORDS · LM 1/10; pp. 16–17",
           "sourceDocument": "LORDS · LM 1/10; pp. 16–17; T25"
         },
@@ -330,14 +330,14 @@
         {
           "id": "nenya",
           "title": "Nenya",
-          "text": "Immediately after drawing a standard Eye Hunt tile, you may give the Nenya Ring to the Shadow to cancel the tile, remove it for the rest of the game and draw a replacement. This does not cancel a numbered tile or a special Eye tile.",
+          "text": "When a standard Eye Hunt tile is drawn, you may give Nenya to the Shadow to cancel it and draw another tile. The cancelled Eye is removed from the game.",
           "source": "LORDS · LM 2/10; pp. 18–19",
           "sourceDocument": "LORDS · LM 2/10; pp. 18–19; T25; T24"
         },
         {
           "id": "valour-of-the-elven-people",
           "title": "Valour of the Elven People",
-          "text": "You may recruit in Lórien while it is under siege. The usual recruitment costs, political requirements, reserves and stacking limits still apply; this does not allow recruitment after the Shadow conquers Lórien.",
+          "text": "You may recruit in Lórien even while it is under siege.",
           "source": "LORDS · LM 2/10; pp. 18–19",
           "sourceDocument": "LORDS · LM 2/10; pp. 18–19; T25"
         },
@@ -364,21 +364,21 @@
         {
           "id": "narya",
           "title": "Narya",
-          "text": "While Gandalf is outside the Fellowship in an unconquered Free Peoples Settlement, give the Narya Ring to the Shadow and spend any available Action die to activate that Settlement’s Nation and move its Political counter directly to At War.",
+          "text": "While Gandalf is outside the Fellowship in an unconquered Free Peoples Settlement, give Narya to the Shadow and spend any Action die to activate that Settlement’s Nation and move it straight to At War.",
           "source": "LORDS · LM 3/10; pp. 19–20",
           "sourceDocument": "LORDS · LM 3/10; pp. 19–20; T25; T24"
         },
         {
           "id": "guide-conditional-narya-die",
           "title": "Guide · Narya die",
-          "text": "Add the Narya die at Recover only if Gandalf is Guide and at least one Free Peoples movement die is recovered from the Hunt box. A Keeper Eye alone does not qualify. If he starts the game as Guide, add Narya in turn 1; choosing him later in the Fellowship phase does not add it that turn.",
+          "text": "At Recover, if Gandalf is Guide and you recover a Fellowship movement die from the Hunt Box, add the Narya die to your Action dice. If he is the starting Guide, add it in turn 1.",
           "source": "LORDS · LM 3/10; pp. 19–20",
           "sourceDocument": "LORDS · LM 3/10; pp. 19–20; T25; T24"
         },
         {
           "id": "may-transform-to-white",
           "title": "Emissary from the West",
-          "text": "Outside the Fellowship, or after being eliminated, Gandalf the Grey may become Gandalf the White by spending a Will of the West die once a Minion other than the Balrog, Gothmog, the Witch-king — Chief of the Ringwraiths, or any Dark Chieftain has entered play. Replace a surviving Grey in his region; otherwise enter in Fangorn or an unconquered Elven Stronghold, even under siege.",
+          "text": "While Gandalf is outside the Fellowship or eliminated, you may spend a Will of the West die to replace him with Gandalf the White once a Minion has entered play. The Balrog, Gothmog, the Chief of the Ringwraiths and Dark Chieftains do not count.",
           "source": "LORDS · LM 3/10; pp. 19–20; LORDS p. 6; KINGS p. 14",
           "sourceDocument": "LORDS · LM 3/10; pp. 19–20; T25; LORDS p. 6; T25"
         }
@@ -391,21 +391,21 @@
         {
           "id": "always-guide",
           "title": "Guide",
-          "text": "The first Sméagol tile adds Sméagol as the mandatory Guide if Gollum has never entered play and Sméagol has not previously been removed. That tile, and later Sméagol tiles drawn while he is present, cause no damage and are permanently removed. This effect occurs before Mithril Coat and Sting can cancel the tile.",
+          "text": "When a Sméagol tile is drawn, Hunt damage is 0 and the tile leaves the game; the first one brings Sméagol in as the Guide. Mithril Coat and Sting cannot stop this. If Gollum entered first, discard the tile and draw another.",
           "source": "LORDS · LM 4/10; pp. 21–22",
           "sourceDocument": "LORDS · LM 4/10; pp. 21–22; T25"
         },
         {
           "id": "level-of-highest-other-companion",
           "title": "Level X",
-          "text": "Sméagol’s level equals the highest level of another Companion in the Fellowship. He counts as a Companion for Hunt allocation and may be chosen as a Hunt casualty. He never becomes an army character, has no Leadership and does not count as Gollum for card effects.",
+          "text": "Sméagol’s level equals the highest level among the other Companions in the Fellowship. He counts as a Companion for the Hunt Box dice limit and may be taken as a Hunt casualty, but is not Gollum for card effects.",
           "source": "LORDS · LM 4/10; pp. 21–22",
           "sourceDocument": "LORDS · LM 4/10; pp. 21–22; T25"
         },
         {
           "id": "smeagol-departure",
           "title": "Departure",
-          "text": "Remove Sméagol if he separates, is eliminated, or the Fellowship declares in an unconquered Free Peoples City or Stronghold. Place We Shall Get It on the table; if he becomes the only Companion, he instead leaves immediately and is replaced by Gollum without placing the event. Forced Reveal alone does not trigger departure. Sméagol cannot return; discard and redraw any later Sméagol tile.",
+          "text": "Sméagol leaves if he separates, is eliminated or the Fellowship is declared in an unconquered Free Peoples City or Stronghold; We Shall Get It then enters play. If he is ever the only Companion, Gollum replaces him instead. Later Sméagol tiles are discarded and another tile is drawn.",
           "source": "LORDS · LM 4/10; pp. 21–22; LORDS FAQ 1.2 p. 3",
           "sourceDocument": "LORDS · LM 4/10; pp. 21–22; T25; LORDS FAQ 1.2 p. 3"
         }
@@ -418,7 +418,7 @@
         {
           "id": "fire-and-shadow",
           "title": "Fire and Shadow",
-          "text": "After the Fellowship declares or reveals along a route entering, leaving, passing through or remaining in the Balrog’s region, draw an additional Hunt tile before any Stronghold Hunt tile and ignore its Reveal effect. An Eye eliminates the Balrog and the Guide; if Gollum is Guide, discard that Eye instead and eliminate neither.",
+          "text": "When the Fellowship is declared or revealed and moves into, out of or through the Balrog’s region, or stays in it, draw an additional Hunt tile, ignoring Reveal. An Eye eliminates the Balrog and the Guide (with Gollum as Guide, the Eye is discarded instead).",
           "source": "LORDS · LM 1/5; pp. 23–25",
           "sourceDocument": "LORDS · LM 1/5; pp. 23–25; T25"
         },
@@ -432,14 +432,14 @@
         {
           "id": "balrog-activation",
           "title": "Activation",
-          "text": "A Use Balrog result or A Balrog is Come! activates him, raising his level from 0 to 2 without moving him. When already active, Use Balrog permits one army move, one army attack or movement of the Balrog alone. Free Peoples may deactivate him with Will of the West, or with Character if Gandalf is in his region: in Moria he becomes inactive; elsewhere he is eliminated.",
+          "text": "A Use Balrog result or A Balrog is Come! activates the Balrog (level 2); after that, each Use Balrog result moves or attacks with his army, or moves him alone. The Free Peoples may deactivate him with a Will of the West, or a Character die if Gandalf is in his region; outside Moria he is eliminated.",
           "source": "LORDS · LM 1/5; pp. 23–25",
           "sourceDocument": "LORDS · LM 1/5; pp. 23–25; T25"
         },
         {
           "id": "not-minion-for-gandalf-white",
           "title": "Gandalf the White entry",
-          "text": "This character does not count as a Minion for the condition that allows Gandalf the White to enter play.",
+          "text": "The Balrog does not count as a Minion for bringing Gandalf the White into play.",
           "source": "LORDS · LM 1/5; pp. 23–25",
           "sourceDocument": "LORDS · LM 1/5; pp. 23–25; T25"
         }
@@ -452,14 +452,14 @@
         {
           "id": "fling-them-into-the-fray",
           "title": "Fling Them into the Fray",
-          "text": "While Gothmog is with a Shadow army in a free region, spend a Muster die to recruit one Sauron Regular or replace one Sauron Regular there with an Elite, using available reserves. The region may contain a Stronghold besieged by his army, but Gothmog cannot use this ability while his own army is under siege.",
+          "text": "While Gothmog is with a Shadow army in a free region, spend a Muster die to recruit one Sauron Regular there or replace one Sauron Regular there with an Elite. A region where his army besieges a Stronghold counts as free.",
           "source": "LORDS · LM 2/5; pp. 25–26",
           "sourceDocument": "LORDS · LM 2/5; pp. 25–26; T25"
         },
         {
           "id": "not-minion-for-gandalf-white",
           "title": "Gandalf the White entry",
-          "text": "This character does not count as a Minion for the condition that allows Gandalf the White to enter play.",
+          "text": "Gothmog does not count as a Minion for bringing Gandalf the White into play.",
           "source": "LORDS · LM 2/5; pp. 25–26",
           "sourceDocument": "LORDS · LM 2/5; pp. 25–26; T25"
         }
@@ -472,14 +472,14 @@
         {
           "id": "evil-knowledge",
           "title": "Evil Knowledge",
-          "text": "When the Mouth is with a besieging army, you may extend a siege assault by one round without reducing an Elite to a Regular. Use this at most once during the entire action; further rounds require the normal cost.",
+          "text": "While the Mouth of Sauron is with a besieging army, you may continue the siege battle for one more round without downgrading an Elite. Once per action.",
           "source": "LORDS · LM 3/5; pp. 27",
           "sourceDocument": "LORDS · LM 3/5; pp. 27; T25"
         },
         {
           "id": "great-sorcery",
           "title": "Great Sorcery",
-          "text": "Once per turn, while the Mouth is with a Shadow army, you may use a Muster die as a Character die to move or attack with that specific army. It cannot pay for an Event card or an action by another army.",
+          "text": "Once per turn, while the Mouth of Sauron is with a Shadow army, you may use a Muster die as a Character die to move or attack with that army.",
           "source": "LORDS · LM 3/5; pp. 27",
           "sourceDocument": "LORDS · LM 3/5; pp. 27; T25"
         }
@@ -492,21 +492,21 @@
         {
           "id": "spear-of-terror",
           "title": "Spear of Terror",
-          "text": "When the Witch-king is in the Fellowship’s region and you play a Shadow Character Event, you may immediately draw a Character Event card, before resolving the played event. With The Palantír of Orthanc, draw at most one card in total; declining this immediate draw leaves the Palantír’s later draw available.",
+          "text": "When you play a Character Event card while the Witch-king is in the Fellowship’s region, you may immediately draw a Character Event card. With The Palantír of Orthanc in play, draw only one card in total.",
           "source": "LORDS · LM 4/5; pp. 28–29",
           "sourceDocument": "LORDS · LM 4/5; pp. 28–29; T25"
         },
         {
           "id": "he-sees-he-knows",
           "title": "He Sees, He Knows",
-          "text": "After the Fellowship declares in a region without an unconquered Free Peoples Stronghold, you may immediately move the Witch-king to that region without spending an action. A forced Reveal does not trigger this ability.",
+          "text": "When the Fellowship is declared in a region without an unconquered Free Peoples Stronghold, you may move the Witch-king there at once, without spending an action.",
           "source": "LORDS · LM 4/5; pp. 28–29",
           "sourceDocument": "LORDS · LM 4/5; pp. 28–29; T25"
         },
         {
           "id": "not-minion-for-gandalf-white",
           "title": "Gandalf the White entry",
-          "text": "This character does not count as a Minion for the condition that allows Gandalf the White to enter play.",
+          "text": "The Chief of the Ringwraiths does not count as a Minion for bringing Gandalf the White into play.",
           "source": "LORDS · LM 4/5; pp. 28–29",
           "sourceDocument": "LORDS · LM 4/5; pp. 28–29; T25"
         }
@@ -519,28 +519,28 @@
         {
           "id": "guide-separate-to-reduce-hunt-one",
           "title": "Guide",
-          "text": "During a Hunt, you may separate this Guide to reduce the damage by 1, to a minimum of 0; you may do so even when no damage remains. Companions separated from the same Hunt tile travel as one group before the Fellowship is revealed. This cannot reduce damage that must be taken entirely as Corruption.",
+          "text": "While Boromir is Guide, you may separate him during a Hunt to reduce the Hunt damage by 1 (to a minimum of 0). Companions separated against the same tile move together as one group.",
           "source": "LORDS · LM 5/10; pp. 30–31; LORDS FAQ 1.2 p. 3",
           "sourceDocument": "LORDS · LM 5/10; pp. 30–31; T26; LORDS FAQ 1.2 p. 3"
         },
         {
           "id": "champion-gondor",
           "title": "Champion",
-          "text": "While participating in a battle whose defending army is in a Gondor region or Osgiliath, add 1 to the Combat Strength of the Free Peoples army, up to the limit of 5 Combat dice.",
+          "text": "When Boromir takes part in a battle where the defending army is in a Gondor region or Osgiliath, add 1 to the Free Peoples army’s Combat Strength (still at most 5 Combat dice).",
           "source": "LORDS · LM 5/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 5/10; pp. 30–31; T26"
         },
         {
           "id": "messenger-gondor",
           "title": "Messenger",
-          "text": "Spend any available Action die while Boromir is in a Gondor City or Stronghold to activate Gondor and advance its Political counter one step toward At War. The Settlement need not be unconquered.",
+          "text": "While Boromir is in a Gondor City or Stronghold, you may spend any Action die to activate Gondor and move it one step toward war.",
           "source": "LORDS · LM 5/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 5/10; pp. 30–31; T26"
         },
         {
           "id": "movement-level-two",
           "title": "Movement level",
-          "text": "Treat this Companion as level 2 for movement only. The printed level of 1 still applies to Hunt damage and other effects, including Combat cards.",
+          "text": "Boromir moves as level 2; for everything else, including Hunt damage and Combat cards, his level is 1.",
           "source": "LORDS · LM 5/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 5/10; pp. 30–31; T26"
         }
@@ -553,28 +553,28 @@
         {
           "id": "guide-separate-to-reduce-hunt-one",
           "title": "Guide",
-          "text": "During a Hunt, you may separate this Guide to reduce the damage by 1, to a minimum of 0; you may do so even when no damage remains. Companions separated from the same Hunt tile travel as one group before the Fellowship is revealed. This cannot reduce damage that must be taken entirely as Corruption.",
+          "text": "While Gimli is Guide, you may separate him during a Hunt to reduce the Hunt damage by 1 (to a minimum of 0). Companions separated against the same tile move together as one group.",
           "source": "LORDS · LM 6/10; pp. 30–31; LORDS FAQ 1.2 p. 3",
           "sourceDocument": "LORDS · LM 6/10; pp. 30–31; T26; LORDS FAQ 1.2 p. 3"
         },
         {
           "id": "champion-dwarves",
           "title": "Champion",
-          "text": "While participating in a battle whose defending army is in a Dwarven region, add 1 to the Combat Strength of the Free Peoples army, up to the limit of 5 Combat dice.",
+          "text": "When Gimli takes part in a battle where the defending army is in a Dwarven region, add 1 to the Free Peoples army’s Combat Strength (still at most 5 Combat dice).",
           "source": "LORDS · LM 6/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 6/10; pp. 30–31; T26"
         },
         {
           "id": "messenger-dwarves",
           "title": "Messenger",
-          "text": "Spend any available Action die while Gimli is in Erebor to activate the Dwarves and advance their Political counter one step toward At War. Erebor need not be unconquered.",
+          "text": "While Gimli is in Erebor, you may spend any Action die to activate the Dwarves and move them one step toward war.",
           "source": "LORDS · LM 6/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 6/10; pp. 30–31; T26"
         },
         {
           "id": "movement-level-two",
           "title": "Movement level",
-          "text": "Treat this Companion as level 2 for movement only. The printed level of 1 still applies to Hunt damage and other effects, including Combat cards.",
+          "text": "Gimli moves as level 2; for everything else, including Hunt damage and Combat cards, his level is 1.",
           "source": "LORDS · LM 6/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 6/10; pp. 30–31; T26"
         }
@@ -587,28 +587,28 @@
         {
           "id": "guide-separate-to-reduce-hunt-one",
           "title": "Guide",
-          "text": "During a Hunt, you may separate this Guide to reduce the damage by 1, to a minimum of 0; you may do so even when no damage remains. Companions separated from the same Hunt tile travel as one group before the Fellowship is revealed. This cannot reduce damage that must be taken entirely as Corruption.",
+          "text": "While Legolas is Guide, you may separate him during a Hunt to reduce the Hunt damage by 1 (to a minimum of 0). Companions separated against the same tile move together as one group.",
           "source": "LORDS · LM 7/10; pp. 30–31; LORDS FAQ 1.2 p. 3",
           "sourceDocument": "LORDS · LM 7/10; pp. 30–31; T26; LORDS FAQ 1.2 p. 3"
         },
         {
           "id": "champion-elves",
           "title": "Champion",
-          "text": "While participating in a battle whose defending army is in an Elven region, add 1 to the Combat Strength of the Free Peoples army, up to the limit of 5 Combat dice.",
+          "text": "When Legolas takes part in a battle where the defending army is in an Elven region, add 1 to the Free Peoples army’s Combat Strength (still at most 5 Combat dice).",
           "source": "LORDS · LM 7/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 7/10; pp. 30–31; T26"
         },
         {
           "id": "prince-of-mirkwood",
           "title": "Prince of Mirkwood",
-          "text": "Spend any available Action die while Legolas is in an Elven Stronghold to advance the Elves Political counter one step toward At War. The Stronghold need not be unconquered. This ability does not itself activate the Elves; normal activation from his Elven Nation icon applies separately.",
+          "text": "While Legolas is in an Elven Stronghold, you may spend any Action die to move the Elves one step toward war.",
           "source": "LORDS · LM 7/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 7/10; pp. 30–31; T26"
         },
         {
           "id": "movement-level-two",
           "title": "Movement level",
-          "text": "Treat this Companion as level 2 for movement only. The printed level of 1 still applies to Hunt damage and other effects, including Combat cards.",
+          "text": "Legolas moves as level 2; for everything else, including Hunt damage and Combat cards, his level is 1.",
           "source": "LORDS · LM 7/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 7/10; pp. 30–31; T26"
         }
@@ -621,28 +621,28 @@
         {
           "id": "guide-cancel-standard-hunt",
           "title": "Guide",
-          "text": "While this Hobbit is Guide, and both Merry and Pippin are in the Fellowship as Hobbits of the Shire, you may eliminate both to cancel a standard Hunt tile, including its Eye or Reveal effect. This cannot cancel a special tile; Art of Disappearing does not apply to this elimination.",
+          "text": "While Merry is Guide and Pippin is also in the Fellowship, both as Hobbits of the Shire, you may eliminate both to cancel a standard Hunt tile.",
           "source": "LORDS · LM 8/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 8/10; pp. 30–31; T26"
         },
         {
           "id": "champion-north",
           "title": "Champion of the Shire",
-          "text": "While participating in a battle whose defending army is in a North region, add 1 to the Combat Strength of the Free Peoples army, up to the limit of 5 Combat dice.",
+          "text": "When Merry takes part in a battle where the defending army is in a North region, add 1 to the Free Peoples army’s Combat Strength (still at most 5 Combat dice).",
           "source": "LORDS · LM 8/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 8/10; pp. 30–31; T26"
         },
         {
           "id": "art-of-disappearing",
           "title": "Art of Disappearing",
-          "text": "After being eliminated in a battle, this Hobbit immediately returns to a region adjacent to the region of his army. Follow normal Companion movement restrictions: do not cross an impassable border or enter a besieged Stronghold. Choose each returning Hobbit’s destination separately.",
+          "text": "When Merry is eliminated in a battle, return him at once to a region adjacent to his army’s region (not across an impassable border or into a besieged Stronghold).",
           "source": "LORDS · LM 8/10; pp. 30–31; LORDS FAQ 1.2 p. 3",
           "sourceDocument": "LORDS · LM 8/10; pp. 30–31; T26; LORDS FAQ 1.2 p. 3"
         },
         {
           "id": "messenger-north",
           "title": "Messenger of Elrond",
-          "text": "Spend any available Action die while this Hobbit is in a North City to activate the North and advance its Political counter one step toward At War. This ability does not require the City to be unconquered.",
+          "text": "While Merry is in a North City, you may spend any Action die to activate the North and move it one step toward war.",
           "source": "LORDS · LM 8/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 8/10; pp. 30–31; T26"
         }
@@ -655,28 +655,28 @@
         {
           "id": "guide-cancel-standard-hunt",
           "title": "Guide",
-          "text": "While this Hobbit is Guide, and both Merry and Pippin are in the Fellowship as Hobbits of the Shire, you may eliminate both to cancel a standard Hunt tile, including its Eye or Reveal effect. This cannot cancel a special tile; Art of Disappearing does not apply to this elimination.",
+          "text": "While Pippin is Guide and Merry is also in the Fellowship, both as Hobbits of the Shire, you may eliminate both to cancel a standard Hunt tile.",
           "source": "LORDS · LM 9/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 9/10; pp. 30–31; T26"
         },
         {
           "id": "champion-north",
           "title": "Champion of the Shire",
-          "text": "While participating in a battle whose defending army is in a North region, add 1 to the Combat Strength of the Free Peoples army, up to the limit of 5 Combat dice.",
+          "text": "When Pippin takes part in a battle where the defending army is in a North region, add 1 to the Free Peoples army’s Combat Strength (still at most 5 Combat dice).",
           "source": "LORDS · LM 9/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 9/10; pp. 30–31; T26"
         },
         {
           "id": "art-of-disappearing",
           "title": "Art of Disappearing",
-          "text": "After being eliminated in a battle, this Hobbit immediately returns to a region adjacent to the region of his army. Follow normal Companion movement restrictions: do not cross an impassable border or enter a besieged Stronghold. Choose each returning Hobbit’s destination separately.",
+          "text": "When Pippin is eliminated in a battle, return him at once to a region adjacent to his army’s region (not across an impassable border or into a besieged Stronghold).",
           "source": "LORDS · LM 9/10; pp. 30–31; LORDS FAQ 1.2 p. 3",
           "sourceDocument": "LORDS · LM 9/10; pp. 30–31; T26; LORDS FAQ 1.2 p. 3"
         },
         {
           "id": "messenger-north",
           "title": "Messenger of Elrond",
-          "text": "Spend any available Action die while this Hobbit is in a North City to activate the North and advance its Political counter one step toward At War. This ability does not require the City to be unconquered.",
+          "text": "While Pippin is in a North City, you may spend any Action die to activate the North and move it one step toward war.",
           "source": "LORDS · LM 9/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 9/10; pp. 30–31; T26"
         }
@@ -689,21 +689,21 @@
         {
           "id": "guide-first-move-to-fellowship-box",
           "title": "Guide",
-          "text": "If Strider is Guide and the Fellowship’s progress is at least 1 when its first movement of the turn begins, place that movement die in the Fellowship box instead of the Hunt box. Resolve the Hunt normally. Recover the die next turn; it does not qualify as a die recovered from Hunt for Narya.",
+          "text": "While Strider is Guide, if the Fellowship’s Progress is at least 1 when it first moves in a turn, that move’s die goes to the Fellowship Box instead of the Hunt Box. The Hunt still happens.",
           "source": "LORDS · LM 10/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 10/10; pp. 30–31; T26"
         },
         {
           "id": "combat-strength-plus-one",
           "title": "Captain of the West",
-          "text": "While participating in a battle, add 1 to the Combat Strength of the Free Peoples army, up to the limit of 5 Combat dice.",
+          "text": "While Strider takes part in a battle, add 1 to the Free Peoples army’s Combat Strength (still at most 5 Combat dice).",
           "source": "LORDS · LM 10/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 10/10; pp. 30–31; T26"
         },
         {
           "id": "may-transform-to-aragorn",
           "title": "Heir to Isildur",
-          "text": "Outside the Fellowship, Strider may become Aragorn by spending a Will of the West die in unconquered Minas Tirith, Dol Amroth or Pelargir. Replace his card while keeping the same figure and location.",
+          "text": "While Strider is outside the Fellowship in unconquered Minas Tirith, Dol Amroth or Pelargir, you may spend a Will of the West die to replace him with Aragorn.",
           "source": "LORDS · LM 10/10; pp. 30–31",
           "sourceDocument": "LORDS · LM 10/10; pp. 30–31; T26"
         }

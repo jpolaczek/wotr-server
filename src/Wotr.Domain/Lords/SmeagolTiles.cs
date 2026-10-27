@@ -25,7 +25,7 @@ public static class SmeagolTiles
         if (!SmeagolRules.CanEnter(state))
         {
             tile.Location = "discard";
-            state.Events.Add(new() { Revision = state.Revision, Kind = "HuntTileIgnored", Text = $"{tile.Id}: Sméagol cannot return; draw another tile." });
+            state.Events.Add(new() { Revision = state.Revision, Kind = "HuntTileIgnored", Text = $"Sméagol cannot enter play, so {tile.Id} is discarded and another tile is drawn." });
             return false;
         }
         tile.Location = "removed";

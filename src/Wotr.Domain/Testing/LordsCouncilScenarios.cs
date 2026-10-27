@@ -48,24 +48,25 @@ public static class LordsCouncilScenarios
             "Shire: any die activates and advances Gondor, the Dwarves or the North, or advances the Elves.",
             Side.FreePeoples, Messengers)),
         Lords(new("lords-council-champion", Group, "Champion of Gondor: the alternative Boromir in battle",
-            "A Sauron army attacks Minas Tirith from Osgiliath, where the alternative Boromir started with the Gondor army: in " +
-            "Gondor's region he adds one to the Combat strength. Choose your Combat card, then see the Combat roll.",
+            "A Sauron army in Osgiliath attacks Minas Tirith, where the alternative Boromir started with the Gondor army: the " +
+            "defender is in a Gondor region, so his Champion ability adds 1 to the Combat Strength. Choose your Combat card, " +
+            "then see the Combat roll.",
             Side.FreePeoples, Champion)),
-        Lords(new("lords-council-guide-separate", Group, "Alternative Boromir, Gimli or Legolas as Guide: lessen the Hunt",
+        Lords(new("lords-council-guide-separate", Group, "Alternative Boromir, Gimli or Legolas as Guide: reduce Hunt damage",
             "Only the alternative Boromir, Gimli and Legolas walk with the Fellowship, Boromir guiding. Move it with the Character " +
-            "die into an almost certain Hunt of damage tiles: the Guide may separate to lessen the damage by one, each in turn.",
+            "die into an almost certain Hunt of damage tiles: the Guide may separate to reduce the damage by 1, each in turn.",
             Side.FreePeoples, GuideSeparate)),
         Lords(new("lords-council-hobbit-guide", Group, "Alternative Merry or Pippin as Guide: cancel a Hunt tile",
             "Only the alternative Merry and Pippin walk with the Fellowship, Merry guiding. Move it with the Character die into an " +
-            "almost certain Hunt of Eye and Reveal tiles: the hobbit Guide may leave to cancel the standard tile.",
+            "almost certain Hunt of Eye and Reveal tiles: the Hobbit Guide may eliminate both Hobbits to cancel the standard tile.",
             Side.FreePeoples, HobbitGuide)),
-        Lords(new("lords-council-art-of-disappearing", Group, "Art of Disappearing: the hobbits escape a lost battle",
+        Lords(new("lords-council-art-of-disappearing", Group, "Art of Disappearing: the Hobbits escape a lost battle",
             "The alternative Merry and Pippin started in the Shire beside its North Regular; a Sauron army attacked from the Old " +
-            "Forest and hit twice. Remove the Regular: the army is gone and each hobbit escapes to a region next to the Shire.",
+            "Forest and hit twice. Remove the Regular: the Hobbits fall with their army, and each returns to a region next to the Shire.",
             Side.FreePeoples, ArtOfDisappearing)),
         Lords(new("lords-council-strider-guide", Group, "Alternative Strider as Guide: the first move die stays out of the Hunt",
             "The alternative Strider guides the Fellowship, which moved last turn (Progress 1). Move it with the Character die: " +
-            "the Hunt still happens, but this turn's first move die goes to the Fellowship box, not the Hunt Box.",
+            "the Hunt still happens, but this turn's first move die goes to the Fellowship Box, not the Hunt Box.",
             Side.FreePeoples, StriderGuide)),
         Lords(new("lords-council-strider-aragorn", Group, "Alternative Strider becomes Aragorn",
             "Will of the West: the alternative Strider has left the Fellowship and stands in Minas Tirith, so Aragorn takes his figure.",

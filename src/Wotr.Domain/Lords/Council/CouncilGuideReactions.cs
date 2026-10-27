@@ -41,7 +41,7 @@ public sealed record CouncilHobbitCancelStep : EffectStep
         hunt.Reveal = false;
         hunt.Stop = false;
         hunt.Stage = HuntStage.Corruption;
-        context.Record("HuntTileCancelled", $"{hunt.TileId}: both Hobbits of the Shire were eliminated.");
+        context.Record("HuntTileCancelled", $"Both Hobbits of the Shire were eliminated to cancel {hunt.TileId}.");
         FellowshipFlow.CompositionChanged(state, FellowshipReturn.Parent);
     }
 }
@@ -64,7 +64,7 @@ public static class CouncilGuideReactions
     public static (string Title, string Detail)? Describe(EffectReaction reaction) => reaction.Condition switch
     {
         CouncilHobbitCondition => ("Cancel Hunt tile", "Eliminate both Hobbits of the Shire from the Fellowship to cancel this standard tile."),
-        CouncilSeparationCondition => ("Separate · Reduce damage", "Separate this Companion. Reduce damage by one, to a minimum of zero; all departures against this tile move together."),
+        CouncilSeparationCondition => ("Separate · Reduce damage", "Separate the Guide to reduce the Hunt damage by 1 (to a minimum of 0). Companions separated against this tile move together."),
         _ => null
     };
 }

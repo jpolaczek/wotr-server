@@ -63,7 +63,7 @@ public sealed record HobbitReturnStep : EffectChoiceStep
         Id = id,
         TargetId = id,
         Title = BoardRules.Regions[id].Name,
-        Detail = "Return this Hobbit to the adjacent region."
+        Detail = "Art of Disappearing: the Hobbit returns to this region."
     };
 
     public override void Choose(EffectContext context, string id)
@@ -71,7 +71,7 @@ public sealed record HobbitReturnStep : EffectChoiceStep
         var character = context.State.Characters.Single(c => c.Id == context.Execution.SourceId);
         character.Location = id;
         character.Garrison = false;
-        context.Record("HobbitReturned", $"{character.Id} returned in {id}.");
+        context.Record("HobbitReturned", $"Art of Disappearing: {character.Id} returned to {id}.");
     }
 
     public override void DescribePreview(MatchState state, EffectExecution execution, IReadOnlyList<string> ids, ActionPreview preview) =>

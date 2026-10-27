@@ -25,8 +25,9 @@ public static class LordsSmeagolScenarios
             "It enters the Shadow table.",
             Side.FreePeoples, Casualty)),
         Lords(new("lords-smeagol-departure", Group, "Sméagol leaves: We Shall Get It or Gollum",
-            "Sméagol guides the Fellowship in Hollin. Separate every Companion with him and We Shall Get It enters the Shadow " +
-            "table; separate every Companion but him and he leaves as the last one, Gollum guides, and the card stays out.",
+            "Sméagol guides the Fellowship in Hollin. Separate him with the other Companions and We Shall Get It enters the " +
+            "Shadow table; separate every Companion but him and, as the only Companion left, he is replaced by Gollum and the " +
+            "card stays out.",
             Side.FreePeoples, Departure)),
         Lords(new("lords-smeagol-declared", Group, "Sméagol leaves at a declaration in Lórien",
             "Turn 2's Fellowship phase: Sméagol guides the Fellowship a step on from Dimrill Dale. Declare it in Lórien, an " +

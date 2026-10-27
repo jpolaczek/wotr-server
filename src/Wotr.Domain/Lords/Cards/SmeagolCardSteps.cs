@@ -10,7 +10,7 @@ public sealed record AddSmeagolTilesStep : EffectStep
         var extra = SmeagolTiles.Definitions.Skip(2).Select(t => t.Id).ToHashSet();
         foreach (var tile in context.State.HuntTiles.Where(t => extra.Contains(t.Id) && t.Location == "set-aside"))
             tile.Location = "pool";
-        context.Record("SmeagolTilesAdded", "The additional Sméagol tiles entered the Hunt pool.");
+        context.Record("SmeagolTilesAdded", "The additional Sméagol tiles entered the Hunt Pool.");
     }
 }
 

@@ -24,7 +24,7 @@ internal static class HuntReactionDescriptions
         WeShallGetIt.Reaction => ("We Shall Get It",
             "Discard this card to draw a replacement Hunt tile before its effects resolve."),
         _ when reaction.RequiredTableCard == LordsShadowCards.Gates => ("The Gates are Closed",
-            "Discard this card for an additional Hunt tile; ignore Eye and Reveal."),
+            "Discard this card for an additional Hunt tile; an Eye has no effect and Reveal is ignored."),
         _ => null
     };
 }

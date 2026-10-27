@@ -29,7 +29,7 @@ public static class ChiefReactions
 
     public static (string Title, string Detail)? Describe(string id) => id switch
     {
-        Spear => ("Spear of Terror · Draw card", "Draw one Character card. This replaces any Palantír draw for the same Event."),
+        Spear => ("Spear of Terror · Draw card", "Draw one Character Event card. With The Palantír of Orthanc in play, it draws no second card for this Event."),
         Follow => ("He Sees, He Knows · Follow", "Move the Chief of the Ringwraiths to the declared Fellowship region. No die is spent."),
         _ => null
     };
@@ -39,7 +39,7 @@ public static class ChiefReactions
         if (id == Spear)
         {
             preview.HasUnknownResult = true;
-            preview.Summary = "Draw one Character card; no second draw from Palantír for this Event.";
+            preview.Summary = "Draw one Character Event card; The Palantír of Orthanc, if in play, draws no second card for this Event.";
         }
         if (id == Follow)
         {
@@ -67,7 +67,7 @@ public sealed record SpearOfTerrorStep : EffectStep
     {
         ChiefReactions.PlayedEvent(context.State)!.PalantirDrawPending = false;
         CardFlow.Draw(context.State, Side.Shadow, "character");
-        context.Record("CharacterAbilityUsed", "Spear of Terror: draw one Character card.");
+        context.Record("CharacterAbilityUsed", "Spear of Terror: the Shadow drew one Character Event card.");
         CardFlow.RequireDiscard(context.State, Side.Shadow, DiscardContinuation.ResumeEffect);
     }
 }
