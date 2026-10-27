@@ -3,7 +3,8 @@ using static Wotr.Domain.ExpansionBoard;
 
 namespace Wotr.Domain;
 
-// UI-348 (EXP-15 D7, D17; owner 2026-10-26): the Kings decisions of the owner's playtest the test menu lacked — Brand's
+// UI-348 and UI-276 (EXP-15 D7, D17-D20; owner 2026-10-26): the Kings decisions of the owner's playtest the test menu
+// lacked — Dismay after the roll, Far-sighted on Thranduil's picture, Brand's
 // Combat card replacement after the reveal (Heir of Bard with Brand Awakened in the North's army, Shadows in the North
 // for a Corrupted Brand) and the Palantír of Anárion's extra card, whose skip is the console's Pass. The client's network
 // tests start from the same builders.
@@ -30,8 +31,50 @@ public static class KingsDecisionScenarios
         new("kings-anarion", Group, "Palantír of Anárion",
             "Denethor, Lord Steward, stands in Minas Tirith and the Ruler die drew a card: click a deck for the extra " +
             "card, or Pass to finish the action without it.",
-            Side.FreePeoples, Anarion) { Modules = [ExpansionModules.Kings] }
+            Side.FreePeoples, Anarion) { Modules = [ExpansionModules.Kings] },
+        new("kings-dismay", Group, "Dismay",
+            "Turn 2 after the roll: Théoden fell as an Awakened king, so the Shadow holds his Dismay token; a click on the " +
+            "Free Peoples' glowing Ruler die spends it and re-rolls the die, Pass keeps the token.",
+            Side.Shadow, Dismay) { Modules = [ExpansionModules.Lords, ExpansionModules.Kings] },
+        new("kings-far-sighted", Group, "Far-sighted",
+            "Thranduil is Awakened in the Woodland Realm and the Free Peoples' Ruler die shows a Character: with it selected, " +
+            "Thranduil's glowing picture moves the Fellowship or companions with Far-sighted; the usual move needs no click.",
+            Side.FreePeoples, FarSighted) { Modules = [ExpansionModules.Kings] }
     ];
+
+    // Turn 2's roll after Théoden fell as an Awakened king: the Shadow holds his Dismay token, and Thranduil's Awakening
+    // keeps the Free Peoples' Ruler die in their pool.
+    public static MatchState Dismay(string id, IRandomSource random)
+    {
+        // Dismay needs Lords as well as Kings (rules X02, KINGS pp. 17-18).
+        var state = Actions(id, random, new() { Lords = true, Kings = true });
+        // Thranduil, still Awakened, keeps the Free Peoples' Ruler die in play.
+        SovereignLifecycle.Awaken(state, Sovereign(state, SovereignCatalog.Thranduil), "woodland-realm");
+        SovereignLifecycle.Awaken(state, Sovereign(state, SovereignCatalog.Theoden), "edoras");
+        CharacterLifecycle.Eliminate(state, state.Characters.Single(c => c.Id == SovereignCatalog.Theoden));
+        state.Turn++;
+        DiceRules.Recover(state);
+        TurnFlow.RollAndBeginActions(state, new SequenceRandom(new int[64]));
+        while (state.Pending?.Kind is DecisionKind.SpecialDieChoice or DecisionKind.RulerDiscard)
+        {
+            var special = state.Pending.Kind == DecisionKind.SpecialDieChoice;
+            var choices = special ? LordsDiceRoll.LegalChoices(state, state.Pending.Owner) : KingsDice.DiscardCandidates(state, state.Pending.Owner);
+            state = Execute(state, special ? CommandKind.ChooseSpecialDie : CommandKind.DiscardRulerDie, new() { DieId = choices[0] });
+        }
+        if (state.Pending?.Kind != DecisionKind.Dismay)
+            throw new InvalidOperationException("Dismay must wait for the Shadow after the roll.");
+        return state;
+    }
+
+    // The first action of turn 1 with Thranduil Awakened at home and the Ruler die showing a Character.
+    public static MatchState FarSighted(string id, IRandomSource random)
+    {
+        var state = Actions(id, random, Kings);
+        SovereignLifecycle.Awaken(state, Sovereign(state, SovereignCatalog.Thranduil), "woodland-realm");
+        var ruler = KingsDice.Ruler(state, Side.FreePeoples)!;
+        Show(state, ruler.Id, DieFace.Character);
+        return state;
+    }
 
     // The Free Peoples draw a card with their Ruler die (Event) while Denethor is in Minas Tirith: the Palantír of
     // Anárion offers either deck or no extra card.

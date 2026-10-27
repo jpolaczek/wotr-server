@@ -28,6 +28,26 @@ public class KingsDecisionScenarioTests
     }
 
     [Fact]
+    public void DismayWaitsForTheShadowAfterTheRollWithTheFreePeoplesRulerDie()
+    {
+        var state = TestScenarioCatalog.Find("kings-dismay")!.Create("ui276-kings-dismay");
+        Assert.Equal((DecisionKind.Dismay, Side.Shadow), (state.Pending!.Kind, state.Pending.Owner));
+        var dismay = Views.For(state, Side.Shadow).Options.Single(o => o.Kind == CommandKind.UseDismay);
+        Assert.NotEmpty(dismay.EligibleIds);
+        Assert.Contains(dismay.EligibleDice, id => state.Dice.Single(d => d.Id == id).Owner == Side.FreePeoples);
+        Assert.Contains(Views.For(state, Side.Shadow).Options, o => o.Kind == CommandKind.DeclineDismay && o.Enabled);
+    }
+
+    [Fact]
+    public void FarSightedIsOfferedWithTheRulerDie()
+    {
+        var state = TestScenarioCatalog.Find("kings-far-sighted")!.Create("ui276-kings-far-sighted");
+        Assert.Equal((DecisionKind.Action, Side.FreePeoples), (state.Pending!.Kind, state.Pending.Owner));
+        var options = Views.For(state, Side.FreePeoples).Options;
+        Assert.Contains(options, o => o.RulerTravel?.AbilityId == KingsFarSighted.Ability);
+    }
+
+    [Fact]
     public void ThePalantirOfAnarionOffersEitherDeckOrNoExtraCard()
     {
         var scenario = TestScenarioCatalog.Find("kings-anarion")!;
