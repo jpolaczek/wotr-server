@@ -100,6 +100,7 @@ module is the module its game uses.
 | `kings-card-wisdom` | Kings | Free Peoples | Wisdom of Elrond | UI-278 (D15): Wisdom of Elrond and It Is Not So Dark Here in the hand, Dáin and Denethor with tiles; a nation token activates and advances its nation, a king shows his tiles, Pass keeps them. |
 | `kings-card-recruit-or-cleanse` | Kings | Free Peoples | Recruit or remove corruption | UI-278 (D15): the Stewards, the Riders, Brand's Men, Dáin's Guard and Thranduil's Archers in the hand, every king with a tile; a Reserve figure of the king's nation recruits, the king cleanses. |
 | `kings-card-hope` | Kings | Free Peoples | There Is Hope for Victory | UI-278 (D16): Denethor and Théoden attack Osgiliath; after the reveal both glow in the battle window's army and the one clicked awakens. |
+| `kings-card-palantir` | Kings | Shadow | The Palantír of Barad-dûr | UI-278 (owner's decision 17): the card on the table, two Muster dice; the card's click, then a glowing Muster die, spends it as an Event die once this turn. |
 | `kings-card-power-waxes` | Kings | Shadow | His Power Waxes | UI-278 (D16): the Shadow attacks Edoras; Denethor glows in the defending army, the Corrupted Théoden on his portrait. |
 | `lords-evil-knowledge` | Lords | Shadow | Evil Knowledge | UI-347 (D12): the Lords Mouth of Sauron besieges Minas Tirith after a round without hits; his portrait extends the siege. |
 | `kings-fp-ruler-ability` | Kings | Free Peoples | Ruler die: Mustering of the Mark | The Ruler die (Muster): recruit with Théoden's ability. |

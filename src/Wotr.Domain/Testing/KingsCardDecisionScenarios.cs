@@ -6,7 +6,8 @@ namespace Wotr.Domain;
 
 // UI-278 (EXP-15 D15-D16; owner 2026-10-26): the Kings cards whose choices stand on their objects — Wisdom of Elrond and
 // It Is Not So Dark Here on the nation tokens and the kings, the five recruit-or-cleanse cards on the Reserve and the
-// king, and There Is Hope for Victory and His Power Waxes on a king who takes part in the battle. The client's network
+// king, and There Is Hope for Victory and His Power Waxes on a king who takes part in the battle; the Palantír of
+// Barad-dûr's Muster-as-Event starts at its card on the table (owner's decision 17, 2026-10-19). The client's network
 // tests start from the same builders.
 public static class KingsCardDecisionScenarios
 {
@@ -38,8 +39,20 @@ public static class KingsCardDecisionScenarios
         new("kings-card-power-waxes", Group, "His Power Waxes",
             "The Shadow attacks Edoras with the Palantír of Barad-dûr as its Combat card; Denethor defends Edoras, the " +
             "Corrupted Théoden's home. After the reveal Denethor glows in the battle window's army and Théoden on his portrait.",
-            Side.Shadow, PowerWaxes) { Modules = [ExpansionModules.Kings] }
+            Side.Shadow, PowerWaxes) { Modules = [ExpansionModules.Kings] },
+        new("kings-card-palantir", Group, "The Palantír of Barad-dûr",
+            "The Palantír of Barad-dûr stands on your table and two dice show Muster: click the card, then a glowing Muster " +
+            "die (or the die, then the card), to spend it as an Event die once this turn; a card in the hand or a deck then " +
+            "takes it.",
+            Side.Shadow, Palantir) { Modules = [ExpansionModules.Kings] }
     ];
+
+    // The Palantír of Barad-dûr on the Shadow's table, two Muster dice and an Event card in the hand.
+    public static MatchState Palantir(string id, IRandomSource random) => ScenarioBoard.Setup(id, random, Kings)
+        .Table(Side.Shadow, KingsCards03.Palantir)
+        .Dice(Side.Shadow, DieFace.Muster, DieFace.Muster, DieFace.Army)
+        .Hand(Side.Shadow, KingsCards03.Threats)
+        .Act(Side.Shadow);
 
     // Wisdom of Elrond and It Is Not So Dark Here in the hand, an Event and a Character die to play them.
     public static MatchState Wisdom(string id, IRandomSource random)
