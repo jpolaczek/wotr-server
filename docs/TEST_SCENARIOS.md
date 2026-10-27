@@ -116,8 +116,9 @@ module is the module its game uses.
 | `kings-fp-remove-corrupted` | Kings | Free Peoples | Remove a corrupted sovereign | Boromir in Minas Tirith removes the corrupted Denethor. |
 | `kings-sh-corruption` | Kings | Shadow | Attempt corruption | A corruption attempt instead of an action: two Eyes in the Hunt (KINGS pp. 10–13). |
 
-Not yet here: the Nenya reaction (swapping a drawn Eye in the Hunt) and Dismay; they are not die results. Scenarios
-per mechanic are added with the UI tasks of each module (UI-265–UI-278).
+The Nenya reaction and Dismay, which are not die results, have their own scenarios since TEST-12 and TEST-13
+(`lords-fp-nenya-ring`, `kings-dismay`, `kings-dismay-from-token`); every module's cards and mechanics are listed in its
+section below (Lords, Fate, Kings).
 
 ### Lords of Middle-earth — TEST-12 (2026-10-27)
 
@@ -375,107 +376,8 @@ Not shown by a scenario, with the reason:
   Muster reads them as before.
 
 
-<a id="tor-mordoru--test-06"></a>
-### Tor Mordor — TEST-06
-
-Fellowship stands hidden in Minas Morgul (Corruption   3 It's like she's finished wandering. command   `EnterMordor` Phase Fellowship, so the pool Hunt is prepared as in the game (BASE  s.  43,  T17 Step and Corruption the final scenario sets the builder upon entry; tiles Hunt They usually do.
-
-| Id | Start | Title in Game | What I'm testing |
-| --- | --- | --- | --- |
-| `fp-mordor-enter` | Free Peoples | Enter Mordor | Fellowship phase in Minas Morgul: track input (gate on map or panel button), camera with Free Peoples and track pulse with Shadow; then Hunt and a simple throw. |
-| `fp-mordor-track` | Free Peoples | Walk the Mordor Track | Step 0, three dice Character and Will of the West: attempts to move with the tile (Stop, Reveal, injury), hiding, Corruption behind turn without attempt. |
-| `fp-mordor-crack` | Free Peoples | One step from the Crack of Doom | Step 4, Corruption 6: step without Stop reaches the Doomsday Slit and destroys the Ring if Corruption stays below 12 (B20). |
-
-<a id="koniec-gry--test-07"></a>
-### Game over — TEST-07
-
-Four ways to complete the base game, each command (BASE p. 44, LOGIC B19, B20). Situations build real figure and real entrance to Mordor. The certainty of the result gives only the Hunt pool where the tiles remain guaranteeing the end; the rest waits in the rejected. Victory gives the usual rule: The Extinction Slit, Corruption 12 or the victory check at the end of turn. The end of the game screen in the client (UI-169) is proven on these scenarios.
-
-| Id | Start | Title in Game | What I'm testing |
-| --- | --- | --- | --- |
-| `fp-ring-destroyed` | Free Peoples | The Ring is destroyed | Step 4 track, Corruption 6, in the pool only the 0 tiles: move Fellowship dice Character comes to the rift and destroys the Ring. |
-| `sh-ring-corrupted` | Free Peoples | The Ring-bearers are corrupted | Step 1 track, Corruption 11, in the pool only the damage-taking tiles: movement Fellowship and the injuries accepted on the Ring give Corruption 12. |
-| `sh-military` | Shadow | Shadow military victory | Shadow holds Minas Tirith, Dol Amroth, Helm's Deep, Erebor and Lorien (10 PZ), has the last die turn; its use ends action and the victory check gives military victory. |
-| `fp-military` | Free Peoples | Free Peoples military victory | Free Peoples hold Orthanc and Dol Guldur (4 PZ), have the last die turn; its use ends action and gives military victory. |
-
-The `GameEndScenarioTests` tests check for each scenario with eight seeds of the server winner and reason after command and a view of both sides.
-
-The eye as a result of the throw also works in `fp-character-move-fellowship`: The eye lies in Hunt and strengthens the hunt after the Fellowship movement.
-
-<a id="card-scenarios--test-09"></a>
-## Card scenarios — TEST-09
-
-The catalog has two scenarios for every base-game card (96 cards, 192 scenarios), so each card can be tried in both of
-its uses without playing up to it. They are built from the card catalog (`CardScenarios`), not listed here one by one.
-
-- **Ids:** `card-<card id>-event` and `card-<card id>-combat`, e.g. `card-base.fp.character.01-event`.
-- **Groups and tabs:** `Free Peoples cards · Character`, `Free Peoples cards · Strategy`, `Shadow cards · Character`
-  and `Shadow cards · Strategy`, by the card's side and deck. The client shows the text before ` · ` as a tab
-  (Free Peoples cards, Shadow cards) beside the other scenarios.
-- **Titles:** `<card title> · Event` and `<card title> · Combat: <printed combat title>` (combat titles from
-  `content/base-card-text.json`, `CardTextCatalog.CombatTitle`). The description names what is prepared.
-- **Event scenario:** turn 1 of the standard setup with the card's owner to act, the card in hand, a die of the card's
-  event type and an Event die (the Free Peoples four results, the Shadow six and one die in the Hunt Box). Cards with a
-  condition get the board it needs, using the engine's own conditions (`FreePeoplesCardEvents`, `ShadowCardEvents`):
-  e.g. Gandalf the White and a Companion in Fangorn for The Ents Awake, Strider with the Minas Tirith army for
-  Challenge of the King, a Sauron army besieging Minas Tirith for Denethor's Folly, the Fellowship in Hollin for the
-  Hunt cards that need it outside a Free Peoples settlement, a nation at war or a Minion in play.
-- **Every clause can act (UI-300, owner's decision 2026-10-22):** a scenario is not complete while its card would do
-  nothing, so the board also lets the clauses the engine may skip act. Corruption to heal (Athelas with Strider as
-  Guide; There is Another Way and Bilbo's Song with Gollum as Guide after every Companion left; I Will Go Alone;
-  Mirror of Galadriel in unconquered Lórien with a second Character result). Companions outside the Fellowship within
-  a move of the clause's regions (Book of Mazarbul: Gimli in Dale and Legolas in the Woodland Realm; Fear! Fire!
-  Foes!: Strider in the Weather Hills and Merry in Buckland; Gwaihir and Swifter: Strider in Bree; There and Back
-  Again: Legolas in the Woodland Realm; Riders of Théoden: Gimli in Helm's Deep; Dead Men: Gimli beside Strider in
-  Edoras and a Southron army in Erech). A target (Faramir's Rangers: a Sauron army in North Ithilien). A Hunt Pool of
-  the 4 Eyes and 2 other tiles for Challenge of the King, so a draw shows Eyes. A second Character Event (Elven
-  Cloaks) for the Ents' free play. The Fellowship in Hollin, outside a Stronghold the Nazgûl may not enter, for
-  Nazgûl Search, Cruel Weather and The Nazgûl Strike, which also finds Mithril Coat and Sting on the table. Three
-  Nazgûl in Minas Morgul for Dreadful Spells, and two Free Peoples Will of the West results for The Day Without Dawn.
-- **A kept card meets its trigger (UI-300, follow-up the same day):** a card kept on the table or put into play acts
-  only later, so its scenario brings that moment within reach. Mithril Coat and Sting, Axe and Bow, Horn of Gondor and
-  Wizard's Staff: played with the Event die, the next move with the Character die meets a Hunt that almost surely
-  hits (`ScenarioBoard.HuntAhead`: five Shadow dice in the Hunt Box, two Free Peoples dice that already moved the
-  Fellowship this turn for +2, a pool of damage tiles only) and the Shadow has no die left, so the move follows at
-  once. Flocks of Crebain and Worn with Sorrow and Toil (Athelas in the Free Peoples hand) prepare the same Hunt for the
-  Free Peoples' move after a Switch side; Balrog of Moria stands the Fellowship in Hollin, next to Moria, with a pool
-  of Reveal tiles. The eight special Hunt tile cards start on step 0 of the Mordor Track with one other tile in the
-  pool, so the played tile is drawn within two steps (`ScenarioBoard.OnMordorTrack`). The Palantír of Orthanc finds
-  Orcs Multiplying Again in hand for the Event die, Wormtongue Wisdom of Elrond in the Free Peoples hand, A Power too
-  Great and The Power of Tom Bombadil a Sauron army at war next to the regions they protect; The Last Battle and
-  Threats and Promises say what to try after the play.
-- **Combat scenario:** a battle at the card owner's Combat card choice, started by the engine's own attack command
-  (`CardBattles`). Free Peoples cards: Isengard attacks the Rohan army at the Fords of Isen, a field battle in a Rohan
-  region where the Fellowship stands with Strider, Gandalf the Grey, Boromir and Merry (Leader, Elites, Companions and a
-  hobbit); the Shadow plays no card, so the defender chooses. Shadow cards: a Sauron, Isengard and Southron army with
-  Elites and two Nazgûl attacks the Elves besieged in Lórien (two regions from Moria), where the Fellowship shelters.
-  Every combat condition of the side's cards holds in its battle.
-- **Proof:** `BaseCardScenarioTests` builds all 192: the event scenario offers the card as a legal `PlayEvent` paid by a
-  die of the turn and the play is accepted by the engine; the combat scenario waits on the owner's `CombatCard`
-  decision, offers the card in `CommitCombatCard` and committing it is accepted.
-  `BaseCardScenarioEffectTests` (UI-300) plays every event scenario with its event die, lets the demo CPU answer the
-  effect's decisions (a journey of Companions outside the Fellowship moves one of them a region) and requires a board
-  that differs from the card merely discarded, under one of six seeds for cards that roll or draw; it also checks on the
-  starting board each clause listed above; for the Hunt cards it moves the Fellowship and requires a Hunt that offers
-  the card, and for the special tiles it walks the Mordor Track until the played tile is drawn.
-- **Production deployment, 2026-10-22** (owner's order "tak" to deploying UI-300): the server went from
-  `48953f68b5fc` to `94c0c87ac09c` (UI-300, the LOBBY-05 deployment record and the observer lease test on top of
-  LOBBY-05; the rules engine is unchanged, the expansions were not deployed). The commits reached the host as a git
-  bundle; nothing was pushed. Copies before the update: `/srv/wotr/backups/2026-10-22-before-ui300` and `…-ui300-b`.
-  No migration; `infra/production.sh build server` and `up -d --wait` recreated only `server`, and the image
-  `wotr-server:48953f68b5fc` stays for a rollback. Checks: `/health` ok (protocol 2), `/health/ready` 200; five 502
-  responses in the second of the swap (10:44:29 UTC) and none after; the lobby, rooms, matches and test-scenario
-  requests since then answer 200. A first attempt fed the remote steps on stdin and the backup consumed them, so only
-  the first copy was made; the steps now run from a copied script.
-- **Production deployment of the follow-up, 2026-10-22** (the owner reported the Axe and Bow scenario unchanged and
-  asked for the new version): the server went from `94c0c87ac09c` to `5fca25377bfa` (the triggered cards above and
-  the first deployment record), again as a git bundle. Copy before the update:
-  `/srv/wotr/backups/2026-10-22-before-ui300-triggers`; the image `wotr-server:94c0c87ac09c` stays for a rollback.
-  Checks: `/health` ok, `/health/ready` 200; no 5xx after the restart (20:07 UTC), the lobby, rooms and matches
-  answer 200. The client needed no new build: the scenarios are built by the server.
-
 <a id="kings-of-middle-earth--test-13"></a>
-## Kings of Middle-earth — TEST-13 (2026-10-27)
+### Kings of Middle-earth — TEST-13 (2026-10-27)
 
 Owner's request (2026-10-27): every new Kings card and mechanic can be tried end to end from the Kings tab of the test
 menu, on a board where whatever condition makes the effect act is met. Every Kings scenario names Kings first in its
@@ -579,7 +481,7 @@ offers it only while both modules are released. The client strips "Kings · " fr
 | `kings-variant-sequential-corruption` | Variants | Shadow | Sequential Corruption Tile Draw | Four Eyes: tiles one at a time; stopping keeps the last. |
 | `kings-variant-removing-ruler-tokens` | Variants | Shadow | Removing Ruler Tokens | Lords and Kings: no tokens; the fallen Awakened Théoden gave the Shadow Dismay, spent on the Free Peoples' Ruler die. |
 
-### Kings coverage
+#### Kings coverage
 
 Every Kings card, ability and mechanic, the scenario that shows it and the condition met there (EXPANSIONS K01–K03, X01,
 X02; rules T28–T31). Existing scenarios are reused where they already show the effect whole.
@@ -626,8 +528,108 @@ Not given a scenario, with the reason: a Chieftain never enables Gandalf the Whi
 event recruitment (rules that only forbid; `KingsChieftainEntryTests`, `KingsWeaknessTests`); the Lords + Kings
 exceptions of X01 — Sméagol tiles redrawn in a corruption draw, the Captain of Despair's dice paying no attempt, Keeper
 and Lesser Eyes, Companions without a nation icon unable to cleanse or remove (`KingsLordsIntegrationTests`,
-`KingsCouncilIntegrationTests`); the two cards left out with Fate of Erebor (`KingsCardCatalogTests`); and an Awakened
+`KingsCouncilIntegrationTests`; since TEST-12 the Lords tab shows them in play: `lords-kings-smeagol-corruption`,
+`-captain-corruption`, `-keeper-eye-corruption`, `-council-chieftain`, `-iconless-cleanse`); the two cards left out with Fate of Erebor (`KingsCardCatalogTests`); and an Awakened
 king falling during play, which no scenario can make certain — `kings-dismay` starts just after Théoden fell.
+
+<a id="tor-mordoru--test-06"></a>
+### Tor Mordor — TEST-06
+
+Fellowship stands hidden in Minas Morgul (Corruption   3 It's like she's finished wandering. command   `EnterMordor` Phase Fellowship, so the pool Hunt is prepared as in the game (BASE  s.  43,  T17 Step and Corruption the final scenario sets the builder upon entry; tiles Hunt They usually do.
+
+| Id | Start | Title in Game | What I'm testing |
+| --- | --- | --- | --- |
+| `fp-mordor-enter` | Free Peoples | Enter Mordor | Fellowship phase in Minas Morgul: track input (gate on map or panel button), camera with Free Peoples and track pulse with Shadow; then Hunt and a simple throw. |
+| `fp-mordor-track` | Free Peoples | Walk the Mordor Track | Step 0, three dice Character and Will of the West: attempts to move with the tile (Stop, Reveal, injury), hiding, Corruption behind turn without attempt. |
+| `fp-mordor-crack` | Free Peoples | One step from the Crack of Doom | Step 4, Corruption 6: step without Stop reaches the Doomsday Slit and destroys the Ring if Corruption stays below 12 (B20). |
+
+<a id="koniec-gry--test-07"></a>
+### Game over — TEST-07
+
+Four ways to complete the base game, each command (BASE p. 44, LOGIC B19, B20). Situations build real figure and real entrance to Mordor. The certainty of the result gives only the Hunt pool where the tiles remain guaranteeing the end; the rest waits in the rejected. Victory gives the usual rule: The Extinction Slit, Corruption 12 or the victory check at the end of turn. The end of the game screen in the client (UI-169) is proven on these scenarios.
+
+| Id | Start | Title in Game | What I'm testing |
+| --- | --- | --- | --- |
+| `fp-ring-destroyed` | Free Peoples | The Ring is destroyed | Step 4 track, Corruption 6, in the pool only the 0 tiles: move Fellowship dice Character comes to the rift and destroys the Ring. |
+| `sh-ring-corrupted` | Free Peoples | The Ring-bearers are corrupted | Step 1 track, Corruption 11, in the pool only the damage-taking tiles: movement Fellowship and the injuries accepted on the Ring give Corruption 12. |
+| `sh-military` | Shadow | Shadow military victory | Shadow holds Minas Tirith, Dol Amroth, Helm's Deep, Erebor and Lorien (10 PZ), has the last die turn; its use ends action and the victory check gives military victory. |
+| `fp-military` | Free Peoples | Free Peoples military victory | Free Peoples hold Orthanc and Dol Guldur (4 PZ), have the last die turn; its use ends action and gives military victory. |
+
+The `GameEndScenarioTests` tests check for each scenario with eight seeds of the server winner and reason after command and a view of both sides.
+
+The eye as a result of the throw also works in `fp-character-move-fellowship`: The eye lies in Hunt and strengthens the hunt after the Fellowship movement.
+
+<a id="card-scenarios--test-09"></a>
+## Card scenarios — TEST-09
+
+The catalog has two scenarios for every base-game card (96 cards, 192 scenarios), so each card can be tried in both of
+its uses without playing up to it. They are built from the card catalog (`CardScenarios`), not listed here one by one.
+
+- **Ids:** `card-<card id>-event` and `card-<card id>-combat`, e.g. `card-base.fp.character.01-event`.
+- **Groups and tabs:** `Free Peoples cards · Character`, `Free Peoples cards · Strategy`, `Shadow cards · Character`
+  and `Shadow cards · Strategy`, by the card's side and deck. The client shows the text before ` · ` as a tab
+  (Free Peoples cards, Shadow cards) beside the other scenarios.
+- **Titles:** `<card title> · Event` and `<card title> · Combat: <printed combat title>` (combat titles from
+  `content/base-card-text.json`, `CardTextCatalog.CombatTitle`). The description names what is prepared.
+- **Event scenario:** turn 1 of the standard setup with the card's owner to act, the card in hand, a die of the card's
+  event type and an Event die (the Free Peoples four results, the Shadow six and one die in the Hunt Box). Cards with a
+  condition get the board it needs, using the engine's own conditions (`FreePeoplesCardEvents`, `ShadowCardEvents`):
+  e.g. Gandalf the White and a Companion in Fangorn for The Ents Awake, Strider with the Minas Tirith army for
+  Challenge of the King, a Sauron army besieging Minas Tirith for Denethor's Folly, the Fellowship in Hollin for the
+  Hunt cards that need it outside a Free Peoples settlement, a nation at war or a Minion in play.
+- **Every clause can act (UI-300, owner's decision 2026-10-22):** a scenario is not complete while its card would do
+  nothing, so the board also lets the clauses the engine may skip act. Corruption to heal (Athelas with Strider as
+  Guide; There is Another Way and Bilbo's Song with Gollum as Guide after every Companion left; I Will Go Alone;
+  Mirror of Galadriel in unconquered Lórien with a second Character result). Companions outside the Fellowship within
+  a move of the clause's regions (Book of Mazarbul: Gimli in Dale and Legolas in the Woodland Realm; Fear! Fire!
+  Foes!: Strider in the Weather Hills and Merry in Buckland; Gwaihir and Swifter: Strider in Bree; There and Back
+  Again: Legolas in the Woodland Realm; Riders of Théoden: Gimli in Helm's Deep; Dead Men: Gimli beside Strider in
+  Edoras and a Southron army in Erech). A target (Faramir's Rangers: a Sauron army in North Ithilien). A Hunt Pool of
+  the 4 Eyes and 2 other tiles for Challenge of the King, so a draw shows Eyes. A second Character Event (Elven
+  Cloaks) for the Ents' free play. The Fellowship in Hollin, outside a Stronghold the Nazgûl may not enter, for
+  Nazgûl Search, Cruel Weather and The Nazgûl Strike, which also finds Mithril Coat and Sting on the table. Three
+  Nazgûl in Minas Morgul for Dreadful Spells, and two Free Peoples Will of the West results for The Day Without Dawn.
+- **A kept card meets its trigger (UI-300, follow-up the same day):** a card kept on the table or put into play acts
+  only later, so its scenario brings that moment within reach. Mithril Coat and Sting, Axe and Bow, Horn of Gondor and
+  Wizard's Staff: played with the Event die, the next move with the Character die meets a Hunt that almost surely
+  hits (`ScenarioBoard.HuntAhead`: five Shadow dice in the Hunt Box, two Free Peoples dice that already moved the
+  Fellowship this turn for +2, a pool of damage tiles only) and the Shadow has no die left, so the move follows at
+  once. Flocks of Crebain and Worn with Sorrow and Toil (Athelas in the Free Peoples hand) prepare the same Hunt for the
+  Free Peoples' move after a Switch side; Balrog of Moria stands the Fellowship in Hollin, next to Moria, with a pool
+  of Reveal tiles. The eight special Hunt tile cards start on step 0 of the Mordor Track with one other tile in the
+  pool, so the played tile is drawn within two steps (`ScenarioBoard.OnMordorTrack`). The Palantír of Orthanc finds
+  Orcs Multiplying Again in hand for the Event die, Wormtongue Wisdom of Elrond in the Free Peoples hand, A Power too
+  Great and The Power of Tom Bombadil a Sauron army at war next to the regions they protect; The Last Battle and
+  Threats and Promises say what to try after the play.
+- **Combat scenario:** a battle at the card owner's Combat card choice, started by the engine's own attack command
+  (`CardBattles`). Free Peoples cards: Isengard attacks the Rohan army at the Fords of Isen, a field battle in a Rohan
+  region where the Fellowship stands with Strider, Gandalf the Grey, Boromir and Merry (Leader, Elites, Companions and a
+  hobbit); the Shadow plays no card, so the defender chooses. Shadow cards: a Sauron, Isengard and Southron army with
+  Elites and two Nazgûl attacks the Elves besieged in Lórien (two regions from Moria), where the Fellowship shelters.
+  Every combat condition of the side's cards holds in its battle.
+- **Proof:** `BaseCardScenarioTests` builds all 192: the event scenario offers the card as a legal `PlayEvent` paid by a
+  die of the turn and the play is accepted by the engine; the combat scenario waits on the owner's `CombatCard`
+  decision, offers the card in `CommitCombatCard` and committing it is accepted.
+  `BaseCardScenarioEffectTests` (UI-300) plays every event scenario with its event die, lets the demo CPU answer the
+  effect's decisions (a journey of Companions outside the Fellowship moves one of them a region) and requires a board
+  that differs from the card merely discarded, under one of six seeds for cards that roll or draw; it also checks on the
+  starting board each clause listed above; for the Hunt cards it moves the Fellowship and requires a Hunt that offers
+  the card, and for the special tiles it walks the Mordor Track until the played tile is drawn.
+- **Production deployment, 2026-10-22** (owner's order "tak" to deploying UI-300): the server went from
+  `48953f68b5fc` to `94c0c87ac09c` (UI-300, the LOBBY-05 deployment record and the observer lease test on top of
+  LOBBY-05; the rules engine is unchanged, the expansions were not deployed). The commits reached the host as a git
+  bundle; nothing was pushed. Copies before the update: `/srv/wotr/backups/2026-10-22-before-ui300` and `…-ui300-b`.
+  No migration; `infra/production.sh build server` and `up -d --wait` recreated only `server`, and the image
+  `wotr-server:48953f68b5fc` stays for a rollback. Checks: `/health` ok (protocol 2), `/health/ready` 200; five 502
+  responses in the second of the swap (10:44:29 UTC) and none after; the lobby, rooms, matches and test-scenario
+  requests since then answer 200. A first attempt fed the remote steps on stdin and the backup consumed them, so only
+  the first copy was made; the steps now run from a copied script.
+- **Production deployment of the follow-up, 2026-10-22** (the owner reported the Axe and Bow scenario unchanged and
+  asked for the new version): the server went from `94c0c87ac09c` to `5fca25377bfa` (the triggered cards above and
+  the first deployment record), again as a git bundle. Copy before the update:
+  `/srv/wotr/backups/2026-10-22-before-ui300-triggers`; the image `wotr-server:94c0c87ac09c` stays for a rollback.
+  Checks: `/health` ok, `/health/ready` 200; no 5xx after the restart (20:07 UTC), the lobby, rooms and matches
+  answer 200. The client needed no new build: the scenarios are built by the server.
 
 <a id="dodawanie-scenariusza"></a>
 ## Adding a scenario
