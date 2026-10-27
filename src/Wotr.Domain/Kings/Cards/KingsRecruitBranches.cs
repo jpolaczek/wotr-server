@@ -25,7 +25,7 @@ public sealed record KingsRecruitOrCleanseStep(string Sovereign, string RecruitP
         TargetId = id == "recruit" ? SovereignCatalog.All[Sovereign].Nation : Sovereign,
         Title = id == "recruit" ? "Recruit" : "Remove corruption",
         Detail = id == "recruit" ? "Recruit the available figures specified by this card."
-            : $"Return one randomly chosen {KingsCorruptionRemoval.TileDescription(state)}, if possible. Then complete the card's draw."
+            : $"Return one randomly chosen {KingsCorruptionRemoval.TileDescription(state)} to the Hunt Pool, if any; the card's draw follows."
     };
     public override void Choose(EffectContext context, string id)
     {

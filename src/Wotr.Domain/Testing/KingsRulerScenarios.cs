@@ -21,13 +21,13 @@ public static class KingsRulerScenarios
     [
         Token("kings-ruler-token-brand", "Brand's Ruler token: Call to Arms", SovereignCatalog.Brand, DieFace.Event,
             "Brand is Awakened in Dale and the North is at war; the Ruler die shows an Event: his token turns it into Muster for " +
-            "Call to Arms in the same command (two free North settlements and his region), and then leaves the game."),
+            "Call to Arms in the same action (two free North settlements and his region), and the token leaves the game."),
         Token("kings-ruler-token-dain", "Dáin's Ruler token: Iron Guard", SovereignCatalog.Dain, DieFace.Event,
             "Dáin is Awakened in Erebor and the Dwarves are at war; the Ruler die shows an Event: his token turns it into Muster " +
-            "for Iron Guard in the same command (Erebor and another free Dwarven settlement), and then leaves the game."),
+            "for Iron Guard in the same action (Erebor and another free Dwarven settlement), and the token leaves the game."),
         Token("kings-ruler-token-theoden", "Théoden's Ruler token: Mustering of the Mark", SovereignCatalog.Theoden, DieFace.Event,
             "Théoden is Awakened in Edoras and Rohan is at war; the Ruler die shows an Event: his token turns it into Muster for " +
-            "Mustering of the Mark in the same command, and then leaves the game."),
+            "Mustering of the Mark in the same action, and the token leaves the game."),
         new("kings-ruler-token-thranduil", Group, "Thranduil's Ruler token: Far-sighted",
             "Thranduil is Awakened in the Woodland Realm, the Ruler die shows Muster and three dice wait in the Hunt Box: his " +
             "token turns the die into a Character for Far-sighted at once — the Fellowship's move rolls one Hunt die fewer, or a " +

@@ -59,7 +59,7 @@ public sealed record GodOfOldStep : EffectChoiceStep
     public override EffectChoiceView Describe(MatchState state, EffectExecution execution, string id) => new()
     {
         Id = id, SourceId = id, Title = SovereignCatalog.All[id].Title,
-        Detail = "Roll a special attack with this sovereign's Leadership; each 3+ hits."
+        Detail = "Special attack: roll one die per point of his Leadership; each 3+ hits the Shadow army."
     };
     public override void Choose(EffectContext context, string id)
     {

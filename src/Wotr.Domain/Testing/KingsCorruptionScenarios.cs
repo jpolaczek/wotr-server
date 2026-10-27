@@ -20,7 +20,7 @@ public static class KingsCorruptionScenarios
         new("kings-corruption-three-tiles", Sovereigns, "Corruption attempt: choose one of three tiles",
             "Four Eyes wait in the Hunt Box and the Free Peoples still have dice: spending one Eye leaves three, so the attempt " +
             "draws three tiles; the Shadow keeps one face down on the king and the others are revealed and return. The Kings " +
-            "tiles wait in the discard pile (see kings-corruption-kings-tile).",
+            "tiles wait in the discard pile (the Kings tile scenario shows them).",
             Side.Shadow, ThreeTiles),
         new("kings-corruption-kings-tile", Sovereigns, "Corruption attempt: the Kings tile",
             "Three Eyes wait in the Hunt Box and the Hunt Pool holds only the two Kings tiles: the first tile drawn ends the " +

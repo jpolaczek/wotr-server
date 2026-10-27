@@ -103,8 +103,8 @@ public static class KingsCardEvents
     {
         var title = SovereignCatalog.All[sovereign].Title;
         return new($"remove the Corrupted {title}",
-            $"{title} is Corrupted at {region}: the card removes him, which ends his weakness, and draws no card. The recruit or " +
-            "cleanse branch is kings-card-recruit-or-cleanse.",
+            $"{title} is Corrupted at {region}: the card removes him, which ends his weaknesses, and draws no card. The " +
+            "Recruit or remove corruption scenario shows the card's other choices.",
             board => board.Change(state => Corrupt(state, sovereign)));
     }
 }

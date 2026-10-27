@@ -53,7 +53,7 @@ internal static class DieInspection
             {
                 var window = state.Phase == GamePhase.ActionRoll && state.Pending?.Kind == DecisionKind.RulerDiscard &&
                     state.Kings.RulerDiscardOrder.Count > 0 && state.Kings.RulerDiscardOrder[0] == viewer;
-                yield return Create(state, viewer, die.Id, "discard-after-ruler", "Set aside after rolling Ruler", "KINGS pp.6,17",
+                yield return Create(state, viewer, die.Id, "discard-after-ruler", "Set aside after rolling the Ruler die", "KINGS pp.6,17",
                     "Set this die aside until the next Recover phase.", "After special-die choices: Shadow discards before Free Peoples.", window,
                     Condition("Target", "discard-candidate", "Requires a retained standard or Ruler die; Keeper/Lesser and standard Shadow Eyes are excluded.", candidates.Contains(die.Id)));
             }
