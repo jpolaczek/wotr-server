@@ -45,6 +45,9 @@ builder.Services.AddHostedService(services => services.GetRequiredService<EmailO
 builder.Services.AddSingleton<SessionStore>();
 builder.Services.AddSingleton(services => BotAccessOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<BotCredentialStore>();
+builder.Services.AddSingleton(services => EmbeddedBotRuntime.Load(
+    services.GetRequiredService<IConfiguration>()["Wotr:Bots:RuntimeAssembly"],
+    services.GetRequiredService<IConfiguration>()["Wotr:Bots:RuntimeVersion"]));
 builder.Services.AddSingleton(services => BotRoomOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<ISessionResolver>(services => services.GetRequiredService<SessionStore>());
 builder.Services.AddSingleton(services => ReleaseScope.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
@@ -121,6 +124,7 @@ app.Services.GetRequiredService<ReleaseScope>();
 app.Services.GetRequiredService<ModuleClientPolicy>();
 app.Services.GetRequiredService<BotAccessOptions>();
 app.Services.GetRequiredService<BotRoomOptions>();
+app.Services.GetRequiredService<EmbeddedBotRuntime>();
 app.UseClientCompatibility();
 app.UseWebSockets();
 app.UseAuthentication();

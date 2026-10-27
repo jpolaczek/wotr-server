@@ -39,26 +39,30 @@ deliverable: it must bind private build/rules pins, scenario IDs, commands, seed
 counts and results without exposing weights, plans or private source. Until that
 verifier exists the public schema accepts **only pending** behavioral evidence.
 
-## Frozen handoff contracts (version 1)
+## Runtime handoff — owner revision 2026-10-27
 
-These are implementation requirements. BOT-01 implements the pure observation/
-memory boundary; BOT-16 implements [restricted server authority and player API
-access](../server/BOT-AUTHORIZATION.md). BOT-12 implements [room admission](../server/BOT-ROOMS.md);
-assignment delivery and the private worker/journal remain pending.
+The [embedded runtime ABI](../server/BOT-RUNTIME.md) replaces the external service.
+BOT-17 covers copied JSON input/output, modular configuration and optional server
+loading. BOT-18 owns host scheduling, provenance and opaque memory/receipt
+persistence. Two faction profiles compose the selected mechanics; accepted
+coverage remains separate from module registration. Public CI uses an ABI fixture;
+no private runtime binary is a public build/package dependency.
+
+The runtime contract and pure component boundaries are:
 
 | Contract | Required data and responsibility | Owner |
 | --- | --- | --- |
-| `BotObservation` | Schema version, assigned match/side, rules/content compatibility and a copied ordinary `PlayerView`. Include only that seat's hand, knowledge and already received public history/reports. All supplemental reads use the seat identity. No `MatchState`, DB, observer, RNG/deck order or other hand. | BOT-01 |
+| `BotObservation` | Schema version, assigned match/side, rules/content compatibility and a copied ordinary `PlayerView`. Include only that seat's hand, knowledge and already received public history/reports. The host supplies only ordinary own-side projections. No `MatchState`, DB, observer, RNG/deck order or other hand. | BOT-01 |
 | `BotMemory` | Schema and policy version, accepted revision, one main/up to two supporting plans, known facts, soft resource reservations and acknowledged progress. Reject unsupported versions explicitly. Memory has no authority to make an illegal option legal. | BOT-01/BOT-05 |
-| `DecisionBudget` | 3-second target, 5-second hard compute deadline, cancellation and reproducible private sampling seed. Propagate remaining budget into candidate generation, simulations and lookahead. A deadline is never permission to invent a pass. | BOT-02/BOT-04/BOT-05 |
+| `DecisionBudget` | 3-second target, 5-second cooperative compute deadline, cancellation and reproducible private sampling seed. Propagate remaining budget into candidate generation, simulations and lookahead. A deadline is never permission to invent a pass. | BOT-02/BOT-04/BOT-05 |
 | `IBotPolicy.Decide` | Observation + memory + budget -> one proposed ordinary `GameCommand`, proposed next memory and private diagnostics, or explicit `UnsupportedDecision`/`NoLegalCandidate`/cancelled outcome. The policy has no network or persistence dependency. Command remains uncommitted. | BOT-15/BOT-01/BOT-03 |
 | Simulation | Build hypothetical worlds from the observation and sampled unknowns; clone them; call the pinned pure engine. Each simulated actor gets its own projection. Expose scores/results to policy, never a live-state supplier. | BOT-02 |
-| Assignment control | Assignment ID, generation/fence, room/match/side, service/profile/version, renewable lease and readiness. Service identity can claim/renew/cancel; it cannot read or play a match. | BOT-16/BOT-17 |
-| Seat transport | Separate scoped seat credential; ordinary player view, options/previews, history/reports, updates, commands and receipts. Authenticate compatibility; enforce generation inside the mutation lock. Never reuse the host's session. | BOT-16/BOT-18 |
-| Private journal | Before sending: exact command bytes/ID, observation revision, assignment generation and proposed memory. After accepted receipt: acknowledge and advance memory once in the private store. Unknown outcome: read receipt, then resend identical bytes/ID if necessary. Rejected/stale: refresh without advancing progress. | BOT-18 |
+| Host scheduling | Durable room/match/side assignment, pinned runtime/profile version, evaluation generation, cancellation and readiness. Recheck the generation under the mutation lock before accepting a result. | BOT-12/BOT-18 |
+| Runtime ABI | Copied own-side view/configuration/history/reports/previews and opaque memory enter; a correlated ordinary command proposal or refusal leaves. No live object, network callback or hidden-state source. | BOT-17 |
+| Host memory journal | Exact command/ID, decision/revision, evaluation generation and opaque proposed memory. Accepted receipts advance memory once; stale/cancelled/rejected commands never do. Reconcile before choosing again after restart. | BOT-18 |
 
-The game database owns state and receipts; the private service owns memory and
-journal. There is no distributed transaction. Reassignment/restart recovers a
+The game host owns state, receipts and opaque memory/journal persistence. The
+runtime alone interprets private plans. Reassignment/restart recovers a
 pending command before choosing another one. Unsupported decisions and empty
 candidate sets produce a private diagnostic with a mechanic ID, refresh the
 ordinary player observation once, and then leave the assignment pending/unready

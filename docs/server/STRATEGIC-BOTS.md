@@ -1,135 +1,113 @@
-# Strategic bots as a private service
+# Strategic bots as an embedded private runtime
 
-Owner-approved design, 2026-10-23. The inventory and private application foundation
-are implemented; strategic policies, live service integration and behavioral
-acceptance remain pending. This specification replaces the earlier proposal to
-run strategic bots inside the game server and save their memory in the game's transaction.
-The existing CPU is documented separately in [DEMO-MODE](DEMO-MODE.md).
+Owner-approved architecture, revised 2026-10-27. This replaces the external bot
+service approved on 2026-10-23. The private repository contains a library loaded
+by the game server, not another server or network worker. Two scripted policies,
+Shadow and Free Peoples, share modular mechanics. The legacy CPU remains separate
+in [DEMO-MODE](DEMO-MODE.md). Neither strategic policy is ready for play yet.
 
 ## Product and ownership
 
-- Two scripted C# policies play Shadow and Free Peoples. They maintain plans,
-  recognize opportunities, estimate risk and use all supported mechanics. There
-  is one strong level, without an LLM, learned model or external inference service.
-- Cover the base game, Lords, Kings, Fate and their implemented variants. Actual
-  availability requires both the game's release gates and accepted bot coverage.
-  Warriors and other unsupported content remain outside this program.
-- A separate headless application, `wotr-bot`, runs on the operator's infrastructure.
-  Its repository, strategies, weights, diagnostics and deployment artifacts remain
-  private. This is a specific exception to the public game repositories, not a
-  change to the license or publication status of existing game code.
-- The first version serves only the operator's game server. Players install only
-  the ordinary game client: no bot executable, plugin, runtime, closed-source
-  assembly or model is downloaded or executed on their device.
-- Multiple saved PvE games coexist with human games and existing demos. Each bot
-  seat has its own session, memory and knowledge. PvE results remain distinct from
-  human-versus-human results. The opponent is visibly named CPU; its service has
-  no separate end-user application or configuration screen.
-- This design is authorized scope, not a statement that the feature is available
-  or permission to deploy it. BOT-00–BOT-20 describe the remaining work; BOT-14
-  is the final aggregate acceptance task.
+- The operator installs the private runtime beside the game server. Public source,
+  public game builds and human installers never contain private policies or DLLs.
+- Players install only the ordinary client. The host requests CPU in the empty
+  opposing room seat; normal Ready/Start, existing status/removal controls and
+  multiple saved PvE games remain required. No extra service URL or bot setup UI.
+- Policies are scripts, without an LLM/training service. They keep plans, notice
+  opportunities, estimate probabilities and cover all accepted base/expansion
+  mechanics. One strong level remains the target.
+- Private code owns decisions, evaluations, hypothetical simulation and memory
+  interpretation. The public host owns scheduling, projection, validation,
+  authoritative RNG/state, receipts and persistence of opaque memory.
+- This is implementation authorization, not release/deployment or proof of strength.
 
 ## Components and information boundary
 
 ```mermaid
 flowchart LR
-    Human[Game client] <-->|Player API| Game[Game server]
-    Bot[Private bot application] <-->|Same player API| Game
-    Game -.->|Durable CPU assignment| Bot
-    Game --> State[Authoritative game store]
-    Bot --> Memory[Private bot memory and command journal]
-    Bot --> Simulation[Local rules simulation]
+    Human[Human client] <-->|Player API| Server[Game server]
+    Server --> Projection[Ordinary own-side projection]
+    Projection -->|Copied decision input| Runtime[Private runtime library]
+    Runtime -->|Command and proposed memory| Validate[Ordinary command validation]
+    Validate --> Store[Authoritative state and receipts]
+    Server --> Memory[Host-owned opaque bot memory]
+    Memory --> Runtime
 ```
 
-| Component | Owns | Does not receive |
-| --- | --- | --- |
-| Game server | Rules resolution, real RNG, state, receipts, seats, assignment authorization and replay | Bot strategy memory as part of a game command or save |
-| Bot application | Policies, hypothetical simulations, plans, known facts and outgoing command journal | Game database credentials, authoritative snapshots, observer perspective or admin access |
-| Human client | Normal UI, room requests and its authorized player view | Bot code, service credentials, strategy memory or future plans |
+The runtime gets exactly the game information legal for its assigned player:
+current own-side PlayerView/options/decision, configuration, authorized visible
+history, reports and supplied ordinary previews. It never gets a MatchState,
+live engine/service/database object, observer perspective, opponent hand, hidden
+orders or future RNG. Copies cross the boundary as versioned JSON, so public and
+private pinned rules assemblies cannot accidentally share mutable state.
+The host establishes information provenance before serialization. A matching
+side field alone does not prove that an arbitrary DTO was safely projected.
+Missing necessary nonsecret facts still require a reviewed shared-player contract;
+in-process hosting does not unblock BOT-02 by exposing hidden continuations.
 
-The bot gets the same game information as a human occupying **the bot's side**,
-including that side's own hand and private decisions. It uses the same projection,
-option generation, previews, visible history, battle reports and command validation.
-The bot does not receive the human opponent's private information.
+The runtime is trusted operator code in the same process. Assembly isolation and
+an input-only API prevent accidental coupling; they are not an OS security
+sandbox. The host never supplies privileged capabilities. Cooperative cancellation,
+bounded work and bounded concurrent evaluations must be tested. A timeout cannot
+safely force-abort arbitrary managed code; a stalled evaluation must not trigger
+an unlimited series of new tasks.
 
-A worker reconstructs knowledge from the player API and remembers only facts that
-were available to its seat. It reads paginated visible history after reconnect,
-rather than treating a missed WebSocket notification as lost game knowledge.
-No assignment message may carry an authoritative state or a privileged option list.
-Missing necessary player-visible facts must be fixed in the shared player contract,
-with the same visibility rules for humans and bots.
+## Modular configuration
 
-## Hosting and room flow
+Exactly two faction profiles select strategic objectives. There is no separate
+bot class, executable or policy catalog entry for every expansion combination.
+A normalized MatchConfiguration selects a shared ordered module set:
 
-1. A seated human host selects **Add CPU** at the empty opposing seat before start.
-   The existing client calls the game server; it never contacts the bot host directly.
-2. Under the room lock, the server checks host, room version, empty seat and offered
-   configuration, reserves that seat and persists an idempotent CPU assignment.
-   A competing human join or repeated request cannot create a second occupant.
-3. The bot service claims pending assignments through an authenticated internal
-   control interface, verifies supported rules/content and reports readiness.
-4. The existing Ready/Start flow applies. Both seats accept the current room
-   version; only the host starts. Configuration changes invalidate acceptance and
-   require the bot to acknowledge the new version. No bot acknowledgement starts
-   a game or submits a human choice by itself.
-5. A started assignment is bound to its match and side. The worker follows normal
-   update notifications and executes only decisions owned by that side. It can
-   finish its pending decisions while the human application is closed.
+| Module | Enabled by / dependency |
+| --- | --- |
+| Base | Always |
+| Fate, Lords, Kings | Their respective configuration flags |
+| Council | Council and Lords |
+| Dismay | Explicit flag, or the Lords + Kings default; requires both |
+| Visible / sequential corruption | Respective variant and Kings |
+| Removing ruler tokens | Variant, Lords + Kings + Dismay |
+| New Cities | Variant and Fate |
 
-Use the existing participant removal operation to cancel a bot before start.
-Closing an unstarted room cancels the assignment; a delayed claim cannot resurrect
-it. A bot reservation alone must not keep an abandoned human room alive.
-Seats cannot be exchanged for bots after a match starts.
+The shared rules validate dependencies first. Module registration is not proof
+of strategic coverage. Modules contribute candidate providers, valuations,
+planning hooks and effect handling to the same two policies; explicit priorities
+resolve overlapping mechanics. A disabled module cannot add choices or change
+base valuation. Integration tests cover all 93 normalized legal configurations,
+interaction cases and invalid combinations, not 93 independent bots.
+The release configuration and accepted mechanic coverage gate actual readiness.
 
-The existing Play vs CPU shortcut opens this same room flow with CPU selected;
-selecting a side no longer starts the new PvE game immediately. Reuse the existing
-seat, status, removal and Start controls. Show short Joining/Ready/Unavailable
-states at the CPU seat; no difficulty chooser, service URL, extra confirmation,
-permanent board control or bot narration feed is introduced.
+## Runtime boundary and room flow
 
-If the service is unavailable, Start waits for readiness. In a started match the
-current decision and save remain intact, map/cards/history remain browsable, and
-work resumes after reconnection. Do not invent a pass, consume a die or switch
-silently to the old demo policy. Deleting a match or cancelling an assignment
-stops future work.
+The [runtime ABI](BOT-RUNTIME.md) defines a versioned describe/decide interface.
+Inputs include an invocation ID, expected runtime/rules/content identities,
+current own-side player information, history/reports/previews, random sampling
+seed, work bound and optional opaque memory. Configuration is part of the current
+player view. Outputs are one command proposal with proposed memory or a typed
+no-decision/refusal. No runtime callback can commit a move or fetch a snapshot.
 
-## Planned interfaces and authorization
+1. Host CPU admission reserves the empty opposite seat under the room lock.
+2. The server checks the installed runtime, faction policy, enabled modules and
+   accepted rules/content. Only supported policy coverage can acknowledge the
+   current room version; configuration changes invalidate readiness.
+3. The human uses existing Ready/Start. Starting binds a durable CPU assignment
+   to the match/side and pinned runtime/policy version.
+4. A server-owned scheduler reads pending bot-owned decisions and safely projects
+   input outside the game mutation. Each seat has one active evaluation generation.
+5. The server rechecks seat, generation, revision and decision under the normal
+   mutation lock, validates the returned command with the normal engine, then
+   persists its accepted result. A proposed move never authorizes itself.
 
-BOT-16 now implements the [identity, allowlist, renewal and compatibility
-boundary](BOT-AUTHORIZATION.md), including shared runtime metadata and mutation
-fencing. CPU room admission is implemented in [BOT-ROOMS](BOT-ROOMS.md). Assignment
-delivery below remains a design requirement.
-The version-1 [implementation handoff and coverage inventory](../bots/README.md)
-fix their ownership, evidence requirements and failure handling.
-
-- `PUT /api/rooms/{id}/bot` requests the empty opposing CPU seat using the expected
-  room version and a request ID. An identical retry is idempotent; a conflicting
-  reuse cannot change the request. Human session identity establishes the host.
-- `RoomView` adds safe occupant-kind and CPU readiness metadata; `MatchSummary`
-  distinguishes saved PvE/CPU opponents. `GameCommand`, `CommandReceipt` and
-  player information retain their ordinary semantics.
-- Internal claim, readiness, renewal and cancellation operations coordinate
-  durable assignments. Their service credential cannot read game state or submit
-  gameplay commands. No external message broker is required for the initial design.
-- A separate short-lived renewable seat credential authorizes the assigned room
-  and, after start, its match and side. Enforce an explicit operation allowlist:
-  player reads/history/reports/previews/updates/commands/receipts and necessary
-  readiness. Deny observer, admin, account management, unrelated games, participant
-  removal and match deletion. Do not borrow the human's session.
-- Only one worker holds the active assignment generation. Reassignment invalidates
-  older command authority; check this at the authoritative mutation boundary, not
-  only before a request waits for the match lock. Existing idempotence and revision
-  checks still apply.
-- Version checks use authenticated service identity and supported protocol,
-  rules/content and expansion capabilities. A caller-supplied bot header cannot
-  bypass compatibility. Unity application versions and bot application versions
-  are independent; common protocol/rules compatibility is still required.
-- Expose any missing nonsecret rules/content version metadata through shared player
-  metadata. Pins for rule simulation must match the supported game versions.
+Cancellation/removal and match deletion stop future work. CPU work cannot keep an
+abandoned waiting room alive. Missing/incompatible runtime, unavailable policy or
+failure preserves the current game/decision; never pass, forfeit dice or switch to
+the demo policy automatically. Restart recovers pending CPU work without a human
+refresh. No control/seat HTTP credential is required by the embedded runtime.
+Previously implemented BOT-16 endpoints remain legacy, default-disabled code;
+the external BOT-17 transport exists only on a local historical checkpoint branch.
 
 ## Strategic decisions and simulation
 
-Implementation checkpoint (2026-10-26): the private application has an internal
+Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
 reconstruction is blocked on a reviewed mapping from player information/history
 to rule continuations; the current view omits suspended returns and effect cursors.
@@ -146,7 +124,7 @@ BOT-02 nor BOT-03 is accepted and no production policy is enabled.
 
 The pure policy interface remains
 `Decide(BotObservation, BotMemory, DecisionBudget)`: one current command, proposed
-next memory and private diagnostics. Its input is built from player API responses,
+next memory and private diagnostics. Its input is built from copied ordinary player projections and authorized history,
 not a reference to the live server's `MatchState` or persistence services.
 
 Memory records the policy/schema version, accepted progress and remembered facts.
@@ -170,7 +148,7 @@ reactions and continuing multi-step actions require purposeful choices. Include
 all base/expansion mechanics in the coverage ledger, with useful-use and justified
 decline/retention cases where applicable.
 
-The private application consumes a pinned build of the shared pure rules engine.
+The private runtime consumes a pinned build of the shared pure rules engine.
 It constructs hypothetical worlds from its own knowledge and public content.
 Unknown hands, decks and tiles are sampled consistently with that knowledge,
 never copied from the true state. Hypothetical actors also see only their own
@@ -184,120 +162,45 @@ Use bounded lookahead toward two own actions and opposing replies, with lightwei
 nonrecursive rollout policies. Late-game copying and simulation cost must be profiled.
 
 Target difficult decisions normally within 3 seconds, with a 5-second computation
-deadline and an already assessed legal candidate available. Measure network and
+deadline and an already assessed legal candidate available. Measure host scheduling and
 queue wait separately. Cancellation, bounded work units, fair scheduling and visible
 no-candidate errors prevent unbounded work and silent stalls.
 
-## Separate memory and command recovery
+## Opaque memory and command recovery
 
-Game-state/receipt persistence and bot-memory persistence are separate transactions
-in separate services. Do not add a cross-service database transaction or send
-strategy memory with a game command.
+The runtime has no storage or network module. It accepts prior private memory and
+returns proposed next memory. The public host stores opaque versioned bytes per
+match/side/profile; it neither interprets plans nor sends them to human clients,
+replays, events or public diagnostics.
 
-1. Before POST, persist a journal entry containing the exact command/command ID,
-   decision/revision, prior memory version and proposed next memory.
-2. Send the unchanged command through the ordinary player command endpoint.
-3. After an accepted receipt, atomically advance the private memory once and mark
-   that journal entry acknowledged in the bot's own store.
-4. After an uncertain response or restart, query the ordinary receipt endpoint or
-   resend the exact command ID/payload. Never generate a fresh command while the
-   earlier one's outcome is unknown.
-5. A rejected/stale command does not advance its proposed plan state. Reconcile
-   the result, obtain the current player view and plan again. This also applies
-   after another worker takes over or the match has reached its final decision.
+BOT-18 must journal the exact proposed command/ID, prior decision/revision,
+evaluation generation and proposed memory before committing. An accepted ordinary
+receipt advances memory exactly once; stale/rejected/cancelled results never do.
+Use one host-owned transaction for receipt/accepted memory when possible, or
+explicit idempotent receipt reconciliation. Restart and a game-ending command
+must leave no uncertain memory transition. Avoid a second private database or a
+new bot network protocol. Runtime/policy/memory version upgrades require explicit
+compatibility and migration; unsupported saved memory must not be silently reset.
 
-The game server stores only seat/assignment/profile identity and operational
-metadata, apart from its normal game data. The bot store holds plans, diagnostics
-and journals with separate credentials and no read access to the game database.
-Pin policy versions per session and define migrations before replacing them;
-an update must preserve ongoing matches and pending receipts.
+## Builds, loading and acceptance
 
-## Builds, hosting and compatibility
+The private artifact is a library with pinned public rules dependencies. The game
+server loads it from an operator-configured path in a separate assembly load
+context; public builds need no private checkout. Only strings and framework types
+cross the ABI. No private strategy, runtime binary or tests enter public packages.
+The server remains available when the optional runtime is absent; CPU stays unready.
 
-- Keep strategy code and its tests in the private repository. The game client and
-  server must build without it; public CI uses protocol fixtures or a test double.
-  Real bot integration is checked by private CI against the normal server/API.
-- Share versioned contracts, public content and pure rule code, not private policies.
-  Preserve notices of reused components. Do not relabel existing public code as
-  newly proprietary or put bot code in public server/seeder packages.
-- Deploy the bot independently with its own identity, durable store, bounded
-  resources and health/queue/latency/error metrics. Do not mount game DB secrets,
-  snapshots or other player data into its process. Operational metrics exclude
-  hands, tokens and private plans.
-- Readiness reflects accepted configuration coverage and compatibility. On upgrade,
-  drain/recover pending journal work, retain supported sessions and test rollback.
-  Production deployment/publication is separate from preparing this implementation.
-- Existing demo saves and their compatible simple policy remain supported. New PvE
-  never invokes the destructive one-demo-per-owner replacement operation.
+BOT-17 now owns the runtime contract, modular configuration and optional loader.
+BOT-18 owns host scheduling, provenance, readiness and command/memory recovery.
+BOT-19 owns private library packaging, bounded concurrency, draining and upgrade/
+rollback. BOT-20 tests the real private runtime with the actual server/client.
+BOT-02–BOT-11 retain reconstruction, candidates, risk, plans, faction policies,
+cards and expansion behavior. BOT-13 retains minimal room UI and existing opponent
+presentation. BOT-14 combines all strategy/coverage/strength and integration gates.
 
-## Program and acceptance
-
-BOT-00 supplies the source-derived inventory. BOT-15 supplies an independently
-buildable private headless application with separate Core, Policy, Simulation,
-Transport and Persistence modules. Its production policy registry is empty;
-`--check` reports `gameplayReady: false`, and the unimplemented worker refuses to
-start. Fixture policies are test-only. Server CPU room admission is implemented; client controls, assignment
-delivery, durable journal and deployment remain pending.
-
-The public [pure rules source package](../bots/RULES-PACKAGE.md), version `0.1.0`,
-is the shared build input. It excludes legacy Demo policy and server code and
-preserves MIT notices. The private application vendors its exact archive/hash and
-Contracts `0.14.0`; public builds and human client packages do not depend on it.
-Build/fixture checks establish the foundation, not playing strength or
-three-process gameplay acceptance (BOT-20).
-
-BOT-01 implements private observation/memory schema 2: explicit seat and
-rules/content/profile identity, copied player/history responses, typed main and
-supporting plans, current versus historical knowledge, deterministic work/seed
-inputs and a guarded policy entry point. Unknown memory versions require journal
-reconciliation before rebuilding plans; stale views require refresh. Private
-tests compare actual engine projections under hidden-state permutations. This is
-the pure boundary; durable command/memory reconciliation remains BOT-18.
-
-BOT-16 implements opt-in control and renewable seat credentials, a default-deny
-operation allowlist and the ordinary player handlers. PostgreSQL grant/generation
-checks run after the match/room lock and remain held through commit. Streams
-revalidate on every notification/heartbeat. Bot compatibility authenticates first
-and uses separate application versions and trusted feature coverage. Shared
-runtime metadata and seat renewal are available; internal issuance/lifecycle
-seams are integrated with BOT-12 rooms; claim delivery awaits BOT-17. Real HTTP/WebSocket fixtures compare both sides' player
-outputs and denied/racing operations. This boundary does not implement a playing
-worker or establish strategic behavior acceptance.
-
-BOT-00 establishes contracts and the exhaustive mechanic inventory. BOT-15 creates
-the private application foundation; BOT-01 defines observations/memory and BOT-16
-implements restricted service/seat identity. BOT-02–BOT-11 implement simulation,
-candidates, risk, planning, faction policies, cards and expansions in that application.
-BOT-12 owns saved PvE/room state; BOT-17 owns assignment lifecycle; BOT-18 owns
-the API worker and private command journal. BOT-13 integrates the room UI and
-existing opponent presentation. BOT-19 prepares isolated hosting and BOT-20
-tests all three processes together. BOT-14 depends on every other component.
-
-Required evidence includes:
-
-- Identical player information for human/bot fixtures on the same side, across
-  snapshots, options, previews, updates, history, reports and errors; forbidden
-  route/token tests and hidden-state permutation invariance.
-- No bot artifacts in a clean player installation or public game packages, and
-  independent game builds without private repository access.
-- Room admission/removal/configuration races, duplicate requests, abandoned rooms,
-  expired credentials, old workers, network loss and version incompatibility.
-- Crashes before POST, after server commit and before memory acknowledgement,
-  including battle/Hunt/card windows and final decisions; one accepted effect and
-  one memory advancement, with no lost human decision or duplicate cost.
-- Complete useful-use coverage, all legal module/variant combinations, all four
-  victory conditions and coherent multi-step preparation, defense and replanning.
-- At least 70% wins in 200 fixed-seed base games per new faction against a frozen
-  DemoBot, with tuning/acceptance seeds separated. Caps/errors remain reported;
-  the demo comparison is a regression floor, not proof of expert human strength.
-- At least three completed human games against each faction, and full games for
-  all eight module combinations and optional variant families, initially ten
-  seeds per family. Reproducible serious defects require fixes and regression cases.
-- Computation deadline, fair queueing and bounded memory on a named reference
-  server, including late games and eight simultaneous active matches; actual
-  client source/cost/effect presentation, reconnect and Reduced motion evidence.
-
-Each task records actual versions, commands, seeds and results. Documenting this
-design alone does not establish runtime acceptance. BOT-00 now provides the
-source-derived [mechanic inventory and validator](../bots/README.md); all
-strategic behavior evidence remains pending.
+Public loader tests use a clearly labelled policy-free fixture; private tests
+exercise the actual runtime entrypoint. Full acceptance requires real faction
+policies, all player-information parity surfaces, hidden-state permutations,
+stale generation/command rejection, server restart around command/memory commit,
+room races, readable opponent presentation and clean public/player artifacts.
+No fixture, module selector or passing build establishes playing strength.

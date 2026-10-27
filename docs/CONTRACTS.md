@@ -1,59 +1,32 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
-Contracts 0.15.0 add [CPU room admission and safe metadata](server/BOT-ROOMS.md): `PUT /api/rooms/{id}/bot`, `AddRoomBotRequest`, seat kinds/status, `RoomView.Bot` and `MatchSummary.IsPve/Bot`. Public content 1.0.16 pins the new contracts. Ordinary commands, player views, protocol 2 and save schema 3 are unchanged. Claim delivery and the private worker remain pending.
+Contracts 0.15.0 add [CPU room admission and safe metadata](server/BOT-ROOMS.md): `PUT /api/rooms/{id}/bot`, `AddRoomBotRequest`, seat kinds/status, `RoomView.Bot` and `MatchSummary.IsPve/Bot`. Public content 1.0.16 pins the new contracts. Ordinary commands, player views, protocol 2 and save schema 3 are unchanged. The embedded runtime ABI/loader is BOT-17; host scheduling remains BOT-18.
 
 The contract is implemented in stages T05–T07. In T06 there are DTO `PlayerView`, `ActionOption`, `DecisionView`, `ActionPreview`; endpoints adds T07. Each field has a specific visibility and version. The table below also includes target contracts for later tasks.
 
-## External CPU contracts — implementation boundary
+## Embedded CPU runtime contract
 
-See [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). CPU room admission is implemented by BOT-12; assignment
-delivery and the remote worker remain pending. The current demo route below
-keeps its independent legacy semantics.
+Owner revision 2026-10-27 replaces external-service/control transport with a
+private decision library loaded by the game host. [ABI 1](server/BOT-RUNTIME.md)
+uses JSON strings and CancellationToken, with public server-only request/response
+envelopes. There is no private assembly reference in public builds and no new
+human player DTO or content/package/client pin change for BOT-17.
 
-BOT-15 adds only private in-process policy/proposal interfaces around the existing
-`PlayerView`, `GameCommand` and `CommandReceipt`. It does not add wire DTOs or
-endpoints. Their version-1 [handoff contract](bots/README.md) remains the integration
-requirement. BOT-01 now implements private schema-2 observation and strategic
-memory with explicit recovery, current/historical knowledge and a guarded policy
-entry point. No plan or memory type enters these shared player contracts.
+The input wraps ordinary own-side PlayerView, MatchConfiguration, decisions,
+options, authorized action history, reports/previews, compatibility identifiers,
+opaque prior memory and compute bounds. The result is an ordinary GameCommand
+proposal plus opaque proposed memory, or a refusal. The host rechecks seat,
+current decision/revision and full engine legality before any commit. Opaque
+memory is host persisted only for accepted commands, never sent to players.
 
-BOT-03 adds only private candidate construction and a local public-board route
-validation port. It uses the existing player projection and pinned rules; it
-introduces no wire DTO, privileged read or remote validation endpoint. Full
-simulation reconstruction still requires a reviewed information contract.
-Expansion choices consume the existing grouped quotas, exact token/die identities
-and temporarily inspected tile options. A card's private inspection permission
-does not make other sovereigns' concealed tiles available to the bot.
-
-BOT-16 implements the [server authorization contract](server/BOT-AUTHORIZATION.md):
-distinct control/seat identities, short-lived hashed seat credentials bound to
-room/match/side/generation, an explicit operation allowlist, post-lock mutation
-fencing and stream revocation. Compatibility is selected only after bot
-authentication and is independent of Unity versions. `GET /api/runtime` shares
-nonsecret protocol/rules/content metadata with humans; `POST /api/bot/seat/renew`
-renews only an active seat token within its grant lease. Ordinary player DTOs,
-command validation and receipt retention remain unchanged; no package bump is
-needed for BOT-16 itself. BOT-12 versions the room additions below; internal
-assignment delivery remains pending.
-
-- `PUT /api/rooms/{id}/bot`: seated host requests the empty opposing CPU seat with
-  expected room version and request ID; identical retries reserve one seat.
-  Existing removal and Start operations handle cancellation and human start.
-- `RoomView` adds occupant-kind and CPU readiness metadata; `MatchSummary` marks
-  PvE/CPU opponents. No private strategy or service credentials reach human DTOs.
-- Internal assignment claim/readiness/renewal operations carry assignment metadata
-  only. A service credential cannot access player data or execute game commands.
-- A renewable seat credential is restricted to its assigned room/match/side and
-  an allowlist of necessary operations. It cannot observe the opposite side,
-  manage accounts, remove participants, delete games or access unrelated matches.
-- Gameplay uses the ordinary player endpoints and `PlayerView`, `GameCommand`,
-  `CommandReceipt`, preview and history semantics. Missing nonsecret version data
-  belongs in shared player metadata, not a privileged bot snapshot.
-- Protocol/rules/content compatibility uses authenticated bot identity, independently
-  of Unity release numbering. A bot header alone grants no exemption.
-- Bot memory never travels in a game command. Its private outgoing journal and
-  ordinary receipts provide restart/retry recovery across separate transactions.
+BOT-12 room admission/CPU metadata remain the player-facing contract. BOT-16
+control/seat HTTP credentials remain legacy/default-disabled code; the runtime
+has no HTTP or persistence capability. Missing player-visible data still requires
+a reviewed shared contract change; runtime hosting does not authorize snapshots.
+BOT-01 observation/memory and BOT-03 candidates remain private pure components.
+BOT-18 implements server scheduling, provenance, readiness and receipt/memory
+recovery; actual strategic and integrated gameplay acceptance is separate.
 
 <a id="główne-komunikaty"></a>
 ## Main messages

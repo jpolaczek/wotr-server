@@ -1,5 +1,12 @@
 # Bot authority and player API
 
+**Architecture update, 2026-10-27:** [the embedded runtime](BOT-RUNTIME.md) replaces
+external bot hosting. BOT-12 room reservation/save behavior remains; BOT-16 HTTP
+identity code is legacy and disabled by default. Runtime scheduling/readiness
+and opaque memory recovery move to the game host in BOT-18. External claim/lease
+requirements below describe the previous design and are not the runtime API.
+
+
 [BOT-12 room admission](BOT-ROOMS.md) now reserves CPU seats and assignments. Readiness binds the existing scoped grant generation to the room version; Start rechecks it under the room/grant locks and binds it to the match. Reservations do not issue tokens: BOT-17 still owns claim/lease delivery.
 
 BOT-16 implements the server boundary for the private service described in

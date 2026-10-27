@@ -1,7 +1,7 @@
 <a id="weryfikacja-i-odbiór"></a>
 # Verification and acceptance
 
-BOT-12 adds `PveRoomTests`, `PveSeatRaceTests`, `PveSaveCompatibilityTests` and `BotRoomOptionsTests`. The PvE collection owns an isolated real PostgreSQL cluster and uses the actual room/player API, with a trusted claim stub until BOT-17. See [scope and fixture limitations](server/BOT-ROOMS.md). BOT-02/BOT-03 have private checkpoints only; the [current foundation checks](#private-bot-foundation-checks) do not establish complete reconstruction, candidate coverage or strategy acceptance.
+BOT-12 adds `PveRoomTests`, `PveSeatRaceTests`, `PveSaveCompatibilityTests` and `BotRoomOptionsTests`. The PvE collection owns an isolated real PostgreSQL cluster and uses the actual room/player API, with a trusted grant stub for the historical external design. See [scope and fixture limitations](server/BOT-ROOMS.md). BOT-02/BOT-03 have private checkpoints only; the [current foundation checks](#private-bot-foundation-checks) do not establish complete reconstruction, candidate coverage or strategy acceptance.
 
 This document states what every change must prove and how the tests run. Results of individual checks are recorded
 in the local task registry and its testing log (`docs/tasks/`, ignored by Git since 2026-10-17); earlier per-task
@@ -239,6 +239,18 @@ tests are not evidence of a working strategic bot.
 
 ## Private bot foundation checks
 
+Owner pivot 2026-10-27: the private artifact is now an embedded library.
+`EmbeddedBotRuntimeTests` exercises optional loading, dependency context, version
+pinning, malformed/oversized/foreign responses, cancellation and exception
+redaction using a public policy-free fixture. Private `BotRuntimeTests` exercises
+the real describe/decide entrypoint, copied context, both fixture profiles and
+all 768 raw / 93 normalized module configurations. Full verification publishes
+`Wotr.Bot.Runtime.dll` locally; it no longer starts an App CLI. Real private-DLL
+loading requires an operator-only smoke check outside public builds. Host
+scheduling/recovery and actual policy gameplay remain BOT-18/BOT-20.
+
+The following earlier checkpoints remain historical evidence:
+
 BOT-01's private `BotObservationTests`, `BotKnowledgePrivacyTests` and
 `BotMemoryTests` cover actual projection/hidden-state pairs, owner/observer
 isolation, deterministic work/seed inputs, plan round trips and explicit memory
@@ -279,13 +291,13 @@ moves, so an early legal victory cannot bypass its projection/restart assertions
 
 The private application runs `bash scripts/verify.sh`: verified offline rules
 inputs, module boundaries, locked restore, Release build, fixture tests and an
-operator CLI check. Repeat from a clean checkout without a sibling server or
-private feed credentials. Publish locally to `.artifacts/private/wotr-bot` and
+runtime ABI check. Repeat from a clean checkout without a sibling server or
+private feed credentials. Publish locally to `.artifacts/private/wotr-bot-runtime` and
 inspect that tests/fixtures/server assemblies are absent; this output is never a
-human client dependency. The current CLI must report unready and refuse `run`.
+human client dependency. The runtime Describe response must report unready while policies are absent.
 
 Public verification remains independent: run the server's package suites and
 isolated Release build, plus the existing client release/bootstrap CI fixtures.
 The [rules package](bots/RULES-PACKAGE.md) has deterministic archive/member checks.
-Full Unity builds and three-process gameplay acceptance are separate from these
+Full Unity builds and actual embedded-policy gameplay acceptance are separate from these
 foundation checks; no changed player runtime or package pin is introduced here.

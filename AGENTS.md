@@ -145,12 +145,13 @@ explicit client pin.
   not remove dependencies merely to start blocked work.
 - Do not deploy or publish without authorization in the request. Notifications
   outside the app, public matchmaking and Warriors of Middle-earth remain outside
-  scope. Owner-approved CPU scope (R32, 2026-10-23): retain the legacy simple demo
-  CPU and plan two strategic opponents in a separate private `wotr-bot` service
-  on the operator's infrastructure. New saved PvE uses the same player API and
-  information boundary, with no bot installation or closed-source component on
-  players' devices. The host requests CPU in the empty opposing room seat. Bot
-  memory and command recovery belong to the bot service; the game server owns
-  authoritative state and receipts. This approval does not automate human choices
-  or establish implementation acceptance. Code for the private bot must not enter
-  public game repositories, dependency archives or installers.
+  scope. Owner-approved CPU scope (R32, updated 2026-10-27): retain the legacy
+  demo CPU and implement two strategic policies in a private `wotr-bot` runtime
+  library loaded by the operator's game server. The runtime receives only copied
+  own-side player information, decisions/history, configuration and opaque memory;
+  it returns proposals. The server schedules, validates and persists accepted
+  commands/memory. Compose expansion/variant modules, never a bot per combination.
+  The host requests CPU in the opposing room seat. Players install no private
+  component. Private policies/tests/binaries must not enter public repositories,
+  public archives or player installers. The in-process runtime is trusted code;
+  its API and architecture enforce information minimization, not an OS sandbox.

@@ -1,5 +1,12 @@
 # Saved PvE rooms
 
+**Architecture update, 2026-10-27:** [the embedded runtime](BOT-RUNTIME.md) replaces
+external bot hosting. BOT-12 room reservation/save behavior remains; BOT-16 HTTP
+identity code is legacy and disabled by default. Runtime scheduling/readiness
+and opaque memory recovery move to the game host in BOT-18. External claim/lease
+requirements below describe the previous design and are not the runtime API.
+
+
 BOT-12 adds server-owned CPU reservations to ordinary rooms. Claim delivery and
 the private worker remain BOT-17/BOT-18. No strategy, hypothetical position,
 memory or command journal is stored here.

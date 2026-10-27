@@ -148,7 +148,18 @@ test server on the Mac; for now they should be available to all accounts").
 
 Specification: TEST-08.
 
-## D20 — strategic opponents in a private external service (2026-10-23)
+## D20 — strategic opponents: external service superseded by embedded runtime
+
+**Owner update, 2026-10-27:** the private repository now contains only a runtime
+library loaded by the game server. It receives copied player-visible information,
+decisions/history, configuration and opaque prior memory, and returns a proposed
+move/memory. The public host owns scheduling, persistence and validation. Two
+faction policies compose shared mechanic modules for the enabled expansions and
+variants; there is no policy executable per combination. No private binary enters
+a human client. This replaces the external-process, HTTP-control and private-store
+requirements below, which remain a record of the 2026-10-23 decision.
+
+### Previous decision (2026-10-23)
 
 Source: the owner's request for two scripted strategic opponents, followed by
 the explicit requirement for a separate closed-source application with no extra

@@ -1,58 +1,43 @@
 <a id="architektura"></a>
 # Architecture
 
-BOT-12 now implements [saved PvE rooms](server/BOT-ROOMS.md): atomic CPU admission, durable assignments, scoped readiness/start and cancellation. Assignment delivery and the private playing worker remain BOT-17/BOT-18. BOT-02/BOT-03 have private checkpoints only; reconstruction and complete candidate coverage remain pending.
+BOT-12 now implements [saved PvE rooms](server/BOT-ROOMS.md): atomic CPU admission, durable assignments, scoped readiness/start and cancellation. The embedded runtime boundary/loader is BOT-17; host scheduling and opaque memory recovery remain BOT-18. BOT-02/BOT-03 have private checkpoints only; reconstruction and complete candidate coverage remain pending.
 
 The Unity client presents the player's role and prepares intents. The pure C#
 engine resolves rules on the server. ASP.NET Core persists the result before
 responding and sends each side only its authorized view.
 
-## Private bot service — foundation 2026-10-24
+## Private embedded bot runtime — owner revision 2026-10-27
 
-The [strategic bot design](server/STRATEGIC-BOTS.md) adds a third application,
-`wotr-bot`, with a private repository and independent deployment. The isolated
-application/build foundation and restricted server API authority are implemented;
-room admission is implemented; assignment delivery, the worker and policies remain planned.
-It consumes the versioned [pure rules source package](bots/RULES-PACKAGE.md)
-and reports itself unready for gameplay. The game/client remain buildable
-without private bot code; no bot artifacts are installed on a player's device.
+The [canonical design](server/STRATEGIC-BOTS.md) now loads a private runtime DLL
+inside the game server. Two faction policies compose shared modules selected by
+MatchConfiguration. Public builds need no private source or binaries; players
+receive only the ordinary client. The old separate-service design is superseded.
 
-BOT-01 adds the pure seat-bound observation, versioned strategic memory and
-policy entry guard in that application. It distinguishes remembered revelations
-from current certainty and rejects stale/wrong-seat/unsupported memory before
-policy execution. Persistence and live service integration remain separate.
+[ABI 1](server/BOT-RUNTIME.md) passes copied own-side PlayerView, configuration,
+decisions/options, visible history/reports/previews and opaque memory as JSON.
+The private entrypoint returns one ordinary command proposal and proposed memory
+or a refusal. It receives no live MatchState, database/service/engine handle,
+observer perspective, opponent secrets or future RNG. The host establishes input
+provenance using ordinary player projections. Shared CLR game objects do not cross
+the boundary; private rule dependencies load in a separate assembly context.
 
-BOT-03 constructs candidate actions from those observations, including grouped
-placements and paid continuations. Its local march-rule adapter uses a reviewed
-public board subset; that subset cannot be treated as a complete simulation
-position. General reconstruction and guaranteed fallback remain unaccepted.
-Private configuration walks validate proposals against controlled engine states
-while construction and fixture selection receive only the acting player's view.
-These test-only states are never inputs to a production policy or transport port.
+The optional loader uses `Wotr:Bots:RuntimeAssembly` (absolute local DLL path) and
+optional `Wotr:Bots:RuntimeVersion` pin. Absent/incompatible runtimes keep CPU
+unavailable without stopping ordinary server use. Loading does not start gameplay
+or acknowledge rooms. The current private policy catalog is empty.
+BOT-18 adds host scheduling, room readiness, per-seat evaluation generations and
+opaque memory/receipt recovery. The normal engine validates every command after
+rechecking the current decision/revision under the mutation lock. Proposed memory
+advances only for accepted commands and is never included in human views/replays.
 
-BOT-16 implements [separate control and seat authority](server/BOT-AUTHORIZATION.md)
-in the game server. Hashed credentials bind a technical participant to one
-room/match/side and active generation. An operation allowlist reuses ordinary
-player handlers. Match/room mutations recheck authority after their row lock and
-hold grant/credential locks through commit; streams reauthenticate on updates
-and heartbeats. Trusted capability settings and independent bot versions never
-relax human compatibility. Bot reads/readiness cannot keep an abandoned human
-room alive. No private policy code or memory enters the public server.
-
-In the room integration, the host requests CPU in an empty opposing seat. The server persists a reserved
-seat and assignment; the private service claims it, verifies configuration and
-readies that seat. Normal human Ready/Start and server authority still apply.
-Restricted bot credentials reach the same player projection, updates, history,
-previews and command/receipt endpoints. Neither assignment delivery nor simulation
-may reveal authoritative state, opposing secrets, observer data or DB access.
-
-Policies, plans and simulations run in the bot application using pinned shared
-rules code and hypothetical states reconstructed from player information. Its
-private store journals an exact outgoing command and proposed memory before POST;
-an accepted receipt advances memory once. Recovery checks receipts or resends the
-same command. This replaces the proposed shared game-state/bot-memory transaction.
-The server stores assignment/profile identity, game state and receipts; it never
-executes the strategic policy in-process. Legacy demo behavior remains separate.
+BOT-02/BOT-03 retain their private simulation/candidate checkpoints and unresolved
+reconstruction/fallback acceptance. Runtime proximity never authorizes direct
+hidden-state access. BOT-19 covers private DLL packaging and upgrade/resource
+limits; BOT-20 tests the real embedded policies/server/client. A load context is
+not an OS sandbox; cancellation and work/resource limits must be enforced
+cooperatively and at the host scheduler. Legacy BOT-16 HTTP identity/grant code
+remains disabled by default and is not used by the embedded runtime.
 
 <a id="planowane-obserwowanie-i-replaye--obs-00-2026-10-16"></a>
 ## Planned observing and replays — OBS-00 (2026-10-16)

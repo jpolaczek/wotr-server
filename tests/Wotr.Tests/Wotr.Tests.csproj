@@ -27,5 +27,6 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.1"><PrivateAssets>all</PrivateAssets></PackageReference>
     <ProjectReference Include="../../src/Wotr.Domain/Wotr.Domain.csproj" />
     <ProjectReference Include="../../src/Wotr.Server/Wotr.Server.csproj" />
+    <ProjectReference Include="../Wotr.RuntimeFixture/Wotr.RuntimeFixture.csproj" />
   </ItemGroup>
 </Project>
