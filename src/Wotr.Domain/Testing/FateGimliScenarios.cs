@@ -3,7 +3,7 @@ using static Wotr.Domain.ExpansionBoard;
 
 namespace Wotr.Domain;
 
-// UI-349 (expansions UI audit, owner 2026-10-26): the Fate mechanics the test menu lacked — Messenger of the Dwarves,
+// UI-349 (expansions UI audit, owner 2026-10-26): the Fate mechanics the test menu lacked — Messenger of Elrond,
 // the Dwarven Lord's Guide response in the Hunt, his homeland at the Council's setup — and one Fate Combat card, so the
 // owner can start each one. Gimli, Dwarven Lord, plays with the Council of Rivendell, so his scenarios name Lords too.
 public static class FateGimliScenarios
@@ -15,13 +15,13 @@ public static class FateGimliScenarios
 
     public static IEnumerable<TestScenario> All() =>
     [
-        new("fate-gimli-messenger", Group, "Messenger of the Dwarves",
+        new("fate-gimli-messenger", Group, "Messenger of Elrond",
             "Fate of Erebor with the Council of Rivendell: Gimli, Dwarven Lord, waits in Ered Luin and the Dwarves are " +
-            "passive; any die activates them and moves them one step.",
+            "passive. While he is there, spend any Action die to activate them and move them one step toward war.",
             Side.FreePeoples, Messenger) { Modules = [ExpansionModules.Fate, ExpansionModules.Lords] },
         new("fate-gimli-guide", Group, "The Dwarven Lord as Guide",
-            "Gimli, Dwarven Lord, guides the Fellowship alone near Hollin and the Hunt hits it: his response in the Hunt " +
-            "window leaves the Fellowship before the damage, moving up to his level.",
+            "Gimli, Dwarven Lord, is the Fellowship's only Companion and its Guide near Hollin, and the Hunt draws a " +
+            "damaging tile: separate him from the Fellowship before the damage to reduce it by 1.",
             Side.FreePeoples, Guide) { Modules = [ExpansionModules.Fate, ExpansionModules.Lords] },
         new("fate-gimli-homeland", Group, "Gimli's homeland",
             "The Council of Rivendell's setup: Gimli, Dwarven Lord, was chosen, so he may start in one of his homelands, " +

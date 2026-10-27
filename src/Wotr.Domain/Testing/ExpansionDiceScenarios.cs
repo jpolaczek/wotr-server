@@ -87,7 +87,8 @@ public static class ExpansionDiceScenarios
             "The Black Serpent is in play, so the Shadow rolled its Ruler die; any result but an Eye pays for another Chieftain.",
             Side.Shadow, ShadowRuler),
         new("fate-gimli-renown", Fate, "Gimli's Renown",
-            "Fate of Erebor: Gimli has left the Fellowship to the Iron Hills; with an Event die he advances the Dwarves.",
+            "Fate of Erebor: Gimli has left the Fellowship for the Iron Hills. While he is there, spend any Action die, " +
+            "here an Event die, to move the Dwarves one step toward war.",
             Side.FreePeoples, GimliRenown),
         new("kings-fp-awaken", KingsSovereigns, "Awaken a sovereign",
             "Muster die: every nation is at war and Dáin stands in the Iron Hills, so a sovereign can be awakened.",

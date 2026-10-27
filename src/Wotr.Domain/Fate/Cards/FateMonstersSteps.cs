@@ -13,8 +13,8 @@ public sealed record FateMonstersBranchStep : EffectChoiceStep
         Id = id,
         Title = id == FateCards.MonstersWest ? "West of the mountains" : "East of the mountains",
         Detail = id == FateCards.MonstersWest
-            ? "Regulars in Angmar, Ettenmoors and Weather Hills; an Elite in Trollshaws."
-            : "Regulars in Western Mirkwood, Northern Mirkwood and Withered Heath; an Elite in one of these regions."
+            ? "One Sauron Regular each in Angmar, Ettenmoors and Weather Hills, and a Sauron Elite in Trollshaws."
+            : "One Sauron Regular each in Western Mirkwood, Northern Mirkwood and Withered Heath, and a Sauron Elite in one of them."
     };
 
     public override void Choose(EffectContext context, string id) =>
@@ -31,7 +31,7 @@ public sealed record FateMonstersEliteStep : EffectChoiceStep
 
     public override EffectChoiceView Describe(MatchState state, EffectExecution execution, string id) => new()
     {
-        Id = id, TargetId = id, Title = "Elite destination", Detail = "The Sauron Elite enters this region together with its Regular."
+        Id = id, TargetId = id, Title = "Elite destination", Detail = "Recruit the Sauron Elite here, beside this region's Regular."
     };
 
     public override void Choose(EffectContext context, string id) => context.Execution.RegionId = id;

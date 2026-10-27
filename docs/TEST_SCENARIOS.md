@@ -109,8 +109,8 @@ module is the module its game uses.
 | `kings-sh-chieftain-entry` | Kings | Shadow | Bring in a Dark Chieftain | Muster: the Black Serpent enters with a Southron army (Gondor at war). |
 | `kings-sh-ruler-die` | Kings | Shadow | Shadow Ruler die | The Shadow's Ruler die (any result but the Eye) pays for another chieftain's entry. |
 | `fate-gimli-renown` | Fate | Free Peoples | Gimli's Renown | Event: Gimli in the Iron Hills moves the Dwarves on the political track. |
-| `fate-gimli-messenger` | Fate, Lords | Free Peoples | Messenger of the Dwarves | UI-349: Gimli, Dwarven Lord (Council of Rivendell), in Ered Luin; any die activates the passive Dwarves and moves them one step. |
-| `fate-gimli-guide` | Fate, Lords | Free Peoples | The Dwarven Lord as Guide | UI-349: the Hunt hits the Fellowship guided by Gimli, Dwarven Lord, alone near Hollin; his response in the Hunt window leaves before the damage. |
+| `fate-gimli-messenger` | Fate, Lords | Free Peoples | Messenger of Elrond | UI-349: Gimli, Dwarven Lord (Council of Rivendell), in Ered Luin; while he is there, any Action die activates the passive Dwarves and moves them one step toward war. |
+| `fate-gimli-guide` | Fate, Lords | Free Peoples | The Dwarven Lord as Guide | UI-349: the Hunt hits the Fellowship guided by Gimli, Dwarven Lord, alone near Hollin; separating him before the damage reduces it by 1. |
 | `fate-gimli-homeland` | Fate, Lords | Free Peoples | Gimli's homeland | UI-349: the Council's setup with Gimli, Dwarven Lord, chosen: he may start in the Iron Hills or Ered Luin. |
 | `kings-fp-awaken` | Kings | Free Peoples | Awaken a sovereign | Muster: awaken a sovereign (every nation at war). |
 | `kings-fp-remove-corrupted` | Kings | Free Peoples | Remove a corrupted sovereign | Boromir in Minas Tirith removes the corrupted Denethor. |
@@ -283,7 +283,7 @@ hand and checks that the game then waits on the card's own choice.
 | `fate-card-dwarves-of-the-iron-hills` | Free Peoples | Dwarves of the Iron Hills · Event | The recruitment region next to Dale or Dale itself, and the Dwarven reserve plan. |
 | `fate-card-orcs-multiplying-again` | Shadow | Orcs Multiplying Again · Event | Mount Gundabad or Erebor on the map; four Sauron Regulars left, so the reserve is split. |
 | `fate-card-monsters-roused` | Shadow | Monsters Roused · Event | The West or East plan in the console; one Sauron Regular left, so the reserve plan decides what is placed. |
-| `fate-card-bardings-combat` | Free Peoples | Bardings · Combat: Shield Wall | UI-349: the base cards' defence at the Fords of Isen (TEST-09) in a Fate game; choose Bardings as the defender's Combat card. |
+| `fate-card-bardings-combat` | Free Peoples | Bardings · Combat: Shield-wall | UI-349: the base cards' defence at the Fords of Isen (TEST-09) in a Fate game; choose Bardings as the defender's Combat card. |
 
 #### Fate end to end — TEST-14 (2026-10-27)
 
@@ -345,10 +345,10 @@ ability and rule, the scenario that shows it and the condition that scenario mee
 | Monsters Roused: the West or East plan, the Elite's region, the reserve plan (D21) | `fate-card-monsters-roused` | One Sauron Regular and the Elites left. |
 | Desperate Battle (Combat): both sides +1 | `fate-card-monsters-roused-combat` | Unconditional. |
 | Gimli (Fate): Captain of the West, +1 Combat die | `fate-gimli-captain` | Gimli takes part in the Iron Hills' defence. |
-| Gimli (Fate): Dwarf of Renown, any die in the Iron Hills or Ered Luin advances the Dwarves (D22) | `fate-gimli-renown` | Gimli in the Iron Hills, the Dwarves active and short of war. |
-| Gimli, Dwarven Lord: Messenger, any die activates and advances the Dwarves (D22) | `fate-gimli-messenger` | Gimli in Ered Luin; the Dwarves passive, 2 steps from war. |
+| Gimli (Fate): Dwarf of Renown, while Gimli is in the Iron Hills or Ered Luin any Action die moves the Dwarves one step toward war (D22) | `fate-gimli-renown` | Gimli in the Iron Hills, the Dwarves active and short of war. |
+| Gimli, Dwarven Lord: Messenger of Elrond, while he is in the Iron Hills or Ered Luin any Action die activates the Dwarves and moves them one step toward war (D22) | `fate-gimli-messenger` | Gimli in Ered Luin; the Dwarves passive, 2 steps from war. |
 | Gimli, Dwarven Lord: Guide response in the Hunt, leaves and reduces the damage by one (D9) | `fate-gimli-guide` | He guides alone and the Hunt hits with a damaging tile. |
-| Gimli, Dwarven Lord: Dwarven Champion, +1 Combat die defending a Dwarven region | `fate-gimli-champion` | The battle is in the Iron Hills. |
+| Gimli, Dwarven Lord: Dwarven Champion, +1 Combat die in a battle in a Dwarven region, attacking or defending | `fate-gimli-champion` | The battle is in the Iron Hills. |
 | Gimli, Dwarven Lord: level 1, moves two | `fate-gimli-journey` | He stands outside the Fellowship with a Character die. |
 | Gimli, Dwarven Lord: the Council's start in the Iron Hills or Ered Luin (D14) | `fate-gimli-homeland` | The Council's versions chose him. |
 | Erebor a Sauron Stronghold: the Free Peoples' capture is worth 2 | `fate-erebor-victory` | Erebor empty, the Dwarves at war, Mount Gundabad already held. |

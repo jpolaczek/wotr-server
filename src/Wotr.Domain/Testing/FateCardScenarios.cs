@@ -19,13 +19,14 @@ public static class FateCardScenarios
     [
         Card(FateCards.ThereAndBack, "Legolas waits in the Carrock, so the North, the Dwarves and the Elves advance after the separation.",
             board => board.Companion(Legolas, "carrock")),
-        Card(FateCards.Book, "Gimli waits in the Iron Hills and Legolas in Ered Luin: move them, then the Dwarves go to war and recruit.",
+        Card(FateCards.Book, "Gimli waits in the Iron Hills and Legolas in Ered Luin: you may move them, and if one " +
+            "still stands in either region afterwards, the Dwarves go to war and recruit there.",
             board => board.Companion(FateGimli.Figure, "iron-hills").Companion(Legolas, "ered-luin")),
         Card(FateCards.Bardings, "Dale holds a Free Peoples army, so Dale itself and the regions next to it can recruit.", DaleArmy),
         Card(FateCards.Dwarves, "Dale holds a Free Peoples army, so Dale itself and the regions next to it can recruit.", DaleArmy),
         Card(FateCards.Orcs, "Only four Sauron Regulars are left in the reserve: choose Mount Gundabad or Erebor and split them.",
             board => board.Change(state => Reserve(state, 4))),
-        Card(FateCards.Monsters, "Only one Sauron Regular is left in the reserve: choose West or East and place what it allows.",
+        Card(FateCards.Monsters, "Only one Sauron Regular is left in the reserve: choose West or East and recruit what the reserve allows.",
             board => board.Change(state => Reserve(state, 1)))
     ];
 

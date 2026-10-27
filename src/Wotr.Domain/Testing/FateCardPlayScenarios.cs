@@ -18,8 +18,8 @@ public static class FateCardPlayScenarios
     [
         new("fate-card-orcs-erebor-held", FateCardScenarios.Group, "Orcs Multiplying Again · Erebor held",
             "Muster and Event dice; Orcs Multiplying Again is in hand. The Free Peoples hold Erebor, so Mount Gundabad is " +
-            "the only second region, and the full reserve leaves one plan: the card places three Sauron Regulars in Dol " +
-            "Guldur and three in Mount Gundabad without another click.",
+            "the only second region, and the full reserve leaves nothing to split: the card recruits three Sauron " +
+            "Regulars in Dol Guldur and three in Mount Gundabad without another click.",
             Side.Shadow, OrcsEreborHeld) { Modules = [ExpansionModules.Fate] },
         new("fate-kings-dale-cards", KingsGroup, "Bardings and Dwarves with Kings",
             "Kings of Middle-earth with Fate of Erebor: Brand and Dáin are not sovereigns, and Bardings and Dwarves of the " +

@@ -1010,7 +1010,7 @@
         {
           "id": "combat-strength-plus-one",
           "title": "Captain of the West",
-          "text": "When Gimli participates in a battle, increase his Free Peoples army’s Combat Strength by 1. The Combat roll is still limited to five dice. This is not extra Leadership or a bonus to die results.",
+          "text": "When Gimli takes part in a battle, add 1 to the Free Peoples army’s Combat Strength (at most five Combat dice).",
           "source": "FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3 · 1/11 FE",
           "verification": "content/fate-character-implementation-manifest.json: cards[fate.character.gimli].abilities[combat-strength-plus-one]",
           "sourceDocument": "docs/sources/fate-index.json (fate.character.gimli), card front 1/11 FE; FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3"
@@ -1018,7 +1018,7 @@
         {
           "id": "politics-dwarves-at-fate-homelands",
           "title": "Dwarf of Renown",
-          "text": "In Iron Hills or Ered Luin, spend any available Action die result to advance the Dwarves one step on the Political Track. This does not activate the nation and normal political limits still apply. The region need not be unconquered; Erebor does not qualify.",
+          "text": "While Gimli is in the Iron Hills or Ered Luin, even if the Shadow controls it, you may spend any Action die to move the Dwarves one step toward war.",
           "source": "FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3 · 1/11 FE",
           "verification": "content/fate-character-implementation-manifest.json: cards[fate.character.gimli].abilities[politics-dwarves-at-fate-homelands]",
           "sourceDocument": "docs/sources/fate-index.json (fate.character.gimli), card front 1/11 FE; FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3"
@@ -1032,7 +1032,7 @@
         {
           "id": "guide-separate-to-reduce-hunt-one",
           "title": "Guide",
-          "text": "During a Hunt, you may separate Gimli while he is the Guide to reduce Hunt damage by 1, to a minimum of zero. This may be used at zero damage, but not against damage that must be taken entirely as Corruption. Companions separated against the same tile form one group; changing the Guide is a separate decision.",
+          "text": "When a Hunt tile is drawn while Gimli is the Guide, you may separate him to reduce its damage by 1 (minimum 0), unless that damage must be taken as Corruption.",
           "source": "FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3 · LM 6/10 FE",
           "verification": "content/fate-character-implementation-manifest.json: cards[fate.character.gimli-dwarven-lord].abilities[guide-separate-to-reduce-hunt-one]",
           "sourceDocument": "docs/sources/fate-index.json (fate.character.gimli-dwarven-lord), card front LM 6/10 FE; FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3"
@@ -1040,7 +1040,7 @@
         {
           "id": "champion-dwarves",
           "title": "Dwarven Champion",
-          "text": "When Gimli participates in a battle whose defending army is in a Dwarven region, add 1 to the Free Peoples army’s Combat Strength, still limited to five Combat dice. This works whether Free Peoples attacks or defends. Use the current Fate board: Erebor belongs to Sauron and does not qualify.",
+          "text": "When Gimli takes part in a battle in a Dwarven region (not Erebor), attacking or defending, add 1 to the Free Peoples army’s Combat Strength (at most five Combat dice).",
           "source": "FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3 · LM 6/10 FE",
           "verification": "content/fate-character-implementation-manifest.json: cards[fate.character.gimli-dwarven-lord].abilities[champion-dwarves]",
           "sourceDocument": "docs/sources/fate-index.json (fate.character.gimli-dwarven-lord), card front LM 6/10 FE; FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3"
@@ -1048,7 +1048,7 @@
         {
           "id": "messenger-dwarves",
           "title": "Messenger of Elrond",
-          "text": "In Iron Hills or Ered Luin, spend any available Action die result to activate the Dwarves and advance them one step on the Political Track. The region need not be unconquered; Erebor does not qualify. This ability does not give Gimli a Dwarven nation icon.",
+          "text": "While Gimli is in the Iron Hills or Ered Luin, even if the Shadow controls it, you may spend any Action die to activate the Dwarves and move them one step toward war.",
           "source": "FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3 · LM 6/10 FE",
           "verification": "content/fate-character-implementation-manifest.json: cards[fate.character.gimli-dwarven-lord].abilities[messenger-dwarves]",
           "sourceDocument": "docs/sources/fate-index.json (fate.character.gimli-dwarven-lord), card front LM 6/10 FE; FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3"
@@ -1056,7 +1056,7 @@
         {
           "id": "movement-level-two",
           "title": "Movement level",
-          "text": "Treat Gimli’s Level as 2 only for movement. His printed Level remains 1 for Hunt casualties and Combat card effects. This version has no nation icon. With Council, its starting homelands are Iron Hills or Ered Luin, not Erebor.",
+          "text": "Gimli moves as Level 2 but is Level 1 for everything else, such as Hunt casualties. He has no nation icon and may start in the Iron Hills or Ered Luin.",
           "source": "FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3 · LM 6/10 FE",
           "verification": "content/fate-character-implementation-manifest.json: cards[fate.character.gimli-dwarven-lord].abilities[movement-level-two]",
           "sourceDocument": "docs/sources/fate-index.json (fate.character.gimli-dwarven-lord), card front LM 6/10 FE; FATE Collector’s Edition pp.45–46; WOTR018 rules, Lords paragraph; LORDS pp.30–31 and FAQ 1.2 p.3"

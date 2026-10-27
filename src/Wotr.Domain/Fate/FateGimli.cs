@@ -8,6 +8,8 @@ public static class FateGimli
     public const string Standard = "fate.character.gimli";
     public const string Alternate = "fate.character.gimli-dwarven-lord";
     public const string Renown = "politics-dwarves-at-fate-homelands";
+    public const string RenownTitle = "Dwarf of Renown";
+    public const string RenownDetail = "Spend any Action die to move the Dwarves one step toward war.";
     public const string GuideReaction = "fate.gimli-guide";
     public static IReadOnlyList<string> Homelands { get; } = ["iron-hills", "ered-luin"];
 

@@ -37,8 +37,8 @@ public static class CharacterAbilities
                 {
                     CharacterId = character.Id,
                     AbilityId = ability.Key,
-                    Title = ability.Key == FateGimli.Renown ? "Dwarf of Renown" : "Advance " + ability.Value,
-                    Detail = "Use any available die to advance the nation's politics.",
+                    Title = ability.Key == FateGimli.Renown ? FateGimli.RenownTitle : "Advance " + ability.Value,
+                    Detail = ability.Key == FateGimli.Renown ? FateGimli.RenownDetail : "Use any available die to advance the nation's politics.",
                     Targets = [character.Location],
                     Dice = Available(state, actor, null)
                 };
