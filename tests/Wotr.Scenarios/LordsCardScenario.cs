@@ -26,7 +26,10 @@ internal static class LordsCardScenario
         ["ui348-brand-heir"] = KingsDecisionScenarios.Brand(Guid.NewGuid().ToString("N"), random, true),
         ["ui348-brand-heir-keep"] = KingsDecisionScenarios.Brand(Guid.NewGuid().ToString("N"), random, true),
         ["ui348-brand-shadows"] = KingsDecisionScenarios.Brand(Guid.NewGuid().ToString("N"), random, false),
-        ["ui348-anarion"] = KingsDecisionScenarios.Anarion(Guid.NewGuid().ToString("N"), random)
+        ["ui348-anarion"] = KingsDecisionScenarios.Anarion(Guid.NewGuid().ToString("N"), random),
+        // UI-277: the Black Serpent's substitution before the reveal: the chip and the Pass.
+        ["ui277-chieftain"] = KingsDecisionScenarios.Chieftain(Guid.NewGuid().ToString("N"), random),
+        ["ui277-chieftain-keep"] = KingsDecisionScenarios.Chieftain(Guid.NewGuid().ToString("N"), random)
     };
 
     private static MatchState State(IRandomSource random, Side actor)

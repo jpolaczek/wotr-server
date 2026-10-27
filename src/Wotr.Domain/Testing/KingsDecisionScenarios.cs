@@ -1,4 +1,5 @@
 using Wotr.Contracts;
+using Wotr.Domain.Content;
 using static Wotr.Domain.ExpansionBoard;
 
 namespace Wotr.Domain;
@@ -32,6 +33,10 @@ public static class KingsDecisionScenarios
             "Denethor, Lord Steward, stands in Minas Tirith and the Ruler die drew a card: click a deck for the extra " +
             "card, or Pass to finish the action without it.",
             Side.FreePeoples, Anarion) { Modules = [ExpansionModules.Kings] },
+        new("kings-chieftain-substitution", Group, "A Chieftain's substitution",
+            "The North's army attacks the Black Serpent's Sauron regulars beside Dale; before the reveal the Shadow's gilt " +
+            "chip with the Southrons' arms beside its Combat card substitutes Red Wrath, Pass keeps the card's effects.",
+            Side.Shadow, Chieftain) { Modules = [ExpansionModules.Kings] },
         new("kings-dismay", Group, "Dismay",
             "Turn 2 after the roll: Théoden fell as an Awakened king, so the Shadow holds his Dismay token; a click on the " +
             "Free Peoples' glowing Ruler die spends it and re-rolls the die, Pass keeps the token.",
@@ -94,13 +99,7 @@ public static class KingsDecisionScenarios
     // door; both sides commit a Combat card, and the reveal offers Brand's replacement to his owner.
     public static MatchState Brand(string id, IRandomSource random, bool awakened)
     {
-        var board = ScenarioBoard.Setup(id, random, Kings)
-            .AtWar("north", "sauron")
-            .Place("north", UnitKind.Regular, Dale, 2)
-            .Place("sauron", UnitKind.Regular, Target, 2)
-            .Dice(Side.FreePeoples, DieFace.Army, DieFace.Character, DieFace.Muster, DieFace.Event)
-            .Hand(Side.FreePeoples, FreePeoplesCard)
-            .Hand(Side.Shadow, ShadowCard);
+        var board = Battle(id, random);
         var state = board.State;
         var brand = Sovereign(state, SovereignCatalog.Brand);
         if (awakened)
@@ -111,14 +110,42 @@ public static class KingsDecisionScenarios
             brand.CorruptedRegion = SovereignCatalog.All[SovereignCatalog.Brand].Home;
             state.Units.RemoveAll(u => u.Id == SovereignCatalog.Brand);
         }
+        state = Commit(board, awakened ? Side.FreePeoples : Side.Shadow);
+        return state;
+    }
+
+    // The same battle with the Black Serpent beside the Sauron regulars: before the reveal the Shadow may substitute his
+    // Red Wrath for its Combat card's effects (KINGS, Kings/KingsChieftainCombat.cs).
+    public static MatchState Chieftain(string id, IRandomSource random)
+    {
+        var board = Battle(id, random);
+        var serpent = new CharacterState { Id = KingsChieftains.Serpent, Location = Target };
+        CharacterLifecycle.ApplyVersion(serpent, CharacterCatalog.Kings[KingsChieftains.Serpent]);
+        board.State.Characters.Add(serpent);
+        var state = Commit(board, Side.Shadow);
+        if (BattleRuntime.Active(state)!.CardsRevealed)
+            throw new InvalidOperationException("A Chieftain's substitution comes before the reveal.");
+        return state;
+    }
+
+    private static ScenarioBoard Battle(string id, IRandomSource random) => ScenarioBoard.Setup(id, random, Kings)
+        .AtWar("north", "sauron")
+        .Place("north", UnitKind.Regular, Dale, 2)
+        .Place("sauron", UnitKind.Regular, Target, 2)
+        .Dice(Side.FreePeoples, DieFace.Army, DieFace.Character, DieFace.Muster, DieFace.Event)
+        .Hand(Side.FreePeoples, FreePeoplesCard)
+        .Hand(Side.Shadow, ShadowCard);
+
+    // The North's army in Dale attacks; both sides commit their Combat card, and the replacement waits for its owner.
+    private static MatchState Commit(ScenarioBoard board, Side owner)
+    {
         board.Act(Side.FreePeoples);
-        state = Attack(state);
+        var state = Attack(board.State);
         while (state.Pending?.Kind == DecisionKind.CombatCard)
             state = Execute(state, CommandKind.CommitCombatCard,
                 new() { CardId = state.Pending.Owner == Side.FreePeoples ? FreePeoplesCard : ShadowCard });
-        var owner = awakened ? Side.FreePeoples : Side.Shadow;
         if (state.Pending?.Presentation != "CombatReplacement" || state.Pending.Owner != owner)
-            throw new InvalidOperationException("Brand's replacement must wait for his owner after the reveal.");
+            throw new InvalidOperationException("The Combat card replacement must wait for its owner.");
         return state;
     }
 

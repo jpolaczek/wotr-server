@@ -28,6 +28,18 @@ public class KingsDecisionScenarioTests
     }
 
     [Fact]
+    public void AChieftainsSubstitutionWaitsForTheShadowBeforeTheReveal()
+    {
+        var state = TestScenarioCatalog.Find("kings-chieftain-substitution")!.Create("ui277-kings-chieftain");
+        Assert.Equal((DecisionKind.EffectChoice, Side.Shadow, "CombatReplacement"),
+            (state.Pending!.Kind, state.Pending.Owner, state.Pending.Presentation));
+        Assert.False(BattleRuntime.Active(state)!.CardsRevealed);
+        var view = Views.For(state, Side.Shadow);
+        Assert.Equal([KingsChieftains.Serpent, "keep"], view.Options.Single(o => o.Kind == CommandKind.ChooseEffect).EligibleIds);
+        Assert.Null(Views.For(state, Side.FreePeoples).Battle!.Defender.CardId);
+    }
+
+    [Fact]
     public void DismayWaitsForTheShadowAfterTheRollWithTheFreePeoplesRulerDie()
     {
         var state = TestScenarioCatalog.Find("kings-dismay")!.Create("ui276-kings-dismay");

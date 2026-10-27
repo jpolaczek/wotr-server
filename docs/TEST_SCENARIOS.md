@@ -94,6 +94,7 @@ module is the module its game uses.
 | `kings-brand-heir` | Kings | Free Peoples | Heir of Bard | UI-348 (D17): Brand Awakened and the North attack from Dale; after the reveal the gilt chip beside the own card cancels the Shadow card, Pass keeps the card. |
 | `kings-brand-shadows` | Kings | Shadow | Shadows in the North | UI-348 (D17): Brand Corrupted; the Shadow's chip cancels the Free Peoples card after the reveal, Pass keeps the card. |
 | `kings-anarion` | Kings | Free Peoples | Palantír of Anárion | UI-348 (D7): the Ruler die drew a card with Denethor in Minas Tirith; a deck's click draws the extra card, Pass skips it. |
+| `kings-chieftain-substitution` | Kings | Shadow | A Chieftain's substitution | UI-277 (D7, D17): the Black Serpent beside the Sauron regulars the North attacks; before the reveal the Shadow's gilt chip substitutes Red Wrath, Pass keeps the card. |
 | `kings-dismay` | Lords, Kings | Shadow | Dismay | UI-276 (D7, D20): turn 2 after the roll, the Shadow holds Théoden's Dismay token; the click on the Free Peoples' glowing Ruler die spends it, Pass keeps it. |
 | `kings-far-sighted` | Kings | Free Peoples | Far-sighted | UI-276 (D18): Thranduil Awakened and the Ruler die on a Character; with it selected, his glowing picture moves with Far-sighted. |
 | `lords-evil-knowledge` | Lords | Shadow | Evil Knowledge | UI-347 (D12): the Lords Mouth of Sauron besieges Minas Tirith after a round without hits; his portrait extends the siege. |
