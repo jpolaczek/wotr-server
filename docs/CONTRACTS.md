@@ -1,24 +1,27 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
-Contracts 0.15.0 add [CPU room admission and safe metadata](server/BOT-ROOMS.md): `PUT /api/rooms/{id}/bot`, `AddRoomBotRequest`, seat kinds/status, `RoomView.Bot` and `MatchSummary.IsPve/Bot`. Public content 1.0.16 pins the new contracts. Ordinary commands, player views, protocol 2 and save schema 3 are unchanged. The embedded runtime ABI/loader is BOT-17; host scheduling remains BOT-18.
+Contracts 0.15.0 add [CPU room admission and safe metadata](server/BOT-ROOMS.md): `PUT /api/rooms/{id}/bot`, `AddRoomBotRequest`, seat kinds/status, `RoomView.Bot` and `MatchSummary.IsPve/Bot`. Public content 1.0.16 pins the new contracts. Ordinary commands, player views, protocol 2 and save schema 3 are unchanged. The embedded runtime ABI/loader is BOT-17; BOT-18 implements the embedded host scheduler and atomic command/memory commit.
 
 The contract is implemented in stages T05–T07. In T06 there are DTO `PlayerView`, `ActionOption`, `DecisionView`, `ActionPreview`; endpoints adds T07. Each field has a specific visibility and version. The table below also includes target contracts for later tasks.
 
 ## Embedded CPU runtime contract
 
 Owner revision 2026-10-27 replaces external-service/control transport with a
-private decision library loaded by the game host. [ABI 1](server/BOT-RUNTIME.md)
+private decision library loaded by the game host. [ABI 2](server/BOT-RUNTIME.md)
 uses JSON strings and CancellationToken, with public server-only request/response
 envelopes. There is no private assembly reference in public builds and no new
-human player DTO or content/package/client pin change for BOT-17.
+human player DTO or content/package/client pin change for BOT-17/BOT-18.
 
 The input wraps ordinary own-side PlayerView, MatchConfiguration, decisions,
 options, authorized action history, reports/previews, compatibility identifiers,
 opaque prior memory and compute bounds. The result is an ordinary GameCommand
-proposal plus opaque proposed memory, or a refusal. The host rechecks seat,
+proposal plus opaque proposed memory, bounded preview requests, or a refusal.
+Preview commands/results are paired and revision checked; they do not commit memory. The host rechecks seat,
 current decision/revision and full engine legality before any commit. Opaque
-memory is host persisted only for accepted commands, never sent to players.
+memory commits in the same transaction as accepted game state and receipt,
+never sent to players. Runtime descriptions separately declare accepted faction
+policy versions and module coverage. See [host persistence](server/BOT-HOST.md).
 
 BOT-12 room admission/CPU metadata remain the player-facing contract. BOT-16
 control/seat HTTP credentials remain legacy/default-disabled code; the runtime

@@ -14,7 +14,8 @@ public sealed class EmbeddedBotRuntime : IDisposable
     public string Status { get; }
     public bool GameplayReady => decide is not null && description?.GameplayReady is true;
     public BotRuntimeDescription? Description => description is null ? null :
-        description with { Profiles = [.. description.Profiles], Modules = [.. description.Modules] };
+        description with { Profiles = [.. description.Profiles], Modules = [.. description.Modules],
+            Policies = description.Policies.Select(p => p with { Features = [.. p.Features] }).ToArray() };
 
     private EmbeddedBotRuntime(string status, BotRuntimeLoadContext? context = null,
         BotRuntimeDescription? description = null, Func<string, CancellationToken, string>? decide = null)
@@ -65,7 +66,7 @@ public sealed class EmbeddedBotRuntime : IDisposable
         // the lock is independent of room/match locks and fences disposal.
         lock (gate)
         {
-            BotRuntimeResponse Refused(string reason) => new(1, request.InvocationId, "Refused", reason, []);
+            BotRuntimeResponse Refused(string reason) => new(BotRuntimeProtocol.Version, request.InvocationId, "Refused", reason, []);
             if (cancellation.IsCancellationRequested)
                 return Refused("Cancelled");
             if (decide is null || description is null)

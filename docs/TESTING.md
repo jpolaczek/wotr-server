@@ -301,3 +301,24 @@ isolated Release build, plus the existing client release/bootstrap CI fixtures.
 The [rules package](bots/RULES-PACKAGE.md) has deterministic archive/member checks.
 Full Unity builds and actual embedded-policy gameplay acceptance are separate from these
 foundation checks; no changed player runtime or package pin is introduced here.
+
+
+## Embedded bot host
+
+BOT-18 uses the BCL-only `Wotr.RuntimeFixture` DLL (never shipped by Server) and
+isolated real PostgreSQL clusters. Run `WOTR_TEST_DB=isolated dotnet test
+tests/Wotr.Tests/Wotr.Tests.csproj -c Release --filter 'FullyQualifiedName~BotHost|FullyQualifiedName~EmbeddedBotRuntimeTests'`.
+The marker enables PostgreSQL attributes; these selected tests own their clusters
+and do not connect to that marker as a database. Broader regression must use a real
+`WOTR_TEST_DB` connection as usual. Recovery cases kill actual Kestrel processes
+before journal, after journal, before atomic commit and after commit, including
+Ring destruction. PostgreSQL locks/triggers and fixture-only pauses establish the
+boundaries; production has no fault-injection endpoint or environment switch.
+Input tests compare ordinary player/history/report/preview services and hidden
+opponent permutations. Fixture outcomes do not certify real faction policies.
+
+BOT-18 verification (2026-10-28): the isolated regression passed 253 cases, with
+16 final boundary cases and 17 coexistence cases in follow-up batches, all without
+skips (258 distinct cases). Private verification passed 682 C# / nine Python;
+the actual private library passed four ABI cases. See [host behavior and
+limits](server/BOT-HOST.md); the real faction policies remain unready.

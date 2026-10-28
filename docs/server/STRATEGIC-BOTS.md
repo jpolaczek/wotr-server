@@ -173,11 +173,11 @@ returns proposed next memory. The public host stores opaque versioned bytes per
 match/side/profile; it neither interprets plans nor sends them to human clients,
 replays, events or public diagnostics.
 
-BOT-18 must journal the exact proposed command/ID, prior decision/revision,
+The [BOT-18 host](BOT-HOST.md) journals the exact proposed command/ID, prior decision/revision,
 evaluation generation and proposed memory before committing. An accepted ordinary
 receipt advances memory exactly once; stale/rejected/cancelled results never do.
-Use one host-owned transaction for receipt/accepted memory when possible, or
-explicit idempotent receipt reconciliation. Restart and a game-ending command
+Game state, receipt, accepted opaque memory and journal result commit in one
+host-owned transaction; recovery resubmits the exact pending command first. Restart and a game-ending command
 must leave no uncertain memory transition. Avoid a second private database or a
 new bot network protocol. Runtime/policy/memory version upgrades require explicit
 compatibility and migration; unsupported saved memory must not be silently reset.

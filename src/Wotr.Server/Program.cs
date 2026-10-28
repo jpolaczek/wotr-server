@@ -49,6 +49,11 @@ builder.Services.AddSingleton(services => EmbeddedBotRuntime.Load(
     services.GetRequiredService<IConfiguration>()["Wotr:Bots:RuntimeAssembly"],
     services.GetRequiredService<IConfiguration>()["Wotr:Bots:RuntimeVersion"]));
 builder.Services.AddSingleton(services => BotRoomOptions.Read(services.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton(services => BotHostOptions.Read(services.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton<BotRuntimeCapabilities>();
+builder.Services.AddSingleton<BotJobStore>();
+builder.Services.AddSingleton<BotInputStore>();
+builder.Services.AddHostedService<BotScheduler>();
 builder.Services.AddSingleton<ISessionResolver>(services => services.GetRequiredService<SessionStore>());
 builder.Services.AddSingleton(services => ReleaseScope.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
 builder.Services.AddSingleton(services => ClientReleaseOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));

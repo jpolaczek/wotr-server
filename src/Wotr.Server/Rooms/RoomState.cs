@@ -82,6 +82,9 @@ public sealed class RoomBotState
     public string ProfileId { get; set; } = "";
     public string PolicyVersion { get; set; } = "";
     public long? ReadyGeneration { get; set; }
+    public string? RuntimeVersion { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
+    public bool? RuntimeHealthy { get; set; }
 }
 
 public sealed record RoomResult(RoomView? Room = null, string Error = "");

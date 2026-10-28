@@ -12,7 +12,8 @@ public sealed record RoomParticipant(RoomView Room, string Name);
 // UI-96: the release scope decides which configurations new tables may use; tests built without DI keep everything.
 // OBS-01: a room has two seats and an audience of up to sixteen observers (ObserverOptions).
 public sealed partial class RoomStore(Database database, IRandomSource random, ReleaseScope? release = null,
-    ObserverOptions? observerOptions = null, BotAccessOptions? bots = null, BotRoomOptions? botRooms = null)
+    ObserverOptions? observerOptions = null, BotAccessOptions? bots = null, BotRoomOptions? botRooms = null,
+    BotRuntimeCapabilities? runtime = null, BotHostOptions? botHost = null, EmptyRoomOptions? emptyRooms = null)
 {
     private readonly ReleaseScope scope = release ?? ReleaseScope.Full;
     private readonly ObserverOptions audience = observerOptions ?? ObserverOptions.Default;
@@ -57,6 +58,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         var rooms = await Participating(connection, account, cancellation);
         var observers = await RoomObservers.ActiveIn(connection, null, rooms.Select(r => r.Id).ToArray(), cancellation);
+        await RuntimeHealth(connection, rooms, cancellation);
         return rooms.Select(room => View(room, account, observers.GetValueOrDefault(room.Id) ?? []))
             .ToList();
     }
@@ -105,6 +107,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
             return null;
         var room = Deserialize(json);
         var observers = await RoomObservers.Active(connection, null, id, cancellation);
+        await RuntimeHealth(connection, [room], cancellation);
         var name = room.Contains(account) ? room.PlayerName(account) : observers.Find(o => o.Account == account)?.Name;
         return new RoomParticipant(View(room, account, observers), name ?? "");
     }
@@ -116,7 +119,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
     public Task<RoomResult> Configure(string id, string account, ConfigureRoomRequest request, CancellationToken cancellation = default) =>
         Change("id", id, account, Access.Participant, room => Task.FromResult(
             !Manages(room.State, account) ? "HostRequired" :
-            room.State.Bot is not null && BotRoomUnavailable(request.Configuration, room.State.Bot.PolicyVersion) is { } error ? error :
+            room.State.Bot is { } bot && BotRoomUnavailable(request.Configuration, bot.PolicyVersion, bot.RuntimeVersion, bot.RuntimeVersion is not null) is { } error ? error :
             RoomRules.Configure(room.State, request, scope)), cancellation);
 
     public Task<RoomResult> Confirm(string id, string account, int version, CancellationToken cancellation = default) =>
@@ -182,6 +185,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
             return new(Error: error);
         await Save(room, cancellation, refreshPresence: botAuthority is null);
         await transaction.CommitAsync(cancellation);
+        await RuntimeHealth(connection, [state], cancellation);
         return new(View(state, account, room.Observers));
     }
 

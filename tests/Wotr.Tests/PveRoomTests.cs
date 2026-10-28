@@ -13,6 +13,23 @@ namespace Wotr.Tests;
 public sealed class PveRoomTests(PveFixture fixture)
 {
     [PostgresFact]
+    public async Task EnablingEmbeddedHostingDoesNotReinterpretAnExistingLegacySeat()
+    {
+        var human = await fixture.Human();
+        var room = await fixture.Reserve(human, await fixture.Room(human));
+        await fixture.ReadyCpu(room);
+        await fixture.Rooms.SetReady(room.Id, human.AccountId, new() { ExpectedVersion = room.Version, Ready = true });
+        var access = fixture.Host.Services.GetRequiredService<BotAccessOptions>();
+        var rooms = new BotRoomOptions(true, "fixture-1");
+        var host = new BotHostOptions(true, null, "0.2.0", 1, TimeSpan.FromSeconds(30),
+            TimeSpan.FromMilliseconds(500), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+        using var missing = EmbeddedBotRuntime.Load(null);
+        var mixed = new RoomStore(fixture.Database, new SeededRandom(18), ReleaseScope.BaseOnly,
+            bots: access, botRooms: rooms, runtime: new(host, rooms, access, missing), botHost: host);
+        Assert.Equal("", (await mixed.Start(room.Id, human.AccountId, room.Version)).Error);
+    }
+
+    [PostgresFact]
     public async Task ChangedPolicyVersionBlocksStartAndSeatCredentialCannotInviteAnotherBot()
     {
         var human = await fixture.Human();

@@ -43,7 +43,7 @@ verifier exists the public schema accepts **only pending** behavioral evidence.
 
 The [embedded runtime ABI](../server/BOT-RUNTIME.md) replaces the external service.
 BOT-17 covers copied JSON input/output, modular configuration and optional server
-loading. BOT-18 owns host scheduling, provenance and opaque memory/receipt
+loading. BOT-18 implements [host scheduling](../server/BOT-HOST.md), provenance and atomic opaque memory/receipt
 persistence. Two faction profiles compose the selected mechanics; accepted
 coverage remains separate from module registration. Public CI uses an ABI fixture;
 no private runtime binary is a public build/package dependency.

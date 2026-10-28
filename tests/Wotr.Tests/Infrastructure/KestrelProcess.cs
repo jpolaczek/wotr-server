@@ -67,6 +67,20 @@ internal sealed class KestrelProcess : IAsyncDisposable
         return client;
     }
 
+    // The PostgreSQL process fixtures run on Unix hosts. Signal only this child.
+    internal async Task StopGracefully()
+    {
+        var info = new ProcessStartInfo("kill") { RedirectStandardOutput = true, RedirectStandardError = true };
+        info.ArgumentList.Add("-TERM");
+        info.ArgumentList.Add(process.Id.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        using var signal = Process.Start(info)!;
+        await signal.WaitForExitAsync();
+        if (signal.ExitCode != 0)
+            throw new InvalidOperationException("Could not signal the fixture Kestrel process.");
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        await process.WaitForExitAsync(timeout.Token);
+    }
+
     public async ValueTask DisposeAsync()
     {
         if (!process.HasExited)

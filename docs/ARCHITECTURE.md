@@ -1,7 +1,7 @@
 <a id="architektura"></a>
 # Architecture
 
-BOT-12 now implements [saved PvE rooms](server/BOT-ROOMS.md): atomic CPU admission, durable assignments, scoped readiness/start and cancellation. The embedded runtime boundary/loader is BOT-17; host scheduling and opaque memory recovery remain BOT-18. BOT-02/BOT-03 have private checkpoints only; reconstruction and complete candidate coverage remain pending.
+BOT-12 now implements [saved PvE rooms](server/BOT-ROOMS.md): atomic CPU admission, durable assignments, scoped readiness/start and cancellation. The embedded runtime boundary/loader is BOT-17; [embedded scheduling and atomic opaque-memory recovery](server/BOT-HOST.md) are implemented in BOT-18. BOT-02/BOT-03 have private checkpoints only; reconstruction and complete candidate coverage remain pending.
 
 The Unity client presents the player's role and prepares intents. The pure C#
 engine resolves rules on the server. ASP.NET Core persists the result before
@@ -14,7 +14,7 @@ inside the game server. Two faction policies compose shared modules selected by
 MatchConfiguration. Public builds need no private source or binaries; players
 receive only the ordinary client. The old separate-service design is superseded.
 
-[ABI 1](server/BOT-RUNTIME.md) passes copied own-side PlayerView, configuration,
+[ABI 2](server/BOT-RUNTIME.md) passes copied own-side PlayerView, configuration,
 decisions/options, visible history/reports/previews and opaque memory as JSON.
 The private entrypoint returns one ordinary command proposal and proposed memory
 or a refusal. It receives no live MatchState, database/service/engine handle,
@@ -26,10 +26,13 @@ The optional loader uses `Wotr:Bots:RuntimeAssembly` (absolute local DLL path) a
 optional `Wotr:Bots:RuntimeVersion` pin. Absent/incompatible runtimes keep CPU
 unavailable without stopping ordinary server use. Loading does not start gameplay
 or acknowledge rooms. The current private policy catalog is empty.
-BOT-18 adds host scheduling, room readiness, per-seat evaluation generations and
+BOT-18 implements host scheduling, room readiness, per-seat evaluation generations and
 opaque memory/receipt recovery. The normal engine validates every command after
 rechecking the current decision/revision under the mutation lock. Proposed memory
-advances only for accepted commands and is never included in human views/replays.
+advances atomically with the accepted command/receipt and is never included in human views/replays.
+Migration 019 stores generation-fenced jobs and one pending/last proposal per seat.
+The host polls durable work after restart, supports bounded preview continuations,
+and gates room readiness on accepted policy/modules and current worker health.
 
 BOT-02/BOT-03 retain their private simulation/candidate checkpoints and unresolved
 reconstruction/fallback acceptance. Runtime proximity never authorizes direct

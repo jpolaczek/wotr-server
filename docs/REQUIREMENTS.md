@@ -119,7 +119,9 @@ rankings, mobile and browser apps, and notifications outside the app. Observing
 and local replays were added to the plan by the user's decision of 2026-10-16
 (R33/R34); this does not claim implementation. Original artwork does not block
 a playable version. Scripted strategic PvE was added on 2026-10-23 (R32);
-its separate-service design is approved, while implementation remains planned.
+its embedded-runtime design supersedes separate hosting (2026-10-27). Host
+scheduling/atomic persistence are implemented in BOT-18; real-policy gameplay
+acceptance remains pending.
 
 <a id="priorytet-przy-konflikcie"></a>
 ## Priority when requirements conflict

@@ -41,15 +41,23 @@ public sealed partial class RoomStore
             {
                 AssignmentId = assignment, ParticipantId = participant, Side = side,
                 ProfileId = side == Side.Shadow ? "shadow-strong" : "free-peoples-strong",
-                PolicyVersion = botRooms!.PolicyVersion
+                PolicyVersion = botRooms!.PolicyVersion,
+                RuntimeVersion = runtime?.Enabled == true ? runtime.Version : null
             };
             await using var insert = Database.Command(room.Connection, room.Transaction, """
                 INSERT INTO bot_assignments(id,room_id,host_account,participant_id,request_id,requested_version,
-                    room_version,service_id,side,profile_id,policy_version,status)
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,'pending')
+                    room_version,service_id,side,profile_id,policy_version,status,runtime_version)
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,'pending',NULLIF($12,''))
                 """, assignment, state.Id, account, participant, request.RequestId, request.ExpectedVersion,
-                state.Version, bots!.ServiceId, side.ToString(), state.Bot.ProfileId, state.Bot.PolicyVersion);
+                state.Version, state.Bot.RuntimeVersion is null ? bots!.ServiceId : "embedded", side.ToString(),
+                state.Bot.ProfileId, state.Bot.PolicyVersion, state.Bot.RuntimeVersion ?? "");
             await insert.ExecuteNonQueryAsync(cancellation);
+            if (state.Bot.RuntimeVersion is not null)
+            {
+                await using var job = Database.Command(room.Connection, room.Transaction,
+                    "INSERT INTO bot_runtime_jobs(assignment_id) VALUES ($1)", assignment);
+                await job.ExecuteNonQueryAsync(cancellation);
+            }
             return null;
         }, cancellation);
     }
@@ -71,7 +79,9 @@ public sealed partial class RoomStore
             ? "BotReservationCancelled" : "";
     }
 
-    private string? BotRoomUnavailable(MatchConfiguration configuration, string? policyVersion = null) =>
+    private string? BotRoomUnavailable(MatchConfiguration configuration, string? policyVersion = null,
+        string? runtimeVersion = null, bool? embedded = null) =>
+        (embedded ?? runtime?.Enabled) == true ? runtime is null ? "BotUnavailable" : runtime.Unavailable(configuration, policyVersion, runtimeVersion) :
         bots?.Enabled != true || botRooms?.Enabled != true ? "BotUnavailable" :
         policyVersion is not null && policyVersion != botRooms.PolicyVersion ? "BotVersionUnsupported" :
         !bots.Supports(configuration) ? "BotConfigurationUnsupported" : null;
@@ -79,11 +89,19 @@ public sealed partial class RoomStore
     private RoomView View(RoomState room, string account, IReadOnlyList<RoomObserver> observers)
     {
         var view = room.View(account, scope, observers, audience.Limit);
-        if (room.Bot is not null && room.MatchId.Length == 0 &&
-            (RoomRules.Unavailable(room.Configuration, scope) ?? BotRoomUnavailable(room.Configuration, room.Bot.PolicyVersion)) is { } error)
+        if (room.Bot is not null && (room.MatchId.Length == 0 || room.Bot.RuntimeVersion is not null) &&
+            (RoomRules.Unavailable(room.Configuration, scope) ?? BotRoomUnavailable(room.Configuration,
+                room.Bot.PolicyVersion, room.Bot.RuntimeVersion, room.Bot.RuntimeVersion is not null)) is { } error)
         {
             view.Bot!.Status = BotSeatStatus.Unavailable;
-            view.StartUnavailableReason = error;
+            if (room.MatchId.Length == 0)
+                view.StartUnavailableReason = error;
+        }
+        if (room.Bot is { RuntimeVersion: not null, RuntimeHealthy: false } && view.Bot is not null)
+        {
+            view.Bot.Status = BotSeatStatus.Unavailable;
+            if (room.MatchId.Length == 0)
+                view.StartUnavailableReason = "BotNotReady";
         }
         return view;
     }
@@ -92,9 +110,11 @@ public sealed partial class RoomStore
     {
         if (state.Bot is not { } bot || bot.ParticipantId != account)
             return RoomRules.SetReady(state, account, request.ExpectedVersion, request.Ready);
+        if (bot.RuntimeVersion is not null)
+            return "BotCredentialsRequired";
         if (authority is null || authority.GrantId != bot.AssignmentId || authority.ServiceId != bots?.ServiceId)
             return "BotCredentialsRequired";
-        var error = BotRoomUnavailable(state.Configuration, bot.PolicyVersion) ??
+        var error = BotRoomUnavailable(state.Configuration, bot.PolicyVersion, embedded: false) ??
             RoomRules.SetReady(state, account, request.ExpectedVersion, request.Ready);
         if (error is null)
             bot.ReadyGeneration = request.Ready ? authority.Generation : null;
@@ -105,10 +125,12 @@ public sealed partial class RoomStore
     {
         if (room.State.Bot is not { } bot)
             return null;
+        if (bot.RuntimeVersion is not null)
+            return await CanStartRuntime(room, cancellation);
         if (RoomRules.Seat(room.State, bot.Side) != bot.ParticipantId ||
             RoomRules.Seat(room.State, TurnFlow.Other(bot.Side)) != room.State.HostAccount || bot.ReadyGeneration is null)
             return "BotNotReady";
-        if (BotRoomUnavailable(room.State.Configuration, bot.PolicyVersion) is { } error)
+        if (BotRoomUnavailable(room.State.Configuration, bot.PolicyVersion, embedded: false) is { } error)
             return error;
         // The room -> grant lock order also fences reassign/revoke racing the start.
         await using var query = Database.Command(room.Connection, room.Transaction, """
@@ -126,10 +148,15 @@ public sealed partial class RoomStore
     private static async Task BindBotMatch(LockedRoom room, CancellationToken cancellation)
     {
         var bot = room.State.Bot!;
-        await using var grant = Database.Command(room.Connection, room.Transaction,
-            "UPDATE bot_seat_grants SET match_id=$2 WHERE id=$1", bot.AssignmentId, room.State.MatchId);
-        if (await grant.ExecuteNonQueryAsync(cancellation) != 1)
-            throw new InvalidOperationException("CPU grant disappeared under the room lock.");
+        if (bot.RuntimeVersion is null)
+        {
+            await using var grant = Database.Command(room.Connection, room.Transaction,
+                "UPDATE bot_seat_grants SET match_id=$2 WHERE id=$1", bot.AssignmentId, room.State.MatchId);
+            if (await grant.ExecuteNonQueryAsync(cancellation) != 1)
+                throw new InvalidOperationException("CPU grant disappeared under the room lock.");
+        }
+        else
+            await InvalidateRuntime(room, cancellation);
         await using var assignment = Database.Command(room.Connection, room.Transaction,
             "UPDATE bot_assignments SET match_id=$2,status='started' WHERE id=$1 AND status='pending'",
             bot.AssignmentId, room.State.MatchId);
@@ -151,12 +178,20 @@ public sealed partial class RoomStore
             await using var revoke = Database.Command(room.Connection, room.Transaction,
                 "UPDATE bot_seat_grants SET revoked=true WHERE id=$1", bot.AssignmentId);
             await revoke.ExecuteNonQueryAsync(cancellation);
+            await InvalidateRuntime(room, cancellation);
             RoomRules.ClearSeat(state, bot.ParticipantId);
             state.Bot = null;
             return;
         }
         if ((bot.Side == Side.FreePeoples ? state.FreePeoplesAccepted : state.ShadowAccepted) != state.Version)
             bot.ReadyGeneration = null;
+        if (bot.RuntimeVersion is not null)
+        {
+            await using var previous = Database.Command(room.Connection, room.Transaction,
+                "SELECT room_version FROM bot_assignments WHERE id=$1", bot.AssignmentId);
+            if (await previous.ExecuteScalarAsync(cancellation) is int version && version != state.Version)
+                await InvalidateRuntime(room, cancellation);
+        }
         await using var update = Database.Command(room.Connection, room.Transaction,
             "UPDATE bot_assignments SET room_version=$2 WHERE id=$1", bot.AssignmentId, state.Version);
         await update.ExecuteNonQueryAsync(cancellation);

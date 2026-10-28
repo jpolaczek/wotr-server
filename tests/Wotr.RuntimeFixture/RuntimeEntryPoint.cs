@@ -8,9 +8,11 @@ public sealed class RuntimeEntryPoint
 {
     public string Describe() => JsonSerializer.Serialize(new
     {
-        abiVersion = 1, runtimeVersion = "0.1.0", protocolVersion = 2,
+        abiVersion = 2, runtimeVersion = "0.2.0", protocolVersion = 2,
         rulesVersion = "base-2e-2011-faq1.2", contentVersion = "base-setup-1",
-        gameplayReady = true, profiles = new[] { "free-peoples-strong", "shadow-strong" }, modules = new[] { "base" }
+        gameplayReady = true, profiles = new[] { "free-peoples-strong", "shadow-strong" }, modules = new[] { "base" },
+        policies = new[] { "free-peoples-strong", "shadow-strong" }.Select(profile => new
+        { profileId = profile, policyVersion = "fixture-1", features = new[] { "base" } })
     });
 
     public string Decide(string requestJson, CancellationToken cancellation)
@@ -24,18 +26,39 @@ public sealed class RuntimeEntryPoint
         if (mode == "large")
             return new string('x', 4 * 1024 * 1024 + 1);
         var player = request["player"]!;
+        // Only a small scripted transport fixture, never a game policy.
+        var allowed = new[] { "ContinueFellowship", "AllocateHunt", "CommitCombatCard", "DeclineReaction", "StopBattle", "FinishActionSequence", "Pass", "ResolveHuntDamage" };
+        var kind = player["options"]!.AsArray().FirstOrDefault(option =>
+            option?["enabled"]?.GetValue<bool>() != false && allowed.Contains(option!["kind"]!.GetValue<string>()))?["kind"]?.GetValue<string>();
+        if (kind is null)
+            return JsonSerializer.Serialize(new { abiVersion = 2, invocationId = request["invocationId"]!.GetValue<string>(),
+                status = "NoDecision", reason = "FixtureLimit", modules = new[] { "base" } });
+        var payload = new { ids = mode == "illegal" ? new[] { "foreign-die" } : Array.Empty<string>() };
+        if (mode == "preview" && request["previews"]!.AsArray().Count == 0)
+            return JsonSerializer.Serialize(new { abiVersion = 2, invocationId = request["invocationId"]!.GetValue<string>(),
+                status = "NeedPreviews", reason = "", modules = new[] { "base" }, policyVersion = "fixture-1",
+                previewRequests = new[] { new { matchId = request["matchId"]!.GetValue<string>(),
+                    expectedRevision = player["revision"]!.GetValue<long>(), decisionId = player["decision"]!["id"]!.GetValue<string>(),
+                    commandId = "preview", kind, payload } } });
+        var pause = Environment.GetEnvironmentVariable("WOTR_FIXTURE_PAUSE_FILE");
+        if (pause is not null)
+        {
+            File.AppendAllText(pause + ".entered", request["invocationId"]!.GetValue<string>() + "\n");
+            while (File.Exists(pause))
+                Thread.Sleep(10); // Deliberately ignores cancellation for timeout/restart tests.
+        }
         return JsonSerializer.Serialize(new
         {
-            abiVersion = 1,
+            abiVersion = 2,
             invocationId = mode == "correlation" ? "different" : request["invocationId"]!.GetValue<string>(),
             status = "Proposal", reason = "", modules = new[] { "base" }, policyVersion = "fixture-1",
-            proposedMemory = "{}",
+            proposedMemory = JsonSerializer.Serialize(new { acceptedFrom = player["revision"]!.GetValue<long>(), marker = "fixture-private-memory" }),
             command = new
             {
                 matchId = mode == "foreign" ? "foreign" : request["matchId"]!.GetValue<string>(),
                 expectedRevision = player["revision"]!.GetValue<long>() + (mode == "future" ? 1 : 0),
                 decisionId = player["decision"]!["id"]!.GetValue<string>(),
-                commandId = "fixture-command", kind = "ContinueFellowship", payload = new { }
+                commandId = request["invocationId"]!.GetValue<string>(), kind, payload
             }
         });
     }

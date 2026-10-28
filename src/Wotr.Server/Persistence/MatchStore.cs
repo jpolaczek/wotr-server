@@ -91,7 +91,7 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
     public const int RejectionsKept = 32;
 
     public async Task<CommandReceipt?> Execute(GameCommand request, string account, CancellationToken cancellation = default,
-        Func<Task>? beforeCommit = null, BotSeatAuthority? botAuthority = null)
+        Func<Task>? beforeCommit = null, BotSeatAuthority? botAuthority = null, BotWork? runtimeWork = null)
     {
         if (!CommandShape.IsValid(request))
             return await Malformed(request, account, cancellation);
@@ -106,10 +106,19 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
                 throw new BotAuthorityExpiredException();
             await BotCredentialStore.VerifyLocked(connection, transaction, botAuthority, cancellation);
         }
+        if (runtimeWork is not null)
+            await BotJobStore.Verify(connection, transaction, runtimeWork, request, account, match.Side, cancellation);
         var fingerprint = CommandFingerprint.Create(request);
         var existing = await ExistingReceipt(connection, transaction, request, account, fingerprint, match.State.Revision, cancellation);
         if (existing is not null)
+        {
+            if (runtimeWork is not null)
+            {
+                await BotJobStore.Commit(connection, transaction, runtimeWork, existing, cancellation);
+                await transaction.CommitAsync(cancellation);
+            }
             return existing;
+        }
         var result = engine.Execute(match.State, match.Side, request, entropy);
         if (result.Receipt.Accepted)
             await SaveState(connection, transaction, result.State, match.State.Events.Count, match.EventsIndexed, cancellation);
@@ -118,6 +127,8 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
             await MatchFrames.Record(connection, transaction, result.State, cancellation);
         await SaveReceipt(connection, transaction, request, account, fingerprint, result.Receipt, cancellation);
         await TrimRejections(connection, transaction, request.MatchId, account, result.Receipt, cancellation);
+        if (runtimeWork is not null)
+            await BotJobStore.Commit(connection, transaction, runtimeWork, result.Receipt, cancellation);
         if (beforeCommit is not null)
             await beforeCommit(); // Fault-injection boundary, never exposed over HTTP.
         await transaction.CommitAsync(cancellation);

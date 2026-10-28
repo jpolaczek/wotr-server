@@ -1,15 +1,9 @@
 # Saved PvE rooms
 
-**Architecture update, 2026-10-27:** [the embedded runtime](BOT-RUNTIME.md) replaces
-external bot hosting. BOT-12 room reservation/save behavior remains; BOT-16 HTTP
-identity code is legacy and disabled by default. Runtime scheduling/readiness
-and opaque memory recovery move to the game host in BOT-18. External claim/lease
-requirements below describe the previous design and are not the runtime API.
-
-
-BOT-12 adds server-owned CPU reservations to ordinary rooms. Claim delivery and
-the private worker remain BOT-17/BOT-18. No strategy, hypothetical position,
-memory or command journal is stored here.
+The host reserves the opposite seat for one of two faction policies. The private
+runtime runs inside the game server. [BOT-HOST](BOT-HOST.md) specifies scheduling,
+readiness, opaque memory and atomic command recovery. Legacy BOT-16 HTTP credentials
+remain disabled by default and are not used by this embedded path.
 
 ## Admission
 
@@ -19,9 +13,10 @@ Only a seated, nontechnical host can reserve the empty opposite seat before star
 The server selects `shadow-strong` or `free-peoples-strong`; the request contains
 no service URL, difficulty or arbitrary policy selector.
 
-Admission defaults to disabled. It requires `Wotr:Bots:Enabled=true`, the
-[BOT-16 identity settings](BOT-AUTHORIZATION.md), `Wotr:Bots:RoomsEnabled=true`
-and an explicit `Wotr:Bots:AcceptedPolicyVersion`. `Wotr:Bots:Features` names the
+Admission defaults to disabled. Embedded admission requires
+`Wotr:Bots:RuntimeEnabled=true`, `RuntimeAssembly`, a `RuntimeVersion` pin,
+`RoomsEnabled=true` and an explicit `AcceptedPolicyVersion`. The library must
+report gameplay readiness and both accepted faction policies. `Wotr:Bots:Features` names the
 operator's accepted coverage, independently constrained by released modules.
 These settings do not establish strategic acceptance: current private policies
 remain unavailable. Tests use a fixture version; transport checks alone do not
@@ -42,42 +37,38 @@ allowlist denies this human-only route.
 
 ## Readiness and lifecycle
 
-Reservation does not mint a credential or acquire a lease. BOT-17 must claim a
-pending assignment under the room lock, verify its service/profile/version and
-current configuration, register the BOT-16 grant using the assignment ID, and
-issue a scoped credential. Its participant is
-`BotCredentialStore.Participant(assignmentId)`; registration recognizes that
-existing technical account. Claim must reject cancelled/closed/moved seats.
-BOT-12 introduces no public claim endpoint or production worker.
+Reservation creates a durable runtime job, without a network credential. A bounded
+host worker claims the job, then checks the room version, configuration, runtime/
+policy pins and current lease under room -> job locks. Only this internal path
+readies a runtime CPU; an ordinary user or legacy seat session cannot do so.
+CPU readiness never refreshes `rooms.seen_at`.
 
-The scoped seat uses ordinary `PUT /api/rooms/{id}/ready`. The server requires
-the matching grant, service and policy/configuration and saves the accepted
-generation. An ordinary session cannot ready a CPU reservation. Configuration
-changes clear acceptance; unsupported bot configurations are refused.
-Host Start requires both current-version acceptances, a supported policy version
-and live matching grant. It checks the database clock after waiting for the grant
-lock. Revoke/reassign/expiry cannot slip through a queued start. Start creates the
-normal recorded match, binds assignment/grant to it and records kind `pve` in one
-transaction. Captured pre-start authority fails the later BOT-16 scope recheck.
+Host Start requires both current-version acceptances and fresh worker health,
+checking the database clock after acquiring the job lock. Start creates the
+ordinary recorded PvE match and binds the assignment in one transaction. It also
+invalidates any captured pre-start evaluation generation. Configuration changes,
+Remove, host Leave and moving the host to Observer invalidate earlier work;
+removal cancels the unstarted reservation. Started seats remain fixed.
 
-Existing Remove, host Leave and moving the host to Observer cancel an unstarted
-CPU reservation and revoke its grant atomically. Started seats stay fixed. The
-room sweeper removes abandoned reservations through foreign-key cascades; bot
-reads/readiness do not refresh human presence. Match deletion removes assignment
-and grant, while the statistics ledger survives. BOT-17 must use room -> grant
-locking for lifecycle changes and owns lease renewal, live health and delayed
-claims. Tests use a trusted claim stub and then the actual scoped readiness route.
+The sweeper deletes abandoned reservations through foreign-key cascades. Match
+deletion cascades assignment, runtime job and opaque proposal/memory while the
+statistics ledger survives. Restart resumes persisted jobs without a player GET.
+Unavailable/failed runtimes preserve the pending decision; no demo fallback or
+implicit pass is used. The older grant-based path remains covered by BOT-12/16
+regression tests when explicitly configured independently of runtime mode.
 
 ## Contracts and compatibility
 
 Contracts **0.15.0** add `AddRoomBotRequest`, `SeatOccupantKind`, `BotSeatStatus`
 and `BotSeatView`. `RoomView` exposes occupant kinds and CPU side/profile/policy
-version. Joining/Ready describe configuration acceptance; live worker health is
-BOT-17. No assignment secrets or private plans are exposed. `MatchSummary.IsPve`
+version. Joining/Ready/Unavailable reflect configuration acceptance and current runtime
+health; Start always checks durable health again under lock. No assignment secrets or private plans are exposed. `MatchSummary.IsPve`
 and `.Bot` identify saved PvE. Public content **1.0.16** pins Contracts 0.15.0;
 its public data is unchanged. Protocol 2 and save schema 3 are unchanged.
 
-Migration **018_pve_rooms.sql** adds assignments and the `pve` ledger kind. Old
+Migration **018_pve_rooms.sql** adds assignments and the `pve` ledger kind.
+**019_embedded_bot_runtime.sql** adds pinned runtime versions, leased jobs and
+the opaque command/memory journal. Old
 rooms deserialize without a CPU reservation; human/test/demo matches keep their
 kinds. `AdminSummaryView.PveGames/PveFinished` count PvE separately; human game/win
 statistics exclude it. New PvE never invokes the one-demo-per-owner replacement.
@@ -97,7 +88,7 @@ start/removal races, fresh-clock expiry/revocation, abandoned rooms, three PvE
 saves with a human game and legacy demo, restart, commands/receipts/privacy/history
 and completed replay. The replay fixture seeds a verified near-victory position;
 it does not demonstrate strategic gameplay. BOT-20 repeats the integration with
-the real private process. BOT-13 owns minimal Add CPU/seat-status client controls.
+the real private policies loaded in the host. BOT-13 owns minimal Add CPU/seat-status client controls.
 
 The implementation at `4b345b6` passed 20 focused PvE/options cases and the final
 140-case room, correspondence, replay, authorization, migration, statistics and
@@ -107,3 +98,9 @@ seeder archives were built from that commit and verified from a local channel.
 Client commit `8e6d2579` on `codex/bot-room-contracts` pins those exact archives
 and records the UI handoff. They have not been published; no Unity gameplay or
 real private worker acceptance is claimed by these checks.
+
+BOT-18 additionally uses `BotHostRoomTests`, `BotHostMemoryTests`,
+`BotHostInputTests`, `BotHostSchedulingTests` and `BotHostRecoveryTests` with the
+public ABI fixture and actual Kestrel restart. Exact current results are recorded
+in the local task evidence; earlier BOT-12 counts above are historical regression
+evidence, not acceptance of the embedded worker or real policies.
