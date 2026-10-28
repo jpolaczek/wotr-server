@@ -112,6 +112,54 @@ public sealed class BotRuntimeUpgradeTests
     }
 
     [PostgresFact]
+    public async Task ReservedRoomUsesTheUpgradedAssignmentPinForReadinessAndStart()
+    {
+        using var previous = new BotPackageFixture();
+        using var next = new BotPackageFixture(upgrade: true);
+        await using var fixture = await BotHostFixture.Create(previous.Settings());
+        var (human, room, old) = await fixture.Reserve();
+        Assert.True(await fixture.Rooms.ReadyRuntime(old));
+        await fixture.Rooms.SetReady(room.Id, human.AccountId, new() { ExpectedVersion = room.Version, Ready = true });
+        var control = fixture.Host.Services.GetRequiredService<BotRuntimeControl>();
+        var epoch = await control.Drain();
+        Assert.True((await control.Upgrade(epoch, "0.2.0", next.Package.Description, next.Hash)).Applied);
+        Assert.True(await control.Resume(epoch, "0.2.1", next.Hash));
+        Assert.False(await fixture.Rooms.ReadyRuntime(old));
+        Assert.Equal("BotVersionUnsupported", (await fixture.Rooms.Start(room.Id, human.AccountId, room.Version)).Error);
+        var options = next.Options(fixture.Settings);
+        using var runtime = EmbeddedBotRuntime.LoadConfigured(options);
+        var capabilities = new BotRuntimeCapabilities(options, fixture.Host.Services.GetRequiredService<BotRoomOptions>(),
+            fixture.Host.Services.GetRequiredService<BotAccessOptions>(), runtime);
+        var jobs = new BotJobStore(fixture.Database, options, fixture.Host.Services.GetRequiredService<EmptyRoomOptions>());
+        var rooms = ActivatorUtilities.CreateInstance<RoomStore>(fixture.Host.Services, capabilities, options);
+        var current = (await jobs.Claim("upgraded-reserved-seat"))!;
+        Assert.True(await rooms.ReadyRuntime(current));
+        Assert.Equal("", (await rooms.Start(room.Id, human.AccountId, room.Version)).Error);
+        Assert.Equal("0.2.1", await fixture.Scalar("SELECT state->'bot'->>'runtimeVersion' FROM rooms WHERE id=$1", room.Id));
+        Assert.Equal(1L, await fixture.Scalar("SELECT count(*) FROM matches"));
+    }
+
+    [PostgresFact]
+    public async Task OneIncompatibleAssignmentRefusesTheWholeUpgradeWithoutPartialChanges()
+    {
+        using var previous = new BotPackageFixture();
+        using var next = new BotPackageFixture(upgrade: true);
+        await using var fixture = await BotHostFixture.Create(previous.Settings());
+        var (_, _, first) = await fixture.Game();
+        await fixture.Stage(first);
+        await fixture.Execute("UPDATE bot_runtime_jobs SET lease_until='infinity' WHERE assignment_id=$1", first.AssignmentId);
+        var (_, _, second) = await fixture.Reserve();
+        await fixture.Execute("UPDATE bot_runtime_jobs SET compatibility=NULL WHERE assignment_id=$1", second.AssignmentId);
+        var control = fixture.Host.Services.GetRequiredService<BotRuntimeControl>();
+        var epoch = await control.Drain();
+        var before = await Saved(fixture);
+        Assert.False((await control.Upgrade(epoch, "0.2.0", next.Package.Description, next.Hash)).Applied);
+        Assert.Equal(before, await Saved(fixture));
+        Assert.Equal(2L, await fixture.Scalar("SELECT count(*) FROM bot_assignments WHERE runtime_version='0.2.0'"));
+        Assert.Equal(1L, await fixture.Scalar("SELECT count(*) FROM bot_runtime_proposals WHERE status='pending'"));
+    }
+
+    [PostgresFact]
     public async Task EpochAndPackagePinPreventSkippingUpgradeOrResumingAnUnreviewedBuild()
     {
         using var previous = new BotPackageFixture();

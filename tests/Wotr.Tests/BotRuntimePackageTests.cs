@@ -77,6 +77,15 @@ public sealed class BotRuntimePackageTests
     }
 
     [Fact]
+    public async Task OperatorDatabaseFailureReturnsAFixedErrorWithoutSqlOrExceptionText()
+    {
+        using var package = new BotPackageFixture();
+        var result = await package.Operator($"Host=127.0.0.1;Port={IsolatedPostgres.FreePort()};Username=wotr;Database=postgres;Timeout=1", "status");
+        Assert.Equal(1, result.ExitCode);
+        Assert.Equal("{\"error\":\"OperatorOperationFailed\"}", result.Output.Trim());
+    }
+
+    [Fact]
     public void MetricsHaveFixedLabelsAndDoNotExposeArbitraryRuntimeReasons()
     {
         using var package = new BotPackageFixture();

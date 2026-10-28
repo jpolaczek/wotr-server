@@ -90,19 +90,13 @@ builder.Services.AddGameRateLimits();
 builder.Services.AddAuthentication("Bearer").AddScheme<AuthenticationSchemeOptions, BearerAuthentication>("Bearer", _ => { });
 builder.Services.AddAuthorization();
 var app = builder.Build();
-if (botOperation?.Operation == "inspect")
-{
-    Environment.ExitCode = await botOperation.Run(app.Services);
-    await app.DisposeAsync();
-    return;
-}
-await app.Services.GetRequiredService<Database>().Migrate();
 if (botOperation is not null)
 {
     Environment.ExitCode = await botOperation.Run(app.Services);
     await app.DisposeAsync();
     return;
 }
+await app.Services.GetRequiredService<Database>().Migrate();
 app.UseSaveFailureHandling();
 app.UseDatabaseOverloadHandling();
 if (args.Contains("--migrate", StringComparer.Ordinal))

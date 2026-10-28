@@ -37,7 +37,7 @@ public sealed class RuntimeEntryPoint
             return JsonSerializer.Serialize(new { abiVersion = 2, invocationId = request["invocationId"]!.GetValue<string>(),
                 status = "NoDecision", reason = "FixtureLimit", modules = new[] { "base" } });
         var payload = new { ids = mode == "illegal" ? new[] { "foreign-die" } : Array.Empty<string>() };
-        if (mode == "preview" && request["previews"]!.AsArray().Count == 0)
+        if (mode == "preview-loop" || mode == "preview" && request["previews"]!.AsArray().Count == 0)
             return JsonSerializer.Serialize(new { abiVersion = 2, invocationId = request["invocationId"]!.GetValue<string>(),
                 status = "NeedPreviews", reason = "", modules = new[] { "base" }, policyVersion = "fixture-1",
                 previewRequests = new[] { new { matchId = request["matchId"]!.GetValue<string>(),

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Wotr.Domain;
 using Wotr.Server;
 using Xunit;
 using Xunit.Abstractions;
@@ -17,7 +18,9 @@ public sealed class BotRuntimeResourceTests(ITestOutputHelper output)
         await using var fixture = await BotHostFixture.Create(package.Settings());
         for (var i = 0; i < 8; i++)
         {
-            var (_, _, work) = await fixture.Game();
+            var seed = MatchFactory.Create("resource-fixture", new SeededRandom(1900 + i));
+            TurnFlow.Start(seed);
+            var (_, _, work) = await fixture.Game(seed: seed);
             await fixture.Execute("UPDATE bot_runtime_jobs SET lease_until='infinity',memory='delay' WHERE assignment_id=$1", work.AssignmentId);
         }
         var options = package.Options(fixture.Settings) with { Workers = workers, MaximumWork = 900, MemoryPressureBytes = 1024L * 1024 * 1024 };
@@ -28,7 +31,7 @@ public sealed class BotRuntimeResourceTests(ITestOutputHelper output)
         try { await fixture.Until("SELECT count(*) FROM bot_runtime_jobs WHERE memory_version=1", 8L); }
         finally { await scheduler.StopAsync(default); }
         var snapshot = metrics.Snapshot();
-        output.WriteLine(JsonSerializer.Serialize(new { matches = 8, workers, work = options.MaximumWork, snapshot }));
+        output.WriteLine(JsonSerializer.Serialize(new { matches = 8, seeds = "1900-1907", workers, work = options.MaximumWork, snapshot }));
         Assert.Equal(8, snapshot.Evaluations);
         Assert.InRange(snapshot.PeakActive, 2, workers);
         Assert.Equal(0, snapshot.Active);
@@ -39,6 +42,31 @@ public sealed class BotRuntimeResourceTests(ITestOutputHelper output)
         Assert.True(snapshot.PeakWorkingSetBytes > 0);
         Assert.Equal(8L, await fixture.Scalar("SELECT count(*) FROM bot_runtime_jobs WHERE (memory::jsonb->>'workLimit')::integer=300"));
         Assert.Equal(8L, await fixture.Scalar("SELECT count(*) FROM command_receipts WHERE accepted"));
+    }
+
+    [PostgresFact]
+    public async Task RepeatedPreviewRequestsStopAfterThreeEvaluationsWithoutChangingMemoryOrTheDecision()
+    {
+        using var package = new BotPackageFixture();
+        var settings = package.Settings();
+        settings["Wotr:Bots:RetrySeconds"] = "60";
+        await using var fixture = await BotHostFixture.Create(settings);
+        var (_, _, work) = await fixture.Game();
+        var before = await fixture.Scalar("SELECT state::text FROM matches");
+        await fixture.Execute("UPDATE bot_runtime_jobs SET memory='preview-loop'");
+        await fixture.Expire(work);
+        var options = package.Options(fixture.Settings) with { MaximumWork = 900 };
+        using var metrics = new BotHostMetrics(options);
+        using var scheduler = ActivatorUtilities.CreateInstance<BotScheduler>(fixture.Host.Services, options, metrics);
+        await scheduler.StartAsync(default);
+        try { await fixture.Until("SELECT last_error FROM bot_runtime_jobs", "PreviewLimit"); }
+        finally { await scheduler.StopAsync(default); }
+        Assert.Equal(3, metrics.Snapshot().Evaluations);
+        Assert.Equal(1, metrics.Snapshot().Outcomes["PreviewLimit"]);
+        Assert.Equal(before, await fixture.Scalar("SELECT state::text FROM matches"));
+        Assert.Equal("preview-loop", await fixture.Scalar("SELECT memory FROM bot_runtime_jobs"));
+        Assert.Equal(0L, await fixture.Scalar("SELECT memory_version FROM bot_runtime_jobs"));
+        Assert.Equal(0L, await fixture.Scalar("SELECT count(*) FROM bot_runtime_proposals"));
     }
 
     [PostgresFact]

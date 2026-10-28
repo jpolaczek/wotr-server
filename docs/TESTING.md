@@ -329,7 +329,7 @@ BOT-19 adds `BotRuntimePackageTests`, `BotRuntimeDrainTests`,
 `BotRuntimeUpgradeTests` and `BotRuntimeResourceTests`. The upgrade fixture compiles
 the same public ABI test code as distinct 0.2.0/0.2.1 libraries; neither DLL ships
 with the server. Run `WOTR_TEST_DB=isolated dotnet test tests/Wotr.Tests -c Release
---filter 'FullyQualifiedName~BotRuntime'` for the 40 operations cases. The tests
+--filter 'FullyQualifiedName~Wotr.Tests.BotRuntime'` for the 44 operations cases. The tests
 verify manifest/file corruption, dependencies and metadata, durable draining,
 waiting/committing command races, actual operator CLI/Kestrel restart, upgrade and
 rollback, exact accepted memory and pending-command preservation, incompatible
@@ -337,11 +337,12 @@ identities/policies/modules and old-host fencing. Synthetic nested reactions use
 `KernelTests.NewGame` (92 fixed zero RNG values); the mutations use normal rules.
 No fixture move is evidence of strategy quality.
 
-Two resource cases run eight real PostgreSQL matches with installed fixture DLLs,
-at 2 and 8 workers. A 250 ms fixture delay makes overlap observable. Each command
+Two resource cases run eight real PostgreSQL matches (setup seeds 1900–1907) with
+installed fixture DLLs, at 2 and 8 workers. A 250 ms fixture delay makes overlap observable. Each command
 receives 300 of a configured total 900 work units. Test output records evaluation
 count, peak concurrency, queue/compute p95 and sampled host managed/working-set
-memory; the memory-pressure case starts no work. Those numbers measure this host
+memory; the memory-pressure case starts no work. Repeated preview requests stop
+after three evaluations without advancing memory or the decision. Those numbers measure this host
 fixture, not production strategy throughput or a hard allocation bound.
 
 `tests/packages/test_public_bot_boundary.py` rejects private libraries, symbols,
@@ -352,3 +353,22 @@ Private builds independently run 682 C# / 17 Python cases and create separate
 runtime/symbol archives. Actual private package installation/smoke checks stay in
 operator-only local artifacts. See [operations](server/BOT-OPERATIONS.md) for
 configuration, supported compatibility and the exact deployment boundary.
+
+BOT-19 verification (2026-10-28): 44 operations cases pass across the final
+66-case scheduler/boundary and 40-case operator batches. The broader regression
+ran 298 cases (297 passed); its whole-Fate observer replay returned 404 after a
+long run under load. The unchanged case passed alone on a fresh cluster in
+42 seconds. Its move-count-based presence renewal can expire during slow work;
+that remains a separate test timing limitation. Including the final boundary
+additions, 302 distinct server cases have passing evidence, with the initial
+failure retained rather than describing the first broad run as green.
+
+The actual private 0.2.1 operator package passes four faction/configuration ABI
+cases and four real host starts: offline inspection, restart while drained,
+invalid-package refusal with an available ordinary server, and resume with the
+matching package pin. Both public dependency archives (Contracts 0.15.0/content
+1.0.16), a fresh 15-file public server publish, existing 169/171-file Windows/macOS
+player trees and the 169-entry macOS installer payload pass the private-file audit.
+Those player builds predate BOT-19; no new Unity installer build or production
+deployment is claimed. Private verification remains 682 C# / 17 Python, with the
+actual artifact provenance/inventories and raw metrics retained locally.

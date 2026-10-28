@@ -28,6 +28,8 @@ public sealed record BotOperatorCommand(string Operation, long Epoch = 0, string
         void Write(object value) => Console.WriteLine(JsonSerializer.Serialize(value, BotRuntimeProtocol.Json));
         try
         {
+            if (Operation != "inspect")
+                await services.GetRequiredService<Database>().Migrate(cancellation);
             if (Operation == "status")
             {
                 Write(await services.GetRequiredService<BotRuntimeControl>().Status(cancellation));

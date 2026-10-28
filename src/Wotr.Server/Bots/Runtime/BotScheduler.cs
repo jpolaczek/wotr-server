@@ -131,8 +131,10 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
             compute += Stopwatch.GetElapsedTime(started);
             if (compute > options.DecisionTimeout || result.Reason == "Cancelled")
                 return "RuntimeTimeout";
-            if (result.Status == "NeedPreviews" && round < 2)
+            if (result.Status == "NeedPreviews")
             {
+                if (round == 2)
+                    return "PreviewLimit";
                 request = await inputs.AddPreviews(work, request, result, stopping) ?? throw new BotWorkExpiredException();
                 continue;
             }

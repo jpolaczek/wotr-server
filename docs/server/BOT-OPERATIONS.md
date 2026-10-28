@@ -51,6 +51,10 @@ Accepted memory, pending command bytes/IDs and game state stay unchanged. Start
 the host with the new manifest/hash/version, then explicitly resume the matching
 control epoch. Rollback uses the same procedure and compatibility checks. Keep
 the prior artifact and database backup. No production deployment is authorized.
+Keep a BOT-19-capable game host throughout these runtime transitions. For the
+first host rollout, stop older host executables before applying migration 020;
+pre-BOT-19 hosts do not implement the persistent control gate. Rolling the server
+executable/database back across that migration is outside this runtime procedure.
 
 Configure these environment variables through the existing operator secret/config
 mechanism (the database connection remains the ordinary `WOTR_DB`):
@@ -82,7 +86,10 @@ assignment/pending-proposal counts, never private memory or player identifiers.
 Install the private archive with `wotr-bot/scripts/runtime_package.py install
 ARCHIVE --sha256 ARCHIVE_SHA256 --root ABSOLUTE_OPERATOR_DIRECTORY`; use its
 printed manifest values above. Mount the installed directory read-only into the
-existing game-server container if applicable. There is no bot Compose service,
+existing game-server container if applicable. Install as the host's OS identity,
+or assign that identity ownership before use; match the container UID/GID and mount
+the exact version directory. The installer uses owner-only read permissions.
+There is no bot Compose service,
 image, database or default public Docker layer. `RoomsEnabled`,
 `AcceptedPolicyVersion` and `Features` retain their existing gameplay gates.
 
@@ -125,6 +132,25 @@ existing .NET metrics collector; no player metrics endpoint is added. Outcomes
 are fixed host codes, including package/refusal/timeout/drain/memory-pressure
 failures. In-process diagnostic snapshots retain at most 2048 latency samples;
 their p95 and sampled host memory are operational evidence, not allocation quotas.
+
+## Local verification — 2026-10-28
+
+The fixed-seed resource run (1900–1907, eight matches each, 900 total work units,
+1 GiB managed-memory gate) recorded these whole-test-host samples:
+
+| Worker limit | Accepted moves | Peak evaluations | Queue p95 | Compute p95 | Managed peak | Working set peak |
+| --- | --- | --- | --- | --- | --- | --- |
+| 2 | 8 | 2 | 0.956 s | 0.264 s | 182.9 MiB | 241.1 MiB |
+| 8 | 8 | 6 | 0.090 s | 0.351 s | 174.6 MiB | 194.5 MiB |
+
+Both queues completed within the worker/work limits. Host/thread-pool scheduling
+can use fewer simultaneous slots than the configured ceiling. These fixture
+measurements include ordinary host/test allocations and a deliberate 250 ms
+delay; they are not production strategy benchmarks. Separate cases cover memory
+pressure, a cancellation-ignoring call retaining its slot, and a three-evaluation
+preview cap. Forty-four operations cases cover integrity, runtime control,
+reserved and started rooms, atomic multi-assignment validation and actual
+upgrade/rollback restarts. The real private package remains gameplay-unready.
 
 See [host persistence](BOT-HOST.md), [runtime ABI](BOT-RUNTIME.md) and
 [product boundaries](STRATEGIC-BOTS.md) and [verification](../TESTING.md#private-runtime-operations).
