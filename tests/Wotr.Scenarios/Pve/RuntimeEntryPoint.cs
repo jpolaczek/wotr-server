@@ -28,6 +28,7 @@ public sealed class RuntimeEntryPoint
         {
             "move" => "MoveArmies", "card" => "PlayEvent", "attack" => "AttackArmy",
             "combat" => "CommitCombatCard", "hunt" => "MoveFellowship",
+            "finish" => "FinishActionSequence", "hunt-result" => "ResolveHuntDamage",
             _ => options.FirstOrDefault(o => new[] { "ContinueFellowship", "AllocateHunt" }
                 .Contains(o!["kind"]!.GetValue<string>()))?["kind"]?.GetValue<string>()
         };
@@ -40,7 +41,7 @@ public sealed class RuntimeEntryPoint
         {
             abiVersion = 2, invocationId = request["invocationId"]!.GetValue<string>(),
             status = "Proposal", reason = "", modules = new[] { "base" }, policyVersion = "client-fixture-13",
-            proposedMemory = mode == "setup" ? "setup" : mode == "attack" ? "combat" : "done",
+            proposedMemory = mode switch { "setup" => "setup", "move" => "finish", "attack" => "combat", "hunt" => "hunt-result", _ => "done" },
             command = new
             {
                 matchId = request["matchId"]!.GetValue<string>(), expectedRevision = player["revision"]!.GetValue<long>(),
@@ -74,6 +75,8 @@ public sealed class RuntimeEntryPoint
             return new { cardId = option["eligibleIds"]!.AsArray().FirstOrDefault()?.GetValue<string>() ?? "" };
         if (kind == "MoveFellowship")
             return new { dieId = option["eligibleDice"]![0]!.GetValue<string>() };
+        if (kind == "ResolveHuntDamage")
+            return new { huntResponse = "Ring" };
         return new { ids = Array.Empty<string>() };
     }
 }

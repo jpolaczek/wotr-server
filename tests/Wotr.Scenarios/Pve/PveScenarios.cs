@@ -23,7 +23,7 @@ internal static class PveScenarios
         foreach (var (key, scenarioId, mode) in new[]
         {
             ("shadow-move", "sh-army-move", "move"), ("free-move", "fp-army-move", "move"),
-            ("recovery", "sh-army-move", "move"), ("reduced", "fp-army-move", "move"),
+            ("recovery", "sh-army-move", "move"), ("reduced", "fp-army-move", "move"), ("skip", "sh-army-move", "move"),
             ("recruit-card", "sh-muster-event", "card"), ("attack", "sh-army-attack", "attack"),
             ("combat", "card-base.sh.strategy.01-combat", "combat"),
             ("hunt", "fp-character-move-fellowship", "hunt")
