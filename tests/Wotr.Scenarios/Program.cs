@@ -28,7 +28,7 @@ var connectionString = Environment.GetEnvironmentVariable("WOTR_TEST_DB")
 var settings = new NpgsqlConnectionStringBuilder(connectionString);
 if (settings.Database?.EndsWith("_test", StringComparison.Ordinal) != true)
     throw new InvalidOperationException("Scenario seeding requires a database whose name ends with _test.");
-if (args.Length != 1)
+if (args.Length != 1 && args is not ["--pve-release", _])
     throw new ArgumentException("Pass the output JSON path for the Unity integration fixture.");
 
 await using var source = NpgsqlDataSource.Create(connectionString);
@@ -41,6 +41,11 @@ if (Environment.GetEnvironmentVariable("WOTR_CLIENT_TEST_RESET_DATABASE") == "1"
 }
 var database = new Database(source);
 await database.Migrate();
+if (args is ["--pve-release", var heldPve])
+{
+    await PveScenarios.Release(database, heldPve);
+    return;
+}
 // AUTH-02: accounts carry an address on the reserved .test domain; nothing is ever sent.
 var accounts = AccountService.WithoutEmail(database);
 var password = "Scenario-" + Guid.NewGuid().ToString("N");
@@ -117,8 +122,10 @@ var returnSh = await Register();
 var returns = ReturnScenario.Create(random);
 foreach (var scenario in returns.Values)
     await new MatchStore(database, new GameEngine(), random).Create(scenario, returnFp.AccountId, returnSh.AccountId);
+var pve = await PveScenarios.Create(database, fp, sh);
 var fixture = new
 {
+    PveMatches = pve,
     Address = "http://127.0.0.1:5088",
     // AUTH-02: accounts for the network tests instead of account invitations (the client signs in, it no longer registers).
     AccountA = (await Register()).Username,

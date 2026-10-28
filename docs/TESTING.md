@@ -372,3 +372,21 @@ player trees and the 169-entry macOS installer payload pass the private-file aud
 Those player builds predate BOT-19; no new Unity installer build or production
 deployment is claimed. Private verification remains 682 C# / 17 Python, with the
 actual artifact provenance/inventories and raw metrics retained locally.
+
+## CPU client integration fixture (BOT-13)
+
+The public test-only `Wotr.Scenarios` archive contains a bounded embedded ABI
+script (`Pve/RuntimeEntryPoint.cs`) for client transport and presentation checks.
+It reads only the copied player options and exercises fixed movement, recruitment
+card, combat and Hunt examples. It is not a strategic faction policy. Neither the
+ordinary server publish nor a player install includes this seeder assembly. The
+private artifact guard remains unchanged.
+
+With `WOTR_CLIENT_PVE_FIXTURE=1`, the client test harness explicitly loads this
+script into the real game server (runtime `0.0.13`, policy `client-fixture-13`,
+base only). The seeder prepares saved CPU matches through normal room admission,
+readiness and start, then holds their jobs until the test-only `--pve-release`
+CLI releases one. That CLI requires an isolated `_test` database and recognizes
+only this fixture policy; there is no public fixture endpoint. Every subsequent
+CPU command uses the host scheduler, side projection, validation and persistence.
+The private policies and actual gameplay acceptance remain BOT-20.
