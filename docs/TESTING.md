@@ -247,7 +247,7 @@ the real describe/decide entrypoint, copied context, both fixture profiles and
 all 768 raw / 93 normalized module configurations. Full verification publishes
 `Wotr.Bot.Runtime.dll` locally; it no longer starts an App CLI. Real private-DLL
 loading requires an operator-only smoke check outside public builds. Host
-scheduling/recovery and actual policy gameplay remain BOT-18/BOT-20.
+scheduling/recovery is implemented by BOT-18; actual policy gameplay remains BOT-20.
 
 The following earlier checkpoints remain historical evidence:
 
@@ -322,3 +322,33 @@ BOT-18 verification (2026-10-28): the isolated regression passed 253 cases, with
 skips (258 distinct cases). Private verification passed 682 C# / nine Python;
 the actual private library passed four ABI cases. See [host behavior and
 limits](server/BOT-HOST.md); the real faction policies remain unready.
+
+## Private runtime operations
+
+BOT-19 adds `BotRuntimePackageTests`, `BotRuntimeDrainTests`,
+`BotRuntimeUpgradeTests` and `BotRuntimeResourceTests`. The upgrade fixture compiles
+the same public ABI test code as distinct 0.2.0/0.2.1 libraries; neither DLL ships
+with the server. Run `WOTR_TEST_DB=isolated dotnet test tests/Wotr.Tests -c Release
+--filter 'FullyQualifiedName~BotRuntime'` for the 40 operations cases. The tests
+verify manifest/file corruption, dependencies and metadata, durable draining,
+waiting/committing command races, actual operator CLI/Kestrel restart, upgrade and
+rollback, exact accepted memory and pending-command preservation, incompatible
+identities/policies/modules and old-host fencing. Synthetic nested reactions use
+`KernelTests.NewGame` (92 fixed zero RNG values); the mutations use normal rules.
+No fixture move is evidence of strategy quality.
+
+Two resource cases run eight real PostgreSQL matches with installed fixture DLLs,
+at 2 and 8 workers. A 250 ms fixture delay makes overlap observable. Each command
+receives 300 of a configured total 900 work units. Test output records evaluation
+count, peak concurrency, queue/compute p95 and sampled host managed/working-set
+memory; the memory-pressure case starts no work. Those numbers measure this host
+fixture, not production strategy throughput or a hard allocation bound.
+
+`tests/packages/test_public_bot_boundary.py` rejects private libraries, symbols,
+source module paths and fixture binaries in ordinary distributions. CI checks a
+fresh public server publish with `scripts/check_public_artifacts.py`; the same
+script audits ZIP/tar/NuGet archives and unpacked Windows/macOS player trees.
+Private builds independently run 682 C# / 17 Python cases and create separate
+runtime/symbol archives. Actual private package installation/smoke checks stay in
+operator-only local artifacts. See [operations](server/BOT-OPERATIONS.md) for
+configuration, supported compatibility and the exact deployment boundary.

@@ -28,5 +28,10 @@
     <ProjectReference Include="../../src/Wotr.Domain/Wotr.Domain.csproj" />
     <ProjectReference Include="../../src/Wotr.Server/Wotr.Server.csproj" />
     <ProjectReference Include="../Wotr.RuntimeFixture/Wotr.RuntimeFixture.csproj" />
+    <ProjectReference Include="../Wotr.RuntimeUpgradeFixture/Wotr.RuntimeUpgradeFixture.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
+  <Target Name="CopyRuntimeUpgradeFixture" AfterTargets="Build">
+    <Copy SourceFiles="../Wotr.RuntimeUpgradeFixture/bin/$(Configuration)/net10.0/Wotr.RuntimeFixture.dll"
+          DestinationFolder="$(TargetDir)Fixtures/RuntimeUpgrade" />
+  </Target>
 </Project>

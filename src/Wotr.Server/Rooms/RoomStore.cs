@@ -117,10 +117,19 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         await Read(id, account, cancellation) is { Status: not RoomStatus.Closed };
 
     public Task<RoomResult> Configure(string id, string account, ConfigureRoomRequest request, CancellationToken cancellation = default) =>
-        Change("id", id, account, Access.Participant, room => Task.FromResult(
-            !Manages(room.State, account) ? "HostRequired" :
-            room.State.Bot is { } bot && BotRoomUnavailable(request.Configuration, bot.PolicyVersion, bot.RuntimeVersion, bot.RuntimeVersion is not null) is { } error ? error :
-            RoomRules.Configure(room.State, request, scope)), cancellation);
+        Change("id", id, account, Access.Participant, async room =>
+        {
+            if (!Manages(room.State, account))
+                return "HostRequired";
+            if (room.State.Bot is { } bot)
+            {
+                if (BotRoomUnavailable(request.Configuration, bot.PolicyVersion, bot.RuntimeVersion, bot.RuntimeVersion is not null) is { } error)
+                    return error;
+                if (bot.RuntimeVersion is not null && !await BotRuntimeControl.Running(room.Connection, room.Transaction, bot.RuntimeVersion, cancellation, botHost?.ManifestSha256))
+                    return "BotUnavailable";
+            }
+            return RoomRules.Configure(room.State, request, scope);
+        }, cancellation);
 
     public Task<RoomResult> Confirm(string id, string account, int version, CancellationToken cancellation = default) =>
         Change("id", id, account, Access.Player, room => Task.FromResult(SetRoomReady(room.State, account,
@@ -170,6 +179,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         var state = Deserialize(json);
         if (state.Closed)
             return new(Error: "RoomNotFound");
+        await RuntimeVersion(connection, transaction, state, cancellation);
         if (botAuthority is not null)
         {
             var participant = botAuthority.Side == Side.FreePeoples ? state.FreePeoples : state.Shadow;

@@ -6,25 +6,34 @@ namespace Wotr.Server;
 // Durable polling also recovers work without any player opening the match.
 public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities capabilities,
     BotJobStore jobs, BotInputStore inputs, RoomStore rooms, MatchStore matches, RevisionHub hub,
-    ILogger<BotScheduler> logger) : BackgroundService
+    ILogger<BotScheduler> logger, BotHostMetrics metrics) : BackgroundService
 {
     protected override Task ExecuteAsync(CancellationToken stopping) => !options.Enabled
         ? Task.CompletedTask : Task.WhenAll(Enumerable.Range(0, options.Workers).Select(_ => Worker(stopping)));
 
     private async Task Worker(CancellationToken stopping)
     {
-        var runtime = EmbeddedBotRuntime.Load(options.AssemblyPath, options.RuntimeVersion);
+        var runtime = EmbeddedBotRuntime.LoadConfigured(options);
         var owner = Guid.NewGuid().ToString("N");
         Task<BotRuntimeResponse>? evaluation = null;
         try
         {
             if (!runtime.GameplayReady)
+            {
+                metrics.Outcome(runtime.Status == "Loaded" ? "PolicyUnavailable" : runtime.Status);
                 return;
+            }
             while (!stopping.IsCancellationRequested)
             {
                 BotWork? work = null;
                 try
                 {
+                    if (!metrics.CanEvaluate())
+                    {
+                        metrics.Outcome("MemoryPressure");
+                        await Task.Delay(options.Retry, stopping);
+                        continue;
+                    }
                     work = await jobs.Claim(owner, stopping);
                     if (work is null)
                     {
@@ -32,11 +41,15 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
                         continue;
                     }
                     var error = await Run(work, runtime, task => evaluation = task, stopping);
+                    if (error.Length > 0)
+                        metrics.Outcome(error);
                     await Release(work, error, stopping);
                 }
-                catch (BotWorkExpiredException) { }
+                catch (BotWorkExpiredException) { metrics.Outcome("StaleWork"); }
+                catch (BotRuntimeDrainingException) { metrics.Outcome("Drained"); }
                 catch (BotContextTooLargeException)
                 {
+                    metrics.Outcome("ContextTooLarge");
                     if (work is not null)
                         await Release(work, "ContextTooLarge", stopping);
                 }
@@ -44,6 +57,7 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
                 {
                     // Never log raw exceptions/requests from a private evaluation or SQL parameters.
                     logger.LogWarning("Embedded bot work deferred after a host failure.");
+                    metrics.Outcome("HostFailure");
                     if (work is not null)
                         await Release(work, "HostFailure", stopping);
                     await Task.Delay(options.Retry, stopping);
@@ -82,7 +96,9 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
         var input = await inputs.Read(work, stopping, includeContext: pending is null);
         if (input is null)
             throw new BotWorkExpiredException();
-        var request = input.Request with { MaximumWork = 100_000 / 3 };
+        var request = input.Request with { MaximumWork = options.MaximumWork / 3 };
+        if (work.Compatibility is null || work.Compatibility != BotRuntimeIdentity.Of(runtime.Description))
+            return "MemoryIncompatible";
         if (capabilities.Unavailable(request.Player.Configuration, work.PolicyVersion, work.RuntimeVersion) is { } unavailable)
             return unavailable;
         // Re-submit an exact journal entry before asking for any new decision, even after a turn changed.
@@ -91,8 +107,11 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
         if (request.Player.Winner is not null || request.Player.DecisionOwner != work.Side || request.Player.Decision is null)
             return "";
         var compute = TimeSpan.Zero;
+        metrics.QueueWait(work.QueueSeconds);
         for (var round = 0; round < 3; round++)
         {
+            if (!metrics.CanEvaluate())
+                return "MemoryPressure";
             using var cancel = CancellationTokenSource.CreateLinkedTokenSource(stopping);
             var remaining = options.DecisionTimeout - compute;
             if (remaining <= TimeSpan.Zero)
@@ -100,7 +119,11 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
             cancel.CancelAfter(remaining);
             var token = cancel.Token;
             var started = Stopwatch.GetTimestamp();
-            var evaluation = Task.Run(() => runtime.Decide(request, token), CancellationToken.None);
+            var evaluation = Task.Run(() =>
+            {
+                using var measurement = metrics.Evaluate();
+                return runtime.Decide(request, token);
+            }, CancellationToken.None);
             observe(evaluation);
             BotRuntimeResponse result;
             try { result = await evaluation.WaitAsync(cancel.Token); }
@@ -126,6 +149,7 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
         var receipt = await matches.Execute(command, work.ParticipantId, cancellation, runtimeWork: work);
         if (receipt?.Accepted is not true)
             return "CommandRejected";
+        metrics.Outcome("Accepted");
         if (receipt.PublicStateChanged)
             hub.Publish(work.MatchId, receipt.Revision);
         else if (receipt.AutoDecision is not null)

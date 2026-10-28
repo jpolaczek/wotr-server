@@ -192,8 +192,11 @@ The server remains available when the optional runtime is absent; CPU stays unre
 
 BOT-17 now owns the runtime contract, modular configuration and optional loader.
 BOT-18 owns host scheduling, provenance, readiness and command/memory recovery.
-BOT-19 owns private library packaging, bounded concurrency, draining and upgrade/
-rollback. BOT-20 tests the real private runtime with the actual server/client.
+[BOT-19 operations](BOT-OPERATIONS.md) implement integrity-checked private library
+and separate symbol packages, bounded concurrency/work, host memory-pressure
+gating, persistent draining and compatible upgrade/rollback. Operators use the
+existing server executable; there is no bot service or player installation.
+BOT-20 tests the real private runtime with the actual server/client.
 BOT-02–BOT-11 retain reconstruction, candidates, risk, plans, faction policies,
 cards and expansion behavior. BOT-13 retains minimal room UI and existing opponent
 presentation. BOT-14 combines all strategy/coverage/strength and integration gates.

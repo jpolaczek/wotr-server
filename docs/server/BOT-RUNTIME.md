@@ -13,11 +13,16 @@ This is trusted in-process code, not a security sandbox.
 
 JSON uses camelCase property names and string enums. `Describe` returns
 `abiVersion`, `runtimeVersion`, `protocolVersion`, `rulesVersion`, `contentVersion`,
-`gameplayReady`, `profiles`, `modules` and `policies`. Module definitions alone
+`gameplayReady`, `profiles`, `modules`, `policies` and optional `memoryFormat`. Module definitions alone
 do not establish accepted coverage. Each policy entry declares `profileId`,
 `policyVersion` and accepted `features`; gameplay readiness requires both faction
 entries, the operator policy/runtime pins and coverage of the normalized configuration. The current runtime
 reports `gameplayReady: false`, `policies: []` and refuses to fabricate a playing policy.
+BOT-19 requires a declared memory format for new assignments. Runtime 0.2.1 uses
+`wotr.bot.memory/2`; the host stores this opaque compatibility identity without
+parsing strategic memory. Supported upgrades preserve ABI/protocol/rules/content,
+memory format and faction policy version. Unknown legacy metadata refuses an
+upgrade; it is never inferred from a library filename or silently reset.
 
 The decision request contains:
 
@@ -51,7 +56,8 @@ ID must equal the host invocation ID. No response can consume resources by itsel
 The host computes previews using the same service as the player API, checks the
 revision/decision again and retries with paired commands/results. At most two
 preview rounds (16 results) and three evaluations share a five-second computation
-budget and 99,999 work units (33,333 each). The invocation/seed/prior memory remain
+budget and the configured work limit (default 100,000: 33,333 per evaluation,
+99,999 total). The invocation/seed/prior memory remain
 unchanged. A changed observation requires a fresh invocation, without a move.
 
 Runtime computation observes cooperative cancellation and the existing five-second
@@ -66,15 +72,22 @@ selection alone does not establish mechanic acceptance.
 
 ## Optional server loading
 
-`Wotr:Bots:RuntimeAssembly` is an absolute operator-only path; an unset path
-returns `NotConfigured`. Optional `Wotr:Bots:RuntimeVersion` pins the required
-build version. Invalid files, entrypoints and incompatible metadata return a safe
-unavailable status. Loading alone starts no gameplay. `RuntimeEnabled=true`
-enables the bounded host scheduler and requires a runtime version pin;
+`Wotr:Bots:RuntimeManifest` is an absolute operator-only manifest path;
+`RuntimeManifestSha256` and `RuntimeVersion` pin its inventory and build.
+The loader verifies bounded flat files, lengths/hashes and actual describe metadata.
+Invalid files, entrypoints and incompatible metadata return a safe unavailable
+status. `AllowUnpackagedRuntime=true` explicitly permits `RuntimeAssembly` for
+development; operator upgrade/resume still require a verified package. Loading
+alone starts no gameplay. `RuntimeEnabled=true` enables the bounded host scheduler
+and requires a version pin;
 `RoomsEnabled` and accepted policy/module settings gate admission. Each worker
 uses its own loaded instance. All computation happens outside mutation locks.
 A library ignoring cancellation retains its slot until completion, and its late
 result is discarded; host shutdown does not wait for that uncooperative call.
+The persistent drain gates claims, admission, readiness/start, staging and commit;
+runtime version and manifest pins also fence old hosts after resume. Resource
+settings, aggregate diagnostics and operator commands are specified in
+[runtime operations](BOT-OPERATIONS.md).
 
 The host validates response correlation, own decision/revision, available command
 kind and response shape. This is a proposal gate, not full rule validation: the host

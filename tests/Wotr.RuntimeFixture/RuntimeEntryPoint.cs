@@ -8,7 +8,8 @@ public sealed class RuntimeEntryPoint
 {
     public string Describe() => JsonSerializer.Serialize(new
     {
-        abiVersion = 2, runtimeVersion = "0.2.0", protocolVersion = 2,
+        abiVersion = 2, runtimeVersion = typeof(RuntimeEntryPoint).Assembly.GetName().Version!.ToString(3), protocolVersion = 2,
+        memoryFormat = "fixture.memory/1",
         rulesVersion = "base-2e-2011-faq1.2", contentVersion = "base-setup-1",
         gameplayReady = true, profiles = new[] { "free-peoples-strong", "shadow-strong" }, modules = new[] { "base" },
         policies = new[] { "free-peoples-strong", "shadow-strong" }.Select(profile => new
@@ -19,6 +20,8 @@ public sealed class RuntimeEntryPoint
     {
         var request = JsonNode.Parse(requestJson)!;
         var mode = request["memory"]?.GetValue<string>();
+        if (mode == "delay")
+            Thread.Sleep(250);
         if (mode == "throw")
             throw new InvalidOperationException("fixture-private-secret");
         if (mode == "malformed")
@@ -52,7 +55,8 @@ public sealed class RuntimeEntryPoint
             abiVersion = 2,
             invocationId = mode == "correlation" ? "different" : request["invocationId"]!.GetValue<string>(),
             status = "Proposal", reason = "", modules = new[] { "base" }, policyVersion = "fixture-1",
-            proposedMemory = JsonSerializer.Serialize(new { acceptedFrom = player["revision"]!.GetValue<long>(), marker = "fixture-private-memory" }),
+            proposedMemory = JsonSerializer.Serialize(new { acceptedFrom = player["revision"]!.GetValue<long>(), marker = "fixture-private-memory",
+                workLimit = request["maximumWork"]!.GetValue<int>() }),
             command = new
             {
                 matchId = mode == "foreign" ? "foreign" : request["matchId"]!.GetValue<string>(),

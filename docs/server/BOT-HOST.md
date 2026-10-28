@@ -64,5 +64,6 @@ DLL passed four faction/configuration ABI cases and remains unready with no
 accepted policies. Public server publish excludes private DLLs and the test
 fixture; private publish contains the four bot libraries, its two pinned rule
 libraries and both licenses. No client package/schema change, publication or
-real-strategy gameplay acceptance is claimed. BOT-19 owns packaging/upgrades;
+real-strategy gameplay acceptance is claimed. [BOT-19 operations](BOT-OPERATIONS.md)
+add verified packages, memory compatibility identity, durable draining and compatible upgrades;
 BOT-20 owns real-policy integration.

@@ -14,11 +14,15 @@ public sealed partial class RoomStore
         if (await read.ExecuteScalarAsync(cancellation) is not string json)
             return false;
         var state = Deserialize(json);
+        await RuntimeVersion(connection, transaction, state, cancellation);
         if (state.Bot is not { RuntimeVersion: not null } bot || bot.AssignmentId != work.AssignmentId ||
             state.Closed || state.MatchId.Length > 0 || state.Version != work.RoomVersion ||
             RoomRules.Seat(state, bot.Side) != work.ParticipantId || !state.Contains(state.HostAccount) ||
             bot.RuntimeVersion != work.RuntimeVersion || bot.PolicyVersion != work.PolicyVersion ||
             BotRoomUnavailable(state.Configuration, bot.PolicyVersion, bot.RuntimeVersion, true) is not null)
+            return false;
+        if (work.Compatibility != runtime?.Compatibility ||
+            !await BotRuntimeControl.Running(connection, transaction, work.RuntimeVersion, cancellation, work.ManifestSha256))
             return false;
         await BotJobStore.Lock(connection, transaction, work, cancellation);
         await using var presence = Database.Command(connection, transaction, """
@@ -45,6 +49,8 @@ public sealed partial class RoomStore
         var error = BotRoomUnavailable(state.Configuration, bot.PolicyVersion, bot.RuntimeVersion, true);
         if (error is not null)
             return error;
+        if (!await BotRuntimeControl.Running(room.Connection, room.Transaction, bot.RuntimeVersion!, cancellation, botHost?.ManifestSha256))
+            return "BotUnavailable";
         await using var query = Database.Command(room.Connection, room.Transaction, """
             SELECT health_until,ready_version FROM bot_runtime_jobs WHERE assignment_id=$1 FOR UPDATE
             """, bot.AssignmentId);
@@ -80,12 +86,28 @@ public sealed partial class RoomStore
         if (bots.Count == 0)
             return;
         await using var query = Database.Command(connection, null, """
-            SELECT assignment_id,health_until>clock_timestamp(),ready_version IS NOT NULL OR last_error<>''
-            FROM bot_runtime_jobs WHERE assignment_id=ANY($1)
+            SELECT assignment_id,health_until>clock_timestamp() AND NOT c.draining,
+                ready_version IS NOT NULL OR last_error<>'' OR c.draining,a.runtime_version
+            FROM bot_runtime_jobs j JOIN bot_assignments a ON a.id=j.assignment_id
+            CROSS JOIN bot_runtime_control c WHERE assignment_id=ANY($1) AND c.id=1
             """, (object)bots.Keys.ToArray());
         await using var row = await query.ExecuteReaderAsync(cancellation);
         while (await row.ReadAsync(cancellation))
+        {
             bots[row.GetString(0)].RuntimeHealthy = row.GetBoolean(1) ? true :
                 row.GetBoolean(2) || acknowledged.Contains(row.GetString(0)) ? false : null;
+            bots[row.GetString(0)].RuntimeVersion = row.GetString(3);
+        }
+    }
+
+    private static async Task RuntimeVersion(NpgsqlConnection connection, NpgsqlTransaction transaction,
+        RoomState state, CancellationToken cancellation)
+    {
+        if (state.Bot?.RuntimeVersion is null)
+            return;
+        await using var query = Database.Command(connection, transaction,
+            "SELECT runtime_version FROM bot_assignments WHERE id=$1", state.Bot.AssignmentId);
+        if (await query.ExecuteScalarAsync(cancellation) is string version)
+            state.Bot.RuntimeVersion = version;
     }
 }

@@ -11,6 +11,7 @@ public sealed partial class BotJobStore
     {
         if (work.MatchId != request.MatchId || work.ParticipantId != account || work.Side != side)
             throw new BotWorkExpiredException();
+        await BotRuntimeControl.RequireRunning(connection, transaction, work.RuntimeVersion, cancellation, work.ManifestSha256);
         await Lock(connection, transaction, work, cancellation);
         await using var query = Database.Command(connection, transaction, """
             SELECT EXISTS(SELECT 1 FROM bot_runtime_jobs j JOIN bot_assignments a ON a.id=j.assignment_id

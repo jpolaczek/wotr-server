@@ -120,7 +120,9 @@ and local replays were added to the plan by the user's decision of 2026-10-16
 (R33/R34); this does not claim implementation. Original artwork does not block
 a playable version. Scripted strategic PvE was added on 2026-10-23 (R32);
 its embedded-runtime design supersedes separate hosting (2026-10-27). Host
-scheduling/atomic persistence are implemented in BOT-18; real-policy gameplay
+scheduling/atomic persistence are implemented in BOT-18; BOT-19 adds optional
+operator-only packages, bounded host resources, persistent draining and compatible
+upgrade/rollback without resetting saved memory or decisions. Real-policy gameplay
 acceptance remains pending.
 
 <a id="priorytet-przy-konflikcie"></a>

@@ -60,6 +60,33 @@ public sealed class EmbeddedBotRuntime : IDisposable
         }
     }
 
+    public static EmbeddedBotRuntime LoadConfigured(BotHostOptions options)
+    {
+        if (options.ManifestPath is null)
+            return options.Enabled && !options.AllowUnpackaged ? new("PackageRequired") : Load(options.AssemblyPath, options.RuntimeVersion);
+        try
+        {
+            var package = BotRuntimePackage.Read(options.ManifestPath, options.ManifestSha256 ?? "");
+            var entry = Path.Combine(Path.GetDirectoryName(options.ManifestPath)!, package.EntryAssembly);
+            if (options.AssemblyPath is not null && Path.GetFullPath(options.AssemblyPath) != entry)
+                return new("PackageInvalid");
+            var runtime = Load(entry, options.RuntimeVersion);
+            if (runtime.Status != "Loaded")
+                return runtime;
+            if (JsonSerializer.Serialize(runtime.Description, BotRuntimeProtocol.Json) !=
+                JsonSerializer.Serialize(package.Description, BotRuntimeProtocol.Json))
+            {
+                runtime.Dispose();
+                return new("PackageInvalid");
+            }
+            return runtime;
+        }
+        catch (Exception error) when (error is IOException or InvalidDataException or UnauthorizedAccessException or JsonException or ArgumentException)
+        {
+            return new("PackageInvalid");
+        }
+    }
+
     public BotRuntimeResponse Decide(BotRuntimeRequest request, CancellationToken cancellation = default)
     {
         // One evaluation per loaded instance. BOT-18 owns the bounded host queue;

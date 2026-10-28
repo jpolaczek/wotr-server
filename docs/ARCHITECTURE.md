@@ -22,8 +22,9 @@ observer perspective, opponent secrets or future RNG. The host establishes input
 provenance using ordinary player projections. Shared CLR game objects do not cross
 the boundary; private rule dependencies load in a separate assembly context.
 
-The optional loader uses `Wotr:Bots:RuntimeAssembly` (absolute local DLL path) and
-optional `Wotr:Bots:RuntimeVersion` pin. Absent/incompatible runtimes keep CPU
+The optional loader verifies `Wotr:Bots:RuntimeManifest`, its SHA-256 and the
+`RuntimeVersion` pin. Explicit `AllowUnpackagedRuntime` permits a loose
+`RuntimeAssembly` for development only. Absent/incompatible runtimes keep CPU
 unavailable without stopping ordinary server use. Loading does not start gameplay
 or acknowledge rooms. The current private policy catalog is empty.
 BOT-18 implements host scheduling, room readiness, per-seat evaluation generations and
@@ -31,13 +32,19 @@ opaque memory/receipt recovery. The normal engine validates every command after
 rechecking the current decision/revision under the mutation lock. Proposed memory
 advances atomically with the accepted command/receipt and is never included in human views/replays.
 Migration 019 stores generation-fenced jobs and one pending/last proposal per seat.
+Migration 020 adds a durable drain epoch/package pin and opaque compatibility
+metadata. Room/match operations take the control lock before the job lock;
+drain fences generations and acknowledges only after earlier commits finish.
+Compatible version changes update assignment pins transactionally while retaining
+exact pending commands, game state and opaque memory. Restarts stay drained until
+the operator resumes the verified target package. See [operations](server/BOT-OPERATIONS.md).
 The host polls durable work after restart, supports bounded preview continuations,
 and gates room readiness on accepted policy/modules and current worker health.
 
 BOT-02/BOT-03 retain their private simulation/candidate checkpoints and unresolved
 reconstruction/fallback acceptance. Runtime proximity never authorizes direct
-hidden-state access. BOT-19 covers private DLL packaging and upgrade/resource
-limits; BOT-20 tests the real embedded policies/server/client. A load context is
+hidden-state access. BOT-19 implements private DLL packaging, upgrade/rollback and
+bounded workers/work with a host memory-pressure gate; BOT-20 tests the real embedded policies/server/client. A load context is
 not an OS sandbox; cancellation and work/resource limits must be enforced
 cooperatively and at the host scheduler. Legacy BOT-16 HTTP identity/grant code
 remains disabled by default and is not used by the embedded runtime.

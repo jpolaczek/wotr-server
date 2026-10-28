@@ -8,6 +8,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Wotr.RuntimeFixture/Wotr.RuntimeFixture.csproj" />
+    <Project Path="tests/Wotr.RuntimeUpgradeFixture/Wotr.RuntimeUpgradeFixture.csproj" />
     <Project Path="tests/Wotr.Scenarios/Wotr.Scenarios.csproj" />
     <Project Path="tests/Wotr.Tests/Wotr.Tests.csproj" />
   </Folder>

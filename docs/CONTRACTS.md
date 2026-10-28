@@ -11,7 +11,7 @@ Owner revision 2026-10-27 replaces external-service/control transport with a
 private decision library loaded by the game host. [ABI 2](server/BOT-RUNTIME.md)
 uses JSON strings and CancellationToken, with public server-only request/response
 envelopes. There is no private assembly reference in public builds and no new
-human player DTO or content/package/client pin change for BOT-17/BOT-18.
+human player DTO or content/package/client pin change for BOT-17/BOT-18/BOT-19.
 
 The input wraps ordinary own-side PlayerView, MatchConfiguration, decisions,
 options, authorized action history, reports/previews, compatibility identifiers,
@@ -22,6 +22,14 @@ current decision/revision and full engine legality before any commit. Opaque
 memory commits in the same transaction as accepted game state and receipt,
 never sent to players. Runtime descriptions separately declare accepted faction
 policy versions and module coverage. See [host persistence](server/BOT-HOST.md).
+
+ABI 2 additionally permits an opaque `memoryFormat` descriptor. New assignments
+require it and store ABI/protocol/rules/content/memory-format identity alongside
+opaque memory. [Operator packages and upgrades](server/BOT-OPERATIONS.md) bind
+the actual descriptor and every library hash. Upgrade/rollback keeps those
+identities and assigned policy versions unchanged, otherwise it refuses without
+resetting memory or consuming a pending command. Migration 020 is server-only;
+there is no new player endpoint, private assembly reference or client dependency.
 
 BOT-12 room admission/CPU metadata remain the player-facing contract. BOT-16
 control/seat HTTP credentials remain legacy/default-disabled code; the runtime

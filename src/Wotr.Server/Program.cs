@@ -13,7 +13,8 @@ if (args.Contains("--health-check", StringComparer.Ordinal))
 }
 var setEmail = OperatorCommands.SetEmail(args);
 var rename = OperatorCommands.Rename(args);
-var builder = WebApplication.CreateBuilder(OperatorCommands.HostArguments(args));
+var botOperation = BotOperatorCommand.Parse(args);
+var builder = WebApplication.CreateBuilder(botOperation is null ? OperatorCommands.HostArguments(args) : []);
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 65536);
 builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddSingleton(_ => NpgsqlDataSource.Create(DatabaseConfiguration.Read(builder.Configuration)));
@@ -45,14 +46,14 @@ builder.Services.AddHostedService(services => services.GetRequiredService<EmailO
 builder.Services.AddSingleton<SessionStore>();
 builder.Services.AddSingleton(services => BotAccessOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<BotCredentialStore>();
-builder.Services.AddSingleton(services => EmbeddedBotRuntime.Load(
-    services.GetRequiredService<IConfiguration>()["Wotr:Bots:RuntimeAssembly"],
-    services.GetRequiredService<IConfiguration>()["Wotr:Bots:RuntimeVersion"]));
+builder.Services.AddSingleton(services => EmbeddedBotRuntime.LoadConfigured(services.GetRequiredService<BotHostOptions>()));
 builder.Services.AddSingleton(services => BotRoomOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton(services => BotHostOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<BotRuntimeCapabilities>();
 builder.Services.AddSingleton<BotJobStore>();
 builder.Services.AddSingleton<BotInputStore>();
+builder.Services.AddSingleton<BotRuntimeControl>();
+builder.Services.AddSingleton<BotHostMetrics>();
 builder.Services.AddHostedService<BotScheduler>();
 builder.Services.AddSingleton<ISessionResolver>(services => services.GetRequiredService<SessionStore>());
 builder.Services.AddSingleton(services => ReleaseScope.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
@@ -89,7 +90,19 @@ builder.Services.AddGameRateLimits();
 builder.Services.AddAuthentication("Bearer").AddScheme<AuthenticationSchemeOptions, BearerAuthentication>("Bearer", _ => { });
 builder.Services.AddAuthorization();
 var app = builder.Build();
+if (botOperation?.Operation == "inspect")
+{
+    Environment.ExitCode = await botOperation.Run(app.Services);
+    await app.DisposeAsync();
+    return;
+}
 await app.Services.GetRequiredService<Database>().Migrate();
+if (botOperation is not null)
+{
+    Environment.ExitCode = await botOperation.Run(app.Services);
+    await app.DisposeAsync();
+    return;
+}
 app.UseSaveFailureHandling();
 app.UseDatabaseOverloadHandling();
 if (args.Contains("--migrate", StringComparer.Ordinal))

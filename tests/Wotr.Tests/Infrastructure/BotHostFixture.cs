@@ -26,15 +26,18 @@ internal sealed class BotHostFixture : IAsyncDisposable
     {
         ["Wotr:Bots:Enabled"] = "false", ["Wotr:Bots:RuntimeEnabled"] = "true",
         ["Wotr:Bots:RuntimeAssembly"] = Library, ["Wotr:Bots:RuntimeVersion"] = "0.2.0",
+        ["Wotr:Bots:AllowUnpackagedRuntime"] = "true",
         ["Wotr:Bots:RoomsEnabled"] = "true", ["Wotr:Bots:AcceptedPolicyVersion"] = "fixture-1",
         ["Wotr:Bots:Features"] = "base", ["Wotr:Bots:Workers"] = "1",
         ["Wotr:Bots:PollMilliseconds"] = "50", ["Wotr:Bots:RuntimeLeaseSeconds"] = "5",
         ["Wotr:Bots:RetrySeconds"] = "1", ["Wotr:Rooms:EmptySeconds"] = "3600"
     };
 
-    public static async Task<BotHostFixture> Create()
+    public static async Task<BotHostFixture> Create(IReadOnlyDictionary<string, string?>? settings = null)
     {
         var fixture = new BotHostFixture();
+        foreach (var setting in settings ?? new Dictionary<string, string?>())
+            fixture.Settings[setting.Key] = setting.Value;
         await fixture.postgres.Start();
         fixture.Host = new(fixture.Connection, expansions: false, extra: fixture.Settings, services: services =>
         {

@@ -27,15 +27,18 @@ public sealed record BotAccessOptions(bool Enabled, string ServiceId, string Con
         return new(enabled, id, hash.ToUpperInvariant(), minimum!, TimeSpan.FromSeconds(seconds), features);
     }
 
-    public bool Supports(MatchConfiguration configuration)
+    public bool Supports(MatchConfiguration configuration) => Supports(configuration, Features);
+
+    public static bool Supports(MatchConfiguration configuration, IReadOnlySet<string> features)
     {
         var c = ConfigurationRules.Normalize(configuration);
         return ConfigurationRules.IsValid(c) &&
-            (!c.Lords || Features.Contains("lords")) && (!c.Kings || Features.Contains("kings")) &&
-            (!c.Fate || Features.Contains("fate")) && (!c.Council || Features.Contains("council")) &&
-            (c.Dismay != true || Features.Contains("dismay")) &&
-            (!c.VisibleCorruption || Features.Contains("visible-corruption")) &&
-            (!c.SequentialCorruption || Features.Contains("sequential-corruption")) &&
-            (!c.RemovingRulerTokens || Features.Contains("removing-ruler-tokens")) && (!c.NewCities || Features.Contains("new-cities"));
+            features.Contains("base") &&
+            (!c.Lords || features.Contains("lords")) && (!c.Kings || features.Contains("kings")) &&
+            (!c.Fate || features.Contains("fate")) && (!c.Council || features.Contains("council")) &&
+            (c.Dismay != true || features.Contains("dismay")) &&
+            (!c.VisibleCorruption || features.Contains("visible-corruption")) &&
+            (!c.SequentialCorruption || features.Contains("sequential-corruption")) &&
+            (!c.RemovingRulerTokens || features.Contains("removing-ruler-tokens")) && (!c.NewCities || features.Contains("new-cities"));
     }
 }

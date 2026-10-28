@@ -32,6 +32,8 @@ public sealed partial class RoomStore
             var error = RoomRules.Unavailable(state.Configuration, scope) ?? BotRoomUnavailable(state.Configuration);
             if (error is not null)
                 return error;
+            if (runtime?.Enabled == true && !await BotRuntimeControl.Running(room.Connection, room.Transaction, runtime.Version!, cancellation, botHost?.ManifestSha256))
+                return "BotUnavailable";
             var assignment = Guid.NewGuid().ToString("N");
             var participant = BotCredentialStore.Participant(assignment);
             await BotCredentialStore.EnsureParticipant(room.Connection, room.Transaction, assignment, cancellation);
@@ -55,7 +57,8 @@ public sealed partial class RoomStore
             if (state.Bot.RuntimeVersion is not null)
             {
                 await using var job = Database.Command(room.Connection, room.Transaction,
-                    "INSERT INTO bot_runtime_jobs(assignment_id) VALUES ($1)", assignment);
+                    "INSERT INTO bot_runtime_jobs(assignment_id,compatibility) VALUES ($1,$2::jsonb)", assignment,
+                    System.Text.Json.JsonSerializer.Serialize(runtime!.Compatibility, BotRuntimeProtocol.Json));
                 await job.ExecuteNonQueryAsync(cancellation);
             }
             return null;

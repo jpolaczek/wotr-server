@@ -79,6 +79,10 @@ jobs:
           python3 scripts/bot_coverage.py --generate
           git diff --exit-code -- docs/bots
       - run: dotnet test --no-restore --configuration Release --logger 'trx;LogFileName=backend.trx' --results-directory .artifacts/test-results
+      - name: Keep the optional private bot out of the ordinary server distribution
+        run: |
+          dotnet publish src/Wotr.Server -c Release --no-build --no-restore -o .artifacts/public-server
+          python3 scripts/check_public_artifacts.py .artifacts/public-server
       - run: python3 scripts/card_coverage.py --check --results .artifacts/test-results/backend.trx
       - run: python3 scripts/lords_card_coverage.py --check --results .artifacts/test-results/backend.trx
       - run: python3 scripts/kings_card_coverage.py --check --results .artifacts/test-results/backend.trx

@@ -8,7 +8,7 @@ namespace Wotr.Server;
 // Server-only ABI envelopes. No private policy assembly is a public build input.
 public sealed record BotRuntimeDescription(int AbiVersion, string RuntimeVersion, int ProtocolVersion,
     string RulesVersion, string ContentVersion, bool GameplayReady, string[] Profiles, string[] Modules,
-    BotRuntimePolicy[] Policies);
+    BotRuntimePolicy[] Policies, string? MemoryFormat = null);
 
 public sealed record BotRuntimePolicy(string ProfileId, string PolicyVersion, string[] Features);
 
@@ -46,7 +46,10 @@ internal static class BotRuntimeProtocol
         description.Modules is { Length: > 0 and <= 10 } && description.Modules.Contains("base") &&
         description.Modules.Distinct().Count() == description.Modules.Length &&
         description.Modules.All(BotAccessOptions.KnownFeatures.Contains) &&
+        (description.MemoryFormat is null || System.Text.RegularExpressions.Regex.IsMatch(description.MemoryFormat,
+            "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$")) &&
         description.Policies is { Length: <= 2 } &&
+        description.Policies.All(p => p is not null) &&
         description.Policies.Select(p => p.ProfileId).Distinct().Count() == description.Policies.Length &&
         description.Policies.All(p => description.Profiles.Contains(p.ProfileId) &&
             p.PolicyVersion is { Length: > 0 and <= 64 } && p.Features is { Length: > 0 and <= 10 } &&
