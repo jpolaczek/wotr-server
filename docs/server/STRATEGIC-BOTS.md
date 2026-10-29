@@ -114,6 +114,15 @@ shared human/bot DTOs, not a private state channel. Suspended continuations and
 Lords/Kings reconstruction still require explicit contracts; the task remains
 unaccepted. The earlier checkpoint below is historical evidence.
 
+The private runtime now reconstructs those action roots, independently samples
+unknown cards and exposes opaque validation/rollout through the pinned pure rules.
+Boundary version 2 preserves special Hunt tile/card associations; version 1 is
+insufficient and refused. Both simulated actors use their own projections. Current
+checks passed 711 private C# / 17 Python cases in a clean private checkout, 174
+public projection/privacy/HTTP cases and 21 Unity compatibility cases. Three
+bounded base/Fate walks compare 6,520 candidates at 213 action roots. This does
+not accept general reconstruction, faction policies, BOT-03 fallback or BOT-20.
+
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
 reconstruction is blocked on a reviewed mapping from player information/history
