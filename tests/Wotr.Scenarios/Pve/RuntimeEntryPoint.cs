@@ -29,6 +29,7 @@ public sealed class RuntimeEntryPoint
             "move" => "MoveArmies", "card" => "PlayEvent", "attack" => "AttackArmy",
             "combat" => "CommitCombatCard", "hunt" => "MoveFellowship",
             "finish" => "FinishActionSequence", "hunt-result" => "ResolveHuntDamage",
+            "hunt-reroll" => "RerollHunt",
             _ => options.FirstOrDefault(o => new[] { "ContinueFellowship", "AllocateHunt" }
                 .Contains(o!["kind"]!.GetValue<string>()))?["kind"]?.GetValue<string>()
         };

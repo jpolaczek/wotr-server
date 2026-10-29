@@ -26,10 +26,11 @@ internal static class PveScenarios
             ("recovery", "sh-army-move", "move"), ("reduced", "fp-army-move", "move"), ("skip", "sh-army-move", "move"),
             ("recruit-card", "sh-muster-event", "card"), ("attack", "sh-army-attack", "attack"),
             ("combat", "card-base.sh.strategy.01-combat", "combat"),
-            ("hunt", "fp-character-move-fellowship", "hunt")
+            ("hunt", "fp-character-move-fellowship", "hunt"),
+            ("hunt-response", "pve-hunt-damage", "hunt-result"), ("hunt-reroll", "pve-hunt-reroll", "hunt-reroll")
         })
         {
-            var scenario = TestScenarioCatalog.Find(scenarioId) ?? throw new InvalidOperationException(scenarioId);
+            var scenario = Scenario(scenarioId);
             var humanSide = TurnFlow.Other(scenario.StartingSide);
             var human = humanSide == Side.FreePeoples ? fp : sh;
             var room = await rooms.Create(human.AccountId, new CreateRoomRequest { Name = "CPU fixture " + key, Side = humanSide });
@@ -56,6 +57,19 @@ internal static class PveScenarios
             result.Add(key, match);
         }
         return result;
+    }
+
+    private static TestScenario Scenario(string id)
+    {
+        if (TestScenarioCatalog.Find(id) is { } normal) return normal;
+        if (id is not ("pve-hunt-damage" or "pve-hunt-reroll")) throw new InvalidOperationException(id);
+        return new(id, "CPU fixture", id, "A fixed Hunt response for client presentation.",
+            id == "pve-hunt-damage" ? Side.FreePeoples : Side.Shadow, (match, random) =>
+            {
+                var state = id == "pve-hunt-damage" ? HuntInteractionScenario.Damage(random) : FellowshipScenario.Hunt(random);
+                state.Id = match;
+                return state;
+            });
     }
 
     public static async Task Release(Database database, string match)
