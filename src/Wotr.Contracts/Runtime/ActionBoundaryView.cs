@@ -1,0 +1,49 @@
+using System.Collections.Generic;
+
+namespace Wotr.Contracts
+{
+    // Ordinary player information at an uninterrupted base/Fate action window.
+    // Null means that this version does not describe the current continuation.
+    // No save frames, private opposing choices, deck order or entropy belong here.
+    public sealed class ActionBoundaryView
+    {
+        public int Version { get; set; } = 1;
+        public bool FellowshipDeclaredThisTurn { get; set; }
+        public bool MinionEverEntered { get; set; }
+        public bool MandatoryHuntAllocation { get; set; }
+        public List<string> Companions { get; set; } = new List<string>();
+        public List<ActionCharacterView> Characters { get; set; } = new List<ActionCharacterView>();
+        public List<ActionPlayerView> Players { get; set; } = new List<ActionPlayerView>();
+        public List<HuntTileZoneView> HuntTiles { get; set; } = new List<HuntTileZoneView>();
+    }
+
+    public sealed class ActionCharacterView
+    {
+        public CharacterView Character { get; set; } = new CharacterView();
+        public bool ConvertedArmyThisTurn { get; set; }
+    }
+
+    public sealed class ActionPlayerView
+    {
+        public Side Side { get; set; }
+        public int ExtraDiceNextRecovery { get; set; }
+        public bool RingActionPending { get; set; }
+        // Own discards and publicly played/discarded opposing cards only.
+        public List<string> KnownDiscards { get; set; } = new List<string>();
+        public List<string> PublicDiscards { get; set; } = new List<string>();
+    }
+
+    public sealed class HuntTileZoneView
+    {
+        public string Location { get; set; } = "";
+        public List<HuntTileFaceView> Tiles { get; set; } = new List<HuntTileFaceView>();
+    }
+
+    public sealed class EffectLifetimeView
+    {
+        public int AppliedTurn { get; set; }
+        public string ScopeId { get; set; } = "";
+        public List<string> RequiredCompanions { get; set; } = new List<string>();
+        public bool Private { get; set; }
+    }
+}

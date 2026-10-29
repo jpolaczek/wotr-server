@@ -1,6 +1,11 @@
 <a id="architektura"></a>
 # Architecture
 
+BOT-02 adds [shared player rule facts](server/PLAYER-RULE-FACTS.md) for uninterrupted
+base/Fate action windows. The private simulator can consume these ordinary facts;
+the contract never exposes executable resolution frames or authoritative snapshots.
+Suspended/paid continuations and Lords/Kings reconstruction remain separate gates.
+
 BOT-12 now implements [saved PvE rooms](server/BOT-ROOMS.md): atomic CPU admission, durable assignments, scoped readiness/start and cancellation. The embedded runtime boundary/loader is BOT-17; [embedded scheduling and atomic opaque-memory recovery](server/BOT-HOST.md) are implemented in BOT-18. BOT-02/BOT-03 have private checkpoints only; reconstruction and complete candidate coverage remain pending.
 
 The Unity client presents the player's role and prepares intents. The pure C#

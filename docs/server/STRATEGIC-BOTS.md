@@ -107,6 +107,13 @@ the external BOT-17 transport exists only on a local historical checkpoint branc
 
 ## Strategic decisions and simulation
 
+BOT-02 resumption (2026-10-29): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
+now describe uninterrupted base/Fate action windows, including public lifecycle,
+turn-use/recovery flags, known discard provenance and Hunt tile zones. These are
+shared human/bot DTOs, not a private state channel. Suspended continuations and
+Lords/Kings reconstruction still require explicit contracts; the task remains
+unaccepted. The earlier checkpoint below is historical evidence.
+
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
 reconstruction is blocked on a reviewed mapping from player information/history

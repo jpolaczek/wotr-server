@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.16.0 add optional [action-boundary rule facts](server/PLAYER-RULE-FACTS.md)
+and visible effect lifetime metadata to the ordinary player view. Public content
+1.0.17 pins these contracts. Unsupported continuations omit the boundary; no save,
+opposing secrets, command permission or new UI flow is exposed. Protocol 2 and
+save schema 3 remain unchanged.
+
 Contracts 0.15.0 add [CPU room admission and safe metadata](server/BOT-ROOMS.md): `PUT /api/rooms/{id}/bot`, `AddRoomBotRequest`, seat kinds/status, `RoomView.Bot` and `MatchSummary.IsPve/Bot`. Public content 1.0.16 pins the new contracts. Ordinary commands, player views, protocol 2 and save schema 3 are unchanged. The embedded runtime ABI/loader is BOT-17; BOT-18 implements the embedded host scheduler and atomic command/memory commit.
 
 The contract is implemented in stages T05–T07. In T06 there are DTO `PlayerView`, `ActionOption`, `DecisionView`, `ActionPreview`; endpoints adds T07. Each field has a specific visibility and version. The table below also includes target contracts for later tasks.

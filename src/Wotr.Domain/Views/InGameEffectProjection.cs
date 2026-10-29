@@ -28,6 +28,13 @@ public static class InGameEffectProjection
         view.ExpiresWhen = effect.ExpiresWhen.ToString();
         view.ExpiryDescription = Expiry(effect);
         view.TargetId = effect.TargetId;
+        view.Lifetime = new()
+        {
+            AppliedTurn = effect.Turn,
+            ScopeId = effect.ScopeId,
+            RequiredCompanions = [.. effect.RequiredCompanions],
+            Private = effect.OnlyFor.HasValue
+        };
         view.Targets.Add(Scope(state, effect));
         return view;
     }

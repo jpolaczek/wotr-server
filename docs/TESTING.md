@@ -1,6 +1,11 @@
 <a id="weryfikacja-i-odbiór"></a>
 # Verification and acceptance
 
+`ActionBoundaryProjectionTests` verify ordinary base/Fate rule facts, copied data,
+hidden hand/deck/discard and tile-order invariance, visible discard provenance,
+effect lifetime visibility and absence at unsupported continuations. This is a
+player-contract check, not full BOT-02 reconstruction or strategy acceptance.
+
 BOT-12 adds `PveRoomTests`, `PveSeatRaceTests`, `PveSaveCompatibilityTests` and `BotRoomOptionsTests`. The PvE collection owns an isolated real PostgreSQL cluster and uses the actual room/player API, with a trusted grant stub for the historical external design. See [scope and fixture limitations](server/BOT-ROOMS.md). BOT-02/BOT-03 have private checkpoints only; the [current foundation checks](#private-bot-foundation-checks) do not establish complete reconstruction, candidate coverage or strategy acceptance.
 
 This document states what every change must prove and how the tests run. Results of individual checks are recorded

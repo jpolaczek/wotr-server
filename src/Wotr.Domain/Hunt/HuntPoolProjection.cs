@@ -32,7 +32,7 @@ public static class HuntPoolProjection
         };
     }
 
-    private static List<HuntTileFaceView> Faces(IEnumerable<string> ids) => ids.Select(Face)
+    internal static List<HuntTileFaceView> Faces(IEnumerable<string> ids) => ids.Select(Face)
         .GroupBy(f => (f.Source, f.Pool, f.Value, f.Reveal, f.Stop))
         .Select(group => { var face = group.First(); face.Count = group.Count(); return face; })
         .OrderBy(f => Array.IndexOf(PoolOrder, f.Pool)).ThenBy(f => f.Source, StringComparer.Ordinal)
