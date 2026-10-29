@@ -113,6 +113,19 @@ public sealed class ActionBoundaryProjectionTests
         Assert.Equal([cards[0]], own.PublicDiscards);
     }
 
+    [Fact]
+    public void IdenticalSpecialTileFacesKeepTheirPublicCardAssociations()
+    {
+        var state = TurnTests.Actions();
+        var second = FreePeoplesCharacterCards01.SpecialTiles[1].Tile;
+        HuntPool.PrepareSpecial(state, second);
+        var facts = Projection.For(state, Side.Shadow).ActionBoundary!;
+        Assert.Equal(2, facts.Version);
+        Assert.Equal([second], facts.HuntTiles.Single(z => z.Location == "prepared").SpecialTileIds);
+        Assert.Contains(FreePeoplesCharacterCards01.SpecialTiles[0].Tile,
+            facts.HuntTiles.Single(z => z.Location == "set-aside").SpecialTileIds);
+    }
+
     [Theory]
     [InlineData("lords")]
     [InlineData("kings")]

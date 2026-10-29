@@ -41,7 +41,13 @@ internal static class ActionBoundaryProjection
                     .Order(StringComparer.Ordinal).ToList()
             }).ToList(),
             HuntTiles = state.HuntTiles.GroupBy(t => t.Location).OrderBy(g => g.Key, StringComparer.Ordinal)
-                .Select(g => new HuntTileZoneView { Location = g.Key, Tiles = HuntPoolProjection.Faces(g.Select(t => t.Id)) })
+                .Select(g => new HuntTileZoneView
+                {
+                    Location = g.Key,
+                    Tiles = HuntPoolProjection.Faces(g.Select(t => t.Id)),
+                    SpecialTileIds = g.Where(t => HuntPool.Definitions[t.Id].Pool != "standard")
+                        .Select(t => t.Id).Order(StringComparer.Ordinal).ToList()
+                })
                 .ToList()
         };
     }

@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 1;
+        public int Version { get; set; } = 2;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -37,6 +37,9 @@ namespace Wotr.Contracts
     {
         public string Location { get; set; } = "";
         public List<HuntTileFaceView> Tiles { get; set; } = new List<HuntTileFaceView>();
+        // Special tiles are tied to specific public cards, even when their faces
+        // match. Standard duplicate tile identities carry no such distinction.
+        public List<string> SpecialTileIds { get; set; } = new List<string>();
     }
 
     public sealed class EffectLifetimeView

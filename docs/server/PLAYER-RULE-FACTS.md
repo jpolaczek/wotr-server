@@ -1,12 +1,12 @@
 # Player rule facts at an action boundary
 
-Contracts 0.16.0 add optional `PlayerView.ActionBoundary` version 1. It is ordinary
+Contracts 0.16.1 add optional `PlayerView.ActionBoundary` version 2. It is ordinary
 own-side player information, also passed through the existing bot input projection.
 It does not grant command permission and requires no new UI controls. Protocol 2,
 save schema 3 and game rules are unchanged. Older responses omit it; consumers
 must treat absence or an unknown version as unsupported, never as empty state.
 
-Version 1 describes uninterrupted base/Fate action windows only. Lords, Kings,
+Version 2 describes uninterrupted base/Fate action windows only. Lords, Kings,
 setup, battles, Hunt procedures, paid multi-step actions, pending discards and
 suspended reactions do not receive this boundary. Future support needs explicit
 semantic contracts for those procedures; never serialize a resolution stack or
@@ -19,7 +19,7 @@ redacted save as player data.
 | Used army conversion and extra dice at next recovery | Public use of character abilities and their recovery consequences, B10/B02. |
 | Ring action still pending | Public paid conversion; preserves its obligation through the action window, B05. |
 | Known discards | Own discarded cards and opposing cards visibly played/revealed/discarded; `PublicDiscards` separately identifies what both sides know. Never derive an opposing discard from an earlier draw/inspection or hidden discard. Base/Fate discards do not recycle, B06. |
-| Hunt tile zones grouped by printed face | Public pool/prepared/discard/removed/set-aside composition, B18/B19. No physical ordering, random samples or unrevealed Kings assignments. |
+| Hunt tile zones grouped by printed face | Public pool/prepared/discard/removed/set-aside composition, B18/B19. Public special-tile IDs retain their card associations even for identical faces. No physical ordering, random samples or unrevealed Kings assignments. |
 
 `ActiveEffectView.Lifetime` additionally gives the already visible effect's applied
 turn, scope, required companions and whether it is private to its owner. The same
@@ -33,3 +33,6 @@ does not modify state or draw entropy. Hidden-hand/deck/discard permutations and
 Hunt tile ordering must leave the opposing response unchanged. Tests are in
 `ActionBoundaryProjectionTests`; hypothetical reconstruction belongs only in the
 private runtime and must still sample unknown cards independently.
+
+The earlier boundary version 1 omitted special-tile associations and is not a
+sufficient reconstruction contract. Simulation consumers must refuse it.
