@@ -147,3 +147,22 @@ test server on the Mac; for now they should be available to all accounts").
   scenarios stay off `main` (TEST-05).
 
 Specification: TEST-08.
+
+## D20 — tabletop figures: units and characters are miniatures on the table (2026-10-28)
+
+Source: the owner's request of 2026-10-28 (translated: "units and characters feel detached from the table, like icons
+drawn at fairly random spots; they should be real objects that belong to the map, which the player can pick up from the
+table and carry somewhere else — and the lifted thing is that object, not a square or its shadow") and the planning
+session that followed.
+
+- 2.5D miniatures on the existing flat map: the units' and characters' figures stand on an oval base in the side's colour
+  with a contact shadow; lifting scales the figure up and raises it while the shadow stays on the ground. No 3D scene.
+- Units and characters (armies, Nazgûl, companions, minions) can be picked up and carried; a drop sends exactly what the
+  target click sends, and clicks remain the full path (R16). Dice, cards, tokens and the reserve keep their gestures.
+- The two zoom levels stay; the far-zoom token becomes a physical puck.
+- Every character is its own miniature beside the army in its region.
+- Figures scale with the map and keep one fixed place in their region at every zoom.
+
+This partly supersedes UI-105 and UI-128 ("army movement remains only clicks; drag remains only for reserves") for units
+and characters. Design: wotr-client `docs/ui/TABLETOP_FIGURES_UX.md`. Specification: UI-421 (the plan first registered
+as UI-398), UI-422, UI-400–UI-407.
