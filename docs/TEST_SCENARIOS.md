@@ -532,6 +532,41 @@ and Lesser Eyes, Companions without a nation icon unable to cleanse or remove (`
 `-captain-corruption`, `-keeper-eye-corruption`, `-council-chieftain`, `-iconless-cleanse`); the two cards left out with Fate of Erebor (`KingsCardCatalogTests`); and an Awakened
 king falling during play, which no scenario can make certain — `kings-dismay` starts just after Théoden fell.
 
+<a id="layout-stress--test-15"></a>
+### Layout stress — TEST-15 (2026-10-29)
+
+Owner's request (2026-10-29): scenarios that load the client's layout at its fullest — decisions that open extra
+windows, many buttons at once and the expansions' new mechanics side by side — so each window can be checked for
+overflow and placement. They are ordinary scenarios (`LayoutStressScenarios`), no new contract field: each starts from
+the real setup (`LordsBoard`, `ScenarioBoard`), the pieces it names entered earlier through the engine's own entry rule
+(`CharacterEntry.Apply`, `SovereignLifecycle`), table cards were played through the engine so they carry their lasting
+effects, and the battle, Hunt and card steps before the first decision run as the engine's commands with fixed dice. A
+scenario names Kings first when it plays with Kings (group `Kings · Layout stress`, the Kings tab), otherwise Lords
+(group `Lords · Layout stress`), and its modules are exactly those its game uses. `LayoutStressScenarioTests` builds
+each, checks the tab, modules, repeatability and starting side, and asserts the counts that make it a stress case.
+
+| Id | Start | Title in Game | What I'm testing |
+| --- | --- | --- | --- |
+| `layout-full-roster` | Free Peoples | Every character at once: Fate, Lords and Kings | Fate + Lords (Council) + Kings: every alternative Companion (Keeper of Narya guiding, Gimli the Dwarven Lord in the Iron Hills, Boromir and Legolas at home), Elrond and Galadriel; Denethor Awakened with a usable Ruler token, Théoden Corrupted, Thranduil Initial with two tiles (Fate leaves Brand and Dáin out, KINGS p. 18); the Chief of the Ringwraiths, the Black Númenórean, Gothmog, the Balrog, Saruman and the three Chieftains; both Ruler dice after their discards. |
+| `layout-full-roster-five-kings` | Free Peoples | Every character at once: the five kings | The same roster without Fate, so the five kings play: Brand and Denethor Awakened (two usable tokens), Dáin Initial with two tiles, Théoden Corrupted, Thranduil Initial. |
+| `layout-chieftains-battle` | Shadow | Three Chieftains' replacements in one battle | Kings: the North with the Awakened Brand attacks the Black Serpent, the Shadow of Mirkwood and Uglúk; both cards committed (The Shadow is Moving with Swarm of Bats): three Chieftain chips and Keep card effects, then Brand's Heir of Bard after the reveal. |
+| `layout-hunt-responses` | Free Peoples | A Hunt answered at every window | Lords (Council): five alternative Companions of Level 1, Merry guiding; Mithril Coat and Sting, Axe and Bow and the Horn of Gondor on the table, Galadriel with Nenya; the move's Hunt hits with five dice and draws an Eye: Mithril and Nenya, then Axe and Bow and the Horn, then the Hobbits' cancel, then the three damage responses. |
+| `layout-council-travel` | Shadow | The Council token moves many Nazgûl and Minions | Lords (Council): both Shadow tokens; the Travel token lists twelve figures — all eight Nazgûl in five regions, the Witch-king, the Black Númenórean, Gothmog and the active Balrog. |
+| `layout-white-rider` | Free Peoples | The White Rider at a battle's start | Kings: the Witch-king, two Nazgûl and Uglúk attack Gandalf the White and the Awakened Théoden at the Fords of Isen; the White Rider's window opens before any Combat card. |
+| `layout-all-resources` | Free Peoples | Every pool resource at once | Lords (Council) + Kings: the Narya and Gothmog dice, both Ruler dice and their discards, three usable Ruler tokens (Brand, Dáin, Denethor), two Dismay tokens (Théoden and Thranduil fell), both Council tokens, Narya and Vilya with the Free Peoples and Nenya with the Shadow. |
+| `layout-effects-sources` | Free Peoples | The Effects panel at its fullest | Lords + Kings: six Free Peoples and eight Shadow table cards played through the engine (A Power too Great and Tom Bombadil protect three regions each) and Brand, Théoden and Thranduil Corrupted: 22 entries. |
+| `layout-console-options` | Shadow | The Nazgûl Strike's three console options | Lords: The Nazgûl Strike! after the Witch-king and three Nazgûl flew to the Fellowship in Hollin, with four Character cards on the Free Peoples table: Discard a table card, Roll for the Hunt and Finish beside Pass, the played card as the trail's chip. |
+
+Left out or narrowed, with the reason: Fate of Erebor adds no entry to the Effects panel (none of its cards stays on
+the table or keeps a lasting effect, and Gimli's abilities are character abilities), so `layout-effects-sources` plays
+Lords + Kings; with Fate
+only three kings play (KINGS p. 18), so the five kings have their own roster without Fate. Wormtongue is left off the
+Shadow table because the Witch-king's entry activates Rohan, which ends its effect at once; The Last Battle needs
+Aragorn's army outside the Free Peoples' nations. The Sorcerer's window opens only after a battle's first round, so
+`layout-white-rider` shows the White Rider alone. No card commits more than the played card before a three-option
+console choice, so the Nazgûl Strike's trail is that one chip; a Hunt window holds at most two responses (each window
+has its own cards), so `layout-hunt-responses` walks through all four windows instead.
+
 <a id="tor-mordoru--test-06"></a>
 ### Tor Mordor — TEST-06
 
