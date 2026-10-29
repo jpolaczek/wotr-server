@@ -198,8 +198,14 @@ gating, persistent draining and compatible upgrade/rollback. Operators use the
 existing server executable; there is no bot service or player installation.
 BOT-20 tests the real private runtime with the actual server/client.
 BOT-02–BOT-11 retain reconstruction, candidates, risk, plans, faction policies,
-cards and expansion behavior. BOT-13 retains minimal room UI and existing opponent
-presentation. BOT-14 combines all strategy/coverage/strength and integration gates.
+cards and expansion behavior. BOT-13 implements minimal room UI and reuses existing
+opponent presentation. The seated host uses Add CPU in the empty opposing seat’s
+Remove slot; Take seat remains available. Joining / Ready / Unavailable occupy the
+normal readiness line. Play vs CPU opens this room, and existing Ready/Start clicks
+start saved PvE only after current-configuration acceptance. All PvE saves remain
+in My games beside human games and earlier demos. Invitation retries preserve
+request ID/version; authoritative roster changes resolve uncertainty. No private
+bot package, service settings or extra board controls enter the client. BOT-14 combines all strategy/coverage/strength and integration gates.
 
 Public loader tests use a clearly labelled policy-free fixture; private tests
 exercise the actual runtime entrypoint. Full acceptance requires real faction

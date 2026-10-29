@@ -14,8 +14,11 @@ The server selects `shadow-strong` or `free-peoples-strong`; the request contain
 no service URL, difficulty or arbitrary policy selector.
 
 Admission defaults to disabled. Embedded admission requires
-`Wotr:Bots:RuntimeEnabled=true`, `RuntimeAssembly`, a `RuntimeVersion` pin,
-`RoomsEnabled=true` and an explicit `AcceptedPolicyVersion`. The library must
+`Wotr:Bots:RuntimeEnabled=true`, a verified `RuntimeManifest` and
+`RuntimeManifestSha256`, a `RuntimeVersion` pin, `RoomsEnabled=true` and an
+explicit `AcceptedPolicyVersion`; see [operator packages](BOT-OPERATIONS.md).
+Raw `RuntimeAssembly` loading requires the explicit test-only
+`AllowUnpackagedRuntime` opt-in. The library must
 report gameplay readiness and both accepted faction policies. `Wotr:Bots:Features` names the
 operator's accepted coverage, independently constrained by released modules.
 These settings do not establish strategic acceptance: current private policies
@@ -88,7 +91,11 @@ start/removal races, fresh-clock expiry/revocation, abandoned rooms, three PvE
 saves with a human game and legacy demo, restart, commands/receipts/privacy/history
 and completed replay. The replay fixture seeds a verified near-victory position;
 it does not demonstrate strategic gameplay. BOT-20 repeats the integration with
-the real private policies loaded in the host. BOT-13 owns minimal Add CPU/seat-status client controls.
+the real private policies loaded in the host. BOT-13 implements minimal Add CPU/seat-status client controls, current-version
+Ready/Start, idempotent invitation retries and multiple saved PvE games. It reuses
+the shared opponent presenters; the main-menu side click opens a waiting room.
+A public embedded ABI fixture in the test-only seeder verifies these client paths
+without distributing private bot code or asserting strategic readiness.
 
 The implementation at `4b345b6` passed 20 focused PvE/options cases and the final
 140-case room, correspondence, replay, authorization, migration, statistics and

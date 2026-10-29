@@ -84,7 +84,7 @@ Fuzz/property tests generate only source-compatible input states or consciously 
 <a id="macierz-sieci-i-zapisu"></a>
 ## Network and write Matrix
 
-UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/8e6d2579104cd574f04da452467b300cf9d335c7/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/8e6d2579104cd574f04da452467b300cf9d335c7/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/8e6d2579104cd574f04da452467b300cf9d335c7/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
+UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/9ef2cbc126d8eba531b91f90c55ded2e1def4553/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/9ef2cbc126d8eba531b91f90c55ded2e1def4553/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/9ef2cbc126d8eba531b91f90c55ded2e1def4553/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
 
 T07: `PostgresTests` and `TransportTests` require `WOTR_TEST_DB`. `bash scripts/test.sh` launches a separate local cluster and a full set without skip. Without the variable `dotnet test` explicitly skips integration. CI has PostgreSQL 17 and sets the variable; it does not replace the database with the atrap. [Test range T07](server/T07-TRANSACTIONS.md).
 
@@ -124,7 +124,7 @@ It is not enough to pass a full batch that does not accidentally select difficul
 <a id="odbiór-ui-i-wydajności"></a>
 ## acceptance UI and performance
 
-Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/8e6d2579104cd574f04da452467b300cf9d335c7/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
+Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/9ef2cbc126d8eba531b91f90c55ded2e1def4553/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
 
 ## Platform acceptance on real machines
 
@@ -390,3 +390,27 @@ CLI releases one. That CLI requires an isolated `_test` database and recognizes
 only this fixture policy; there is no public fixture endpoint. Every subsequent
 CPU command uses the host scheduler, side projection, validation and persistence.
 The private policies and actual gameplay acceptance remain BOT-20.
+
+BOT-13 client verification (2026-10-29): Unity `6000.6.0f1`, Contracts `0.15.0`,
+content `1.0.16`, pinned server/seeder `9aa74bad6200`; earlier unchanged cases used
+`34df1673d20d`. Focused batches passed 53 EditMode and 26 distinct PlayMode cases:
+CPU invitation/races/outage (6), presentation (11), room layout (1), and saved-game,
+pending-command, replay, demo and main-menu regressions (8). The layout matrix
+covers both sides at 1366×768 / 1920×1080 and 100% / 125%. Ten actual playback
+clips and 32 room frames are retained locally. The initial presentation run was
+6/9 because three assertions searched the own dice console; corrected assertions
+observe the opponent cost overlay, ordering and camera, and pass. No production
+presenter was replaced for the fixture. Public artifact guard: 3 tests, 301 archive
+entries and all 3127 client Assets entries inspected (1114 under Runtime). Local evidence in the client:
+`.artifacts/bot13/verification.json`, exact XML batches and `clips/manifest.json`.
+No private-policy gameplay, clean installer build, publication or deployment is
+claimed by these checks. The normal player assembly/package boundary excludes
+test seeder/fixtures and all private runtime/model artifacts.
+
+Reproduce client checks with `WOTR_CLIENT_PVE_FIXTURE=1 scripts/test-client.sh` and
+filters `PveInvitationNetworkTests`, `PvePresentationNetworkTests`,
+`PveRoomLayoutTests`; the script uses a disposable database and pinned test
+archives. EditMode checks additionally cover `CommandJournalTests`,
+`LocalRecoveryTests`, `OpponentPresentationQueueTests` and replay models. Scenario
+setup uses the existing FNV-1a scenario seeds plus seeder seed 13; Hunt response
+fixtures have recorded rolls, and subsequent live authority retains server RNG.
