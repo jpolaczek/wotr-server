@@ -140,7 +140,7 @@ T34 supports starting all 93 legal R02/R03 configurations after both players acc
 the same version. Each uses its own setup and complete rules; the server does not
 substitute a base game for an expansion configuration. Changing settings invalidates
 both acceptances; a started game's configuration is immutable and readable in the
-Rules panel. [Expansion acceptance](https://github.com/jpolaczek/wotr-client/blob/abcba9de60a10f7a097277c19207f7abc809770b/docs/ui/T34-ACCEPTANCE.md)
+Rules panel. [Expansion acceptance](https://github.com/jpolaczek/wotr-client/blob/0f45a50115533f8096640614693ea42dc7ba6bfa/docs/ui/T34-ACCEPTANCE.md)
 distinguishes server tests, client tests and release limitations.
 
 <a id="granica-odbioru-wydania-010-rc1"></a>
