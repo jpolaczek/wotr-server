@@ -23,7 +23,7 @@ public sealed class ActionBoundaryContinuationTests
         var owner = state.Pending!.Owner;
         var own = Projection.For(state, owner);
         var other = Projection.For(state, TurnFlow.Other(owner));
-        Assert.Equal(3, own.ActionBoundary!.Version);
+        Assert.Equal(4, own.ActionBoundary!.Version);
         Assert.Equal([first.Payload.DieId], own.ActionBoundary.PaidDieIds);
         Assert.Equal(own.ActionBoundary.PaidDieIds, other.ActionBoundary!.PaidDieIds);
         Assert.Equal(state.Resolution.ActionSequence!.InitialFigures, own.ActionSequence!.InitialFigureIds);

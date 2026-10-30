@@ -436,3 +436,17 @@ and deferred political causes. Nested frames, Lords/Kings and card/Hunt/battle
 continuation roots remain outside this contract. This is player-contract
 verification, not private bot strategy acceptance. Evidence: local
 `.artifacts/bot02-paid/public.trx` and `database.json`.
+
+## BOT-02 Fellowship-move Hunt facts — 2026-10-30
+
+Contracts 0.18.0 / boundary v4: **450 focused C# cases passed**, no skips, with
+an owned disposable PostgreSQL database removed after the run. The filter covers
+`FellowshipMoveProjectionTests`, action boundaries, all Hunt tests, projections,
+expansion/action-log privacy and action-sequence persistence. New cases check
+ordinary paid Hunt rerolls/damage, guide replacement, initial reveal routes,
+returning Hobbit placement, public reactions and Mordor; both sides receive the
+same public facts but only the acting player receives legal options. Copy/restart
+and hidden hand/deck/tile-order/entropy permutations preserve the facts. Unsupported
+card-return, nested, unknown-effect, expansion and wrong-payment roots are refused.
+This verifies the ordinary player contract, not private reconstruction or strategy
+acceptance. Evidence: `.artifacts/bot02-hunt/public.trx` and `database.json`.

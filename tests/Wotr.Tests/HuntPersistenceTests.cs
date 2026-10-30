@@ -34,6 +34,8 @@ public class HuntPersistenceTests
             Assert.Equal(0, huntRandom.Calls);
             var view = await Read(bob, state.Id);
             Assert.Equal(DecisionKind.HuntReroll, view.Decision!.Kind);
+            Assert.NotNull(view.ActionBoundary?.FellowshipMove);
+            Assert.NotNull((await Read(alice, state.Id)).ActionBoundary?.FellowshipMove);
             Assert.Equal(1, view.Hunt!.Dice[0].Result);
             Assert.Null((await Read(alice, state.Id)).Decision);
             reroll = Choice(view, CommandKind.RerollHunt, new() { Ids = ["hunt-die-0"] });
@@ -52,6 +54,7 @@ public class HuntPersistenceTests
             Assert.Equal(0, casualtyRandom.Calls);
             var view = await Read(alice, state.Id);
             Assert.Equal(DecisionKind.HuntDamage, view.Decision!.Kind);
+            Assert.NotNull(view.ActionBoundary?.FellowshipMove);
             Assert.Equal(HuntTests.Eye, view.Hunt!.TileId);
             Assert.Equal(1, view.Hunt.Damage);
             Assert.Equal(DieLocation.Resolving, view.Dice[0].Location);
@@ -67,6 +70,7 @@ public class HuntPersistenceTests
             Assert.Equal(3, (await Send(alice, casualty)).Revision);
             var view = await Read(alice, state.Id);
             Assert.Equal(DecisionKind.Guide, view.Decision!.Kind);
+            Assert.True(view.ActionBoundary!.FellowshipMove!.CasualtyConsequencesPending);
             Assert.True(view.Hunt!.CasualtyTaken);
             var guide = Choice(view, CommandKind.SelectGuide, new() { GuideId = "base.character.gandalf-grey" });
             Assert.Equal(4, (await Send(alice, guide)).Revision);
@@ -77,6 +81,7 @@ public class HuntPersistenceTests
         using var returned = fifth.Client("alice");
         var routeView = await Read(returned, state.Id);
         Assert.Equal(DecisionKind.FellowshipRoute, routeView.Decision!.Kind);
+        Assert.NotNull(routeView.ActionBoundary?.FellowshipMove);
         var route = Choice(routeView, CommandKind.RevealFellowship, new() { Route = ["moria"] });
         Assert.Equal(5, (await Send(returned, route)).Revision);
         Assert.Equal(5, (await Send(returned, route)).Revision);
