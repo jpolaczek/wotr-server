@@ -424,3 +424,15 @@ archives. EditMode checks additionally cover `CommandJournalTests`,
 `LocalRecoveryTests`, `OpponentPresentationQueueTests` and replay models. Scenario
 setup uses the existing FNV-1a scenario seeds plus seeder seed 13; Hunt response
 fixtures have recorded rolls, and subsequent live authority retains server RNG.
+
+## BOT-02 paid-action player facts — 2026-10-30
+
+Contracts 0.17.0 / boundary v3: 205 focused C# cases passed with no skips, using
+a disposable PostgreSQL database removed after the run. The filter covers action
+boundaries, action sequences/persistence and player/expansion/history/Hunt-pool
+privacy. Four paid action kinds and early finish survive real HTTP restarts.
+Public obligations include the original eligible figures, exact resolving die
+and deferred political causes. Nested frames, Lords/Kings and card/Hunt/battle
+continuation roots remain outside this contract. This is player-contract
+verification, not private bot strategy acceptance. Evidence: local
+`.artifacts/bot02-paid/public.trx` and `database.json`.

@@ -9,10 +9,8 @@ internal static class ActionBoundaryProjection
         // Expansion setup, hidden tile assignments and suspended procedures need
         // their own reviewed player contracts; never serialize ResolutionState.
         if (state.Configuration.Lords || state.Configuration.Kings ||
-            state.Phase != GamePhase.ActionResolution || state.Pending?.Kind != DecisionKind.Action ||
-            state.Resolution.Frames.Count != 0 || state.Resolution.ActionSequence is not null ||
-            state.Resolution.PaidDieIds.Count != 0 || state.PoliticalReactions.Count != 0 ||
-            state.AfterDiscard != DiscardContinuation.None)
+            state.Phase != GamePhase.ActionResolution || state.Resolution.Frames.Count != 0 ||
+            state.AfterDiscard != DiscardContinuation.None || !SupportedWindow(state))
             return null;
 
         // Base/Fate discards never return to a hand/deck. Only a visible discharge
@@ -24,6 +22,9 @@ internal static class ActionBoundaryProjection
             FellowshipDeclaredThisTurn = state.Fellowship.LastDeclarationTurn == state.Turn,
             MinionEverEntered = state.MinionEverEntered,
             MandatoryHuntAllocation = state.MandatoryHuntAllocation,
+            PaidDieIds = [.. state.Resolution.PaidDieIds],
+            PendingPolitics = state.PoliticalReactions.Select(p => new PendingPoliticsView
+                { Cause = p.Trigger.ToString(), NationId = p.NationId, RegionId = p.RegionId }).ToList(),
             Companions = [.. state.Fellowship.Companions],
             Characters = state.Characters.Select(c => new ActionCharacterView
             {
@@ -50,6 +51,24 @@ internal static class ActionBoundaryProjection
                 })
                 .ToList()
         };
+    }
+
+    private static bool SupportedWindow(MatchState state)
+    {
+        var sequence = state.Resolution.ActionSequence;
+        if (state.Pending?.Kind == DecisionKind.Action)
+            return sequence is null && state.Resolution.PaidDieIds.Count == 0 &&
+                state.PoliticalReactions.Count == 0;
+        if (state.Pending?.Kind is not (DecisionKind.ActionSequence or DecisionKind.RemoveExcess) ||
+            state.Resolution.PaidDieIds.Count != 1 ||
+            !state.Dice.Any(d => d.Id == state.Resolution.PaidDieIds[0] &&
+                d.Owner == state.Pending.Owner && d.Location == DieLocation.Resolving))
+            return false;
+        if (state.Pending.Kind == DecisionKind.RemoveExcess)
+            return sequence is null;
+        return sequence is { CompletedSteps: > 0, Remaining: > 0 } &&
+            ActionStepRules.Supports(sequence.Kind) && sequence.Owner == state.Pending.Owner &&
+            sequence.DieId == state.Resolution.PaidDieIds[0];
     }
 
     private static HashSet<string> Discharged(IEnumerable<GameEvent> events) => events

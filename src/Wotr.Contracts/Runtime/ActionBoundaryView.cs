@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 namespace Wotr.Contracts
 {
-    // Ordinary player information at an uninterrupted base/Fate action window.
+    // Ordinary player information at a supported base/Fate action window.
     // Null means that this version does not describe the current continuation.
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 2;
+        public int Version { get; set; } = 3;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -15,6 +15,16 @@ namespace Wotr.Contracts
         public List<ActionCharacterView> Characters { get; set; } = new List<ActionCharacterView>();
         public List<ActionPlayerView> Players { get; set; } = new List<ActionPlayerView>();
         public List<HuntTileZoneView> HuntTiles { get; set; } = new List<HuntTileZoneView>();
+        public List<string> PaidDieIds { get; set; } = new List<string>();
+        public List<PendingPoliticsView> PendingPolitics { get; set; } = new List<PendingPoliticsView>();
+    }
+
+    // Public events whose political consequences wait until the action ends.
+    public sealed class PendingPoliticsView
+    {
+        public string Cause { get; set; } = "";
+        public string NationId { get; set; } = "";
+        public string RegionId { get; set; } = "";
     }
 
     public sealed class ActionCharacterView

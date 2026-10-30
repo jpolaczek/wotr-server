@@ -1,16 +1,24 @@
 # Player rule facts at an action boundary
 
-Contracts 0.16.1 add optional `PlayerView.ActionBoundary` version 2. It is ordinary
+Contracts 0.17.0 provide optional `PlayerView.ActionBoundary` version 3. It is ordinary
 own-side player information, also passed through the existing bot input projection.
 It does not grant command permission and requires no new UI controls. Protocol 2,
 save schema 3 and game rules are unchanged. Older responses omit it; consumers
 must treat absence or an unknown version as unsupported, never as empty state.
 
-Version 2 describes uninterrupted base/Fate action windows only. Lords, Kings,
-setup, battles, Hunt procedures, paid multi-step actions, pending discards and
-suspended reactions do not receive this boundary. Future support needs explicit
-semantic contracts for those procedures; never serialize a resolution stack or
-redacted save as player data.
+Version 3 describes base/Fate ordinary actions, paid army/recruitment/character
+steps and excess removal after a paid action. These windows have no suspended
+frames or discard continuation. Lords, Kings, setup, battles, Hunt procedures,
+pending discards and suspended reactions still omit the boundary. Never serialize
+a resolution stack or redacted save as player data.
+
+The existing `ActionSequenceView` additionally exposes `InitialFigureIds`: public
+on-board figures eligible at the start of a paid journey. Their identities are
+already public; this list preserves eligibility after groups merge or move. It
+contains no Fellowship/Council hidden versions. Ordinary sequence fields still
+identify the owner, kind, exact payment, completed/remaining budget and used
+figures/regions. Both players receive the context; only the decision owner gets
+options and a decision token.
 
 | Fact | Visibility and purpose |
 | --- | --- |
@@ -19,6 +27,8 @@ redacted save as player data.
 | Used army conversion and extra dice at next recovery | Public use of character abilities and their recovery consequences, B10/B02. |
 | Ring action still pending | Public paid conversion; preserves its obligation through the action window, B05. |
 | Known discards | Own discarded cards and opposing cards visibly played/revealed/discarded; `PublicDiscards` separately identifies what both sides know. Never derive an opposing discard from an earlier draw/inspection or hidden discard. Base/Fate discards do not recycle, B06. |
+| Paid dice | Public resolving payments; retained until the whole action and any excess removal finish, BASE pp. 20–21 / B04. |
+| Pending politics | Ordered public entry/attack/arrival/capture causes, nation and region; their consequences wait until action completion, B07. These are known past events, not predicted secret effects. |
 | Hunt tile zones grouped by printed face | Public pool/prepared/discard/removed/set-aside composition, B18/B19. Public special-tile IDs retain their card associations even for identical faces. No physical ordering, random samples or unrevealed Kings assignments. |
 
 `ActiveEffectView.Lifetime` additionally gives the already visible effect's applied
@@ -31,8 +41,11 @@ The projector scans visible structured card facts, not prose, and never treats
 knowledge of a card's identity as proof of its current hidden location. Projection
 does not modify state or draw entropy. Hidden-hand/deck/discard permutations and
 Hunt tile ordering must leave the opposing response unchanged. Tests are in
-`ActionBoundaryProjectionTests`; hypothetical reconstruction belongs only in the
+`ActionBoundaryProjectionTests`, `ActionBoundaryContinuationTests` and
+`ActionSequencePersistenceTests`; hypothetical reconstruction belongs only in the
 private runtime and must still sample unknown cards independently.
 
-The earlier boundary version 1 omitted special-tile associations and is not a
-sufficient reconstruction contract. Simulation consumers must refuse it.
+Version 1 omitted special-tile associations. Version 2 described ordinary action
+roots only and has no paid-action provenance. Consumers must not interpret absent
+v3 fields in an older response as empty obligations. Public content 1.0.19 and
+pure rules 0.3.0 pin this contract; game rules, protocol and save schema are unchanged.

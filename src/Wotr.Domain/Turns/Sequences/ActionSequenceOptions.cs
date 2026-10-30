@@ -71,6 +71,7 @@ public static class ActionSequenceOptions
         CompletedSteps = sequence.CompletedSteps,
         Remaining = sequence.Remaining,
         UsedIds = [.. sequence.UsedIds],
-        UsedRegions = [.. sequence.UsedRegions]
+        UsedRegions = [.. sequence.UsedRegions],
+        InitialFigureIds = [.. sequence.InitialFigures]
     } : null;
 }

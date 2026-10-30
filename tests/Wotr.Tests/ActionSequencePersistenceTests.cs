@@ -55,6 +55,10 @@ public class ActionSequencePersistenceTests
             Assert.Null(otherView.Decision);
             Assert.Empty(otherView.Options);
             Assert.NotNull(otherView.ActionSequence);
+            Assert.Equal(3, restored.ActionBoundary!.Version);
+            Assert.Equal([first.Payload.DieId], restored.ActionBoundary.PaidDieIds);
+            Assert.Equal(restored.ActionSequence.InitialFigureIds, otherView.ActionSequence!.InitialFigureIds);
+            Assert.Equal(restored.ActionBoundary.PaidDieIds, otherView.ActionBoundary!.PaidDieIds);
             var raw = await other.GetStringAsync($"/api/matches/{state.Id}");
             Assert.DoesNotContain(secret, raw);
             Assert.DoesNotContain("initialFigures", raw);
@@ -87,7 +91,7 @@ public class ActionSequencePersistenceTests
         }
     }
 
-    private static (MatchState State, GameCommand First, GameCommand Second) Scenario(CommandKind kind, bool finish)
+    internal static (MatchState State, GameCommand First, GameCommand Second) Scenario(CommandKind kind, bool finish)
     {
         var state = Board(kind == CommandKind.MoveShadowCharacters ? Side.Shadow : Side.FreePeoples);
         state.Id = Guid.NewGuid().ToString("N");
