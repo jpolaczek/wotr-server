@@ -107,21 +107,24 @@ the external BOT-17 transport exists only on a local historical checkpoint branc
 
 ## Strategic decisions and simulation
 
-BOT-02 resumption (2026-10-29): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
-now describe uninterrupted base/Fate action windows, including public lifecycle,
-turn-use/recovery flags, known discard provenance and Hunt tile zones. These are
-shared human/bot DTOs, not a private state channel. Suspended continuations and
-Lords/Kings reconstruction still require explicit contracts; the task remains
-unaccepted. The earlier checkpoint below is historical evidence.
+BOT-02 checkpoint (2026-10-30): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
+version 3 describe base/Fate ordinary actions, paid army/recruitment/character
+steps and post-action excess removal. They retain public lifecycle/turn flags,
+known discard provenance, special Hunt tile/card associations, the original
+journey roster, exact resolving payment and deferred public political causes.
+These are shared human/bot DTOs, not a private state channel. Suspended
+battle/Hunt/card/discard and Lords/Kings/Council positions remain unsupported.
 
-The private runtime now reconstructs those action roots, independently samples
-unknown cards and exposes opaque validation/rollout through the pinned pure rules.
-Boundary version 2 preserves special Hunt tile/card associations; version 1 is
-insufficient and refused. Both simulated actors use their own projections. Current
-checks passed 711 private C# / 17 Python cases in a clean private checkout, 174
-public projection/privacy/HTTP cases and 21 Unity compatibility cases. Three
-bounded base/Fate walks compare 6,520 candidates at 213 action roots. This does
-not accept general reconstruction, faction policies, BOT-03 fallback or BOT-20.
+The private runtime reconstructs these roots, independently samples unknown cards
+and exposes opaque validation/rollout through pinned pure rules 0.3.0 / Contracts
+0.17.0. Both simulated actors use only their own projections. Current checks:
+759 private C# / 17 Python tests, 205 public projection/privacy/sequence/HTTP cases,
+10 package tests and 39 Unity compatibility cases, with no skipped cases. The 48
+new private cases cover paid continuation/early finish, illegal alternatives,
+politics, excess, missing facts, hidden permutations and grouped journeys.
+Existing bounded base/Fate walks still compare 6,520 candidates at 213 roots.
+This does not accept general reconstruction, faction policies, BOT-03 fallback or
+BOT-20; production policies remain absent and `gameplayReady=false`.
 
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
