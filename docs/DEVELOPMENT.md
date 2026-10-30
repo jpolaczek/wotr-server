@@ -99,7 +99,7 @@ The account (AUTH-02) is assumed to require `POST /api/auth/register` with `user
 <a id="map-17--profil-konturów-i-rozdzielenie-transportu"></a>
 ## MAP-17 — contour profile and transport separation
 
-`tests/Wotr.Scenarios` saves `map17-profile.json` next to fixture `client-integration.json` during `scripts/test-client.sh`. These are safe server projections for Development-only honesty; do not copy to full private fixture profile with certifications. The new `map-profile-2` requires 36 workloads and 42 PNG, including dense field/garrison and Fate/White Hand changes.
+`tests/Wotr.Scenarios` saves `map17-profile.json` next to fixture `client-integration.json` during `scripts/test-client.sh`. These are safe server projections for Development-only honesty; do not copy to full private fixture profile with certifications. The new `map-profile-2` requires 44 workloads and 50 PNG, including dense field/garrison, Fate/White Hand changes and, since UI-407, a carried army with edge pan for each side (`drag-edge-fp`, `drag-edge-sh`; the client's `review-map-client.py --drag-input`).
 
 ```sh
 python3 scripts/review-map-client.py --player ".artifacts/map17/profile/Wotr.app/Contents/MacOS/War of the Ring Online" --input .artifacts/map17-profile.json --output .artifacts/map17-player --timeout 600
