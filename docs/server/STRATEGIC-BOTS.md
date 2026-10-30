@@ -108,20 +108,26 @@ the external BOT-17 transport exists only on a local historical checkpoint branc
 ## Strategic decisions and simulation
 
 BOT-02 checkpoint (2026-10-30): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
-version 3 describe base/Fate ordinary actions, paid army/recruitment/character
-steps and post-action excess removal. They retain public lifecycle/turn flags,
+version 4 describe base/Fate ordinary actions, paid army/recruitment/character
+steps, post-action excess removal and reviewed ordinary Fellowship-move Hunt
+choices. They retain public lifecycle/turn flags,
 known discard provenance, special Hunt tile/card associations, the original
-journey roster, exact resolving payment and deferred public political causes.
+journey roster, exact resolving payment, deferred public political causes and
+public Hunt guide/casualty/departure progress.
 These are shared human/bot DTOs, not a private state channel. Suspended
-battle/Hunt/card/discard and Lords/Kings/Council positions remain unsupported.
+card-origin/additional Hunts, battles, nested card programs, discards and
+Lords/Kings/Council positions remain unsupported.
 
 The private runtime reconstructs these roots, independently samples unknown cards
-and exposes opaque validation/rollout through pinned pure rules 0.3.0 / Contracts
-0.17.0. Both simulated actors use only their own projections. Current checks:
-759 private C# / 17 Python tests, 205 public projection/privacy/sequence/HTTP cases,
-10 package tests and 39 Unity compatibility cases, with no skipped cases. The 48
-new private cases cover paid continuation/early finish, illegal alternatives,
-politics, excess, missing facts, hidden permutations and grouped journeys.
+and exposes opaque validation/rollout through pinned pure rules 0.4.0 / Contracts
+0.18.0. Both simulated actors use only their own projections. Current checks:
+827 private C# / 17 Python tests, 450 public projection/privacy/Hunt/HTTP cases,
+10 package tests and 49 Unity compatibility cases, with no skipped cases. The 68
+new private cases cover Hunt continuation, exact tile/payment identity, illegal
+alternatives, missing facts, hidden permutations, terminal Mordor outcomes and
+actual unsupported nested/card/Stronghold roots. Rerolls and bare public reactions
+preserve the Free Peoples payment even while Shadow owns the decision. These
+fixtures verify reconstruction and rule execution, not strategic choice quality.
 Existing bounded base/Fate walks still compare 6,520 candidates at 213 roots.
 This does not accept general reconstruction, faction policies, BOT-03 fallback or
 BOT-20; production policies remain absent and `gameplayReady=false`.
