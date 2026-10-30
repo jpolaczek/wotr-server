@@ -450,3 +450,16 @@ and hidden hand/deck/tile-order/entropy permutations preserve the facts. Unsuppo
 card-return, nested, unknown-effect, expansion and wrong-payment roots are refused.
 This verifies the ordinary player contract, not private reconstruction or strategy
 acceptance. Evidence: `.artifacts/bot02-hunt/public.trx` and `database.json`.
+
+## BOT-02 additional Stronghold Hunt facts — 2026-10-30
+
+Contracts 0.19.0 / boundary v5: **466 focused C# cases passed**, no skips, using
+an owned disposable PostgreSQL database removed after the run. The Hunt/projection/
+privacy/action-boundary/persistence filter now includes 15 Stronghold projection
+cases and an additional real HTTP restart case. First and second Stronghold roots,
+guide/placement/reaction choices, public route/order, copy isolation and hidden
+hand/deck/tile/entropy invariance are covered. Unsupported or inconsistent parents
+refuse the boundary. The HTTP case restarts between both tiles, retries committed
+commands and verifies one remaining draw and one final movement payment. This is
+shared-contract verification, not strategy acceptance. Evidence:
+`.artifacts/bot02-stronghold/public.trx` and `database.json`.

@@ -1,11 +1,11 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
-Contracts 0.18.0 extend optional [action-boundary rule facts](server/PLAYER-RULE-FACTS.md)
+Contracts 0.19.0 extend optional [action-boundary rule facts](server/PLAYER-RULE-FACTS.md)
 and visible effect lifetime metadata to the ordinary player view. Public content
-1.0.20 pins these contracts. Version 4 covers ordinary and paid base/Fate action
+1.0.21 pins these contracts. Version 5 covers ordinary and paid base/Fate action
 steps, deferred public politics, post-action excess removal and reviewed paid
-Fellowship-move Hunt choices. Unsupported continuations omit the boundary; no save,
+Fellowship-move Hunt choices and their additional Stronghold Hunts. Unsupported continuations omit the boundary; no save,
 opposing secrets, command permission or new UI flow is exposed. Protocol 2 and
 save schema 3 remain unchanged.
 

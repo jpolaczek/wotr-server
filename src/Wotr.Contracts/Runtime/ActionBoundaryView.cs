@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 4;
+        public int Version { get; set; } = 5;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -32,6 +32,16 @@ namespace Wotr.Contracts
         public int DepartureProgress { get; set; }
         public List<string> DepartingCompanions { get; set; } = new List<string>();
         public bool PlacementStarted { get; set; }
+        public FellowshipStrongholdView? StrongholdHunts { get; set; }
+    }
+
+    // Public consequences of the committed reveal route after a paid move.
+    // MovementHunt has finished resolving its tile; its payment is still open.
+    public sealed class FellowshipStrongholdView
+    {
+        public HuntView MovementHunt { get; set; } = new HuntView();
+        public List<string> Route { get; set; } = new List<string>();
+        public List<string> RemainingStrongholds { get; set; } = new List<string>();
     }
 
     // Public events whose political consequences wait until the action ends.

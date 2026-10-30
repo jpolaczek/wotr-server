@@ -2,19 +2,30 @@ using Wotr.Contracts;
 
 namespace Wotr.Domain;
 
-// Explicit player-facing scope for the ordinary paid move. Card-origin Hunts,
-// additional stronghold Hunts and arbitrary effect programs need other contexts.
+// Explicit player-facing scope for the ordinary paid move and its Stronghold
+// consequences. Card-origin Hunts and arbitrary effect programs need other contexts.
 internal static class FellowshipMoveProjection
 {
     public static FellowshipMoveView? For(MatchState state)
     {
         var frames = state.Resolution.Frames;
-        if (frames.Count is < 1 or > 2 || frames[0].Hunt is not { } hunt ||
+        if (frames.Count < 1 || frames[0].Hunt is not { } hunt ||
             frames[0].EffectId != "hunt" || !PlainFrame(frames[0]) || !MovementHunt(hunt) || state.Pending is null ||
             state.Resolution.ActionSequence is not null || state.Resolution.PaidDieIds.Count != 1 ||
             !state.Dice.Any(d => d.Id == state.Resolution.PaidDieIds[0] &&
-                d.Owner == Side.FreePeoples && d.Location == DieLocation.Resolving) ||
-            !SupportedChoice(state, hunt))
+                d.Owner == Side.FreePeoples && d.Location == DieLocation.Resolving))
+            return null;
+        FellowshipStrongholdView? strongholds = null;
+        var activeIndex = 0;
+        if (frames.Count > 2)
+        {
+            strongholds = FellowshipStrongholdProjection.For(state, hunt);
+            if (strongholds is null)
+                return null;
+            activeIndex = 2;
+            hunt = frames[activeIndex].Hunt!;
+        }
+        if (!SupportedChoice(state, hunt, activeIndex))
             return null;
         return new()
         {
@@ -24,7 +35,8 @@ internal static class FellowshipMoveProjection
             DepartureRegionId = hunt.DepartureOrigin,
             DepartureProgress = hunt.DepartureProgress,
             DepartingCompanions = [.. hunt.DepartingCompanions],
-            PlacementStarted = hunt.DeparturePlaced
+            PlacementStarted = hunt.DeparturePlaced,
+            StrongholdHunts = strongholds
         };
     }
 
@@ -35,16 +47,18 @@ internal static class FellowshipMoveProjection
         !hunt.FireAndShadow && hunt.DrawnBy == Side.Shadow && hunt.DiceReduction == 0 &&
         hunt.RerollBonus == 0 && (hunt.Stage is not (HuntStage.BeforeRoll or HuntStage.Roll) || hunt.RollBonus == 0);
 
-    private static bool SupportedChoice(MatchState state, HuntProcedure hunt)
+    private static bool SupportedChoice(MatchState state, HuntProcedure hunt, int activeIndex)
     {
         var pending = state.Pending!;
         var frames = state.Resolution.Frames;
-        if (frames.Count == 1)
+        if (frames.Count == activeIndex + 1)
             return pending.Kind == DecisionKind.HuntReroll && pending.Owner == Side.Shadow &&
                 hunt.Stage == HuntStage.BeforeDraw ||
                 pending.Kind == DecisionKind.HuntDamage && pending.Owner == Side.FreePeoples &&
                 hunt.Stage == HuntStage.Damage;
-        var top = frames[1];
+        if (frames.Count != activeIndex + 2)
+            return false;
+        var top = frames[activeIndex + 1];
         if (!PlainFrame(top))
             return false;
         if (top.Fellowship is { } fellowship)
@@ -103,7 +117,7 @@ internal static class FellowshipMoveProjection
                 .Where(r => r.Window == effect.ReactionWindow).Select(r => r.Id));
     }
 
-    private static bool PlainFrame(ResolutionFrame frame) =>
+    internal static bool PlainFrame(ResolutionFrame frame) =>
         frame.NextStep == 0 && frame.Window == "" && frame.ReturnDecision is null &&
         frame.Battle is null && frame.BattleLoss is null && frame.EventLoss is null && frame.Corruption is null &&
         (frame.Hunt is null ? 0 : 1) + (frame.Fellowship is null ? 0 : 1) + (frame.Effect is null ? 0 : 1) == 1;

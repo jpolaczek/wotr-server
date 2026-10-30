@@ -140,6 +140,45 @@ public class HuntPersistenceTests
         Assert.Empty(persisted.Resolution.Frames);
     }
 
+    [PostgresFact]
+    public async Task HttpRestartsBetweenStrongholdHuntsWithoutRepeatingTheRouteDrawOrPayment()
+    {
+        var state = StrongholdHuntProjectionTests.At("first");
+        var paid = Assert.Single(state.Resolution.PaidDieIds);
+        await using (var initial = new TestHost(new SequenceRandom()))
+            await initial.Services.GetRequiredService<MatchStore>().Create(state, "alice", "bob");
+        GameCommand? previous = null;
+        for (var index = 0; index < 2; index++)
+        {
+            var entropy = index == 0 ? new SequenceRandom(0) : new SequenceRandom();
+            await using var host = new TestHost(entropy);
+            using var alice = host.Client("alice");
+            using var bob = host.Client("bob");
+            if (previous is not null)
+                await Send(alice, previous);
+            Assert.Equal(0, entropy.Calls);
+            var view = await Read(alice, state.Id);
+            var other = await Read(bob, state.Id);
+            var facts = view.ActionBoundary!.FellowshipMove!.StrongholdHunts!;
+            Assert.Equal(2 - index, facts.RemainingStrongholds.Count);
+            Assert.Equal(StrongholdHuntProjectionTests.Route, facts.Route);
+            Assert.Equal(facts.RemainingStrongholds, other.ActionBoundary!.FellowshipMove!.StrongholdHunts!.RemainingStrongholds);
+            Assert.Null(other.Decision);
+            Assert.Equal(DieLocation.Resolving, view.Dice.Single(d => d.Id == paid).Location);
+            previous = Choice(view, CommandKind.ResolveHuntDamage, new() { HuntResponse = HuntResponse.Ring });
+            var receipt = await Send(alice, previous);
+            Assert.Equal(receipt.Revision, (await Send(alice, previous)).Revision);
+            Assert.Equal(index == 0 ? 1 : 0, entropy.Calls);
+        }
+        await using var final = new TestHost(new SequenceRandom());
+        var persisted = (await final.Services.GetRequiredService<MatchStore>().Read(state.Id, "alice"))!.State;
+        Assert.Equal(7, persisted.Fellowship.Corruption);
+        Assert.Empty(persisted.Resolution.Frames);
+        Assert.Empty(persisted.Resolution.PaidDieIds);
+        Assert.Equal(DieLocation.Hunt, persisted.Dice.Single(d => d.Id == paid).Location);
+        Assert.Equal(state.RandomSamples.Count + 1, persisted.RandomSamples.Count);
+    }
+
     private static async Task<PlayerView> Read(HttpClient client, string id) =>
         (await client.GetFromJsonAsync<PlayerView>($"/api/matches/{id}", BoardCatalog.Json))!;
 
