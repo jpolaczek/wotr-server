@@ -8,7 +8,9 @@ an ordinary paid Fellowship move: rerolls, damage, bare public reactions, guide
 replacement, initial reveal routes, returning Hobbit placement and additional
 Stronghold Hunts after the committed route. Paid Orc Patrol, Isildur's Bane,
 Foul Thing and committed Nazgûl Strike Hunts retain the card identity, original Shadow payment and pending
-Palantir draw, with the same reviewed reveal/Stronghold consequences. It retains
+Palantir draw, with the same reviewed reveal/Stronghold consequences. The active
+Balrog table-card Hunt can suspend that queue after revelation, including an empty
+queue, while preserving the original FP or Shadow payment. It retains
 public one-use/casualty/departure facts alongside the existing Hunt view. The
 contract exposes no executable resolution frames or authoritative snapshots.
 Other card-origin/declaration Hunts, nested effect programs, battles/discards and

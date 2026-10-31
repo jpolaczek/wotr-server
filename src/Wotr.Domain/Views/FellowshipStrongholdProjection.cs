@@ -4,9 +4,9 @@ namespace Wotr.Domain;
 
 internal static class FellowshipStrongholdProjection
 {
-    internal static FellowshipStrongholdView? For(MatchState state, HuntProcedure movement)
+    internal static FellowshipStrongholdView? For(MatchState state, HuntProcedure movement, out int activeIndex)
     {
-        var reveal = RevealContext(state, 0);
+        var reveal = RevealContext(state, 0, out activeIndex);
         if (reveal is null)
             return null;
         return new()
@@ -17,10 +17,12 @@ internal static class FellowshipStrongholdProjection
         };
     }
 
-    internal static FellowshipProcedure? RevealContext(MatchState state, int sourceIndex)
+    internal static FellowshipProcedure? RevealContext(MatchState state, int sourceIndex, out int activeIndex)
     {
         var frames = state.Resolution.Frames;
-        if (frames.Count < sourceIndex + 3 || frames.Count > sourceIndex + 4 ||
+        activeIndex = sourceIndex + 2;
+        var balrog = frames.Count >= sourceIndex + 5;
+        if (frames.Count < sourceIndex + 3 || frames.Count > sourceIndex + 6 ||
             frames[sourceIndex].Hunt is not { Stage: HuntStage.Done, Mordor: false, Reveal: true } source ||
             source.TileId == "" || state.Fellowship.Hidden || state.Fellowship.Progress != 0 ||
             frames[sourceIndex + 1].EffectId != "fellowship.Reveal" ||
@@ -30,14 +32,20 @@ internal static class FellowshipStrongholdProjection
                 FireAndShadowPending: false } reveal ||
             reveal.SourceId != source.TileId || reveal.Journey is not null || reveal.FixedCompanions.Count != 0 ||
             reveal.SeparationOrigin != "" || reveal.SeparationRange != 0 || reveal.SeparationBonus != 0 ||
-            reveal.ChooseGuideAfterPlacement || !ValidRoute(state, reveal) ||
-            frames[sourceIndex + 2].EffectId != "hunt" || !HuntChoiceProjection.PlainFrame(frames[sourceIndex + 2]) ||
-            frames[sourceIndex + 2].Hunt is not { } hunt || !StrongholdHunt(hunt, reveal.AdditionalHuntRegions[0]))
+            reveal.ChooseGuideAfterPlacement || !ValidRoute(state, reveal, balrog))
+            return null;
+        if (balrog)
+        {
+            activeIndex += 2;
+            return BalrogHuntProjection.Supports(state, sourceIndex, reveal) ? reveal : null;
+        }
+        if (frames[activeIndex].EffectId != "hunt" || !HuntChoiceProjection.PlainFrame(frames[activeIndex]) ||
+            frames[activeIndex].Hunt is not { } hunt || !StrongholdHunt(hunt, reveal.AdditionalHuntRegions[0]))
             return null;
         return reveal;
     }
 
-    private static bool ValidRoute(MatchState state, FellowshipProcedure reveal)
+    private static bool ValidRoute(MatchState state, FellowshipProcedure reveal, bool beforeStrongholds)
     {
         var route = reveal.Route;
         if (route.Count == 0 || route.Any(id => !BoardRules.Regions.ContainsKey(id)) ||
@@ -45,6 +53,8 @@ internal static class FellowshipStrongholdProjection
             return false;
         var all = TravelRules.AdditionalHunts(state, route);
         var remaining = reveal.AdditionalHuntRegions;
+        if (beforeStrongholds)
+            return all.SequenceEqual(remaining);
         return remaining.Count > 0 && remaining.Count <= all.Count &&
             all.TakeLast(remaining.Count).SequenceEqual(remaining);
     }

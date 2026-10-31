@@ -6,7 +6,8 @@ and visible effect lifetime metadata to the ordinary player view. Public content
 1.0.22 pins these contracts. Version 6 covers ordinary and paid base/Fate action
 steps, deferred public politics, post-action excess removal and reviewed paid
 Fellowship-move and paid Orc Patrol/Isildur's Bane/Foul Thing/Nazgûl Strike Hunt choices,
-including their additional Stronghold Hunts and original payment obligations.
+including their additional Stronghold Hunts, active Balrog Hunt after revelation
+and original payment obligations. These contexts reuse the existing v6 fields.
 Unsupported continuations omit the boundary; no save,
 opposing secrets, command permission or new UI flow is exposed. Protocol 2 and
 save schema 3 remain unchanged.

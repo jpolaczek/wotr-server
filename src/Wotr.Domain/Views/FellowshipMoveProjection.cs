@@ -19,10 +19,9 @@ internal static class FellowshipMoveProjection
         var activeIndex = 0;
         if (frames.Count > 2)
         {
-            strongholds = FellowshipStrongholdProjection.For(state, hunt);
+            strongholds = FellowshipStrongholdProjection.For(state, hunt, out activeIndex);
             if (strongholds is null)
                 return null;
-            activeIndex = 2;
             hunt = frames[activeIndex].Hunt!;
         }
         if (!HuntChoiceProjection.Supports(state, hunt, activeIndex))

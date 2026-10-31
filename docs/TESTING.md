@@ -499,3 +499,24 @@ restart between decisions and replay receipts without extra RNG, retaining one
 Shadow payment through completion. Artifacts: `.artifacts/bot02-strike/`.
 No client code or wire data changed, so Unity was not rerun for this checkpoint.
 These are contract/persistence checks, not strategic bot acceptance.
+
+
+## BOT-02 active Balrog Hunt after revelation — 2026-11-01
+
+Pure rules 0.6.2 reuses ActionBoundary v6 / Contracts 0.20.0 without a client or
+public-content change. **574 selected C# cases passed**, no skips, using an owned
+UUID PostgreSQL database removed after execution. The Hunt/projection/privacy/
+action-boundary filter includes 36 new Balrog projection cases and seven HTTP
+restart/replay cases. They cover ordinary movement and all four reviewed card
+parents, guide/replacement/Hobbit/draw/table choices, zero/one/two Stronghold
+obligations, copied per-seat context, hidden-data invariance and explicit refusal
+of mismatched nested returns/rules. HTTP cases retain the original FP/Shadow die
+through Balrog and the remaining Strongholds, with no replay entropy.
+
+The first projection build found a fixture using a nonexistent Regions property;
+corrected to the real Control map. The next batch passed 91/94: the Foul Thing
+fixture still had a mandatory Guide choice before revelation. Resolving that
+choice corrected all three cases; no game rule was changed. The successful broad
+run includes those corrections. Logs/TRX/DB cleanup evidence:
+`.artifacts/bot02-balrog/`. Unity was not rerun because wire/client/content sources
+were unchanged. These are contract/persistence checks, not strategic acceptance.

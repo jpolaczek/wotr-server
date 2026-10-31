@@ -21,7 +21,7 @@ internal static class CardHuntProjection
         var activeIndex = 1;
         if (frames.Count > 3)
         {
-            var reveal = FellowshipStrongholdProjection.RevealContext(state, 1);
+            var reveal = FellowshipStrongholdProjection.RevealContext(state, 1, out activeIndex);
             if (reveal is null)
                 return null;
             strongholds = new()
@@ -30,7 +30,6 @@ internal static class CardHuntProjection
                 Route = [.. reveal.Route],
                 RemainingStrongholds = [.. reveal.AdditionalHuntRegions]
             };
-            activeIndex = 3;
             hunt = frames[activeIndex].Hunt!;
         }
         if (!HuntChoiceProjection.Supports(state, hunt, activeIndex))
