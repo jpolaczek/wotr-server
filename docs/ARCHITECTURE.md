@@ -3,13 +3,15 @@
 
 BOT-02 adds [shared player rule facts](server/PLAYER-RULE-FACTS.md) for base/Fate
 ordinary actions, paid army/recruitment/character steps and post-action excess
-removal. Boundary v5 also describes reviewed choices during the Hunt caused by
+removal. Boundary v6 also describes reviewed choices during the Hunt caused by
 an ordinary paid Fellowship move: rerolls, damage, bare public reactions, guide
 replacement, initial reveal routes, returning Hobbit placement and additional
-Stronghold Hunts after the committed route. It retains
+Stronghold Hunts after the committed route. Paid Orc Patrol, Isildur's Bane and
+Foul Thing Hunts retain the card identity, original Shadow payment and pending
+Palantir draw, with the same reviewed reveal/Stronghold consequences. It retains
 public one-use/casualty/departure facts alongside the existing Hunt view. The
 contract exposes no executable resolution frames or authoritative snapshots.
-Card-origin/declaration Hunts, nested effect programs, battles/discards and
+Other card-origin/declaration Hunts, nested effect programs, battles/discards and
 Lords/Kings reconstruction remain separate acceptance gates.
 
 BOT-12 now implements [saved PvE rooms](server/BOT-ROOMS.md): atomic CPU admission, durable assignments, scoped readiness/start and cancellation. The embedded runtime boundary/loader is BOT-17; [embedded scheduling and atomic opaque-memory recovery](server/BOT-HOST.md) are implemented in BOT-18. BOT-02/BOT-03 have private checkpoints only; reconstruction and complete candidate coverage remain pending.

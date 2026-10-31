@@ -6,17 +6,8 @@ internal static class FellowshipStrongholdProjection
 {
     internal static FellowshipStrongholdView? For(MatchState state, HuntProcedure movement)
     {
-        var frames = state.Resolution.Frames;
-        if (frames.Count is < 3 or > 4 || movement.Stage != HuntStage.Done || movement.Mordor ||
-            movement.TileId == "" || !movement.Reveal || state.Fellowship.Hidden || state.Fellowship.Progress != 0 ||
-            frames[1].EffectId != "fellowship.Reveal" || !FellowshipMoveProjection.PlainFrame(frames[1]) ||
-            frames[1].Fellowship is not { Kind: FellowshipProcedureKind.Reveal, Return: FellowshipReturn.Parent,
-                AwaitingHunts: true, RevealEffectsPending: false, FireAndShadowPending: false } reveal ||
-            reveal.SourceId != movement.TileId || reveal.Journey is not null || reveal.FixedCompanions.Count != 0 ||
-            reveal.SeparationOrigin != "" || reveal.SeparationRange != 0 || reveal.SeparationBonus != 0 ||
-            reveal.ChooseGuideAfterPlacement || !ValidRoute(state, reveal) ||
-            frames[2].EffectId != "hunt" || !FellowshipMoveProjection.PlainFrame(frames[2]) ||
-            frames[2].Hunt is not { } hunt || !StrongholdHunt(hunt, reveal.AdditionalHuntRegions[0]))
+        var reveal = RevealContext(state, 0);
+        if (reveal is null)
             return null;
         return new()
         {
@@ -24,6 +15,26 @@ internal static class FellowshipStrongholdProjection
             Route = [.. reveal.Route],
             RemainingStrongholds = [.. reveal.AdditionalHuntRegions]
         };
+    }
+
+    internal static FellowshipProcedure? RevealContext(MatchState state, int sourceIndex)
+    {
+        var frames = state.Resolution.Frames;
+        if (frames.Count < sourceIndex + 3 || frames.Count > sourceIndex + 4 ||
+            frames[sourceIndex].Hunt is not { Stage: HuntStage.Done, Mordor: false, Reveal: true } source ||
+            source.TileId == "" || state.Fellowship.Hidden || state.Fellowship.Progress != 0 ||
+            frames[sourceIndex + 1].EffectId != "fellowship.Reveal" ||
+            !HuntChoiceProjection.PlainFrame(frames[sourceIndex + 1]) ||
+            frames[sourceIndex + 1].Fellowship is not { Kind: FellowshipProcedureKind.Reveal,
+                Return: FellowshipReturn.Parent, AwaitingHunts: true, RevealEffectsPending: false,
+                FireAndShadowPending: false } reveal ||
+            reveal.SourceId != source.TileId || reveal.Journey is not null || reveal.FixedCompanions.Count != 0 ||
+            reveal.SeparationOrigin != "" || reveal.SeparationRange != 0 || reveal.SeparationBonus != 0 ||
+            reveal.ChooseGuideAfterPlacement || !ValidRoute(state, reveal) ||
+            frames[sourceIndex + 2].EffectId != "hunt" || !HuntChoiceProjection.PlainFrame(frames[sourceIndex + 2]) ||
+            frames[sourceIndex + 2].Hunt is not { } hunt || !StrongholdHunt(hunt, reveal.AdditionalHuntRegions[0]))
+            return null;
+        return reveal;
     }
 
     private static bool ValidRoute(MatchState state, FellowshipProcedure reveal)

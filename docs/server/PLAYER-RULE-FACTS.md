@@ -1,17 +1,19 @@
 # Player rule facts at an action boundary
 
-Contracts 0.19.0 provide optional `PlayerView.ActionBoundary` version 5. It is ordinary
+Contracts 0.20.0 provide optional `PlayerView.ActionBoundary` version 6. It is ordinary
 own-side player information, also passed through the existing bot input projection.
 It does not grant command permission and requires no new UI controls. Protocol 2,
 save schema 3 and game rules are unchanged. Older responses omit it; consumers
 must treat absence or an unknown version as unsupported, never as empty state.
 
-Version 5 describes base/Fate ordinary actions, paid army/recruitment/character
+Version 6 describes base/Fate ordinary actions, paid army/recruitment/character
 steps, excess removal, and reviewed choices in a Hunt caused by the paid
 Fellowship movement action. Ordinary/paid army windows have no suspended frames.
 The Hunt context supports rerolls, damage, public reaction windows, guide choice,
 initial reveal-route choice, returning Hobbit placement and additional Stronghold
-Hunts after that move's committed reveal route. Card-origin/declaration Hunts,
+Hunts after that move's committed reveal route. Direct paid Orc Patrol, Isildur's
+Bane and Foul Thing Hunts have their own CardHunt context with the same reviewed
+choice/reveal/Stronghold windows. Other card-origin/declaration Hunts,
 reactions already executing a nested effect,
 pending discards, battles and Lords/Kings still omit the boundary. Never serialize
 a resolution stack or redacted save as player data.
@@ -49,15 +51,16 @@ does not modify state or draw entropy. Hidden-hand/deck/discard permutations and
 Hunt tile ordering must leave the opposing response unchanged. Tests are in
 `ActionBoundaryProjectionTests`, `ActionBoundaryContinuationTests` and
 `ActionSequencePersistenceTests`, `FellowshipMoveProjectionTests` and
-`StrongholdHuntProjectionTests` and `HuntPersistenceTests`; hypothetical reconstruction belongs only in the
+`StrongholdHuntProjectionTests`, `CardHuntProjectionTests`, `CardHuntPersistenceTests`
+and `HuntPersistenceTests`; hypothetical reconstruction belongs only in the
 private runtime and must still sample unknown cards independently.
 
 Version 1 omitted special-tile associations. Version 2 described ordinary action
 roots only and has no paid-action provenance. Consumers must not interpret absent
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
-route and additional Stronghold obligations. Public content 1.0.21 and pure rules
-0.5.0 pin this contract; game rules, protocol and save schema are unchanged.
+route and additional Stronghold obligations. Version 5 has no direct event-card
+Hunt context. Public content 1.0.22 and pure rules 0.6.0 pin this contract; game rules, protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing
@@ -78,3 +81,20 @@ the chain immediately. These facts are shared with both players, while pending
 tokens/options retain their existing ownership. Card-origin/nested effect and
 declaration continuations require separate reviewed contexts. No rules change is
 authorized by this extension.
+
+## Direct event-card Hunt continuation
+
+This reviewed boundary adds paid Orc Patrol, Isildur's Bane and Foul Thing
+Hunts (T21-SH-CHAR-01/02, B18). Shared facts identify the publicly played card,
+the selected Character/Event payment, pending Palantir draw and current public
+guide/casualty/departure progress. After revelation they also retain the resolved
+card Hunt, committed route and ordered remaining Strongholds. The immutable card
+definition supplies its tile/damage rules; no effect program or saved cursor
+is transmitted. Card costs finish once for Shadow, never as Fellowship movement.
+
+Existing own-side EffectTrail remains own-side information. Hypotheses may retain
+that copied presentation trail but must not invent opposing private selections.
+The Palantir obligation records its public presence when the event was paid;
+the rules still check whether it remains on the table before drawing. Declaration
+Hunts, other event programs and currently executing nested effects remain outside
+this reviewed context. This is reconstruction work, not strategic acceptance.

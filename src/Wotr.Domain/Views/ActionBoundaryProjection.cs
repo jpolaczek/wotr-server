@@ -12,7 +12,8 @@ internal static class ActionBoundaryProjection
             state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None)
             return null;
         var fellowshipMove = FellowshipMoveProjection.For(state);
-        if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) : fellowshipMove is null)
+        var cardHunt = CardHuntProjection.For(state);
+        if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) : fellowshipMove is null && cardHunt is null)
             return null;
 
         // Base/Fate discards never return to a hand/deck. Only a visible discharge
@@ -25,6 +26,7 @@ internal static class ActionBoundaryProjection
             MinionEverEntered = state.MinionEverEntered,
             MandatoryHuntAllocation = state.MandatoryHuntAllocation,
             FellowshipMove = fellowshipMove,
+            CardHunt = cardHunt,
             PaidDieIds = [.. state.Resolution.PaidDieIds],
             PendingPolitics = state.PoliticalReactions.Select(p => new PendingPoliticsView
                 { Cause = p.Trigger.ToString(), NationId = p.NationId, RegionId = p.RegionId }).ToList(),

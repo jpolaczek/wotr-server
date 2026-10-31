@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 5;
+        public int Version { get; set; } = 6;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -18,12 +18,13 @@ namespace Wotr.Contracts
         public List<string> PaidDieIds { get; set; } = new List<string>();
         public List<PendingPoliticsView> PendingPolitics { get; set; } = new List<PendingPoliticsView>();
         public FellowshipMoveView? FellowshipMove { get; set; }
+        public CardHuntView? CardHunt { get; set; }
     }
 
-    // Public progress of a Hunt caused by the paid Fellowship movement action.
+    // Public choices and consequences already reached in a reviewed Hunt context.
     // The current roll, tile, damage and choice remain in HuntView/DecisionView.
     // Absence never means that an arbitrary Hunt has this return context.
-    public sealed class FellowshipMoveView
+    public class HuntProgressView
     {
         public List<string> GuideWindowsOffered { get; set; } = new List<string>();
         public bool CasualtyConsequencesPending { get; set; }
@@ -32,6 +33,10 @@ namespace Wotr.Contracts
         public int DepartureProgress { get; set; }
         public List<string> DepartingCompanions { get; set; } = new List<string>();
         public bool PlacementStarted { get; set; }
+    }
+
+    public sealed class FellowshipMoveView : HuntProgressView
+    {
         public FellowshipStrongholdView? StrongholdHunts { get; set; }
     }
 

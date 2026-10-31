@@ -463,3 +463,22 @@ refuse the boundary. The HTTP case restarts between both tiles, retries committe
 commands and verifies one remaining draw and one final movement payment. This is
 shared-contract verification, not strategy acceptance. Evidence:
 `.artifacts/bot02-stronghold/public.trx` and `database.json`.
+
+## BOT-02 direct event-card Hunt facts — 2026-10-31
+
+Contracts 0.20.0 / boundary v6: **499 selected C# tests passed**, no skips, with
+an owned UUID PostgreSQL database removed after execution. The previous filter
+now includes 30 direct card-Hunt projection cases and three HTTP restart cases.
+Orc Patrol, Isildur's Bane and Foul Thing expose shared card/payment/Palantir and
+Hunt-progress facts, including reviewed reveal and Stronghold consequences. Both
+seats receive copied public context; only the acting seat gets its decision and
+options. Hidden opposing hand/deck/trail/tile-order/entropy permutations preserve
+the other view. Inconsistent and unreviewed continuations omit the boundary.
+
+The initial broad run passed 487/499: nine existing boundary-version assertions
+needed v6 and three new HTTP tests needed the production enum JSON options.
+After those test corrections all 499 passed. Initial results remain alongside
+final evidence in `.artifacts/bot02-card-hunts/`; each HTTP case reopens the host,
+replays receipts without new entropy and verifies a single Shadow cost finishes
+as spent, without placing a Free Peoples die in the Hunt. These checks establish
+the ordinary contract and persistence, not private strategy acceptance.
