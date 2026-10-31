@@ -107,34 +107,38 @@ the external BOT-17 transport exists only on a local historical checkpoint branc
 
 ## Strategic decisions and simulation
 
-BOT-02 checkpoint (2026-10-30): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
-version 5 describe base/Fate ordinary actions, paid army/recruitment/character
-steps, post-action excess removal and reviewed ordinary Fellowship-move Hunt
-choices, including additional Stronghold Hunts after the committed reveal route.
-They retain public lifecycle/turn flags,
-known discard provenance, special Hunt tile/card associations, the original
-journey roster, exact resolving payment, deferred public political causes and
-public Hunt guide/casualty/departure progress, the chosen route and ordered remaining
-Stronghold obligations. The resolved movement tile and active tile retain separate
-public identities, including identical faces.
-These are shared human/bot DTOs, not a private state channel. Suspended
-card-origin/declaration Hunts, battles, nested card programs, discards and
-Lords/Kings/Council positions remain unsupported.
+BOT-02 checkpoint (2026-10-31): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
+version 6 describe base/Fate ordinary actions, paid army/recruitment/character
+steps, excess removal, reviewed paid Fellowship-move Hunts and direct paid
+Orc Patrol, Isildur's Bane and Foul Thing Hunts. Both Hunt contexts include
+reviewed reveal routes and subsequent Stronghold obligations. The shared facts
+retain public lifecycle/turn flags, known discard provenance, special tile/card
+associations, original journey rosters, exact payment, pending public politics
+and guide/casualty/departure progress. Card Hunts also retain the selected cost
+and pending Palantir draw. Resolved and current visible tiles keep separate
+identities, including identical faces. These are shared human/bot DTOs.
 
 The private runtime reconstructs these roots, independently samples unknown cards
-and exposes opaque validation/rollout through pinned pure rules 0.5.0 / Contracts
-0.19.0. Both simulated actors use only their own projections. Current checks:
-876 private C# / 17 Python tests, 466 public projection/privacy/Hunt/HTTP cases,
-10 package tests and 49 Unity compatibility cases, with no skipped cases. The 49
-new private cases cover first/subsequent Stronghold continuations, return after a
-completed Balrog Hunt, exact tile/payment identity, illegal alternatives, missing
-facts, hidden permutations and immediate termination by corruption victory.
-Card-origin and nested program roots remain explicitly unsupported. Rerolls and bare public reactions
-preserve the Free Peoples payment even while Shadow owns the decision. These
-fixtures verify reconstruction and rule execution, not strategic choice quality.
-Existing bounded base/Fate walks still compare 6,520 candidates at 213 roots.
-This does not accept general reconstruction, faction policies, BOT-03 fallback or
-BOT-20; production policies remain absent and `gameplayReady=false`.
+and exposes opaque validation/rollout through pure rules 0.6.0 / Contracts 0.20.0.
+Each simulated actor uses its own projection. The root's own EffectTrail remains
+presentation data; opposing private selections are not inferred. Card Hunt rules
+come from the pinned card definition. The original Shadow cost stays resolving
+through the Hunt and any Palantir deck choice, then finishes once as spent.
+Card Hunts in Mordor do not count as movement or advance the Fellowship.
+
+Current checks: 1,013 private C# / 17 Python tests, 499 public projection/privacy/
+Hunt/HTTP cases, 10 package tests and 51 Unity compatibility cases, all passed
+without skips. The 137 new private cases cover 30 root scenarios across three
+configurations, actual-match and identical-hypothesis parity, both actors' hidden
+permutations, ignored replacement tiles, distinct card damage rules, Palantir,
+Mordor, corruption victory, illegal alternatives, missing facts and cancellation.
+The actual Mordor track identifier is now accepted only for a Mordor Hunt.
+These fixtures verify reconstruction and rule execution, not strategic choice quality.
+Other card-origin/declaration Hunts, active nested programs, battle/discard and
+Lords/Kings/Council roots remain unsupported. BOT-02 remains in progress and
+BOT-03 remains blocked on complete reconstruction. No production faction policy
+is registered; gameplayReady=false. General reconstruction, fallback, performance
+and strategic acceptance remain separate gates.
 
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
