@@ -11,7 +11,7 @@ steps, excess removal, and reviewed choices in a Hunt caused by the paid
 Fellowship movement action. Ordinary/paid army windows have no suspended frames.
 The Hunt context supports rerolls, damage, public reaction windows, guide choice,
 initial reveal-route choice, returning Hobbit placement and additional Stronghold
-Hunts after that move's committed reveal route. Direct paid Orc Patrol, Isildur's
+Hunts after that move's committed reveal route. Paid Orc Patrol, Isildur's
 Bane, Foul Thing and the committed Nazgûl Strike Hunt have their own CardHunt context with the same reviewed
 choice/reveal/Stronghold windows. Other card-origin/declaration Hunts,
 reactions already executing a nested effect,

@@ -119,20 +119,24 @@ and pending Palantir draw. Resolved and current visible tiles keep separate
 identities, including identical faces. These are shared human/bot DTOs.
 
 The private runtime reconstructs these roots, independently samples unknown cards
-and exposes opaque validation/rollout through pure rules 0.6.0 / Contracts 0.20.0.
+and exposes opaque validation/rollout through pure rules 0.6.1 / Contracts 0.20.0.
 Each simulated actor uses its own projection. The root's own EffectTrail remains
 presentation data; opposing private selections are not inferred. Card Hunt rules
 come from the pinned card definition. The original Shadow cost stays resolving
 through the Hunt and any Palantir deck choice, then finishes once as spent.
 Card Hunts in Mordor do not count as movement or advance the Fellowship.
 
-Current checks: 1,013 private C# / 17 Python tests, 499 public projection/privacy/
-Hunt/HTTP cases, 10 package tests and 51 Unity compatibility cases, all passed
-without skips. The 137 new private cases cover 30 root scenarios across three
-configurations, actual-match and identical-hypothesis parity, both actors' hidden
-permutations, ignored replacement tiles, distinct card damage rules, Palantir,
-Mordor, corruption victory, illegal alternatives, missing facts and cancellation.
-The actual Mordor track identifier is now accepted only for a Mordor Hunt.
+Current checks: 1,091 private C# / 17 Python tests, 531 public projection/privacy/
+Hunt/HTTP cases and 10 package tests, all passed without skips. The 78 added
+private cases cover 17 Nazgûl Strike root scenarios across three configurations,
+actual-match and identical-hypothesis parity, both actors' hidden permutations,
+roll/effect bonuses, Eye damage, failed rerolls, Staff, Palantir, corruption
+victory, illegal alternatives, contradictory facts and cancellation. Strike
+retains its rolled Hunt semantics without advancing the Fellowship or adding an
+FP Hunt die. Earlier travel/Strike-choice roots remain unsupported. Existing
+ActionBoundary v6 and Contracts 0.20.0 suffice; public content and client pins
+are unchanged. Unity was not rerun for this checkpoint (51 cases were recorded
+at the prior direct-card checkpoint).
 These fixtures verify reconstruction and rule execution, not strategic choice quality.
 Other card-origin/declaration Hunts, active nested programs, battle/discard and
 Lords/Kings/Council roots remain unsupported. BOT-02 remains in progress and
