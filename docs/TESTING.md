@@ -520,3 +520,8 @@ choice corrected all three cases; no game rule was changed. The successful broad
 run includes those corrections. Logs/TRX/DB cleanup evidence:
 `.artifacts/bot02-balrog/`. Unity was not rerun because wire/client/content sources
 were unchanged. These are contract/persistence checks, not strategic acceptance.
+
+The final 574-case rerun additionally relocates Shadow troops out of FP-controlled
+Moria in the zero-Stronghold fixture before its original movement. It passed with
+no skips; both disposable database cleanup commands succeeded. The pure rule
+source remains `214fbb1`; this later change affects test setup only.

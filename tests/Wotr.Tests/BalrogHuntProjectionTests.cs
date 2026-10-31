@@ -148,7 +148,11 @@ public sealed class BalrogHuntProjectionTests
         state.Id = Guid.NewGuid().ToString("N");
         state.Fellowship.Progress = 2;
         if (noStronghold)
+        {
             state.Control["moria"] = Side.FreePeoples;
+            foreach (var unit in state.Units.Where(u => u.Location == "moria" && BoardRules.Owner(u) == Side.Shadow))
+                unit.Location = "dimrill-dale";
+        }
         HuntTests.Pool(state, HuntTests.Eye, HuntTests.Three, "base.hunt.standard.3.0.2", "base.hunt.standard.3.0.3");
         var eye = state.HuntTiles.Where(t => t.Location == "pool").Select(t => t.Id).ToList().IndexOf(HuntTests.Eye);
         state = HuntTests.Move(state, new SequenceRandom(5, eye), EffectCatalog.All);
