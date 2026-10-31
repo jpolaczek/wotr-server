@@ -108,24 +108,28 @@ the external BOT-17 transport exists only on a local historical checkpoint branc
 ## Strategic decisions and simulation
 
 BOT-02 checkpoint (2026-10-30): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
-version 4 describe base/Fate ordinary actions, paid army/recruitment/character
+version 5 describe base/Fate ordinary actions, paid army/recruitment/character
 steps, post-action excess removal and reviewed ordinary Fellowship-move Hunt
-choices. They retain public lifecycle/turn flags,
+choices, including additional Stronghold Hunts after the committed reveal route.
+They retain public lifecycle/turn flags,
 known discard provenance, special Hunt tile/card associations, the original
 journey roster, exact resolving payment, deferred public political causes and
-public Hunt guide/casualty/departure progress.
+public Hunt guide/casualty/departure progress, the chosen route and ordered remaining
+Stronghold obligations. The resolved movement tile and active tile retain separate
+public identities, including identical faces.
 These are shared human/bot DTOs, not a private state channel. Suspended
-card-origin/additional Hunts, battles, nested card programs, discards and
+card-origin/declaration Hunts, battles, nested card programs, discards and
 Lords/Kings/Council positions remain unsupported.
 
 The private runtime reconstructs these roots, independently samples unknown cards
-and exposes opaque validation/rollout through pinned pure rules 0.4.0 / Contracts
-0.18.0. Both simulated actors use only their own projections. Current checks:
-827 private C# / 17 Python tests, 450 public projection/privacy/Hunt/HTTP cases,
-10 package tests and 49 Unity compatibility cases, with no skipped cases. The 68
-new private cases cover Hunt continuation, exact tile/payment identity, illegal
-alternatives, missing facts, hidden permutations, terminal Mordor outcomes and
-actual unsupported nested/card/Stronghold roots. Rerolls and bare public reactions
+and exposes opaque validation/rollout through pinned pure rules 0.5.0 / Contracts
+0.19.0. Both simulated actors use only their own projections. Current checks:
+876 private C# / 17 Python tests, 466 public projection/privacy/Hunt/HTTP cases,
+10 package tests and 49 Unity compatibility cases, with no skipped cases. The 49
+new private cases cover first/subsequent Stronghold continuations, return after a
+completed Balrog Hunt, exact tile/payment identity, illegal alternatives, missing
+facts, hidden permutations and immediate termination by corruption victory.
+Card-origin and nested program roots remain explicitly unsupported. Rerolls and bare public reactions
 preserve the Free Peoples payment even while Shadow owns the decision. These
 fixtures verify reconstruction and rule execution, not strategic choice quality.
 Existing bounded base/Fate walks still compare 6,520 candidates at 213 roots.
