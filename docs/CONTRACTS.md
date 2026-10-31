@@ -5,7 +5,7 @@ Contracts 0.20.0 extend optional [action-boundary rule facts](server/PLAYER-RULE
 and visible effect lifetime metadata to the ordinary player view. Public content
 1.0.22 pins these contracts. Version 6 covers ordinary and paid base/Fate action
 steps, deferred public politics, post-action excess removal and reviewed paid
-Fellowship-move and direct paid Orc Patrol/Isildur's Bane/Foul Thing Hunt choices,
+Fellowship-move and paid Orc Patrol/Isildur's Bane/Foul Thing/Nazgûl Strike Hunt choices,
 including their additional Stronghold Hunts and original payment obligations.
 Unsupported continuations omit the boundary; no save,
 opposing secrets, command permission or new UI flow is exposed. Protocol 2 and

@@ -6,8 +6,8 @@ ordinary actions, paid army/recruitment/character steps and post-action excess
 removal. Boundary v6 also describes reviewed choices during the Hunt caused by
 an ordinary paid Fellowship move: rerolls, damage, bare public reactions, guide
 replacement, initial reveal routes, returning Hobbit placement and additional
-Stronghold Hunts after the committed route. Paid Orc Patrol, Isildur's Bane and
-Foul Thing Hunts retain the card identity, original Shadow payment and pending
+Stronghold Hunts after the committed route. Paid Orc Patrol, Isildur's Bane,
+Foul Thing and committed Nazgûl Strike Hunts retain the card identity, original Shadow payment and pending
 Palantir draw, with the same reviewed reveal/Stronghold consequences. It retains
 public one-use/casualty/departure facts alongside the existing Hunt view. The
 contract exposes no executable resolution frames or authoritative snapshots.

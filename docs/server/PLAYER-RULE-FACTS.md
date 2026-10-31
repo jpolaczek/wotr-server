@@ -12,7 +12,7 @@ Fellowship movement action. Ordinary/paid army windows have no suspended frames.
 The Hunt context supports rerolls, damage, public reaction windows, guide choice,
 initial reveal-route choice, returning Hobbit placement and additional Stronghold
 Hunts after that move's committed reveal route. Direct paid Orc Patrol, Isildur's
-Bane and Foul Thing Hunts have their own CardHunt context with the same reviewed
+Bane, Foul Thing and the committed Nazgûl Strike Hunt have their own CardHunt context with the same reviewed
 choice/reveal/Stronghold windows. Other card-origin/declaration Hunts,
 reactions already executing a nested effect,
 pending discards, battles and Lords/Kings still omit the boundary. Never serialize
@@ -60,7 +60,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Public content 1.0.22 and pure rules 0.6.0 pin this contract; game rules, protocol and save schema are unchanged.
+Hunt context. Public content 1.0.22 and pure rules 0.6.1 pin this contract; game rules, protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing
@@ -82,10 +82,10 @@ tokens/options retain their existing ownership. Card-origin/nested effect and
 declaration continuations require separate reviewed contexts. No rules change is
 authorized by this extension.
 
-## Direct event-card Hunt continuation
+## Paid event-card Hunt continuation
 
-This reviewed boundary adds paid Orc Patrol, Isildur's Bane and Foul Thing
-Hunts (T21-SH-CHAR-01/02, B18). Shared facts identify the publicly played card,
+This reviewed boundary covers paid Orc Patrol, Isildur's Bane, Foul Thing
+and the committed Nazgûl Strike Hunt (T21-SH-CHAR-01/02, B18). Shared facts identify the publicly played card,
 the selected Character/Event payment, pending Palantir draw and current public
 guide/casualty/departure progress. After revelation they also retain the resolved
 card Hunt, committed route and ordered remaining Strongholds. The immutable card
@@ -98,3 +98,15 @@ The Palantir obligation records its public presence when the event was paid;
 the rules still check whether it remains on the table before drawing. Declaration
 Hunts, other event programs and currently executing nested effects remain outside
 this reviewed context. This is reconstruction work, not strategic acceptance.
+
+The Nazgûl Strike continuation uses the same v6 fields and Contracts 0.20.0;
+there is no wire-format, public-content or client change. Its public card identity
+selects the pinned roll procedure instead of a direct tile draw. Existing HuntView
+fields preserve rolled dice, movement/effect bonuses, successes and reroll sources.
+The original event resumes only after the Hunt and any Stronghold consequences;
+there is no second payment, Fellowship progress or added Free Peoples Hunt die.
+Rules source: [T21-SH-CHAR-02](../rules/T21-SH-CHAR-02.md), card 11 and BASE p. 41.
+The earlier Nazgûl travel/Strike choice and active nested programs still omit the
+boundary. `StrikeHuntProjectionTests` checks those refusals and unsupported rule
+flags; `CardHuntPersistenceTests` also crosses Shadow/Free Peoples decisions,
+failed rolls, Staff windows and the final Palantir draw through host restarts.

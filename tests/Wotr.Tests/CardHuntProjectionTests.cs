@@ -17,6 +17,8 @@ public sealed class CardHuntProjectionTests
             yield return [ShadowCharacterCards01.IsildursBane, window];
         foreach (var window in new[] { "replace", "guide", "placement" })
             yield return [ShadowCharacterCards02.FoulThing, window];
+        foreach (var window in new[] { "roll", "reroll", "after-roll", "draw", "damage", "replace", "guide", "placement", "reveal", "first", "second", "palantir" })
+            yield return [ShadowCharacterCards02.Strike, window];
     }
 
     [Theory]
@@ -103,10 +105,12 @@ public sealed class CardHuntProjectionTests
         Assert.Null(Projection.For(state, Side.FreePeoples).ActionBoundary);
     }
 
-    [Fact]
-    public void OpposingHiddenCardsAndEntropyDoNotChangePublicCardHuntFacts()
+    [Theory]
+    [InlineData(ShadowCharacterCards01.OrcPatrol)]
+    [InlineData(ShadowCharacterCards02.Strike)]
+    public void OpposingHiddenCardsAndEntropyDoNotChangePublicCardHuntFacts(string card)
     {
-        var state = At(ShadowCharacterCards01.OrcPatrol, "palantir");
+        var state = At(card, "palantir");
         CardFlow.Draw(state, Side.Shadow, "character");
         var before = Json(Projection.For(state, Side.FreePeoples));
         var opponent = state.Player(Side.Shadow);
@@ -130,6 +134,16 @@ public sealed class CardHuntProjectionTests
             Shadow03Fixture.Table(state, FreePeoplesCharacterCards01.Mithril);
         if (window == "palantir")
             Shadow03Fixture.Table(state, ShadowCharacterCards04.Palantir);
+        if (window is "roll" or "after-roll")
+            Shadow03Fixture.Table(state, ShadowCharacterCards03.Crebain);
+        if (window == "draw")
+            Shadow03Fixture.Table(state, FreePeoplesCharacterCards02.Staff);
+        if (card == ShadowCharacterCards02.Strike)
+        {
+            var die = state.Dice.Last(d => d.Owner == Side.Shadow);
+            die.Location = DieLocation.Hunt;
+            die.HuntOrigin = "allocated";
+        }
         var cost = Shadow01Fixture.EventCost(state, card);
         if (window == "palantir")
         {
@@ -139,7 +153,18 @@ public sealed class CardHuntProjectionTests
         var casualty = window == "placement" ? "base.character.merry" : "base.character.gimli";
         state = CharacterFixture.Do(state, CommandKind.PlayEvent, cost,
             new SequenceRandom(0, state.Fellowship.Companions.IndexOf(casualty)));
-        if (card == ShadowCharacterCards01.OrcPatrol && window is "guide" or "placement")
+        if (card == ShadowCharacterCards02.Strike)
+        {
+            var nazgul = NazgulEventTravel.Option(state).EligibleIds[0];
+            state = CharacterFixture.Do(state, CommandKind.MoveShadowCharacters,
+                Shadow02TravelTests.Flight(state, state.Fellowship.RegionId, nazgul));
+            state = CharacterFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = [NazgulStrikeStep.Hunt] },
+                new SequenceRandom(window == "reroll" ? 0 : 5, 0));
+            if (window == "after-roll")
+                state = CharacterFixture.Do(state, CommandKind.RespondEffect,
+                    new() { ReactionId = ShadowCharacterCards03.CrebainReaction }, new SequenceRandom(4, 0));
+        }
+        if (card is ShadowCharacterCards01.OrcPatrol or ShadowCharacterCards02.Strike && window is "guide" or "placement")
             state = CharacterFixture.Do(state, CommandKind.ResolveHuntDamage, new() { HuntResponse = HuntResponse.RandomCompanion },
                 new SequenceRandom(state.Fellowship.Companions.IndexOf(casualty)));
         if (window == "placement")

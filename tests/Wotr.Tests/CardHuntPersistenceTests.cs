@@ -15,6 +15,12 @@ public sealed class CardHuntPersistenceTests
     [InlineData(ShadowCharacterCards01.OrcPatrol, "first")]
     [InlineData(ShadowCharacterCards01.IsildursBane, "first")]
     [InlineData(ShadowCharacterCards02.FoulThing, "guide")]
+    [InlineData(ShadowCharacterCards02.Strike, "first")]
+    [InlineData(ShadowCharacterCards02.Strike, "guide")]
+    [InlineData(ShadowCharacterCards02.Strike, "reroll")]
+    [InlineData(ShadowCharacterCards02.Strike, "roll")]
+    [InlineData(ShadowCharacterCards02.Strike, "draw")]
+    [InlineData(ShadowCharacterCards02.Strike, "palantir")]
     public async Task RestartsKeepTheOriginalCardPaymentAndReplayEachAcceptedChoice(string card, string window)
     {
         var state = CardHuntProjectionTests.At(card, window);
@@ -23,8 +29,9 @@ public sealed class CardHuntPersistenceTests
         await using (var host = new TestHost(new SequenceRandom()))
             await host.Services.GetRequiredService<MatchStore>().Create(state, "alice", "bob");
         GameCommand? previous = null;
+        var previousOwner = Side.FreePeoples;
         PlayerView? last = null;
-        for (var step = 0; step < 5; step++)
+        for (var step = 0; step < 8; step++)
         {
             var random = new SequenceRandom(0);
             await using var host = new TestHost(random);
@@ -32,13 +39,15 @@ public sealed class CardHuntPersistenceTests
             using var bob = host.Client("bob");
             if (previous is not null)
             {
-                Assert.Equal(previous.ExpectedRevision + 1, (await Send(alice, previous)).Revision);
+                Assert.Equal(previous.ExpectedRevision + 1,
+                    (await Send(previousOwner == Side.FreePeoples ? alice : bob, previous)).Revision);
                 Assert.Equal(0, random.Calls);
             }
             var view = (await alice.GetFromJsonAsync<PlayerView>($"/api/matches/{state.Id}", BoardCatalog.Json))!;
             if (last is not null)
                 Assert.Equal(JsonSerializer.Serialize(last), JsonSerializer.Serialize(view));
-            if (view.Decision?.Kind == DecisionKind.Action)
+            var opposing = (await bob.GetFromJsonAsync<PlayerView>($"/api/matches/{state.Id}", BoardCatalog.Json))!;
+            if (view.Decision?.Kind == DecisionKind.Action || opposing.Decision?.Kind == DecisionKind.Action)
             {
                 var final = (await host.Services.GetRequiredService<MatchStore>().Read(state.Id, "alice"))!.State;
                 Assert.Empty(final.Resolution.PaidDieIds);
@@ -49,27 +58,42 @@ public sealed class CardHuntPersistenceTests
                 Assert.True(final.HuntReport!.Completed);
                 return;
             }
-            var opposing = (await bob.GetFromJsonAsync<PlayerView>($"/api/matches/{state.Id}", BoardCatalog.Json))!;
-            Assert.Null(opposing.Decision);
-            Assert.Equal(JsonSerializer.Serialize(view.ActionBoundary!.CardHunt),
-                JsonSerializer.Serialize(opposing.ActionBoundary!.CardHunt));
-            Assert.Equal(card, view.ActionBoundary.CardHunt!.CardId);
+            var acting = view.Decision is not null ? view : opposing;
+            var waiting = view.Decision is not null ? opposing : view;
+            Assert.Null(waiting.Decision);
+            if (acting.Decision!.Kind != DecisionKind.EffectChoice)
+            {
+                Assert.Equal(JsonSerializer.Serialize(view.ActionBoundary!.CardHunt),
+                    JsonSerializer.Serialize(opposing.ActionBoundary!.CardHunt));
+                Assert.Equal(card, view.ActionBoundary.CardHunt!.CardId);
+            }
             Assert.Equal(DieLocation.Resolving, view.Dice.Single(d => d.Id == paid).Location);
-            var kind = view.Decision!.Kind == DecisionKind.Guide ? CommandKind.SelectGuide : CommandKind.ResolveHuntDamage;
-            var payload = kind == CommandKind.SelectGuide
-                ? new CommandPayload { GuideId = view.Options.Single(o => o.Kind == kind).EligibleIds[0] }
-                : new CommandPayload { HuntResponse = HuntResponse.Ring };
+            var kind = acting.Decision.Kind switch
+            {
+                DecisionKind.Guide => CommandKind.SelectGuide,
+                DecisionKind.HuntReroll => CommandKind.RerollHunt,
+                DecisionKind.Reaction => CommandKind.DeclineReaction,
+                DecisionKind.EffectChoice => CommandKind.ChooseEffect,
+                _ => CommandKind.ResolveHuntDamage
+            };
+            var payload = new CommandPayload { HuntResponse = HuntResponse.Ring };
+            if (kind == CommandKind.SelectGuide)
+                payload.GuideId = acting.Options.Single(o => o.Kind == kind).EligibleIds[0];
+            if (kind == CommandKind.ChooseEffect)
+                payload.Ids = ["character"];
             var command = new GameCommand
             {
                 MatchId = state.Id, CommandId = Guid.NewGuid().ToString("N"), ExpectedRevision = view.Revision,
-                DecisionId = view.Decision.Id, Kind = kind, Payload = payload
+                DecisionId = acting.Decision.Id, Kind = kind, Payload = payload
             };
-            Assert.Equal(view.Revision + 1, (await Send(alice, command)).Revision);
+            var client = acting.You == Side.FreePeoples ? alice : bob;
+            Assert.Equal(view.Revision + 1, (await Send(client, command)).Revision);
             var consumed = random.Calls;
-            Assert.Equal(view.Revision + 1, (await Send(alice, command)).Revision);
+            Assert.Equal(view.Revision + 1, (await Send(client, command)).Revision);
             Assert.Equal(consumed, random.Calls);
             last = (await alice.GetFromJsonAsync<PlayerView>($"/api/matches/{state.Id}", BoardCatalog.Json))!;
             previous = command;
+            previousOwner = acting.You;
         }
         Assert.Fail("The reviewed card Hunt did not finish within its fixture bound.");
     }

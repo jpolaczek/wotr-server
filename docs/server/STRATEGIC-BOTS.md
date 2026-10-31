@@ -109,8 +109,8 @@ the external BOT-17 transport exists only on a local historical checkpoint branc
 
 BOT-02 checkpoint (2026-10-31): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
 version 6 describe base/Fate ordinary actions, paid army/recruitment/character
-steps, excess removal, reviewed paid Fellowship-move Hunts and direct paid
-Orc Patrol, Isildur's Bane and Foul Thing Hunts. Both Hunt contexts include
+steps, excess removal, reviewed paid Fellowship-move Hunts and paid
+Orc Patrol, Isildur's Bane, Foul Thing and committed Nazgûl Strike Hunts. Both Hunt contexts include
 reviewed reveal routes and subsequent Stronghold obligations. The shared facts
 retain public lifecycle/turn flags, known discard provenance, special tile/card
 associations, original journey rosters, exact payment, pending public politics

@@ -482,3 +482,20 @@ final evidence in `.artifacts/bot02-card-hunts/`; each HTTP case reopens the hos
 replays receipts without new entropy and verifies a single Shadow cost finishes
 as spent, without placing a Free Peoples die in the Hunt. These checks establish
 the ordinary contract and persistence, not private strategy acceptance.
+
+
+## BOT-02 Nazgûl Strike Hunt continuation — 2026-10-31
+
+Pure rules 0.6.1 extends the reviewed CardHunt projection without changing
+Contracts 0.20.0, ActionBoundary v6, public content or game rules. **531 selected
+C# tests passed**, no skips, using an owned UUID PostgreSQL database removed
+after execution. The filter includes CardHunt/StrikeHunt, Shadow02Strike,
+Hunt, projections, action boundaries and persistence/privacy regressions.
+The initial projection-only batch passed 60 cases. New coverage includes roll,
+reroll, Crebain, draw, damage, guide/Hobbit, reveal/Stronghold and Palantir roots,
+both seats' copied context, hidden-card/entropy invariance, and explicit refusal
+of earlier travel/choice roots and unsupported flags. Six additional HTTP cases
+restart between decisions and replay receipts without extra RNG, retaining one
+Shadow payment through completion. Artifacts: `.artifacts/bot02-strike/`.
+No client code or wire data changed, so Unity was not rerun for this checkpoint.
+These are contract/persistence checks, not strategic bot acceptance.

@@ -49,7 +49,8 @@ internal static class CardHuntProjection
         if (frame.Effect is not { IsEvent: true, Owner: Side.Shadow, Return: EffectReturn.FinishAction,
                 Wait: EffectWait.None } effect ||
             effect.SourceId is not (ShadowCharacterCards01.OrcPatrol or ShadowCharacterCards01.IsildursBane or
-                ShadowCharacterCards02.FoulThing) || frame.EffectId != effect.SourceId || frame.NextStep != 1 ||
+                ShadowCharacterCards02.FoulThing or ShadowCharacterCards02.Strike) || frame.EffectId != effect.SourceId ||
+            frame.NextStep != (effect.SourceId == ShadowCharacterCards02.Strike ? 2 : 1) ||
             frame.Window != "" || frame.ReturnDecision is not null || frame.Battle is not null ||
             frame.BattleLoss is not null || frame.EventLoss is not null || frame.Corruption is not null ||
             frame.Hunt is not null || frame.Fellowship is not null)
@@ -65,11 +66,17 @@ internal static class CardHuntProjection
 
     private static bool CardHunt(HuntProcedure hunt, string card)
     {
+        if (hunt.SourceId != card || hunt.Return != HuntReturn.Parent || hunt.Movement ||
+            hunt.Purpose != HuntPurpose.Hunt || hunt.DeclarationHunt || hunt.IgnoreRevealIcon ||
+            hunt.FireAndShadow || hunt.DrawnBy != Side.Shadow || hunt.DiceReduction != 0 || hunt.RerollBonus != 0)
+            return false;
+        if (card == ShadowCharacterCards02.Strike)
+            return hunt.Rolled && !hunt.Mordor && hunt.TileRule == HuntTileRule.All &&
+                hunt.DamageRule == HuntDamageRule.Normal &&
+                (hunt.Stage is not (HuntStage.BeforeRoll or HuntStage.Roll) || hunt.RollBonus == 0);
         var step = (DrawHuntTileStep)EffectCatalog.All.Programs[card].Steps.Single();
-        return hunt.SourceId == card && hunt.Return == HuntReturn.Parent && !hunt.Movement && !hunt.Rolled &&
-            hunt.TileRule == step.TileRule && hunt.DamageRule == step.DamageRule && hunt.Purpose == HuntPurpose.Hunt &&
-            !hunt.DeclarationHunt && !hunt.IgnoreRevealIcon && !hunt.FireAndShadow &&
-            hunt.DrawnBy == Side.Shadow && hunt.DiceReduction == 0 && hunt.Bonus == 0 && hunt.RollBonus == 0 &&
-            hunt.RerollBonus == 0 && hunt.EyeDamage == 0 && hunt.Dice.Count == 0 && hunt.RerollSources.Count == 0;
+        return !hunt.Rolled && hunt.TileRule == step.TileRule && hunt.DamageRule == step.DamageRule &&
+            hunt.Bonus == 0 && hunt.RollBonus == 0 && hunt.EyeDamage == 0 &&
+            hunt.Dice.Count == 0 && hunt.RerollSources.Count == 0;
     }
 }
