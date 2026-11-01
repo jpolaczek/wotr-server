@@ -22,6 +22,7 @@ internal static class FellowshipStrongholdProjection
         var frames = state.Resolution.Frames;
         activeIndex = sourceIndex + 2;
         var balrog = frames.Count >= sourceIndex + 5;
+        var offer = frames.Count == sourceIndex + 3 && frames[^1].EffectId == EffectCatalog.ReactionProgram;
         if (frames.Count < sourceIndex + 3 || frames.Count > sourceIndex + 6 ||
             frames[sourceIndex].Hunt is not { Stage: HuntStage.Done, Mordor: false, Reveal: true } source ||
             source.TileId == "" || state.Fellowship.Hidden || state.Fellowship.Progress != 0 ||
@@ -32,8 +33,17 @@ internal static class FellowshipStrongholdProjection
                 FireAndShadowPending: false } reveal ||
             reveal.SourceId != source.TileId || reveal.Journey is not null || reveal.FixedCompanions.Count != 0 ||
             reveal.SeparationOrigin != "" || reveal.SeparationRange != 0 || reveal.SeparationBonus != 0 ||
-            reveal.ChooseGuideAfterPlacement || !ValidRoute(state, reveal, balrog))
+            reveal.ChooseGuideAfterPlacement || !ValidRoute(state, reveal, balrog || offer))
             return null;
+        if (offer)
+        {
+            // No new Hunt exists yet: the current view still describes the
+            // resolved source, while the complete Stronghold queue is suspended.
+            activeIndex = sourceIndex;
+            return reveal.Route.Contains("moria") &&
+                state.Player(Side.Shadow).Table.Contains(ShadowCharacterCards03.Balrog) &&
+                HuntChoiceProjection.RevelationOffer(state, source, frames[^1]) ? reveal : null;
+        }
         if (balrog)
         {
             activeIndex += 2;

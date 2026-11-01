@@ -13,8 +13,8 @@ The Hunt context supports rerolls, damage, public reaction windows, guide choice
 initial reveal-route choice, returning Hobbit placement and additional Stronghold
 Hunts after that move's committed reveal route. Paid Orc Patrol, Isildur's
 Bane, Foul Thing and the committed Nazgûl Strike Hunt have their own CardHunt context with the same reviewed
-choice/reveal/Stronghold windows. Their active Balrog reaction after revelation
-uses the same context. Other card-origin/declaration Hunts,
+choice/reveal/Stronghold windows. Both the uncommitted revelation offer and the
+active Balrog reaction after revelation use the same context. Other card-origin/declaration Hunts,
 reactions already executing a nested effect,
 pending discards, battles and Lords/Kings still omit the boundary. Never serialize
 a resolution stack or redacted save as player data.
@@ -61,7 +61,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Public content 1.0.22 and pure rules 0.6.2 pin this contract; game rules, protocol and save schema are unchanged.
+Hunt context. Public content 1.0.22 and pure rules 0.6.3 pin this contract; game rules, protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing
@@ -133,7 +133,34 @@ Public card provenance and each seat's existing EffectTrail keep the visibility
 boundary. No opposing private selections are inferred.
 
 Source: [T21-SH-CHAR-03](../rules/T21-SH-CHAR-03.md), card 17 and BASE pp. 37–43.
-Balrog during declaration, the earlier uncommitted revelation reaction offer and
-other currently executing nested programs remain unsupported. Tests:
+Balrog during declaration and other currently executing nested programs remain unsupported. Tests:
 `BalrogHuntProjectionTests`, `BalrogHuntPersistenceTests`; private reconstruction
 and strength acceptance remain separate.
+
+## Uncommitted revelation reaction
+
+Pure rules 0.6.3 additionally describes the ordinary Shadow `fellowship.revealed`
+offer before choosing the Balrog table card, after the same paid movement/four
+paid event sources. The existing resolved source Hunt and current HuntView are
+identical descriptions of one resolved Hunt and one spent tile. The complete
+public route and all unconsumed Strongholds remain in `StrongholdHunts`, even
+when that queue is empty. Current guide/casualty/departure facts belong to the
+source Hunt at this point. No completed Balrog selection or discard exists yet.
+
+Both ordinary Respond and Decline remain available to Shadow. Respond pays the
+table-card cost and starts Balrog before the entire queue; Decline retains the
+card and starts the first Stronghold, or completes the source action when there
+are none. Neither response reapplies the source tile or reveal route. The same
+original payment remains resolving until all consequences and any Palantir draw
+finish. No decision is automated and no new controls, DTO fields, Contracts or
+public-content version are required. Each seat's existing EffectTrail remains
+private to that seat.
+
+Sources: B18 / BASE pp. 40–42 and [T21-SH-CHAR-03](../rules/T21-SH-CHAR-03.md),
+card 17; for example, a route through FP-controlled Moria can offer Balrog with
+no Stronghold Hunt, and declining then draws no tile. No rule interpretation
+changes. `RevelationHuntProjectionTests` covers copied public context, hidden
+permutations and refusal of unsupported continuations; `RevelationHuntPersistenceTests`
+checks both answers across real host restarts and idempotent receipt replay.
+Declaration, other executing nested programs and Lords/Kings remain outside
+this reconstruction boundary.

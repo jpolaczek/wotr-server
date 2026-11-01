@@ -59,6 +59,29 @@ internal static class HuntChoiceProjection
 
     private static bool ReactionChoice(MatchState state, HuntProcedure hunt, ResolutionFrame frame)
     {
+        if (!ReactionFrame(state, frame))
+            return false;
+        var effect = frame.Effect!;
+        var expected = effect.ReactionWindow switch
+        {
+            "hunt.roll" => (HuntStage.Roll, Side.Shadow, hunt.SourceId),
+            "hunt.draw" => (HuntStage.Draw, Side.FreePeoples, hunt.SourceId),
+            "hunt.replace" => (HuntStage.DetermineDamage, Side.FreePeoples, hunt.TileId),
+            "hunt.table" => (HuntStage.Guide, Side.FreePeoples, hunt.TileId),
+            "hunt.guide" => (HuntStage.Guide, Side.FreePeoples, state.Fellowship.Guide),
+            "hunt.casualty" => (HuntStage.Guide, Side.Shadow, hunt.SourceId),
+            _ => ((HuntStage)(-1), Side.FreePeoples, "")
+        };
+        return (hunt.Stage, effect.Owner, effect.SourceId) == expected;
+    }
+
+    internal static bool RevelationOffer(MatchState state, HuntProcedure hunt, ResolutionFrame frame) =>
+        PlainFrame(frame) && ReactionFrame(state, frame) && hunt.Stage == HuntStage.Done &&
+        frame.Effect is { Owner: Side.Shadow, ReactionWindow: "fellowship.revealed" } effect &&
+        effect.SourceId == hunt.TileId;
+
+    private static bool ReactionFrame(MatchState state, ResolutionFrame frame)
+    {
         if (state.Pending!.Kind != DecisionKind.Reaction || frame.EffectId != EffectCatalog.ReactionProgram ||
             frame.Effect is not { Wait: EffectWait.Reaction, Return: EffectReturn.Parent } effect ||
             effect.Owner != state.Pending.Owner || effect.SourceId != state.Pending.SourceId ||
@@ -70,18 +93,7 @@ internal static class HuntChoiceProjection
             effect.RingRecovery is not null || effect.MadnessTarget is not null ||
             effect.AnarionDrawPending || effect.FellowshipMove)
             return false;
-        var expected = effect.ReactionWindow switch
-        {
-            "hunt.roll" => (HuntStage.Roll, Side.Shadow, hunt.SourceId),
-            "hunt.draw" => (HuntStage.Draw, Side.FreePeoples, hunt.SourceId),
-            "hunt.replace" => (HuntStage.DetermineDamage, Side.FreePeoples, hunt.TileId),
-            "hunt.table" => (HuntStage.Guide, Side.FreePeoples, hunt.TileId),
-            "hunt.guide" => (HuntStage.Guide, Side.FreePeoples, state.Fellowship.Guide),
-            "hunt.casualty" => (HuntStage.Guide, Side.Shadow, hunt.SourceId),
-            _ => ((HuntStage)(-1), Side.FreePeoples, "")
-        };
-        return (hunt.Stage, effect.Owner, effect.SourceId) == expected &&
-            effect.OfferedReactions.SequenceEqual(EffectCatalog.All.Reactions.Values
+        return effect.OfferedReactions.SequenceEqual(EffectCatalog.All.Reactions.Values
                 .Where(r => r.Window == effect.ReactionWindow).Select(r => r.Id));
     }
 

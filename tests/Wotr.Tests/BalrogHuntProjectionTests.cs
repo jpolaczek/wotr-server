@@ -108,7 +108,7 @@ public sealed class BalrogHuntProjectionTests
         Assert.Equal(before, Json(Projection.For(state, Side.FreePeoples)));
     }
 
-    internal static MatchState At(string parent, string window)
+    internal static MatchState At(string parent, string window, bool offer = false)
     {
         var state = parent == Movement ? MovementReveal(window == "none") : CardHuntProjectionTests.At(parent, "reveal");
         if (state.Pending?.Kind == DecisionKind.Guide)
@@ -128,6 +128,8 @@ public sealed class BalrogHuntProjectionTests
         string[] route = window is "single" or "none" ? ["moria", "dimrill-dale"] : [.. StrongholdHuntProjectionTests.Route];
         state = CharacterFixture.Do(state, CommandKind.RevealFellowship, new() { Route = [.. route] });
         Assert.Equal("fellowship.revealed", state.Pending!.Window);
+        if (offer)
+            return state;
         state = CharacterFixture.Do(state, CommandKind.RespondEffect,
             new() { ReactionId = ShadowCharacterCards03.BalrogReaction },
             new SequenceRandom(state.HuntTiles.Where(t => t.Location == "pool").Select(t => t.Id).ToList().IndexOf(HuntTests.Three)));

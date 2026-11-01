@@ -24,7 +24,8 @@ internal static class FellowshipMoveProjection
                 return null;
             hunt = frames[activeIndex].Hunt!;
         }
-        if (!HuntChoiceProjection.Supports(state, hunt, activeIndex))
+        var revelationOffer = strongholds is not null && activeIndex == 0;
+        if (!revelationOffer && !HuntChoiceProjection.Supports(state, hunt, activeIndex))
             return null;
         var facts = new FellowshipMoveView { StrongholdHunts = strongholds };
         HuntChoiceProjection.CopyProgress(hunt, facts);

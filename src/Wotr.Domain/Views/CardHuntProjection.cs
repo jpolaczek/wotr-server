@@ -32,7 +32,8 @@ internal static class CardHuntProjection
             };
             hunt = frames[activeIndex].Hunt!;
         }
-        if (!HuntChoiceProjection.Supports(state, hunt, activeIndex))
+        var revelationOffer = strongholds is not null && activeIndex == 1;
+        if (!revelationOffer && !HuntChoiceProjection.Supports(state, hunt, activeIndex))
             return null;
         var facts = new CardHuntView
         {
