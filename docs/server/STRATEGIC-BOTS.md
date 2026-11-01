@@ -117,27 +117,33 @@ associations, original journey rosters, exact payment, pending public politics
 and guide/casualty/departure progress. Card Hunts also retain the selected cost
 and pending Palantir draw. The active Balrog table-card Hunt after revelation
 uses that same public route/queue context, preserving either original payment.
-It resolves before every remaining Stronghold, including an empty queue. Resolved and current visible tiles keep separate
-identities, including identical faces. These are shared human/bot DTOs.
+Balrog resolves before every remaining Stronghold, including an empty queue.
+During its Hunt, the resolved source and current tiles keep separate identities,
+including identical faces.
+The earlier uncommitted revelation offer also reconstructs from those facts. Its
+current and resolved views describe one source Hunt; Respond and Decline retain
+the complete queue without replaying that Hunt or its route.
+These are shared human/bot DTOs.
 
 The private runtime reconstructs these roots, independently samples unknown cards
-and exposes opaque validation/rollout through pure rules 0.6.2 / Contracts 0.20.0.
+and exposes opaque validation/rollout through pure rules 0.6.3 / Contracts 0.20.0.
 Each simulated actor uses its own projection. The root's own EffectTrail remains
 presentation data; opposing private selections are not inferred. Card Hunt rules
 come from the pinned card definition. The original Shadow cost stays resolving
 through the Hunt and any Palantir deck choice, then finishes once as spent.
 Card Hunts in Mordor do not count as movement or advance the Fellowship.
 
-Current checks: 1,251 private C# / 17 Python tests, 574 public Hunt/projection/
-privacy/HTTP cases and 10 package tests passed, no skips. The 160 new private
-Balrog cases cover 126 roots across ordinary movement and the four paid events,
-base/Fate/Fate + New Cities, real-match and identical-hypothesis parity, both
-actors' hidden permutations, ignored Eyes, guide/Hobbit/reaction consequences,
-zero/one/two Stronghold obligations, Palantir, victory, invalid alternatives and
-cancellation. Earlier uncommitted revelation offers, declaration and other nested
-returns still need separate reconstruction contexts. Existing ActionBoundary v6
-and Contracts 0.20.0 suffice; public content/client pins are unchanged. Unity was
-not rerun because wire/client/content sources did not change.
+Current checks: 1,349 private C# / 17 Python tests, 611 public Hunt/projection/
+privacy/HTTP cases and 10 package tests passed, no skips. The 100 new private
+revelation-offer cases cover 62 root/answer combinations, real-match and identical-
+hypothesis parity, both actors' hidden permutations, malformed inputs and illegal
+alternatives, own trail and cancellation. They cover five parent actions,
+base/Fate/Fate + New Cities, zero/one/two Strongholds, public Hunt protections and
+Palantir. Both answers preserve the original payment; empty-queue Decline keeps
+Balrog and draws nothing. Two former offer-refusal cases now have positive coverage.
+Declaration and other executing nested returns still need reconstruction.
+Existing ActionBoundary v6 and Contracts 0.20.0 suffice; public content/client pins
+are unchanged. Unity was not rerun because wire/client/content sources did not change.
 These fixtures verify reconstruction and rule execution, not strategic choice quality.
 Other card-origin/declaration Hunts, active nested programs, battle/discard and
 Lords/Kings/Council roots remain unsupported. BOT-02 remains in progress and

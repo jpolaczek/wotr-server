@@ -525,3 +525,34 @@ The final 574-case rerun additionally relocates Shadow troops out of FP-controll
 Moria in the zero-Stronghold fixture before its original movement. It passed with
 no skips; both disposable database cleanup commands succeeded. The pure rule
 source remains `214fbb1`; this later change affects test setup only.
+
+
+## BOT-02 uncommitted revelation offer — 2026-11-01
+
+Public source `7551df9` / pure rules 0.6.3 uses existing ActionBoundary v6,
+Contracts 0.20.0 and content 1.0.22 to describe the Shadow revelation reaction
+before choosing Balrog. No wire/client/content source or game rule changed;
+client pin `a5b34506` remains valid and Unity was not rerun.
+
+**611 selected C# / 10 package tests passed**, no skips. The same Hunt/projection/
+privacy/action-boundary filter includes 37 new cases: seven public copied-context
+roots, 14 unsupported/malformed continuation checks, two hidden-permutation checks
+and 14 HTTP restart/replay cases. Both Respond and Decline retain one original
+payment through the remaining zero/one/two Strongholds. Decline keeps Balrog;
+with no Strongholds it draws no tile. Restart after every command preserves the
+same views and reports; receipt replay consumes no entropy. The owned disposable
+PostgreSQL database was dropped successfully, without touching shared test data.
+
+The initial focused batch was 130/131: the deliberately nested refusal fixture
+cleared Pending, so its assertion now uses the known Shadow seat. The full
+611-case batch passed after this test-only fix. Package reproducibility and
+private/public archive-boundary checks passed. Rules archive: 425 files, SHA-256
+`cca68587df0a27364a7d19ad19fccff2a3e260ec8bf56c363d0061219cbe7d25`.
+Coverage regeneration passed: 1,399 mechanics / 2,798 planned scenarios / 93
+normalized configurations / 768 inputs (606 rejected), zero strategic acceptance.
+
+Exact commands, TRX results and database cleanup: local
+`.artifacts/bot02-revelation/verification.json`. The private runtime separately
+reports 1,349 C# / 17 Python passed; its tests, fixtures and diagnostics remain
+private. BOT-02 is still in progress and BOT-03 remains blocked on complete
+reconstruction. Production faction policies are absent.
