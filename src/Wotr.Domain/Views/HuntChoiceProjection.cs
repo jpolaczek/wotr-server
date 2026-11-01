@@ -19,6 +19,8 @@ internal static class HuntChoiceProjection
     {
         var pending = state.Pending!;
         var frames = state.Resolution.Frames;
+        if (frames.Count == activeIndex + 3)
+            return WornHuntProjection.Supports(state, hunt, activeIndex);
         if (frames.Count == activeIndex + 1)
             return pending.Kind == DecisionKind.HuntReroll && pending.Owner == Side.Shadow &&
                 hunt.Stage == HuntStage.BeforeDraw ||

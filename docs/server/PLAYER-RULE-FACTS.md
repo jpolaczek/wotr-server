@@ -61,7 +61,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Public content 1.0.22 and pure rules 0.6.3 pin this contract; game rules, protocol and save schema are unchanged.
+Hunt context. Public content 1.0.22 and pure rules 0.6.4 pin this contract; game rules, protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing
@@ -164,3 +164,27 @@ permutations and refusal of unsupported continuations; `RevelationHuntPersistenc
 checks both answers across real host restarts and idempotent receipt replay.
 Declaration, other executing nested programs and Lords/Kings remain outside
 this reconstruction boundary.
+
+
+## Ordinary phases, hand limits and nested Worn choice
+
+Pure rules 0.6.4 reuses v6 facts for frame-free base/Fate Fellowship-phase and
+Hunt-allocation decisions, recovery hand limits and ordinary post-draw hand
+limits. Phase and exact resolving payment determine the return. Recovery discards
+continue FP then Shadow before Fellowship; post-draw discards complete the same
+action cost. Resuming an arbitrary suspended event is not implied by a hand-limit
+window. Sources: B02/B06 and the existing TurnFlow/CardFlow rules.
+
+The current `EffectChoice` source also identifies Worn with Sorrow and Toil
+inside a reviewed movement/card/Stronghold/Balrog Hunt. Its public casualty, table
+card and current Hunt context determine the pinned choice and parent return.
+Worn keeps its table card, offers a public table Character card, random opposing
+hand Character (if any) or keeping cards. The random-hand option depends only on
+the public hand count; it never reveals whether a Character card is actually
+present. Its nested response adds no Hunt, movement or payment. Own EffectTrail
+stays own-side information. Source: T21-SH-CHAR-03 card 15 / B18; the existing
+WornDiscardStep remains authoritative.
+
+PhaseBoundaryProjectionTests, WornHuntProjectionTests and PhaseWornPersistenceTests
+exercise the shared player boundary, both-seat visibility and restart/replay.
+No new DTO fields, Contracts/content/client source or game-rule change is required.

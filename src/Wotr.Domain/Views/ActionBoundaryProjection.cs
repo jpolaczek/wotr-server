@@ -9,7 +9,8 @@ internal static class ActionBoundaryProjection
         // Expansion setup, hidden tile assignments and suspended procedures need
         // their own reviewed player contracts; never serialize ResolutionState.
         if (state.Configuration.Lords || state.Configuration.Kings ||
-            state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None)
+            state.Resolution.Frames.Count > 0 &&
+                (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None))
             return null;
         var fellowshipMove = FellowshipMoveProjection.For(state);
         var cardHunt = CardHuntProjection.For(state);
@@ -60,6 +61,10 @@ internal static class ActionBoundaryProjection
 
     private static bool SupportedWindow(MatchState state)
     {
+        if (PhaseBoundaryProjection.Supports(state))
+            return true;
+        if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None)
+            return false;
         var sequence = state.Resolution.ActionSequence;
         if (state.Pending?.Kind == DecisionKind.Action)
             return sequence is null && state.Resolution.PaidDieIds.Count == 0 &&

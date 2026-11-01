@@ -17,7 +17,7 @@ internal static class FellowshipMoveProjection
             return null;
         FellowshipStrongholdView? strongholds = null;
         var activeIndex = 0;
-        if (frames.Count > 2)
+        if (frames.Count > 2 && frames[1].Fellowship is { AwaitingHunts: true })
         {
             strongholds = FellowshipStrongholdProjection.For(state, hunt, out activeIndex);
             if (strongholds is null)

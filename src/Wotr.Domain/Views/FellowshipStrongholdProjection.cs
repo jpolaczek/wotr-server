@@ -21,9 +21,10 @@ internal static class FellowshipStrongholdProjection
     {
         var frames = state.Resolution.Frames;
         activeIndex = sourceIndex + 2;
-        var balrog = frames.Count >= sourceIndex + 5;
+        var balrog = frames.Count >= sourceIndex + 5 &&
+            frames[sourceIndex + 3].EffectId == ShadowCharacterCards03.BalrogReaction;
         var offer = frames.Count == sourceIndex + 3 && frames[^1].EffectId == EffectCatalog.ReactionProgram;
-        if (frames.Count < sourceIndex + 3 || frames.Count > sourceIndex + 6 ||
+        if (frames.Count < sourceIndex + 3 || frames.Count > sourceIndex + 7 ||
             frames[sourceIndex].Hunt is not { Stage: HuntStage.Done, Mordor: false, Reveal: true } source ||
             source.TileId == "" || state.Fellowship.Hidden || state.Fellowship.Progress != 0 ||
             frames[sourceIndex + 1].EffectId != "fellowship.Reveal" ||

@@ -19,7 +19,7 @@ internal static class CardHuntProjection
             return null;
         CardHuntStrongholdView? strongholds = null;
         var activeIndex = 1;
-        if (frames.Count > 3)
+        if (frames.Count > 3 && frames[2].Fellowship is { AwaitingHunts: true })
         {
             var reveal = FellowshipStrongholdProjection.RevealContext(state, 1, out activeIndex);
             if (reveal is null)
