@@ -51,7 +51,8 @@ internal static class KingsCards02Scenario
             tile.Location = tile.Id is One or Two ? "pool" : "set-aside";
         TurnFlow.SelectNext(state, Side.Shadow);
         state = Play(state, West);
-        return draw ? Execute(state, CommandKind.ChooseEffect, new() { Ids = [SovereignCatalog.Dain] }, 0) : state;
+        // UI-442: choosing Dáin draws both tiles of the event's attempt at once; the private choice then waits.
+        return draw ? Execute(state, CommandKind.ChooseEffect, new() { Ids = [SovereignCatalog.Dain] }, 0, 0) : state;
     }
 
     private static UnitState Figure(MatchState state, string nation, UnitKind kind, string region)

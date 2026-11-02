@@ -315,12 +315,12 @@ public class InGameProjectionTests
     [Fact]
     public void PrivateHandAndVisibleCorruptionDrawCannotChangeTheOtherSidesDiagnostics()
     {
-        var state = KingsFixture.Attempt(3, tiles: [HuntTests.Three]);
+        var state = KingsFixture.Attempt(3, tiles: [HuntTests.Three, KingsCorruptionTests.One]);
         state.Configuration.VisibleCorruption = true;
         var changed = StateCodec.Copy(state);
         changed.Player(Side.Shadow).Hand = ["private-card"];
         state.Player(Side.Shadow).Hand = ["different-private-card"];
-        CorruptionRuntime.Current(changed)!.Drawn[0] = "base.hunt.standard.1.0.1";
+        CorruptionRuntime.Current(changed)!.Drawn[0] = KingsCorruptionTests.Two;
         Assert.Equal(Json(Views.For(state, Side.FreePeoples)), Json(Views.For(changed, Side.FreePeoples)));
         Assert.Empty(Views.For(changed, Side.FreePeoples).CorruptionAttempt!.OwnChoices);
     }

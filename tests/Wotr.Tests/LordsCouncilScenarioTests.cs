@@ -162,13 +162,15 @@ public class LordsCouncilScenarioTests
         Assert.Equal(4, state.HuntTiles.Count(t => t.Location == "pool" && Smeagol(t.Id)));
         var option = Option(state, Side.Shadow, CommandKind.AttemptCorruption);
         var sovereign = option.EligibleIds[0];
-        // The pool lists the numbered tile first, so drawing the last tile meets every Sméagol tile before it.
+        // The pool lists the numbered tile first, so drawing the last tile meets every Sméagol tile before it. One Eye
+        // is left: the attempt's command sets each Sméagol tile aside and places the numbered tile (UI-442, EXP-15 D8).
+        var events = state.Events.Count;
         state = Run(state, Side.Shadow, CommandKind.AttemptCorruption, new() { DieId = option.EligibleDice[0], CharacterId = sovereign },
             new HighestFace());
-        var attempt = CorruptionRuntime.Current(state)!;
-        Assert.Contains(attempt.Ignored, Smeagol);
-        Assert.DoesNotContain(attempt.Drawn, Smeagol);
-        state = Complete(state);
+        Assert.Null(CorruptionRuntime.Current(state));
+        var revealed = state.Events.Skip(events).Where(e => e.Kind == "CorruptionTileRevealed").Select(e => e.Activity!.Facts.Targets.Single());
+        Assert.Equal(4, revealed.Count(Smeagol));
+        Assert.All(state.HuntTiles.Where(t => Smeagol(t.Id)), t => Assert.Equal("pool", t.Location));
         Assert.DoesNotContain(state.Characters, c => c.DefinitionId == LordsCharacters.Smeagol);
         Assert.False(Smeagol(Assert.Single(state.Kings!.Sovereigns.Single(s => s.Id == sovereign).Tiles)));
         Assert.DoesNotContain(state.HuntTiles, t => t.Location == "removed" && Smeagol(t.Id));

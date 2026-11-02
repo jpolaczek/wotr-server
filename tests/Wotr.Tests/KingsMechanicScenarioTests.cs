@@ -41,12 +41,14 @@ public class KingsMechanicScenarioTests
             (s, _) => new() { DieId = Ruler(s), AbilityId = KingsFarSighted.Ability },
             "the Hunt rolls two dice for the Box's three", (_, s) => HuntDice(s) == 2),
         ["kings-corruption-three-tiles"] = new(CommandKind.AttemptCorruption, Attempt(SovereignCatalog.Dain),
-            "the attempt draws up to three tiles", (_, s) => CorruptionRuntime.Current(s)?.DrawLimit == 3),
+            "the attempt draws its three tiles at once",
+            (_, s) => CorruptionRuntime.Current(s) is { DrawLimit: 3, Stage: CorruptionStage.Choosing, Drawn.Count: 3 }),
         ["kings-corruption-kings-tile"] = new(CommandKind.AttemptCorruption, Attempt(SovereignCatalog.Dain),
             "a Kings tile ends the draw on Dáin",
             (_, s) => CorruptionRuntime.Current(s) is null && Sovereign(s, SovereignCatalog.Dain).Tiles.Any(KingsTiles.IsKings)),
         ["kings-corruption-reaches-resistance"] = new(CommandKind.AttemptCorruption, Attempt(SovereignCatalog.Brand),
-            "one tile is drawn for Brand", (_, s) => CorruptionRuntime.Current(s)?.DrawLimit == 1),
+            "the one tile drawn is placed on Brand without a choice and corrupts him",
+            (_, s) => CorruptionRuntime.Current(s) is null && Sovereign(s, SovereignCatalog.Brand).Status == SovereignStatus.Corrupted),
         ["kings-corrupted-recruitment"] = new(CommandKind.Recruit, Recruit("north", UnitKind.Regular),
             "a North Regular still comes", (b, s) => Recruited(b, s, "north") == 1),
         ["kings-theoden-white-hand"] = new(CommandKind.Recruit, Recruit("isengard", UnitKind.Regular, KingsBoard.HelmsDeep),
@@ -102,8 +104,10 @@ public class KingsMechanicScenarioTests
             "the Black Serpent enters with the token", (_, s) => CharacterRules.InPlay(s, KingsChieftains.Serpent) is not null &&
                 s.Lords!.Council!.SpentTokens.Contains(CouncilTokens.Politics)),
         ["kings-variant-visible-corruption"] = new(CommandKind.AttemptCorruption, Attempt(SovereignCatalog.Dain),
-            "the attempt runs with Dáin's values public",
-            (b, s) => PublicCorruption(b, SovereignCatalog.Dain) == 2 && CorruptionRuntime.Current(s) is not null),
+            "the one tile drawn is placed face up beside Dáin's public values without a choice",
+            (b, s) => PublicCorruption(b, SovereignCatalog.Dain) == 2 && CorruptionRuntime.Current(s) is null &&
+                s.Events.Last(e => e.Kind == "CorruptionAdded").Activity!.Facts.Sovereigns.Single().Tiles is { Count: 3 } tiles &&
+                tiles.All(t => t.TileId.Length > 0)),
         ["kings-variant-sequential-corruption"] = new(CommandKind.AttemptCorruption, Attempt(SovereignCatalog.Dain),
             "only the last tile drawn can be kept", (_, s) => CorruptionRuntime.Current(s) is { } attempt &&
                 CorruptionRules.Choices(attempt).Count <= 1 && attempt.Stage != CorruptionStage.Choosing),

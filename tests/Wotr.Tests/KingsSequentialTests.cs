@@ -135,16 +135,20 @@ public class KingsSequentialTests
     {
         var state = Actions(new() { Kings = true, Lords = true, SequentialCorruption = sequential });
         KingsFixture.Eyes(state, 2);
-        KingsFixture.Pool(state, "lords.hunt.smeagol.1");
-        state = KingsFixture.Do(state, CommandKind.AttemptCorruption, new()
+        KingsFixture.Pool(state, "lords.hunt.smeagol.1", KingsCorruptionTests.One);
+        var payload = KingsFixture.AttemptPayload(state, SovereignCatalog.Thranduil);
+        if (sequential)
         {
-            CharacterId = SovereignCatalog.Thranduil, DieId = CorruptionRules.Eyes(state).First().Id
-        }, 0);
-        Assert.Equal(CorruptionStage.Drawing, CorruptionRuntime.Current(state)!.Stage);
-        Assert.Empty(CorruptionRuntime.Current(state)!.Drawn);
-        state = Draw(state, KingsCorruptionTests.One);
-        if (!sequential)
-            state = KingsFixture.Do(state, CommandKind.ChooseCorruptionTile, new() { Ids = [KingsCorruptionTests.One] });
+            state = KingsFixture.Do(state, CommandKind.AttemptCorruption, payload, KingsFixture.DrawOrder(state, "lords.hunt.smeagol.1"));
+            Assert.Equal(CorruptionStage.Drawing, CorruptionRuntime.Current(state)!.Stage);
+            Assert.Empty(CorruptionRuntime.Current(state)!.Drawn);
+            state = Draw(state, KingsCorruptionTests.One);
+        }
+        else
+            state = KingsFixture.Do(state, CommandKind.AttemptCorruption, payload,
+                KingsFixture.DrawOrder(state, "lords.hunt.smeagol.1", KingsCorruptionTests.One));
+        Assert.Null(CorruptionRuntime.Current(state));
+        Assert.Equal(new[] { KingsCorruptionTests.One }, KingsFixture.Sovereign(state, SovereignCatalog.Thranduil).Tiles);
         Assert.DoesNotContain(state.Characters, c => c.DefinitionId == LordsCharacters.Smeagol);
         Assert.Equal("pool", state.HuntTiles.Single(t => t.Id == "lords.hunt.smeagol.1").Location);
         Assert.Equal(CharacterRules.Strider, state.Fellowship.Guide);

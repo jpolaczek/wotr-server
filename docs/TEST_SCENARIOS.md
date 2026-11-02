@@ -114,7 +114,7 @@ module is the module its game uses.
 | `fate-gimli-homeland` | Fate, Lords | Free Peoples | Gimli's homeland | UI-349: the Council's setup with Gimli, Dwarven Lord, chosen: he may start in the Iron Hills or Ered Luin. |
 | `kings-fp-awaken` | Kings | Free Peoples | Awaken a sovereign | Muster: awaken a sovereign (every nation at war). |
 | `kings-fp-remove-corrupted` | Kings | Free Peoples | Remove a corrupted sovereign | Boromir in Minas Tirith removes the corrupted Denethor. |
-| `kings-sh-corruption` | Kings | Shadow | Attempt corruption | A corruption attempt instead of an action: two Eyes in the Hunt (KINGS pp. 10–13). |
+| `kings-sh-corruption` | Kings | Shadow | Attempt corruption | A corruption attempt instead of an action: two Eyes in the Hunt (KINGS pp. 10–13); the one tile drawn is placed without a choice (UI-442, EXP-15 D8). |
 
 The Nenya reaction and Dismay, which are not die results, have their own scenarios since TEST-12 and TEST-13
 (`lords-fp-nenya-ring`, `kings-dismay`, `kings-dismay-from-token`); every module's cards and mechanics are listed in its
@@ -449,7 +449,7 @@ offers it only while both modules are released. The client strips "Kings · " fr
 | `kings-combat-work-of-the-enemy` | Shadow cards | Shadow | Work of the Enemy · Combat: His Power Waxes | As the Palantír's combat. |
 | `kings-fp-awaken-ruler-die` | Sovereigns and corruption | Free Peoples | Awaken a sovereign with the Ruler die | Thranduil's Ruler die on an Event, Rohan at war, Théoden (two tiles) in Westemnet: he awakens with the Ruler die, travels home to Edoras and his tiles return. |
 | `kings-politics-cleanse` | Sovereigns and corruption | Free Peoples | Politics return a Corruption tile | Boromir with Denethor (two tiles): advancing Gondor offers a random tile back; Pass keeps them. |
-| `kings-corruption-three-tiles` | Sovereigns and corruption | Shadow | Corruption attempt: choose one of three tiles | Four Eyes: one paid, three tiles drawn, one kept face down. |
+| `kings-corruption-three-tiles` | Sovereigns and corruption | Shadow | Corruption attempt: choose one of three tiles | Four Eyes: one paid, three tiles drawn at once by the attempt (UI-442), one kept face down. |
 | `kings-corruption-kings-tile` | Sovereigns and corruption | Shadow | Corruption attempt: the Kings tile | Only Kings tiles in the pool: the first ends the draw, face up, worth zero. |
 | `kings-corruption-reaches-resistance` | Sovereigns and corruption | Shadow | Corruption attempt: Brand is corrupted | Brand at 1 of 2, a counting pool: the tile drawn corrupts him (tiles revealed, the highest discarded, his marker at Dale). |
 | `kings-brand-call-to-arms` | Sovereign abilities | Free Peoples | Brand's Call to Arms | Ruler die on Muster, the North at war: three recruits in two settlements and his region. |

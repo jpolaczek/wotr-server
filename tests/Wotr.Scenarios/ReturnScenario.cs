@@ -15,8 +15,9 @@ internal static class ReturnScenario
         var expansions = ExpansionUiScenario.Create(random);
         result.Add("council", expansions["ui09-council"]);
         result.Add("ui69-recovery", StateCodec.Copy(expansions["ui09-council"]));
+        // UI-442: the attempt draws both of its tiles at once and waits at the private choice.
         result.Add("corruption", ExpansionUiFixture.Execute(expansions["ui09-corruption-hidden"], CommandKind.AttemptCorruption,
-            new() { CharacterId = "kings.sovereign.thranduil", DieId = LordsDiceCatalog.Nenya }, 0));
+            new() { CharacterId = "kings.sovereign.thranduil", DieId = LordsDiceCatalog.Nenya }, 0, 0));
         if (result["corruption"].Pending?.Kind != DecisionKind.CorruptionTile)
             throw new InvalidOperationException("Return fixture must pause inside the private corruption choice.");
         var actions = InteractionScenario.Create(random);

@@ -66,10 +66,11 @@ public class KingsLordsIntegrationTests
         Assert.Equal(3, CorruptionRules.Eyes(state).Count());
         LordsFixture.Reject(state, CommandKind.AttemptCorruption,
             new() { CharacterId = SovereignCatalog.Thranduil, DieId = captain.Id });
-        KingsFixture.Pool(state, KingsCorruptionTests.One);
+        KingsFixture.Pool(state, KingsCorruptionTests.One, HuntTests.Three);
         state = KingsFixture.Do(state, CommandKind.AttemptCorruption,
-            new() { CharacterId = SovereignCatalog.Thranduil, DieId = ruler.Id }, 0);
+            new() { CharacterId = SovereignCatalog.Thranduil, DieId = ruler.Id }, 0, 0);
         Assert.Equal(2, CorruptionRuntime.Current(state)!.DrawLimit);
+        Assert.Equal(2, CorruptionRuntime.Current(state)!.Drawn.Count);
         Assert.Equal(DieLocation.Hunt, LordsFixture.Die(state, captain.Id).Location);
         Assert.DoesNotContain(captain.Id, CorruptionRules.Eyes(state).Select(d => d.Id));
     }

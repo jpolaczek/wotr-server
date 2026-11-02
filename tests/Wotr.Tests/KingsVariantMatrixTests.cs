@@ -36,11 +36,8 @@ public class KingsVariantMatrixTests
         {
             CharacterId = SovereignCatalog.Thranduil, DieId = CorruptionRules.Eyes(state).First().Id
         }, 0);
-        if (!config.SequentialCorruption)
-        {
-            Assert.Equal(DecisionKind.CorruptionTile, state.Pending!.Kind);
-            state = KingsFixture.Do(state, CommandKind.ChooseCorruptionTile, new() { Ids = [KingsCorruptionTests.One] });
-        }
+        // One Eye left draws one tile: both draw modes place it without a decision (UI-442, EXP-15 D8).
+        Assert.NotEqual(DecisionKind.CorruptionTile, state.Pending?.Kind);
         Assert.Null(CorruptionRuntime.Current(state));
         var fp = LordsFixture.Views().For(state, Side.FreePeoples).Sovereigns.Single(s => s.Id == SovereignCatalog.Thranduil);
         Assert.Equal(config.VisibleCorruption ? 1 : (int?)null, fp.Corruption);
