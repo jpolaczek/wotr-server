@@ -15,8 +15,8 @@ internal sealed record LordsSetupChoices(string Guide, IReadOnlyList<string> Ver
 
 // TEST-12: the Lords scenarios start after the real setup of a Lords game — the private Companion versions, the
 // Council's homelands and token, the Fellowship phase and the roll of turn 1 — at its first action. The standard dice go
-// back to the pool, so ScenarioBoard.Dice and the other changes act as on the base setup; earlier plays of the imagined
-// turn run through the engine (Played, Attack).
+// back to the pool, so ScenarioBoard.Dice and the other changes act as on the base setup and ScenarioBoard.Act spends
+// those left without a result (TEST-19); earlier plays of the imagined turn run through the engine (Played, Attack).
 internal static class LordsBoard
 {
     private static readonly Projection Views = GameRuntime.Projection(EffectCatalog.All);
@@ -85,10 +85,11 @@ internal static class LordsBoard
     }
 
     // The side played the card earlier in this turn with an available die showing its event type, through the engine,
-    // so a card kept on the table carries its lasting effect; the engine then gives the other side the action.
+    // so a card kept on the table carries its lasting effect; the engine then gives the other side the action. The rest
+    // of the roll is set afterwards, so the play opens its action without spending the unrolled dice.
     public static ScenarioBoard Played(ScenarioBoard board, Side side, string card)
     {
-        var state = board.Act(side);
+        var state = board.OpenAction(side);
         var face = CardCatalog.All[card].EventType;
         var die = state.Dice.First(d => d.Owner == side && d.Location == DieLocation.Available && d.Source == "standard");
         die.Face = face;

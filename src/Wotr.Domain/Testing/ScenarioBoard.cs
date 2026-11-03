@@ -26,7 +26,8 @@ public sealed class ScenarioBoard
     // TEST-12: the same changes on a game already set up another way, e.g. through the real Lords setup (LordsBoard).
     public static ScenarioBoard Of(MatchState state) => new(state);
 
-    // The side's standard dice show these results in order; dice beyond them stay in the pool unrolled.
+    // The side's standard dice show these results in order; dice beyond them stay unrolled for Spent and Hunt, and Act
+    // spends those still left (TEST-19).
     public ScenarioBoard Dice(Side side, params DieFace[] faces)
     {
         var dice = StandardDice(side).ToArray();
@@ -328,12 +329,33 @@ public sealed class ScenarioBoard
         return this;
     }
 
-    // Action resolution of turn 1 with the side to act holding the decision.
+    // Action resolution of turn 1 with the side to act holding the decision. The roll of the turn is over, so every
+    // standard die the scenario left without a result was used earlier in this turn (TEST-19).
     public MatchState Act(Side side)
+    {
+        SpendUnrolled(State);
+        return OpenAction(side);
+    }
+
+    // The side's action in the middle of the imagined turn, before the scenario sets the rest of its roll: an earlier play
+    // (LordsBoard.Played) keeps the dice without a result unrolled for the Dice, Spent and Hunt changes that follow.
+    public MatchState OpenAction(Side side)
     {
         State.Phase = GamePhase.ActionResolution;
         TurnFlow.SelectNext(State, side);
         return State;
+    }
+
+    // TEST-19: in a played game no die waits unrolled once the dice are rolled: a character that brings a die (a Minion,
+    // Gandalf the White, Aragorn) adds it only at the next Recover (CharacterLifecycle.ReconcileDice). A spent die shows
+    // an Army result, as HuntAhead's leftover dice do; no rule reads a spent die's result.
+    private static void SpendUnrolled(MatchState state)
+    {
+        foreach (var die in state.Dice.Where(d => d.Source == "standard" && d.Location == DieLocation.Unrolled))
+        {
+            die.Location = DieLocation.Spent;
+            die.Face = DieFace.Army;
+        }
     }
 
     private IEnumerable<DieState> StandardDice(Side side) =>

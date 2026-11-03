@@ -19,6 +19,19 @@ The test scenario mode (R31) launches the ready-to-use, named game situations wi
   - action option is enabled;
   - die with the tested result can pay it;
   - example command passes through the server engine.
+- Since TEST-19 (owner's playtest, 2026-11-03), once a scenario's turn is rolled every die of the pool shows a result,
+  waits in the Hunt Box or was spent earlier in the turn. A played game never leaves a die unrolled after the roll: a
+  character that brings a die (a Minion, Gandalf the White, Aragorn) adds it only at the next Recover
+  (`CharacterLifecycle.ReconcileDice`). `ScenarioBoard.Act` therefore spends every standard die a scenario left without
+  a result (it shows a spent Army result, as `HuntAhead`'s leftover dice do; no rule reads a spent die's result), while
+  an earlier play of the imagined turn (`LordsBoard.Played`) opens its action with `OpenAction`, so the later `Dice`,
+  `Spent` and `Hunt` changes still find the unrolled dice. The audit found 52 scenarios that showed "Not rolled yet"
+  dice: `fp-ring-destroyed`, `sh-ring-corrupted`, `fate-kings-dale-cards`, 22 Lords scenarios (`lords-evil-knowledge`,
+  `lords-sh-witch-king-switch`, `lords-dice-removed-at-recovery`, the Council and Lords–Kings ones and others), 20 Kings
+  scenarios (the Brand, Chieftain, card-decision, corruption, siege, Ruler-die, variant ones and others) and 7 layout stress
+  scenarios. The same fix covers all of them, and the options every scenario offers to both sides are unchanged.
+  `TestScenarioDiceRollTests` builds every catalog scenario and fails on an unrolled die after the roll; a scenario that
+  must show one would be named in its allow-list with the words of its description that explain it (the list is empty).
 
 <a id="katalog"></a>
 ## Catalog
@@ -308,7 +321,7 @@ board.
 | `fate-card-dwarves-of-the-iron-hills-combat` | Fate | Free Peoples | Dwarves of the Iron Hills · Combat: Valour | A Rohan Elite takes part: +1 to every Free Peoples Combat die. |
 | `fate-card-orcs-multiplying-again-combat` | Fate | Shadow | Orcs Multiplying Again · Combat: Onslaught | The siege of Lórien: after the casualties the Shadow may take up to four hits for as many dice hitting on 4. |
 | `fate-card-monsters-roused-combat` | Fate | Shadow | Monsters Roused · Combat: Desperate Battle | The siege of Lórien: both armies +1 on Combat dice and Leader re-rolls. |
-| `fate-card-bardings-shield-wall` | Fate | Free Peoples | Bardings · Shield-wall cancels a hit | After the reveal at the Fords: every Shadow die hit, Shield-wall cancelled one of the five hits, the Free Peoples take four. |
+| `fate-card-bardings-shield-wall` | Fate | Free Peoples | Bardings · Shield-wall cancels a hit | After the reveal at the Fords, whose Rohan army has four Regulars and an Elite here (TEST-18): every Shadow die hit, Shield-wall cancelled one of the five hits, and the four the Free Peoples take leave part of their army standing. |
 | `fate-card-orcs-erebor-held` | Fate | Shadow | Orcs Multiplying Again · Erebor held | EXP-15 D8: the Free Peoples hold Erebor, so Mount Gundabad and the full reserve's plan apply without a click (3 + 3 Regulars). |
 | `fate-kings-dale-cards` | Fate, Kings | Free Peoples | Bardings and Dwarves with Kings | X03: no Brand or Dáin among the sovereigns; Bardings and Dwarves of the Iron Hills replace King Brand's Men and Dáin Ironfoot's Guard and recruit in Dale. |
 | `fate-gimli-captain` | Fate | Free Peoples | Captain of the West | The Sauron army of Erebor attacks the Iron Hills; Gimli adds a Combat die; the City's first round hits only on 6. |
@@ -367,7 +380,10 @@ Not shown by a scenario, with the reason:
   back: in a Fate game the Dwarves are active from the setup and Dáin is absent, so no rule a player can reach reads the
   icon. `FateGimliAbilityTests` covers both.
 - Shield-wall at the Combat card choice (`fate-card-bardings-combat`) acts only when the server's roll gives two hits;
-  the Fords' first round hits on 6 alone. `fate-card-bardings-shield-wall` shows the cancellation after a fixed reveal.
+  the Fords' first round hits on 6 alone. `fate-card-bardings-shield-wall` shows the cancellation after a fixed reveal;
+  since TEST-18 (owner's playtest, 2026-11-03) its Fords army alone has two more Rohan Regulars (four Regulars and an
+  Elite absorb six hits), so the four hits left after the cancelled one cannot remove the whole army and the saved unit
+  stays on the board. The other Fords battles keep the army of `CardBattles`.
 - Dale staying uncontrolled after the Shadow wins there follows the server's battle roll; `FateBoardRuleTests` captures
   Dale and keeps it uncontrolled.
 - Ered Luin with New Cities heals a declared Fellowship by the rule `fate-iron-hills-sanctuary` shows;

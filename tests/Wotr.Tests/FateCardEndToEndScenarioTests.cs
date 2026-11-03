@@ -90,17 +90,28 @@ public class FateCardEndToEndScenarioTests
         Assert.Equal(4, state.Units.Count(u => u.Location == Erebor && u.Nation == "sauron"));
     }
 
+    // TEST-17 keeps the full Sauron reserve, so the West half has a single placement and the engine makes it at once.
     [Fact]
-    public void MonstersRousedChoosesWestThenPlacesTheLastRegularAndTheEliteInTrollshaws()
+    public void MonstersRousedChoosesWestThenPlacesARegularInEachRegionAndTheEliteInTrollshaws()
     {
         var state = Play(Create(Event(FateCards.Monsters)), FateCards.Monsters);
         Assert.Equal([FateCards.MonstersEast, FateCards.MonstersWest], Option(state, CommandKind.ChooseEffect).EligibleIds.Order());
+        var before = SauronUnits(state);
         state = Do(state, CommandKind.ChooseEffect, new() { Ids = [FateCards.MonstersWest] });
-        var option = Option(state, CommandKind.ChooseEffect);
-        var plan = Plan(option, ("sauron", UnitKind.Regular, "angmar", 1), ("sauron", UnitKind.Elite, "trollshaws", 1));
-        state = Do(state, CommandKind.ChooseEffect, plan);
-        Assert.All(plan.Placements, p => Assert.Equal(p.RegionId, state.Units.Single(u => u.Id == p.UnitId).Location));
+        Assert.NotEqual(DecisionKind.EffectChoice, state.Pending?.Kind);
+        var placed = SauronUnits(state).Where(p => p.Value > before.GetValueOrDefault(p.Key)).ToDictionary(p => p.Key, p => p.Value - before.GetValueOrDefault(p.Key));
+        Assert.Equal(new Dictionary<(string, UnitKind), int>
+        {
+            [("angmar", UnitKind.Regular)] = 1,
+            [("ettenmoors", UnitKind.Regular)] = 1,
+            [("weather-hills", UnitKind.Regular)] = 1,
+            [("trollshaws", UnitKind.Elite)] = 1
+        }, placed);
     }
+
+    private static Dictionary<(string Region, UnitKind Kind), int> SauronUnits(MatchState state) => state.Units
+        .Where(u => u.Nation == "sauron" && BoardRules.Regions.ContainsKey(u.Location))
+        .GroupBy(u => (u.Location, u.Kind)).ToDictionary(g => g.Key, g => g.Count());
 
     [Theory]
     [InlineData(FateCards.ThereAndBack)]
@@ -165,20 +176,25 @@ public class FateCardEndToEndScenarioTests
         });
     }
 
+    // TEST-18: the Fords army has five army units (four Regulars and an Elite), so the four hits left after Shield-wall's
+    // cancellation remove four Regulars and the Elite still stands: the cancelled hit is visible on the board.
     [Fact]
     public void ShieldWallCancelsOneOfTheShadowsHitsBeforeTheCasualties()
     {
         var state = Create("fate-card-bardings-shield-wall");
         Assert.Equal((DecisionKind.Losses, Side.FreePeoples), (state.Pending!.Kind, state.Pending.Owner));
         var battle = BattleRuntime.Active(state)!;
+        var army = BattleRules.Units(state, battle.Force(Side.FreePeoples)).Where(BoardRules.IsArmyUnit).ToList();
+        Assert.Equal((4, 1), (army.Count(u => u.Kind == UnitKind.Regular), army.Count(u => u.Kind == UnitKind.Elite)));
         var shadowHits = BattleRoll.HitCount(battle.Force(Side.Shadow));
-        Assert.True(shadowHits >= 2);
+        Assert.Equal(5, shadowHits);
         Assert.Equal(1, battle.Force(Side.FreePeoples).Round.CancelHits);
         Assert.Equal(shadowHits - 1, BattleLosses.Current(state)!.Hits);
-        var losses = BattleRules.Units(state, battle.Force(Side.FreePeoples)).Where(BoardRules.IsArmyUnit)
+        var losses = army.Where(u => u.Kind == UnitKind.Regular)
             .Select(u => new BattleLossChoice { UnitId = u.Id, Kind = BattleLossKind.Remove }).ToList();
         state = Do(state, CommandKind.TakeBattleLosses, new() { Losses = losses });
-        Assert.All(losses, loss => Assert.NotEqual("fords-of-isen", state.Units.Single(u => u.Id == loss.UnitId).Location));
+        Assert.All(losses, loss => Assert.NotEqual(CardBattles.Ford, state.Units.Single(u => u.Id == loss.UnitId).Location));
+        Assert.Equal(CardBattles.Ford, state.Units.Single(u => u.Id == army.Single(e => e.Kind == UnitKind.Elite).Id).Location);
     }
 
     [Fact]
