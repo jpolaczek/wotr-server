@@ -8,8 +8,9 @@ namespace Wotr.Domain;
 // own choices, since UI-349 Gimli's Fate mechanics and since UI-347, UI-348 and UI-278 the Lords and Kings decisions of the owner's playtest;
 // since TEST-14 every Fate card's Combat side, Gimli's remaining abilities, the Fate map rules and Kings with Fate, and
 // since TEST-13 every Kings card's event and combat and each Kings mechanic at the step it acts, and
-// since TEST-12 each Lords card's event and combat card and every Lords mechanic, and since TEST-15 the layout stress
-// scenarios; the server offers a scenario only when its modules are released.
+// since TEST-12 each Lords card's event and combat card and every Lords mechanic, since TEST-15 the layout stress
+// scenarios and since TEST-16 the base game's layout scenarios of the owner's audit; the server offers a scenario only
+// when its modules are released.
 public static class TestScenarioCatalog
 {
     public const string General = "General";
@@ -45,7 +46,8 @@ public static class TestScenarioCatalog
         .. KingsRulerScenarios.All(),
         .. KingsChieftainScenarios.All(),
         .. KingsVariantScenarios.All(),
-        .. LayoutStressScenarios.All()
+        .. LayoutStressScenarios.All(),
+        .. BaseLayoutScenarios.All()
     ];
 
     public static TestScenario? Find(string id) => All.FirstOrDefault(scenario => scenario.Id == id);

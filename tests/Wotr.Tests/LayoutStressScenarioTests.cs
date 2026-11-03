@@ -9,7 +9,7 @@ namespace Wotr.Tests;
 // names exactly the modules its game uses, builds the same state every time and waits on its side's decision; and the
 // state holds what makes it a stress case — every character version, the Chieftains' chips, a response at each Hunt
 // window, the Council token's many figures, the White Rider, every pool resource, a full Effects panel and the Nazgûl
-// Strike's console options.
+// Strike's choices (board objects in the client since UI-430).
 public class LayoutStressScenarioTests
 {
     private static readonly GameEngine Engine = GameRuntime.Engine(EffectCatalog.All);
@@ -168,7 +168,7 @@ public class LayoutStressScenarioTests
     }
 
     [Fact]
-    public void TheNazgulStrikeOffersItsConsoleOptionsAfterThePlayedCard()
+    public void TheNazgulStrikeOffersItsChoicesAfterThePlayedCard()
     {
         var state = Create("layout-console-options");
         Assert.Equal("NazgulStrike", state.Pending!.Presentation);

@@ -8,10 +8,10 @@ namespace Wotr.Domain;
 // the Characters tab with every alternative version, the five or three kings in each state and every Minion and
 // Chieftain; a battle offering three Chieftains' replacements; a Hunt whose damage meets a response at each window; the
 // Council token moving many Nazgûl and Minions; the White Rider's reaction at a battle's start; every pool resource of
-// the expansions; the Effects panel with many table cards and corrupted kings; and the console's three options of The
-// Nazgûl Strike. Each is reached through the real setup and the engine's own commands, with the pieces placed here having
-// entered earlier in the imagined game. A scenario names Kings first when it plays with Kings (the client shows it in
-// the Kings tab), otherwise Lords.
+// the expansions; the Effects panel with many table cards and corrupted kings; and The Nazgûl Strike's choices, board
+// objects since the client's UI-430. Each is reached through the real setup and the engine's own commands, with the
+// pieces placed here having entered earlier in the imagined game. A scenario names Kings first when it plays with Kings
+// (the client shows it in the Kings tab), otherwise Lords.
 public static class LayoutStressScenarios
 {
     public const string KingsGroup = "Kings · Layout stress";
@@ -79,10 +79,11 @@ public static class LayoutStressScenarios
             "and Tom Bombadil protect three regions each) and Brand, Théoden and Thranduil are Corrupted: over twenty " +
             "entries. Open the Effects tab.",
             Side.FreePeoples, EffectsSources, ExpansionModules.Kings, ExpansionModules.Lords),
-        Scenario("layout-console-options", "The Nazgûl Strike's three console options",
+        Scenario("layout-console-options", "The Nazgûl Strike's choices on the board",
             "The Shadow played The Nazgûl Strike! (the console's committed chip) and flew the Witch-king and three Nazgûl to " +
-            "the Fellowship in Hollin; four Character cards stand on the Free Peoples table. The console offers Discard a " +
-            "table card, Roll for the Hunt and Finish beside Pass, and the Effects panel lights the four cards.",
+            "the Fellowship in Hollin; four Character cards stand on the Free Peoples table. The console shows no option " +
+            "buttons: the four cards glow red in the Effects panel to discard one, the Hunt Box glows to roll for the Hunt " +
+            "and the ✓ finishes.",
             Side.Shadow, ConsoleOptions, ExpansionModules.Lords)
     ];
 

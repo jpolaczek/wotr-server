@@ -555,7 +555,7 @@ each, checks the tab, modules, repeatability and starting side, and asserts the 
 | `layout-white-rider` | Free Peoples | The White Rider at a battle's start | Kings: the Witch-king, two Nazgûl and Uglúk attack Gandalf the White and the Awakened Théoden at the Fords of Isen; the White Rider's window opens before any Combat card. |
 | `layout-all-resources` | Free Peoples | Every pool resource at once | Lords (Council) + Kings: the Narya and Gothmog dice, both Ruler dice and their discards, three usable Ruler tokens (Brand, Dáin, Denethor), two Dismay tokens (Théoden and Thranduil fell), both Council tokens, Narya and Vilya with the Free Peoples and Nenya with the Shadow. |
 | `layout-effects-sources` | Free Peoples | The Effects panel at its fullest | Lords + Kings: six Free Peoples and eight Shadow table cards played through the engine (A Power too Great and Tom Bombadil protect three regions each) and Brand, Théoden and Thranduil Corrupted: 22 entries. |
-| `layout-console-options` | Shadow | The Nazgûl Strike's three console options | Lords: The Nazgûl Strike! after the Witch-king and three Nazgûl flew to the Fellowship in Hollin, with four Character cards on the Free Peoples table: Discard a table card, Roll for the Hunt and Finish beside Pass, the played card as the trail's chip. |
+| `layout-console-options` | Shadow | The Nazgûl Strike's choices on the board | Lords: The Nazgûl Strike! after the Witch-king and three Nazgûl flew to the Fellowship in Hollin, with four Character cards on the Free Peoples table: the engine offers Discard a table card, Roll for the Hunt and Finish beside Pass, which the client draws as board objects since UI-430 (the four cards red in the Effects panel, the glowing Hunt Box, the console's ✓), the played card as the trail's chip. TEST-16 retitled it from "three console options". |
 
 Left out or narrowed, with the reason: Fate of Erebor adds no entry to the Effects panel (none of its cards stays on
 the table or keeps a lasting effect, and Gimli's abilities are character abilities), so `layout-effects-sources` plays
@@ -567,6 +567,33 @@ Aragorn's army outside the Free Peoples' nations. The Sorcerer's window opens on
 console choice, so the Nazgûl Strike's trail is that one chip; a Hunt window holds at most two responses (each window
 has its own cards), so `layout-hunt-responses` walks through all four windows instead.
 
+<a id="layout-stress-base--test-16"></a>
+### Layout stress in the base game — TEST-16 (2026-11-03)
+
+The owner's layout audit (playtest of release/0.10.0-rc.1, 2026-11-03) named situations the Test scenarios lacked. The
+base-game ones are `BaseLayoutScenarios`, built as TEST-15's are: the standard setup (`ScenarioBoard`), pieces that
+entered or moved earlier in the imagined game, and the battle steps before the first decision as the engine's commands
+with fixed dice (`LordsBoard.Attack`, `Field`, `CombatChoice`, `Rolls`). Without a module they stand in the client's
+first tab, group `Layout stress`. `BaseLayoutScenarioTests` builds each, checks the group, the empty module list,
+repeatability and the starting side, and plays the decision each one is for. The Mordor gate at Morannon joins the Mordor
+Track group below (`fp-mordor-enter-morannon`).
+
+| Id | Start | Title in Game | What I'm testing |
+| --- | --- | --- | --- |
+| `layout-scouts-helms-deep` | Free Peoples | The Spirit of Mordor · Scouts at Helm's Deep | An Isengard army from Westemnet (taken earlier) attacks the Rohan army in Helm's Deep, which fights a field battle; the Shadow played no card. Committing The Spirit of Mordor (Scouts) offers Withdraw into siege — the battle's own region — and the retreat to the Fords of Isen; the battle window must keep Helm's Deep clear (client UI-435). |
+| `layout-dreadful-spells-siege` | Shadow | Dreadful Spells · A field force and a garrison in one region | A Sauron army with three Nazgûl besieges the Elves in Lórien and an Elven army stands in Parth Celebrant. The besiegers are the only source (the engine takes it), and the target choice is `lorien:garrison` or `parth-celebrant:field`: Lórien's region panel keeps its field force and garrison apart. |
+| `layout-dense-helms-deep` | Free Peoples | The dense board: Helm's Deep besieged | The seeder's `map17-dense` as a legal game on the full setup: ten Isengard units and three Nazgûl besiege three Rohan Regulars, two Elites, two Leaders, Strider, Gimli and Legolas in Helm's Deep; a Gondor army of six Regulars, three Elites and three Leaders in Westemnet can attack the besiegers (Relief). |
+| `layout-crowded-region` | Shadow | Nine characters in one region | Every nation at war; the seven Companions left the Fellowship (Gollum guides) and hold besieged Minas Tirith with the Gondor army, and the Witch-king and the Mouth of Sauron lead the Sauron army besieging it: nine characters in one region, seven in its garrison. The Shadow may assault. |
+| `layout-saruman-voice-one-muster` | Shadow | The Voice of Saruman with one Muster die | Saruman in Orthanc, Isengard at war, exactly one Muster die and no Army/Muster among the Shadow's results: the Voice's recruitment and upgrade both list that one die. |
+| `layout-fateful-strike-minion` | Free Peoples | Bilbo's Song · Fateful Strike with no Nazgûl | Saruman leads the Isengard army from Orthanc against the Fords of Isen with no Nazgûl; Fateful Strike was played, every Combat die missed and every Leader re-roll hit: eliminate Saruman, or Skip Fateful Strike (Keep Minions), which the engine offers only without a Nazgûl in the battle. |
+
+Not duplicated: the seeder's `strategy-scouts` (UI-432's checklist) is a raw fixture on an emptied board, so
+`layout-scouts-helms-deep` rebuilds it on the full setup; the base combat scenario `card-base.fp.character.12-combat`
+already has no Nazgûl, but without a Minion in the battle Fateful Strike offers nothing, so it cannot show the skip.
+Dreadful Spells' target choice cannot hold a Free Peoples field army and a Free Peoples garrison of one region: a
+region holds both only during a siege, whose field force is the enemy's (T19), so the choice pairs the besieged garrison
+with a field army next door.
+
 <a id="tor-mordoru--test-06"></a>
 ### Tor Mordor — TEST-06
 
@@ -575,6 +602,7 @@ Fellowship stands hidden in Minas Morgul (Corruption   3 It's like she's finishe
 | Id | Start | Title in Game | What I'm testing |
 | --- | --- | --- | --- |
 | `fp-mordor-enter` | Free Peoples | Enter Mordor | Fellowship phase in Minas Morgul: track input (gate on map or panel button), camera with Free Peoples and track pulse with Shadow; then Hunt and a simple throw. |
+| `fp-mordor-enter-morannon` | Free Peoples | Enter Mordor at Morannon | TEST-16: the same Fellowship phase with the hidden Fellowship in Morannon, next to the other Mordor gate: the gate there glows on the map and its click enters the track (client UI-434's checklist, until now only the seeded `ui34-mordor-morannon-True`). |
 | `fp-mordor-track` | Free Peoples | Walk the Mordor Track | Step 0, three dice Character and Will of the West: attempts to move with the tile (Stop, Reveal, injury), hiding, Corruption behind turn without attempt. |
 | `fp-mordor-crack` | Free Peoples | One step from the Crack of Doom | Step 4, Corruption 6: step without Stop reaches the Doomsday Slit and destroys the Ring if Corruption stays below 12 (B20). |
 
