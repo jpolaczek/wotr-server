@@ -59,4 +59,14 @@ public class FateCardScenarioTests
     }
 
     private static string Id(string cardId) => FateCardScenarios.Id(CardCatalog.All[cardId]);
+
+    // The owner (2026-11-03): either half of Monsters Roused places three Sauron Regulars and an Elite, all in the reserve.
+    [Fact]
+    public void MonstersRousedHasTheRegularsAndTheEliteEitherHalfPlaces()
+    {
+        var state = TestScenarioCatalog.Find(Id(FateCards.Monsters))!.Create("fate-card-monsters-reserve");
+        var reserve = state.Units.Where(u => u.Nation == "sauron" && u.Location == "reserve").ToList();
+        Assert.True(reserve.Count(u => u.Kind == UnitKind.Regular) >= 3, "Three Regulars, one for each region of a half.");
+        Assert.True(reserve.Any(u => u.Kind == UnitKind.Elite), "The Elite of either half.");
+    }
 }

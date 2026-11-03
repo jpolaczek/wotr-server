@@ -282,7 +282,7 @@ hand and checks that the game then waits on the card's own choice.
 | `fate-card-bardings` | Free Peoples | Bardings · Event | The recruitment region next to Dale or Dale itself, and the North reserve plan. |
 | `fate-card-dwarves-of-the-iron-hills` | Free Peoples | Dwarves of the Iron Hills · Event | The recruitment region next to Dale or Dale itself, and the Dwarven reserve plan. |
 | `fate-card-orcs-multiplying-again` | Shadow | Orcs Multiplying Again · Event | Mount Gundabad or Erebor on the map; four Sauron Regulars left, so the reserve is split. |
-| `fate-card-monsters-roused` | Shadow | Monsters Roused · Event | The West or East plan in the console; one Sauron Regular left, so the reserve plan decides what is placed. |
+| `fate-card-monsters-roused` | Shadow | Monsters Roused · Event | The West or East plan on the map; the full Sauron reserve, so a Regular goes to each of the half's three regions and the Elite to its place. |
 | `fate-card-bardings-combat` | Free Peoples | Bardings · Combat: Shield-wall | UI-349: the base cards' defence at the Fords of Isen (TEST-09) in a Fate game; choose Bardings as the defender's Combat card. |
 
 #### Fate end to end — TEST-14 (2026-10-27)
@@ -342,7 +342,7 @@ ability and rule, the scenario that shows it and the condition that scenario mee
 | Orcs Multiplying Again: three in Dol Guldur, three in Mount Gundabad or Erebor, a scarce reserve shared | `fate-card-orcs-multiplying-again` | Four Sauron Regulars left; both second regions legal. |
 | Orcs Multiplying Again: a blocked second region is not offered; a single choice applies itself (D8) | `fate-card-orcs-erebor-held` | A North army holds Erebor; the reserve is full. |
 | Onslaught (Combat): up to four voluntary hits, a die hitting on 4 for each | `fate-card-orcs-multiplying-again-combat` | The Shadow has units to sacrifice besieging Lórien. |
-| Monsters Roused: the West or East plan, the Elite's region, the reserve plan (D21) | `fate-card-monsters-roused` | One Sauron Regular and the Elites left. |
+| Monsters Roused: the West or East plan, the Elite's region, the reserve plan (D21) | `fate-card-monsters-roused` | The full Sauron reserve (three Regulars and an Elite per half). |
 | Desperate Battle (Combat): both sides +1 | `fate-card-monsters-roused-combat` | Unconditional. |
 | Gimli (Fate): Captain of the West, +1 Combat die | `fate-gimli-captain` | Gimli takes part in the Iron Hills' defence. |
 | Gimli (Fate): Dwarf of Renown, while Gimli is in the Iron Hills or Ered Luin any Action die moves the Dwarves one step toward war (D22) | `fate-gimli-renown` | Gimli in the Iron Hills, the Dwarves active and short of war. |

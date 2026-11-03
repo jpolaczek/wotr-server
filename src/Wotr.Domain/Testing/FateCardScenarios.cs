@@ -26,8 +26,10 @@ public static class FateCardScenarios
         Card(FateCards.Dwarves, "Dale holds a Free Peoples army, so Dale itself and the regions next to it can recruit.", DaleArmy),
         Card(FateCards.Orcs, "Only four Sauron Regulars are left in the reserve: choose Mount Gundabad or Erebor and split them.",
             board => board.Change(state => Reserve(state, 4))),
-        Card(FateCards.Monsters, "Only one Sauron Regular is left in the reserve: choose West or East and recruit what the reserve allows.",
-            board => board.Change(state => Reserve(state, 1)))
+        // The owner (2026-11-03): the card places a Sauron Regular in each of three regions and an Elite, so the scenario
+        // keeps the full Sauron reserve (it once held one Regular to show the shortage, which hid the card's own placement).
+        Card(FateCards.Monsters, "The Sauron reserve holds the three Regulars and the Elite either side needs: choose West or " +
+            "East, then place one Regular in each of its three regions and the Elite.", _ => { })
     ];
 
     public static string Id(CardDefinition card) => "fate-card-" + card.Title.ToLowerInvariant().Replace(' ', '-');
