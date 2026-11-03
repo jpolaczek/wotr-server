@@ -19,6 +19,15 @@ Averses Second Edition 1 – 6/24 ed [index SRC-01](../sources/base-card-index.j
 
 Valinor settlement already stores the regions served; the selection of the next Stronghold precedes its draw, and the choice of losses FP must be completed before the next region. We do not choose as a player figures or assume that availability of elite replacements is equivalent. The event controller indicates another unaccounted for region; it is a clear way to organize independently the mentioned regions, no additional choice of target allowing any to leave out.
 
+**The order is the Shadow's real choice (EXP-18, owner, 2026-11-03).** The owner asked whether the choice could go, since
+every eligible Stronghold is resolved. It stays: the order can change the result. An Elite reduced by a loss takes its
+Regular from the nation's shared pool — the casualties first, then the reserve (`UnitReduction.ReduceEliteWithOrigin`,
+[LOGIC](LOGIC.md) on reductions) — and a region's losses fill the casualties for the next region. Example: no spare
+Elven Regular, Lórien holds 2 Regulars and Rivendell 1 Elite, every die a 6: Lórien first, its losses give the Regular
+that Rivendell's Elite becomes; Rivendell first, no Regular exists and the Elite is removed, leaving Rivendell empty. The
+Elves have only five Regulars, so this arises in play. The Kings version (T30-KINGS-03) has the same pool across nations.
+Tests: `ShadowStrategy01ValinorTests`, `KingsValinorTests.SkipsConqueredAndBesiegedStrongholdsAndOffersOrderOfRemainingRegions`.
+
 <a id="zastosowania-bojowe"></a>
 ## Combat uses
 
