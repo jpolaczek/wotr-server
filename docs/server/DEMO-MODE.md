@@ -200,7 +200,7 @@ Rejected command, e.g. out of date by simultaneous change, ends step and loop re
 <a id="klient-demo-04"></a>
 ## Client (DEMO-04)
 
-Details: [DEMO_UX](https://github.com/jpolaczek/wotr-client/blob/a5b34506a7576fd18fb9d699b8c7a54bde288544/docs/ui/DEMO_UX.md). In short:
+Details: [DEMO_UX](https://github.com/jpolaczek/wotr-client/blob/b3a63c8a7070ad9230ae25d8d2117b90b84d683a/docs/ui/DEMO_UX.md). In short:
 
 - in the waiting room, the fixed button “Play demo vs CPU” in the row Ready/Start. is greyed when
   the room is not waiting or another operation is taking place. Tooltip explains that the previous
