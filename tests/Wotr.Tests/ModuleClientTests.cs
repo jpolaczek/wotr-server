@@ -39,6 +39,20 @@ public class ModuleClientTests
         Assert.Contains(ModuleClientPolicy.Key, error.Message);
     }
 
+    // EXP-21: a release candidate names itself exactly: in SemVer 0.10.0-rc.1 sorts below 0.10.0, so `fate=0.10.0` would
+    // refuse the very client that brings the module, while the exact name lets it and every later client play.
+    [Fact]
+    public void AReleaseCandidateIsNamedExactlyAsTheFirstClientOfItsModules()
+    {
+        var policy = new ModuleClientPolicy(ModuleClientPolicy.Parse("fate=0.10.0-rc.1,lords=0.10.0-rc.1,kings=0.10.0-rc.1"));
+        Assert.Empty(policy.Unplayable("0.10.0-rc.1"));
+        Assert.Empty(policy.Unplayable("0.10.0-rc.2"));
+        Assert.Empty(policy.Unplayable("0.10.0"));
+        Assert.Equal(["fate", "kings", "lords"], policy.Unplayable("0.9.0-rc.14").Order());
+        var plain = new ModuleClientPolicy(ModuleClientPolicy.Parse("fate=0.10.0"));
+        Assert.Equal(["fate"], plain.Unplayable("0.10.0-rc.1"));
+    }
+
     [Fact]
     public void AClientPlaysTheModulesWhoseFirstVersionItHasReached()
     {

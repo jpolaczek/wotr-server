@@ -76,6 +76,9 @@ not start when a module in `WOTR_RELEASE_MODULES` has no version there. A client
 `ClientUpdateRequired` at every table using the module, and its updater installs the newest release; base tables
 stay open to it. Publish that client release in the catalog before setting its version here.
 
+EXP-21: a release candidate must be named exactly: `WOTR_MODULE_CLIENTS=fate=0.10.0-rc.1,lords=0.10.0-rc.1,kings=0.10.0-rc.1`. In
+SemVer `0.10.0-rc.1` sorts below `0.10.0`, so `fate=0.10.0` would refuse the very client that brings the module.
+
 <a id="katalog-wydań-klienta--dist-05"></a>
 ## Customer release directory — DIST-05
 
