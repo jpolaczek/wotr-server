@@ -90,24 +90,35 @@ public static class RecruitmentRules
 
     public static void Place(MatchState state, Side actor, IReadOnlyList<UnitPlacementChoice> placements)
     {
-        foreach (var choice in placements)
-        {
-            var unit = state.Units.Single(u => u.Id == choice.UnitId);
-            unit.Location = choice.RegionId;
-            unit.Garrison = BoardRules.Besieged(state, choice.RegionId, actor);
-            state.Events.Add(new()
-            {
-                Revision = state.Revision,
-                Kind = "UnitRecruited",
-                Activity = HistoryFacts.Unit(state, unit),
-                Text = $"{unit.Nation} {unit.Kind} recruited in {choice.RegionId}."
-            });
-        }
-        foreach (var unit in state.Units.Where(u => u.Kind == UnitKind.Leader && placements.Any(p => p.UnitId == u.Id)))
+        var steps = placements.ToDictionary(choice => choice.UnitId, choice => PlaceUnit(state, actor, choice));
+        foreach (var unit in state.Units.Where(u => u.Kind == UnitKind.Leader && steps.ContainsKey(u.Id)))
             if (!state.Units.Any(u => u.Location == unit.Location && u.Garrison == unit.Garrison && BoardRules.Owner(u) == actor && BoardRules.IsArmyUnit(u)))
-            {
-                BoardRules.RemoveCasualty(state, unit);
-                state.Events.Add(new() { Revision = state.Revision, Kind = "LeaderRemoved", Text = $"{unit.Id} was removed without an army." });
-            }
+                RemoveUnaccompanied(state, unit, steps[unit.Id]);
+    }
+
+    // EXP-20: the step says where a figure went; the figure's change belongs to the command's boundary (ActionBoardChanges),
+    // which records every recruit from the reserve once, on the decision step.
+    private static ActionEvent PlaceUnit(MatchState state, Side actor, UnitPlacementChoice choice)
+    {
+        var unit = state.Units.Single(u => u.Id == choice.UnitId);
+        unit.Location = choice.RegionId;
+        unit.Garrison = BoardRules.Besieged(state, choice.RegionId, actor);
+        var step = HistoryFacts.At(state, ActionContextKind.Army, region: unit.Location);
+        state.Events.Add(new()
+        {
+            Revision = state.Revision,
+            Kind = "UnitRecruited",
+            Activity = step,
+            Text = $"{unit.Nation} {unit.Kind} recruited in {choice.RegionId}."
+        });
+        return step;
+    }
+
+    // The boundary sees this Leader only going from the reserve to the casualties, so his placement is recorded here.
+    private static void RemoveUnaccompanied(MatchState state, UnitState leader, ActionEvent step)
+    {
+        step.Facts.Figures.Add(HistoryFacts.Placement(leader));
+        BoardRules.RemoveCasualty(state, leader);
+        state.Events.Add(new() { Revision = state.Revision, Kind = "LeaderRemoved", Text = $"{leader.Id} was removed without an army." });
     }
 }
