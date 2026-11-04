@@ -107,49 +107,39 @@ the external BOT-17 transport exists only on a local historical checkpoint branc
 
 ## Strategic decisions and simulation
 
-BOT-02 checkpoint (2026-11-01): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
-version 6 describe base/Fate ordinary actions, paid army/recruitment/character
-steps, excess removal, reviewed paid Fellowship-move Hunts and paid
-Orc Patrol, Isildur's Bane, Foul Thing and committed Nazgûl Strike Hunts. Both Hunt contexts include
-reviewed reveal routes and subsequent Stronghold obligations. The shared facts
-retain public lifecycle/turn flags, known discard provenance, special tile/card
-associations, original journey rosters, exact payment, pending public politics
-and guide/casualty/departure progress. Card Hunts also retain the selected cost
-and pending Palantir draw. The active Balrog table-card Hunt after revelation
-uses that same public route/queue context, preserving either original payment.
-Balrog resolves before every remaining Stronghold, including an empty queue.
-During its Hunt, the resolved source and current tiles keep separate identities,
-including identical faces.
-The earlier uncommitted revelation offer also reconstructs from those facts. Its
-current and resolved views describe one source Hunt; Respond and Decline retain
-the complete queue without replaying that Hunt or its route.
-These are shared human/bot DTOs.
+BOT-02 checkpoint (2026-11-04): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
+version 6 cover base/Fate ordinary phases/actions, recovery and post-draw hand
+limits, paid army/recruitment/character steps, excess removal, reviewed paid
+Fellowship-move Hunts and Orc Patrol, Isildur's Bane, Foul Thing and committed
+Nazgûl Strike Hunts. Their reveal routes, additional Strongholds, uncommitted
+Balrog offer, executing Balrog Hunt and nested Worn casualty choices retain the
+original parent and payment. The facts are ordinary shared human/bot information;
+no executable stack or opposing private choices enter the runtime.
 
-The private runtime reconstructs these roots, independently samples unknown cards
-and exposes opaque validation/rollout through pure rules 0.6.3 / Contracts 0.20.0.
-Each simulated actor uses its own projection. The root's own EffectTrail remains
-presentation data; opposing private selections are not inferred. Card Hunt rules
-come from the pinned card definition. The original Shadow cost stays resolving
-through the Hunt and any Palantir deck choice, then finishes once as spent.
-Card Hunts in Mordor do not count as movement or advance the Fellowship.
+Private cfa5165 / runtime 0.2.10 reconstructs these roots through pure rules 0.6.4
+(public source 40942e1, 428 files) / Contracts 0.20.0. Unknown cards are sampled
+independently; each rollout actor receives its own projection. Worn retains its
+table card, does not add another payment/Hunt and samples a possible random hand
+discard only after the choice. Recovery hand limits resume FP then Shadow;
+post-draw hand limits finish the same resolving die. Sources remain the pinned
+TurnFlow/CardFlow and card definitions.
 
-Current checks: 1,349 private C# / 17 Python tests, 611 public Hunt/projection/
-privacy/HTTP cases and 10 package tests passed, no skips. The 100 new private
-revelation-offer cases cover 62 root/answer combinations, real-match and identical-
-hypothesis parity, both actors' hidden permutations, malformed inputs and illegal
-alternatives, own trail and cancellation. They cover five parent actions,
-base/Fate/Fate + New Cities, zero/one/two Strongholds, public Hunt protections and
-Palantir. Both answers preserve the original payment; empty-queue Decline keeps
-Balrog and draws nothing. Two former offer-refusal cases now have positive coverage.
-Declaration and other executing nested returns still need reconstruction.
-Existing ActionBoundary v6 and Contracts 0.20.0 suffice; public content/client pins
-are unchanged. Unity was not rerun because wire/client/content sources did not change.
-These fixtures verify reconstruction and rule execution, not strategic choice quality.
-Other card-origin/declaration Hunts, active nested programs, battle/discard and
-Lords/Kings/Council roots remain unsupported. BOT-02 remains in progress and
-BOT-03 remains blocked on complete reconstruction. No production faction policy
-is registered; gameplayReady=false. General reconstruction, fallback, performance
-and strategic acceptance remain separate gates.
+Current verification: **1,511 private C# / 17 Python**, **655 public C# / 10 package**
+cases passed, no skips; zero private build warnings/errors and local library
+publish passed. The 162 new private cases cover phases and Worn across 14 parent
+contexts, three configurations, response types, identical-hypothesis/real-match
+parity, both-actor hidden permutations, illegal/malformed inputs. Bounded walks
+cover 303 roots / 7,564 candidate checks, not complete games or strategy quality.
+Exact private measurements remain in the private repository. Public HTTP checks
+preserve both seats across host restarts and idempotent replay; owned DB cleanup
+succeeded. Contracts/content/client sources did not change, so Unity was not rerun.
+
+Declaration Hunts, other card programs, battles, arbitrary effect-discard returns
+and Lords/Kings/Council reconstruction and nested expansion parity remain open.
+BOT-02 remains in progress; BOT-03 remains blocked on complete reconstruction.
+No production faction policy is registered; gameplayReady=false. Verification
+used the isolated implementation worktree; the unrelated private-main Core.csproj
+edit was preserved. No push, release or deployment was performed.
 
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
