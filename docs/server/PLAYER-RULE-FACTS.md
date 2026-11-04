@@ -1,12 +1,40 @@
 # Player rule facts at an action boundary
 
-Contracts 0.21.0 provide optional `PlayerView.ActionBoundary` version 7. It is ordinary
+## Lords and Council boundary v8
+
+Boundary version 8 describes frame-free Lords/Council setup, ordinary
+phases/actions, reviewed paid steps, special-die selection and the Vilya completion
+offer. Sources and existing rule procedures are T23–T26, LORDS pp. 8–19, 30–31
+and their character/card manifests. It adds public uses of replacement/one-use
+abilities, the rolled dice counts and remaining special-die choice order, paid
+Will of the West/Captain dice and Council's first Fellowship-die obligation.
+Council tokens and special-die faces/removal flags remain in their existing views.
+No resolution frames, effect cursor, saved return decision or opposing private
+companion selection is transferred. Kings and suspended Lords Hunts/card/battle
+procedures require separate reviewed contexts.
+
+Shadow's character lifecycle facts omit unrevealed selectable companions in the
+Fellowship. Their stable figure identities remain public. Own chosen versions and
+already revealed definitions use the existing player/Fellowship fields; hidden
+versions must be sampled independently from configured alternatives. A revealed
+definition constrains any hypothesis. Setup before the version choice carries no
+invented committed selection. Sméagol tiles keep exact public identities because
+the two additional tiles are specifically targeted by You Know the Way; identical faces
+alone would lose that distinction. The special We Shall Get It table/discard card
+is separate from the shuffled event decks.
+
+Required evidence: complete Shadow-payload invariance under private version/card
+permutations; ordinary HTTP/restart facts; no mutation or entropy during projection;
+configured setup/homeland/token/dice/paid/Vilya continuations; package/client pins.
+This design section is not verification or BOT-02 acceptance.
+
+Contracts 0.22.0 provide optional `PlayerView.ActionBoundary` version 8. It is ordinary
 own-side player information, also passed through the existing bot input projection.
 It does not grant command permission and requires no new UI controls. Protocol 2,
 save schema 3 and game rules are unchanged. Older responses omit it; consumers
 must treat absence or an unknown version as unsupported, never as empty state.
 
-Version 7 describes base/Fate ordinary phases/actions, hand limits, paid army/recruitment/character
+Version 8 retains the reviewed base/Fate ordinary phases/actions, hand limits, paid army/recruitment/character
 steps, excess removal, and reviewed choices in a Hunt caused by the paid
 Fellowship movement action. Ordinary/paid army windows have no suspended frames.
 The Hunt context supports rerolls, damage, public reaction windows, guide choice,
@@ -16,8 +44,8 @@ Bane, Foul Thing and the committed Nazgûl Strike Hunt have their own CardHunt c
 choice/reveal/Stronghold windows. Both the uncommitted revelation offer and the
 active Balrog reaction after revelation use the same context. Declaration has its
 own unpaid return context. Reviewed Hunts also support the nested Worn choice.
-Other card programs, arbitrary effect-discard returns, battles and Lords/Kings
-still omit the boundary. Never serialize
+Other card programs, arbitrary effect-discard returns, battles, suspended Lords
+procedures and Kings still omit the boundary. Never serialize
 a resolution stack or redacted save as player data.
 
 The existing `ActionSequenceView` additionally exposes `InitialFigureIds`: public
@@ -31,7 +59,7 @@ options and a decision token.
 | Fact | Visibility and purpose |
 | --- | --- |
 | Fellowship declaration this turn, previous Minion entry, mandatory Hunt allocation | Public consequences affecting later eligibility; BASE turn/Fellowship/character rules, B02/B10/B15/B17. |
-| Companion figure IDs and character lifecycle, including eliminated figures | Public in base/Fate, including the public Fate replacement. Private Council versions are excluded by the module gate. |
+| Companion figure IDs and character lifecycle, including eliminated figures | Public in base/Fate, including the public Fate replacement. Unrevealed selectable companions are omitted for Shadow; own versions and public revelations retain their existing visibility. |
 | Used army conversion and extra dice at next recovery | Public use of character abilities and their recovery consequences, B10/B02. |
 | Ring action still pending | Public paid conversion; preserves its obligation through the action window, B05. |
 | Known discards | Own discarded cards and opposing cards visibly played/revealed/discarded; `PublicDiscards` separately identifies what both sides know. Never derive an opposing discard from an earlier draw/inspection or hidden discard. Base/Fate discards do not recycle, B06. |
@@ -62,7 +90,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Public content 1.0.23 and pure rules 0.7.0 pin this contract; game rules, protocol and save schema are unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Public content 1.0.24 and pure rules 0.8.0 pin this contract; game rules, protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing

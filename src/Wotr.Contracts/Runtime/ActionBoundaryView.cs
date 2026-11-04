@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 namespace Wotr.Contracts
 {
-    // Ordinary player information at a supported base/Fate action window.
+    // Ordinary player information at a reviewed phase/action window.
     // Null means that this version does not describe the current continuation.
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 7;
+        public int Version { get; set; } = 8;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -20,6 +20,7 @@ namespace Wotr.Contracts
         public FellowshipMoveView? FellowshipMove { get; set; }
         public CardHuntView? CardHunt { get; set; }
         public FellowshipDeclarationView? FellowshipDeclaration { get; set; }
+        public LordsRuleFactsView? Lords { get; set; }
     }
 
     // Public choices and consequences already reached in a reviewed Hunt context.

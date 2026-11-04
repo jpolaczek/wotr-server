@@ -6,9 +6,9 @@ internal static class ActionBoundaryProjection
 {
     public static ActionBoundaryView? For(MatchState state, Side viewer)
     {
-        // Expansion setup, hidden tile assignments and suspended procedures need
-        // their own reviewed player contracts; never serialize ResolutionState.
-        if (state.Configuration.Lords || state.Configuration.Kings)
+        // Hidden Kings assignments and suspended Lords procedures require their
+        // own reviewed player facts; never serialize ResolutionState.
+        if (state.Configuration.Kings || !LordsBoundaryProjection.Supports(state))
             return null;
         var declaration = FellowshipDeclarationProjection.For(state);
         if (state.Resolution.Frames.Count > 0 && declaration is null &&
@@ -32,11 +32,12 @@ internal static class ActionBoundaryProjection
             FellowshipMove = fellowshipMove,
             CardHunt = cardHunt,
             FellowshipDeclaration = declaration,
+            Lords = LordsBoundaryProjection.For(state),
             PaidDieIds = [.. state.Resolution.PaidDieIds],
             PendingPolitics = state.PoliticalReactions.Select(p => new PendingPoliticsView
                 { Cause = p.Trigger.ToString(), NationId = p.NationId, RegionId = p.RegionId }).ToList(),
             Companions = [.. state.Fellowship.Companions],
-            Characters = state.Characters.Select(c => new ActionCharacterView
+            Characters = state.Characters.Where(c => LordsBoundaryProjection.Visible(state, viewer, c)).Select(c => new ActionCharacterView
             {
                 Character = Projection.Character(c),
                 ConvertedArmyThisTurn = c.LastArmyConversionTurn == state.Turn
@@ -46,9 +47,10 @@ internal static class ActionBoundaryProjection
                 Side = p.Side,
                 ExtraDiceNextRecovery = p.ExtraDiceNextRecovery,
                 RingActionPending = p.RingActionPending,
-                KnownDiscards = p.Discard.Where(id => p.Side == viewer || revealed.Contains(id))
+                KnownDiscards = p.Discard.Where(id => p.Side == viewer || revealed.Contains(id) ||
+                        id == SmeagolRules.WeShallGetIt)
                     .Order(StringComparer.Ordinal).ToList(),
-                PublicDiscards = p.Discard.Where(publicDiscards.Contains)
+                PublicDiscards = p.Discard.Where(id => publicDiscards.Contains(id) || id == SmeagolRules.WeShallGetIt)
                     .Order(StringComparer.Ordinal).ToList()
             }).ToList(),
             HuntTiles = state.HuntTiles.GroupBy(t => t.Location).OrderBy(g => g.Key, StringComparer.Ordinal)
@@ -65,7 +67,7 @@ internal static class ActionBoundaryProjection
 
     private static bool SupportedWindow(MatchState state)
     {
-        if (PhaseBoundaryProjection.Supports(state))
+        if (PhaseBoundaryProjection.Supports(state) || LordsBoundaryProjection.Completion(state))
             return true;
         if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None)
             return false;
