@@ -48,7 +48,7 @@ internal static class FellowshipStrongholdProjection
         if (balrog)
         {
             activeIndex += 2;
-            return BalrogHuntProjection.Supports(state, sourceIndex, reveal) ? reveal : null;
+            return BalrogHuntProjection.Supports(state, sourceIndex + 1, reveal) ? reveal : null;
         }
         if (frames[activeIndex].EffectId != "hunt" || !HuntChoiceProjection.PlainFrame(frames[activeIndex]) ||
             frames[activeIndex].Hunt is not { } hunt || !StrongholdHunt(hunt, reveal.AdditionalHuntRegions[0]))
@@ -70,7 +70,7 @@ internal static class FellowshipStrongholdProjection
             all.TakeLast(remaining.Count).SequenceEqual(remaining);
     }
 
-    private static bool StrongholdHunt(HuntProcedure hunt, string region) =>
+    internal static bool StrongholdHunt(HuntProcedure hunt, string region) =>
         hunt.SourceId == region && hunt.Return == HuntReturn.Stronghold && !hunt.Movement && !hunt.Rolled &&
         !hunt.Mordor && hunt.TileRule == HuntTileRule.All && hunt.DamageRule == HuntDamageRule.Normal &&
         hunt.Purpose == HuntPurpose.Hunt && !hunt.DeclarationHunt && !hunt.IgnoreRevealIcon &&

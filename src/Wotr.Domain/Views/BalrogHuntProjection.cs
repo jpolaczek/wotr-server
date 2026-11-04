@@ -2,34 +2,39 @@ using Wotr.Contracts;
 
 namespace Wotr.Domain;
 
-// A paid movement/card revelation can suspend its Stronghold queue while the
-// publicly discarded Balrog table card resolves. Declaration returns differ.
+// Balrog suspends a public declaration/revelation while its table-card Hunt
+// resolves. The enclosing Fellowship procedure determines reveal treatment.
 internal static class BalrogHuntProjection
 {
-    internal static bool Supports(MatchState state, int sourceIndex, FellowshipProcedure reveal)
+    internal static bool Supports(MatchState state, int fellowshipIndex, FellowshipProcedure reveal)
     {
         var frames = state.Resolution.Frames;
-        var reaction = frames[sourceIndex + 2];
-        var program = frames[sourceIndex + 3];
-        var active = frames[sourceIndex + 4];
+        var reaction = frames[fellowshipIndex + 1];
+        var program = frames[fellowshipIndex + 2];
+        var active = frames[fellowshipIndex + 3];
+        var declaration = reveal.Kind == FellowshipProcedureKind.Declaration;
+        var window = declaration ? "fellowship.declared" : "fellowship.revealed";
+        var region = BoardRules.Region(state, reveal.Route[^1]);
+        var ignoreReveal = declaration && region.OriginalOwner == Side.FreePeoples &&
+            region.Settlement is "City" or "Stronghold";
         return reveal.Route.Contains("moria") &&
             state.Player(Side.Shadow).Discard.Contains(ShadowCharacterCards03.Balrog) &&
             !state.Player(Side.Shadow).Table.Contains(ShadowCharacterCards03.Balrog) &&
-            HuntEffectProjection.PlainShadowProgram(reaction, EffectCatalog.ReactionProgram, reveal.SourceId, 0, "fellowship.revealed") &&
+            HuntEffectProjection.PlainShadowProgram(reaction, EffectCatalog.ReactionProgram, reveal.SourceId, 0, window) &&
             reaction.Effect!.OfferedReactions.SequenceEqual(EffectCatalog.All.Reactions.Values
-                .Where(r => r.Window == "fellowship.revealed").Select(r => r.Id)) &&
-            (sourceIndex == 0 || reaction.Effect.Committed.Count == 0) &&
+                .Where(r => r.Window == window).Select(r => r.Id)) &&
+            (fellowshipIndex <= 1 || reaction.Effect.Committed.Count == 0) &&
             HuntEffectProjection.PlainShadowProgram(program, ShadowCharacterCards03.BalrogReaction, ShadowCharacterCards03.Balrog, 1, "") &&
             program.Effect!.OfferedReactions.Count == 0 && program.Effect.Committed.Count == 0 &&
             active.EffectId == "hunt" && HuntChoiceProjection.PlainFrame(active) &&
-            active.Hunt is { } hunt && BalrogHunt(hunt);
+            active.Hunt is { } hunt && BalrogHunt(hunt, declaration, ignoreReveal);
     }
 
-    private static bool BalrogHunt(HuntProcedure hunt) =>
+    private static bool BalrogHunt(HuntProcedure hunt, bool declaration, bool ignoreReveal) =>
         hunt.SourceId == ShadowCharacterCards03.Balrog && hunt.Return == HuntReturn.Parent &&
         !hunt.Movement && !hunt.Rolled && !hunt.Mordor && hunt.TileRule == HuntTileRule.IgnoreEyes &&
         hunt.DamageRule == HuntDamageRule.Normal && hunt.Purpose == HuntPurpose.Hunt &&
-        !hunt.DeclarationHunt && !hunt.IgnoreRevealIcon && !hunt.FireAndShadow &&
+        hunt.DeclarationHunt == declaration && hunt.IgnoreRevealIcon == ignoreReveal && !hunt.FireAndShadow &&
         hunt.DrawnBy == Side.Shadow && hunt.DiceReduction == 0 && hunt.Bonus == 0 && hunt.RollBonus == 0 &&
         hunt.RerollBonus == 0 && hunt.EyeDamage == 0 && hunt.Dice.Count == 0 && hunt.RerollSources.Count == 0;
 }

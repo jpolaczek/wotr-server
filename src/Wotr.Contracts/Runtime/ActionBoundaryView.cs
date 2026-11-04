@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 6;
+        public int Version { get; set; } = 7;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -19,6 +19,7 @@ namespace Wotr.Contracts
         public List<PendingPoliticsView> PendingPolitics { get; set; } = new List<PendingPoliticsView>();
         public FellowshipMoveView? FellowshipMove { get; set; }
         public CardHuntView? CardHunt { get; set; }
+        public FellowshipDeclarationView? FellowshipDeclaration { get; set; }
     }
 
     // Public choices and consequences already reached in a reviewed Hunt context.
@@ -38,6 +39,15 @@ namespace Wotr.Contracts
     public sealed class FellowshipMoveView : HuntProgressView
     {
         public FellowshipStrongholdView? StrongholdHunts { get; set; }
+    }
+
+    // A declaration already committed in the Fellowship phase. Its public route
+    // may cause a Balrog Hunt and, if revealed, additional Stronghold Hunts.
+    // Completion returns to the ordinary Fellowship phase; no saved token is sent.
+    public sealed class FellowshipDeclarationView : HuntProgressView
+    {
+        public List<string> Route { get; set; } = new List<string>();
+        public List<string> RemainingStrongholds { get; set; } = new List<string>();
     }
 
     // Public consequences of the committed reveal route after a paid move.

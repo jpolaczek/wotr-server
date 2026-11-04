@@ -82,6 +82,10 @@ internal static class HuntChoiceProjection
         frame.Effect is { Owner: Side.Shadow, ReactionWindow: "fellowship.revealed" } effect &&
         effect.SourceId == hunt.TileId;
 
+    internal static bool DeclarationOffer(MatchState state, ResolutionFrame frame) =>
+        PlainFrame(frame) && ReactionFrame(state, frame) &&
+        frame.Effect is { Owner: Side.Shadow, ReactionWindow: "fellowship.declared", SourceId: "fellowship" };
+
     private static bool ReactionFrame(MatchState state, ResolutionFrame frame)
     {
         if (state.Pending!.Kind != DecisionKind.Reaction || frame.EffectId != EffectCatalog.ReactionProgram ||

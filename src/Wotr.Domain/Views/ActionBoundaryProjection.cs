@@ -8,13 +8,16 @@ internal static class ActionBoundaryProjection
     {
         // Expansion setup, hidden tile assignments and suspended procedures need
         // their own reviewed player contracts; never serialize ResolutionState.
-        if (state.Configuration.Lords || state.Configuration.Kings ||
-            state.Resolution.Frames.Count > 0 &&
-                (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None))
+        if (state.Configuration.Lords || state.Configuration.Kings)
+            return null;
+        var declaration = FellowshipDeclarationProjection.For(state);
+        if (state.Resolution.Frames.Count > 0 && declaration is null &&
+            (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None))
             return null;
         var fellowshipMove = FellowshipMoveProjection.For(state);
         var cardHunt = CardHuntProjection.For(state);
-        if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) : fellowshipMove is null && cardHunt is null)
+        if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
+            fellowshipMove is null && cardHunt is null && declaration is null)
             return null;
 
         // Base/Fate discards never return to a hand/deck. Only a visible discharge
@@ -28,6 +31,7 @@ internal static class ActionBoundaryProjection
             MandatoryHuntAllocation = state.MandatoryHuntAllocation,
             FellowshipMove = fellowshipMove,
             CardHunt = cardHunt,
+            FellowshipDeclaration = declaration,
             PaidDieIds = [.. state.Resolution.PaidDieIds],
             PendingPolitics = state.PoliticalReactions.Select(p => new PendingPoliticsView
                 { Cause = p.Trigger.ToString(), NationId = p.NationId, RegionId = p.RegionId }).ToList(),

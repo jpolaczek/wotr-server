@@ -1,12 +1,12 @@
 # Player rule facts at an action boundary
 
-Contracts 0.20.0 provide optional `PlayerView.ActionBoundary` version 6. It is ordinary
+Contracts 0.21.0 provide optional `PlayerView.ActionBoundary` version 7. It is ordinary
 own-side player information, also passed through the existing bot input projection.
 It does not grant command permission and requires no new UI controls. Protocol 2,
 save schema 3 and game rules are unchanged. Older responses omit it; consumers
 must treat absence or an unknown version as unsupported, never as empty state.
 
-Version 6 describes base/Fate ordinary actions, paid army/recruitment/character
+Version 7 describes base/Fate ordinary phases/actions, hand limits, paid army/recruitment/character
 steps, excess removal, and reviewed choices in a Hunt caused by the paid
 Fellowship movement action. Ordinary/paid army windows have no suspended frames.
 The Hunt context supports rerolls, damage, public reaction windows, guide choice,
@@ -14,9 +14,10 @@ initial reveal-route choice, returning Hobbit placement and additional Stronghol
 Hunts after that move's committed reveal route. Paid Orc Patrol, Isildur's
 Bane, Foul Thing and the committed Nazgûl Strike Hunt have their own CardHunt context with the same reviewed
 choice/reveal/Stronghold windows. Both the uncommitted revelation offer and the
-active Balrog reaction after revelation use the same context. Other card-origin/declaration Hunts,
-reactions already executing a nested effect,
-pending discards, battles and Lords/Kings still omit the boundary. Never serialize
+active Balrog reaction after revelation use the same context. Declaration has its
+own unpaid return context. Reviewed Hunts also support the nested Worn choice.
+Other card programs, arbitrary effect-discard returns, battles and Lords/Kings
+still omit the boundary. Never serialize
 a resolution stack or redacted save as player data.
 
 The existing `ActionSequenceView` additionally exposes `InitialFigureIds`: public
@@ -61,7 +62,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Public content 1.0.22 and pure rules 0.6.4 pin this contract; game rules, protocol and save schema are unchanged.
+Hunt context. Version 6 omits declaration continuations. Public content 1.0.23 and pure rules 0.7.0 pin this contract; game rules, protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing
@@ -188,3 +189,30 @@ WornDiscardStep remains authoritative.
 PhaseBoundaryProjectionTests, WornHuntProjectionTests and PhaseWornPersistenceTests
 exercise the shared player boundary, both-seat visibility and restart/replay.
 No new DTO fields, Contracts/content/client source or game-rule change is required.
+
+
+## Declaration continuation — boundary v7
+
+Version 7 adds `FellowshipDeclaration`: the committed public route, remaining
+Stronghold Hunts and the already public progress of the current Hunt. This is an
+unpaid declaration in the Fellowship phase. The ordinary public Balrog offer,
+executing Balrog Hunt, casualty/guide/placement/replacement choices (including Worn)
+and subsequent Stronghold Hunts all return to that phase. The original declaration,
+healing and expiry have already occurred and must not be replayed.
+
+No saved decision token, program counter or resolution frame is exposed. Future
+hypothetical decision tokens belong to the hypothetical world; they are not claims
+about unseen authoritative counters. Root proposals still use the exact observed
+decision token/revision. The host persists and resumes its actual suspended token.
+
+Sources: B18 / BASE pp. 40–42 and T21-SH-CHAR-03 card 17, as implemented by
+FellowshipFlow, BalrogHuntStep and HuntRuntime. Balrog ignores Eyes; after declaration
+it ignores a printed reveal icon at an originally FP City/Stronghold, including
+a captured one. Otherwise revelation uses the entire declared route before any
+additional Stronghold tile. Declining Balrog does not reveal or draw a tile.
+No game rule or save schema changes. Contracts 0.21.0, public content 1.0.23 and
+pure rules 0.7.0 pin v7; older v6 inputs do not describe declaration continuations.
+
+DeclarationHuntProjectionTests verify ordinary own-side projections, secret/token
+isolation and inconsistent contexts; DeclarationHuntPersistenceTests verify both
+views, original return tokens and idempotent commands across real host restarts.
