@@ -221,6 +221,8 @@ Source: BASE p. 36–39. Public figure indicates the last known position, and pr
 
 The declaration in the Fellowship phase and the forced disclosure are different procedures. The declaration allows you to choose a legal position within the scope of progress, also to stay in place, reset progress and keep hidden. The disclosure resets progress and sets Revealed, with other limitations of purpose and consequences of the Shadow fortress. Before the next ordinary move revealed Fellowship must be hidden.
 
+A declaration at the very start of the game changes nothing: no Progress, no Corruption, the Elves active in Rivendell, no card in play. It stays legal by the rules and the command is still accepted, but since EXP-19 (owner, 2026-11-04) the first Fellowship phase does not offer it. Any Progress, Corruption, card on the table, inactive settlement nation or later turn keeps the offer. [Conditions and before/after proof](T15-FELLOWSHIP.md).
+
 When choosing a route with different effects, the decision belongs to FP. The engine checks the passages and prohibited boundaries; it does not automatically select a favorable route. Do not identify the route Fellowship with the Army route.
 
 <a id="b16--przewodnik-leczenie-oddzielenie"></a>

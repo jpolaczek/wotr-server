@@ -11,6 +11,29 @@ namespace Wotr.Tests;
 
 public class FellowshipPersistenceTests
 {
+    // EXP-19: the first Fellowship phase no longer offers a declaration, but an older client's or a saved draft's command
+    // is still accepted, keeps its receipt on a retry and changes no position or decision.
+    [PostgresFact]
+    public async Task ADeclarationNoLongerOfferedAtTheStartIsStillAcceptedAndKeepsItsReceipt()
+    {
+        var state = MatchFactory.Create(Guid.NewGuid().ToString("N"), new BaseCorpusFixture.ZeroRandom());
+        TurnFlow.Start(state);
+        await using var host = new TestHost(new SequenceRandom());
+        await host.Services.GetRequiredService<MatchStore>().Create(state, "alice", "bob");
+        using var alice = host.Client("alice");
+        var before = await Read(alice, state.Id);
+        Assert.DoesNotContain(before.Options, o => o.Kind == CommandKind.DeclareFellowship);
+        var command = Choice(before, CommandKind.DeclareFellowship, new() { Route = ["rivendell"] });
+        var receipt = await Send(alice, command);
+        Assert.Equal(1, receipt.Revision);
+        Assert.Equal(receipt.Revision, (await Send(alice, command)).Revision);
+        var after = await Read(alice, state.Id);
+        Assert.Equal(1, after.Revision);
+        Assert.Equal(DecisionKind.FellowshipPhase, after.Decision!.Kind);
+        Assert.Equal("rivendell", after.Fellowship.RegionId);
+        Assert.DoesNotContain(after.Options, o => o.Kind == CommandKind.DeclareFellowship);
+    }
+
     [PostgresFact]
     public async Task AcceptedRouteRestartsBetweenAdditionalTilesAndKeepsItsReceiptAndCost()
     {

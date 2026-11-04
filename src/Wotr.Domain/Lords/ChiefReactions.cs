@@ -27,6 +27,10 @@ public static class ChiefReactions
         state.Configuration.Lords && actor == Side.Shadow && card.Side == actor && card.Deck == "character" &&
         CharacterRules.InPlay(state, LordsCharacters.WitchKing) is { } chief && chief.Location == state.Fellowship.RegionId;
 
+    // He Sees, He Knows: a declaration in this region would open the Chief's move to it (ChiefFollowCondition).
+    public static bool CanFollowDeclaration(MatchState state, string region) => state.Configuration.Lords &&
+        CharacterRules.InPlay(state, LordsCharacters.WitchKing) is not null && LordsCharacterEntry.ChiefDestination(state, region);
+
     public static (string Title, string Detail)? Describe(string id) => id switch
     {
         Spear => ("Spear of Terror · Draw card", "Draw one Character Event card. With The Palantír of Orthanc in play, it draws no second card for this Event."),

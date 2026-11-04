@@ -10,7 +10,7 @@ public sealed class FellowshipOptions : IActionOptionsProvider
             yield break;
         if (state.Pending.Kind is DecisionKind.FellowshipPhase or DecisionKind.Guide)
             yield return new() { Kind = CommandKind.SelectGuide, EligibleIds = CompanionRules.Guides(state) };
-        if (FellowshipFlow.CanDeclare(state))
+        if (FellowshipFlow.CanDeclare(state) && FellowshipFlow.DeclarationCanChange(state))
             yield return Location(state, CommandKind.DeclareFellowship);
         if (MordorRules.CanEnter(state))
             yield return new() { Kind = CommandKind.EnterMordor };
