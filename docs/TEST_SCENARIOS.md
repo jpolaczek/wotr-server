@@ -583,6 +583,17 @@ Aragorn's army outside the Free Peoples' nations. The Sorcerer's window opens on
 console choice, so the Nazgûl Strike's trail is that one chip; a Hunt window holds at most two responses (each window
 has its own cards), so `layout-hunt-responses` walks through all four windows instead.
 
+<a id="showcase--web-01"></a>
+### Showcase for the website — WEB-01 (2026-11-04)
+
+The scenes the website's pictures show (`ShowcaseScenarios`, group `Kings · Showcase`). The client's `WebsiteScreenshotTests`
+captures them; `ShowcaseScenarioTests` checks the crowd, the two sieges and the stacking limits.
+
+| Scenario | Side | Title | Description |
+| --- | --- | --- | --- |
+| `showcase-war` | Free Peoples | The war at its height | Fate, Lords and Kings: Minas Tirith and Helm's Deep besieged, great armies on every front, every character of the expansions in play and the Fellowship in the Dead Marshes. |
+| `showcase-siege` | Shadow | The great siege of Minas Tirith | Lords and Kings: the Witch-king, Gothmog, two Nazgûl and nine units attack Boromir, the Awakened Denethor and the Gondor army inside Minas Tirith, at the Shadow's Combat card. |
+
 <a id="layout-stress-base--test-16"></a>
 ### Layout stress in the base game — TEST-16 (2026-11-03)
 

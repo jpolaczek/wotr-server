@@ -47,6 +47,7 @@ public static class TestScenarioCatalog
         .. KingsChieftainScenarios.All(),
         .. KingsVariantScenarios.All(),
         .. LayoutStressScenarios.All(),
+        .. ShowcaseScenarios.All(),
         .. BaseLayoutScenarios.All()
     ];
 
