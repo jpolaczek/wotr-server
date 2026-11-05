@@ -107,7 +107,7 @@ internal static class ActionBoundaryProjection
         BattleLossProcedure? loss) => pending.Kind switch
     {
         DecisionKind.Losses => loss is { Voluntary: false, AdditionalAttack: false, SourceId: "combat", Hits: > 0 } &&
-            battle.Round == 1 && pending.RequiredCount == loss.Hits && pending.Owner == loss.Owner &&
+            battle.Round >= 1 && pending.RequiredCount == loss.Hits && pending.Owner == loss.Owner &&
             BattleRules.Alive(state, battle.Force(loss.Owner)) &&
             (battle.Stage == BattleStage.DefenderLosses && loss.Owner == battle.Attacker.Side ||
              battle.Stage == BattleStage.AfterLosses && loss.Owner == battle.Defender.Side),

@@ -20,7 +20,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(13, own.ActionBoundary!.Version);
+        Assert.Equal(14, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.Equal(own.ActionBoundary.Battle.CompletesPaidAction,
             other.ActionBoundary!.Battle!.CompletesPaidAction);
@@ -79,7 +79,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(13, own.ActionBoundary!.Version);
+        Assert.Equal(14, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -101,6 +101,35 @@ public sealed class ActionBoundaryBattleTests
         var unrelatedLoss = StateCodec.Copy(state);
         BattleLosses.Current(unrelatedLoss)!.SourceId = "event-card";
         Assert.Null(Projection.For(unrelatedLoss, attacker).ActionBoundary);
+    }
+
+    [Theory]
+    [InlineData(Side.FreePeoples, false)]
+    [InlineData(Side.FreePeoples, true)]
+    [InlineData(Side.Shadow, false)]
+    [InlineData(Side.Shadow, true)]
+    public void DirectOrdinaryBattleLossInLaterRoundExposesOnlyItsPaidActionReturn(Side attacker, bool attackerHits)
+    {
+        var state = LaterRoundLossDecision(attacker, attackerHits);
+        var battle = BattleRuntime.Active(state)!;
+        Assert.Equal(2, battle.Round);
+        Assert.Equal(DecisionKind.Losses, state.Pending!.Kind);
+        Assert.Equal(attackerHits ? TurnFlow.Other(attacker) : attacker, BattleLosses.Current(state)!.Owner);
+        Assert.Equal("combat", BattleLosses.Current(state)!.SourceId);
+        Assert.False(BattleLosses.Current(state)!.Voluntary);
+
+        var own = Projection.For(state, state.Pending.Owner);
+        var other = Projection.For(state, TurnFlow.Other(state.Pending.Owner));
+        Assert.Equal(14, own.ActionBoundary!.Version);
+        Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
+        Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
+        Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
+            JsonSerializer.Serialize(other.ActionBoundary.Battle));
+        Assert.Equal(attackerHits ? "AfterLosses" : "DefenderLosses", own.Battle!.Stage);
+        Assert.Equal(state.Pending.Owner, own.Battle.LossOwner);
+        Assert.Equal(state.Pending.RequiredCount, own.Battle.PendingHits);
+        using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
+        Assert.Equal("{\"CompletesPaidAction\":true}", boundaryJson.RootElement.GetRawText());
     }
 
     [Fact]
@@ -148,5 +177,27 @@ public sealed class ActionBoundaryBattleTests
             BattleFixture.Put(state, defendingNation, UnitKind.Regular, BattleFixture.Target);
         state = BattleFixture.Begin(state, attackers.Select(unit => unit.Id));
         return BattleFixture.NoCards(state, 6, 6, 6, 6, 6, 6);
+    }
+
+    private static MatchState LaterRoundLossDecision(Side attacker, bool attackerHits)
+    {
+        var state = BattleFixture.State(attacker);
+        var attackingNation = attacker == Side.Shadow ? "sauron" : "gondor";
+        var defendingNation = attacker == Side.Shadow ? "gondor" : "sauron";
+        var attackers = Enumerable.Range(0, 3)
+            .Select(_ => BattleFixture.Put(state, attackingNation, UnitKind.Regular, BattleFixture.Origin)).ToArray();
+        for (var index = 0; index < 3; index++)
+            BattleFixture.Put(state, defendingNation, UnitKind.Regular, BattleFixture.Target);
+        state = BattleFixture.Begin(state, attackers.Select(unit => unit.Id));
+        state = BattleFixture.NoCards(state, 1, 1, 1, 1, 1, 1);
+        Assert.Equal(DecisionKind.BattleContinue, state.Pending!.Kind);
+        state = BattleFixture.Execute(state, CommandKind.ContinueBattle);
+        if (state.Pending?.Kind == DecisionKind.BattleRetreat)
+            state = BattleFixture.Execute(state, CommandKind.HoldBattle);
+        Assert.Equal(2, BattleRuntime.Active(state)!.Round);
+
+        return attackerHits
+            ? BattleFixture.NoCards(state, 6, 6, 6, 1, 1, 1)
+            : BattleFixture.NoCards(state, 1, 1, 1, 6, 6, 6);
     }
 }
