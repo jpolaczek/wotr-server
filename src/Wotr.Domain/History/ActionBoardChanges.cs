@@ -85,6 +85,19 @@ internal static class ActionBoardChanges
                 facts.Control.Add(new() { RegionId = next.Key, Before = before.Control.GetValueOrDefault(next.Key), After = next.Value });
     }
 
+    // TEST-21: a re-rolled die is a fact even when it lands on its old face: the board shows the roll, and without the fact the
+    // other player would never learn that a Dismay token re-rolled their Ruler die.
+    public static void Rerolled(MatchState after, string dieId, ActionFacts facts)
+    {
+        if (facts.Dice.Any(die => die.Id == dieId) || after.Dice.Find(die => die.Id == dieId) is not { } rolled)
+            return;
+        facts.Dice.Add(new()
+        {
+            Id = rolled.Id, Owner = rolled.Owner, Source = rolled.Source, Before = HistoryFacts.Face(rolled),
+            After = HistoryFacts.Face(rolled), From = rolled.Location, To = rolled.Location, HuntOrigin = rolled.HuntOrigin
+        });
+    }
+
     private static void Dice(MatchState before, MatchState after, ActionFacts facts)
     {
         var dice = before.Dice.ToDictionary(d => d.Id);

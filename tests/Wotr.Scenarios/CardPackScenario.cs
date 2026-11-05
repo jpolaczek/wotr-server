@@ -67,8 +67,16 @@ internal static class CardPackScenario
         scenarios.Add("ui54-hunt-protection", Protection(random));
         scenarios.Add("mighty-attack", Combat(random, false));
         scenarios.Add("blade", Combat(random, true));
+        scenarios.Add("ui09-dismay-click", OwnMatch(scenarios["ui09-dismay"]));
+        scenarios.Add("ui09-dismay-audit", OwnMatch(scenarios["ui09-dismay"]));
+        scenarios.Add("ui58-dismay-before-lore-audit", OwnMatch(scenarios["ui58-dismay-before-lore"]));
         return scenarios;
     }
+
+    // TEST-21: tests sharing a seeded match fail when one spends what another expects. A copy draws nothing from the
+    // random source, so every other scenario stays exactly as it was seeded.
+    private static MatchState OwnMatch(MatchState state) =>
+        StateCodec.Read(StateCodec.Write(state).Replace(state.Id, Guid.NewGuid().ToString("N"), StringComparison.Ordinal));
 
     private static MatchState Protection(IRandomSource random)
     {
