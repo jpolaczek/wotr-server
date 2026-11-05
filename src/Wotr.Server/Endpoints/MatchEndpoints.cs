@@ -13,9 +13,13 @@ public static class MatchEndpoints
         {
             var match = await store.Read(id, Account(context), context.RequestAborted);
             // DEMO-03: opening a demo resumes its CPU, also after a server restart; other matches are not affected.
-            if (match is not null)
-                demos.Wake(id);
-            return match is null ? Results.NotFound() : Results.Ok(projection.For(match.State, match.Side));
+            if (match is null)
+                return Results.NotFound();
+            demos.Wake(id);
+            var view = projection.For(match.State, match.Side);
+            // RANK-06: a ranked match's running clock rides on the view, counted at this moment; never in a frame.
+            view.Clock = store.ClockView(match);
+            return Results.Ok(view);
         }).RequireRateLimiting(GameRateLimits.Reads).ForMatch();
         api.MapPost("/{id}/commands", async (string id, Wotr.Contracts.GameCommand request, HttpContext context, MatchStore store, RevisionHub hub,
             DemoBotRunner demos) =>

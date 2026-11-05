@@ -26,7 +26,14 @@ public sealed class AccountHost(string? connectionString = null, bool? expansion
     {
         builder.UseEnvironment("Testing");
         // Tests register many accounts from one address; AUTH-02's email budget per address is tested on its own.
-        var settings = new Dictionary<string, string?> { [EmailOptions.PermitsPerAddressKey] = "1000" };
+        // RANK-05/RANK-06: the ranked queue's pairing and the move clocks act on the whole database, so every host would
+        // pair and time out other tests' matches; they are off unless a test turns them on.
+        var settings = new Dictionary<string, string?>
+        {
+            [EmailOptions.PermitsPerAddressKey] = "1000",
+            [RankedOptions.PairingIntervalKey] = "0",
+            [RankedOptions.ClockIntervalKey] = "0"
+        };
         foreach (var setting in extra ?? new Dictionary<string, string?>())
             settings[setting.Key] = setting.Value;
         settings["WOTR_DB"] = connectionString ?? PostgresTests.Connection;

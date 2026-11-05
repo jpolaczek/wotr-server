@@ -71,6 +71,8 @@ builder.Services.AddSingleton(services => RankedOptions.Read(services.GetRequire
 builder.Services.AddSingleton<RankedQueue>();
 builder.Services.AddSingleton<RankedPairingService>();
 builder.Services.AddHostedService(services => services.GetRequiredService<RankedPairingService>());
+builder.Services.AddSingleton<MoveClockService>();
+builder.Services.AddHostedService(services => services.GetRequiredService<MoveClockService>());
 builder.Services.AddSingleton(services => AdminOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<AdminAccess>();
 builder.Services.AddSingleton<AdminStatisticsStore>();

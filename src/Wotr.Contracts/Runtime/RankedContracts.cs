@@ -40,6 +40,22 @@ namespace Wotr.Contracts
     // Matched: the account plays a ranked match, which the client opens.
     public enum RankedSearchStatus { Idle, Searching, Stopped, Matched }
 
+    // RANK-06 (D9): a big decision is a player's own move (a die, a phase, a card's whole event); a small one answers
+    // within someone's move.
+    public enum MoveClockKind { Big, Small }
+
+    // The running clock of a ranked match, as the client shows it: the time left before the shown limit (the server
+    // allows 3 s more), the limit, and when the warning sounds. Null in every other match.
+    public sealed class MoveClockView
+    {
+        public Side Owner { get; set; }
+        public MoveClockKind Kind { get; set; }
+        public string DecisionId { get; set; } = "";
+        public long RemainingMilliseconds { get; set; }
+        public long LimitMilliseconds { get; set; }
+        public long WarningMilliseconds { get; set; }
+    }
+
     // The answer to every queue request. The opponent's name and rounded rating are all a search reveals of them.
     public sealed class RankedSearchView
     {

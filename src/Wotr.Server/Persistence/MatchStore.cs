@@ -6,11 +6,15 @@ using Wotr.Domain.Content;
 
 namespace Wotr.Server;
 
-public sealed record AuthorizedMatch(MatchState State, Side Side, bool EventsIndexed = false, bool Recorded = false);
+// RANK-06: a ranked match carries its preset and running clock; every other match has neither.
+public sealed record AuthorizedMatch(MatchState State, Side Side, bool EventsIndexed = false, bool Recorded = false,
+    RankedPreset? Preset = null, MoveClockRow? Clock = null);
 public sealed record MatchVersion(long Revision, long PrivateVersion);
 
-public sealed class MatchStore(Database database, GameEngine engine, IRandomSource entropy)
+public sealed class MatchStore(Database database, GameEngine engine, IRandomSource entropy, TimeProvider? clock = null)
 {
+    private readonly TimeProvider time = clock ?? TimeProvider.System;
+
     public async Task Create(MatchState state, string fp, string sh, CancellationToken cancellation = default)
     {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
@@ -38,10 +42,20 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
     public async Task<AuthorizedMatch?> Read(string id, string account, CancellationToken cancellation = default)
     {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
-        await using var command = Database.Command(connection, null, "SELECT state::text,fp_account FROM matches WHERE id=$1 AND (fp_account=$2 OR sh_account=$2)", id, account);
+        await using var command = Database.Command(connection, null,
+            "SELECT m.state::text,m.fp_account," + MatchClocks.Columns +
+            " FROM matches m LEFT JOIN match_clocks c ON c.match_id=m.id WHERE m.id=$1 AND (m.fp_account=$2 OR m.sh_account=$2)",
+            id, account);
         await using var reader = await command.ExecuteReaderAsync(cancellation);
-        return await reader.ReadAsync(cancellation) ? new(StateCodec.Read(reader.GetString(0)), reader.GetString(1) == account ? Side.FreePeoples : Side.Shadow) : null;
+        return await reader.ReadAsync(cancellation)
+            ? new(StateCodec.Read(reader.GetString(0)), reader.GetString(1) == account ? Side.FreePeoples : Side.Shadow,
+                Clock: MatchClocks.Row(reader, 2))
+            : null;
     }
+
+    // RANK-06: the player's view of a ranked match carries its running clock, counted from now.
+    public MoveClockView? ClockView(AuthorizedMatch match) =>
+        match.Clock is { } row ? MatchClocks.View(row, time.GetUtcNow()) : null;
     // OBS-02: the state an observer may read: no side is attached, the reader picks the perspective.
     public async Task<MatchState?> ReadObserved(string id, string account, CancellationToken cancellation = default)
     {
@@ -103,9 +117,12 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
         var existing = await ExistingReceipt(connection, transaction, request, account, fingerprint, match.State.Revision, cancellation);
         if (existing is not null)
             return existing;
-        var result = engine.Execute(match.State, match.Side, request, entropy);
+        var now = time.GetUtcNow();
+        var result = await Run(connection, transaction, match, request, now, cancellation);
         if (result.Receipt.Accepted)
             await SaveState(connection, transaction, result.State, match.State.Events.Count, match.EventsIndexed, cancellation);
+        if (result.Receipt.Accepted && match.Preset is { } preset)
+            await MatchClocks.Follow(connection, transaction, match.State, result.State, preset, now, cancellation);
         // REPLAY-01: a private preference changes no public state and adds no frame.
         if (result.Receipt.Accepted && result.Receipt.PublicStateChanged && match.Recorded)
             await MatchFrames.Record(connection, transaction, result.State, cancellation);
@@ -117,16 +134,34 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
         return result.Receipt;
     }
 
+    // RANK-06: past its deadline a ranked decision accepts only the server's own timeout. A retried command that was
+    // already applied got its receipt before this point.
+    private async Task<EngineResult> Run(NpgsqlConnection connection, NpgsqlTransaction transaction, AuthorizedMatch match,
+        GameCommand request, DateTimeOffset now, CancellationToken cancellation)
+    {
+        if (match.Preset is not null && request.Kind != CommandKind.TimeOut &&
+            await MatchClocks.Expired(connection, transaction, request.MatchId, now, cancellation))
+            return new(match.State, new()
+            {
+                CommandId = request.CommandId, Revision = match.State.Revision, Error = MatchClocks.ExpiredRefusal
+            });
+        return engine.Execute(match.State, match.Side, request, entropy);
+    }
+
     private static async Task<AuthorizedMatch?> LockMatch(NpgsqlConnection connection, NpgsqlTransaction transaction,
         string id, string account, CancellationToken cancellation)
     {
         await using var command = Database.Command(connection, transaction,
-            "SELECT state::text,fp_account,events_indexed,recorded FROM matches WHERE id=$1 AND (fp_account=$2 OR sh_account=$2) FOR UPDATE",
-            id, account);
+            """
+            SELECT m.state::text,m.fp_account,m.events_indexed,m.recorded,k.preset
+            FROM matches m LEFT JOIN ranked_matches k ON k.match_id=m.id
+            WHERE m.id=$1 AND (m.fp_account=$2 OR m.sh_account=$2) FOR UPDATE OF m
+            """, id, account);
         await using var reader = await command.ExecuteReaderAsync(cancellation);
         return await reader.ReadAsync(cancellation)
             ? new(StateCodec.Read(reader.GetString(0)), reader.GetString(1) == account ? Side.FreePeoples : Side.Shadow,
-                reader.GetBoolean(2), reader.GetBoolean(3)) : null;
+                reader.GetBoolean(2), reader.GetBoolean(3),
+                reader.IsDBNull(4) ? null : Enum.Parse<RankedPreset>(reader.GetString(4))) : null;
     }
 
     private static async Task<CommandReceipt?> ExistingReceipt(NpgsqlConnection connection, NpgsqlTransaction transaction,

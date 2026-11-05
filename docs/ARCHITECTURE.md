@@ -1063,3 +1063,22 @@ deletes both searches (`RETURNING` must give two) and then calls `RankedMatches.
 nothing starts, or loses and is answered `Matched`. A module the server has not released is refused with
 `ExpansionsUnavailable`; one released but newer than the client's version with the module gate's
 `ClientUpdateRequired`. `Wotr:Ranked:PairingIntervalMilliseconds` = 0 turns the service off (tests pair by hand).
+
+<a id="move-clocks--rank-06"></a>
+## Move clocks — RANK-06 (2026-11-05)
+
+`MoveClock` (src/Wotr.Domain/Ranked) is an exhaustive switch from each `DecisionKind` to the big or small limit (D9)
+and gives each preset's limits; the engine holds no time. The server keeps one row per ranked match in `match_clocks`
+(migration 019). `RankedMatches.Create` starts the first decision's clock with the 15 s loading bonus;
+`MatchStore.Execute` then calls `MatchClocks.Follow` in the command's transaction, which starts a new clock with no
+credit when the decision id or owner changed and removes it when the match ended. The deadline is the shown limit plus
+3 s of grace. Past it, `Execute` refuses every command but the server's own `TimeOut` with `TimeExpired`, after the
+receipt lookup, so a retried command that already counted keeps its receipt.
+
+`MoveClockService` beats `server_heartbeat` and issues `TimeOut` for every passed deadline once a second, naming the
+timed decision and the revision read with it, so a move that went through first makes the timeout stale. At start it
+moves every running deadline by the downtime since the last heartbeat. `GET /api/matches/{id}` attaches the clock to
+the player's view (`PlayerView.Clock`: owner, kind, decision, time left before the shown limit, the limit, the warning
+point); the projection leaves it null, so replay frames never carry it. `Wotr:Ranked:ClockIntervalMilliseconds` = 0
+turns the service off; test hosts start with both ranked services off, as they would otherwise pair and time out
+other tests' matches in the shared database.

@@ -116,7 +116,7 @@ public sealed class RankedQueue(Database database, RankedOptions options, Releas
         if (taken != 2)
             return false;
         var start = await RankedMatches.Create(connection, transaction, pairing.FreePeoples.Account, pairing.Shadow.Account,
-            pairing.Configuration, pairing.Preset, random, cancellation);
+            pairing.Configuration, pairing.Preset, random, clock.GetUtcNow(), cancellation);
         if (start.Error.Length > 0)
             return false;
         await transaction.CommitAsync(cancellation);
