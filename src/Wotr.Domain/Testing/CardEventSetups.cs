@@ -15,9 +15,12 @@ public static class CardEventSetups
     public static CardEventSetup For(string cardId) =>
         FreePeoplesCardEvents.Setups.GetValueOrDefault(cardId) ?? ShadowCardEvents.Setups.GetValueOrDefault(cardId) ?? Ready;
 
-    public static MatchState Build(string id, IRandomSource random, CardDefinition card, CardEventSetup setup)
+    public static MatchState Build(string id, IRandomSource random, CardDefinition card, CardEventSetup setup) =>
+        Build(ScenarioBoard.Setup(id, random), card, setup);
+
+    // UI-266: the same event scenario on a board set up with expansion modules.
+    public static MatchState Build(ScenarioBoard board, CardDefinition card, CardEventSetup setup)
     {
-        var board = ScenarioBoard.Setup(id, random);
         Roll(board, card);
         board.Hand(card.Side, card.Id);
         setup.Arrange(board);

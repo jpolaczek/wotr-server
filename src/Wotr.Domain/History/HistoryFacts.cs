@@ -88,12 +88,11 @@ internal static class HistoryFacts
         return result;
     }
 
-    public static ActionEvent Unit(MatchState state, UnitState unit)
+    // Only a reserve figure can be placed (RecruitmentRules.Blocker, SovereignRecruitPlan, BalrogEntryRecruit).
+    public static ActionFigureChange Placement(UnitState unit) => new()
     {
-        var result = At(state, ActionContextKind.Army, region: unit.Location);
-        result.Facts.Figures.Add(new() { After = MovementFacts.Unit(unit), To = unit.Location });
-        return result;
-    }
+        After = MovementFacts.Unit(unit), From = "reserve", To = unit.Location
+    };
 
     public static DieFace? Face(DieState? die) => die is null || die.Location is DieLocation.Unrolled or DieLocation.Removed ? null : die.Face;
 }

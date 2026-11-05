@@ -9,7 +9,8 @@ public sealed record DemoStart(DemoMatchView? Demo = null, string Error = "");
 // DEMO-01: one demo match per owner, started from a waiting room. The owner keeps the side of their seat; the
 // technical CPU account sits on the other side, so the existing account-to-side rules, history and sockets stay
 // unchanged. Starting a new demo removes the previous one with everything stored for it. The room is untouched.
-public sealed class DemoSessionStore(Database database, RoomStore rooms, IRandomSource random)
+// DEMO-06: the demo plays with the room's rules, refused (ExpansionsUnavailable) while a module of them is not released.
+public sealed class DemoSessionStore(Database database, RoomStore rooms, IRandomSource random, ReleaseScope? release = null)
 {
     public const string CpuAccount = "demo-cpu";
     public const string CpuName = "CPU";
@@ -24,12 +25,14 @@ public sealed class DemoSessionStore(Database database, RoomStore rooms, IRandom
         // OBS-01: an observer of the waiting room has no side to play.
         if (room.Role != RoomRole.Player)
             return new(Error: "PlayerRequired");
+        if (!(release ?? ReleaseScope.Full).Offers(room.Configuration))
+            return new(Error: "ExpansionsUnavailable");
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         await using var transaction = await connection.BeginTransactionAsync(cancellation);
         await LockOwner(connection, transaction, owner, cancellation);
         await Remove(connection, transaction, owner, cancellation);
         await EnsureCpu(connection, transaction, cancellation);
-        var match = NewMatch();
+        var match = NewMatch(room.Configuration);
         var cpu = Opposite(room.You);
         var (fp, sh) = room.You == Side.FreePeoples ? (owner, CpuAccount) : (CpuAccount, owner);
         await MatchStore.Insert(connection, transaction, match, fp, sh, MatchKind.Demo, cancellation);
@@ -46,10 +49,9 @@ public sealed class DemoSessionStore(Database database, RoomStore rooms, IRandom
         return await command.ExecuteScalarAsync(cancellation) is string side ? Enum.Parse<Side>(side) : null;
     }
 
-    // The demo is always the base game (MVP), whatever the room is set up for.
-    private MatchState NewMatch()
+    private MatchState NewMatch(MatchConfiguration configuration)
     {
-        var match = MatchFactory.Create(Guid.NewGuid().ToString("N"), random, ConfigurationRules.Normalize(new()));
+        var match = MatchFactory.Create(Guid.NewGuid().ToString("N"), random, ConfigurationRules.Normalize(configuration));
         TurnFlow.Start(match);
         return match;
     }

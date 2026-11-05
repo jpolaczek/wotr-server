@@ -7,22 +7,26 @@ namespace Wotr.Tests;
 
 public class ActionLogExpansionFactsTests
 {
+    // Two Eyes leave one draw, whose tile both modes place in the attempt's command (UI-442, EXP-15 D8); three Eyes
+    // leave a choice: between both tiles drawn at once, or (Sequential) to keep the first.
     [Theory]
-    [InlineData(false, false)]
-    [InlineData(false, true)]
-    [InlineData(true, false)]
-    [InlineData(true, true)]
-    public void CorruptionRecordsOnlyThePublicTileInformationOfItsVariant(bool sequential, bool visible)
+    [InlineData(false, false, 2)]
+    [InlineData(false, true, 2)]
+    [InlineData(true, false, 2)]
+    [InlineData(true, true, 2)]
+    [InlineData(false, false, 3)]
+    [InlineData(false, true, 3)]
+    [InlineData(true, false, 3)]
+    [InlineData(true, true, 3)]
+    public void CorruptionRecordsOnlyThePublicTileInformationOfItsVariant(bool sequential, bool visible, int eyes)
     {
         var state = KingsIntegrationFixture.Actions(new() { Kings = true, Lords = true,
             SequentialCorruption = sequential, VisibleCorruption = visible });
-        KingsFixture.Eyes(state, 2);
-        KingsFixture.Pool(state, KingsCorruptionTests.One);
-        state = KingsFixture.Do(state, CommandKind.AttemptCorruption, new()
-        {
-            CharacterId = SovereignCatalog.Thranduil, DieId = CorruptionRules.Eyes(state).First().Id
-        }, 0);
-        if (!sequential)
+        KingsFixture.Eyes(state, eyes);
+        KingsFixture.Pool(state, KingsCorruptionTests.One, HuntTests.Three);
+        state = KingsFixture.Do(state, CommandKind.AttemptCorruption, KingsFixture.AttemptPayload(state, SovereignCatalog.Thranduil),
+            KingsFixture.DrawOrder(state, KingsCorruptionTests.One, HuntTests.Three));
+        if (eyes == 3)
             state = KingsFixture.Do(state, CommandKind.ChooseCorruptionTile, new() { Ids = [KingsCorruptionTests.One] });
         var publicSteps = Steps(state);
         var placed = publicSteps.Single(s => s.Kind == "CorruptionAdded");

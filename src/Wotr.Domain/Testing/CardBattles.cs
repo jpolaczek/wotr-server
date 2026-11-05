@@ -7,23 +7,30 @@ namespace Wotr.Domain;
 // side holds; the battle starts with the engine's own attack command, so the Combat card choice is the real one.
 public static class CardBattles
 {
-    private const string Ford = "fords-of-isen";
+    public const string Ford = "fords-of-isen";
     private const string Lorien = "lorien";
-        private const string Boromir = "base.character.boromir";
+    private const string Boromir = "base.character.boromir";
     private const string Merry = "base.character.merry";
 
     public static string Describe(CardDefinition card) => card.Side == Side.FreePeoples
         ? $"Isengard attacks the Rohan army at the Fords of Isen, where the Fellowship stands with Strider, Gandalf the Grey, Boromir and Merry; choose {card.Title} as the defender's Combat card."
         : $"A Sauron, Isengard and Southron army with two Nazgûl attacks the Elves besieged in Lórien, where the Fellowship shelters; choose {card.Title} as the attacker's Combat card.";
 
-    public static MatchState Build(string id, IRandomSource random, CardDefinition card) =>
-        card.Side == Side.FreePeoples ? FreePeoplesDefence(id, random, card.Id) : ShadowSiege(id, random, card.Id);
+    // A scenario may change the battle's board before the attack (TEST-18: Shield-wall's larger defence); the others keep
+    // the battle as described.
+    public static MatchState Build(string id, IRandomSource random, CardDefinition card, MatchConfiguration? configuration = null,
+        Func<ScenarioBoard, ScenarioBoard>? arrange = null) =>
+        card.Side == Side.FreePeoples ? FreePeoplesDefence(id, random, card.Id, configuration ?? new(), arrange ?? Unchanged)
+            : ShadowSiege(id, random, card.Id, configuration ?? new(), arrange ?? Unchanged);
+
+    private static ScenarioBoard Unchanged(ScenarioBoard board) => board;
 
     // A field battle in a Rohan region of the Free Peoples, defended by an army with a Leader, Elites and Companions (a
     // hobbit and both Gandalf the Grey and Strider among them) in the Fellowship's region. The Shadow attacker plays no card.
-    private static MatchState FreePeoplesDefence(string id, IRandomSource random, string card)
+    private static MatchState FreePeoplesDefence(string id, IRandomSource random, string card, MatchConfiguration configuration,
+        Func<ScenarioBoard, ScenarioBoard> arrange)
     {
-        var board = Roll(ScenarioBoard.Setup(id, random))
+        var board = Roll(ScenarioBoard.Setup(id, random, configuration))
             .AtWar("isengard", "rohan")
             .Place("rohan", UnitKind.Elite, Ford)
             .Companion(CharacterRules.Strider, Ford)
@@ -32,6 +39,7 @@ public static class CardBattles
             .Companion(Merry, Ford)
             .FellowshipAt(Ford)
             .Hand(Side.FreePeoples, card);
+        board = arrange(board);
         board.Act(Side.Shadow);
         board = Attack(board, "orthanc", Ford, random);
         return board.Command(CommandKind.CommitCombatCard, new() { CardId = "" }, random).State;
@@ -39,9 +47,10 @@ public static class CardBattles
 
     // A siege of Lórien, two regions from Moria: the Elves have withdrawn into the stronghold, where the Fellowship
     // shelters, and the besieging army with Elites, Isengard units, a Southron Elite and two Nazgûl attacks them.
-    private static MatchState ShadowSiege(string id, IRandomSource random, string card)
+    private static MatchState ShadowSiege(string id, IRandomSource random, string card, MatchConfiguration configuration,
+        Func<ScenarioBoard, ScenarioBoard> arrange)
     {
-        var board = Roll(ScenarioBoard.Setup(id, random))
+        var board = Roll(ScenarioBoard.Setup(id, random, configuration))
             .AtWar("sauron", "isengard", "southrons", "elves")
             .Besiege(Lorien, "sauron", 2)
             .Place("sauron", UnitKind.Elite, Lorien)
@@ -50,6 +59,7 @@ public static class CardBattles
             .Place("sauron", UnitKind.Nazgul, Lorien, 2)
             .FellowshipAt(Lorien)
             .Hand(Side.Shadow, card);
+        board = arrange(board);
         board.Act(Side.Shadow);
         return Attack(board, Lorien, Lorien, random).State;
     }

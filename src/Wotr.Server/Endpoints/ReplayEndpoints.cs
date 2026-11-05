@@ -10,10 +10,10 @@ public static class ReplayEndpoints
     {
         app.MapGet("/api/matches/{id}/replay", async (string id, HttpContext context, ReplayExporter exporter) =>
                 Result(await exporter.ForPlayer(id, MatchEndpoints.Account(context), context.RequestAborted)))
-            .RequireAuthorization().RequireRateLimiting(GameRateLimits.Reads);
+            .RequireAuthorization().RequireRateLimiting(GameRateLimits.Reads).ForMatch();
         app.MapGet("/api/observe/{id}/replay", async (string id, HttpContext context, ReplayExporter exporter) =>
                 Result(await exporter.ForObserver(id, MatchEndpoints.Account(context), context.RequestAborted)))
-            .RequireAuthorization().RequireRateLimiting(GameRateLimits.Reads);
+            .RequireAuthorization().RequireRateLimiting(GameRateLimits.Reads).ForMatch();
     }
 
     private static IResult Result(ReplayExport export) => export.Error switch

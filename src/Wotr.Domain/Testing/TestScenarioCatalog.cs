@@ -3,9 +3,14 @@ using Wotr.Contracts;
 namespace Wotr.Domain;
 
 // Every scenario offered by the test mode: the standard setup (TEST-01), the base-game dice (TEST-02),
-// the Mordor Track (TEST-06), the endings of the game (TEST-07) and each base-game card's event and combat card (TEST-09).
-// TEST-05: the base game is the MVP for now; the expansion scenarios (TEST-04) live on the
-// expansion-test-scenarios branch.
+// the Mordor Track (TEST-06), the endings of the game (TEST-07), each base-game card's event and combat card (TEST-09)
+// and, since TEST-10, the expansions' dice and actions (TEST-04, restored) and, since UI-266, the Fate cards with their
+// own choices, since UI-349 Gimli's Fate mechanics and since UI-347, UI-348 and UI-278 the Lords and Kings decisions of the owner's playtest;
+// since TEST-14 every Fate card's Combat side, Gimli's remaining abilities, the Fate map rules and Kings with Fate, and
+// since TEST-13 every Kings card's event and combat and each Kings mechanic at the step it acts, and
+// since TEST-12 each Lords card's event and combat card and every Lords mechanic, since TEST-15 the layout stress
+// scenarios and since TEST-16 the base game's layout scenarios of the owner's audit; the server offers a scenario only
+// when its modules are released.
 public static class TestScenarioCatalog
 {
     public const string General = "General";
@@ -19,7 +24,31 @@ public static class TestScenarioCatalog
         .. ShadowDiceScenarios.All(),
         .. MordorTrackScenarios.All(),
         .. GameEndScenarios.All(),
-        .. CardScenarios.All()
+        .. CardScenarios.All(),
+        .. ExpansionDiceScenarios.All(),
+        .. FateCardScenarios.All(),
+        .. FateGimliScenarios.All(),
+        .. FateCardCombatScenarios.All(),
+        .. FateCardPlayScenarios.All(),
+        .. FateGimliAbilityScenarios.All(),
+        .. FateBoardScenarios.All(),
+        .. LordsDecisionScenarios.All(),
+        .. LordsCardScenarios.All(),
+        .. LordsCharacterScenarios.All(),
+        .. LordsSmeagolScenarios.All(),
+        .. LordsCouncilScenarios.All(),
+        .. LordsKingsScenarios.All(),
+        .. KingsDecisionScenarios.All(),
+        .. KingsCardDecisionScenarios.All(),
+        .. KingsCardScenarios.All(),
+        .. KingsSovereignScenarios.All(),
+        .. KingsCorruptionScenarios.All(),
+        .. KingsRulerScenarios.All(),
+        .. KingsChieftainScenarios.All(),
+        .. KingsVariantScenarios.All(),
+        .. LayoutStressScenarios.All(),
+        .. ShowcaseScenarios.All(),
+        .. BaseLayoutScenarios.All()
     ];
 
     public static TestScenario? Find(string id) => All.FirstOrDefault(scenario => scenario.Id == id);

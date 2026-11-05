@@ -11,7 +11,7 @@ namespace Wotr.Tests;
 
 // DEMO-05 (DM10): a whole demo over the real server, on either side: the player's moves go through the HTTP command
 // route (chosen here by the same simple bot, standing in for a person), the CPU answers on the server, and the game
-// reaches its end with every decision answered.
+// reaches its end with every decision answered. DEMO-06: also a demo of each expansion, from a room set to it.
 public sealed class DemoAcceptanceTests(ITestOutputHelper output)
 {
     private const int MoveLimit = 1500;
@@ -21,12 +21,27 @@ public sealed class DemoAcceptanceTests(ITestOutputHelper output)
     [PostgresTheory]
     [InlineData(Side.FreePeoples)]
     [InlineData(Side.Shadow)]
-    public async Task AWholeDemoAgainstTheCpuReachesTheEnd(Side side)
+    public Task AWholeDemoAgainstTheCpuReachesTheEnd(Side side) => Play(side, new());
+
+    [PostgresTheory]
+    [InlineData("fate", Side.FreePeoples)]
+    [InlineData("lords", Side.Shadow)]
+    [InlineData("kings", Side.FreePeoples)]
+    public Task AWholeExpansionDemoReachesTheEnd(string module, Side side) => Play(side, new()
+    {
+        Fate = module == "fate", Lords = module == "lords", Kings = module == "kings"
+    });
+
+    private async Task Play(Side side, MatchConfiguration configuration)
     {
         using var host = new AccountHost(extra: Instant);
         var session = await MenuAccounts.Register(host);
         using var client = MenuAccounts.Client(host, session);
-        var room = await host.Services.GetRequiredService<RoomStore>().Create(session.AccountId, side);
+        var rooms = host.Services.GetRequiredService<RoomStore>();
+        var room = await rooms.Create(session.AccountId, side);
+        if (!ConfigurationRules.IsBase(configuration))
+            Assert.NotNull((await rooms.Configure(room.Id, session.AccountId,
+                new ConfigureRoomRequest { ExpectedVersion = room.Version, Configuration = configuration })).Room);
         using var started = await client.PostAsync("/api/rooms/" + room.Id + "/demo", null);
         var demo = (await started.Content.ReadFromJsonAsync<DemoMatchView>(BoardCatalog.Json))!;
         var bot = host.Services.GetRequiredService<DemoBot>();
@@ -44,7 +59,9 @@ public sealed class DemoAcceptanceTests(ITestOutputHelper output)
             view = await Turn(client, demo.MatchId, side);
         }
 
-        output.WriteLine($"{side}: {moves} own moves, turn {view.Turn}, winner {view.Winner} ({view.Victory})");
+        output.WriteLine($"{side} {string.Join("+", ExpansionModules.Of(view.Configuration))}: {moves} own moves, turn {view.Turn}, " +
+            $"winner {view.Winner} ({view.Victory})");
+        Assert.Equal(ExpansionModules.Of(configuration), ExpansionModules.Of(view.Configuration));
         Assert.True(view.Winner.HasValue, $"No end after {moves} moves.");
         var list = (await client.GetFromJsonAsync<MatchListView>("/api/matches?status=Finished", BoardCatalog.Json))!;
         Assert.Contains(list.Matches, match => match.MatchId == demo.MatchId);

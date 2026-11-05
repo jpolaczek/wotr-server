@@ -10,6 +10,17 @@ public static class FellowshipFlow
     public static bool CanDeclare(MatchState state) => state.Phase == GamePhase.Fellowship && state.Pending?.Kind == DecisionKind.FellowshipPhase &&
         state.Fellowship.Hidden && !state.Fellowship.MordorStep.HasValue && state.Fellowship.LastDeclarationTurn != state.Turn;
 
+    // EXP-19 (owner, 2026-11-04): the declaration stays legal by the rules (BASE pp. 36-39) and CanDeclare still validates
+    // it, but at the start of the game it has nothing to do, so the phase does not offer it. Each clause names something
+    // Declare or its window can do (docs/rules/T15-FELLOWSHIP.md); from turn 2 the offer is as before.
+    public static bool DeclarationCanChange(MatchState state) => state.Turn > 1 || state.Fellowship.Progress > 0 ||
+        state.Fellowship.Corruption > 0 || CardsInPlay(state) || DeclaringHereActs(state, state.Fellowship.RegionId);
+
+    private static bool CardsInPlay(MatchState state) => state.ActiveEffects.Count > 0 || state.Players.Any(p => p.Table.Count > 0);
+
+    private static bool DeclaringHereActs(MatchState state, string region) => PoliticalRules.FellowshipActivation(state, region) is not null ||
+        SmeagolRules.Present(state) || FireAndShadow.Applies(state, [region]) || ChiefReactions.CanFollowDeclaration(state, region);
+
     public static bool ValidRoute(MatchState state, IReadOnlyList<string> route, bool reveal) =>
         !state.Fellowship.MordorStep.HasValue && TravelRules.ValidPath(route, state.Fellowship.RegionId, state.Fellowship.Progress) &&
         (!reveal || !TravelRules.Sanctuary(state, route[^1]));

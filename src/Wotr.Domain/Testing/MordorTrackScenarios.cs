@@ -3,17 +3,22 @@ using Wotr.Contracts;
 namespace Wotr.Domain;
 
 // TEST-06: the Fellowship's way through Mordor (BASE pp. 43-44, LOGIC B19/B20, T17): entering the track
-// from Minas Morgul, walking it with Character dice and the last step before the Crack of Doom.
+// from Minas Morgul, walking it with Character dice and the last step before the Crack of Doom. TEST-16: the entry
+// through the other gate, Morannon, whose gate the client lights on the map.
 public static class MordorTrackScenarios
 {
     private const string Group = "Free Peoples · Mordor Track";
     private const string Gate = "minas-morgul";
+    private const string BlackGate = "morannon";
 
     public static IEnumerable<TestScenario> All() =>
     [
         Scenario("fp-mordor-enter", "Enter Mordor",
             "Fellowship phase: the hidden Fellowship stands in Minas Morgul with 3 Corruption and may enter the Mordor Track. The turn then continues with the Hunt and a normal roll.",
             (id, random) => AtTheGate(id, random).State),
+        Scenario("fp-mordor-enter-morannon", "Enter Mordor at Morannon",
+            "Fellowship phase: the hidden Fellowship stands in Morannon, next to the Mordor gate there, with 3 Corruption and may enter the Mordor Track through it: the gate on the map glows. The turn then continues with the Hunt and a normal roll.",
+            (id, random) => AtTheGate(id, random, BlackGate).State),
         Scenario("fp-mordor-track", "Walk the Mordor Track",
             "The Fellowship has just entered the Mordor Track (step 0, 3 Corruption). Three Character dice and Will of the West: each step draws a Hunt tile; a turn without an attempt adds Corruption.",
             (id, random) => AtTheGate(id, random)
@@ -40,11 +45,12 @@ public static class MordorTrackScenarios
     private static TestScenario Scenario(string id, string title, string description, Func<string, IRandomSource, MatchState> build) =>
         new(id, Group, title, description, Side.FreePeoples, build);
 
-    // The Fellowship phase of turn 1 with the hidden Fellowship in Minas Morgul, as after its journey.
-    internal static ScenarioBoard AtTheGate(string id, IRandomSource random) =>
+    // The Fellowship phase of turn 1 with the hidden Fellowship in a gate of Mordor (Minas Morgul unless another is named),
+    // as after its journey.
+    internal static ScenarioBoard AtTheGate(string id, IRandomSource random, string gate = Gate) =>
         ScenarioBoard.Setup(id, random).Change(state =>
         {
-            state.Fellowship.RegionId = Gate;
+            state.Fellowship.RegionId = gate;
             state.Fellowship.Progress = 0;
             state.Fellowship.Corruption = 3;
         });

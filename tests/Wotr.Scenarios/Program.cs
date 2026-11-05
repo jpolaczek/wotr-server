@@ -15,6 +15,12 @@ if (args is ["--export-base-corpus", var destination])
     BaseCorpusExport.Write(destination);
     return;
 }
+// EXP-03: the expansion save corpus from games of two demo CPUs.
+if (args is ["--export-expansion-corpus", var expansionDestination])
+{
+    ExpansionCorpusExport.Write(expansionDestination);
+    return;
+}
 
 // Explicit test seed, outside the server executable and its HTTP surface.
 var connectionString = Environment.GetEnvironmentVariable("WOTR_TEST_DB")

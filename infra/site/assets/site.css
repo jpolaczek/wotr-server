@@ -216,6 +216,8 @@ h3 { font-size: 1.1rem; margin: 0 0 .4rem; letter-spacing: .03em; }
 
 .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem; }
 .gallery figure { margin: 0; }
+/* WEB-01: the gallery opens with one wide picture. */
+.gallery .wide { grid-column: 1 / -1; }
 .gallery img {
   border: 1px solid var(--line);
   border-radius: .35rem;

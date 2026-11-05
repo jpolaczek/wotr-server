@@ -82,7 +82,7 @@ Fuzz/property tests generate only source-compatible input states or consciously 
 <a id="macierz-sieci-i-zapisu"></a>
 ## Network and write Matrix
 
-UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
+UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
 
 T07: `PostgresTests` and `TransportTests` require `WOTR_TEST_DB`. `bash scripts/test.sh` launches a separate local cluster and a full set without skip. Without the variable `dotnet test` explicitly skips integration. CI has PostgreSQL 17 and sets the variable; it does not replace the database with the atrap. [Test range T07](server/T07-TRANSACTIONS.md).
 
@@ -122,7 +122,7 @@ It is not enough to pass a full batch that does not accidentally select difficul
 <a id="odbiór-ui-i-wydajności"></a>
 ## acceptance UI and performance
 
-Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
+Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
 
 ## Platform acceptance on real machines
 
@@ -132,3 +132,118 @@ Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/4d67ee
 | Linux x64 (AppImage) | LNX-02, 2026-10-18 | The owner's Linux PC with the released client and in-game updates. |
 | Windows 10/11 x64 | DIST-13, 2026-10-18 | The owner's check: the released game installs and runs on Windows. Uninstall and reinstall were not reported separately. |
 | Steam Deck | open (DECK-01) | Runs the Linux AppImage; still marked experimental. |
+
+<a id="exp-00"></a>
+## Expansion client tests — triage EXP-00 (2026-10-19)
+
+Run on client 60ea0081 (test clone) against test backend `ddae9b1de03c`, fresh database, one Unity process per pack
+(`packs.sh`), the Council/Setup/Guide/Resource/Sovereign classes then one class per process with a 20-minute watchdog.
+Totals: 115 of 127 expansion PlayMode tests pass, including the full desktop game with all expansions
+(`T36DesktopGameTests.AllExpansions…`). Every failure has an owner in the expansions program
+(~/.claude/plans/validated-sleeping-dahl.md); none points at the rules engine.
+
+| Test | Cause | Kind | Owner |
+| --- | --- | --- | --- |
+| ExpansionCorruptionNetworkTests ×4 (Hidden, Sequential draw/stop, Visible) | the attempt starts from the Nenya die in the pool row, which is no longer there | obsolete host | UI-274 (attempt button beside the portrait) |
+| ExpansionTokenNetworkTests.BalrogEntryOffersAnOptionalReserveFigure | the reserve figure click adds no Elite since the reserve-plan change | regression | UI-271 |
+| ExpansionTokenNetworkTests.RulerTokenPaysForAllThreeExplicitRecruitments | dragging the text Ruler-token chip times out | obsolete host | UI-276 |
+| KingsCards04NetworkTests.EnemySeparatesFieldArmyFromGarrison | Field/Garrison buttons left the decision tray | obsolete host | UI-278 |
+| LordsFinalCardsNetworkTests.Madness… | the card window no longer shows the resolving card id | regression | UI-272 |
+| LordsShadowNetworkTests.LoreChangesOneRolledEye… | Lore choices are no longer tray buttons | obsolete host | UI-272 |
+| FellowshipGuideNetworkTests.CouncilVersionAppears… | the Guide tooltip of Gandalf Keeper reads the base Gandalf text (no "Narya") | regression | UI-269 |
+| InGameDenseLayoutTests.…FiveSovereigns… | the Effects window header now has two buttons | obsolete expectation | UI-274 |
+| CouncilHomelandPanelNetworkTests.TwoAndFiveDepartures… | `TooManyRequests`: the per-address sign-in limit (20/min) is fixed in `AuthenticationRateLimit` and cannot be raised for client integration like the other budgets | test environment | EXP-00 (configurable sign-in budget, raised by `wotr-client:scripts/test-client.sh`) |
+
+Resolved since (2026-10-19): UI-271 fixed the Balrog's reserve figure (the Reserve panel unrolls when that plan begins
+after the Muster die; `ExpansionTokenNetworkTests.BalrogEntry…` passes). UI-272 moved Lore onto the pool and a result
+popover (`LordsShadowNetworkTests.Lore…` rewritten) and `LordsFinalCardsNetworkTests.Madness…` now checks the console's
+card headline: its trail button lived in the closed decision window, out of the player's reach. UI-274 moved the
+corruption attempt to the button beside the king's portrait (`ExpansionCorruptionNetworkTests` ×4 rewritten and passing)
+and `InGameDenseLayoutTests.…FiveSovereigns…` counts the portraits by class and the Effects header without its scope
+badge (passing).
+
+Process finding: the five Council/CompanionSetup/FellowshipGuide/ResourcePanel/Sovereign classes run together in one
+Unity process hung for over three hours (repeated `MatchConnection` receive errors), while each finished alone; this
+belongs to QUAL-06 (isolated PlayMode runs).
+
+## Expansion bot games and saves — EXP-03 (2026-10-19)
+
+- `ExpansionBotGameTests`: two demo CPUs play 14 configurations (each expansion alone, with each of its variants, the
+  pairs, all three, all variants) with two seeds each. At every expansion decision and every 25th step the save reads
+  back to the same bytes and projections, and each side's projection is unchanged by the other side's hidden
+  information (`HiddenInformation.Perturbed`: hand against deck, deck order, random samples, unreadable corruption
+  tiles). `EveryExpansionDecisionKindComesUp` plays four families with three seeds; Dismay comes from
+  `TheBotAnswersADismayWindowBothWays`. About three minutes in the default suite.
+- `ExpansionCorpusTests` over `tests/fixtures/expansion-regression` (11 frozen saves from CPU games, 1.6 MB, exported
+  with `bash scripts/dotnet.sh run --project tests/Wotr.Scenarios -c Release -- --export-expansion-corpus <empty dir>`;
+  see its README): read-back, the recorded answer and the following decision, and privacy.
+- `ExpansionHttpGameTests`: one all-expansions game over the HTTP command route and PostgreSQL, restarted every 120
+  moves, with identical projections after each restart (2026-10-19: 687 moves, six server runs, Shadow by corruption
+  in turn 23).
+
+## Fate of Erebor release gate — EXP-04 (2026-10-19)
+
+The automated part of the Fate gate passed; the owner's playtest on a test server is still open, so Fate is not yet
+released (EXP-05 waits for it).
+
+| Gate item | Check | Result |
+| --- | --- | --- |
+| Bot games and saves | `ExpansionBotGameTests` (EXP-03): Fate alone, with New Cities, in the pairs and with all three, two seeds each; saves and privacy at every expansion decision | PASS |
+| Whole game over HTTP with an observer and its replay | `ReplayEndToEndTests.AWholeFateGameWithALateObserverGivesTheSameReplayToPlayerAndObserver`: Fate + New Cities, demo CPUs on both sides, the observer joins in turn 3; the player's and the observer's replay are the same file, keep the Fate rules and match the recording | PASS (25 s) |
+| Client full games on two clients | `wotr-client:FateAcceptanceNetworkTests`: Fate at 100% (10 turns, 146 decisions) and Fate + New Cities at 125% with reduced motion (12 turns, 180 decisions), both through the normal lobby with reconnects; every decision has its object host and the generic decision window never opens (`GenericWindowWatch`); the 125% game checks both roles' layouts at every decision | PASS |
+| Replay in the library | the 100% game's replay is saved from the end screen and played before sign-in: the Fate crest on its row and the phase plaque, the Fate board with the Shadow's Erebor, the last step opens the end screen | PASS |
+| Observer | `wotr-client:ObserverBoardNetworkTests.AnObserverWatchesAFateGameFromBothSides`: the crest and the Fate board for both viewing sides | PASS |
+| Fate cards and Gimli | UI-266: `FateCardsNetworkTests` 6/6, `FateGimliNetworkTests` 3/3, each step on its object; the six cards in the test menu's Fate tab | PASS |
+| Owner playtest | a Fate game by the owner on a test server, with an observer and a saved replay | open |
+
+Limit: the client full-game driver (`FullGameChoices`) plays a narrow strategy and plays no Fate card; the cards'
+client steps are covered card by card (UI-266) and every Fate decision by the bot games.
+
+<a id="exp-10"></a>
+## Every module on its own and in every combination — EXP-10 (2026-10-19)
+
+The owner's order: "make sure all the expansions and the whole game logic work correctly INDEPENDENTLY of each other".
+On `expansions` at `4193fe7`:
+
+- `ModuleIndependenceGameTests`: two demo CPUs play a complete game of each of the 93 legal configurations, one after
+  another in one class (split across four classes they ran in 10 minutes but crowded the suite's timing-sensitive
+  restart and demo tests on an 8-core machine).
+  At every step a module that is off opens none of its decisions (`SpecialDieChoice`, `KeepActionDie`,
+  `CouncilVersions` → Lords; `CouncilHomelands`, `CouncilToken` → Council; `RulerDiscard`, `CorruptionTile` → Kings;
+  `Dismay`), allows, offers or sends none of its handlers' commands (ownership read from each module handler's
+  `Handles`), and keeps no Lords/Council/Kings state, special or Ruler die or module character. Pieces: no card in two
+  places, every card from the decks the configuration built (or an enabled module's special card), no new army unit and
+  only a Kings sovereign that left its initial state leaves the armies, unique dice, Hunt tiles and characters. At every
+  module decision and every 25th step both sides' options are checked, the save reads back to the same bytes and
+  projections, and each projection ignores the other side's secrets. Default suite: one seed, 93/93 PASS (about 16
+  minutes on one core); `WOTR_SOAK_SEEDS=5`: 465/465 PASS in 47 m 3 s.
+- `ReleaseModuleTests.EveryReleaseOffersExactlyTheLegalConfigurationsOfItsOwnModules`: each of the eight sets of released
+  modules offers exactly the legal configurations of its own modules, over all 512 flag combinations, against an
+  independent oracle (13/13 PASS with the class).
+- `HiddenInformation.Perturbed` no longer changes the opponent's hand while Wind from the West lets the viewer inspect it
+  (the new games found that false alarm in Lords+Kings games; the projection itself was right).
+- CI coverage scripts: base 96 cards and 14 characters, Lords 14 cards, Kings 19 cards (11 replacements, 8 additions,
+  two Fate exclusions), Fate six cards and Gimli, catalog 30 rule families and 35 decision windows — all PASS.
+- Static audit of every configuration-flag read in Domain and Server, the engine's per-command hooks, the command
+  handlers, the option providers, deck composition and module state: no command of a module validates without it and
+  no module state is created in a base match. Cross-module points it found are documented rules: Mithril or Nenya
+  reopening the Shadow's replacement window under Lords (T24, T27-LORDS-03); Lore changing the Shadow Ruler die (T31's
+  order Lords → SH discard → FP discard → Dismay/Lore). Not specified but without effect today: when the Council's Hobbit
+  return and the Kings corruption removal queue in one command, the removal resolves first (Council Merry and Pippin
+  have no nation icon, so they cannot be the sovereign's companion). A loaded save does not re-validate its
+  configuration (`ConfigurationRules.Conflict` runs at match creation and in the room rules).
+- Full backend suite with these tests, in six test hosts (`expansion`, `kings`, `lords`, Fate/Council/Release/the module
+  games, base persistence, the rest; disjoint filters that cover every test): **4481/4481 PASS**, no failure, no abort;
+  the largest host peaked at 4.1 GB.
+- Open finding — the suite does not fit one test host on a 16 GB Mac. On `expansions` a single `dotnet test` run is
+  killed by the kernel for memory (exit 137; the system log reads `memorystatus: killing largest compressed process
+  dotnet … 21491 MB`) after 4–16 minutes, before and after EXP-10's tests alike, while `main`'s suite still runs in one
+  host. The memory is held, not merely unreleased: `ExpansionPersistenceTests` alone climbs steadily to 2.2–2.4 GB in
+  three minutes with the configuration-reload watchers off (`DOTNET_hostBuilder__reloadConfigOnChange=false`) and with the
+  workstation GC (`DOTNET_gcServer=0`) alike, while the bot games stay near 400 MB. Something the HTTP/PostgreSQL
+  persistence tests create (`AccountHost` hosts, their services or data sources) outlives its test; a heap snapshot
+  (`dotnet-gcdump`) of that class should name it. Until then run the suite in parts as above. Under that memory pressure
+  timing-sensitive tests also failed (HTTP restarts after 100 s, the demo CPU's 20-second hand-over), so the module games
+  run in one class, not four side by side.
+- `MatchObserverTests.ALapsedObserverLosesTheBoardAndItsOpenSocket` (a 2-second lease) fails under a loaded full run on
+  `main` and `expansions` alike and passes alone; its fix is a base change prepared on `main`.

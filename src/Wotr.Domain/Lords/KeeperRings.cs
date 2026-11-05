@@ -45,7 +45,7 @@ public static class KeeperRings
         nation.StepsToWar = 0;
         if (advanced)
             ActiveEffects.PoliticalAdvance(state, nation.Id, PoliticalAdvanceCause.CompanionAbility);
-        state.Events.Add(new() { Revision = state.Revision, Kind = "NationAtWar", Text = $"Narya activated {nation.Id} and brought it to war." });
+        state.Events.Add(new() { Revision = state.Revision, Kind = "NationAtWar", Text = $"Narya activated {nation.Id} and moved it to At War." });
         TurnFlow.FinishAction(state, Side.FreePeoples);
     }
 }

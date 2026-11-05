@@ -2,7 +2,8 @@ using Wotr.Contracts;
 
 namespace Wotr.Server;
 
-// DEMO-01: a member of a waiting room starts their demo against the CPU; the room keeps waiting.
+// DEMO-01: a member of a waiting room starts their demo against the CPU; the room keeps waiting. DEMO-06: with the
+// room's rules, so a client older than one of its modules is sent to the update first (EXP-02).
 public static class DemoEndpoints
 {
     public static void Map(WebApplication app)
@@ -16,6 +17,6 @@ public static class DemoEndpoints
             return started.Demo is not null ? Results.Ok(started.Demo)
                 : started.Error == "RoomNotFound" ? Results.NotFound()
                 : Results.Conflict(new ApiError { Error = started.Error });
-        }).RequireAuthorization().RequireRateLimiting(GameRateLimits.Rooms);
+        }).RequireAuthorization().RequireRateLimiting(GameRateLimits.Rooms).ForRoom();
     }
 }

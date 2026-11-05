@@ -34,10 +34,13 @@ public class OpponentActionFixtureRecorder
         Directory.CreateDirectory(folder);
         Write(folder, "march", Side.FreePeoples, Marches());
         Write(folder, "card-recruit", Side.FreePeoples, CardRecruitment());
+        Write(folder, "muster-recruit", Side.FreePeoples, MusterRecruitment(Side.Shadow, "sauron", "dol-guldur", "morannon"));
+        Write(folder, "muster-recruit", Side.Shadow, MusterRecruitment(Side.FreePeoples, "gondor", "minas-tirith", "pelargir"));
         foreach (var viewer in new[] { Side.FreePeoples, Side.Shadow })
         {
             Write(folder, "attack", viewer, Attack());
             Write(folder, "hunt", viewer, Hunt());
+            Write(folder, "event-loss", viewer, EventLoss());
         }
         Write(folder, "reaction", Side.FreePeoples, Crebain());
     }
@@ -66,6 +69,32 @@ public class OpponentActionFixtureRecorder
         var game = new Game(TestScenarioCatalog.Find(CardScenarios.EventId("base.sh.strategy.20"))!.Create("fixture-card-recruit"));
         game.PlayEvent(Side.Shadow, "base.sh.strategy.20", random);
         game.Resolve(random);
+        return game;
+    }
+
+    // EXP-20: one Muster die, a Regular in each of two settlements, in two steps. The viewer's opponent acts.
+    private static Game MusterRecruitment(Side actor, string nation, string first, string second)
+    {
+        var random = new SeededRandom(6);
+        var board = ScenarioBoard.Setup("fixture-muster-recruit", random)
+            .Dice(Side.Shadow, DieFace.Muster, DieFace.Army, DieFace.Character, DieFace.Event, DieFace.Army)
+            .Dice(Side.FreePeoples, DieFace.Muster, DieFace.Army, DieFace.Character, DieFace.Event)
+            .AtWar(nation);
+        var game = new Game(board.Act(actor));
+        var die = game.State.Dice.First(d => d.Owner == actor && d.Location == DieLocation.Available && d.Face == DieFace.Muster).Id;
+        game.Play(actor, CommandKind.Recruit, Recruit(game.State, die, nation, first), random);
+        game.Play(actor, CommandKind.Recruit, Recruit(game.State, die, nation, second), random);
+        return game;
+    }
+
+    // EXP-20: Dreadful Spells rolls 5, 6 and 1 against an army outside any battle, and its owner chooses the two casualties.
+    private static Game EventLoss()
+    {
+        var random = new SequenceRandom(4, 5, 0);
+        var game = new Game(TestScenarioCatalog.Find("layout-dreadful-spells-siege")!.Create("fixture-event-loss"));
+        game.PlayEvent(Side.Shadow, ShadowCharacterCards04.Spells, random);
+        game.Resolve(random);
+        Assert.Contains(game.State.Events, e => e.Kind == "EventLosses");
         return game;
     }
 
@@ -127,6 +156,13 @@ public class OpponentActionFixtureRecorder
         DieId = die,
         MovementCost = DieFace.Army,
         Moves = [new() { From = from, To = to, UnitIds = units.Select(u => u.Id).ToList() }]
+    };
+
+    private static CommandPayload Recruit(MatchState state, string die, string nation, string region) => new()
+    {
+        Stepwise = true,
+        DieId = die,
+        Placements = [new() { UnitId = state.Units.First(u => u.Nation == nation && u.Kind == UnitKind.Regular && u.Location == "reserve").Id, RegionId = region }]
     };
 
     // Each side commits a Combat card the battle allows (the one dealt for it first), or no card when none is allowed.

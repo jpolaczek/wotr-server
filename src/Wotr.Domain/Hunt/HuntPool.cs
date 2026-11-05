@@ -18,6 +18,10 @@ public static class HuntPool
         return tile;
     }
 
+    // A physical draw finds a tile: one waits in the pool, or the empty pool refills from the discarded standard tiles.
+    internal static bool CanDrawPhysical(MatchState state) =>
+        state.HuntTiles.Any(t => t.Location == "pool" || IsRefillable(t));
+
     internal static TileState DrawPhysical(MatchState state, IRandomSource random)
     {
         var pool = state.HuntTiles.Where(t => t.Location == "pool").ToList();
@@ -50,9 +54,11 @@ public static class HuntPool
 
     private static void Refill(MatchState state)
     {
-        foreach (var tile in state.HuntTiles.Where(t => t.Location == "discard" && Definitions[t.Id].Pool == "standard"))
+        foreach (var tile in state.HuntTiles.Where(IsRefillable))
             tile.Location = "pool";
     }
+
+    private static bool IsRefillable(TileState tile) => tile.Location == "discard" && Definitions[tile.Id].Pool == "standard";
 
     public static void PrepareSpecial(MatchState state, string id)
     {

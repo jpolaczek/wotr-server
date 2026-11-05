@@ -1,0 +1,4544 @@
+{
+  "schemaVersion": 3,
+  "rulesVersion": "base-2e-2011-faq1.2",
+  "contentVersion": "base-setup-1",
+  "id": "expansion-corpus-kings-corruption-visible",
+  "revision": 4,
+  "decisionSequence": 5,
+  "turn": 1,
+  "phase": "ActionResolution",
+  "actor": "Shadow",
+  "winner": null,
+  "victory": null,
+  "configuration": {
+    "lords": false,
+    "kings": true,
+    "fate": false,
+    "council": false,
+    "dismay": false,
+    "visibleCorruption": true,
+    "sequentialCorruption": false,
+    "removingRulerTokens": false,
+    "newCities": false
+  },
+  "kings": {
+    "sovereigns": [
+      {
+        "id": "kings.sovereign.brand",
+        "status": "Initial",
+        "corruptedRegion": "",
+        "lastAttemptTurn": -1,
+        "tiles": []
+      },
+      {
+        "id": "kings.sovereign.dain",
+        "status": "Initial",
+        "corruptedRegion": "",
+        "lastAttemptTurn": -1,
+        "tiles": []
+      },
+      {
+        "id": "kings.sovereign.denethor",
+        "status": "Initial",
+        "corruptedRegion": "",
+        "lastAttemptTurn": -1,
+        "tiles": []
+      },
+      {
+        "id": "kings.sovereign.theoden",
+        "status": "Initial",
+        "corruptedRegion": "",
+        "lastAttemptTurn": 1,
+        "tiles": []
+      },
+      {
+        "id": "kings.sovereign.thranduil",
+        "status": "Initial",
+        "corruptedRegion": "",
+        "lastAttemptTurn": -1,
+        "tiles": []
+      }
+    ],
+    "tokens": [],
+    "pendingCorruptionRemoval": [],
+    "rulerDiscardOrder": [],
+    "rulerTokenUsedThisTurn": false,
+    "elvenRingUsedThisTurn": false,
+    "tokenActionSovereign": ""
+  },
+  "players": [
+    {
+      "side": "FreePeoples",
+      "hand": [
+        "base.fp.character.12",
+        "base.fp.strategy.03"
+      ],
+      "handVersion": 2,
+      "autoDecision": {
+        "version": 0,
+        "policy": null,
+        "lastSkippedBattleId": "",
+        "lastSkippedRound": 0
+      },
+      "decks": {
+        "character": [
+          "base.fp.character.08",
+          "base.fp.character.11",
+          "base.fp.character.01",
+          "base.fp.character.22",
+          "base.fp.character.03",
+          "base.fp.character.13",
+          "kings.fp.character.23",
+          "base.fp.character.07",
+          "base.fp.character.20",
+          "base.fp.character.14",
+          "base.fp.character.21",
+          "base.fp.character.24",
+          "kings.fp.character.25",
+          "base.fp.character.16",
+          "kings.fp.character.26",
+          "base.fp.character.05",
+          "base.fp.character.06",
+          "base.fp.character.19",
+          "base.fp.character.09",
+          "base.fp.character.04",
+          "base.fp.character.18",
+          "base.fp.character.15",
+          "base.fp.character.02",
+          "base.fp.character.10",
+          "base.fp.character.17"
+        ],
+        "strategy": [
+          "base.fp.strategy.12",
+          "base.fp.strategy.01",
+          "base.fp.strategy.06",
+          "base.fp.strategy.15",
+          "base.fp.strategy.14",
+          "kings.fp.strategy.25",
+          "base.fp.strategy.04",
+          "base.fp.strategy.17",
+          "base.fp.strategy.18",
+          "base.fp.strategy.02",
+          "kings.fp.strategy.22",
+          "base.fp.strategy.09",
+          "base.fp.strategy.20",
+          "kings.fp.strategy.24",
+          "kings.fp.strategy.26",
+          "kings.fp.strategy.16",
+          "kings.fp.strategy.19",
+          "base.fp.strategy.21",
+          "base.fp.strategy.11",
+          "base.fp.strategy.05",
+          "base.fp.strategy.10",
+          "base.fp.strategy.23",
+          "base.fp.strategy.13",
+          "base.fp.strategy.07",
+          "kings.fp.strategy.08"
+        ]
+      },
+      "discard": [],
+      "table": [],
+      "ringUsedThisTurn": false,
+      "ringActionPending": false,
+      "extraDiceNextRecovery": 0,
+      "privateCompanionVersions": [],
+      "committedCombatCard": null,
+      "combatCardCommitted": false,
+      "hiddenCorruptionTiles": []
+    },
+    {
+      "side": "Shadow",
+      "hand": [
+        "base.sh.character.24",
+        "base.sh.strategy.22"
+      ],
+      "handVersion": 2,
+      "autoDecision": {
+        "version": 0,
+        "policy": null,
+        "lastSkippedBattleId": "",
+        "lastSkippedRound": 0
+      },
+      "decks": {
+        "character": [
+          "base.sh.character.07",
+          "base.sh.character.02",
+          "base.sh.character.06",
+          "base.sh.character.23",
+          "base.sh.character.19",
+          "base.sh.character.05",
+          "base.sh.character.12",
+          "base.sh.character.14",
+          "base.sh.character.20",
+          "base.sh.character.10",
+          "kings.sh.character.26",
+          "base.sh.character.13",
+          "base.sh.character.03",
+          "base.sh.character.16",
+          "base.sh.character.15",
+          "base.sh.character.18",
+          "base.sh.character.01",
+          "kings.sh.character.25",
+          "base.sh.character.21",
+          "base.sh.character.04",
+          "base.sh.character.22",
+          "base.sh.character.09",
+          "base.sh.character.11",
+          "base.sh.character.08",
+          "base.sh.character.17"
+        ],
+        "strategy": [
+          "kings.sh.strategy.26",
+          "base.sh.strategy.16",
+          "kings.sh.strategy.25",
+          "base.sh.strategy.12",
+          "base.sh.strategy.21",
+          "base.sh.strategy.10",
+          "kings.sh.strategy.03",
+          "base.sh.strategy.07",
+          "base.sh.strategy.08",
+          "base.sh.strategy.09",
+          "kings.sh.strategy.06",
+          "base.sh.strategy.11",
+          "kings.sh.strategy.18",
+          "kings.sh.strategy.05",
+          "base.sh.strategy.20",
+          "base.sh.strategy.19",
+          "base.sh.strategy.04",
+          "base.sh.strategy.13",
+          "base.sh.strategy.15",
+          "kings.sh.strategy.01",
+          "base.sh.strategy.02",
+          "base.sh.strategy.23",
+          "base.sh.strategy.24",
+          "base.sh.strategy.17",
+          "base.sh.strategy.14"
+        ]
+      },
+      "discard": [],
+      "table": [],
+      "ringUsedThisTurn": false,
+      "ringActionPending": false,
+      "extraDiceNextRecovery": 0,
+      "privateCompanionVersions": [],
+      "committedCombatCard": null,
+      "combatCardCommitted": false,
+      "hiddenCorruptionTiles": []
+    }
+  ],
+  "units": [
+    {
+      "id": "base.sauron.regular.01",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.02",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.03",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.04",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.01",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.01",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "barad-dur",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.01",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "bree",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.02",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "carrock",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.03",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "dale",
+      "garrison": false
+    },
+    {
+      "id": "base.north.leader.01",
+      "nation": "north",
+      "kind": "Leader",
+      "location": "dale",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.01",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "dol-amroth",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.02",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "dol-amroth",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.03",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "dol-amroth",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.05",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.06",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.07",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.08",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.09",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.02",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.02",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "dol-guldur",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.01",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "edoras",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.elite.01",
+      "nation": "rohan",
+      "kind": "Elite",
+      "location": "edoras",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.regular.01",
+      "nation": "dwarves",
+      "kind": "Regular",
+      "location": "erebor",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.elite.01",
+      "nation": "dwarves",
+      "kind": "Elite",
+      "location": "erebor",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.elite.02",
+      "nation": "dwarves",
+      "kind": "Elite",
+      "location": "erebor",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.leader.01",
+      "nation": "dwarves",
+      "kind": "Leader",
+      "location": "erebor",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.regular.02",
+      "nation": "dwarves",
+      "kind": "Regular",
+      "location": "ered-luin",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.01",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "far-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.02",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "far-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.03",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "far-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.01",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "far-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.02",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "fords-of-isen",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.03",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "fords-of-isen",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.leader.01",
+      "nation": "rohan",
+      "kind": "Leader",
+      "location": "fords-of-isen",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.10",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "gorgoroth",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.11",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "gorgoroth",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.12",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "gorgoroth",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.regular.01",
+      "nation": "elves",
+      "kind": "Regular",
+      "location": "grey-havens",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.01",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "grey-havens",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.leader.01",
+      "nation": "elves",
+      "kind": "Leader",
+      "location": "grey-havens",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.04",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "helms-deep",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.regular.03",
+      "nation": "dwarves",
+      "kind": "Regular",
+      "location": "iron-hills",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.regular.02",
+      "nation": "elves",
+      "kind": "Regular",
+      "location": "lorien",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.02",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "lorien",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.03",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "lorien",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.leader.02",
+      "nation": "elves",
+      "kind": "Leader",
+      "location": "lorien",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.13",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.14",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.15",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.16",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.17",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.03",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "minas-morgul",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.04",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.05",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.06",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.elite.01",
+      "nation": "gondor",
+      "kind": "Elite",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.leader.01",
+      "nation": "gondor",
+      "kind": "Leader",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.18",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.19",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.20",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.21",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.22",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.04",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "morannon",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.23",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "moria",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.24",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "moria",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.25",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "mount-gundabad",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.26",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "mount-gundabad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.04",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "near-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.05",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "near-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.06",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "near-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.02",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "near-harad",
+      "garrison": false
+    },
+    {
+      "id": "base.north.elite.01",
+      "nation": "north",
+      "kind": "Elite",
+      "location": "north-downs",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.01",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "north-dunland",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.07",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "north-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.08",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "north-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.27",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "nurn",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.28",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "nurn",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.02",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "orthanc",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.03",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "orthanc",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.04",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "orthanc",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.05",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "orthanc",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.01",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "orthanc",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.07",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "osgiliath",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.08",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "osgiliath",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.09",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "pelargir",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.04",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "rivendell",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.05",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "rivendell",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.leader.03",
+      "nation": "elves",
+      "kind": "Leader",
+      "location": "rivendell",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.06",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "south-dunland",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.09",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "south-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.10",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "south-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.11",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "south-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.03",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "south-rhun",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.04",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "the-shire",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.12",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "umbar",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.13",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "umbar",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.14",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "umbar",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.regular.03",
+      "nation": "elves",
+      "kind": "Regular",
+      "location": "woodland-realm",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.06",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "woodland-realm",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.leader.04",
+      "nation": "elves",
+      "kind": "Leader",
+      "location": "woodland-realm",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.regular.04",
+      "nation": "dwarves",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.regular.05",
+      "nation": "dwarves",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.elite.03",
+      "nation": "dwarves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.elite.04",
+      "nation": "dwarves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.elite.05",
+      "nation": "dwarves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.leader.02",
+      "nation": "dwarves",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.leader.03",
+      "nation": "dwarves",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.dwarves.leader.04",
+      "nation": "dwarves",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.regular.04",
+      "nation": "elves",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.regular.05",
+      "nation": "elves",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.07",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.08",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.09",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.elves.elite.10",
+      "nation": "elves",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.10",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.11",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.12",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.13",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.14",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.regular.15",
+      "nation": "gondor",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.elite.02",
+      "nation": "gondor",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.elite.03",
+      "nation": "gondor",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.elite.04",
+      "nation": "gondor",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.elite.05",
+      "nation": "gondor",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.leader.02",
+      "nation": "gondor",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.leader.03",
+      "nation": "gondor",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.gondor.leader.04",
+      "nation": "gondor",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.05",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.06",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.07",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.08",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.09",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.regular.10",
+      "nation": "north",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.elite.02",
+      "nation": "north",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.elite.03",
+      "nation": "north",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.elite.04",
+      "nation": "north",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.elite.05",
+      "nation": "north",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.leader.02",
+      "nation": "north",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.leader.03",
+      "nation": "north",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.north.leader.04",
+      "nation": "north",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.05",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.06",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.07",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.08",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.09",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.regular.10",
+      "nation": "rohan",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.elite.02",
+      "nation": "rohan",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.elite.03",
+      "nation": "rohan",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.elite.04",
+      "nation": "rohan",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.elite.05",
+      "nation": "rohan",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.leader.02",
+      "nation": "rohan",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.leader.03",
+      "nation": "rohan",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.rohan.leader.04",
+      "nation": "rohan",
+      "kind": "Leader",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.07",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.08",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.09",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.10",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.11",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.regular.12",
+      "nation": "isengard",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.02",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.03",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.04",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.05",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.isengard.elite.06",
+      "nation": "isengard",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.29",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.30",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.31",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.32",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.33",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.34",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.35",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.regular.36",
+      "nation": "sauron",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.03",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.04",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.05",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.elite.06",
+      "nation": "sauron",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.05",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.06",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.07",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.sauron.nazgul.08",
+      "nation": "sauron",
+      "kind": "Nazgul",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.15",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.16",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.17",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.18",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.19",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.20",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.21",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.22",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.23",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.regular.24",
+      "nation": "southrons",
+      "kind": "Regular",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.04",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.05",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "base.southrons.elite.06",
+      "nation": "southrons",
+      "kind": "Elite",
+      "location": "reserve",
+      "garrison": false
+    },
+    {
+      "id": "kings.sovereign.brand",
+      "nation": "north",
+      "kind": "Leader",
+      "location": "dale",
+      "garrison": false
+    },
+    {
+      "id": "kings.sovereign.dain",
+      "nation": "dwarves",
+      "kind": "Leader",
+      "location": "erebor",
+      "garrison": false
+    },
+    {
+      "id": "kings.sovereign.denethor",
+      "nation": "gondor",
+      "kind": "Leader",
+      "location": "minas-tirith",
+      "garrison": false
+    },
+    {
+      "id": "kings.sovereign.theoden",
+      "nation": "rohan",
+      "kind": "Leader",
+      "location": "edoras",
+      "garrison": false
+    },
+    {
+      "id": "kings.sovereign.thranduil",
+      "nation": "elves",
+      "kind": "Leader",
+      "location": "woodland-realm",
+      "garrison": false
+    }
+  ],
+  "characters": [],
+  "minionEverEntered": false,
+  "nations": [
+    {
+      "id": "dwarves",
+      "active": false,
+      "stepsToWar": 3
+    },
+    {
+      "id": "elves",
+      "active": true,
+      "stepsToWar": 3
+    },
+    {
+      "id": "gondor",
+      "active": false,
+      "stepsToWar": 1
+    },
+    {
+      "id": "north",
+      "active": false,
+      "stepsToWar": 3
+    },
+    {
+      "id": "rohan",
+      "active": false,
+      "stepsToWar": 3
+    },
+    {
+      "id": "isengard",
+      "active": true,
+      "stepsToWar": 1
+    },
+    {
+      "id": "sauron",
+      "active": true,
+      "stepsToWar": 1
+    },
+    {
+      "id": "southrons",
+      "active": true,
+      "stepsToWar": 2
+    }
+  ],
+  "politicalReactions": [],
+  "control": {
+    "andrast": null,
+    "anfalas": "FreePeoples",
+    "angmar": "Shadow",
+    "arnor": null,
+    "ash-mountains": null,
+    "barad-dur": "Shadow",
+    "bree": "FreePeoples",
+    "buckland": "FreePeoples",
+    "cardolan": null,
+    "carrock": "FreePeoples",
+    "dagorlad": null,
+    "dale": "FreePeoples",
+    "dead-marshes": null,
+    "dimrill-dale": null,
+    "dol-amroth": "FreePeoples",
+    "dol-guldur": "Shadow",
+    "druadan-forest": "FreePeoples",
+    "druwaith-iaur": null,
+    "eagles-eyrie": null,
+    "east-harondor": null,
+    "east-rhun": "Shadow",
+    "eastemnet": "FreePeoples",
+    "eastern-brown-lands": null,
+    "eastern-emyn-muil": null,
+    "eastern-mirkwood": null,
+    "edoras": "FreePeoples",
+    "enedwaith": null,
+    "erebor": "FreePeoples",
+    "erech": "FreePeoples",
+    "ered-luin": "FreePeoples",
+    "ettenmoors": null,
+    "evendim": null,
+    "fangorn": null,
+    "far-harad": "Shadow",
+    "folde": "FreePeoples",
+    "fords-of-bruinen": null,
+    "fords-of-isen": "FreePeoples",
+    "forlindon": null,
+    "gap-of-rohan": "Shadow",
+    "gladden-fields": null,
+    "goblins-gate": null,
+    "gorgoroth": "Shadow",
+    "grey-havens": "FreePeoples",
+    "harlindon": null,
+    "helms-deep": "FreePeoples",
+    "high-pass": null,
+    "hollin": null,
+    "iron-hills": "FreePeoples",
+    "khand": "Shadow",
+    "lamedon": "FreePeoples",
+    "lorien": "FreePeoples",
+    "lossarnach": "FreePeoples",
+    "minas-morgul": "Shadow",
+    "minas-tirith": "FreePeoples",
+    "minhiriath": null,
+    "morannon": "Shadow",
+    "moria": "Shadow",
+    "mount-gram": "Shadow",
+    "mount-gundabad": "Shadow",
+    "narrows-of-the-forest": null,
+    "near-harad": "Shadow",
+    "noman-lands": null,
+    "north-anduin-vale": null,
+    "north-downs": "FreePeoples",
+    "north-dunland": "Shadow",
+    "north-ered-luin": "FreePeoples",
+    "north-ithilien": null,
+    "north-rhun": "Shadow",
+    "northern-dorwinion": null,
+    "northern-mirkwood": null,
+    "northern-rhovanion": null,
+    "nurn": "Shadow",
+    "old-ford": null,
+    "old-forest": null,
+    "old-forest-road": "FreePeoples",
+    "orthanc": "Shadow",
+    "osgiliath": null,
+    "parth-celebrant": null,
+    "pelargir": "FreePeoples",
+    "rhosgobel": "FreePeoples",
+    "rivendell": "FreePeoples",
+    "south-anduin-vale": null,
+    "south-downs": null,
+    "south-dunland": "Shadow",
+    "south-ered-luin": null,
+    "south-ithilien": null,
+    "south-rhun": "Shadow",
+    "southern-dorwinion": null,
+    "southern-mirkwood": "Shadow",
+    "southern-rhovanion": null,
+    "tharbad": null,
+    "the-shire": "FreePeoples",
+    "tower-hills": null,
+    "trollshaws": null,
+    "umbar": "Shadow",
+    "vale-of-the-carnen": null,
+    "vale-of-the-celduin": null,
+    "weather-hills": null,
+    "west-harondor": null,
+    "westemnet": "FreePeoples",
+    "western-brown-lands": null,
+    "western-emyn-muil": null,
+    "western-mirkwood": null,
+    "withered-heath": null,
+    "woodland-realm": "FreePeoples"
+  },
+  "dice": [
+    {
+      "id": "FreePeoples.standard.1",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Muster",
+      "location": "Spent",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "FreePeoples.standard.2",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "ArmyMuster",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "FreePeoples.standard.3",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "FreePeoples.standard.4",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Muster",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "FreePeoples.standard.5",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "FreePeoples.standard.6",
+      "owner": "FreePeoples",
+      "source": "standard",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.1",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Eye",
+      "location": "Resolving",
+      "huntOrigin": "allocated",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.2",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Eye",
+      "location": "Hunt",
+      "huntOrigin": "allocated",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.3",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Event",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.4",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.5",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "ArmyMuster",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.6",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Eye",
+      "location": "Hunt",
+      "huntOrigin": "rolled-eye",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.7",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Army",
+      "location": "Available",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.8",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.9",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "Shadow.standard.10",
+      "owner": "Shadow",
+      "source": "standard",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "kings.die.fp.ruler",
+      "owner": "FreePeoples",
+      "source": "ruler",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    },
+    {
+      "id": "kings.die.sh.ruler",
+      "owner": "Shadow",
+      "source": "ruler",
+      "face": "Character",
+      "location": "Removed",
+      "huntOrigin": "",
+      "removeAtRecovery": false
+    }
+  ],
+  "rings": [
+    {
+      "id": "base.ring.1",
+      "owner": "FreePeoples"
+    },
+    {
+      "id": "base.ring.2",
+      "owner": "FreePeoples"
+    },
+    {
+      "id": "base.ring.3",
+      "owner": "FreePeoples"
+    }
+  ],
+  "fellowship": {
+    "regionId": "rivendell",
+    "progress": 0,
+    "corruption": 0,
+    "hidden": true,
+    "mordorStep": null,
+    "lastDeclarationTurn": -1,
+    "lastMordorAttemptTurn": -1,
+    "guide": "base.character.gandalf-grey",
+    "companions": [
+      "base.character.gandalf-grey",
+      "base.character.strider",
+      "base.character.boromir",
+      "base.character.gimli",
+      "base.character.legolas",
+      "base.character.merry",
+      "base.character.pippin"
+    ]
+  },
+  "huntTiles": [
+    {
+      "id": "base.hunt.standard.eye.1.1",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.eye.1.2",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.eye.1.3",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.eye.1.4",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.3.0.1",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.3.0.2",
+      "location": "corruption-draw"
+    },
+    {
+      "id": "base.hunt.standard.3.0.3",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.2.0.1",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.2.0.2",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.2.1.1",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.1.0.1",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.1.0.2",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.1.1.1",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.1.1.2",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.0.1.1",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.standard.0.1.2",
+      "location": "pool"
+    },
+    {
+      "id": "base.hunt.special-fp.0.0.1",
+      "location": "set-aside"
+    },
+    {
+      "id": "base.hunt.special-fp.0.0.2",
+      "location": "set-aside"
+    },
+    {
+      "id": "base.hunt.special-fp.-2.0.1",
+      "location": "set-aside"
+    },
+    {
+      "id": "base.hunt.special-fp.-1.0.1",
+      "location": "set-aside"
+    },
+    {
+      "id": "base.hunt.special-sh.die.0.1",
+      "location": "set-aside"
+    },
+    {
+      "id": "base.hunt.special-sh.eye.1.1",
+      "location": "set-aside"
+    },
+    {
+      "id": "base.hunt.special-sh.3.0.1",
+      "location": "set-aside"
+    },
+    {
+      "id": "base.hunt.special-sh.1.1.1",
+      "location": "set-aside"
+    },
+    {
+      "id": "kings.hunt.1",
+      "location": "pool"
+    },
+    {
+      "id": "kings.hunt.2",
+      "location": "pool"
+    }
+  ],
+  "pending": {
+    "id": "expansion-corpus-kings-corruption-visible:d5",
+    "kind": "CorruptionTile",
+    "owner": "Shadow",
+    "commands": [
+      "DrawCorruptionTile"
+    ],
+    "privateChoices": [],
+    "requiredCount": 0,
+    "visibility": "owner",
+    "presentation": "CorruptionDraw",
+    "sourceId": "kings.sovereign.theoden",
+    "window": ""
+  },
+  "afterDiscard": "None",
+  "resolution": {
+    "actionLog": {
+      "action": {
+        "id": "004d3247ae02d93c17089edb11482b5391a8d2e3a061f88f180728e097e219af",
+        "initiator": "Shadow",
+        "command": "AttemptCorruption",
+        "turn": 1,
+        "partialHistory": false,
+        "context": {
+          "kind": "Characters",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [
+          {
+            "kind": "Die",
+            "id": "Shadow.standard.1",
+            "owner": "Shadow",
+            "source": "standard",
+            "face": "Eye",
+            "use": "Eye",
+            "abilityId": "",
+            "count": 1
+          }
+        ]
+      },
+      "lastStepId": "5e416e6fb667e60ea088f57991f6edd93a6659908ce1998be2fd9451613db021"
+    },
+    "frames": [
+      {
+        "effectId": "",
+        "nextStep": 0,
+        "window": "",
+        "returnDecision": null,
+        "effect": null,
+        "fellowship": null,
+        "hunt": null,
+        "battle": null,
+        "battleLoss": null,
+        "eventLoss": null,
+        "corruption": {
+          "sovereignId": "kings.sovereign.theoden",
+          "dieId": "Shadow.standard.1",
+          "drawLimit": 2,
+          "stage": "Drawing",
+          "drawn": [
+            "base.hunt.standard.3.0.2"
+          ],
+          "ignored": [],
+          "return": "FinishAction"
+        }
+      }
+    ],
+    "paidDieIds": [],
+    "window": ""
+  },
+  "lastBattleRound": null,
+  "events": [
+    {
+      "revision": 0,
+      "kind": "PhaseChanged",
+      "onlyFor": null,
+      "text": "Turn 1: RecoverDraw.",
+      "historyId": "60054a71263a9d77da8d5764ea322877da0b8dd88bc60c0fe8c6408081d71a7f",
+      "activity": {
+        "action": {
+          "id": "60054a71263a9d77da8d5764ea322877da0b8dd88bc60c0fe8c6408081d71a7f",
+          "initiator": null,
+          "command": null,
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "General",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": []
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "General",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": "RecoverDraw",
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 0,
+      "kind": "CardDrawn",
+      "onlyFor": "FreePeoples",
+      "text": "Drew Bilbo\u0027s Song.",
+      "historyId": "e892e92f180061dc1bdb87c2b764ba0b189f081372e75f58e7d3c80555d9c9fb",
+      "activity": {
+        "action": {
+          "id": "e892e92f180061dc1bdb87c2b764ba0b189f081372e75f58e7d3c80555d9c9fb",
+          "initiator": null,
+          "command": null,
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Cards",
+            "regions": [],
+            "definitionId": "base.fp.character.12",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": []
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "Cards",
+          "regions": [],
+          "definitionId": "base.fp.character.12",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "base.fp.character.12",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [
+            {
+              "owner": "FreePeoples",
+              "use": "Draw",
+              "id": "base.fp.character.12",
+              "deck": "character",
+              "count": 1
+            }
+          ],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 0,
+      "kind": "CardsDrawn",
+      "onlyFor": null,
+      "text": "FreePeoples drew a character card.",
+      "historyId": "a82a76ec6fe450bbf99f5b0506b09011d5037e9570641d09a69ef1aebe060b17",
+      "activity": {
+        "action": {
+          "id": "a82a76ec6fe450bbf99f5b0506b09011d5037e9570641d09a69ef1aebe060b17",
+          "initiator": null,
+          "command": null,
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Cards",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": []
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "Cards",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [
+            {
+              "owner": "FreePeoples",
+              "use": "Draw",
+              "id": "",
+              "deck": "character",
+              "count": 1
+            }
+          ],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 0,
+      "kind": "CardDrawn",
+      "onlyFor": "FreePeoples",
+      "text": "Drew The Power of Tom Bombadil.",
+      "historyId": "b3f88f404ea135bc6a8a908a1a063f21bbdbaae056e4950eb406a6e2b6389638",
+      "activity": {
+        "action": {
+          "id": "b3f88f404ea135bc6a8a908a1a063f21bbdbaae056e4950eb406a6e2b6389638",
+          "initiator": null,
+          "command": null,
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Cards",
+            "regions": [],
+            "definitionId": "base.fp.strategy.03",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": []
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "Cards",
+          "regions": [],
+          "definitionId": "base.fp.strategy.03",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "base.fp.strategy.03",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [
+            {
+              "owner": "FreePeoples",
+              "use": "Draw",
+              "id": "base.fp.strategy.03",
+              "deck": "strategy",
+              "count": 1
+            }
+          ],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 0,
+      "kind": "CardsDrawn",
+      "onlyFor": null,
+      "text": "FreePeoples drew a strategy card.",
+      "historyId": "9f94b4ae717bd8f843450c3e1112fe7b58c12efc3d99c4f64c268d5d87f328bd",
+      "activity": {
+        "action": {
+          "id": "9f94b4ae717bd8f843450c3e1112fe7b58c12efc3d99c4f64c268d5d87f328bd",
+          "initiator": null,
+          "command": null,
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Cards",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": []
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "Cards",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [
+            {
+              "owner": "FreePeoples",
+              "use": "Draw",
+              "id": "",
+              "deck": "strategy",
+              "count": 1
+            }
+          ],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 0,
+      "kind": "CardDrawn",
+      "onlyFor": "Shadow",
+      "text": "Drew The Black Captain Commands.",
+      "historyId": "2648cd214d72665d8731a3b299579f7381b78e6e9e274f5f66d8bb2a2f9336d2",
+      "activity": {
+        "action": {
+          "id": "2648cd214d72665d8731a3b299579f7381b78e6e9e274f5f66d8bb2a2f9336d2",
+          "initiator": null,
+          "command": null,
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Cards",
+            "regions": [],
+            "definitionId": "base.sh.character.24",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": []
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "Cards",
+          "regions": [],
+          "definitionId": "base.sh.character.24",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "base.sh.character.24",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [
+            {
+              "owner": "Shadow",
+              "use": "Draw",
+              "id": "base.sh.character.24",
+              "deck": "character",
+              "count": 1
+            }
+          ],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 0,
+      "kind": "CardsDrawn",
+      "onlyFor": null,
+      "text": "Shadow drew a character card.",
+      "historyId": "28136280440c7ca006c0829583c25d85c8f7b1952f45f19e4ab3d53dd0076d56",
+      "activity": {
+        "action": {
+          "id": "28136280440c7ca006c0829583c25d85c8f7b1952f45f19e4ab3d53dd0076d56",
+          "initiator": null,
+          "command": null,
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Cards",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": []
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "Cards",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [
+            {
+              "owner": "Shadow",
+              "use": "Draw",
+              "id": "",
+              "deck": "character",
+              "count": 1
+            }
+          ],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 0,
+      "kind": "CardDrawn",
+      "onlyFor": "Shadow",
+      "text": "Drew Monsters Roused.",
+      "historyId": "f64ab4fcde590d3e04dee15f276020b1be1deb44f8def5e1b973cc1c700f3dd6",
+      "activity": {
+        "action": {
+          "id": "f64ab4fcde590d3e04dee15f276020b1be1deb44f8def5e1b973cc1c700f3dd6",
+          "initiator": null,
+          "command": null,
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Cards",
+            "regions": [],
+            "definitionId": "base.sh.strategy.22",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": []
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "Cards",
+          "regions": [],
+          "definitionId": "base.sh.strategy.22",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "base.sh.strategy.22",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [
+            {
+              "owner": "Shadow",
+              "use": "Draw",
+              "id": "base.sh.strategy.22",
+              "deck": "strategy",
+              "count": 1
+            }
+          ],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 0,
+      "kind": "CardsDrawn",
+      "onlyFor": null,
+      "text": "Shadow drew a strategy card.",
+      "historyId": "06e99f32c1f16b2d085b3a983ca718beacf1fc0d5efff172b60d9ef48d449c64",
+      "activity": {
+        "action": {
+          "id": "06e99f32c1f16b2d085b3a983ca718beacf1fc0d5efff172b60d9ef48d449c64",
+          "initiator": null,
+          "command": null,
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Cards",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": []
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "Cards",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [
+            {
+              "owner": "Shadow",
+              "use": "Draw",
+              "id": "",
+              "deck": "strategy",
+              "count": 1
+            }
+          ],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 0,
+      "kind": "PhaseChanged",
+      "onlyFor": null,
+      "text": "Turn 1: Fellowship.",
+      "historyId": "195507109b6eebb99bec8c3f0a7296f53926cf72a90f2eddd27561326bfae5c4",
+      "activity": {
+        "action": {
+          "id": "195507109b6eebb99bec8c3f0a7296f53926cf72a90f2eddd27561326bfae5c4",
+          "initiator": null,
+          "command": null,
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "General",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": []
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "General",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": "Fellowship",
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 1,
+      "kind": "ActionDecision",
+      "onlyFor": null,
+      "text": "Finished the Fellowship phase.",
+      "historyId": "9a5e0bb547af737165d8f038749e43bc25bca8219f2b2730fd8ba7f56d5c2710",
+      "activity": {
+        "action": {
+          "id": "9786f862126556ee510eaecfff1037f414599a59e073bb24fcc563817fc4778c",
+          "initiator": "FreePeoples",
+          "command": "ContinueFellowship",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Fellowship",
+            "regions": [
+              "rivendell"
+            ],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Free",
+              "id": "",
+              "owner": "FreePeoples",
+              "source": "",
+              "face": null,
+              "use": null,
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": "FreePeoples",
+        "command": "ContinueFellowship",
+        "automatic": false,
+        "status": "Completed",
+        "context": {
+          "kind": "Fellowship",
+          "regions": [
+            "rivendell"
+          ],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [
+          {
+            "kind": "Free",
+            "id": "",
+            "owner": "FreePeoples",
+            "source": "",
+            "face": null,
+            "use": null,
+            "abilityId": "",
+            "count": 1
+          }
+        ],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 1,
+      "kind": "PhaseChanged",
+      "onlyFor": null,
+      "text": "Turn 1: HuntAllocation.",
+      "historyId": "078ba448cccac9db15e6a059bca57457a7a6888ba014e2b2a4e5327d9375691a",
+      "activity": {
+        "action": {
+          "id": "9786f862126556ee510eaecfff1037f414599a59e073bb24fcc563817fc4778c",
+          "initiator": "FreePeoples",
+          "command": "ContinueFellowship",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Fellowship",
+            "regions": [
+              "rivendell"
+            ],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Free",
+              "id": "",
+              "owner": "FreePeoples",
+              "source": "",
+              "face": null,
+              "use": null,
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "9a5e0bb547af737165d8f038749e43bc25bca8219f2b2730fd8ba7f56d5c2710",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "General",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": "HuntAllocation",
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 2,
+      "kind": "ActionDecision",
+      "onlyFor": null,
+      "text": "Allocated Hunt dice.",
+      "historyId": "a7d93e555a71e1dc9b8559fe346e133a832e301b5c689c0222f97f1c74f9a12b",
+      "activity": {
+        "action": {
+          "id": "ba4431b0a27543c6fdebdb1a22acd89bcb13cd303bc53007f30d29f66f2cc562",
+          "initiator": "Shadow",
+          "command": "AllocateHunt",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Hunt",
+            "regions": [
+              "rivendell"
+            ],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Free",
+              "id": "",
+              "owner": "Shadow",
+              "source": "",
+              "face": null,
+              "use": null,
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": "Shadow",
+        "command": "AllocateHunt",
+        "automatic": false,
+        "status": "Completed",
+        "context": {
+          "kind": "Hunt",
+          "regions": [
+            "rivendell"
+          ],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [
+          {
+            "kind": "Free",
+            "id": "",
+            "owner": "Shadow",
+            "source": "",
+            "face": null,
+            "use": null,
+            "abilityId": "",
+            "count": 1
+          }
+        ],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [
+            {
+              "id": "FreePeoples.standard.1",
+              "owner": "FreePeoples",
+              "source": "standard",
+              "before": null,
+              "after": "Muster",
+              "from": "Unrolled",
+              "to": "Available",
+              "huntOrigin": ""
+            },
+            {
+              "id": "FreePeoples.standard.2",
+              "owner": "FreePeoples",
+              "source": "standard",
+              "before": null,
+              "after": "ArmyMuster",
+              "from": "Unrolled",
+              "to": "Available",
+              "huntOrigin": ""
+            },
+            {
+              "id": "FreePeoples.standard.3",
+              "owner": "FreePeoples",
+              "source": "standard",
+              "before": null,
+              "after": "Character",
+              "from": "Unrolled",
+              "to": "Available",
+              "huntOrigin": ""
+            },
+            {
+              "id": "FreePeoples.standard.4",
+              "owner": "FreePeoples",
+              "source": "standard",
+              "before": null,
+              "after": "Muster",
+              "from": "Unrolled",
+              "to": "Available",
+              "huntOrigin": ""
+            },
+            {
+              "id": "Shadow.standard.1",
+              "owner": "Shadow",
+              "source": "standard",
+              "before": null,
+              "after": "Eye",
+              "from": "Unrolled",
+              "to": "Hunt",
+              "huntOrigin": "allocated"
+            },
+            {
+              "id": "Shadow.standard.2",
+              "owner": "Shadow",
+              "source": "standard",
+              "before": null,
+              "after": "Eye",
+              "from": "Unrolled",
+              "to": "Hunt",
+              "huntOrigin": "allocated"
+            },
+            {
+              "id": "Shadow.standard.3",
+              "owner": "Shadow",
+              "source": "standard",
+              "before": null,
+              "after": "Event",
+              "from": "Unrolled",
+              "to": "Available",
+              "huntOrigin": ""
+            },
+            {
+              "id": "Shadow.standard.4",
+              "owner": "Shadow",
+              "source": "standard",
+              "before": null,
+              "after": "Character",
+              "from": "Unrolled",
+              "to": "Available",
+              "huntOrigin": ""
+            },
+            {
+              "id": "Shadow.standard.5",
+              "owner": "Shadow",
+              "source": "standard",
+              "before": null,
+              "after": "ArmyMuster",
+              "from": "Unrolled",
+              "to": "Available",
+              "huntOrigin": ""
+            },
+            {
+              "id": "Shadow.standard.6",
+              "owner": "Shadow",
+              "source": "standard",
+              "before": null,
+              "after": "Eye",
+              "from": "Unrolled",
+              "to": "Hunt",
+              "huntOrigin": "rolled-eye"
+            },
+            {
+              "id": "Shadow.standard.7",
+              "owner": "Shadow",
+              "source": "standard",
+              "before": null,
+              "after": "Army",
+              "from": "Unrolled",
+              "to": "Available",
+              "huntOrigin": ""
+            }
+          ],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 2,
+      "kind": "HuntAllocated",
+      "onlyFor": null,
+      "text": "Shadow allocated 2 Hunt dice.",
+      "historyId": "b241751e9b3a9ec9cc42e0bfc27edb83b979af1fed8802357f4ee4b173fb19b2",
+      "activity": {
+        "action": {
+          "id": "ba4431b0a27543c6fdebdb1a22acd89bcb13cd303bc53007f30d29f66f2cc562",
+          "initiator": "Shadow",
+          "command": "AllocateHunt",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Hunt",
+            "regions": [
+              "rivendell"
+            ],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Free",
+              "id": "",
+              "owner": "Shadow",
+              "source": "",
+              "face": null,
+              "use": null,
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "a7d93e555a71e1dc9b8559fe346e133a832e301b5c689c0222f97f1c74f9a12b",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "Hunt",
+          "regions": [
+            "rivendell"
+          ],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 2,
+      "kind": "PhaseChanged",
+      "onlyFor": null,
+      "text": "Turn 1: ActionRoll.",
+      "historyId": "c0de7790cb88835d7143b9323c9c22a0bfe4b30e8c7121be8335cc3463c19473",
+      "activity": {
+        "action": {
+          "id": "ba4431b0a27543c6fdebdb1a22acd89bcb13cd303bc53007f30d29f66f2cc562",
+          "initiator": "Shadow",
+          "command": "AllocateHunt",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Hunt",
+            "regions": [
+              "rivendell"
+            ],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Free",
+              "id": "",
+              "owner": "Shadow",
+              "source": "",
+              "face": null,
+              "use": null,
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "b241751e9b3a9ec9cc42e0bfc27edb83b979af1fed8802357f4ee4b173fb19b2",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "General",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": "ActionRoll",
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 2,
+      "kind": "PhaseChanged",
+      "onlyFor": null,
+      "text": "Turn 1: ActionResolution.",
+      "historyId": "ddce8441aba6f5adddee2450417d1daa42909aefecb76cb321ec6d997d2be9d8",
+      "activity": {
+        "action": {
+          "id": "ba4431b0a27543c6fdebdb1a22acd89bcb13cd303bc53007f30d29f66f2cc562",
+          "initiator": "Shadow",
+          "command": "AllocateHunt",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Hunt",
+            "regions": [
+              "rivendell"
+            ],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Free",
+              "id": "",
+              "owner": "Shadow",
+              "source": "",
+              "face": null,
+              "use": null,
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "c0de7790cb88835d7143b9323c9c22a0bfe4b30e8c7121be8335cc3463c19473",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "General",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": "ActionResolution",
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 3,
+      "kind": "ActionDecision",
+      "onlyFor": null,
+      "text": "Advanced a nation toward war.",
+      "historyId": "87419580df92836fc9eb7ea17e505a1f01e92d0f3a020def1ea4726e19e52762",
+      "activity": {
+        "action": {
+          "id": "31447a5cbe2c5fa7057d1d9576bdc684920a59a366829cc5f3ea3afc1d26c37d",
+          "initiator": "FreePeoples",
+          "command": "AdvancePolitics",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Politics",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "gondor",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Die",
+              "id": "FreePeoples.standard.1",
+              "owner": "FreePeoples",
+              "source": "standard",
+              "face": "Muster",
+              "use": "Muster",
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": "FreePeoples",
+        "command": "AdvancePolitics",
+        "automatic": false,
+        "status": "Completed",
+        "context": {
+          "kind": "Politics",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "gondor",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [
+          {
+            "kind": "Die",
+            "id": "FreePeoples.standard.1",
+            "owner": "FreePeoples",
+            "source": "standard",
+            "face": "Muster",
+            "use": "Muster",
+            "abilityId": "",
+            "count": 1
+          }
+        ],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [
+            {
+              "id": "gondor",
+              "wasActive": false,
+              "previousStepsToWar": 2,
+              "active": false,
+              "stepsToWar": 1
+            }
+          ],
+          "control": [],
+          "dice": [
+            {
+              "id": "FreePeoples.standard.1",
+              "owner": "FreePeoples",
+              "source": "standard",
+              "before": "Muster",
+              "after": "Muster",
+              "from": "Available",
+              "to": "Spent",
+              "huntOrigin": ""
+            }
+          ],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 3,
+      "kind": "PoliticsAdvanced",
+      "onlyFor": null,
+      "text": "gondor: passive, 1 steps to war.",
+      "historyId": "42c168fb5e37204c88d5132478cb614f25d4a89a8ee79417542993e09fc5d5aa",
+      "activity": {
+        "action": {
+          "id": "31447a5cbe2c5fa7057d1d9576bdc684920a59a366829cc5f3ea3afc1d26c37d",
+          "initiator": "FreePeoples",
+          "command": "AdvancePolitics",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Politics",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "gondor",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Die",
+              "id": "FreePeoples.standard.1",
+              "owner": "FreePeoples",
+              "source": "standard",
+              "face": "Muster",
+              "use": "Muster",
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "87419580df92836fc9eb7ea17e505a1f01e92d0f3a020def1ea4726e19e52762",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "Completed",
+        "context": {
+          "kind": "Politics",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "gondor",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [
+            {
+              "id": "gondor",
+              "wasActive": null,
+              "previousStepsToWar": null,
+              "active": false,
+              "stepsToWar": 1
+            }
+          ],
+          "control": [],
+          "dice": [],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 4,
+      "kind": "ActionDecision",
+      "onlyFor": null,
+      "text": "Attempted to corrupt a Sovereign.",
+      "historyId": "ef427f65c3207fe8743617d698a4b5b1c0af4d50ce500e56b1c4560ab8ae32e0",
+      "activity": {
+        "action": {
+          "id": "004d3247ae02d93c17089edb11482b5391a8d2e3a061f88f180728e097e219af",
+          "initiator": "Shadow",
+          "command": "AttemptCorruption",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Characters",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Die",
+              "id": "Shadow.standard.1",
+              "owner": "Shadow",
+              "source": "standard",
+              "face": "Eye",
+              "use": "Eye",
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "",
+        "turn": 1,
+        "actor": "Shadow",
+        "command": "AttemptCorruption",
+        "automatic": false,
+        "status": "InProgress",
+        "context": {
+          "kind": "Characters",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [
+          {
+            "kind": "Die",
+            "id": "Shadow.standard.1",
+            "owner": "Shadow",
+            "source": "standard",
+            "face": "Eye",
+            "use": "Eye",
+            "abilityId": "",
+            "count": 1
+          }
+        ],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [
+            {
+              "id": "Shadow.standard.1",
+              "owner": "Shadow",
+              "source": "standard",
+              "before": "Eye",
+              "after": "Eye",
+              "from": "Hunt",
+              "to": "Resolving",
+              "huntOrigin": "allocated"
+            }
+          ],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [
+            {
+              "id": "kings.sovereign.theoden",
+              "title": "Th\u00E9oden",
+              "definitionId": "kings.character.theoden.awakened",
+              "nation": "rohan",
+              "regionId": "edoras",
+              "garrison": false,
+              "status": "Initial",
+              "resistance": 3,
+              "corruption": 0,
+              "attemptedThisTurn": true,
+              "tiles": []
+            }
+          ],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 4,
+      "kind": "CorruptionAttempted",
+      "onlyFor": null,
+      "text": "Shadow spent an Eye to attempt to corrupt Th\u00E9oden.",
+      "historyId": "5e416e6fb667e60ea088f57991f6edd93a6659908ce1998be2fd9451613db021",
+      "activity": {
+        "action": {
+          "id": "004d3247ae02d93c17089edb11482b5391a8d2e3a061f88f180728e097e219af",
+          "initiator": "Shadow",
+          "command": "AttemptCorruption",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Characters",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Die",
+              "id": "Shadow.standard.1",
+              "owner": "Shadow",
+              "source": "standard",
+              "face": "Eye",
+              "use": "Eye",
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "ef427f65c3207fe8743617d698a4b5b1c0af4d50ce500e56b1c4560ab8ae32e0",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "InProgress",
+        "context": {
+          "kind": "Characters",
+          "regions": [],
+          "definitionId": "",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "",
+          "targets": [],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    },
+    {
+      "revision": 4,
+      "kind": "OwnCorruptionTile",
+      "onlyFor": "Shadow",
+      "text": "Drew a Corruption tile.",
+      "historyId": "52022bf78f582ecb2b623f6ae8c564f1f7c97fa64e3660886f506e4732ec00ce",
+      "activity": {
+        "action": {
+          "id": "004d3247ae02d93c17089edb11482b5391a8d2e3a061f88f180728e097e219af",
+          "initiator": "Shadow",
+          "command": "AttemptCorruption",
+          "turn": 1,
+          "partialHistory": false,
+          "context": {
+            "kind": "Characters",
+            "regions": [],
+            "definitionId": "",
+            "nationId": "",
+            "battleId": "",
+            "battleRound": null,
+            "huntChainId": ""
+          },
+          "costs": [
+            {
+              "kind": "Die",
+              "id": "Shadow.standard.1",
+              "owner": "Shadow",
+              "source": "standard",
+              "face": "Eye",
+              "use": "Eye",
+              "abilityId": "",
+              "count": 1
+            }
+          ]
+        },
+        "parentStepId": "5e416e6fb667e60ea088f57991f6edd93a6659908ce1998be2fd9451613db021",
+        "turn": 1,
+        "actor": null,
+        "command": null,
+        "automatic": true,
+        "status": "InProgress",
+        "context": {
+          "kind": "Characters",
+          "regions": [],
+          "definitionId": "kings.sovereign.theoden",
+          "nationId": "",
+          "battleId": "",
+          "battleRound": null,
+          "huntChainId": ""
+        },
+        "costs": [],
+        "movements": [],
+        "facts": {
+          "sourceId": "kings.sovereign.theoden",
+          "targets": [
+            "base.hunt.standard.3.0.2"
+          ],
+          "figures": [],
+          "nations": [],
+          "control": [],
+          "dice": [],
+          "cards": [],
+          "resources": [],
+          "losses": [],
+          "lossDetails": [],
+          "sovereigns": [],
+          "fellowshipBefore": null,
+          "fellowshipAfter": null,
+          "fellowshipRoute": [],
+          "battle": null,
+          "battlePlace": null,
+          "hunt": null,
+          "budget": null,
+          "phase": null,
+          "outcome": null,
+          "rolls": [],
+          "hitTarget": null,
+          "hits": null
+        }
+      }
+    }
+  ],
+  "activeEffects": [],
+  "randomSamples": [
+    {
+      "revision": 0,
+      "exclusiveMaximum": 26,
+      "value": 16
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 25,
+      "value": 9
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 24,
+      "value": 1
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 23,
+      "value": 14
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 22,
+      "value": 17
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 21,
+      "value": 3
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 20,
+      "value": 8
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 19,
+      "value": 18
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 18,
+      "value": 5
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 17,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 16,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 15,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 14,
+      "value": 9
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 13,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 12,
+      "value": 3
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 11,
+      "value": 9
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 10,
+      "value": 8
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 9,
+      "value": 6
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 8,
+      "value": 1
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 7,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 6,
+      "value": 2
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 5,
+      "value": 2
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 4,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 3,
+      "value": 2
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 2,
+      "value": 1
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 26,
+      "value": 19
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 25,
+      "value": 6
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 24,
+      "value": 11
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 23,
+      "value": 18
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 22,
+      "value": 8
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 21,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 20,
+      "value": 9
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 19,
+      "value": 17
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 18,
+      "value": 8
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 17,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 16,
+      "value": 9
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 15,
+      "value": 11
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 14,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 13,
+      "value": 7
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 12,
+      "value": 8
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 11,
+      "value": 1
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 10,
+      "value": 9
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 9,
+      "value": 8
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 8,
+      "value": 3
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 7,
+      "value": 6
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 6,
+      "value": 3
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 5,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 4,
+      "value": 3
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 3,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 2,
+      "value": 1
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 26,
+      "value": 16
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 25,
+      "value": 7
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 24,
+      "value": 10
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 23,
+      "value": 8
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 22,
+      "value": 21
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 21,
+      "value": 3
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 20,
+      "value": 3
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 19,
+      "value": 7
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 18,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 17,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 16,
+      "value": 14
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 15,
+      "value": 14
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 14,
+      "value": 2
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 13,
+      "value": 12
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 12,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 11,
+      "value": 9
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 10,
+      "value": 3
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 9,
+      "value": 2
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 8,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 7,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 6,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 5,
+      "value": 2
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 4,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 3,
+      "value": 1
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 2,
+      "value": 1
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 26,
+      "value": 9
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 25,
+      "value": 12
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 24,
+      "value": 18
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 23,
+      "value": 17
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 22,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 21,
+      "value": 19
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 20,
+      "value": 10
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 19,
+      "value": 8
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 18,
+      "value": 1
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 17,
+      "value": 13
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 16,
+      "value": 14
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 15,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 14,
+      "value": 8
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 13,
+      "value": 6
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 12,
+      "value": 1
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 11,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 10,
+      "value": 3
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 9,
+      "value": 2
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 8,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 7,
+      "value": 5
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 6,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 5,
+      "value": 4
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 4,
+      "value": 0
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 3,
+      "value": 1
+    },
+    {
+      "revision": 0,
+      "exclusiveMaximum": 2,
+      "value": 0
+    },
+    {
+      "revision": 2,
+      "exclusiveMaximum": 6,
+      "value": 3
+    },
+    {
+      "revision": 2,
+      "exclusiveMaximum": 6,
+      "value": 2
+    },
+    {
+      "revision": 2,
+      "exclusiveMaximum": 6,
+      "value": 0
+    },
+    {
+      "revision": 2,
+      "exclusiveMaximum": 6,
+      "value": 3
+    },
+    {
+      "revision": 2,
+      "exclusiveMaximum": 6,
+      "value": 4
+    },
+    {
+      "revision": 2,
+      "exclusiveMaximum": 6,
+      "value": 0
+    },
+    {
+      "revision": 2,
+      "exclusiveMaximum": 6,
+      "value": 2
+    },
+    {
+      "revision": 2,
+      "exclusiveMaximum": 6,
+      "value": 5
+    },
+    {
+      "revision": 2,
+      "exclusiveMaximum": 6,
+      "value": 1
+    },
+    {
+      "revision": 4,
+      "exclusiveMaximum": 18,
+      "value": 5
+    }
+  ],
+  "mandatoryHuntAllocation": false
+}

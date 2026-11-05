@@ -69,22 +69,35 @@ public class ExpansionPersistenceTests
         }
     }
 
+    // UI-442: a standard attempt restarts as one command drawing every tile, then its private choice; Sequential
+    // restarts each draw.
     [PostgresFact]
     public async Task FullCompositionPrivateCorruptionDrawAndAttachmentRestartInAllFourTileVariants()
     {
         foreach (var visible in new[] { false, true })
             foreach (var sequential in new[] { false, true })
             {
-                var state = ExpansionInteractionTests.Corruption(visible, sequential);
-                state.HuntTiles.Single(tile => tile.Id == HuntTests.Three).Location = "pool";
-                await LordsPersistenceTests.Restart(state, CommandKind.DrawCorruptionTile, new(), 0);
-                state = KingsFixture.Do(state, CommandKind.DrawCorruptionTile, new(), 0);
-                state.HuntTiles.Single(tile => tile.Id == KingsCorruptionTests.One).Location = "pool";
-                await LordsPersistenceTests.Restart(state, CommandKind.DrawCorruptionTile, new(), 0);
-                state = KingsFixture.Do(state, CommandKind.DrawCorruptionTile, new(), 0);
-                if (!sequential)
+                var state = ExpansionInteractionTests.CorruptionReady(visible, sequential);
+                var payload = ExpansionInteractionTests.CorruptionPayload;
+                string[] first = sequential ? [ExpansionInteractionTests.SmeagolTile]
+                    : [ExpansionInteractionTests.SmeagolTile, HuntTests.Three, KingsCorruptionTests.One];
+                state = await RestartAndDo(state, CommandKind.AttemptCorruption, payload, first);
+                if (sequential)
+                {
+                    state = await RestartAndDo(state, CommandKind.DrawCorruptionTile, new(), HuntTests.Three);
+                    await LordsPersistenceTests.Restart(state, CommandKind.DrawCorruptionTile, new(),
+                        KingsFixture.DrawOrder(state, KingsCorruptionTests.One));
+                }
+                else
                     await LordsPersistenceTests.Restart(state, CommandKind.ChooseCorruptionTile,
                         new() { Ids = [KingsCorruptionTests.One] });
             }
+    }
+
+    private static async Task<MatchState> RestartAndDo(MatchState state, CommandKind kind, CommandPayload payload, params string[] draws)
+    {
+        var samples = KingsFixture.DrawOrder(state, draws);
+        await LordsPersistenceTests.Restart(state, kind, payload, samples);
+        return KingsFixture.Do(state, kind, payload, samples);
     }
 }

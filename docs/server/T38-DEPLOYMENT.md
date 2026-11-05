@@ -129,8 +129,9 @@ Budgets work after authentication, and before the party block, transaction and r
 | `WOTR_LIMIT_ROOMS` | 60 | 1–10000 | account | `/api/rooms/*` (list, creation, inclusion, start). |
 | `WOTR_LIMIT_CONCURRENT` | 8 | 1–256 | account | Concurrent demands HTTP account (no sockets). |
 | `WOTR_LIMIT_SOCKETS` | 4 | 1–64 | account | Open sockets `/updates`. |
+| `WOTR_LIMIT_SIGNINS` | 20 | 1–10000 | network address, per minute | Sign-ins (`/api/auth/login`, admin panel, rename password check); EXP-00. Client integration raises it. |
 
-- Login retains its limit: 20 attempts per minute to address IP.
+- Sign-ins keep their per-address limit of 20 per minute by default (`WOTR_LIMIT_SIGNINS`) and the per-name lock (SEC-02).
 - The budget belongs to the account, not to the address. The common NAT does not block the group and
   the account does not use the opponent's budget.
 - Two sessions of one account split his budget.

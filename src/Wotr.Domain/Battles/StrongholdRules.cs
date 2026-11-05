@@ -11,16 +11,27 @@ public static class StrongholdRules
     public static void Shelter(MatchState state, BattleState battle)
     {
         var force = battle.Defender;
-        foreach (var unit in BattleRules.Units(state, force).ToArray())
+        var units = BattleRules.Units(state, force).ToArray();
+        var characters = BattleRules.Characters(state, force).ToArray();
+        foreach (var unit in units)
             unit.Garrison = true;
-        foreach (var character in BattleRules.Characters(state, force).ToArray())
+        foreach (var character in characters)
             character.Garrison = true;
         force.Garrison = true;
         battle.DefenderRetreated = true;
         battle.DefenderSheltered = true;
         battle.Stage = BattleStage.Finish;
         state.Pending = null;
-        state.Events.Add(new() { Revision = state.Revision, Kind = "StrongholdShelter", Text = $"{force.Side} withdrew into {battle.Region}." });
+        state.Events.Add(new() { Revision = state.Revision, Kind = "StrongholdShelter", Activity = ShelterFacts(state, battle, units, characters),
+            Text = $"{force.Side} withdrew into {battle.Region}." });
+    }
+
+    // EXP-20: a retreat that stays in its region, from the field onto the walls: From == To, every participant in the Garrison.
+    private static ActionEvent ShelterFacts(MatchState state, BattleState battle, UnitState[] units, CharacterState[] characters)
+    {
+        var activity = MovementFacts.Event(state, ActionMovementKind.Retreat, battle.Region, battle.Region, units, characters);
+        activity.Facts.Battle = BattleProjection.Public(state, battle);
+        return activity;
     }
 
     public static IEnumerable<string> Elites(MatchState state, BattleState battle) =>

@@ -31,9 +31,9 @@ internal static class InGameContextScenario
 
     private static MatchState PrivateTileChoice(MatchState state)
     {
+        // UI-442: the attempt draws both of its tiles in its own command.
         state = Execute(state, CommandKind.AttemptCorruption,
-            new() { CharacterId = SovereignCatalog.Thranduil, DieId = LordsDiceCatalog.Nenya }, 0);
-        state = Execute(state, CommandKind.DrawCorruptionTile, samples: [0]);
+            new() { CharacterId = SovereignCatalog.Thranduil, DieId = LordsDiceCatalog.Nenya }, 0, 0);
         var attempt = CorruptionRuntime.Current(state);
         if (attempt is not { Stage: CorruptionStage.Choosing, DrawLimit: 2 } || attempt.Drawn.Count != 2)
             throw new InvalidOperationException("UI-62 requires a completed normal draw with two legal private tile choices.");

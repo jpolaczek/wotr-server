@@ -76,9 +76,9 @@ public class HuntPoolProjectionTests
     [Fact]
     public void AnUnrevealedCorruptionDrawIsUnseenOnlyByTheFreePeoples()
     {
-        var state = KingsFixture.Attempt(2, SovereignCatalog.Dain, Three, KingsCorruptionTests.One);
+        var state = KingsFixture.Attempt(3, SovereignCatalog.Dain, Three, KingsCorruptionTests.One);
         var drawn = CorruptionRuntime.Current(state)!.Drawn.Count;
-        Assert.True(drawn > 0);
+        Assert.Equal(2, drawn);
         var free = LordsFixture.Views().For(state, Side.FreePeoples).HuntPool;
         Assert.Equal(drawn, free.Unseen);
         Assert.Equal(2, free.Tiles.Sum(t => t.Count));

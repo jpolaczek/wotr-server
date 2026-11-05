@@ -102,6 +102,24 @@ public class KingsRecruitCardsTests
         Assert.Single(state.Player(Side.FreePeoples).Hand);
     }
 
+    // UI-278 (EXP-15 D15): the client lights the branch's object — the nation's Reserve figures, the sovereign.
+    [Theory]
+    [InlineData(Stewards, SovereignCatalog.Denethor, "gondor")]
+    [InlineData(Riders, SovereignCatalog.Theoden, "rohan")]
+    [InlineData(Brand, SovereignCatalog.Brand, "north")]
+    [InlineData(KingsCards02.Dain, SovereignCatalog.Dain, "dwarves")]
+    [InlineData(KingsCards02.Thranduil, SovereignCatalog.Thranduil, "elves")]
+    public void EachBranchNamesItsObject(string card, string sovereign, string nation)
+    {
+        var state = State();
+        Companion(state, Boromir, "pelargir");
+        state = Play(state, card);
+        Assert.Equal("SovereignCardBranch", state.Pending!.Presentation);
+        var choices = new EffectOptions().GetOptions(state, Side.FreePeoples).Single().EffectChoices.ToDictionary(c => c.Id);
+        Assert.Equal(nation, choices["recruit"].TargetId);
+        Assert.Equal(sovereign, choices["corruption"].TargetId);
+    }
+
     [Theory]
     [InlineData(Stewards, SovereignCatalog.Denethor, 2)]
     [InlineData(Riders, SovereignCatalog.Theoden, 1)]

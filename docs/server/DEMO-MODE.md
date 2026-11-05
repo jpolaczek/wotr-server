@@ -118,6 +118,35 @@ Default settings adopted (to be corrected by the user):
   the gameplay two bots win Shadow by failure, usually in turn 10–22. This is consistent with the
   goal of the "cepa": CPU is to move the game, not play well.
 
+### Demo with released expansions — DEMO-06 (2026-10-19)
+
+- `POST /api/rooms/{id}/demo` plays with the room's configuration, normalized; a room set to a module the release no
+  longer offers is refused with 409 `ExpansionsUnavailable` (as its own game would be), and a client older than one of
+  its modules gets 409 `ClientUpdateRequired` first (EXP-02 `ModuleCompatibility.ForRoom`).
+- `GET /api/rooms/offered-modules` (`OfferedModulesView`) names the released modules, so the menu's demo page shows
+  the same rules as the waiting room before it makes its private room; the client configures that room and starts
+  the demo from it.
+- The CPU answers every decision of the released modules (EXP-03). `DemoAcceptanceTests.AWholeExpansionDemoReachesTheEnd`
+  plays one demo per module over HTTP to the end (2026-10-19: Fate 15 turns, Lords 8, Kings 16; Shadow wins each by
+  corruption, as in the base game).
+
+### Expansions — EXP-03 (2026-10-19)
+
+The CPU answers every expansion decision, simply and legally (`DemoExpansionCandidates`):
+
+- Companion versions and the starting Guide: a version of each Companion and a Guide at random, then all base
+  versions;
+- the Council's homelands: one Companion in a homeland of its own about a third of the time (the Shadow then chooses
+  a Council token), otherwise all stay with the Fellowship; the Council token at random;
+- Dismay: half the time a token re-rolls one of the offered Ruler dice, otherwise the tokens are kept;
+- a Corruption tile: draw again now and then while allowed, otherwise keep a drawn tile at random;
+- the special die, the Ruler discard and Vilya need only the plain fallback over the options' dice;
+- with Kings the Shadow's actions include a corruption attempt (weight 3): a random sovereign with a Hunt Box Eye.
+
+The CPU never spends a Ruler token (a sovereign's token action needs a full recruitment plan), so its games never
+grant Dismay; `ExpansionBotGameTests.TheBotAnswersADismayWindowBothWays` gives it the decision directly. Choices follow
+the match's id and revision (`DemoChoice`), so setup decisions differ only between matches with different ids.
+
 <a id="wykonanie-ruchów-cpu-demo-03"></a>
 ## Making CPU movements (DEMO-03)
 
@@ -162,7 +191,7 @@ Rejected command, e.g. out of date by simultaneous change, ends step and loop re
 <a id="klient-demo-04"></a>
 ## Client (DEMO-04)
 
-Details: [DEMO_UX](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/DEMO_UX.md). In short:
+Details: [DEMO_UX](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/DEMO_UX.md). In short:
 
 - in the waiting room, the fixed button “Play demo vs CPU” in the row Ready/Start. is greyed when
   the room is not waiting or another operation is taking place. Tooltip explains that the previous
@@ -181,6 +210,8 @@ Details: [DEMO_UX](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee411
 | DM03 | Alien, closed or started room: 404/409 without effect; two simultaneous starts leave one demo. | DEMO-01 |
 | DM04 | Bot selects only command adopted by the engine from the knowledge of its site; each type of decision base game has a candidate. | DEMO-02 |
 | DM05 | Bot vs bot since the start of base game (a few grains) comes to the end of the game or limit of the turn without motion. | DEMO-02 |
+| DM11 | Bot vs bot for every expansion family and variant (14 configurations, two seeds) finishes; saves read back and projections hide the other side's information at every expansion decision; every expansion decision but Dismay comes up, and a Dismay window gets both answers; one all-expansions game finishes over HTTP and PostgreSQL across five restarts. | EXP-03 |
+| DM12 | A demo from a room set to a released module plays with it; an unreleased one is refused; one demo per module reaches the end over HTTP. | DEMO-06 |
 | DM06 | CPU plays as long as the decision is his, with pause; the player Shadow sees the Fellowship CPU phase before his own allocation. | DEMO-03 |
 | DM07 | CPU moves have receipts, history and log action; the player projection does not reveal more than usual. | DEMO-03 |
 | DM08 | Restart the server during turn CPU: read the batch resumes CPU; remove the demo in progress ends the loop. | DEMO-03 |

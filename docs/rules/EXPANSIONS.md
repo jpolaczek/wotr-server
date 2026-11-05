@@ -57,6 +57,21 @@ Source: KINGS p. 8–13. Each sovereign has its initial state, Awakened, Corrupt
 
 The attempt to corrupt is an alternative to normal action Shadow provided, among others, that FP has an unused dice and more than one authorized Eye in Hunt. Shadow selects the authorized Eye to release, selects up to three tiles according to the number of remaining Eyes and variant rules. Usually, it selects one covered tile and the rest reveals and returns. FP does not receive access to the pool or secret values.
 
+UI-442 (owner, 2026-11-02; KINGS p. 12, steps 1–4): nothing can come between the draws of a standard attempt, so the
+command that spends the Eye (`AttemptCorruption`, or the target of The West Has Failed) draws them all, one at a time,
+until it holds as many numeric tiles as the Eyes left in the Hunt Box (at most three). An Eye, special or Sméagol tile is
+revealed, set aside and replaced (p. 12, p. 17); a Kings tile is revealed, placed and ends the attempt at once (p. 12);
+an empty pool refills from the discarded standard tiles as for any Hunt draw. Two or more numeric tiles open the
+Shadow's private choice (`ChooseCorruptionTile`, presentation `CorruptionChoice`); the chosen tile is placed face down
+(face up with Visible Corruption) and the others are revealed and return to the pool. A single numeric tile — one Eye
+left, or a pool that ran out — is the only possible choice, so the server places it without a decision (EXP-15 D8).
+The rules do not cover a pool that runs out before any numeric tile: the attempt then ends with nothing placed, the Eye
+spent and the set-aside tiles returned, rather than stalling. Each numeric tile still records one Shadow-only history
+entry and the Free Peoples see only the count. Sequential Corruption keeps a decision per draw (X02). A standard
+attempt saved at a draw step by an earlier build resumes with `DrawCorruptionTile`, which draws the remaining tiles at
+once. Tests: `KingsCorruptionTests` (one, two and three Eyes left, replacement, Kings tile at every position, the
+exhausted pool, the resumed draw step, privacy), `KingsWestTests`, `KingsSequentialTests`, `KingsPersistenceTests`.
+
 Eye/tiles special selection requiring re-election and Kings tiles have their own procedure. Kings tile interrupts selection and works according to its value in this procedure. The Hunt manipulation interventions are not automatically legal when attempting to corrupt. Recover the sovereign and remove the Corrupted Sovereign require the appropriate characters/icons, cost and window — not the ordinary army attack.
 
 [SRC-06](../sources/SRC-06-AUDIT.md) confirms [13 obverses and tokens](../sources/kings-character-index.json). The initial sovereign is Leader FP, Awakened is Companion, and Corrupted does not meet the requirements of Companion/Character/Minion and does not die due to battle alone. The resistance of Brand/Dáin/Denethor/Théoden/Thranduil is 2/4/3/3/4. respectively The weaknesses range is not identical: Brand blocks Leader/Elite North everywhere; Théoden blocks Leader/Elite in Rohan regions; Dáin and Denethor in one designated Stronghold; Thranduil only Elite in Woodland Realm. Awakening with movement applies the Awakening level Awakened and legal route, not teleport. Ruler token is the identity of the sovereign and changes Ruler only to its second ability with immediate use.
@@ -90,7 +105,10 @@ Source: KINGS p. 17–18. Dismay is optional; default enabled for Lords + Kings.
 - Visible Corruption Tiles: values are public; the card reference to hidden Corruption Tiles means
   in this variant tiles other than Kings.
 - Sequential Corruption Tile Draw: the player can stop choosing in the allowed limit; he uses the
-  last selected tile. He does not retain the best selection of all previous ones.
+  last selected tile. He does not retain the best selection of all previous ones. Only this variant
+  draws one tile per command (`DrawCorruptionTile`, Draw again / keep this tile); the last allowed
+  numeric draw is placed at once. UI-442 left it unchanged, including the draw that replaces an
+  ignored tile.
 - Renovating Ruler Tokens: no Ruler chips are used; Dismay is awarded due to the death of the
   awakened sovereign. In MVP the variant available at Lords + Kings.
 

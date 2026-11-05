@@ -65,11 +65,23 @@ public sealed class CorruptionCommands : ICommandHandler, IActionOptionsProvider
         preview.HasUnknownResult = command.Kind != CommandKind.ChooseCorruptionTile;
         preview.Summary = command.Kind switch
         {
-            CommandKind.AttemptCorruption => $"Spend this Eye and draw up to {Math.Min(3, CorruptionRules.Eyes(state).Count() - 1)} Corruption tiles for {SovereignCatalog.All[command.Payload.CharacterId].Title}.",
+            CommandKind.AttemptCorruption => AttemptSummary(state, command.Payload.CharacterId),
             CommandKind.DrawCorruptionTile => "Draw the next Corruption tile.",
             _ => state.Configuration.VisibleCorruption
                 ? "Place this tile face up; reveal and return the others."
                 : "Place this tile face down; reveal and return the others."
         };
+    }
+
+    // UI-442: a standard attempt draws its tiles at once and places a single one itself; Sequential draws one at a time.
+    private static string AttemptSummary(MatchState state, string sovereignId)
+    {
+        var limit = Math.Min(3, CorruptionRules.Eyes(state).Count() - 1);
+        var title = SovereignCatalog.All[sovereignId].Title;
+        if (state.Configuration.SequentialCorruption)
+            return $"Spend this Eye and draw up to {limit} Corruption tiles for {title}, one at a time.";
+        return limit == 1
+            ? $"Spend this Eye, draw a Corruption tile and place it on {title}."
+            : $"Spend this Eye, draw {limit} Corruption tiles at once and choose one to place on {title}.";
     }
 }

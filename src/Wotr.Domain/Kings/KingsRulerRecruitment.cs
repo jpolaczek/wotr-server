@@ -34,8 +34,7 @@ public static class KingsRulerRecruitment
             {
                 CharacterId = id, AbilityId = ability, Dice = [.. dice], TargetCount = plan.Maximum,
                 Title = id == SovereignCatalog.Dain ? "Iron Guard" : id == SovereignCatalog.Brand ? "Call to Arms" : "Mustering of the Mark",
-                Detail = id == SovereignCatalog.Dain ? "A Regular or Elite here; a Regular or Leader in another free Dwarven settlement."
-                    : "A Regular or Leader in two different free national settlements, plus one in the sovereign's free region.",
+                Detail = Detail(id),
                 Recruitment = groups, Targets = groups.SelectMany(g => g.Targets).Distinct().ToList(),
                 RulerRecruitment = new() { LocalRegion = character.Location, LocalAllowsElite = id == SovereignCatalog.Dain,
                     SettlementCount = id == SovereignCatalog.Dain ? 1 : 2, LocalMustDiffer = id == SovereignCatalog.Dain,
@@ -44,6 +43,13 @@ public static class KingsRulerRecruitment
             };
         }
     }
+
+    private static string Detail(string id) => id switch
+    {
+        SovereignCatalog.Dain => "A Regular or Elite here; a Regular or Leader in another free Dwarven settlement.",
+        SovereignCatalog.Brand => "A Regular or Leader in each of two free North settlements, plus one in Brand's region if it is free.",
+        _ => "A Regular or Leader in each of two free Rohan settlements, plus one in Théoden's region if it is free."
+    };
 
     public static CharacterAbilityPlan? Plan(MatchState state, Side actor, CommandPayload payload)
     {

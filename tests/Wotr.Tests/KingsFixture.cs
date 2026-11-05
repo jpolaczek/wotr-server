@@ -60,13 +60,38 @@ internal static class KingsFixture
         }
     }
 
-    public static MatchState Attempt(int eyes = 2, string sovereign = SovereignCatalog.Dain, params string[] tiles)
+    // The Shadow to act with these Eyes in the Hunt Box and only these tiles in the Hunt Pool.
+    public static MatchState Ready(int eyes, params string[] tiles)
     {
         var state = Actions(Side.Shadow);
         Eyes(state, eyes);
-        Pool(state, tiles.Length > 0 ? tiles : [HuntTests.Three]);
-        return Do(state, CommandKind.AttemptCorruption,
-            new() { CharacterId = sovereign, DieId = CorruptionRules.Eyes(state).First().Id }, 0);
+        Pool(state, tiles);
+        return state;
+    }
+
+    // UI-442: a standard attempt draws all its tiles in its own command, here in the order given. Three Eyes and the
+    // default tiles leave the private choice between the 3 and the 1 open.
+    public static MatchState Attempt(int eyes = 3, string sovereign = SovereignCatalog.Dain, params string[] tiles)
+    {
+        tiles = tiles.Length > 0 ? tiles : [HuntTests.Three, KingsCorruptionTests.One];
+        var state = Ready(eyes, tiles);
+        return Do(state, CommandKind.AttemptCorruption, AttemptPayload(state, sovereign), DrawOrder(state, tiles));
+    }
+
+    public static CommandPayload AttemptPayload(MatchState state, string sovereign = SovereignCatalog.Dain) =>
+        new() { CharacterId = sovereign, DieId = CorruptionRules.Eyes(state).First().Id };
+
+    // The samples that draw these pool tiles in this order: a draw picks by index among the pool's tiles in state order.
+    public static int[] DrawOrder(MatchState state, params string[] order)
+    {
+        var pool = state.HuntTiles.Where(t => t.Location == "pool").Select(t => t.Id).ToList();
+        var samples = new int[order.Length];
+        for (var i = 0; i < order.Length; i++)
+        {
+            samples[i] = pool.IndexOf(order[i]);
+            pool.RemoveAt(samples[i]);
+        }
+        return samples;
     }
 
     public static MatchState Do(MatchState state, CommandKind kind, CommandPayload? payload = null, params int[] samples) =>

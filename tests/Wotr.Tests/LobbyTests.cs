@@ -31,7 +31,7 @@ public sealed class AccountHost(string? connectionString = null, bool? expansion
             settings[setting.Key] = setting.Value;
         settings["WOTR_DB"] = connectionString ?? PostgresTests.Connection;
         if (expansions.HasValue)
-            settings[ReleaseScope.ConfigurationKey] = expansions.Value ? "true" : "false";
+            settings[ReleaseScope.ExpansionsKey] = expansions.Value ? "true" : "false";
         builder.ConfigureAppConfiguration((_, config) => config.AddInMemoryCollection(settings));
         if (services is not null)
             builder.ConfigureTestServices(services);
@@ -241,12 +241,12 @@ public class LobbyTests
     public void ProductionOffersOnlyTheBaseGameUnlessExpansionsAreEnabled()
     {
         var empty = new ConfigurationBuilder().Build();
-        Assert.False(ReleaseScope.Read(empty, new TestEnvironment("Production")).Expansions);
-        Assert.True(ReleaseScope.Read(empty, new TestEnvironment("Development")).Expansions);
-        Assert.True(ReleaseScope.Read(empty, new TestEnvironment("Testing")).Expansions);
+        Assert.False(ReleaseScope.Read(empty, new TestEnvironment("Production")).OffersExpansions);
+        Assert.True(ReleaseScope.Read(empty, new TestEnvironment("Development")).OffersExpansions);
+        Assert.True(ReleaseScope.Read(empty, new TestEnvironment("Testing")).OffersExpansions);
         var enabled = new ConfigurationBuilder().AddInMemoryCollection(
-            new Dictionary<string, string?> { [ReleaseScope.ConfigurationKey] = "true" }).Build();
-        Assert.True(ReleaseScope.Read(enabled, new TestEnvironment("Production")).Expansions);
+            new Dictionary<string, string?> { [ReleaseScope.ExpansionsKey] = "true" }).Build();
+        Assert.True(ReleaseScope.Read(enabled, new TestEnvironment("Production")).OffersExpansions);
         Assert.True(ReleaseScope.BaseOnly.Offers(ConfigurationRules.Normalize(new())));
         foreach (var expansion in new[]
         {
@@ -276,9 +276,12 @@ public class LobbyTests
         await full.Configure(early.Id, alice.AccountId, new() { ExpectedVersion = 1, Configuration = new() { Lords = true } });
         await full.Confirm(early.Id, alice.AccountId, 2);
         await full.Confirm(early.Id, bob.AccountId, 2);
-        Assert.True((await full.Read(early.Id, alice.AccountId))!.ExpansionsAvailable);
+        var fullView = (await full.Read(early.Id, alice.AccountId))!;
+        Assert.True(fullView.ExpansionsAvailable);
+        Assert.Equal(ExpansionModules.All, fullView.OfferedModules);
         var seen = (await baseOnly.Read(early.Id, alice.AccountId))!;
         Assert.False(seen.ExpansionsAvailable);
+        Assert.Empty(seen.OfferedModules);
         Assert.Equal("ExpansionsUnavailable", seen.StartUnavailableReason);
         Assert.Equal("ExpansionsUnavailable", (await baseOnly.Start(early.Id, alice.AccountId, 2)).Error);
         Assert.Equal("ExpansionsUnavailable", (await baseOnly.Configure(early.Id, bob.AccountId,
@@ -305,6 +308,7 @@ public class LobbyTests
         var created = await client.PostAsJsonAsync("/api/rooms", new CreateRoomRequest { Side = Side.FreePeoples }, BoardCatalog.Json);
         var room = (await created.Content.ReadFromJsonAsync<RoomView>(BoardCatalog.Json))!;
         Assert.False(room.ExpansionsAvailable);
+        Assert.Empty(room.OfferedModules);
         var rejected = await client.PutAsJsonAsync($"/api/rooms/{room.Id}/configuration",
             new ConfigureRoomRequest { ExpectedVersion = room.Version, Configuration = new() { Lords = true } }, BoardCatalog.Json);
         Assert.Equal(HttpStatusCode.Conflict, rejected.StatusCode);

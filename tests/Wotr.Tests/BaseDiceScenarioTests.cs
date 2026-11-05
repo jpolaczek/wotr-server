@@ -56,6 +56,7 @@ public class BaseDiceScenarioTests
         ["sh-eye-hunt-allocation"] = new(CommandKind.AllocateHunt, null, Allocate),
         ["sh-elven-ring"] = new(CommandKind.UseRing, DieFace.Muster, Ring(DieFace.Eye)),
         ["fp-mordor-enter"] = new(CommandKind.EnterMordor, null, (_, _, _) => new()),
+        ["fp-mordor-enter-morannon"] = new(CommandKind.EnterMordor, null, (_, _, _) => new()),
         ["fp-mordor-track"] = new(CommandKind.MoveFellowship, DieFace.Character, (_, _, die) => new() { DieId = die!.Id }),
         ["fp-mordor-crack"] = new(CommandKind.MoveFellowship, DieFace.Character, (_, _, die) => new() { DieId = die!.Id })
     };

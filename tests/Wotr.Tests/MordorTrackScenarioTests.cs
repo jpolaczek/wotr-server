@@ -4,29 +4,34 @@ using Xunit;
 
 namespace Wotr.Tests;
 
-// TEST-06: the Mordor Track scenarios stand where they promise, and the track is reached by the real entry.
+// TEST-06: the Mordor Track scenarios stand where they promise, and the track is reached by the real entry; TEST-16 adds
+// the entry through Morannon's gate.
 public class MordorTrackScenarioTests
 {
     private static readonly GameEngine Engine = GameRuntime.Engine(EffectCatalog.All);
 
-    [Fact]
-    public void TheFellowshipWaitsAtMinasMorgulInTheFellowshipPhase()
+    [Theory]
+    [InlineData("fp-mordor-enter", "minas-morgul")]
+    [InlineData("fp-mordor-enter-morannon", "morannon")]
+    public void TheFellowshipWaitsAtItsGateInTheFellowshipPhase(string id, string gate)
     {
-        var state = TestScenarioCatalog.Find("fp-mordor-enter")!.Create("mordor-enter");
+        var state = TestScenarioCatalog.Find(id)!.Create("mordor-enter");
 
         Assert.Equal(GamePhase.Fellowship, state.Phase);
         Assert.Equal(DecisionKind.FellowshipPhase, state.Pending?.Kind);
-        Assert.Equal("minas-morgul", state.Fellowship.RegionId);
+        Assert.Equal(gate, state.Fellowship.RegionId);
         Assert.Null(state.Fellowship.MordorStep);
         Assert.True(state.Fellowship.Hidden);
         Assert.Equal(3, state.Fellowship.Corruption);
         Assert.True(MordorRules.CanEnter(state));
     }
 
-    [Fact]
-    public void EnteringFromTheScenarioPutsTheFellowshipOnStepZero()
+    [Theory]
+    [InlineData("fp-mordor-enter")]
+    [InlineData("fp-mordor-enter-morannon")]
+    public void EnteringFromTheScenarioPutsTheFellowshipOnStepZero(string id)
     {
-        var state = TestScenarioCatalog.Find("fp-mordor-enter")!.Create("mordor-enter");
+        var state = TestScenarioCatalog.Find(id)!.Create("mordor-enter");
         var result = Engine.Execute(state, Side.FreePeoples, new GameCommand
         {
             MatchId = state.Id,

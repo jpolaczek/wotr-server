@@ -125,7 +125,7 @@ The minimum can be raised only after the availability of the tested packages of 
 | DS08 | All packages on PC, direct HTTPS and resume download. | DIST-04 |
 | DS09 | Trusted proxy, secrets, backup/restore and availability after reboot. | DIST-04 |
 | DS10 | Separate versions and application identification in runtime. Made 2026-10-13: `ClientBuildInfo`, one client generator for the player resource and `build-info.json`, a manifesto from the same fields. | DIST-05 |
-| DS11 | Compatibility enforced by HTTP and WebSocket. 2026-10-13: version headers, 409 `ClientUpdateRequired`/`ServerUpdateRequired` before auth and command, transition period for ZIP. | DIST-05 |
+| DS11 | Compatibility enforced by HTTP and WebSocket. 2026-10-13: version headers, 409 `ClientUpdateRequired`/`ServerUpdateRequired` before auth and command, transition period for ZIP. 2026-10-19 (EXP-02): also per expansion module — `Wotr:Release:ModuleClients` names the first client version of each released module, and an older client gets the same 409 `ClientUpdateRequired` at a table using that module ([T08-LOBBY](../server/T08-LOBBY.md#client-compatibility-per-module--exp-02-2026-10-19)). | DIST-05, EXP-02 |
 | DS12 | Public directory, manifest signature and safe announcement. Made 2026-10-13: `GET /api/client/releases`, Ed25519 (BouncyCastle), `Wotr.ReleaseTool` with atomic directory. | DIST-05 |
 | DS13 | Windows installer for a regular player (from D13 without Authenticode; signature in DIST-12). | DIST-06 |
 | DS14 | MacOS installer of both architectures (from D13 ad-hoc, without notation; signature in DIST-12). | DIST-06 |
@@ -239,7 +239,7 @@ On Mac, the publishers `python3 scripts/release_client.py v<version> [--required
   [nginx WebSocket](https://nginx.org/en/docs/http/websocket.html),
   [Certbot DNS Cloudflare](https://certbot-dns-cloudflare.readthedocs.io/en/stable/).
 - [T38](../server/T38-DEPLOYMENT.md), [T39](T39-RELEASE.md),
-  [menu](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/MAIN_MENU_UX.md), [tests](../TESTING.md).
+  [menu](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/MAIN_MENU_UX.md), [tests](../TESTING.md).
 
 The Velopack installers/signatures documentation, for example Unity Mono, Cloudflare Tunnel, nginx WebSocket and Certbot plugin have been checked by 2026-10-12. The Mono example describes an additional Windows boottrap and ending by Application.Quit; it does not provide proof of the current WoTR nor macOS Universal. pinned versions of tools and compatibility check again in DIST-06.
 

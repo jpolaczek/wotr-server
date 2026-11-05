@@ -56,7 +56,8 @@ public sealed class RoomState
         Configuration = Configuration,
         MatchId = MatchId,
         StartUnavailableReason = RoomRules.Unavailable(Configuration, release) ?? "",
-        ExpansionsAvailable = release.Expansions
+        ExpansionsAvailable = release.OffersExpansions,
+        OfferedModules = release.Modules.ToList()
     };
 }
 
@@ -72,7 +73,8 @@ public static class RoomRules
             return error;
         if (!ConfigurationRules.IsValid(configuration))
             return "InvalidConfiguration";
-        if ((room.Managed && !ConfigurationRules.IsBase(configuration)) || !release.Offers(configuration))
+        // EXP-01: any room, named ones and challenge tables too, may use the released modules.
+        if (!release.Offers(configuration))
             return "ExpansionsUnavailable";
         room.Configuration = configuration;
         room.Version++;

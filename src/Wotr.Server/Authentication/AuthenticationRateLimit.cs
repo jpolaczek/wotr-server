@@ -38,7 +38,12 @@ internal static class AuthenticationRateLimit
         };
         options.AddPolicy(Login, context => RateLimitPartition.GetFixedWindowLimiter(
             context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-            _ => new FixedWindowRateLimiterOptions { PermitLimit = 20, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = context.RequestServices.GetRequiredService<GameRateLimitOptions>().SignInsPerMinute,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            }));
         options.AddPolicy(Email, context => RateLimitPartition.GetFixedWindowLimiter(
             context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
             _ => new FixedWindowRateLimiterOptions

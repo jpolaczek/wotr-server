@@ -51,7 +51,7 @@ internal static class CharacterEntryDescriptions
         new(KingsChieftains.Mirkwood, KingsChieftains.Mirkwood, "KINGS pp.14–15,18",
             "The Shadow of Mirkwood has never entered. The Dwarves, Elves or North are at war. Enter a region with a Sauron army."),
         new(KingsChieftains.Ugluk, KingsChieftains.Ugluk, "KINGS pp.14–15,18",
-            "Uglúk has never entered. Rohan is at war or the Fellowship is revealed. Enter with an Isengard army, or in a region free of enemy armies with or adjacent to the revealed Fellowship outside Mordor.")
+            "Uglúk has never entered. Rohan is at war or the Fellowship is revealed. Enter with an Isengard army, or in a free region in or adjacent to the revealed Fellowship's region while it is off the Mordor Track.")
     ];
 
     public static IEnumerable<CharacterEntryDescription> For(MatchConfiguration configuration, Side viewer)

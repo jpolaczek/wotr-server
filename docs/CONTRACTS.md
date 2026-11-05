@@ -56,7 +56,7 @@ The window semantics are defined by [Inventory of decisions](rules/decisions.jso
 | `CommandResult` | Receipt with the result of acceptance/rejection, revision and safe reason; current view or link to download it. |
 | `AutoDecisionPolicy` | Owner, battle, range `SkipCombatCards`, hand version, activity; expires with battle or change of hand. |
 
-UI-11 : [description of the implementation](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/UI-11-AUTO-DECISIONS.md) . `PlayerView.AutoDecision` and the receipt changes contain only their own `Version` , `HandVersion` , `Policy` , `LastSkippedBattleId` and `LastSkippedRound` . `SetCombatCardPolicy` send `Payload.AutoDecision { BattleId, ExpectedVersion, HandVersion, Enabled }` This is a private setting outside the decision queue: instead of `ExpectedRevision/DecisionId` validate current battle and private CAS and on the turn on the hand version. Normal command they retain full validation. Disabled after the saved “No card” does not reverse this response and is not invalidated just because the game revision has changed.
+UI-11 : [description of the implementation](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-11-AUTO-DECISIONS.md) . `PlayerView.AutoDecision` and the receipt changes contain only their own `Version` , `HandVersion` , `Policy` , `LastSkippedBattleId` and `LastSkippedRound` . `SetCombatCardPolicy` send `Payload.AutoDecision { BattleId, ExpectedVersion, HandVersion, Enabled }` This is a private setting outside the decision queue: instead of `ExpectedRevision/DecisionId` validate current battle and private CAS and on the turn on the hand version. Normal command they retain full validation. Disabled after the saved “No card” does not reverse this response and is not invalidated just because the game revision has changed.
 
 `CommandReceipt.PublicStateChanged` distinguishes a private change from the approved game response. The preference itself does not change public revision, history, RNG nor the projection of the opponent. Each actual hand mutation passes through `HandRules`; increases the hand version and extinguishs the policy. Automatic response arises only with open own `CombatCard`, retains its ID/In order and uses the same solution as manual rejection. It does not create a separate command or second spending.
 
@@ -109,7 +109,7 @@ Minimum categories: `NotAuthorized`, `StaleRevision`, `DecisionExpired`, `Illega
 
 With the revision error UI downloads the current projection, retains legal parts of the draft and requires re-approval of the modified result. On timeout, it does not create a new `commandId`; first checks the result of the old one. The sent command has one state of waiting and the multi-click does not generate any more spending.
 
-UI-10 Details [versification and recovery](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/UI-10-TRANSPORT.md) and [_Other Organiser](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/UI-10-DRAFTS.md) We compare game revision, private version of the policy and hand version; old and identical projections do not undo the view or delete local Undo. New revision invalidates previous preview. Removed cost remains empty, even if another die It's the only way to make it. command , not projection: the older receipt does not reverse board Recovering starts with GET Receipt; only 404 allow the same repetition command The exact payoad is stored as an independent copy. Results acceptance are recorded in [network protocol UI-10](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/UI-10-NETWORK.md) .
+UI-10 Details [versification and recovery](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-10-TRANSPORT.md) and [_Other Organiser](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-10-DRAFTS.md) We compare game revision, private version of the policy and hand version; old and identical projections do not undo the view or delete local Undo. New revision invalidates previous preview. Removed cost remains empty, even if another die It's the only way to make it. command , not projection: the older receipt does not reverse board Recovering starts with GET Receipt; only 404 allow the same repetition command The exact payoad is stored as an independent copy. Results acceptance are recorded in [network protocol UI-10](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-10-NETWORK.md) .
 
 `CommandShape` borders reject `null` on the Army traffic route and lack identifier source/target without calling the right planner. `IllegalChoice` does not change status or download RNG. The empty route list remains the correct shape for normal traffic; geography and cost are still set by the rule module. [Tests of raw payoads](server/UI-10-ACCEPTANCE.md) confirms the domain and seven actual cases of HTTP/PostgreSQL after unlocking the environment.
 
@@ -135,7 +135,7 @@ We do not store pending decisions exclusively in WebSocket, coroutine or process
 
 `SavedTurnDraft` contains payoad, local editing context and minimal MatchId/You/Turn/Phase/DecisionId/Kind/Window/SourceId and window flags. It does not store legal options, hands or maps. When opening draft passes existing CanCarry/Reconcile; the server still calculates legality. Undo does not exceed reboot. Quick choices are combined into the last asynchronous record, and the change of the batch is waiting for the end of the queue. Unsolved command remains separate from draft.
 
-`MatchSession` rejects events after the screen is released. The first projection shows the current decision without replaying. `MatchSeenTracker` sends monotonous PUT seen only after displaying the mounted board. Coalscing and rewriting this auxiliary recording does not stop the game. The list and Changes perform only GET. Private recording is not automatically transferred between devices. Terms and results: [UI-12](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/UI-12-RETURN.md).
+`MatchSession` rejects events after the screen is released. The first projection shows the current decision without replaying. `MatchSeenTracker` sends monotonous PUT seen only after displaying the mounted board. Coalscing and rewriting this auxiliary recording does not stop the game. The list and Changes perform only GET. Private recording is not automatically transferred between devices. Terms and results: [UI-12](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-12-RETURN.md).
 
 <a id="konta-i-pokoje-t08"></a>
 ## Accounts and rooms (T08)
@@ -195,6 +195,8 @@ UI-06: `ActionOption.EffectChoices` describes candidates by stable ID, the known
 ## Fellowship and Companion T15
 
 `DeclareFellowship` and `RevealFellowship` Accept `Route` containing the initial region and the subsequent neighbouring regions. ID means to stay; the client does not indicate the target itself, as routes may have other consequences. `HideFellowship` pays `DieId` ; `SelectGuide` indicates `GuideId` . `SeparateCompanions` contains the group `Ids` and common `Route` ; in action also die , when forced separation, the cost comes from the superior procedure. `MoveCompanions.CompanionMoves` includes independent groups ID/routes paid one dice .
+
+Since EXP-19 the `DeclareFellowship` option is absent at the first Fellowship phase of a game when a declaration can change nothing ([T15](rules/T15-FELLOWSHIP.md)). `Pending.Commands` still lists it and the command is still accepted, as with an older client or a saved draft; the protocol does not change. The client already handles the absent option, as after a declaration earlier in the same turn.
 
 `ActionOption.Travel` submit candidates by `Id` , `Origin` , `Range` , `Targets` ; does not calculate all routes or subsets. The group may benefit from the highest level, but validation concerns the entire route declared. `ActionPreview.Fellowship` shows known region/post Noise/hidden, treatment and regions requiring additional caff; do not select a tile. Character deployments use an existing `Placements` . .
 
@@ -421,7 +423,7 @@ to `HuntStage` added `ShadowReplacement`; existing values retain numbers. In Lor
 <a id="t28--stan-suwerenów-i-prywatny-dobór"></a>
 ## T28 — State of sovereigns and private selection
 
-`PlayerView.Sovereigns` describes five identities with status Initial/Awakened/ Corrupted/Removed , region, resilience and tiles. Values and physical ID covered tiles only receive SH ; FP gets anonymous identifier the position of the reverse. The openly Kings tile has a zero value in the corruption. `CorruptionAttempt` make the selection counter available to both parties, and `OwnChoices` only Shadow . . `AwakenSovereign` Accepts CharacterId/DieId/Route ; `RemoveCorruptedSovereign` CharacterId/DieId. `AttemptCorruption` indicate the sovereign and entitled Eye; `DrawCorruptionTile` saves the next selection, `ChooseCorruptionTile` one physical tile with private options SH Authorization, revision, legality and RNG remain on the server. [Sources, conditions and continuations](rules/T28-SOVEREIGNS.md) . .
+`PlayerView.Sovereigns` describes five identities with status Initial/Awakened/ Corrupted/Removed , region, resilience and tiles. Values and physical ID covered tiles only receive SH ; FP gets anonymous identifier the position of the reverse. The openly Kings tile has a zero value in the corruption. `CorruptionAttempt` make the selection counter available to both parties, and `OwnChoices` only Shadow . . `AwakenSovereign` Accepts CharacterId/DieId/Route ; `RemoveCorruptedSovereign` CharacterId/DieId. `AttemptCorruption` indicate the sovereign and entitled Eye; `DrawCorruptionTile` saves the next selection, `ChooseCorruptionTile` one physical tile with private options SH Authorization, revision, legality and RNG remain on the server. UI-442: in a standard attempt `AttemptCorruption` itself draws every tile, then opens `DecisionKind.CorruptionTile` with only `ChooseCorruptionTile` (presentation `CorruptionChoice`) for two or more numeric tiles, or places a single one without a decision; `DrawCorruptionTile` and the presentations `CorruptionSequential` and `CorruptionDraw` remain for Sequential Corruption (and a standard draw step saved by an earlier build). [Sources, conditions and continuations](rules/T28-SOVEREIGNS.md) . .
 
 Policy changes can open `ChooseEffect` presentation `CorruptionRemoval` for FP Even in action   SH.  `remove` randomly returns one covered tile, `decline` leaves state; neither choice nor history reveals value. The cost actor and previous decision is preserved. `CombatReplacement` I'm giving Brand `replace` / `keep` After the reveal. `ExtendSiege` may indicate Regular solely with the openly eligible weakness costs; the preview shows removal, not downgrade. `PlayerView.RegionOverrides` announces public change to Helm’s Deep to Isengard/Shadow at Corrupted Théoden; victory continues to benefit from its original affiliation settlement The client does not have to guess the activity of this change on his own.
 
@@ -462,7 +464,7 @@ Riders use `RecruitmentPlan` and `Placements`: one R/E and Leader figurine in on
 
 `DiscardWelcome` is added at the end of `CommandKind`; it does not change the older command numbers. The server returns only the legal dice in `EligibleDice`, re-verifies the tho-presence of figures and atomicly releases die/rejects card. Service saves the target in `EffectExecution.TargetIds`, nation in `NationId` and region in `RegionId`; these data do not open access to the tile value.
 
-West uses existing `CorruptionAttempt`, `DrawCorruptionTile` and `ChooseCorruptionTile`. Its frame has an empty `DieId` and `Return=Parent`; the cost of the event remains at the overriding stack. `OwnChoices` is available only Shadow. UI shows up to three places and the tiles buttons from this projection; clicks draft, the joint approval sends command. `BattleRoundState.LeadershipPenalty` reduces the Army's Leadership to a minimum of zero, leaving available points of individual figures as a separate cost. The field equal to zero is omitted in the record, so the old entries remain identical. The new round will cancel the penalty with the remaining round costs.
+West uses existing `CorruptionAttempt`, `DrawCorruptionTile` and `ChooseCorruptionTile` (UI-442: in standard mode the `ChooseEffect` that names the target draws every tile, and `DrawCorruptionTile` is Sequential only). Its frame has an empty `DieId` and `Return=Parent`; the cost of the event remains at the overriding stack. `OwnChoices` is available only Shadow. UI shows up to three places and the tiles buttons from this projection; clicks draft, the joint approval sends command. `BattleRoundState.LeadershipPenalty` reduces the Army's Leadership to a minimum of zero, leaving available points of individual figures as a separate cost. The field equal to zero is omitted in the record, so the old entries remain identical. The new round will cancel the penalty with the remaining round costs.
 
 <a id="t30-cards-03--koszt-konwersji-i-trwały-limit"></a>
 ## T30-CARDS-03 — conversion cost and permanent limit
@@ -555,6 +557,10 @@ Contracts 0.3.1 (public content 1.0.3 requires this version) adds `PlayerView.Hu
 
 `Battle` is a public snapshot of the moment of entry. Earlier commitment does not obtain the identity of card after a reveal, and OwnRerollSelection remains empty. BattleId combines facts with the future report UI-40. `Hunt` retains ChainId, a copy of the existing entry HuntReport and a public completed; another string does not replace the former story. `FellowshipBefore/After` and the public FellowshipRoute do not create a route of normal hidden traffic. `Rolls`, HitTarget/Hits, Phase and Outcome describe the actual performance of the manufacturers. Sovereigns only contains public data of the variant.
 
+EXP-20: `Figures` describes a figure once. The command's decision step carries the board difference at the accepted boundary (`ActionBoardChanges`), so a recruit of any kind (Muster, a Kings ruler's recruitment, an entry with a recruit, Gothmog, the Voice of Saruman, a card) is one change per unit, with `From` `reserve` and `To` its region. A `UnitRecruited` or `EventRecruited` step keeps its text and region, without a figure change. The only exception is a Leader recruited without an army: the boundary sees him going from `reserve` to `casualties`, so his `UnitRecruited` step also records his placement. History saved before this change keeps its old facts, including a `UnitRecruited` change with an empty `From`.
+
+EXP-20: withdrawing into a stronghold (`RetreatIntoSiege` at either defender decision, or the Scouts choice "Withdraw into siege", all through `StrongholdRules.Shelter`) records a `Retreat` `ActionMovement` on the automatic `StrongholdShelter` step: `From` and `To` are the battle's region, `Route` holds only that region, and `Participants` are the figures that withdrew, each with `Garrison` true. `From == To` is what tells it from a retreat to another region. The figures are public, so both sides read the same step. Withdrawals saved before this change have no movement.
+
 The new HistoryId have separate public/FreePeoples/Shadow. counters The public list, details, numbers and cursors do not change after the private selection of the reroll itself. HistoryId and parents do not encode the hidden index. SetCombatCardPolicy without public change does not add an entry; when performing a commit, the story describes the commit as an automatic. Preview, rejection and retry still do not produce new steps.
 
 
@@ -623,7 +629,7 @@ The full location and version are exclusively from its own list. SH does not rec
 <a id="menu-i-publiczne-pokoje--menu"></a>
 ## Menu and public rooms — MENU
 
-Contracts for new screens, paginations, Ready, invitations and exits are described by [MAIN_MENU_UX](https://github.com/jpolaczek/wotr-client/blob/4d67ee84c6ee41195adf4473a601684a2df7fd30/docs/ui/MAIN_MENU_UX.md). Public DTO is never RoomView.
+Contracts for new screens, paginations, Ready, invitations and exits are described by [MAIN_MENU_UX](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/MAIN_MENU_UX.md). Public DTO is never RoomView.
 
 <a id="paczka-comwotrcontracts--dist-02"></a>
 ## Pack com.wotr.contracts — DIST-02
@@ -639,11 +645,45 @@ Contracts 0.11.0 (LOBBY-01) add `LobbyMessage` (`Sequence`, `Author`, `Text`, `A
 the protocol and commands are unchanged. Public content 1.0.12 has the same files as 1.0.11 and requires Contracts
 0.11.0. Endpoints: [T08-LOBBY](server/T08-LOBBY.md#lobby-chat-players-online-and-challenges--lobby-01-2026-10-18).
 
-Contracts 0.12.0 (UI-361) add `PlayerSummary.HandDeckCounts`: each player's hand by deck (`character`, `strategy`, the
+On the expansions line, Contracts 0.12.0–0.14.0 and public content 1.0.13–1.0.15 below were local builds that
+were never published; `main` published its own Contracts 0.12.0 and content 1.0.13 (UI-361, after them).
+
+Contracts 0.12.0 (EXP-01, release per module) add `ExpansionModules` (the ids `Fate` = `fate`, `Lords` = `lords`,
+`Kings` = `kings`, `All` in release order, `IsKnown`, and `Of(MatchConfiguration)`, the modules a configuration
+enables), `RoomView.OfferedModules` (`offeredModules` in JSON: the modules this server releases for new tables,
+lower-case ids in release order; empty when it offers only the base game) and `PublicRoomSummary.Configuration`
+(`configuration`: the room's current configuration, so the Open games list can show its expansions).
+`RoomView.ExpansionsAvailable` stays and is true when any module is released, so clients from before 0.12.0 keep
+working; such a client shows every expansion switch while only some modules are released, and the server refuses the
+others with 409 `ExpansionsUnavailable`. The protocol and commands are unchanged. Public content 1.0.13 has the same
+files as 1.0.12 and requires Contracts 0.12.0. Rules: [T08-LOBBY](server/T08-LOBBY.md#release-per-module--exp-01-2026-10-19).
+
+Contracts 0.13.0 (TEST-10) add `TestScenarioView.Modules` (`modules` in JSON: the expansion modules a test scenario
+plays with, lower-case `ExpansionModules` ids; empty for the base game). The server lists and starts a scenario only
+when all its modules are released; otherwise it is absent from `GET /api/test-scenarios` and its start answers 404
+`ScenarioNotFound`. The protocol and commands are unchanged. Public content 1.0.14 has the same files as 1.0.13 and
+requires Contracts 0.13.0. Scenarios: [TEST_SCENARIOS](TEST_SCENARIOS.md).
+
+Contracts 0.14.0 (DEMO-06) add `OfferedModulesView` (`modules`: the expansion modules this server releases for new
+tables), answered by `GET /api/rooms/offered-modules` so the menu's demo page can show the rules before any room
+exists. A demo (`POST /api/rooms/{id}/demo`) now plays with its room's configuration and is refused with 409
+`ExpansionsUnavailable` while a module of it is not released. The protocol and commands are unchanged. Public content
+1.0.15 has the same files as 1.0.14 and requires Contracts 0.14.0. Rules: [DEMO-MODE](server/DEMO-MODE.md).
+
+Contracts 0.12.0 on `main` (UI-361) add `PlayerSummary.HandDeckCounts`: each player's hand by deck (`character`, `strategy`, the
 keys of `DeckCounts`), from the same cards as `HandCount` (a battle's Balrog table card included). It is public in both
 views, as the decks' backs differ; the cards themselves stay hidden
 (`ProjectionTests.EachHandsSplitByDeckIsPublicAndItsCardsStayHidden`). The field only adds data: an older client ignores
 it and the protocol is unchanged. Public content 1.0.13 has the same files as 1.0.12 and requires Contracts 0.12.0.
+
+Contracts 0.15.0 (EXP-16, the expansions line after `main`'s 0.12.0) hold both lines: the expansions' 0.12.0–0.14.0
+above and `main`'s `PlayerSummary.HandDeckCounts`. Public content 1.0.16 has the same files as 1.0.15 and requires
+Contracts 0.15.0.
+
+Public content 1.0.17 (UI-365) rewrites the expansions' ability texts (`character-ability-text.json`, the `lords.`,
+`kings.` and `fate.` cards) and some Lords, Kings and Fate card texts (`<module>-card-text.json`) so each is short,
+names its subject and matches the rules; the files, keys and ids are unchanged and it still requires Contracts 0.15.0.
+The base-game entries are unchanged.
 
 <a id="wersje-klienta-katalog-wydań-i-zgodność--dist-05"></a>
 ## Client versions, release directory and compliance — DIST-05

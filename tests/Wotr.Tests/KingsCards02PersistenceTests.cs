@@ -77,16 +77,16 @@ public class KingsCards02PersistenceTests
     }
 
     [PostgresFact]
-    public async Task WestRestartsTargetEachDrawAndPrivateFinalTileChoice()
+    // UI-442: the target's command draws both tiles of the event's attempt; the private choice is its own command.
+    public async Task WestRestartsTargetWithItsDrawsAndPrivateFinalTileChoice()
     {
         var state = KingsWestTests.Ready(2);
         Pool(state, One, HuntTests.Three);
         state = Play(state, West);
         var target = new CommandPayload { Ids = [SovereignCatalog.Dain] };
-        await LordsPersistenceTests.Restart(state, CommandKind.ChooseEffect, target, 0);
-        state = Do(state, CommandKind.ChooseEffect, target, 0);
-        await LordsPersistenceTests.Restart(state, CommandKind.DrawCorruptionTile, new(), 0);
-        state = Do(state, CommandKind.DrawCorruptionTile, new(), 0);
+        var draws = DrawOrder(state, One, HuntTests.Three);
+        await LordsPersistenceTests.Restart(state, CommandKind.ChooseEffect, target, draws);
+        state = Do(state, CommandKind.ChooseEffect, target, draws);
         await LordsPersistenceTests.Restart(state, CommandKind.ChooseCorruptionTile, new() { Ids = [One] });
     }
 
