@@ -26,9 +26,12 @@ namespace Wotr.Contracts
         FinishArmyEvent, DiscardPalantir, DiscardDenethor, ChooseSpecialDie, UseNarya, UseVilya, DeclineVilya, ChooseCompanionVersions,
         UseEvilKnowledge, ChooseCouncilHomelands, ChooseCouncilToken, UseCouncilToken, DiscardLore, DiscardGates,
         AwakenSovereign, RemoveCorruptedSovereign, AttemptCorruption, DrawCorruptionTile, ChooseCorruptionTile,
-        DiscardRulerDie, DiscardWelcome, DiscardBaradPalantir, UseDismay, DeclineDismay, UseLoreBeforeActions, FinishActionSequence
+        DiscardRulerDie, DiscardWelcome, DiscardBaradPalantir, UseDismay, DeclineDismay, UseLoreBeforeActions, FinishActionSequence,
+        // RANK-03 (R35): only the server issues these, in ranked matches.
+        Concede, TimeOut
     }
-    public enum VictoryCondition { RingCorrupted, RingDestroyed, ShadowMilitary, FreePeoplesMilitary }
+    // RANK-03 (R35): Conceded and TimedOut end a ranked game off the board.
+    public enum VictoryCondition { RingCorrupted, RingDestroyed, ShadowMilitary, FreePeoplesMilitary, Conceded, TimedOut }
     public sealed class GameCommand
     {
         public string MatchId { get; set; } = "";

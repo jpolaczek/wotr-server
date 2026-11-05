@@ -31,6 +31,12 @@ public static class MatchEndpoints
                 {
                     error = "IllegalChoice"
                 });
+            // RANK-03: a concession and a timeout are the server's to issue, through their own paths (RANK-04, RANK-06).
+            if (request.Kind is Wotr.Contracts.CommandKind.Concede or Wotr.Contracts.CommandKind.TimeOut)
+                return Results.BadRequest(new
+                {
+                    error = "IllegalChoice"
+                });
             var receipt = await store.Execute(request, Account(context), context.RequestAborted);
             if (receipt is null)
                 return Results.NotFound();

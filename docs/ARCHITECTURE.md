@@ -1007,3 +1007,16 @@ games. It is pure: no clock, database or random source, so the server calls it i
 transaction and stores what it returns. The volatility iteration and the search for its lower bound are bounded,
 the expected score is kept a hair away from 0 and 1 so that any rating gap gives a finite result, and the deviation
 never falls below 45. `Glicko2Tests` reproduce Glickman's example and the numbers RANKED_PLAY quotes.
+
+<a id="concession-and-timeout--rank-03"></a>
+## Concession and timeout — RANK-03 (2026-11-05)
+
+`CommandKind.Concede` and `CommandKind.TimeOut` end a game as `VictoryCondition.Conceded` or `TimedOut`, a loss for
+the sender (`GameEndingCommands`, through `GameEnding.Finish`). A concession, like a combat-card preference, needs no
+turn: the engine skips the revision and decision checks for it. A timeout names exactly the decision whose clock ran
+out (its revision, id and owner), so one that arrives after a move went through ends nothing. Neither may carry a
+payload, so no token is spent on the way out. The engine holds no clock; only the server issues either, and the
+ordinary commands endpoint refuses both. `GameEnding.Finish` now also abandons a Kings corruption attempt in progress
+(`CorruptionRuntime.Abandon`: its Eye is spent and its tiles return, as completing it would), which a victory reached
+during an attempt previously left on the resolving die. A concession is an ordinary committed command, so its frame
+ends the replay. `ConcessionTests` end the game from all 31 decision kinds of the base and expansion corpora.

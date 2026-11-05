@@ -19,7 +19,9 @@ public class BaseCorpusTests
             DecisionKind.SpecialDieChoice, DecisionKind.KeepActionDie, DecisionKind.CouncilHomelands, DecisionKind.CouncilToken,
             DecisionKind.RulerDiscard, DecisionKind.Dismay]).Order();
         Assert.Equal(baseDecisions, Cases.Where(c => c.Decision.HasValue).Select(c => c.Decision!.Value).Distinct().Order());
-        Assert.Equal(Enum.GetValues<VictoryCondition>().Order(), Cases.Where(c => c.Victory.HasValue).Select(c => c.Victory!.Value).Order());
+        // RANK-03: a concession and a timeout end a ranked game off the board; ConcessionTests cover them.
+        var boardResults = Enum.GetValues<VictoryCondition>().Except([VictoryCondition.Conceded, VictoryCondition.TimedOut]).Order();
+        Assert.Equal(boardResults, Cases.Where(c => c.Victory.HasValue).Select(c => c.Victory!.Value).Order());
         Assert.Equal(29, Cases.Count);
         Assert.Equal(Cases.Count, Cases.Select(c => c.File).Distinct().Count());
     }
