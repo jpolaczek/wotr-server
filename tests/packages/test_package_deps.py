@@ -146,6 +146,11 @@ class PackerTests(unittest.TestCase):
         with self.assertRaisesRegex(PACKER.PackageError, "Commit changes"):
             self.build()
 
+    def test_a_contract_without_its_meta_is_refused(self):
+        commit(self.server, {"src/Wotr.Contracts/Runtime/Unmarked.cs": "namespace Wotr.Contracts { }"})
+        with self.assertRaisesRegex(PACKER.PackageError, "Unmarked.cs has no .meta file"):
+            self.build()
+
     def test_contracts_cannot_refer_to_server_code(self):
         commit(self.server, {"src/Wotr.Contracts/Runtime/Leak.cs": "using Wotr.Domain;"})
         with self.assertRaisesRegex(PACKER.PackageError, "server code"):

@@ -111,9 +111,14 @@ def check_contracts(root, commit):
     project = committed(root, commit, CONTRACTS_SOURCE + "/Wotr.Contracts.csproj").decode()
     if "<TargetFramework>netstandard2.1</TargetFramework>" not in project or "ProjectReference" in project:
         raise PackageError("Contracts must target netstandard2.1 without project references.")
-    for path in tracked(root, commit, CONTRACTS_SOURCE):
+    paths = tracked(root, commit, CONTRACTS_SOURCE)
+    for path in paths:
         if path.endswith(".cs") and SERVER_NAMESPACES.search(committed(root, commit, path).decode()):
             raise PackageError(path + " refers to server code.")
+    for path in paths:
+        # Unity ignores a file without a meta in an immutable package, so the client would not compile.
+        if path.endswith(".cs") and path + ".meta" not in paths:
+            raise PackageError(path + " has no .meta file.")
 
 
 def contracts_package(root, commit):
