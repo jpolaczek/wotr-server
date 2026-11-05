@@ -1,5 +1,22 @@
 # Player rule facts at an action boundary
 
+## Direct ordinary battle losses — boundary v13
+
+Boundary v13 extends the existing direct paid-battle marker to one ordinary,
+non-voluntary combat loss decision. The only accepted shape is a top-level
+`FinishAction` battle frame with one plain `BattleLoss` frame above it, source
+`combat`, a positive hit count and the matching first-round loss stage. The
+existing BattleView and DecisionView already expose the public loss owner,
+source, hit count and legal choice; `BattleContextView` still adds only
+`CompletesPaidAction`. Voluntary losses, event losses, nested battles, parent
+returns and extra frames keep the boundary absent. Both seats receive the same
+semantic fact; it does not expose the frame or any private choice.
+
+`ActionBoundaryBattleTests` checks both attacker sides, both player projections,
+the minimal serialized fact and refusal of voluntary, unrelated and nested loss
+contexts. This gives the private runtime enough provenance to review normal
+combat-loss roots without inferring the action source from battle presentation.
+
 ## Direct paid battle return — boundary v12
 
 Boundary v12 adds one semantic fact for a direct, paid army attack: the active
@@ -11,10 +28,11 @@ or hidden card identity is transferred.
 
 This is not a general battle continuation contract. Relief-mode/event battles, nested
 or suspended procedures, battle effects, and frames returning to a parent remain
-unsupported. Runtime reconstruction begins with first-round, pre-reveal combat
-card choices only; an opponent's committed face-down card identity is never
-invented. An empty card back can represent a committed pass. Revealed cards and
-later combat choices need separately reviewed reconstruction and parity checks.
+unsupported. The private runtime currently reconstructs first-round card and
+ordinary reroll windows. A revealed card identity is used only after it becomes
+public; a hidden opposing selection is sampled from public facts. Loss decisions
+are separately marked by boundary v13 and still require private reconstruction
+and parity checks.
 Sources: T18/T19 and BASE pp. 28–32. Public projection coverage is in
 `ActionBoundaryBattleTests`; this does not by itself establish private runtime
 reconstruction or BOT-02 acceptance.
@@ -121,13 +139,13 @@ nine ordinary HTTP/restart/receipt-replay cases. Both passed; package/client pin
 are recorded in the [current checkpoint](STRATEGIC-BOTS.md). This is metadata
 verification, not BOT-02 or strategic acceptance.
 
-Contracts 0.26.0 provide optional `PlayerView.ActionBoundary` version 12. It is ordinary
+Contracts 0.27.0 provide optional `PlayerView.ActionBoundary` version 13. It is ordinary
 own-side player information, also passed through the existing bot input projection.
 It does not grant command permission and requires no new UI controls. Protocol 2,
 save schema 3 and game rules are unchanged. Older responses omit it; consumers
 must treat absence or an unknown version as unsupported, never as empty state.
 
-Version 12 retains the reviewed base/Fate ordinary phases/actions, hand limits, paid army/recruitment/character
+Version 13 retains the reviewed base/Fate ordinary phases/actions, hand limits, paid army/recruitment/character
 steps, excess removal, and reviewed choices in a Hunt caused by the paid
 Fellowship movement action. Ordinary/paid army windows have no suspended frames.
 The Hunt context supports rerolls, damage, public reaction windows, guide choice,
@@ -137,8 +155,13 @@ Bane, Foul Thing and the committed Nazgûl Strike Hunt have their own CardHunt c
 choice/reveal/Stronghold windows. Both the uncommitted revelation offer and the
 active Balrog reaction after revelation use the same context. Declaration has its
 own unpaid return context. Reviewed Hunts also support the nested Worn choice.
-Other card programs, arbitrary effect-discard returns, other battle contexts, suspended Lords
-procedures and event/nested Kings procedures still omit the boundary. Never serialize
+Version 13 also marks an ordinary non-voluntary `combat` loss choice when it is the
+single `BattleLoss` frame directly above a first-round paid battle that returns to
+the action. Existing BattleView and DecisionView provide the public losing side,
+hit count and loss choice; the boundary adds only the semantic paid-action return.
+Voluntary/event losses, nested battles, other battle contexts, arbitrary
+effect-discard returns, suspended Lords procedures and event/nested Kings
+procedures still omit the boundary. Never serialize
 a resolution stack or redacted save as player data.
 
 The existing `ActionSequenceView` additionally exposes `InitialFigureIds`: public
@@ -183,7 +206,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return described above. Public content 1.0.28 and pure rules 0.12.0 pin this contract; game rules, protocol and save schema are unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 omits normal direct paid battle losses. Public content 1.0.28 and pure rules 0.13.0 pin this contract; game rules, protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing

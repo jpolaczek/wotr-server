@@ -68,20 +68,33 @@ internal static class ActionBoundaryProjection
     private static BattleContextView? DirectBattle(MatchState state)
     {
         var pending = state.Pending;
+        var frames = state.Resolution.Frames;
         if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
-            state.Resolution.ActionSequence is not null || pending is null ||
-            state.Resolution.Frames.Count != 1)
+            state.Resolution.ActionSequence is not null || pending is null || frames.Count is < 1 or > 2)
             return null;
 
-        var frame = state.Resolution.Frames[0];
+        var frame = frames[0];
         var battle = frame.Battle;
         if (frame.EffectId != "" || frame.NextStep != 0 || frame.Window != "" ||
             frame.ReturnDecision is not null || frame.Effect is not null || frame.Fellowship is not null ||
             frame.Hunt is not null || frame.BattleLoss is not null || frame.EventLoss is not null ||
             frame.Corruption is not null || battle is not { Return: EffectReturn.FinishAction } ||
             battle.Id.Length == 0 || battle.Mode == BattleMode.Relief ||
-            battle.Attacker.Side == battle.Defender.Side ||
-            !BattleDecisionMatches(pending, battle) ||
+            battle.Attacker.Side == battle.Defender.Side)
+            return null;
+
+        BattleLossProcedure? loss = null;
+        if (frames.Count == 2)
+        {
+            var lossFrame = frames[1];
+            loss = lossFrame.BattleLoss;
+            if (lossFrame.EffectId != "" || lossFrame.NextStep != 0 || lossFrame.Window != "" ||
+                lossFrame.ReturnDecision is not null || lossFrame.Effect is not null ||
+                lossFrame.Fellowship is not null || lossFrame.Hunt is not null || lossFrame.Battle is not null || loss is null ||
+                lossFrame.EventLoss is not null || lossFrame.Corruption is not null)
+                return null;
+        }
+        if (!BattleDecisionMatches(state, pending, battle, loss) ||
             state.Resolution.PaidDieIds.Count != 1 ||
             state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
             !state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
@@ -90,8 +103,14 @@ internal static class ActionBoundaryProjection
         return new() { CompletesPaidAction = true };
     }
 
-    private static bool BattleDecisionMatches(PendingDecision pending, BattleState battle) => pending.Kind switch
+    private static bool BattleDecisionMatches(MatchState state, PendingDecision pending, BattleState battle,
+        BattleLossProcedure? loss) => pending.Kind switch
     {
+        DecisionKind.Losses => loss is { Voluntary: false, AdditionalAttack: false, SourceId: "combat", Hits: > 0 } &&
+            battle.Round == 1 && pending.RequiredCount == loss.Hits && pending.Owner == loss.Owner &&
+            BattleRules.Alive(state, battle.Force(loss.Owner)) &&
+            (battle.Stage == BattleStage.DefenderLosses && loss.Owner == battle.Attacker.Side ||
+             battle.Stage == BattleStage.AfterLosses && loss.Owner == battle.Defender.Side),
         DecisionKind.CombatCard => battle.Round == 1 && !battle.CardsRevealed &&
             !battle.Force(pending.Owner).Round.CardCommitted &&
             (battle.Stage == BattleStage.AttackerCard && pending.Owner == battle.Attacker.Side ||
