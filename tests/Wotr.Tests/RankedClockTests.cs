@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -191,6 +192,44 @@ public sealed class RankedClockTests(ClockDatabase database) : IClassFixture<Clo
         await using var connection = await host.Services.GetRequiredService<Database>().Source.OpenConnectionAsync();
         var result = await RatingLedger.Result(connection, start.MatchId, fp.AccountId, default);
         Assert.Equal(1500 - 162, result!.RatingAfter);
+    }
+
+    // RANK-09 (D14): the test scenario's clock, for playtesting alone. It runs out as a ranked clock does, and no rating moves.
+    [PostgresFact]
+    public async Task ATestScenariosClockRunsOutAndNoRatingChanges()
+    {
+        var clock = new TestClock();
+        using var host = new AccountHost(database.Connection, extra: TestBudgets.Stress, services: s => s.AddSingleton<TimeProvider>(clock));
+        var owner = await MenuAccounts.Register(host);
+        var scenario = TestScenarioCatalog.Find("ranked-clock")!;
+        var session = await host.Services.GetRequiredService<TestSessionStore>().Start(owner.AccountId, scenario);
+
+        using var client = MenuAccounts.Client(host, owner);
+        var view = await client.GetFromJsonAsync<PlayerView>($"/api/matches/{session.MatchId}", BoardCatalog.Json);
+        var shown = Assert.IsType<MoveClockView>(view!.Clock);
+        Assert.Equal(30000, shown.LimitMilliseconds);
+        Assert.True(shown.OpponentOnline, "The test seat has no client to be reconnecting.");
+        Assert.Equal(3, shown.PausesLeft);
+
+        await using var data = NpgsqlDataSource.Create(database.Connection);
+        await using (var clear = data.CreateCommand("DELETE FROM match_clocks WHERE match_id <> $1"))
+        {
+            clear.Parameters.Add(new NpgsqlParameter { Value = session.MatchId });
+            await clear.ExecuteNonQueryAsync();
+        }
+        clock.Advance(TimeSpan.FromMinutes(2));
+        var service = host.Services.GetRequiredService<MoveClockService>();
+        Assert.Equal(1, await service.Tick());
+
+        var ended = await client.GetFromJsonAsync<PlayerView>($"/api/matches/{session.MatchId}", BoardCatalog.Json);
+        Assert.Equal(VictoryCondition.TimedOut, ended!.Victory);
+        Assert.Equal(Side.Shadow, ended.Winner);
+        Assert.Null(ended.Clock);
+        using var rating = await client.GetAsync($"/api/matches/{session.MatchId}/rating");
+        Assert.Equal(HttpStatusCode.NotFound, rating.StatusCode);
+        await using var changes = data.CreateCommand("SELECT count(*) FROM player_ratings WHERE account_id = $1");
+        changes.Parameters.Add(new NpgsqlParameter { Value = owner.AccountId });
+        Assert.Equal(0L, await changes.ExecuteScalarAsync());
     }
 
     // A shortened clock would decide real games, so a Production server refuses to start with one.

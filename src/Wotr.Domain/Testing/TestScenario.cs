@@ -10,6 +10,8 @@ public sealed record TestScenario(string Id, string Group, string Title, string 
     Func<string, IRandomSource, MatchState> Build)
 {
     public IReadOnlyList<string> Modules { get; init; } = [];
+    // RANK-09 (D14): a clock for playtesting a ranked game alone; it never changes a rating.
+    public RankedPreset? Clock { get; init; }
 
     public MatchState Create(string matchId) => Build(matchId, new SeededRandom(Seed(Id)));
 

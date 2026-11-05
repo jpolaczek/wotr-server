@@ -1114,6 +1114,14 @@ finished ranked game, ties going to more games and then the account id, and the 
 first finished ranked game. It walks the partial index `player_ratings_order`; the caller's rank counts the rows ahead
 of theirs. No account id leaves the server, so a client finds its own row by rank.
 
+<a id="clock-rehearsal--rank-09"></a>
+## A test scenario's clock — RANK-09 (2026-11-06)
+
+The test scenario `ranked-clock` carries a clock with short limits (`RankedPreset.Rehearsal`, 30 s and 15 s) and the
+pauses of a ranked match, so the owner can try them alone (D14). It has a `ranked_matches` row and a `match_clocks` row but
+no `ranked_seats`, which are what `RatingLedger.Finish` follows, so it cannot change a rating. No search can ask for the
+preset. The test seat has no client, so the view always reports it online.
+
 <a id="reconnect--rank-10"></a>
 ## Reconnect — RANK-10 (2026-11-05)
 

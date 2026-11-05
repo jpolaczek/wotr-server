@@ -690,6 +690,7 @@ with its pause and presence fields, the rating result and the leaderboard), `Com
 `VictoryCondition` Conceded and TimedOut, `MatchSummary.Ranked` and `PlayerView.Clock`. They skip 0.16.0–0.25.0, which the
 `bot` line holds, so that neither line reuses a version with other contents; whichever line merges second renumbers.
 Public content 1.0.28 has the same files as 1.0.17 and requires Contracts 0.26.0, and skips the `bot` line's numbers too.
+`RankedPreset.Rehearsal` is a test scenario's short clock (RANK-09, D14); no search can ask for it.
 
 <a id="wersje-klienta-katalog-wydań-i-zgodność--dist-05"></a>
 ## Client versions, release directory and compliance — DIST-05

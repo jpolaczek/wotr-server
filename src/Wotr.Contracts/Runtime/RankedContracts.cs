@@ -3,7 +3,8 @@ using System.Collections.Generic;
 namespace Wotr.Contracts
 {
     // RANK-04 (R35, docs/RANKED_PLAY.md): the time presets of a ranked search.
-    public enum RankedPreset { Fast, Standard, Long }
+    // Rehearsal is a test scenario's short clock (RANK-09, D14); no search can ask for it.
+    public enum RankedPreset { Fast, Standard, Long, Rehearsal }
 
     // A player's own rating before and after a finished ranked game, rounded as players see it; Change is their
     // difference, so the three always agree.

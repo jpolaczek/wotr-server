@@ -39,6 +39,8 @@ public static class MoveClock
         (RankedPreset.Standard, MoveClockKind.Small) => TimeSpan.FromSeconds(30),
         (RankedPreset.Long, MoveClockKind.Big) => TimeSpan.FromMinutes(5),
         (RankedPreset.Long, MoveClockKind.Small) => TimeSpan.FromMinutes(1),
+        (RankedPreset.Rehearsal, MoveClockKind.Big) => TimeSpan.FromSeconds(30),
+        (RankedPreset.Rehearsal, MoveClockKind.Small) => TimeSpan.FromSeconds(15),
         _ => throw new ArgumentOutOfRangeException(nameof(preset), preset, "Unknown preset.")
     };
 }

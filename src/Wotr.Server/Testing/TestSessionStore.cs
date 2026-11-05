@@ -7,8 +7,10 @@ namespace Wotr.Server;
 // TEST-01: one test match per owner. The owner plays the Free Peoples with their own session; a technical
 // seat account plays the Shadow, so the existing account-to-side rules, history and sockets stay unchanged.
 // Starting, restarting or ending removes the previous test match with everything stored for it.
-public sealed class TestSessionStore(Database database)
+public sealed class TestSessionStore(Database database, TimeProvider? clock = null)
 {
+    private readonly TimeProvider time = clock ?? TimeProvider.System;
+
     public const string SeatPrefix = "testseat-";
     public const string SeatName = "Test opponent";
 
@@ -24,6 +26,8 @@ public sealed class TestSessionStore(Database database)
         var state = scenario.Create(Guid.NewGuid().ToString("N"));
         await MatchStore.Insert(connection, transaction, state, owner, seat, MatchKind.Test, cancellation);
         await Register(connection, transaction, state.Id, owner, scenario, cancellation);
+        if (scenario.Clock is { } preset)
+            await StartClock(connection, transaction, state, preset, cancellation);
         var session = await SessionStore.Issue(connection, transaction, seat, SeatName, cancellation);
         await transaction.CommitAsync(cancellation);
         return new()
@@ -42,6 +46,17 @@ public sealed class TestSessionStore(Database database)
         await LockOwner(connection, transaction, owner, cancellation);
         await Remove(connection, transaction, owner, cancellation);
         await transaction.CommitAsync(cancellation);
+    }
+
+    // RANK-09 (D14): a ranked match's clock and pauses without its seats, which are what a rating follows. Its limits are
+    // short already, so a test server's scale leaves them alone.
+    private async Task StartClock(NpgsqlConnection connection, NpgsqlTransaction transaction, MatchState state, RankedPreset preset,
+        CancellationToken cancellation)
+    {
+        await using var row = Database.Command(connection, transaction,
+            "INSERT INTO ranked_matches(match_id, preset) VALUES ($1, $2)", state.Id, preset.ToString());
+        await row.ExecuteNonQueryAsync(cancellation);
+        await MatchClocks.Start(connection, transaction, state, preset, time.GetUtcNow(), RankedOptions.Default, cancellation);
     }
 
     // Serializes starts of one owner, so two clicks cannot leave two test matches.
