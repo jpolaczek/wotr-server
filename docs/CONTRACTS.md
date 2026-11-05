@@ -685,6 +685,12 @@ Public content 1.0.17 (UI-365) rewrites the expansions' ability texts (`characte
 names its subject and matches the rules; the files, keys and ids are unchanged and it still requires Contracts 0.15.0.
 The base-game entries are unchanged.
 
+Contracts 0.26.0 (RANK-03–RANK-10, R35) add ranked play: `RankedContracts.cs` (the search, its answers, the move clock
+with its pause and presence fields, the rating result and the leaderboard), `CommandKind` Concede and TimeOut,
+`VictoryCondition` Conceded and TimedOut, `MatchSummary.Ranked` and `PlayerView.Clock`. They skip 0.16.0–0.25.0, which the
+`bot` line holds, so that neither line reuses a version with other contents; whichever line merges second renumbers.
+Public content 1.0.28 has the same files as 1.0.17 and requires Contracts 0.26.0, and skips the `bot` line's numbers too.
+
 <a id="wersje-klienta-katalog-wydań-i-zgodność--dist-05"></a>
 ## Client versions, release directory and compliance — DIST-05
 
