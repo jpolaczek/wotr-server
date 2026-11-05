@@ -59,8 +59,11 @@ public static class MatchEndpoints
             var match = await store.Read(id, Account(context), context.RequestAborted);
             return match is null ? Results.NotFound() : Results.Ok(preview.Preview(match.State, match.Side, request));
         }).RequireRateLimiting(GameRateLimits.Previews).ForMatch();
-        api.MapDelete("/{id}", async (string id, HttpContext context, MatchRemoval removal, RevisionHub hub) =>
+        api.MapDelete("/{id}", async (string id, HttpContext context, MatchRemoval removal, RankedMatches ranked, RevisionHub hub) =>
         {
+            // RANK-04: removing a ranked match would escape its loss; whether a match is ranked never changes.
+            if (await ranked.RankedFor(id, Account(context), context.RequestAborted) == true)
+                return Results.Conflict(new Wotr.Contracts.ApiError { Error = RoomStore.RankedRefusal });
             if (!await removal.Delete(id, Account(context), context.RequestAborted))
                 return Results.NotFound();
             // MENU-21: open update sockets find no match and close; their clients then read 404.
@@ -69,5 +72,6 @@ public static class MatchEndpoints
         }).RequireRateLimiting(GameRateLimits.Commands);
         // EXP-02: a client older than one of the match's modules gets ClientUpdateRequired instead of the game.
         api.MapGet("/{id}/updates", (string id, HttpContext context, MatchSocket socket) => socket.Run(id, context)).ForMatch();
+        RankedMatchEndpoints.Map(api);
     }
 }

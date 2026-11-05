@@ -1020,3 +1020,26 @@ ordinary commands endpoint refuses both. `GameEnding.Finish` now also abandons a
 (`CorruptionRuntime.Abandon`: its Eye is spent and its tiles return, as completing it would), which a victory reached
 during an attempt previously left on the resolving die. A concession is an ordinary committed command, so its frame
 ends the replay. `ConcessionTests` end the game from all 31 decision kinds of the base and expansion corpora.
+
+<a id="ranked-matches--rank-04"></a>
+## Ranked matches — RANK-04 (2026-11-05)
+
+`RankedMatches.Start` (src/Wotr.Server/Ranked) creates a ranked match for two accounts in one transaction: the match
+(ledger kind `ranked`), an unlisted room for its chat (`RoomStore.InsertRanked`: no host, no invitation, `Ranked`
+set), its preset (`ranked_matches`), both seats (`ranked_seats`) and both rating rows (`player_ratings`). It locks
+both account rows in id order first, so two starts sharing an account are serialized; a seat lasts until the match
+finishes, so an account holds at most one active ranked match (`RankedMatchActive` names it).
+
+The rating changes in the transaction of the command that finishes the match: `MatchStore.SaveState` calls
+`RatingLedger.Finish` beside `MatchLedger.Finished`. Releasing the seats (`DELETE ... RETURNING`) is what makes the
+update happen once; both rating rows are then locked in account order, `Glicko2.Game` computes both results from the
+ratings before the game, and `rating_changes` keeps each player's before and after. Any failure rolls the finishing
+command back, so a match is never finished without its rating. Normal, test and demo matches hold no seats and change
+no rating.
+
+Nothing but a concession leaves a ranked match: `DELETE /api/matches/{id}` answers 409 `RankedMatch`, and the room
+refuses leave, invitation, role change and every join with the same code. `POST /api/matches/{id}/concede` takes the
+client's command id, so a retried concession returns its first receipt; `GET /api/matches/{id}/rating` gives the
+player's own rounded change. The rating is kept out of `PlayerView`, because frames store that view and replays would
+carry it. My games marks ranked rows (`MatchSummary.Ranked`) and titles them "Ranked · A vs B"; the admin panel counts
+ranked games with the others.

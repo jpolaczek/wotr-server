@@ -161,7 +161,11 @@ public sealed class MatchStore(Database database, GameEngine engine, IRandomSour
         }
         await MatchEventStore.Append(connection, transaction, state, eventsIndexed ? previousEventCount : 0, cancellation);
         if (state.Winner is { } winner)
+        {
             await MatchLedger.Finished(connection, transaction, state.Id, winner, cancellation);
+            // RANK-04: a ranked match's first finish updates both ratings in this same transaction.
+            await RatingLedger.Finish(connection, transaction, state.Id, winner, cancellation);
+        }
     }
 
     private static async Task SaveReceipt(NpgsqlConnection connection, NpgsqlTransaction transaction, GameCommand request,

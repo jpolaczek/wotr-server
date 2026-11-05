@@ -22,6 +22,8 @@ namespace Wotr.Contracts
         public DecisionKind? YourDecision { get; set; }
         public Side? Winner { get; set; }
         public VictoryCondition? Victory { get; set; }
+        // RANK-04: a ranked game, which My games marks and which can only be conceded.
+        public bool Ranked { get; set; }
     }
 
     public sealed class MatchListView

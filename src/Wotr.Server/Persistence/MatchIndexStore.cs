@@ -68,7 +68,8 @@ public sealed class MatchIndexStore(Database database)
             'revision', revision, 'lastSeenRevision', seen, 'status', status,
             'decisionOwner', CASE WHEN status<>'Finished' THEN state->'pending'->'owner' END,
             'yourDecision', CASE WHEN status='YourDecision' THEN state->'pending'->'kind' END,
-            'winner', state->'winner', 'victory', state->'victory')::text, fp_name, sh_name, people
+            'winner', state->'winner', 'victory', state->'victory',
+            'ranked', EXISTS (SELECT 1 FROM ranked_matches k WHERE k.match_id=classified.id))::text, fp_name, sh_name, people
         FROM classified
         WHERE $3='All' OR status=$3 OR ($3='Unfinished' AND status<>'Finished')
         ORDER BY id COLLATE "C" LIMIT $4

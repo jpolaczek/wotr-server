@@ -26,6 +26,9 @@ public sealed partial class RoomStore
         var state = room.State;
         if (state.Contains(account))
             return null;
+        // RANK-04: a ranked match has no audience (observers see both hands) and no free seat.
+        if (state.Ranked)
+            return RankedRefusal;
         if (room.Observer(account) is { } observer)
         {
             await room.AddObserver(account, observer.Name, cancellation);
@@ -77,9 +80,11 @@ public sealed partial class RoomStore
 
     public Task<RoomResult> ChangeRole(string id, string account, RoomRoleRequest request,
         CancellationToken cancellation = default) =>
-        Change("id", id, account, Access.Participant, room => request.Role == RoomRole.Observer
-            ? ToAudience(room, account, cancellation)
-            : ToSeat(room, account, request.Side, cancellation), cancellation);
+        Change("id", id, account, Access.Participant, room => room.State.Ranked
+            ? Task.FromResult<string?>(RankedRefusal)
+            : request.Role == RoomRole.Observer
+                ? ToAudience(room, account, cancellation)
+                : ToSeat(room, account, request.Side, cancellation), cancellation);
 
     // A player moves to the audience only while it has a free place; the seat is freed and nobody is ready any more.
     private static async Task<string?> ToAudience(LockedRoom room, string account, CancellationToken cancellation)

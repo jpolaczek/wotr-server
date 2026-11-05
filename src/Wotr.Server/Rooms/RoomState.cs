@@ -25,6 +25,9 @@ public sealed class RoomState
     public string MatchId { get; set; } = "";
     // MENU-24: accounts the host removed; they cannot take a seat in this room again.
     public List<string> Removed { get; set; } = [];
+    // RANK-04 (R35): the room of a ranked match keeps only its chat. Nobody joins, watches, invites, changes role or
+    // leaves it; a player ends the match only by conceding.
+    public bool Ranked { get; set; }
 
     // The two players; observers are kept apart (RoomObservers), so this never counts the audience.
     public bool Contains(string account) => account == FreePeoples || account == Shadow;

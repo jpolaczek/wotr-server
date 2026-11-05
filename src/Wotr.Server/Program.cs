@@ -66,6 +66,7 @@ builder.Services.AddSingleton<Lobby>();
 builder.Services.AddSingleton(services => TestScenarioOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
 builder.Services.AddSingleton<TestSessionStore>();
 builder.Services.AddSingleton<DemoSessionStore>();
+builder.Services.AddSingleton<RankedMatches>();
 builder.Services.AddSingleton(services => AdminOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<AdminAccess>();
 builder.Services.AddSingleton<AdminStatisticsStore>();
