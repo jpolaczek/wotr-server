@@ -75,5 +75,8 @@ namespace Wotr.Contracts
         public int DrawLimit { get; set; }
         public List<string> RevealedTiles { get; set; } = new List<string>();
         public List<CorruptionTileView> OwnChoices { get; set; } = new List<CorruptionTileView>();
+        // Shadow remembers every tile it drew, even when Sequential Corruption
+        // permits choosing only the latest. Always empty for Free Peoples.
+        public List<CorruptionTileView> OwnDrawnTiles { get; set; } = new List<CorruptionTileView>();
     }
 }

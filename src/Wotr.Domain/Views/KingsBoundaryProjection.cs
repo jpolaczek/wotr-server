@@ -5,7 +5,7 @@ namespace Wotr.Domain;
 internal static class KingsBoundaryProjection
 {
     internal static bool Supports(MatchState state) => !state.Configuration.Kings ? state.Kings is null :
-        state.Kings is not null && state.Resolution.Frames.Count == 0;
+        state.Kings is not null && (state.Resolution.Frames.Count == 0 || CorruptionBoundaryProjection.Supports(state));
 
     internal static KingsRuleFactsView? For(MatchState state, List<HuntTileFaceView> unassigned) =>
         state.Kings is { } kings ? new()

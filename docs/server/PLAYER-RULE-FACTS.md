@@ -1,5 +1,28 @@
 # Player rule facts at an action boundary
 
+## Active corruption boundary v10
+
+Boundary v10 also describes the ordinary Eye-paid corruption attempt while
+it draws, replaces a public ignored tile, or awaits the final/sequential choice
+(T28/T31, KINGS pp. 11–12, 19). The existing attempt's public sovereign, exact Eye,
+draw limit/count and revealed ignored tiles describe the procedure. Shadow also
+receives all its already drawn numeric tiles in draw order, separately from its
+currently selectable tiles. Free Peoples never receives these identities, even
+with Visible Corruption. Their unknown faces remain in the joint pool/attachment/
+private-draw multiset. No frame, return token or program cursor is transmitted.
+
+Only a single ordinary paid attempt is covered; event-origin and nested attempts
+still omit the boundary. Reconstruction must retain the already paid Eye, current
+private draw and ignored tiles without charging/drawing again. The pinned rules
+regenerate the current choice and finish the action once. Required checks cover
+both variants, hidden permutations, invalid/stale choices, known tile identities,
+Lords Eye payment, real restart/replay, budget limits and complete continuations.
+`CorruptionBoundaryProjectionTests` passed 94 cases across six module compositions,
+both visibility variants and seven draw/choice windows. Fourteen real HTTP/restart/
+receipt-replay cases passed for both visibility modes. The selected public run
+passed 2,246 cases without skips on 2026-11-05; its owned database was removed.
+Private reconstruction, bounds and strategy acceptance remain separate.
+
 ## Kings boundary v9
 
 Boundary version 9 adds frame-free Kings phases/actions/paid steps and Ruler-die /
@@ -18,7 +41,7 @@ identities. A hypothetical assignment must conserve the entire configured pool,
 keep known identities, and leave every initial sovereign below its resistance.
 Hidden-pool/attachment permutations must preserve the entire FP response. Visible
 Corruption still reveals assigned tiles only, never a pending private draw.
-Suspended corruption/card/Hunt/battle procedures need separate reviewed contexts.
+Event/nested corruption and suspended card/Hunt/battle procedures need separate reviewed contexts.
 `KingsBoundaryProjectionTests` verifies both seats across six compositions and
 hidden/visible assignments (71 cases); `KingsBoundaryPersistenceTests` verifies
 six ordinary HTTP/restart/receipt-replay scenarios. All 2,109 selected Kings,
@@ -56,13 +79,13 @@ nine ordinary HTTP/restart/receipt-replay cases. Both passed; package/client pin
 are recorded in the [current checkpoint](STRATEGIC-BOTS.md). This is metadata
 verification, not BOT-02 or strategic acceptance.
 
-Contracts 0.23.0 provide optional `PlayerView.ActionBoundary` version 9. It is ordinary
+Contracts 0.24.0 provide optional `PlayerView.ActionBoundary` version 10. It is ordinary
 own-side player information, also passed through the existing bot input projection.
 It does not grant command permission and requires no new UI controls. Protocol 2,
 save schema 3 and game rules are unchanged. Older responses omit it; consumers
 must treat absence or an unknown version as unsupported, never as empty state.
 
-Version 9 retains the reviewed base/Fate ordinary phases/actions, hand limits, paid army/recruitment/character
+Version 10 retains the reviewed base/Fate ordinary phases/actions, hand limits, paid army/recruitment/character
 steps, excess removal, and reviewed choices in a Hunt caused by the paid
 Fellowship movement action. Ordinary/paid army windows have no suspended frames.
 The Hunt context supports rerolls, damage, public reaction windows, guide choice,
@@ -73,7 +96,7 @@ choice/reveal/Stronghold windows. Both the uncommitted revelation offer and the
 active Balrog reaction after revelation use the same context. Declaration has its
 own unpaid return context. Reviewed Hunts also support the nested Worn choice.
 Other card programs, arbitrary effect-discard returns, battles, suspended Lords
-procedures and suspended Kings procedures still omit the boundary. Never serialize
+procedures and event/nested Kings procedures still omit the boundary. Never serialize
 a resolution stack or redacted save as player data.
 
 The existing `ActionSequenceView` additionally exposes `InitialFigureIds`: public
@@ -118,7 +141,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Public content 1.0.25 and pure rules 0.9.0 pin this contract; game rules, protocol and save schema are unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Public content 1.0.26 and pure rules 0.10.0 pin this contract; game rules, protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing

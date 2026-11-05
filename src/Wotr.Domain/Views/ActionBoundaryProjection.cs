@@ -17,7 +17,7 @@ internal static class ActionBoundaryProjection
         var fellowshipMove = FellowshipMoveProjection.For(state);
         var cardHunt = CardHuntProjection.For(state);
         if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
-            fellowshipMove is null && cardHunt is null && declaration is null)
+            fellowshipMove is null && cardHunt is null && declaration is null && !CorruptionBoundaryProjection.Supports(state))
             return null;
 
         // Base/Fate discards never return to a hand/deck. Only a visible discharge

@@ -9,7 +9,8 @@ internal static class LordsBoundaryProjection
         if (!state.Configuration.Lords)
             return state.Lords is null;
         // No suspended Lords program is implied by an ordinary base Hunt shape.
-        return state.Lords is { } lords && state.Resolution.Frames.Count == 0 &&
+        return state.Lords is { } lords &&
+            (state.Resolution.Frames.Count == 0 || CorruptionBoundaryProjection.Supports(state)) &&
             (state.Configuration.Council ? lords.Council is { BattleReturns.Count: 0 } : lords.Council is null) &&
             (lords.ActionCompletion is null || state.Pending?.Kind == DecisionKind.KeepActionDie);
     }
