@@ -16,8 +16,12 @@ public static class LobbyEndpoints
                 ? RegistrationResult(new RegistrationResult(null, RegistrationError.UsernameTaken))
                 : RegistrationResult(await accounts.Register(request, cancellation)))
             .RequireRateLimiting(AuthenticationRateLimit.Email);
-        app.MapPost("/api/auth/login", async (LoginRequest request, AccountService accounts, CancellationToken cancellation) =>
-            SignInResult(await accounts.SignIn(request, _ => true, SessionPurpose.Game, cancellation)))
+        // RANK-10: below the client minimum only an account seated at a ranked match signs in; no password is looked at otherwise.
+        app.MapPost("/api/auth/login", async (LoginRequest request, HttpContext context, AccountService accounts, RankedMatches ranked,
+            CancellationToken cancellation) =>
+            RankedSeatExemption.IsWaiting(context) && !await ranked.HoldsSeatByName(request.Username, cancellation)
+                ? ModuleCompatibility.Refusal(context)
+                : SignInResult(await accounts.SignIn(request, _ => true, SessionPurpose.Game, cancellation)))
             .RequireRateLimiting(AuthenticationRateLimit.Login);
         app.MapPost("/api/auth/logout", async (HttpContext context, SessionStore sessions) =>
         {

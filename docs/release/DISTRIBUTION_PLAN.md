@@ -337,3 +337,15 @@ decision of 2026-10-18), and a required release still downloads by itself before
 Tests: client EditMode `FirstMenuUpdateTests`, `UpdateCoordinatorTests` (the note's states, the Settings row's What's
 new); PlayMode `MainMenuLayoutTests` (the note on both screens in four layouts, no control moves).
 
+<a id="rank-10--required-updates-and-active-ranked-matches-2026-11-05"></a>
+## RANK-10 — Required updates and active ranked matches (2026-11-05)
+
+Leaving a ranked match loses it, so a required update must not take one away. While a match is active its seated
+players are exempt from the catalog's minimum version for that match's routes, for finding it through the queue's poll,
+and for signing in. A client that plays it to the end can read how it ended for an hour, and is otherwise refused
+with 409 `ClientUpdateRequired` as before; it cannot start a search. Everyone else below the minimum is refused
+exactly as before.
+
+The exemption covers the catalog's minimum only. A change of **protocol** past a client's version still refuses it,
+in a ranked match too, so a server release that drops a protocol ends the way back for clients in active ranked
+matches: their clocks run out and they lose. Plan such a release when `ranked_seats` is empty, or accept that.

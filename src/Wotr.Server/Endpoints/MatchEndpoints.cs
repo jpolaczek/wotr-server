@@ -9,7 +9,7 @@ public static class MatchEndpoints
     public static void Map(WebApplication app)
     {
         var api = app.MapGroup("/api/matches").RequireAuthorization();
-        api.MapGet("/{id}", async (string id, HttpContext context, MatchStore store, Projection projection, DemoBotRunner demos) =>
+        api.MapGet("/{id}", async (string id, HttpContext context, MatchStore store, Projection projection, DemoBotRunner demos, MatchPresence presence) =>
         {
             var match = await store.Read(id, Account(context), context.RequestAborted);
             // DEMO-03: opening a demo resumes its CPU, also after a server restart; other matches are not affected.
@@ -19,6 +19,8 @@ public static class MatchEndpoints
             var view = projection.For(match.State, match.Side);
             // RANK-06: a ranked match's running clock rides on the view, counted at this moment; never in a frame.
             view.Clock = store.ClockView(match);
+            if (view.Clock is not null)
+                view.Clock.OpponentOnline = presence.Online(id, TurnFlow.Other(match.Side));
             return Results.Ok(view);
         }).RequireRateLimiting(GameRateLimits.Reads).ForMatch();
         api.MapPost("/{id}/commands", async (string id, Wotr.Contracts.GameCommand request, HttpContext context, MatchStore store, RevisionHub hub,

@@ -67,7 +67,7 @@ public static class ModuleCompatibility
             : null;
     }
 
-    private static IResult Refusal(HttpContext http)
+    public static IResult Refusal(HttpContext http)
     {
         http.Response.Headers.CacheControl = "no-store";
         return Results.Json(new ApiError { Error = ClientCompatibility.ClientUpdateRequired },

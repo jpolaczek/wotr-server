@@ -61,6 +61,8 @@ namespace Wotr.Contracts
         public Side? PausedBy { get; set; }
         public int PausesLeft { get; set; }
         public int OpponentPausesLeft { get; set; }
+        // RANK-10: the match socket's notices update this as opponentOnline, without a refetch.
+        public bool OpponentOnline { get; set; }
     }
 
     // RANK-08 (D13): one row of the leaderboard. No account id leaves the server; a client finds its own row by rank.

@@ -10,6 +10,10 @@ public sealed record RankedOptions(TimeSpan PairingInterval, TimeSpan Liveness, 
     public const string PairingIntervalKey = "Wotr:Ranked:PairingIntervalMilliseconds";
     public const string ClockIntervalKey = "Wotr:Ranked:ClockIntervalMilliseconds";
     public const string ClockScaleKey = "Wotr:Ranked:ClockScalePercent";
+    // RANK-10: a seated player's socket may stay silent this long; a client heartbeats every 2 s. The grace covers clients
+    // returning after a server start, and clients opening the board of a new match.
+    public static readonly TimeSpan SocketSilence = TimeSpan.FromSeconds(8);
+    public static readonly TimeSpan PresenceGrace = TimeSpan.FromSeconds(15);
     public static readonly RankedOptions Default = new(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(6), TimeSpan.FromMinutes(10),
         TimeSpan.FromSeconds(1), TimeSpan.FromMinutes(10));
 

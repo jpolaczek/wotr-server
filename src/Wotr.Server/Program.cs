@@ -69,6 +69,7 @@ builder.Services.AddSingleton<DemoSessionStore>();
 builder.Services.AddSingleton<RankedMatches>();
 builder.Services.AddSingleton(services => RankedOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
 builder.Services.AddSingleton<MatchPauses>();
+builder.Services.AddSingleton<MatchPresence>();
 builder.Services.AddSingleton<Leaderboard>();
 builder.Services.AddSingleton<RankedQueue>();
 builder.Services.AddSingleton<RankedPairingService>();
@@ -130,6 +131,8 @@ app.UseWebSockets();
 app.UseAuthentication();
 // QUAL-02: after authentication, so signed-in budgets follow the account.
 app.UseRateLimiter();
+// RANK-10: it asks the database whether the account holds a ranked seat, so it needs the account and spends its budget.
+app.UseRankedSeatExemption();
 app.UseTestSeatGate();
 app.UseAuthorization();
 ServerHealth.Map(app);

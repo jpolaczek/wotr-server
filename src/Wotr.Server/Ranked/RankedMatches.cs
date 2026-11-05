@@ -9,7 +9,7 @@ public sealed record RankedStart(string MatchId, string Error, string ActiveMatc
 // RANK-04 (R35, docs/RANKED_PLAY.md): the server starts a ranked match for two accounts, with its unlisted room, its
 // seats and both rating rows, in one transaction. A seat lasts until the match finishes (RatingLedger), so an account
 // holds at most one active ranked match.
-public sealed class RankedMatches(Database database, IRandomSource random, TimeProvider clock, RankedOptions options)
+public sealed class RankedMatches(Database database, IRandomSource random, TimeProvider clock, RankedOptions options, MatchPresence presence)
 {
     public const string ActiveRefusal = "RankedMatchActive";
     public const string NotRankedRefusal = "NotRanked";
@@ -22,7 +22,10 @@ public sealed class RankedMatches(Database database, IRandomSource random, TimeP
         var start = await Create(connection, transaction, freePeoples, shadow, configuration, preset, random,
             clock.GetUtcNow(), options, cancellation);
         if (start.Error.Length == 0)
+        {
             await transaction.CommitAsync(cancellation);
+            presence.Expect(start.MatchId);
+        }
         return start;
     }
 
@@ -43,9 +46,54 @@ public sealed class RankedMatches(Database database, IRandomSource random, TimeP
         await RoomStore.InsertRanked(connection, transaction, match.Id, freePeoples, shadow, match.Configuration, cancellation);
         await Register(connection, transaction, match.Id, freePeoples, shadow, preset, cancellation);
         await RatingLedger.Ensure(connection, transaction, accounts, cancellation);
+        await SessionStore.ExtendForRankedMatch(connection, transaction, accounts, cancellation);
         // RANK-06: the first decision's clock starts with the match, with time to load the board.
         await MatchClocks.Start(connection, transaction, match, preset, now, options, cancellation);
         return new(match.Id, "");
+    }
+
+    // RANK-10: the side an account holds in this active ranked match, if it does.
+    public async Task<Side?> Seat(string match, string account, CancellationToken cancellation = default)
+    {
+        await using var connection = await database.Source.OpenConnectionAsync(cancellation);
+        await using var command = Database.Command(connection, null,
+            "SELECT side FROM ranked_seats WHERE match_id = $1 AND account_id = $2", match, account);
+        return await command.ExecuteScalarAsync(cancellation) is string side ? Enum.Parse<Side>(side) : null;
+    }
+
+    // RANK-10: below the client minimum an account may use a ranked match it is seated at, and may read how it ended for
+    // a while, because the seat goes with the last command and the end screen still has to load.
+    public async Task<bool> MayUseBelowMinimum(string match, string account, CancellationToken cancellation = default)
+    {
+        await using var connection = await database.Source.OpenConnectionAsync(cancellation);
+        await using var command = Database.Command(connection, null,
+            """
+            SELECT EXISTS (SELECT 1 FROM ranked_seats WHERE match_id = $1 AND account_id = $2)
+                OR EXISTS (SELECT 1 FROM rating_changes
+                    WHERE match_id = $1 AND account_id = $2 AND created_at > now() - interval '1 hour')
+            """, match, account);
+        return (bool)(await command.ExecuteScalarAsync(cancellation))!;
+    }
+
+    public async Task<bool> HoldsSeat(string account, CancellationToken cancellation = default)
+    {
+        await using var connection = await database.Source.OpenConnectionAsync(cancellation);
+        await using var command = Database.Command(connection, null,
+            "SELECT EXISTS (SELECT 1 FROM ranked_seats WHERE account_id = $1)", account);
+        return (bool)(await command.ExecuteScalarAsync(cancellation))!;
+    }
+
+    // For signing in below the minimum, by the name typed. It tells such a client whether a name holds a seat, as a 401
+    // instead of a 409: ranked names are public on the leaderboard and a seat reveals nothing of the game.
+    public async Task<bool> HoldsSeatByName(string? login, CancellationToken cancellation = default)
+    {
+        await using var connection = await database.Source.OpenConnectionAsync(cancellation);
+        await using var command = Database.Command(connection, null,
+            """
+            SELECT EXISTS (SELECT 1 FROM ranked_seats s JOIN accounts a ON a.id = s.account_id
+                WHERE a.normalized_name = $1 AND NOT a.technical)
+            """, (login ?? "").Trim().ToUpperInvariant());
+        return (bool)(await command.ExecuteScalarAsync(cancellation))!;
     }
 
     // Whether the account plays this match and whether it is ranked: null when the account does not play it.

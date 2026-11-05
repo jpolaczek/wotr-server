@@ -35,6 +35,10 @@ public sealed class ClientCompatibilityPolicy(ClientReleaseOptions options, Time
         return CompatibilityVerdict.Compatible;
     }
 
+    // RANK-10: a client refused only for the catalog's minimum is still one this server can talk to.
+    public bool SupportsProtocol(string? protocol) =>
+        TryParseProtocol(protocol, out var declared) && declared >= Protocols.Minimum && declared <= Protocols.Maximum;
+
     public static string ErrorCode(CompatibilityVerdict verdict) => verdict switch
     {
         CompatibilityVerdict.ClientUpdateRequired => ClientCompatibility.ClientUpdateRequired,

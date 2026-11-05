@@ -18,6 +18,19 @@ public sealed class SessionStore(Database database) : ISessionResolver
     public static readonly TimeSpan GameLifetime = TimeSpan.FromDays(30);
     public static readonly TimeSpan AdminLifetime = TimeSpan.FromHours(8);
 
+    // RANK-10: a session must outlast the ranked match it is playing, since a ranked seat can't be left and come back to.
+    public static async Task ExtendForRankedMatch(NpgsqlConnection connection, NpgsqlTransaction transaction, string[] accounts,
+        CancellationToken cancellation)
+    {
+        await using var command = Database.Command(connection, transaction,
+            """
+            UPDATE sessions SET expires_at = now() + interval '7 days'
+            WHERE account_id = ANY($1) AND purpose = 'game' AND NOT revoked
+                AND expires_at > now() AND expires_at < now() + interval '7 days'
+            """, (object)accounts);
+        await command.ExecuteNonQueryAsync(cancellation);
+    }
+
     public static string NewToken() => Convert.ToBase64String(RandomNumberGenerator.GetBytes(32))
         .TrimEnd('=').Replace('+', '-').Replace('/', '_');
 

@@ -1112,3 +1112,28 @@ player's view shows `Paused`, `PausedBy` and each player's pauses left.
 finished ranked game, ties going to more games and then the account id, and the caller's own row, or null before their
 first finished ranked game. It walks the partial index `player_ratings_order`; the caller's rank counts the rows ahead
 of theirs. No account id leaves the server, so a client finds its own row by rank.
+
+<a id="reconnect--rank-10"></a>
+## Reconnect — RANK-10 (2026-11-05)
+
+A lost connection costs a seated ranked player only the time it lasts. Normal matches keep their socket, budget and
+gate. `RankedMatches.Seat` decides at the start of a socket whether it serves a seat (`ranked_seats`).
+
+- **Heartbeat.** A seat's client sends a frame every 2 s, of any kind and content. `MatchSocket` closes a socket silent
+  for 8 s, which frees its slot; a dead network shows no close of its own.
+- **Presence.** `MatchPresence` (src/Wotr.Server/Realtime) keeps, in memory, each seat's sockets and until when it counts
+  as heard. A seat is online while it has a socket, and for 8 s after its last frame, so a dropped socket that returns
+  at once shows nothing and two devices count as one. The match socket's notice carries `opponentOnline`, null outside
+  a seat, and `PlayerView.Clock.OpponentOnline` holds it for a client that has just loaded. A change wakes the socket at
+  once, with no revision and no write, so no clock or replay sees it. A server start counts every seat as online for
+  15 s while clients return, and a new match its seats for as long while they open the board.
+- **Budget.** `UpdateSocketBudget.TryTake(account, evictOldest: true)` gives a seat's socket a slot in place of that
+  account's oldest, which may be dead.
+- **Session.** `RankedMatches.Create` extends both players' live game sessions to at least 7 days ahead.
+- **Version gate.** `ClientCompatibilityGate` runs before authentication, so a request refused only for the catalog's
+  minimum, with a supported protocol, on a route a seat might exempt, goes on to `RankedSeatExemption`, which refuses it
+  after authentication unless the account holds the seat. The routes are everything under `/api/matches/{id}`, the
+  queue's poll and signing in. A match's routes stay open for an hour after it ended, because the seat goes with the last
+  command and the end screen still has to load. The search is refused as for any old client. Signing in has only a name
+  to go on, so a client below the minimum can tell a name that holds a seat by its 401 rather than 409; ranked names
+  are public on the leaderboard and a seat reveals nothing of the game.

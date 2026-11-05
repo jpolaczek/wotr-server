@@ -12,7 +12,7 @@ public sealed record RankedQueueResult(RankedSearchView? View, string Error = ""
 // is started in the transaction that removes both searches, so a cancel either wins (no match) or loses (the match
 // stands and the cancel answers Matched). An account in a ranked match is always answered Matched, whatever it asks.
 public sealed class RankedQueue(Database database, RankedOptions options, ReleaseScope release, ModuleClientPolicy modules,
-    IRandomSource random, TimeProvider clock, ILogger<RankedQueue> logger)
+    IRandomSource random, TimeProvider clock, MatchPresence presence, ILogger<RankedQueue> logger)
 {
     // One pairing pass at a time across server processes.
     private const long PairingLock = 779305;
@@ -134,6 +134,7 @@ public sealed class RankedQueue(Database database, RankedOptions options, Releas
         if (start.Error.Length > 0)
             return false;
         await transaction.CommitAsync(cancellation);
+        presence.Expect(start.MatchId);
         return true;
     }
 

@@ -5,7 +5,8 @@ namespace Wotr.Server;
 
 // DS11: an incompatible client is stopped before authentication, rate limits, WebSocket upgrade or any
 // command. Health, the release catalog, the installer list and logout stay open, so a client can still
-// learn what to install; so do the website's account endpoints (AUTH-02).
+// learn what to install; so do the website's account endpoints (AUTH-02). RANK-10: a request a seat in an active ranked
+// match might exempt goes on to RankedSeatExemption, which refuses it after authentication unless the seat is there.
 public static class ClientCompatibilityGate
 {
     public static IApplicationBuilder UseClientCompatibility(this IApplicationBuilder app) => app.Use(async (context, next) =>
@@ -18,17 +19,29 @@ public static class ClientCompatibilityGate
         var policy = context.RequestServices.GetRequiredService<ClientCompatibilityPolicy>();
         var catalog = context.RequestServices.GetRequiredService<ReleaseCatalogStore>().Current();
         var headers = context.Request.Headers;
-        var verdict = policy.CheckRequest(Single(headers[ClientCompatibility.ClientVersionHeader]),
-            Single(headers[ClientCompatibility.ProtocolVersionHeader]), catalog);
+        var protocol = Single(headers[ClientCompatibility.ProtocolVersionHeader]);
+        var verdict = policy.CheckRequest(Single(headers[ClientCompatibility.ClientVersionHeader]), protocol, catalog);
         if (verdict == CompatibilityVerdict.Compatible)
         {
             await next();
             return;
         }
+        if (verdict == CompatibilityVerdict.ClientUpdateRequired && policy.SupportsProtocol(protocol) &&
+            RankedSeatExemption.Covers(context.Request))
+        {
+            RankedSeatExemption.Await(context);
+            await next();
+            return;
+        }
+        await Refuse(context, verdict);
+    });
+
+    public static async Task Refuse(HttpContext context, CompatibilityVerdict verdict)
+    {
         context.Response.StatusCode = verdict == CompatibilityVerdict.Invalid ? StatusCodes.Status400BadRequest : StatusCodes.Status409Conflict;
         context.Response.Headers.CacheControl = "no-store";
         await context.Response.WriteAsJsonAsync(new { error = ClientCompatibilityPolicy.ErrorCode(verdict) }, context.RequestAborted);
-    });
+    }
 
     // AUTH-02: the website's account pages (registration, email confirmation, password reset) are not a game client;
     // neither is its admin panel (ADMIN-01).

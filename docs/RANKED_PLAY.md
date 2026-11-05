@@ -136,6 +136,8 @@ uncertain commit is recovered through its receipt by command id, so it applies e
 - A pairing survives a dropped connection: the next poll, or signing in, finds the match. A search that lapsed tells
   the player it stopped.
 - A second device opens the same match. A seat is online while either client is heard.
+- A client below the minimum can still read how its match ended for an hour after it ended, since the seat goes with
+  the last command and the end screen still has to load. After that, as for any other request, it must update.
 - After a server restart, presence starts empty and gives seats a short grace before showing anyone offline.
 - A player who never reaches the board after pairing takes an ordinary loss when the clock runs out. A void game
   would let a player dodge an opponent by killing the client.
