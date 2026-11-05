@@ -203,6 +203,8 @@ public sealed class RankedClockTests(ClockDatabase database) : IClassFixture<Clo
         var owner = await MenuAccounts.Register(host);
         var scenario = TestScenarioCatalog.Find("ranked-clock")!;
         var session = await host.Services.GetRequiredService<TestSessionStore>().Start(owner.AccountId, scenario);
+        // Past the grace after a server start, which would count anyone as online.
+        clock.Advance(RankedOptions.PresenceGrace + TimeSpan.FromSeconds(1));
 
         using var client = MenuAccounts.Client(host, owner);
         var view = await client.GetFromJsonAsync<PlayerView>($"/api/matches/{session.MatchId}", BoardCatalog.Json);

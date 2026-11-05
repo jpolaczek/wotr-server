@@ -5,7 +5,7 @@ using Wotr.Domain;
 namespace Wotr.Server;
 
 public sealed record MoveClockRow(string DecisionId, Side Owner, MoveClockKind Kind, int LimitMilliseconds, DateTimeOffset Deadline,
-    DateTimeOffset? PausedAt, Side? PausedBy, int FreePeoplesPauses, int ShadowPauses);
+    DateTimeOffset? PausedAt, Side? PausedBy, int FreePeoplesPauses, int ShadowPauses, RankedPreset Preset);
 
 public sealed record DueClock(string Match, string DecisionId, string OwnerAccount, long Revision);
 
@@ -18,7 +18,7 @@ public static class MatchClocks
     public const string PausedRefusal = "MatchPaused";
 
     // The columns Row reads, in its order, for a query that joins match_clocks as c and ranked_matches as k.
-    public const string Columns = "c.decision_id, c.owner, c.kind, c.limit_ms, c.deadline, c.paused_at, c.paused_by, k.fp_pauses, k.sh_pauses";
+    public const string Columns = "c.decision_id, c.owner, c.kind, c.limit_ms, c.deadline, c.paused_at, c.paused_by, k.fp_pauses, k.sh_pauses, k.preset";
 
     public static Task Start(NpgsqlConnection connection, NpgsqlTransaction transaction, MatchState state,
         RankedPreset preset, DateTimeOffset now, RankedOptions options, CancellationToken cancellation) =>
@@ -111,7 +111,7 @@ public static class MatchClocks
             reader.GetInt32(first + 3), reader.GetFieldValue<DateTimeOffset>(first + 4),
             reader.IsDBNull(first + 5) ? null : reader.GetFieldValue<DateTimeOffset>(first + 5),
             reader.IsDBNull(first + 6) ? null : Enum.Parse<Side>(reader.GetString(first + 6)),
-            reader.GetInt32(first + 7), reader.GetInt32(first + 8));
+            reader.GetInt32(first + 7), reader.GetInt32(first + 8), Enum.Parse<RankedPreset>(reader.GetString(first + 9)));
 
     private static async Task Set(NpgsqlConnection connection, NpgsqlTransaction transaction, MatchState state,
         RankedPreset preset, DateTimeOffset from, RankedOptions options, CancellationToken cancellation)

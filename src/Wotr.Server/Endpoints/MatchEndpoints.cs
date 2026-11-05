@@ -20,7 +20,7 @@ public static class MatchEndpoints
             // RANK-06: a ranked match's running clock rides on the view, counted at this moment; never in a frame.
             view.Clock = store.ClockView(match);
             if (view.Clock is not null)
-                view.Clock.OpponentOnline = match.Preset == Wotr.Contracts.RankedPreset.Rehearsal || presence.Online(id, TurnFlow.Other(match.Side));
+                view.Clock.OpponentOnline = match.Clock!.Preset == Wotr.Contracts.RankedPreset.Rehearsal || presence.Online(id, TurnFlow.Other(match.Side));
             return Results.Ok(view);
         }).RequireRateLimiting(GameRateLimits.Reads).ForMatch();
         api.MapPost("/{id}/commands", async (string id, Wotr.Contracts.GameCommand request, HttpContext context, MatchStore store, RevisionHub hub,
