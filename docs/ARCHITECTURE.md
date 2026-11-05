@@ -996,3 +996,14 @@ host, the objects the player clicks, the cost, the commit gesture, a justified e
 same families from the decision's kind and presentation (`DecisionRoutes`), so the console status reopens the host
 that owns a decision; a choice no object owns yet keeps the generic list as its fallback. No protocol field,
 window manager or client rule engine is added.
+
+<a id="ranked-rating--rank-02"></a>
+## Ranked rating — RANK-02 (2026-11-05)
+
+`src/Wotr.Domain/Rating` holds the rating of ranked play ([RANKED_PLAY](RANKED_PLAY.md), R35). `PlayerRating` is an
+account's rating, deviation and volatility; `Glicko2.Game(winner, loser)` returns both players' new ratings, each
+computed from the other's rating before the game, and `Glicko2.Period` applies Glickman's steps 1-8 to a period of
+games. It is pure: no clock, database or random source, so the server calls it inside the finishing command's
+transaction and stores what it returns. The volatility iteration and the search for its lower bound are bounded,
+the expected score is kept a hair away from 0 and 1 so that any rating gap gives a finite result, and the deviation
+never falls below 45. `Glicko2Tests` reproduce Glickman's example and the numbers RANKED_PLAY quotes.
