@@ -4,14 +4,14 @@ namespace Wotr.Domain;
 
 internal static class LordsBoundaryProjection
 {
-    internal static bool Supports(MatchState state, bool reviewedHunt = false)
+    internal static bool Supports(MatchState state, bool reviewedContinuation = false)
     {
         if (!state.Configuration.Lords)
             return state.Lords is null;
-        // Hunt contexts are separately reviewed; other suspended Lords programs
-        // still require their own semantic mapping.
+        // Reviewed Hunt and direct battle contexts are explicit; other suspended
+        // Lords programs still require their own semantic mapping.
         return state.Lords is { } lords &&
-            (state.Resolution.Frames.Count == 0 || reviewedHunt || CorruptionBoundaryProjection.Supports(state)) &&
+            (state.Resolution.Frames.Count == 0 || reviewedContinuation || CorruptionBoundaryProjection.Supports(state)) &&
             (state.Configuration.Council ? lords.Council is { BattleReturns.Count: 0 } : lords.Council is null) &&
             (lords.ActionCompletion is null || state.Pending?.Kind == DecisionKind.KeepActionDie);
     }

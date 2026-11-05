@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 11;
+        public int Version { get; set; } = 12;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -20,6 +20,7 @@ namespace Wotr.Contracts
         public FellowshipMoveView? FellowshipMove { get; set; }
         public CardHuntView? CardHunt { get; set; }
         public FellowshipDeclarationView? FellowshipDeclaration { get; set; }
+        public BattleContextView? Battle { get; set; }
         public LordsRuleFactsView? Lords { get; set; }
         public KingsRuleFactsView? Kings { get; set; }
     }
@@ -50,6 +51,13 @@ namespace Wotr.Contracts
     {
         public List<string> Route { get; set; } = new List<string>();
         public List<string> RemainingStrongholds { get; set; } = new List<string>();
+    }
+
+    // Semantic return fact for a direct paid attack. PlayerView.Battle supplies
+    // the public combat state; this does not serialize its resolution frame.
+    public sealed class BattleContextView
+    {
+        public bool CompletesPaidAction { get; set; }
     }
 
     // Public consequences of the committed reveal route after a paid move.

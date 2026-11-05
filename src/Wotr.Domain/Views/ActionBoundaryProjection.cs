@@ -9,16 +9,20 @@ internal static class ActionBoundaryProjection
         var declaration = FellowshipDeclarationProjection.For(state);
         var fellowshipMove = FellowshipMoveProjection.For(state);
         var cardHunt = CardHuntProjection.For(state);
-        var reviewedHunt = declaration is not null || fellowshipMove is not null || cardHunt is not null;
-        // Compose only explicitly reviewed Hunt contexts with module facts;
+        var battle = DirectBattle(state);
+        var reviewedContinuation = declaration is not null || fellowshipMove is not null ||
+            cardHunt is not null || battle is not null;
+        // Compose only explicitly reviewed continuations with module facts;
         // arbitrary expansion procedures are not inferred from their decision kind.
-        if (!KingsBoundaryProjection.Supports(state, reviewedHunt) || !LordsBoundaryProjection.Supports(state, reviewedHunt))
+        if (!KingsBoundaryProjection.Supports(state, reviewedContinuation) ||
+            !LordsBoundaryProjection.Supports(state, reviewedContinuation))
             return null;
         if (state.Resolution.Frames.Count > 0 && declaration is null &&
             (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None))
             return null;
         if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
-            fellowshipMove is null && cardHunt is null && declaration is null && !CorruptionBoundaryProjection.Supports(state))
+            fellowshipMove is null && cardHunt is null && declaration is null && battle is null &&
+            !CorruptionBoundaryProjection.Supports(state))
             return null;
 
         // Base/Fate discards never return to a hand/deck. Only a visible discharge
@@ -34,6 +38,7 @@ internal static class ActionBoundaryProjection
             FellowshipMove = fellowshipMove,
             CardHunt = cardHunt,
             FellowshipDeclaration = declaration,
+            Battle = battle,
             Lords = LordsBoundaryProjection.For(state),
             Kings = KingsBoundaryProjection.For(state, tiles.Unassigned),
             PaidDieIds = [.. state.Resolution.PaidDieIds],
@@ -59,6 +64,47 @@ internal static class ActionBoundaryProjection
             HuntTiles = tiles.Zones
         };
     }
+
+    private static BattleContextView? DirectBattle(MatchState state)
+    {
+        var pending = state.Pending;
+        if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
+            state.Resolution.ActionSequence is not null || pending is null ||
+            state.Resolution.Frames.Count != 1)
+            return null;
+
+        var frame = state.Resolution.Frames[0];
+        var battle = frame.Battle;
+        if (frame.EffectId != "" || frame.NextStep != 0 || frame.Window != "" ||
+            frame.ReturnDecision is not null || frame.Effect is not null || frame.Fellowship is not null ||
+            frame.Hunt is not null || frame.BattleLoss is not null || frame.EventLoss is not null ||
+            frame.Corruption is not null || battle is not { Return: EffectReturn.FinishAction } ||
+            battle.Id.Length == 0 || battle.Attacker.Side == battle.Defender.Side ||
+            !BattleDecisionMatches(pending, battle) ||
+            state.Resolution.PaidDieIds.Count != 1 ||
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
+            !state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
+                die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving))
+            return null;
+        return new() { CompletesPaidAction = true };
+    }
+
+    private static bool BattleDecisionMatches(PendingDecision pending, BattleState battle) => pending.Kind switch
+    {
+        DecisionKind.CombatCard => battle.Round == 1 && !battle.CardsRevealed &&
+            !battle.Force(pending.Owner).Round.CardCommitted &&
+            (battle.Stage == BattleStage.AttackerCard && pending.Owner == battle.Attacker.Side ||
+             battle.Stage == BattleStage.DefenderCard && pending.Owner == battle.Defender.Side),
+        DecisionKind.BattleReroll =>
+            battle.Stage == BattleStage.AttackerReroll && pending.Owner == battle.Attacker.Side ||
+            battle.Stage == BattleStage.DefenderReroll && pending.Owner == battle.Defender.Side,
+        DecisionKind.BattleContinue => battle.Stage == BattleStage.Continue && pending.Owner == battle.Attacker.Side,
+        DecisionKind.BattleRetreat => battle.Stage == BattleStage.Retreat && pending.Owner == battle.Defender.Side,
+        DecisionKind.BattleAdvance => battle.Stage == BattleStage.Advance && pending.Owner == battle.Attacker.Side,
+        DecisionKind.StrongholdDefense => battle.Stage == BattleStage.StrongholdDefense && pending.Owner == battle.Defender.Side,
+        DecisionKind.SiegeContinuation => battle.Stage == BattleStage.SiegeContinuation && pending.Owner == battle.Attacker.Side,
+        _ => false
+    };
 
     private static bool SupportedWindow(MatchState state)
     {
