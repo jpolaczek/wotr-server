@@ -73,6 +73,17 @@ a player still does not receive the opponent's hidden data.
 | R33 | Every normal room holds two players and up to 16 observers. Before the game starts, participants can switch roles if the destination has a free place; player seats are fixed after the start. An observer switches between both sides' perspectives, sees their hands and browses the map, descriptions, tabs, activity log and reports, but cannot perform operations that change gameplay. The server authorizes the role independently of the perspective and does not expose future decks or RNG. |
 | R34 | A newly completed base game, including a demo, has a complete replay that players and currently present observers can save locally. The Replays library works before login and offline, with file import and export. The player provides both perspectives, automatic playback without thinking time and with speed control, and manual steps through decisions and whole turns in either direction, with historically correct hands, activity log and reports. A saved file does not depend on the game continuing to exist on the server. |
 
+<a id="ranked-play"></a>
+## Ranked play — owner decision of 2026-11-05
+
+Planned; it has not passed implementation acceptance. The rules of the mode are in
+[RANKED_PLAY](RANKED_PLAY.md). R35 is the one exception to R04's host-controlled
+start and to correspondence play in R05: a ranked game is live and has no waiting room.
+
+| ID | Requirement and acceptance condition |
+| --- | --- |
+| R35 | A player searches for a ranked game with each released expansion and each time preset set to Off, Allow or Enforce, and an optional faction preference that a second click releases. The server pairs two compatible players, nearest in rating, and starts the default game of the resulting expansions at once, with no variants and no accept step. The game cannot be left except by conceding, which loses it; a lost connection costs only its time. The server runs a clock for every decision, long for big decisions and short for small ones, warns the decision's owner 10 s before the limit, and ends the game as a loss when the limit passes. Each player may pause three times and either player may unpause. A finished ranked game updates both players' single per-account Glicko-2 rating exactly once, and the menu shows the top 25 and the player's own rank. Ranked games have no observers or CPU seats; test and demo games never change a rating. |
+
 <a id="konfiguracja-nowej-partii"></a>
 ## New-game configuration
 
@@ -114,11 +125,11 @@ start. Private setup decisions do not enter the shared summary.
 ## Outside the MVP
 
 Warriors of Middle-earth, other expansions and promos, 3–4 players, AI opponents
-in normal games (exception: the simple demo CPU in R32), public matchmaking,
-rankings, mobile and browser apps, and notifications outside the app. Observing
-and local replays were added to the plan by the user's decision of 2026-10-16
-(R33/R34); this does not claim implementation. Original artwork does not block
-a playable version.
+in normal games (exception: the simple demo CPU in R32), mobile and browser apps,
+and notifications outside the app. Observing and local replays were added to the
+plan by the user's decision of 2026-10-16 (R33/R34), and ranked matchmaking and
+ratings by the owner's decision of 2026-11-05 (R35); this does not claim
+implementation. Original artwork does not block a playable version.
 
 <a id="priorytet-przy-konflikcie"></a>
 ## Priority when requirements conflict
