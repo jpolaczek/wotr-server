@@ -56,6 +56,33 @@ async Task<SessionView> Register()
 }
 var fp = await Register();
 var sh = await Register();
+// UI-503: a leaderboard for the client's test. Plain rows for the crowd, since a registration hashes a password; a rating
+// beyond any played game holds the top 25; a later seed stands above an earlier one, so its first account is always first.
+async Task<SessionView> Rated(double rating, int games)
+{
+    var session = await Register();
+    await using var rate = source.CreateCommand(
+        "INSERT INTO player_ratings(account_id, rating, deviation, volatility, games, wins, losses) VALUES ($1, $2, 100, 0.06, $3, $4, $5)");
+    foreach (var value in new object[] { session.AccountId, rating, games, games / 2 + 1, games - games / 2 - 1 })
+        rate.Parameters.Add(new NpgsqlParameter { Value = value });
+    await rate.ExecuteNonQueryAsync();
+    return session;
+}
+await using (var crowd = source.CreateCommand(
+    """
+    WITH made AS (
+        INSERT INTO accounts(id, username, normalized_name, password_hash)
+        SELECT id, name, upper(name), '' FROM (
+            SELECT g, 'rated-' || g || '-' || gen_random_uuid() AS id, 'rated-' || lpad(g::text, 2, '0') || '-' || substr(md5(random()::text), 1, 8) AS name
+            FROM generate_series(1, 29) g) seeded
+        RETURNING id, username
+    )
+    INSERT INTO player_ratings(account_id, rating, deviation, volatility, games, wins, losses)
+    SELECT id, 3000 - substr(username, 7, 2)::int, 100, 0.06, 10, 5, 5 FROM made
+    """))
+    await crowd.ExecuteNonQueryAsync();
+var leaderboardTop = await Rated(3000 + DateTimeOffset.UtcNow.ToUnixTimeSeconds() / 1000.0, 41);
+var leaderboardLow = await Rated(800, 7);
 var random = new ServerRandom();
 var state = MatchFactory.Create(Guid.NewGuid().ToString("N"), random);
 TurnFlow.Start(state);
@@ -137,6 +164,8 @@ var fixture = new
     InteractionMatches = interactions.ToDictionary(p => p.Key, p => p.Value.Id),
     BaseAcceptanceMatches = baseAcceptance.ToDictionary(p => p.Key, p => p.Value.Id),
     ReturnMatches = returns.ToDictionary(p => p.Key, p => p.Value.Id),
+    LeaderboardTopUser = leaderboardTop.Username,
+    LeaderboardLowUser = leaderboardLow.Username,
     ReturnFreePeoplesUser = returnFp.Username,
     ReturnShadowUser = returnSh.Username,
     FreePeoplesUser = fp.Username,
