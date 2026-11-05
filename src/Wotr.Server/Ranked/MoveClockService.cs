@@ -50,7 +50,7 @@ public sealed class MoveClockService(Database database, MatchStore store, Revisi
         if (downtime > TimeSpan.Zero)
         {
             await using var shift = Database.Command(connection, transaction,
-                "UPDATE match_clocks SET deadline = deadline + $1", downtime);
+                "UPDATE match_clocks SET deadline = deadline + $1, paused_at = paused_at + $1", downtime);
             await shift.ExecuteNonQueryAsync(cancellation);
             logger.LogInformation("Ranked clocks moved by {Downtime} of downtime.", downtime);
         }
@@ -67,6 +67,8 @@ public sealed class MoveClockService(Database database, MatchStore store, Revisi
         await using (var connection = await database.Source.OpenConnectionAsync(cancellation))
         {
             await Beat(connection, null, now, cancellation);
+            foreach (var (match, revision) in await MatchClocks.ResumeLapsed(connection, now, options.PauseLimit, cancellation))
+                hub.Publish(match, revision);
             due = await MatchClocks.Due(connection, now, cancellation);
         }
         var ended = 0;

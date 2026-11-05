@@ -26,11 +26,34 @@ public static class RankedMatchEndpoints
                 hub.Publish(id, receipt.Revision);
             return Results.Ok(receipt);
         }).RequireRateLimiting(GameRateLimits.Commands).ForMatch();
+        // RANK-07: either answer reaches both clients through the match socket, without a revision.
+        api.MapPost("/{id}/pause", (string id, HttpContext context, MatchPauses pauses, RankedMatches ranked, RevisionHub hub) =>
+            Change(id, context, ranked, hub, account => pauses.Pause(id, account, context.RequestAborted)))
+            .RequireRateLimiting(GameRateLimits.Commands).ForMatch();
+        api.MapPost("/{id}/unpause", (string id, HttpContext context, MatchPauses pauses, RankedMatches ranked, RevisionHub hub) =>
+            Change(id, context, ranked, hub, account => pauses.Unpause(id, account, context.RequestAborted)))
+            .RequireRateLimiting(GameRateLimits.Commands).ForMatch();
         api.MapGet("/{id}/rating", async (string id, HttpContext context, Database database) =>
         {
             await using var connection = await database.Source.OpenConnectionAsync(context.RequestAborted);
             var result = await RatingLedger.Result(connection, id, MatchEndpoints.Account(context), context.RequestAborted);
             return result is null ? Results.NotFound() : Results.Ok(result);
         }).RequireRateLimiting(GameRateLimits.Reads);
+    }
+
+    private static async Task<IResult> Change(string id, HttpContext context, RankedMatches ranked, RevisionHub hub,
+        Func<string, Task<PauseResult>> change)
+    {
+        var account = MatchEndpoints.Account(context);
+        var isRanked = await ranked.RankedFor(id, account, context.RequestAborted);
+        if (isRanked is null)
+            return Results.NotFound();
+        if (isRanked == false)
+            return Results.Conflict(new ApiError { Error = RankedMatches.NotRankedRefusal });
+        var result = await change(account);
+        if (result.Error.Length > 0)
+            return Results.Conflict(new ApiError { Error = result.Error });
+        hub.Publish(id, result.Revision);
+        return Results.NoContent();
     }
 }

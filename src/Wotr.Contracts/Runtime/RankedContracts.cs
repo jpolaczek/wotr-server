@@ -54,6 +54,11 @@ namespace Wotr.Contracts
         public long RemainingMilliseconds { get; set; }
         public long LimitMilliseconds { get; set; }
         public long WarningMilliseconds { get; set; }
+        // RANK-07: a paused clock stands still; each player has three pauses and either may unpause.
+        public bool Paused { get; set; }
+        public Side? PausedBy { get; set; }
+        public int PausesLeft { get; set; }
+        public int OpponentPausesLeft { get; set; }
     }
 
     // The answer to every queue request. The opponent's name and rounded rating are all a search reveals of them.

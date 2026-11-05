@@ -9,7 +9,7 @@ public sealed record RankedStart(string MatchId, string Error, string ActiveMatc
 // RANK-04 (R35, docs/RANKED_PLAY.md): the server starts a ranked match for two accounts, with its unlisted room, its
 // seats and both rating rows, in one transaction. A seat lasts until the match finishes (RatingLedger), so an account
 // holds at most one active ranked match.
-public sealed class RankedMatches(Database database, IRandomSource random, TimeProvider clock)
+public sealed class RankedMatches(Database database, IRandomSource random, TimeProvider clock, RankedOptions options)
 {
     public const string ActiveRefusal = "RankedMatchActive";
     public const string NotRankedRefusal = "NotRanked";
@@ -20,7 +20,7 @@ public sealed class RankedMatches(Database database, IRandomSource random, TimeP
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         await using var transaction = await connection.BeginTransactionAsync(cancellation);
         var start = await Create(connection, transaction, freePeoples, shadow, configuration, preset, random,
-            clock.GetUtcNow(), cancellation);
+            clock.GetUtcNow(), options, cancellation);
         if (start.Error.Length == 0)
             await transaction.CommitAsync(cancellation);
         return start;
@@ -29,7 +29,7 @@ public sealed class RankedMatches(Database database, IRandomSource random, TimeP
     // RANK-05: the queue starts a pair's match in the transaction that removes both searches; the caller commits.
     public static async Task<RankedStart> Create(NpgsqlConnection connection, NpgsqlTransaction transaction,
         string freePeoples, string shadow, MatchConfiguration configuration, RankedPreset preset, IRandomSource random,
-        DateTimeOffset now, CancellationToken cancellation)
+        DateTimeOffset now, RankedOptions options, CancellationToken cancellation)
     {
         if (freePeoples == shadow)
             throw new ArgumentException("A ranked match needs two accounts.");
@@ -44,7 +44,7 @@ public sealed class RankedMatches(Database database, IRandomSource random, TimeP
         await Register(connection, transaction, match.Id, freePeoples, shadow, preset, cancellation);
         await RatingLedger.Ensure(connection, transaction, accounts, cancellation);
         // RANK-06: the first decision's clock starts with the match, with time to load the board.
-        await MatchClocks.Start(connection, transaction, match, preset, now, cancellation);
+        await MatchClocks.Start(connection, transaction, match, preset, now, options, cancellation);
         return new(match.Id, "");
     }
 

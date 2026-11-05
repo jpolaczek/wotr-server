@@ -103,7 +103,8 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
             {
                 matchId = id,
                 revision = version.Revision,
-                privateVersion = version.PrivateVersion
+                privateVersion = version.PrivateVersion,
+                clockVersion = version.ClockVersion
             });
             await socket.SendAsync(bytes, WebSocketMessageType.Text, true, cancellation);
             using var tick = CancellationTokenSource.CreateLinkedTokenSource(cancellation);

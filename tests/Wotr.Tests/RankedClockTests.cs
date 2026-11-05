@@ -1,5 +1,7 @@
 using System.Net.Http.Json;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Npgsql;
 using Wotr.Contracts;
@@ -163,6 +165,56 @@ public sealed class RankedClockTests(ClockDatabase database) : IClassFixture<Clo
         Assert.Equal(VictoryCondition.TimedOut, ended.Victory);
     }
 
+    // RANK-06's real-time case: the running service, on the real clock with every limit at 1 %, ends the game by itself.
+    [PostgresFact]
+    public async Task TheRunningServiceEndsAGameWhoseClockRunsOut()
+    {
+        var settings = new Dictionary<string, string?>(TestBudgets.Stress)
+        {
+            [RankedOptions.ClockIntervalKey] = "100", [RankedOptions.ClockScaleKey] = "1"
+        };
+        using var host = new AccountHost(database.Connection, extra: settings);
+        var fp = await MenuAccounts.Register(host);
+        var sh = await MenuAccounts.Register(host);
+        var start = await host.Services.GetRequiredService<RankedMatches>().Start(fp.AccountId, sh.AccountId, new(), RankedPreset.Standard);
+        var store = host.Services.GetRequiredService<MatchStore>();
+        var started = (await store.Read(start.MatchId, fp.AccountId))!;
+        Assert.Equal(1800, Assert.IsType<MoveClockView>(store.ClockView(started)).LimitMilliseconds);
+
+        var state = started.State;
+        for (var wait = 0; wait < 100 && state.Winner is null; wait++)
+        {
+            await Task.Delay(100);
+            state = (await store.Read(start.MatchId, fp.AccountId))!.State;
+        }
+        Assert.Equal((Side.Shadow, VictoryCondition.TimedOut), (state.Winner!.Value, state.Victory!.Value));
+        await using var connection = await host.Services.GetRequiredService<Database>().Source.OpenConnectionAsync();
+        var result = await RatingLedger.Result(connection, start.MatchId, fp.AccountId, default);
+        Assert.Equal(1500 - 162, result!.RatingAfter);
+    }
+
+    // A shortened clock would decide real games, so a Production server refuses to start with one.
+    [Fact]
+    public void AClockScaleIsRefusedInProduction()
+    {
+        var scaled = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            [RankedOptions.ClockScaleKey] = "1"
+        }).Build();
+        Assert.Throws<InvalidOperationException>(() => RankedOptions.Read(scaled, new HostStub("Production")));
+        Assert.Equal(0.01, RankedOptions.Read(scaled, new HostStub("Testing")).ClockScale);
+        var plain = new ConfigurationBuilder().Build();
+        Assert.Equal(1, RankedOptions.Read(plain, new HostStub("Production")).ClockScale);
+    }
+
+    private sealed class HostStub(string name) : IHostEnvironment
+    {
+        public string EnvironmentName { get; set; } = name;
+        public string ApplicationName { get; set; } = "";
+        public string ContentRootPath { get; set; } = "";
+        public IFileProvider ContentRootFileProvider { get; set; } = new NullFileProvider();
+    }
+
     [PostgresFact]
     public async Task ANormalGameHasNoClock()
     {
@@ -177,7 +229,7 @@ public sealed class RankedClockTests(ClockDatabase database) : IClassFixture<Clo
         Assert.Equal(0L, await count.ExecuteScalarAsync());
     }
 
-    private sealed class ClockTable : IAsyncDisposable
+    internal sealed class ClockTable : IAsyncDisposable
     {
         public string Connection { get; private init; } = "";
         public AccountHost Host { get; private init; } = null!;

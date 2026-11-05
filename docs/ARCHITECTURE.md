@@ -1086,3 +1086,21 @@ other tests' matches in the shared database.
 An exception that leaves a `BackgroundService` stops the whole host by default, so neither ranked service lets one out:
 a failure costs that attempt and is logged. No deadline is judged until the downtime has been given back, which is
 retried each interval, and a match or pair that cannot be ended or started holds back no other.
+
+`Wotr:Ranked:ClockScalePercent` shortens every limit, the grace and the warning for tests and playtests; a Production
+server refuses to start with it.
+
+<a id="pause--rank-07"></a>
+## Pause — RANK-07 (2026-11-05)
+
+`MatchPauses` (src/Wotr.Server/Ranked) lets each player of a ranked match pause three times, spent when the pause starts
+(`ranked_matches.fp_pauses`, `sh_pauses`), and either player unpause. It takes the match's row lock first, as a command
+does. A pause records when it began on the clock (`match_clocks.paused_at`), and unpausing moves the deadline by the
+pause's length, so exactly the same time comes back and a paused clock is never due. While paused, `MatchClocks.Refusal`
+answers every game command but a concession with `MatchPaused`, after the receipt lookup. `MoveClockService` ends a
+pause after 10 minutes, so a match whose players are both gone cannot stay frozen, and moves `paused_at` with the
+deadline over downtime, so a deployment counts towards neither.
+
+A pause is no rules event: it changes no game state, adds no frame and no revision. `match_clocks.version` rises
+instead, and the match socket's notice carries it as `clockVersion`, so both clients refetch within a second. The
+player's view shows `Paused`, `PausedBy` and each player's pauses left.
