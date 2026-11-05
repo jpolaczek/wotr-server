@@ -23,10 +23,12 @@ the two additional tiles are specifically targeted by You Know the Way; identica
 alone would lose that distinction. The special We Shall Get It table/discard card
 is separate from the shuffled event decks.
 
-Required evidence: complete Shadow-payload invariance under private version/card
-permutations; ordinary HTTP/restart facts; no mutation or entropy during projection;
-configured setup/homeland/token/dice/paid/Vilya continuations; package/client pins.
-This design section is not verification or BOT-02 acceptance.
+`LordsBoundaryProjectionTests` covers both seats, private version/card permutations,
+no projection mutation, configured setup/homeland/token/dice/paid/Vilya roots and
+explicit unsupported contexts (24 cases). `LordsBoundaryPersistenceTests` covers
+nine ordinary HTTP/restart/receipt-replay cases. Both passed; package/client pins
+are recorded in the [current checkpoint](STRATEGIC-BOTS.md). This is metadata
+verification, not BOT-02 or strategic acceptance.
 
 Contracts 0.22.0 provide optional `PlayerView.ActionBoundary` version 8. It is ordinary
 own-side player information, also passed through the existing bot input projection.

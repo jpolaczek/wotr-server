@@ -107,44 +107,42 @@ the external BOT-17 transport exists only on a local historical checkpoint branc
 
 ## Strategic decisions and simulation
 
-BOT-02 checkpoint (2026-11-04): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
-version 7 cover reviewed base/Fate phase/paid/Hunt roots and unpaid Fellowship
-declaration continuations. Declaration offers, Balrog, Stronghold Hunts and
-nested Worn/guide/placement/protection choices retain their original parent and
-return to the ordinary phase. Public facts contain the committed route, remaining
-Strongholds and Hunt progress; they contain no executable frame, private opposing
-choices or saved decision token. The hypothetical world uses local future tokens
-and the exact observed root token. The host retains its own authoritative return.
+BOT-02 checkpoint (2026-11-05): [ordinary player rule facts](PLAYER-RULE-FACTS.md)
+version 8 retain reviewed base/Fate phase/paid/Hunt/declaration roots and add
+Lords/Council setup, ordinary phase/action/paid steps, special-die selection and
+Vilya completion. Hidden companion versions remain private: Shadow receives only
+public identities/reveals and the runtime independently samples compatible
+versions. The facts retain public special resources and obligations without
+copying a resolution stack, return token, opposing hand or live entropy.
 
-Private 3b193bd / runtime 0.2.11 uses rules 0.7.0 (public source 0ea7aab, 429 files),
-Contracts 0.21.0 / public content 1.0.23. Client b3a63c8a pins both public archives.
-No private component enters the client. Rules remain the pinned engine's rules;
-unknown assignments are sampled independently and every simulated actor gets only
-its own view.
+Private 10838ce / runtime 0.2.12 uses rules 0.8.0 (public source 385e132, 431 files),
+Contracts 0.22.0 / public content 1.0.24. Client bd14e2ab pins both public archives.
+No private component enters the client. Every simulated actor receives its own
+ordinary projection of the sampled world.
 
-Full verification: **1,575 private C# / 17 Python**, **690 public C# / 10 package**
-and **53 Unity EditMode** cases passed, no skips. The private build has zero
-warnings/errors and local library publish passed; existing unrelated Unity warnings
-remain. The 64 new private cases cover declaration roots in three configurations,
-sanctuary/captured-sanctuary behavior, both actors' hidden permutations, local
-return tokens, Mordor entry, Worn choices, remaining Strongholds, corruption victory,
-invalid input and cancellation. Server restart/replay tests preserve both views
-and the actual suspended return token; owned database cleanup succeeded. Initial
-fixture actor/local dependency pin errors were corrected and retained in evidence.
-The BOT-13 PlayMode backend was not replaced or retested.
+Full private verification: **1,649 C# / 17 Python** passed, no skips, zero build
+warnings/errors; dependency/boundary checks and local library publish passed.
+The 74 new cases cover six configured Lords/Council/Fate combinations, controlled
+continuations, legal/illegal proposals, hidden permutations, special resources,
+contradictory input and cancellation. Public regression passed 1,306/1,307 cases;
+the remaining new HTTP test incorrectly compared unrelated option ordering after
+JSONB persistence. The revised boundary assertion and all nine new HTTP/restart/
+receipt-replay cases passed. The original failure remains in evidence. Ten package
+checks and **55 Unity EditMode** cases passed; existing unrelated Unity warnings
+remain. Owned databases were removed. The BOT-13 PlayMode backend was not changed.
 
-Bounded base/Fate walks cover 303 roots / 7,564 candidate checks. The 93-configuration
-candidate walks now also check hypothetical legality where reconstructed and
-record missing roots: 193 ready / 7,247 unsupported at 80 commands/configuration.
-This diagnostic establishes remaining work, not complete games or strategic quality.
-Most omissions are expansion ordinary action/phase/hand-limit/allocation roots,
-followed by battles and corruption. Exact diagnostics and measurements stay private.
+Bounded base/Fate walks retain 303 roots / 7,564 candidate checks. Across the 93
+normalized configurations and 7,440 actual-command roots, reconstruction now
+supports **631**, up from 193, with **6,809 explicitly unsupported**. Candidates
+at accepted roots also match authoritative legality. This measures remaining work,
+not full games or playing strength. Exact diagnostics and early/later copy,
+reconstruction, rollout/allocation/cancellation measurements remain private.
 
-BOT-02 remains in progress; BOT-03 remains blocked on complete reconstruction.
-Lords/Kings/Council hidden hypotheses and semantic contexts, other card/battle/
-effect-discard continuations and nested expansion acceptance remain required.
-No production faction policy is registered; gameplayReady=false. Verification used
-the isolated completion worktree; the unrelated private-main Core.csproj edit was
+BOT-02 remains in progress; BOT-03 stays blocked on complete reconstruction.
+Kings hidden tile hypotheses and ordinary roots, suspended Lords Hunts, other
+card/battle/effect-discard continuations and nested expansion acceptance remain.
+No production faction policy is registered; gameplayReady=false. Verification
+used the isolated worktree; the unrelated private-main Core.csproj edit was
 preserved. No push, release or deployment was performed.
 
 Implementation checkpoint (2026-10-26): the private runtime has an internal
