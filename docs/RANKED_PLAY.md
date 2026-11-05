@@ -53,7 +53,9 @@ Dismay follows its existing default (on with Lords and Kings).
 - Among compatible searches, those that meet both players' faction preferences come first. Then the closest rating
   wins, within a window of 150 points plus 50 per 10 s of the longer wait, unlimited after 2 minutes. W3Champions
   loosens its range the same way so that a player always finds a match. Compatibility is never loosened.
-- There is no accept step: a pair enters the game at once.
+- There is no accept step: a pair enters the game at once. Each client presents the opponent's avatar, name and
+  rounded rating for 3 seconds before the board opens (owner, 2026-11-05), within the 15 s the first decision gains.
+  The search's answer reveals nothing else about the opponent.
 - A player with an active ranked match cannot search; the answer names the match. Normal games may continue
   alongside.
 - Both clients must satisfy the module gate (`ModuleClientPolicy`) for the resulting game, as for any table.
