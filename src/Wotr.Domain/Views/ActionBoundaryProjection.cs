@@ -111,7 +111,7 @@ internal static class ActionBoundaryProjection
             BattleRules.Alive(state, battle.Force(loss.Owner)) &&
             (battle.Stage == BattleStage.DefenderLosses && loss.Owner == battle.Attacker.Side ||
              battle.Stage == BattleStage.AfterLosses && loss.Owner == battle.Defender.Side),
-        DecisionKind.CombatCard => battle.Round == 1 && !battle.CardsRevealed &&
+        DecisionKind.CombatCard => battle.Round >= 1 && !battle.CardsRevealed &&
             !battle.Force(pending.Owner).Round.CardCommitted &&
             (battle.Stage == BattleStage.AttackerCard && pending.Owner == battle.Attacker.Side ||
              battle.Stage == BattleStage.DefenderCard && pending.Owner == battle.Defender.Side),

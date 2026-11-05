@@ -139,7 +139,7 @@ nine ordinary HTTP/restart/receipt-replay cases. Both passed; package/client pin
 are recorded in the [current checkpoint](STRATEGIC-BOTS.md). This is metadata
 verification, not BOT-02 or strategic acceptance.
 
-Contracts 0.28.0 provide optional `PlayerView.ActionBoundary` version 14. This is
+Contracts 0.29.0 provide optional `PlayerView.ActionBoundary` version 15. This is
 ordinary own-side player information, also passed through the existing bot input
 projection.
 It does not grant command permission and requires no new UI controls. Protocol 2,
@@ -158,10 +158,12 @@ choice/reveal/Stronghold windows. Both the uncommitted revelation offer and the
 active Balrog reaction after revelation use the same context. Declaration has its
 own unpaid return context. Reviewed Hunts also support the nested Worn choice.
 Version 13 marked an ordinary non-voluntary `combat` loss choice only in the
-first round. Version 14 extends this to later rounds when it is the single
+first round. Version 14 extended this to later rounds when it is the single
 `BattleLoss` frame directly above a paid battle that returns to the action.
-Existing BattleView and DecisionView provide the public losing side, hit count
-and loss choice; the boundary adds only the semantic paid-action return.
+Version 15 also marks ordinary combat-card commitment windows in later rounds of
+that same top-level paid battle. Existing BattleView and DecisionView provide
+the public stage and choice; the boundary adds only the semantic paid-action
+return.
 Voluntary/event losses, nested battles, other battle contexts, arbitrary
 effect-discard returns, suspended Lords procedures and event/nested Kings
 procedures still omit the boundary. Never serialize
@@ -209,7 +211,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only. Public content 1.0.28 and pure rules 0.14.0 pin this contract; game rules, protocol and save schema are unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows. Public content 1.0.29 and pure rules 0.15.0 pin this contract; game rules, protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing
