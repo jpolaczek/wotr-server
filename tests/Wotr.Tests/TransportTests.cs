@@ -24,6 +24,9 @@ public sealed class TestHost(IRandomSource? random = null, EffectCatalog? effect
     {
         builder.UseEnvironment("Testing");
         var values = new Dictionary<string, string?>(settings ?? new Dictionary<string, string?>()) { ["WOTR_DB"] = PostgresTests.Connection };
+        // RANK-05/RANK-06: these services act on the whole shared database; a test that wants one turns it on.
+        values.TryAdd(RankedOptions.PairingIntervalKey, "0");
+        values.TryAdd(RankedOptions.ClockIntervalKey, "0");
         builder.ConfigureAppConfiguration((_, config) => config.AddInMemoryCollection(values));
         builder.ConfigureServices(services => { services.RemoveAll<ISessionResolver>(); services.AddSingleton<ISessionResolver, TestSessions>(); });
         builder.ConfigureServices(services =>

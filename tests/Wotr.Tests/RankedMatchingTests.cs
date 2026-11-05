@@ -5,29 +5,10 @@ using Xunit;
 
 namespace Wotr.Tests;
 
-// RANK-05 (R35, docs/RANKED_PLAY.md D1-D5): every pair of valid searches against an oracle written from the rules'
-// text in another form, and the pairing order of D5.
+// RANK-05 (R35, docs/RANKED_PLAY.md D1-D5): a search's validation and the pairing order of D5.
 public class RankedMatchingTests
 {
-    private static readonly string[] All = [ExpansionModules.Lords, ExpansionModules.Kings, ExpansionModules.Fate];
-
-    [Fact]
-    public void EveryPairOfSearchesAgreesWithTheRulesAndNeitherOrderMatters()
-    {
-        var searches = ValidSearches().ToList();
-        Assert.Equal(27 * 19 * 5, searches.Count);
-        var failures = new ConcurrentBag<string>();
-        Parallel.ForEach(searches, a =>
-        {
-            foreach (var b in searches)
-            {
-                var problem = Disagreement(a, b);
-                if (problem is not null && failures.Count < 10)
-                    failures.Add(problem + " for " + Describe(a) + " / " + Describe(b));
-            }
-        });
-        Assert.Empty(failures);
-    }
+    internal static readonly string[] All = [ExpansionModules.Lords, ExpansionModules.Kings, ExpansionModules.Fate];
 
     [Fact]
     public void ASearchIsValidatedBeforeItQueues()
@@ -95,6 +76,41 @@ public class RankedMatchingTests
         var noLords = Ticket("b", 1500, 600);
         noLords.Search.Lords = RankedChoice.Off;
         Assert.Empty(Pair(lordsOnly, noLords));
+    }
+
+    private static RankedTicket Ticket(string account, double rating, int wait, Side? faction = null) =>
+        new(account, new RankedSearchRequest { Faction = faction }, rating, wait);
+
+    private static List<RankedPairing> Pair(params RankedTicket[] tickets) =>
+        RankedMatching.Pair(tickets, new BaseCorpusFixture.ZeroRandom());
+}
+
+// A test in this collection runs with no other beside it. Taking every core for seconds starves the thread pool, and
+// other tests' hosts then time out connecting to their database (RANK-06: 3 of 6 runs of the ranked group failed so).
+[CollectionDefinition(nameof(HeavyCpuTests), DisableParallelization = true)]
+public sealed class HeavyCpuTests;
+
+// RANK-05 (R35, docs/RANKED_PLAY.md D2-D4): every pair of valid searches against an oracle written from the rules' text
+// in another form.
+[Collection(nameof(HeavyCpuTests))]
+public class RankedMatchingExhaustiveTests
+{
+    [Fact]
+    public void EveryPairOfSearchesAgreesWithTheRulesAndNeitherOrderMatters()
+    {
+        var searches = ValidSearches().ToList();
+        Assert.Equal(27 * 19 * 5, searches.Count);
+        var failures = new ConcurrentBag<string>();
+        Parallel.ForEach(searches, a =>
+        {
+            foreach (var b in searches)
+            {
+                var problem = Disagreement(a, b);
+                if (problem is not null && failures.Count < 10)
+                    failures.Add(problem + " for " + Describe(a) + " / " + Describe(b));
+            }
+        });
+        Assert.Empty(failures);
     }
 
     // Returns null when the domain agrees with the oracle and is symmetric for this pair.
@@ -219,17 +235,11 @@ public class RankedMatchingTests
                                         Lords = lords, Kings = kings, Fate = fate, Fast = fast, Standard = standard, Long = slow,
                                         Faction = faction, FactionChoice = choice
                                     };
-                                    if (RankedRules.Invalid(search, All) is null)
+                                    if (RankedRules.Invalid(search, RankedMatchingTests.All) is null)
                                         yield return search;
                                 }
     }
 
     private static string Describe(RankedSearchRequest s) =>
         $"[{s.Lords} {s.Kings} {s.Fate} | {s.Faction} {s.FactionChoice} | {s.Fast} {s.Standard} {s.Long}]";
-
-    private static RankedTicket Ticket(string account, double rating, int wait, Side? faction = null) =>
-        new(account, new RankedSearchRequest { Faction = faction }, rating, wait);
-
-    private static List<RankedPairing> Pair(params RankedTicket[] tickets) =>
-        RankedMatching.Pair(tickets, new BaseCorpusFixture.ZeroRandom());
 }

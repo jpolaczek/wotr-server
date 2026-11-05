@@ -12,7 +12,7 @@ public sealed record RankedQueueResult(RankedSearchView? View, string Error = ""
 // is started in the transaction that removes both searches, so a cancel either wins (no match) or loses (the match
 // stands and the cancel answers Matched). An account in a ranked match is always answered Matched, whatever it asks.
 public sealed class RankedQueue(Database database, RankedOptions options, ReleaseScope release, ModuleClientPolicy modules,
-    IRandomSource random, TimeProvider clock)
+    IRandomSource random, TimeProvider clock, ILogger<RankedQueue> logger)
 {
     // One pairing pass at a time across server processes.
     private const long PairingLock = 779305;
@@ -81,13 +81,27 @@ public sealed class RankedQueue(Database database, RankedOptions options, Releas
             var pairings = RankedMatching.Pair(await Live(connection, now, cancellation), random);
             var started = 0;
             foreach (var pairing in pairings)
-                if (await Start(connection, pairing, cancellation))
+                if (await Attempt(connection, pairing, cancellation))
                     started++;
             return started;
         }
         finally
         {
             await Lock(connection, "SELECT pg_advisory_unlock($1)", CancellationToken.None);
+        }
+    }
+
+    // One pair that cannot start rolls back alone: both players search on and the other pairs still start.
+    private async Task<bool> Attempt(NpgsqlConnection connection, RankedPairing pairing, CancellationToken cancellation)
+    {
+        try
+        {
+            return await Start(connection, pairing, cancellation);
+        }
+        catch (Exception error) when (!cancellation.IsCancellationRequested)
+        {
+            logger.LogError(error, "A ranked pair could not start.");
+            return false;
         }
     }
 

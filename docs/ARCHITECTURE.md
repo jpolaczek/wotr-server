@@ -1082,3 +1082,7 @@ the player's view (`PlayerView.Clock`: owner, kind, decision, time left before t
 point); the projection leaves it null, so replay frames never carry it. `Wotr:Ranked:ClockIntervalMilliseconds` = 0
 turns the service off; test hosts start with both ranked services off, as they would otherwise pair and time out
 other tests' matches in the shared database.
+
+An exception that leaves a `BackgroundService` stops the whole host by default, so neither ranked service lets one out:
+a failure costs that attempt and is logged. No deadline is judged until the downtime has been given back, which is
+retried each interval, and a match or pair that cannot be ended or started holds back no other.

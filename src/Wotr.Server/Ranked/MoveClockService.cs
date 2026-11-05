@@ -14,18 +14,27 @@ public sealed class MoveClockService(Database database, MatchStore store, Revisi
     {
         if (options.ClockInterval <= TimeSpan.Zero)
             return;
-        await Recover(stopping);
         using var timer = new PeriodicTimer(options.ClockInterval, clock);
+        // No deadline is judged before the running clocks have their downtime back.
+        while (!await Attempt(() => Recover(stopping), "Ranked clocks did not get their downtime back.", stopping))
+            await timer.WaitForNextTickAsync(stopping);
         while (await timer.WaitForNextTickAsync(stopping))
+            await Attempt(() => Tick(stopping), "Ranked clocks were not checked this time.", stopping);
+    }
+
+    // An exception leaving a background service stops the whole server by default, and every game on it with the server.
+    // A failure costs this attempt and nothing else.
+    private async Task<bool> Attempt(Func<Task> work, string failure, CancellationToken stopping)
+    {
+        try
         {
-            try
-            {
-                await Tick(stopping);
-            }
-            catch (Exception error) when (error is NpgsqlException or InvalidOperationException)
-            {
-                logger.LogWarning(error, "Ranked clocks were not checked this time.");
-            }
+            await work();
+            return true;
+        }
+        catch (Exception error) when (!stopping.IsCancellationRequested)
+        {
+            logger.LogWarning(error, "{Failure}", failure);
+            return false;
         }
     }
 
@@ -67,17 +76,27 @@ public sealed class MoveClockService(Database database, MatchStore store, Revisi
         return ended;
     }
 
+    // One match that cannot be ended (its finishing transaction rolled back) waits for the next check and holds back
+    // no other match.
     private async Task<bool> TimeOut(DueClock due, CancellationToken cancellation)
     {
-        var receipt = await store.Execute(new GameCommand
+        try
         {
-            MatchId = due.Match, CommandId = "timeout-" + due.DecisionId, Kind = CommandKind.TimeOut,
-            DecisionId = due.DecisionId, ExpectedRevision = due.Revision, Payload = new()
-        }, due.OwnerAccount, cancellation);
-        if (receipt is not { Accepted: true })
+            var receipt = await store.Execute(new GameCommand
+            {
+                MatchId = due.Match, CommandId = "timeout-" + due.DecisionId, Kind = CommandKind.TimeOut,
+                DecisionId = due.DecisionId, ExpectedRevision = due.Revision, Payload = new()
+            }, due.OwnerAccount, cancellation);
+            if (receipt is not { Accepted: true })
+                return false;
+            hub.Publish(due.Match, receipt.Revision);
+            return true;
+        }
+        catch (Exception error) when (!cancellation.IsCancellationRequested)
+        {
+            logger.LogError(error, "Ranked match {Match} could not be timed out.", due.Match);
             return false;
-        hub.Publish(due.Match, receipt.Revision);
-        return true;
+        }
     }
 
     private static async Task Beat(NpgsqlConnection connection, NpgsqlTransaction? transaction, DateTimeOffset now,

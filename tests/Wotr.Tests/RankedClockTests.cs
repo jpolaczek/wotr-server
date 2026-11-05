@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Npgsql;
 using Wotr.Contracts;
 using Wotr.Domain;
@@ -112,6 +113,54 @@ public sealed class RankedClockTests(ClockDatabase database) : IClassFixture<Clo
         Assert.Equal(TimeSpan.FromSeconds(100), await table.Service.Recover());
         Assert.Equal(before + TimeSpan.FromSeconds(100), (await table.ClockRow()).Deadline);
         Assert.Equal(TimeSpan.Zero, await table.Service.Recover());
+    }
+
+    // An exception in a background service stops the whole host by default, so a bad moment in the clock service would
+    // take the server down with every game on it. It must cost one check and nothing more.
+    [PostgresFact]
+    public async Task AFailingClockServiceLeavesTheServerRunning()
+    {
+        (await ClockTable.Start(database.Connection)).Host.Dispose();
+        await using var data = NpgsqlDataSource.Create(database.Connection);
+        await using (var drop = data.CreateCommand("ALTER TABLE server_heartbeat RENAME TO server_heartbeat_away"))
+            await drop.ExecuteNonQueryAsync();
+        try
+        {
+            var settings = new Dictionary<string, string?>(TestBudgets.Stress) { [RankedOptions.ClockIntervalKey] = "50" };
+            using var host = new AccountHost(database.Connection, extra: settings);
+            await MenuAccounts.Register(host);
+            await Task.Delay(500);
+            Assert.False(host.Services.GetRequiredService<IHostApplicationLifetime>().ApplicationStopping.IsCancellationRequested,
+                "The server stopped because its clock service failed.");
+            Assert.NotEmpty((await MenuAccounts.Register(host)).AccountId);
+        }
+        finally
+        {
+            await using var restore = data.CreateCommand("ALTER TABLE server_heartbeat_away RENAME TO server_heartbeat");
+            await restore.ExecuteNonQueryAsync();
+        }
+    }
+
+    // One match that cannot be ended must not keep the others from ending.
+    [PostgresFact]
+    public async Task AMatchThatCannotBeTimedOutDoesNotHoldBackTheOthers()
+    {
+        await using var table = await ClockTable.Start(database.Connection);
+        var fp = await MenuAccounts.Register(table.Host);
+        var sh = await MenuAccounts.Register(table.Host);
+        var other = await table.Host.Services.GetRequiredService<RankedMatches>().Start(fp.AccountId, sh.AccountId, new(), RankedPreset.Standard);
+        await using (var data = NpgsqlDataSource.Create(table.Connection))
+        await using (var broken = data.CreateCommand("UPDATE player_ratings SET rating='NaN' WHERE account_id=$1"))
+        {
+            broken.Parameters.Add(new NpgsqlParameter { Value = table.ShadowAccount });
+            await broken.ExecuteNonQueryAsync();
+        }
+        table.Clock.Advance(Standard + MoveClock.Grace + MoveClock.FirstDecisionBonus + TimeSpan.FromSeconds(1));
+
+        Assert.Equal(1, await table.Service.Tick());
+        Assert.Null((await table.State()).Winner);
+        var ended = (await table.Host.Services.GetRequiredService<MatchStore>().Read(other.MatchId, fp.AccountId))!.State;
+        Assert.Equal(VictoryCondition.TimedOut, ended.Victory);
     }
 
     [PostgresFact]
