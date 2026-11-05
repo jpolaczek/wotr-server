@@ -27,7 +27,7 @@ public sealed class FellowshipMoveProjectionTests
             var boundary = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
             var progress = Assert.IsType<FellowshipMoveView>(boundary.FellowshipMove);
             var hunt = HuntRuntime.Active(state)!;
-            Assert.Equal(8, boundary.Version);
+            Assert.Equal(9, boundary.Version);
             Assert.Equal(hunt.OfferedGuides, progress.GuideWindowsOffered);
             Assert.Equal(hunt.CasualtyEffectsPending, progress.CasualtyConsequencesPending);
             Assert.Equal(hunt.DepartingCompanions, progress.DepartingCompanions);

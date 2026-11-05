@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 8;
+        public int Version { get; set; } = 9;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -21,6 +21,7 @@ namespace Wotr.Contracts
         public CardHuntView? CardHunt { get; set; }
         public FellowshipDeclarationView? FellowshipDeclaration { get; set; }
         public LordsRuleFactsView? Lords { get; set; }
+        public KingsRuleFactsView? Kings { get; set; }
     }
 
     // Public choices and consequences already reached in a reviewed Hunt context.
@@ -88,6 +89,8 @@ namespace Wotr.Contracts
     {
         public string Location { get; set; } = "";
         public List<HuntTileFaceView> Tiles { get; set; } = new List<HuntTileFaceView>();
+        // Unknown base numeric assignments are represented jointly in Kings facts.
+        public int HiddenCount { get; set; }
         // Special tiles are tied to specific public cards, even when their faces
         // match. Standard duplicate tile identities carry no such distinction.
         public List<string> SpecialTileIds { get; set; } = new List<string>();

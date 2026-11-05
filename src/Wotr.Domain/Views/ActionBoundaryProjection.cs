@@ -6,9 +6,9 @@ internal static class ActionBoundaryProjection
 {
     public static ActionBoundaryView? For(MatchState state, Side viewer)
     {
-        // Hidden Kings assignments and suspended Lords procedures require their
-        // own reviewed player facts; never serialize ResolutionState.
-        if (state.Configuration.Kings || !LordsBoundaryProjection.Supports(state))
+        // Module facts describe only reviewed semantic boundaries. Suspended
+        // expansion procedures are not inferred from base-shaped decisions.
+        if (!KingsBoundaryProjection.Supports(state) || !LordsBoundaryProjection.Supports(state))
             return null;
         var declaration = FellowshipDeclarationProjection.For(state);
         if (state.Resolution.Frames.Count > 0 && declaration is null &&
@@ -24,6 +24,7 @@ internal static class ActionBoundaryProjection
         // establishes an opposing discard; a previously inspected/drawn card does not.
         var revealed = Discharged(state.Events.Where(e => Visibility.CanRead(viewer, e.OnlyFor)));
         var publicDiscards = Discharged(state.Events.Where(e => e.OnlyFor is null));
+        var tiles = HuntTileZonesProjection.For(state, viewer);
         return new()
         {
             FellowshipDeclaredThisTurn = state.Fellowship.LastDeclarationTurn == state.Turn,
@@ -33,6 +34,7 @@ internal static class ActionBoundaryProjection
             CardHunt = cardHunt,
             FellowshipDeclaration = declaration,
             Lords = LordsBoundaryProjection.For(state),
+            Kings = KingsBoundaryProjection.For(state, tiles.Unassigned),
             PaidDieIds = [.. state.Resolution.PaidDieIds],
             PendingPolitics = state.PoliticalReactions.Select(p => new PendingPoliticsView
                 { Cause = p.Trigger.ToString(), NationId = p.NationId, RegionId = p.RegionId }).ToList(),
@@ -53,15 +55,7 @@ internal static class ActionBoundaryProjection
                 PublicDiscards = p.Discard.Where(id => publicDiscards.Contains(id) || id == SmeagolRules.WeShallGetIt)
                     .Order(StringComparer.Ordinal).ToList()
             }).ToList(),
-            HuntTiles = state.HuntTiles.GroupBy(t => t.Location).OrderBy(g => g.Key, StringComparer.Ordinal)
-                .Select(g => new HuntTileZoneView
-                {
-                    Location = g.Key,
-                    Tiles = HuntPoolProjection.Faces(g.Select(t => t.Id)),
-                    SpecialTileIds = g.Where(t => HuntPool.Definitions[t.Id].Pool != "standard")
-                        .Select(t => t.Id).Order(StringComparer.Ordinal).ToList()
-                })
-                .ToList()
+            HuntTiles = tiles.Zones
         };
     }
 

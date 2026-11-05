@@ -15,7 +15,7 @@ internal static class PhaseBoundaryProjection
             return Discard(state, pending);
         if (state.AfterDiscard != DiscardContinuation.None || state.Resolution.PaidDieIds.Count != 0)
             return false;
-        return LordsBoundaryProjection.Phase(state, pending) ||
+        return LordsBoundaryProjection.Phase(state, pending) || KingsBoundaryProjection.Phase(state, pending) ||
             state.Phase == GamePhase.Fellowship && pending.Kind == DecisionKind.FellowshipPhase &&
                 pending.Owner == Side.FreePeoples ||
             state.Phase == GamePhase.HuntAllocation && pending.Kind == DecisionKind.AllocateHunt &&
