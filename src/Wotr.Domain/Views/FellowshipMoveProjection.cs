@@ -10,7 +10,7 @@ internal static class FellowshipMoveProjection
     {
         var frames = state.Resolution.Frames;
         if (frames.Count < 1 || frames[0].Hunt is not { } hunt ||
-            frames[0].EffectId != "hunt" || !HuntChoiceProjection.PlainFrame(frames[0]) || !MovementHunt(hunt) || state.Pending is null ||
+            frames[0].EffectId != "hunt" || !HuntChoiceProjection.PlainFrame(frames[0]) || !MovementHunt(state, hunt) || state.Pending is null ||
             state.Resolution.ActionSequence is not null || state.Resolution.PaidDieIds.Count != 1 ||
             !state.Dice.Any(d => d.Id == state.Resolution.PaidDieIds[0] &&
                 d.Owner == Side.FreePeoples && d.Location == DieLocation.Resolving))
@@ -32,10 +32,16 @@ internal static class FellowshipMoveProjection
         return facts;
     }
 
-    private static bool MovementHunt(HuntProcedure hunt) =>
+    private static bool MovementHunt(MatchState state, HuntProcedure hunt) =>
         hunt.SourceId == "fellowship-move" && hunt.Movement && hunt.Return == HuntReturn.FinishMove &&
         !hunt.Rolled && hunt.TileRule == HuntTileRule.All && hunt.DamageRule == HuntDamageRule.Normal &&
         hunt.Purpose == HuntPurpose.Hunt && !hunt.DeclarationHunt && !hunt.IgnoreRevealIcon &&
-        !hunt.FireAndShadow && hunt.DrawnBy == Side.Shadow && hunt.DiceReduction == 0 &&
-        hunt.RerollBonus == 0 && (hunt.Stage is not (HuntStage.BeforeRoll or HuntStage.Roll) || hunt.RollBonus == 0);
+        !hunt.FireAndShadow && hunt.DrawnBy == Side.Shadow &&
+        (hunt.DiceReduction == 0 || state.Configuration.Kings && hunt.DiceReduction == 1 &&
+            !hunt.Mordor && KingsRulerAbilities.Awakened(state, SovereignCatalog.Thranduil) is not null &&
+            state.Resolution.PaidDieIds.Count == 1 && state.Dice.Any(d => d.Id == state.Resolution.PaidDieIds[0] &&
+                d.Owner == Side.FreePeoples && d.Source == SovereignCatalog.RulerSource &&
+                d.Face == DieFace.Character && d.Location == DieLocation.Resolving)) &&
+        hunt.RerollBonus == (hunt.Stage is HuntStage.BeforeRoll or HuntStage.Roll
+            ? 0 : KingsChieftainHunt.RerollBonus(state)) && hunt.RollBonus == 0;
 }

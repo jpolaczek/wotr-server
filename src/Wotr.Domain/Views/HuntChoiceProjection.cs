@@ -69,6 +69,7 @@ internal static class HuntChoiceProjection
             "hunt.roll" => (HuntStage.Roll, Side.Shadow, hunt.SourceId),
             "hunt.draw" => (HuntStage.Draw, Side.FreePeoples, hunt.SourceId),
             "hunt.replace" => (HuntStage.DetermineDamage, Side.FreePeoples, hunt.TileId),
+            WeShallGetIt.Window => (HuntStage.Replacement, Side.Shadow, hunt.TileId),
             "hunt.table" => (HuntStage.Guide, Side.FreePeoples, hunt.TileId),
             "hunt.guide" => (HuntStage.Guide, Side.FreePeoples, state.Fellowship.Guide),
             "hunt.casualty" => (HuntStage.Guide, Side.Shadow, hunt.SourceId),

@@ -6,16 +6,17 @@ internal static class ActionBoundaryProjection
 {
     public static ActionBoundaryView? For(MatchState state, Side viewer)
     {
-        // Module facts describe only reviewed semantic boundaries. Suspended
-        // expansion procedures are not inferred from base-shaped decisions.
-        if (!KingsBoundaryProjection.Supports(state) || !LordsBoundaryProjection.Supports(state))
-            return null;
         var declaration = FellowshipDeclarationProjection.For(state);
+        var fellowshipMove = FellowshipMoveProjection.For(state);
+        var cardHunt = CardHuntProjection.For(state);
+        var reviewedHunt = declaration is not null || fellowshipMove is not null || cardHunt is not null;
+        // Compose only explicitly reviewed Hunt contexts with module facts;
+        // arbitrary expansion procedures are not inferred from their decision kind.
+        if (!KingsBoundaryProjection.Supports(state, reviewedHunt) || !LordsBoundaryProjection.Supports(state, reviewedHunt))
+            return null;
         if (state.Resolution.Frames.Count > 0 && declaration is null &&
             (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None))
             return null;
-        var fellowshipMove = FellowshipMoveProjection.For(state);
-        var cardHunt = CardHuntProjection.For(state);
         if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
             fellowshipMove is null && cardHunt is null && declaration is null && !CorruptionBoundaryProjection.Supports(state))
             return null;

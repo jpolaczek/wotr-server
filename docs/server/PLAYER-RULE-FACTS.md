@@ -1,6 +1,29 @@
 # Player rule facts at an action boundary
 
-## Active corruption boundary v10
+## Configured Hunt extension — boundary v11
+
+Boundary v11 composes reviewed movement, paid-card and declaration Hunt contexts
+with Lords/Kings facts. Only these explicit semantic contexts are eligible;
+arbitrary expansion/card programs, battle returns and nested program cursors remain
+unsupported. See [T27-LORDS-03](../rules/T27-LORDS-03.md),
+[T28-SOVEREIGNS](../rules/T28-SOVEREIGNS.md),
+[T29-RULER-CHIEFTAINS](../rules/T29-RULER-CHIEFTAINS.md) and T31 integration.
+
+`HuntView.DiceReduction` preserves Thranduil's paid Far-sighted movement effect;
+the projection accepts it only with an awakened Thranduil and a resolving Ruler
+Character die. Uglúk's reroll bonus is checked against his public location and
+appears on rolled Fellowship movement and Nazgûl Strike Hunts, applying only to
+rerolled dice. A Sméagol tile consumed on entry retains its known physical identity
+in the removed zone. The bare We Shall Get It replacement offer uses its public
+Hunt reaction window. These facts compose with private companion versions and
+covered Kings assignments without reading hidden tile values. Nested card
+effects still need separate semantic boundaries.
+
+`FellowshipMoveProjectionTests` and `KingsChieftainHuntTests` verify the public
+movement modifiers and both player views. Private reconstruction/parity and full
+expansion composition remain separate BOT-02 acceptance checks.
+
+## Active corruption fields introduced in v10
 
 Boundary v10 also describes the ordinary Eye-paid corruption attempt while
 it draws, replaces a public ignored tile, or awaits the final/sequential choice
@@ -79,13 +102,13 @@ nine ordinary HTTP/restart/receipt-replay cases. Both passed; package/client pin
 are recorded in the [current checkpoint](STRATEGIC-BOTS.md). This is metadata
 verification, not BOT-02 or strategic acceptance.
 
-Contracts 0.24.0 provide optional `PlayerView.ActionBoundary` version 10. It is ordinary
+Contracts 0.25.0 provide optional `PlayerView.ActionBoundary` version 11. It is ordinary
 own-side player information, also passed through the existing bot input projection.
 It does not grant command permission and requires no new UI controls. Protocol 2,
 save schema 3 and game rules are unchanged. Older responses omit it; consumers
 must treat absence or an unknown version as unsupported, never as empty state.
 
-Version 10 retains the reviewed base/Fate ordinary phases/actions, hand limits, paid army/recruitment/character
+Version 11 retains the reviewed base/Fate ordinary phases/actions, hand limits, paid army/recruitment/character
 steps, excess removal, and reviewed choices in a Hunt caused by the paid
 Fellowship movement action. Ordinary/paid army windows have no suspended frames.
 The Hunt context supports rerolls, damage, public reaction windows, guide choice,
@@ -141,7 +164,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Public content 1.0.26 and pure rules 0.10.0 pin this contract; game rules, protocol and save schema are unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition. Public content 1.0.27 and pure rules 0.11.0 pin this contract; game rules, protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing

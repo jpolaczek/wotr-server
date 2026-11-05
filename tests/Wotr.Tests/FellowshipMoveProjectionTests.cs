@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Wotr.Contracts;
 using Wotr.Domain;
+using Wotr.Domain.Content;
 using Xunit;
 
 namespace Wotr.Tests;
@@ -27,7 +28,7 @@ public sealed class FellowshipMoveProjectionTests
             var boundary = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
             var progress = Assert.IsType<FellowshipMoveView>(boundary.FellowshipMove);
             var hunt = HuntRuntime.Active(state)!;
-            Assert.Equal(10, boundary.Version);
+            Assert.Equal(11, boundary.Version);
             Assert.Equal(hunt.OfferedGuides, progress.GuideWindowsOffered);
             Assert.Equal(hunt.CasualtyEffectsPending, progress.CasualtyConsequencesPending);
             Assert.Equal(hunt.DepartingCompanions, progress.DepartingCompanions);
@@ -59,6 +60,35 @@ public sealed class FellowshipMoveProjectionTests
         state.HuntTiles.Reverse();
         state.RandomSamples.Add(new() { Value = 987654 });
         Assert.Equal(visible, Json(Projection.For(state, Side.FreePeoples)));
+    }
+
+    [Fact]
+    public void ConfiguredMovementPublishesTheExactThranduilAndUglukHuntModifiers()
+    {
+        var state = KingsFarSightedTests.Ready();
+        state.Fellowship.RegionId = "moria";
+        KingsDiceTests.Chieftain(state, KingsChieftains.Ugluk, "dimrill-dale");
+        KingsFixture.Eyes(state, 2);
+        KingsFixture.Pool(state, HuntTests.Three);
+        var cost = state.Dice.Single(d => d.Owner == Side.FreePeoples && d.Source == SovereignCatalog.RulerSource);
+
+        state = KingsFixture.Do(state, CommandKind.MoveFellowship,
+            new() { DieId = cost.Id, AbilityId = KingsFarSighted.Ability }, 4);
+
+        Assert.Equal(DecisionKind.HuntReroll, state.Pending!.Kind);
+        var hunt = Assert.IsType<HuntProcedure>(HuntRuntime.Active(state));
+        Assert.Single(hunt.Dice);
+        Assert.Equal(1, hunt.DiceReduction);
+        Assert.Equal(1, hunt.RerollBonus);
+        foreach (var side in Enum.GetValues<Side>())
+        {
+            var view = Projection.For(state, side);
+            var facts = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
+            Assert.Equal(11, facts.Version);
+            Assert.Equal(1, view.Hunt!.DiceReduction);
+            Assert.Equal(1, view.Hunt.RerollBonus);
+            Assert.NotNull(facts.FellowshipMove);
+        }
     }
 
     [Theory]

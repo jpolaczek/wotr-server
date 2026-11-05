@@ -54,6 +54,7 @@ public sealed class HuntOptions : IActionOptionsProvider
         MovementBonus = HasKnownRoll(hunt) ? hunt.Bonus - hunt.RollBonus : null,
         EffectBonus = HasKnownRoll(hunt) ? hunt.RollBonus : null,
         RerollBonus = hunt.RerollBonus,
+        DiceReduction = hunt.DiceReduction,
         Mordor = hunt.Mordor,
         EyeDamage = hunt.EyeDamage,
         Dice = hunt.Dice.Select(d => new HuntDieView

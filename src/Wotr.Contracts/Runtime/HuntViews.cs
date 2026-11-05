@@ -21,6 +21,7 @@ namespace Wotr.Contracts
         public int? MovementBonus { get; set; }
         public int? EffectBonus { get; set; }
         public int RerollBonus { get; set; }
+        public int DiceReduction { get; set; }
         public bool Mordor { get; set; }
         public int EyeDamage { get; set; }
         public List<HuntDieView> Dice { get; set; } = new List<HuntDieView>();

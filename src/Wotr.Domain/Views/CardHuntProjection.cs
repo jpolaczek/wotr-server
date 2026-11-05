@@ -15,7 +15,7 @@ internal static class CardHuntProjection
             !HuntChoiceProjection.PlainFrame(frames[1]) || frames[1].Hunt is not { } hunt)
             return null;
         var effect = frames[0].Effect!;
-        if (!state.Player(Side.Shadow).Discard.Contains(effect.SourceId) || !CardHunt(hunt, effect.SourceId))
+        if (!state.Player(Side.Shadow).Discard.Contains(effect.SourceId) || !CardHunt(state, hunt, effect.SourceId))
             return null;
         CardHuntStrongholdView? strongholds = null;
         var activeIndex = 1;
@@ -64,19 +64,21 @@ internal static class CardHuntProjection
             effect.InspectedSovereign is null && effect.RingRecovery is null && effect.MadnessTarget is null;
     }
 
-    private static bool CardHunt(HuntProcedure hunt, string card)
+    private static bool CardHunt(MatchState state, HuntProcedure hunt, string card)
     {
         if (hunt.SourceId != card || hunt.Return != HuntReturn.Parent || hunt.Movement ||
             hunt.Purpose != HuntPurpose.Hunt || hunt.DeclarationHunt || hunt.IgnoreRevealIcon ||
-            hunt.FireAndShadow || hunt.DrawnBy != Side.Shadow || hunt.DiceReduction != 0 || hunt.RerollBonus != 0)
+            hunt.FireAndShadow || hunt.DrawnBy != Side.Shadow || hunt.DiceReduction != 0)
             return false;
         if (card == ShadowCharacterCards02.Strike)
             return hunt.Rolled && !hunt.Mordor && hunt.TileRule == HuntTileRule.All &&
                 hunt.DamageRule == HuntDamageRule.Normal &&
+                hunt.RerollBonus == (hunt.Stage is HuntStage.BeforeRoll or HuntStage.Roll
+                    ? 0 : KingsChieftainHunt.RerollBonus(state)) &&
                 (hunt.Stage is not (HuntStage.BeforeRoll or HuntStage.Roll) || hunt.RollBonus == 0);
         var step = (DrawHuntTileStep)EffectCatalog.All.Programs[card].Steps.Single();
         return !hunt.Rolled && hunt.TileRule == step.TileRule && hunt.DamageRule == step.DamageRule &&
-            hunt.Bonus == 0 && hunt.RollBonus == 0 && hunt.EyeDamage == 0 &&
+            hunt.Bonus == 0 && hunt.RollBonus == 0 && hunt.RerollBonus == 0 && hunt.EyeDamage == 0 &&
             hunt.Dice.Count == 0 && hunt.RerollSources.Count == 0;
     }
 }
