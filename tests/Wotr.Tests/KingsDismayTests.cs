@@ -28,6 +28,31 @@ public class KingsDismayTests
         Assert.Equal(enabled, KingsDismay.Tokens(state).Any(t => t.SovereignId == SovereignCatalog.Dain));
     }
 
+    // TEST-21: found by the client's presentation test, which failed whenever the die landed on its old face (one in three).
+    [Theory]
+    [InlineData(Side.FreePeoples)]
+    [InlineData(Side.Shadow)]
+    public void ARerolledRulerDieIsRecordedEvenOnItsOldFace(Side side)
+    {
+        var state = DismayWindow();
+        var payload = Dismay(state, side);
+        var ruler = KingsDice.Ruler(state, side)!;
+        var found = 0;
+        for (var roll = 0; roll < 6; roll++)
+        {
+            var next = KingsFixture.Do(StateCodec.Copy(state), CommandKind.UseDismay, payload, roll);
+            if (KingsDice.Ruler(next, side)!.Face != ruler.Face)
+                continue;
+            found++;
+            var step = ActionLogFamilyTests.Steps(next, Side.Shadow).Last(s => s.Command == CommandKind.UseDismay);
+            var die = Assert.Single(step.Facts.Dice, d => d.Id == ruler.Id);
+            Assert.Equal(ruler.Face, die.Before);
+            Assert.Equal(ruler.Face, die.After);
+            Assert.Equal(die.From, die.To);
+        }
+        Assert.True(found > 0, "The ruler's face is among the six printed faces.");
+    }
+
     [Theory]
     [MemberData(nameof(KingsDiceTests.Faces), MemberType = typeof(KingsDiceTests))]
     public void RerollsEitherRetainedRulerUsingPrintedFacesAndOneToken(Side side, int roll, DieFace face)

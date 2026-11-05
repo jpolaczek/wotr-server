@@ -65,6 +65,8 @@ internal static class ActionLogRecorder
         if (data.Facts.SourceId.Length == 0)
             data.Facts.SourceId = context.DefinitionId;
         ActionBoardChanges.Capture(before, after, data.Facts);
+        if (command.Kind == CommandKind.UseDismay)
+            ActionBoardChanges.Rerolled(after, command.Payload.DieId, data.Facts);
         if (ActionCommandCatalog.PrivateSelection(command.Kind))
             data.Facts.Targets = command.Kind == CommandKind.DrawCorruptionTile
                 ? [.. CorruptionRuntime.Current(after)?.Drawn ?? []] : [.. command.Payload.Ids];
