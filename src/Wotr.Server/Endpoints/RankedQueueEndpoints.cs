@@ -27,6 +27,10 @@ public static class RankedQueueEndpoints
         api.MapDelete("", async (HttpContext context, RankedQueue queue) =>
             Results.Ok(await queue.Cancel(MatchEndpoints.Account(context), context.RequestAborted)))
             .RequireRateLimiting(GameRateLimits.Commands);
+        // RANK-08 (D13): the top 25 and the player's own place.
+        app.MapGet("/api/leaderboard", async (HttpContext context, Leaderboard leaderboard) =>
+            Results.Ok(await leaderboard.Read(MatchEndpoints.Account(context), context.RequestAborted)))
+            .RequireAuthorization().RequireRateLimiting(GameRateLimits.Reads);
     }
 
     // ClientUpdateRequired is the module gate's own answer, which the client's updater already handles.

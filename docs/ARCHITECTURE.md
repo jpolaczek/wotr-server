@@ -1104,3 +1104,11 @@ deadline over downtime, so a deployment counts towards neither.
 A pause is no rules event: it changes no game state, adds no frame and no revision. `match_clocks.version` rises
 instead, and the match socket's notice carries it as `clockVersion`, so both clients refetch within a second. The
 player's view shows `Paused`, `PausedBy` and each player's pauses left.
+
+<a id="leaderboard--rank-08"></a>
+## Leaderboard — RANK-08 (2026-11-05)
+
+`GET /api/leaderboard` (`Leaderboard`, src/Wotr.Server/Ranked) returns the top 25 by rating among accounts with a
+finished ranked game, ties going to more games and then the account id, and the caller's own row, or null before their
+first finished ranked game. It walks the partial index `player_ratings_order`; the caller's rank counts the rows ahead
+of theirs. No account id leaves the server, so a client finds its own row by rank.

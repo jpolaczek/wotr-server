@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Wotr.Contracts
 {
     // RANK-04 (R35, docs/RANKED_PLAY.md): the time presets of a ranked search.
@@ -59,6 +61,24 @@ namespace Wotr.Contracts
         public Side? PausedBy { get; set; }
         public int PausesLeft { get; set; }
         public int OpponentPausesLeft { get; set; }
+    }
+
+    // RANK-08 (D13): one row of the leaderboard. No account id leaves the server; a client finds its own row by rank.
+    public sealed class LeaderboardRow
+    {
+        public int Rank { get; set; }
+        public string Name { get; set; } = "";
+        public int Rating { get; set; }
+        public int Games { get; set; }
+        public int Wins { get; set; }
+        public int Losses { get; set; }
+    }
+
+    // The top of the leaderboard, and the player's own row wherever it stands, or null before their first ranked game.
+    public sealed class LeaderboardView
+    {
+        public List<LeaderboardRow> Rows { get; set; } = new List<LeaderboardRow>();
+        public LeaderboardRow? You { get; set; }
     }
 
     // The answer to every queue request. The opponent's name and rounded rating are all a search reveals of them.

@@ -69,6 +69,7 @@ builder.Services.AddSingleton<DemoSessionStore>();
 builder.Services.AddSingleton<RankedMatches>();
 builder.Services.AddSingleton(services => RankedOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
 builder.Services.AddSingleton<MatchPauses>();
+builder.Services.AddSingleton<Leaderboard>();
 builder.Services.AddSingleton<RankedQueue>();
 builder.Services.AddSingleton<RankedPairingService>();
 builder.Services.AddHostedService(services => services.GetRequiredService<RankedPairingService>());
