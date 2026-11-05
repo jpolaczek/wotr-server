@@ -1043,3 +1043,23 @@ client's command id, so a retried concession returns its first receipt; `GET /ap
 player's own rounded change. The rating is kept out of `PlayerView`, because frames store that view and replays would
 carry it. My games marks ranked rows (`MatchSummary.Ranked`) and titles them "Ranked · A vs B"; the admin panel counts
 ranked games with the others.
+
+<a id="ranked-queue--rank-05"></a>
+## Ranked queue — RANK-05 (2026-11-05)
+
+The rules of a pairing are pure (`src/Wotr.Domain/Ranked`). `RankedRules` validates a search and decides each
+dimension apart: expansions (D2), the faction (D3: requirements narrow the sides, then preferences, a tie is the
+server's draw) and the time preset (D4). `RankedMatching.Pair` lets the longest wait choose first: the compatible
+partner whose pairing meets both faction preferences, then the closest rating, within a window of 150 points plus 50
+per 10 s, unlimited after 2 minutes. `RankedMatchingTests` check every pair of the 2565 valid searches (6.6 million)
+against an oracle written from the rules' text in another form, and that the order of the two never matters.
+
+The searches live in `ranked_tickets` (migration 018), so every server process sees one queue; their times come from
+the server's `TimeProvider`. `RankedQueue` answers `POST`, `GET` and `DELETE /api/ranked/queue` with a
+`RankedSearchView`: a poll keeps a search eligible for 6 s, a lapsed search is told `Stopped` once, and an account
+with an active ranked match is always told `Matched` with the opponent's name and rounded rating. `RankedPairingService`
+runs `PairOnce` every second under a session advisory lock; each pair is started in its own transaction that first
+deletes both searches (`RETURNING` must give two) and then calls `RankedMatches.Create`, so a cancel either wins and
+nothing starts, or loses and is answered `Matched`. A module the server has not released is refused with
+`ExpansionsUnavailable`; one released but newer than the client's version with the module gate's
+`ClientUpdateRequired`. `Wotr:Ranked:PairingIntervalMilliseconds` = 0 turns the service off (tests pair by hand).

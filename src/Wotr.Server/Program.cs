@@ -67,6 +67,10 @@ builder.Services.AddSingleton(services => TestScenarioOptions.Read(services.GetR
 builder.Services.AddSingleton<TestSessionStore>();
 builder.Services.AddSingleton<DemoSessionStore>();
 builder.Services.AddSingleton<RankedMatches>();
+builder.Services.AddSingleton(services => RankedOptions.Read(services.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton<RankedQueue>();
+builder.Services.AddSingleton<RankedPairingService>();
+builder.Services.AddHostedService(services => services.GetRequiredService<RankedPairingService>());
 builder.Services.AddSingleton(services => AdminOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<AdminAccess>();
 builder.Services.AddSingleton<AdminStatisticsStore>();
@@ -127,6 +131,7 @@ app.UseAuthorization();
 ServerHealth.Map(app);
 ClientReleaseEndpoints.Map(app);
 MatchEndpoints.Map(app);
+RankedQueueEndpoints.Map(app);
 CorrespondenceEndpoints.Map(app);
 ActionLogEndpoints.Map(app);
 BattleReportEndpoints.Map(app);

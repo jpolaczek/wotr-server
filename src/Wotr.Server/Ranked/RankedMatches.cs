@@ -17,10 +17,21 @@ public sealed class RankedMatches(Database database, IRandomSource random)
     public async Task<RankedStart> Start(string freePeoples, string shadow, MatchConfiguration configuration,
         RankedPreset preset, CancellationToken cancellation = default)
     {
-        if (freePeoples == shadow)
-            throw new ArgumentException("A ranked match needs two accounts.");
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         await using var transaction = await connection.BeginTransactionAsync(cancellation);
+        var start = await Create(connection, transaction, freePeoples, shadow, configuration, preset, random, cancellation);
+        if (start.Error.Length == 0)
+            await transaction.CommitAsync(cancellation);
+        return start;
+    }
+
+    // RANK-05: the queue starts a pair's match in the transaction that removes both searches; the caller commits.
+    public static async Task<RankedStart> Create(NpgsqlConnection connection, NpgsqlTransaction transaction,
+        string freePeoples, string shadow, MatchConfiguration configuration, RankedPreset preset, IRandomSource random,
+        CancellationToken cancellation)
+    {
+        if (freePeoples == shadow)
+            throw new ArgumentException("A ranked match needs two accounts.");
         string[] accounts = [freePeoples, shadow];
         await LockAccounts(connection, transaction, accounts, cancellation);
         if (await ActiveMatch(connection, transaction, accounts, cancellation) is { } active)
@@ -31,7 +42,6 @@ public sealed class RankedMatches(Database database, IRandomSource random)
         await RoomStore.InsertRanked(connection, transaction, match.Id, freePeoples, shadow, match.Configuration, cancellation);
         await Register(connection, transaction, match.Id, freePeoples, shadow, preset, cancellation);
         await RatingLedger.Ensure(connection, transaction, accounts, cancellation);
-        await transaction.CommitAsync(cancellation);
         return new(match.Id, "");
     }
 
