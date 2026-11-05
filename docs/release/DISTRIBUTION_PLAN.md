@@ -349,3 +349,31 @@ exactly as before.
 The exemption covers the catalog's minimum only. A change of **protocol** past a client's version still refuses it,
 in a ranked match too, so a server release that drops a protocol ends the way back for clients in active ranked
 matches: their clocks run out and they lose. Plan such a release when `ranked_seats` is empty, or accept that.
+
+<a id="rank-09--rolling-out-ranked-play-2026-11-06"></a>
+## RANK-09 — Rolling out ranked play (2026-11-06)
+
+Nothing here runs without the owner's explicit request. The order is contracts, server, client, because an old client
+works against a new server and a new client's Find game needs the new routes.
+
+1. **Numbers.** Contracts 0.26.0 and public content 1.0.28 skip the `bot` line's numbers, and migrations 017–021 collide with
+   that line's 017–020. Whichever line merges second renumbers its migrations and bumps its versions, then repacks.
+2. **Contracts and content.** Publish the packages from the merged commit and pin them in the client.
+3. **Server.** Back up the database, deploy as for any release (`infra/production.sh`), and check that migrations 017–021
+   applied and `/health` answers. The migrations only add tables, columns and a wider check, so clients already released
+   keep working unchanged. A Production server refuses to start with `Wotr:Ranked:ClockScalePercent` or
+   `Wotr:Ranked:PresenceScalePercent` set. `RankedOptions` holds the running values: pairing every second, a search lapsing after 6 s
+   without a poll, a pause ending after 10 minutes.
+4. **Client.** Publish it as an **optional** update. A client without Find game cannot start a search, so nobody is paired
+   with one, and players who update find each other. `WOTR_MODULE_CLIENTS` needs no entry for ranked play: it speaks of
+   modules, and the search already refuses a module a client cannot play. Make the update required only if the release has
+   another reason to.
+5. **Website.** Add a section on ranked play once the client is out.
+
+**A later server release during ranked play.** A restart gives the downtime back to every clock (RANK-06), and nobody loses a game
+by it. A later required client update leaves active ranked matches alone (RANK-10 above). A change of protocol does not: plan it for
+when `ranked_seats` is empty.
+
+**Going back.** The migrations stay; the previous server ignores the new tables. Matches started in the ranked queue then
+have no clock and no rating change, and their seats remain, so a later return to the new server continues them with
+clocks whose deadlines have passed. Ending them first is kinder: `SELECT count(*) FROM ranked_seats` shows whether any exist.
