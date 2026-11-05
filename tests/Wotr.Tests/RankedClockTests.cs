@@ -202,6 +202,12 @@ public sealed class RankedClockTests(ClockDatabase database) : IClassFixture<Clo
             [RankedOptions.ClockScaleKey] = "1"
         }).Build();
         Assert.Throws<InvalidOperationException>(() => RankedOptions.Read(scaled, new HostStub("Production")));
+        var presence = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            [RankedOptions.PresenceScaleKey] = "1"
+        }).Build();
+        Assert.Throws<InvalidOperationException>(() => RankedOptions.Read(presence, new HostStub("Production")));
+        Assert.Equal((1, 0.01), (RankedOptions.Read(presence, new HostStub("Testing")).ClockScale, RankedOptions.Read(presence, new HostStub("Testing")).PresenceScale));
         Assert.Equal(0.01, RankedOptions.Read(scaled, new HostStub("Testing")).ClockScale);
         var plain = new ConfigurationBuilder().Build();
         Assert.Equal(1, RankedOptions.Read(plain, new HostStub("Production")).ClockScale);

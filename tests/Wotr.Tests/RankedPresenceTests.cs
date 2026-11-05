@@ -220,7 +220,7 @@ public sealed class RankedPresenceTests(ClockDatabase database) : IClassFixture<
 
     private AccountHost Host()
     {
-        var settings = new Dictionary<string, string?>(TestBudgets.Stress) { [RankedOptions.ClockScaleKey] = "25" };
+        var settings = new Dictionary<string, string?>(TestBudgets.Stress) { [RankedOptions.PresenceScaleKey] = "25" };
         return new AccountHost(database.Connection, extra: settings);
     }
 

@@ -1087,8 +1087,9 @@ An exception that leaves a `BackgroundService` stops the whole host by default, 
 a failure costs that attempt and is logged. No deadline is judged until the downtime has been given back, which is
 retried each interval, and a match or pair that cannot be ended or started holds back no other.
 
-`Wotr:Ranked:ClockScalePercent` shortens every limit, the grace and the warning for tests and playtests; a Production
-server refuses to start with it.
+`Wotr:Ranked:ClockScalePercent` shortens every limit, the grace and the warning for tests and playtests, and
+`Wotr:Ranked:PresenceScalePercent` the socket's silence and presence's grace (RANK-10); a Production server refuses to
+start with either. They are apart because a real client heartbeats every 2 s whatever the clocks run at.
 
 <a id="pause--rank-07"></a>
 ## Pause — RANK-07 (2026-11-05)

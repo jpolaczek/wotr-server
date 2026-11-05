@@ -16,10 +16,10 @@ public sealed class MatchPresence(RevisionHub hub, TimeProvider clock, RankedOpt
     }
 
     private readonly Dictionary<(string Match, Side Side), Seat> seats = [];
-    private readonly DateTimeOffset startGraceEnds = clock.GetUtcNow() + options.Scaled(RankedOptions.PresenceGrace);
+    private readonly DateTimeOffset startGraceEnds = clock.GetUtcNow() + options.PresenceScaled(RankedOptions.PresenceGrace);
 
     // How long a seated player's socket may stay silent before the server closes it.
-    public TimeSpan Silence { get; } = options.Scaled(RankedOptions.SocketSilence);
+    public TimeSpan Silence { get; } = options.PresenceScaled(RankedOptions.SocketSilence);
 
     public bool Online(string match, Side side)
     {
@@ -33,7 +33,7 @@ public sealed class MatchPresence(RevisionHub hub, TimeProvider clock, RankedOpt
     // A new match: its players are told at their next poll and then open the board.
     public void Expect(string match)
     {
-        var until = clock.GetUtcNow() + options.Scaled(RankedOptions.PresenceGrace);
+        var until = clock.GetUtcNow() + options.PresenceScaled(RankedOptions.PresenceGrace);
         lock (seats)
         {
             seats.TryAdd((match, Side.FreePeoples), new() { OnlineUntil = until });
