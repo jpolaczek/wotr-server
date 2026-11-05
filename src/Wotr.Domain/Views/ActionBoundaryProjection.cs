@@ -79,7 +79,8 @@ internal static class ActionBoundaryProjection
             frame.ReturnDecision is not null || frame.Effect is not null || frame.Fellowship is not null ||
             frame.Hunt is not null || frame.BattleLoss is not null || frame.EventLoss is not null ||
             frame.Corruption is not null || battle is not { Return: EffectReturn.FinishAction } ||
-            battle.Id.Length == 0 || battle.Attacker.Side == battle.Defender.Side ||
+            battle.Id.Length == 0 || battle.Mode == BattleMode.Relief ||
+            battle.Attacker.Side == battle.Defender.Side ||
             !BattleDecisionMatches(pending, battle) ||
             state.Resolution.PaidDieIds.Count != 1 ||
             state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||

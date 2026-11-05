@@ -44,6 +44,10 @@ public sealed class ActionBoundaryBattleTests
         var missingPayment = StateCodec.Copy(state);
         missingPayment.Resolution.PaidDieIds.Clear();
         Assert.Null(Projection.For(missingPayment, attacker).ActionBoundary);
+
+        var relief = StateCodec.Copy(state);
+        BattleRuntime.Active(relief)!.Mode = BattleMode.Relief;
+        Assert.Null(Projection.For(relief, attacker).ActionBoundary);
     }
 
     [Fact]

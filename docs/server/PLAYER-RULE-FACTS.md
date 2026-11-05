@@ -9,7 +9,7 @@ attacker. The ordinary `PlayerView.Battle` remains the source for public combat
 state and face-down card backs. No saved frame, return token, executable cursor,
 or hidden card identity is transferred.
 
-This is not a general battle continuation contract. Relief/event battles, nested
+This is not a general battle continuation contract. Relief-mode/event battles, nested
 or suspended procedures, battle effects, and frames returning to a parent remain
 unsupported. Runtime reconstruction begins with first-round, pre-reveal combat
 card choices only; an opponent's committed face-down card identity is never
