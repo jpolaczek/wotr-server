@@ -9,8 +9,8 @@ internal static class CompanionJourneyProjection
         var frames = state.Resolution.Frames;
         var pending = state.Pending;
         if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
-            state.Resolution.ActionSequence is not null || state.PoliticalReactions.Count != 0 ||
-            frames.Count != 2 || state.Resolution.PaidDieIds.Count != 1 || pending is null ||
+            state.Resolution.ActionSequence is not null || frames.Count != 2 ||
+            state.Resolution.PaidDieIds.Count != 1 || pending is null ||
             pending.Owner != Side.FreePeoples)
             return null;
 
@@ -64,7 +64,8 @@ internal static class CompanionJourneyProjection
                 pending.Commands.SequenceEqual([CommandKind.SelectGuide]) => FellowshipProcedureKind.Guide.ToString(),
             _ => ""
         };
-        if (stage.Length == 0)
+        if (stage.Length == 0 || state.PoliticalReactions.Count != 0 &&
+            stage != nameof(FellowshipProcedureKind.Guide))
             return null;
 
         return new()

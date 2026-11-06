@@ -51,6 +51,7 @@ public sealed class CompanionJourneyProjectionTests
             new() { Ids = [CharacterHuntTests.Merry], Route = ["rivendell", "fords-of-bruinen", "hollin"] },
             catalog: EffectCatalog.All);
         Assert.Equal(DecisionKind.Guide, state.Pending!.Kind);
+        state.PoliticalReactions.Add(new(PoliticalTrigger.CompanionArrival, "gondor", "minas-tirith"));
 
         var fp = Projection.For(state, Side.FreePeoples);
         var shadow = Projection.For(state, Side.Shadow);
@@ -58,6 +59,7 @@ public sealed class CompanionJourneyProjectionTests
         var journey = Assert.IsType<CompanionJourneyView>(fp.ActionBoundary!.CompanionJourney);
         Assert.Equal(nameof(FellowshipProcedureKind.Guide), journey.Stage);
         Assert.Equal(card, journey.CardId);
+        Assert.Equal("gondor", Assert.Single(fp.ActionBoundary.PendingPolitics).NationId);
         Assert.Equal(JsonSerializer.Serialize(fp.ActionBoundary), JsonSerializer.Serialize(shadow.ActionBoundary));
         Assert.Null(shadow.Decision);
         Assert.Empty(shadow.Options);

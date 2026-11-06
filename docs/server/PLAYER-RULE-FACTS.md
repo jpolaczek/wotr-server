@@ -144,8 +144,10 @@ version 18. It marks only the Free Peoples' paid Gwaihir or Swifter event while
 its pinned companion journey or resulting Guide choice is pending. The ordinary
 fact carries the source card, stage and public journey limits so a client can
 rebuild the legal choice from the same player information; it contains no
-resolution frames or selected movement. Other card/separation continuations
-remain unmarked. Public content 1.0.34 and rules 0.15.12 pin the contract.
+resolution frames or selected movement. The Guide stage may carry queued public
+political reactions from the journey; the initial Separation stage requires
+none. Other card/separation continuations remain unmarked. Public content 1.0.34
+and rules 0.15.13 pin the contract.
 
 Contracts 0.33.0 also exposes `BattleForceView.VoluntaryLossHits` to both sides
 after a voluntary battle-loss choice resolves. Null means the choice has not
