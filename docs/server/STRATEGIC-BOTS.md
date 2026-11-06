@@ -192,12 +192,16 @@ it is not included in the prior 7,171/7,440 verified-root count. BOT-02 remains
 in progress, gameplayReady=false, and no policy is registered. No client code,
 release, deployment or push changed.
 
-Rules source 0.15.16 extends the same v19 projection to public Shadow reactions
-at `fellowship.declared`, including a re-offer after an earlier public reaction
+Rules source commit `c865bc0758677fecd032c45096696002b77de9cb` packages
+`wotr-rules` 0.15.16 (441 files; SHA-256
+`74f1e2e1bc0eaad3274ad6d24b43535e1feccbd30772199fb69d13fbfb103efb`). It
+extends the same v19 projection to public Shadow reactions at
+`fellowship.declared`, including a re-offer after an earlier public reaction
 has been used. The projector checks exact remaining reaction identities and
-public owner/source facts. Active nested Hunt continuations are still omitted.
-The private runtime change that restores these reaction trails is pending
-verification and is not counted as accepted BOT-02 coverage.
+public owner/source facts. Private commit `b6966fe` / runtime 0.2.63 rebuilds
+these windows from public state and restores the visible response trail. Active
+nested Hunt continuations are still omitted. The change has not been built or
+tested and is not counted as accepted BOT-02 coverage.
 
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
