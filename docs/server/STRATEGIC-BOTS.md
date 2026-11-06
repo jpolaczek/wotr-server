@@ -147,6 +147,31 @@ was fast-forwarded into main; the unrelated Core.csproj edit stayed byte-identic
 Evidence is local in `.artifacts/bot02-completion/corruption/`. No push, release or
 deployment was performed.
 
+### BOT-02 implementation checkpoint — outside companion journeys (2026-11-06)
+
+Private commit `c8c2a7f` / runtime 0.2.61 pins rules 0.15.14 from this
+repository's public source commit `96853b10fc42377d4df3ff12711a2712acf9b1f0`
+(439 files; SHA-256
+`89d782247b851b635b343698c7d0feab4b60fa76d492d0bf825fe280e607db67`). Public
+ActionBoundary v18 now marks the paid outside-companion journey on Book of
+Mazarbul (base), Fear! Fire! Foes!, and Book of Mazarbul (Fate), with exact
+optional-movement limits and no route or resolution frame. The runtime rebuilds
+these allowlisted programs and checks their following card effects against the
+pinned engine. It also accepts a legal subset of projected Separation options
+when no outside companion can move, then requires full player-view parity.
+
+Focused public `CompanionJourneyProjectionTests` passed **14/14**. Full private
+`bash scripts/verify.sh` passed **2,191 C# / 17 Python**, no skips, zero Release
+warnings/errors, pinned dependency/boundary checks and local runtime publish.
+The focused private journey tests passed **14/14**, including all three outside
+journeys, empty movement, automatic card continuation, hidden Shadow invariance,
+malformed facts and the Swifter no-outside-companion regression. The previously
+failing bounded configuration walk passed **1/1**. Client commit
+`5faa66460bd90ed789bbd8ece0692cf0145cb4ea` moves its server links to the 0.15.14
+source; its 72-file Markdown link check passed. No client code, package, Unity
+test or gameplay-ready status changed. BOT-02 remains in progress and
+`gameplayReady=false`; battle, discard and nested-expansion roots remain open.
+
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
 reconstruction is blocked on a reviewed mapping from player information/history

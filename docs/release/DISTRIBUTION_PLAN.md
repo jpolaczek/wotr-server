@@ -239,7 +239,7 @@ On Mac, the publishers `python3 scripts/release_client.py v<version> [--required
   [nginx WebSocket](https://nginx.org/en/docs/http/websocket.html),
   [Certbot DNS Cloudflare](https://certbot-dns-cloudflare.readthedocs.io/en/stable/).
 - [T38](../server/T38-DEPLOYMENT.md), [T39](T39-RELEASE.md),
-  [menu](https://github.com/jpolaczek/wotr-client/blob/e56db489ffe0c57e9a5222d470ff9ccd0591e09f/docs/ui/MAIN_MENU_UX.md), [tests](../TESTING.md).
+  [menu](https://github.com/jpolaczek/wotr-client/blob/5faa66460bd90ed789bbd8ece0692cf0145cb4ea/docs/ui/MAIN_MENU_UX.md), [tests](../TESTING.md).
 
 The Velopack installers/signatures documentation, for example Unity Mono, Cloudflare Tunnel, nginx WebSocket and Certbot plugin have been checked by 2026-10-12. The Mono example describes an additional Windows boottrap and ending by Application.Quit; it does not provide proof of the current WoTR nor macOS Universal. pinned versions of tools and compatibility check again in DIST-06.
 
