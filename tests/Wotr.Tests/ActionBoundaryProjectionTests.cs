@@ -120,7 +120,7 @@ public sealed class ActionBoundaryProjectionTests
         var second = FreePeoplesCharacterCards01.SpecialTiles[1].Tile;
         HuntPool.PrepareSpecial(state, second);
         var facts = Projection.For(state, Side.Shadow).ActionBoundary!;
-        Assert.Equal(28, facts.Version);
+        Assert.Equal(29, facts.Version);
         Assert.Equal([second], facts.HuntTiles.Single(z => z.Location == "prepared").SpecialTileIds);
         Assert.Contains(FreePeoplesCharacterCards01.SpecialTiles[0].Tile,
             facts.HuntTiles.Single(z => z.Location == "set-aside").SpecialTileIds);

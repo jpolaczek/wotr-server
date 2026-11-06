@@ -309,6 +309,8 @@ internal static class ActionBoundaryProjection
             return null;
 
         var cardId = pending.SourceId;
+        if (cardId != FreePeoplesStrategyCards04.KindredOfGlorfindel)
+            return null;
         var player = state.Player(pending.Owner);
         if (!CardCatalog.Enabled(state.Configuration, cardId) ||
             !EffectCatalog.All.Events.TryGetValue(cardId, out var definition) ||

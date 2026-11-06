@@ -435,13 +435,12 @@ No fixture, module selector or passing build establishes playing strength.
 
 ### BOT-02 implementation checkpoint — direct event effect choice (2026-11-06)
 
-Contracts 0.44.0 / ActionBoundary v28 and rules 0.15.29 mark the first choice
-inside a direct paid public event. The marker includes the visible card and
-payment face only, and the server requires its exact top-level event program,
-public discard, resolving die and current engine-generated choice list. It does
-not serialize a frame or effect cursor. This opens a narrow generic contract
-for first-step event choices; the private runtime supports only the reviewed
-Kindred of Glorfindel recruit choice so far.
+Contracts 0.45.0 / ActionBoundary v29 and rules 0.15.30 mark only the first
+recruit choice in Kindred of Glorfindel. The marker includes the visible card
+and payment face only, and the server requires its exact top-level event
+program, public discard, resolving die and current engine-generated choice
+list. It does not serialize a frame or effect cursor. Other card programs remain
+unmarked until their runtime path has its own reviewed reconstruction.
 
 Public `Strategy04RecruitmentTests` passed 46 cases, including four legal cost /
 die combinations and refusal of an altered cursor, payment or missing public
