@@ -160,8 +160,11 @@ frame or private combat card. Protocol and save schema are unchanged.
 Public projection, boundary and relief tests passed **520**, with three skips.
 Client commit `877f8021b6bcaa3ce2b79966d0f7baaf989110d0`
 pins Contracts 0.42.0 and content 1.0.42; dependency fetch and the 72-file
-server link check passed. The private runtime reconstruction is tracked in the
-adjacent private checkpoint. BOT-02 remains in progress and `gameplayReady=false`.
+server link check passed. Private commit `8ac075c` advances runtime 0.2.70 and
+reconstructs the event parent and payment around both combat-card decisions and
+the no-hit Stop return. Full private verification passed 2,199 C# and 17 Python
+tests, with no skips and no build warnings or errors. BOT-02 remains in progress
+and `gameplayReady=false`.
 
 ### BOT-02 implementation checkpoint — West Palantir excess discard (2026-11-06)
 
