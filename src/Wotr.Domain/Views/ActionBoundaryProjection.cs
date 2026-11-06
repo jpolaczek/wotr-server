@@ -133,14 +133,14 @@ internal static class ActionBoundaryProjection
             battleFrame.Corruption is not null || battle is not { Return: EffectReturn.FinishAction,
                 Stage: BattleStage.BeforeRoll, Round: 1, CardsRevealed: true, Mode: not BattleMode.Relief,
                 NextWork: > 0, CompletedRounds: 0, EndedByEffect: false, WhiteRiderUsed: false, Kings: null } ||
-            effectFrame.NextStep != 1 || effectFrame.Window != "" ||
+            effectFrame.Window != "" ||
             effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
             effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
             effectFrame.Corruption is not null || execution is not { Return: EffectReturn.Parent, Wait: EffectWait.None,
                 IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false } ||
             execution.NationId.Length != 0 || execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 ||
             execution.PaidFace != default || execution.ArmyOrder is not null || execution.ReactionWindow.Length != 0 ||
-            execution.CompletionWindowOffered || execution.AppliedHits != 0 || execution.OfferedReactions.Count != 0 ||
+            execution.CompletionWindowOffered || execution.OfferedReactions.Count != 0 ||
             execution.Committed.Count != 0 || execution.InspectedSovereign is not null || execution.InspectedHand is not null ||
             execution.RingRecovery is not null || execution.MadnessTarget is not null || execution.FellowshipMove ||
             lossFrame.EffectId != "" || lossFrame.NextStep != 0 || lossFrame.Window != "" ||
@@ -247,7 +247,6 @@ internal static class ActionBoundaryProjection
             !combat.Condition.CanPlay(state, battle, execution.Owner) ||
             battle.Force(execution.Owner).Round.CardCancelled ||
             !EffectCatalog.All.Programs.TryGetValue(effectFrame.EffectId, out var program) ||
-            program.Steps is not [WeComeToKillStep] ||
             !BattleRules.Alive(state, battle.Force(loss.Owner)) || state.Configuration.Kings ||
             state.Resolution.PaidDieIds.Count != 1 ||
             state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
@@ -255,11 +254,20 @@ internal static class ActionBoundaryProjection
                 die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving))
             return null;
 
+        var weComeToKill = program.Steps is [WeComeToKillStep] && effectFrame.NextStep == 1 &&
+            execution.AppliedHits == 0;
+        var onslaught = program.Steps is [VoluntaryLossesStep { Maximum: 4, AdditionalAttack: true },
+                SacrificeResultStep { AdditionalAttack: true }] && effectFrame.NextStep == 2 &&
+            execution.AppliedHits is > 0 and <= 4;
+        if (!weComeToKill && !onslaught)
+            return null;
+
         var attack = battle.SpecialAttacks[^1];
         var force = battle.Force(execution.Owner);
-        var diceCount = Math.Min(5, ChargeStep.Elites(state, force));
+        var diceCount = weComeToKill ? Math.Min(5, ChargeStep.Elites(state, force)) : execution.AppliedHits;
+        var hitTarget = weComeToKill ? 5 : 4;
         if (attack.Dice.Count != diceCount || attack.Dice.Any(die => die.Result is < 1 or > 6 ||
-            die.Modifier != 0 || die.HitTarget != 5 || die.Hit != BattleRoll.Hits(die.Result, 0, 5) ||
+            die.Modifier != 0 || die.HitTarget != hitTarget || die.Hit != BattleRoll.Hits(die.Result, 0, hitTarget) ||
             die.ConvertedHit || die.Reroll.HasValue || die.RerollModifier != 0 || die.RerollHit || die.CannotReroll))
             return null;
 
