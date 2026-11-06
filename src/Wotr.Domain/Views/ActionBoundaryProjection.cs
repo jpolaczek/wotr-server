@@ -11,9 +11,10 @@ internal static class ActionBoundaryProjection
         var fellowshipMove = FellowshipMoveProjection.For(state);
         var cardHunt = CardHuntProjection.For(state);
         var lureChoice = LureChoiceProjection.For(state);
+        var companionJourney = CompanionJourneyProjection.For(state);
         var battle = DirectBattle(state) ?? SpecialAttackLoss(state);
         var reviewedContinuation = declaration is not null || fellowshipMove is not null ||
-            cardHunt is not null || lureChoice is not null || battle is not null;
+            cardHunt is not null || lureChoice is not null || companionJourney is not null || battle is not null;
         // Compose only explicitly reviewed continuations with module facts;
         // arbitrary expansion procedures are not inferred from their decision kind.
         if (!KingsBoundaryProjection.Supports(state, reviewedContinuation) ||
@@ -23,8 +24,8 @@ internal static class ActionBoundaryProjection
             (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None))
             return null;
         if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
-            fellowshipMove is null && cardHunt is null && lureChoice is null && declaration is null && battle is null &&
-            !CorruptionBoundaryProjection.Supports(state))
+            fellowshipMove is null && cardHunt is null && lureChoice is null && companionJourney is null &&
+            declaration is null && battle is null && !CorruptionBoundaryProjection.Supports(state))
             return null;
 
         // Base/Fate discards never return to a hand/deck. Only a visible discharge
@@ -42,6 +43,7 @@ internal static class ActionBoundaryProjection
             FellowshipDeclaration = declaration,
             Battle = battle,
             LureChoice = lureChoice,
+            CompanionJourney = companionJourney,
             Lords = LordsBoundaryProjection.For(state),
             Kings = KingsBoundaryProjection.For(state, tiles.Unassigned),
             PaidDieIds = [.. state.Resolution.PaidDieIds],

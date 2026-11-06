@@ -139,6 +139,14 @@ nine ordinary HTTP/restart/receipt-replay cases. Both passed; package/client pin
 are recorded in the [current checkpoint](STRATEGIC-BOTS.md). This is metadata
 verification, not BOT-02 or strategic acceptance.
 
+Contracts 0.34.0 add optional `ActionBoundaryView.CompanionJourney` at boundary
+version 18. It marks only the Free Peoples' paid Gwaihir or Swifter event while
+its pinned companion journey or resulting Guide choice is pending. The ordinary
+fact carries the source card, stage and public journey limits so a client can
+rebuild the legal choice from the same player information; it contains no
+resolution frames or selected movement. Other card/separation continuations
+remain unmarked. Public content 1.0.34 and rules 0.15.12 pin the contract.
+
 Contracts 0.33.0 also exposes `BattleForceView.VoluntaryLossHits` to both sides
 after a voluntary battle-loss choice resolves. Null means the choice has not
 resolved; zero is a public decision to take no losses. The hit count lets
@@ -231,7 +239,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt; version 16 includes the reviewed Lure choice; version 17 adds the public marker for a narrow first-step Charge loss continuation. Public content 1.0.31 and pure rules 0.15.3 pin this contract; protocol and save schema remain unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt; version 16 includes the reviewed Lure choice; version 17 adds reviewed battle-loss and special-attack facts; version 18 marks the paid Gwaihir/Swifter companion journey and follow-up Guide choices. Public content 1.0.34 and rules 0.15.12 pin the current contract; protocol and save schema remain unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing

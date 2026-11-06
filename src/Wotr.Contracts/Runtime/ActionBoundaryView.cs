@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 17;
+        public int Version { get; set; } = 18;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -22,6 +22,7 @@ namespace Wotr.Contracts
         public FellowshipDeclarationView? FellowshipDeclaration { get; set; }
         public BattleContextView? Battle { get; set; }
         public LureChoiceView? LureChoice { get; set; }
+        public CompanionJourneyView? CompanionJourney { get; set; }
         public LordsRuleFactsView? Lords { get; set; }
         public KingsRuleFactsView? Kings { get; set; }
     }

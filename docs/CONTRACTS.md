@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.34.0 adds `ActionBoundaryView.CompanionJourney` and advances the
+boundary to version 18. The fact identifies a reviewed Gwaihir or Swifter card,
+the active companion-choice/Guide stage and the card-defined travel limits. It
+contains no resolution frame or selected companion move. Public content 1.0.34
+pins the contract; rules package 0.15.12 emits the fact only for those exact
+programs. Protocol and save schema do not change.
+
 Contracts 0.33.0 adds public `BattleForceView.VoluntaryLossHits`, which records
 how many hits a player actually chose to spend on a voluntary battle-loss
 procedure. It is null until that choice is resolved, including a resolved choice
