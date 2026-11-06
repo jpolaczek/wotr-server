@@ -21,7 +21,7 @@ public sealed class CorruptionBoundaryProjectionTests
         foreach (var side in Enum.GetValues<Side>())
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(30, view.ActionBoundary!.Version);
+            Assert.Equal(31, view.ActionBoundary!.Version);
             Assert.Empty(view.ActionBoundary.PaidDieIds);
             Assert.Equal(attempt.DieId, view.CorruptionAttempt!.DieId);
             Assert.Equal(attempt.Drawn.Count, view.CorruptionAttempt.DrawnCount);

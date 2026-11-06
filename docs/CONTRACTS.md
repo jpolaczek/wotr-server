@@ -1,6 +1,17 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.47.0 advances ActionBoundary to version 31. `DirectEventChoice` also
+marks the first choice of Celeborn's Galadhrim, The Spirit of Mordor, Faramir's Rangers, Men of Little
+Villages, Work of the Enemy, Dwarves of the Iron Hills, Hill-Trolls, Many Kings to
+the Service of Mordor, A New Power is Rising, Shadows on the Misty Mountains and
+Horde from the East, and is no longer limited to the Free Peoples.
+`DirectEventChoices.IsReviewed` in rules 0.15.32 holds the reviewed card and exact
+program list, so the projection and an observation-only runtime read one source.
+The marker still carries only the public card ID and payment face. Later choices
+of these programs stay unmarked. Public content 1.0.47 pins the contract. Protocol
+and save schema do not change.
+
 Contracts 0.46.0 advances ActionBoundary to version 30. `DirectEventChoice` also
 marks both choices of Ever at Your Service (`kings.fp.strategy.25`): the ruler
 choice and the recruitment that follows it, including the recruitment after the

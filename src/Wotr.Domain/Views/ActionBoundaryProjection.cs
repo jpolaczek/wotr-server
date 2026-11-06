@@ -309,8 +309,7 @@ internal static class ActionBoundaryProjection
             return null;
 
         var cardId = pending.SourceId;
-        if (cardId is not (FreePeoplesStrategyCards04.KindredOfGlorfindel or KingsCards02.Service) ||
-            pending.Owner != Side.FreePeoples)
+        if (!CardCatalog.All.TryGetValue(cardId, out var card) || card.Side != pending.Owner)
             return null;
         var player = state.Player(pending.Owner);
         if (!CardCatalog.Enabled(state.Configuration, cardId) ||
@@ -322,7 +321,7 @@ internal static class ActionBoundaryProjection
 
         var frame = frames[0];
         var execution = frame.Effect;
-        if (execution is null || !IsReviewedDirectEventStep(cardId, frame.NextStep, program) ||
+        if (execution is null || !DirectEventChoices.IsReviewed(cardId, frame.NextStep, program) ||
             program.Steps[frame.NextStep - 1] is not EffectChoiceStep choice ||
             pending.Presentation != choice.Presentation)
             return null;
@@ -335,7 +334,7 @@ internal static class ActionBoundaryProjection
                 { Owner: var owner, SourceId: var source, Return: EffectReturn.FinishAction, IsEvent: true,
                     Wait: EffectWait.Choice, PalantirDrawPending: false, AnarionDrawPending: false,
                     CompletionWindowOffered: false, ArmyOrder: null } || owner != pending.Owner || source != cardId ||
-            execution.PaidFace != DieFace.Event && execution.PaidFace != CardCatalog.All[cardId].EventType ||
+            execution.PaidFace != DieFace.Event && execution.PaidFace != card.EventType ||
             execution.ReactionWindow.Length != 0 || execution.OfferedReactions.Count != 0 ||
             execution.Committed.Count == 0 || execution.Committed[0] != new EffectSelection(pending.Owner, cardId) ||
             execution.AppliedHits != 0 || execution.InspectedSovereign is not null ||
@@ -357,16 +356,6 @@ internal static class ActionBoundaryProjection
 
         return new() { CardId = cardId, CardCost = execution.PaidFace };
     }
-
-    private static bool IsReviewedDirectEventStep(string cardId, int nextStep, EffectDefinition program) => cardId switch
-    {
-        FreePeoplesStrategyCards04.KindredOfGlorfindel => nextStep == 1 && program.Steps is
-            [RecruitEffectStep { Nation: "elves", Region: "rivendell", Leader: false, Count: 1, RequiredKind: null },
-                DrawCardsStep { Deck: "strategy", Count: 1 }],
-        KingsCards02.Service => nextStep is 1 or 2 && program.Steps is
-            [ServiceSovereignStep, ServiceRecruitStep, ServiceCorruptionStep],
-        _ => false
-    };
 
     private static bool HasNoEventSelection(EffectExecution execution) =>
         execution.Committed.Count == 1 && execution.RegionId.Length == 0 &&

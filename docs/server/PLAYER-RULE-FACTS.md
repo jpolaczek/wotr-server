@@ -1,5 +1,14 @@
 # Player rule facts at an action boundary
 
+Contracts 0.47.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version
+31 to the first choice of eleven more directly paid events, for either side:
+Celeborn's Galadhrim, The Spirit of Mordor, Faramir's Rangers, Men of Little
+Villages, Work of the Enemy, Dwarves of the Iron Hills, Hill-Trolls, Many Kings to
+the Service of Mordor, A New Power is Rising, Shadows on the Misty Mountains and
+Horde from the East. These choices depend only on public board
+facts, and the marker keeps the same two fields. Public content 1.0.47 pins these
+shared facts; protocol and save schema are unchanged.
+
 Contracts 0.46.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version
 30 to both choices of Ever at Your Service. The marker keeps the same two fields,
 card ID and paid face. The owner rebuilds the selected ruler from their effect

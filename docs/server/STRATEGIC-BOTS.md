@@ -433,6 +433,20 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — direct first-choice events (2026-11-06)
+
+Contracts 0.47.0 / ActionBoundary v31 and rules 0.15.32 extend `DirectEventChoice`
+to the first choice of Celeborn's Galadhrim, The Spirit of Mordor, Faramir's Rangers, Men of Little
+Villages, Work of the Enemy, Dwarves of the Iron Hills, Hill-Trolls, Many Kings to
+the Service of Mordor, A New Power is Rising, Shadows on the Misty Mountains and
+Horde from the East. Nothing before these choices selects or reveals
+anything, and the engine runs every later step, including dice and losses.
+`DirectEventChoices.IsReviewed` pins each card to its exact program. Public
+`DirectEventChoiceFamilyTests` cover every card and refuse an altered cursor,
+payment, public play or selection. BOT-02 is still incomplete; no policy, push,
+release or deployment.
+
+
 ### BOT-02 implementation checkpoint — Ever at Your Service (2026-11-06)
 
 Contracts 0.46.0 / ActionBoundary v30 and rules 0.15.31 extend `DirectEventChoice`
