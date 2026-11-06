@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 16;
+        public int Version { get; set; } = 17;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -59,6 +59,7 @@ namespace Wotr.Contracts
     public sealed class BattleContextView
     {
         public bool CompletesPaidAction { get; set; }
+        public bool SpecialAttackLoss { get; set; }
     }
 
     // Public consequences of the committed reveal route after a paid move.

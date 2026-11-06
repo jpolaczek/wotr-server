@@ -20,7 +20,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(16, own.ActionBoundary!.Version);
+        Assert.Equal(17, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.Equal(own.ActionBoundary.Battle.CompletesPaidAction,
             other.ActionBoundary!.Battle!.CompletesPaidAction);
@@ -30,8 +30,8 @@ public sealed class ActionBoundaryBattleTests
         Assert.Empty(other.Options);
 
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        var returnFacts = Assert.Single(boundaryJson.RootElement.EnumerateObject());
-        Assert.True(returnFacts.Value.GetBoolean());
+        Assert.True(boundaryJson.RootElement.GetProperty("CompletesPaidAction").GetBoolean());
+        Assert.False(boundaryJson.RootElement.GetProperty("SpecialAttackLoss").GetBoolean());
 
         var parentReturn = StateCodec.Copy(state);
         BattleRuntime.Active(parentReturn)!.Return = EffectReturn.Parent;
@@ -79,7 +79,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(16, own.ActionBoundary!.Version);
+        Assert.Equal(17, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -88,7 +88,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(attacker, own.Battle.LossOwner);
         Assert.Equal(state.Pending.RequiredCount, own.Battle.PendingHits);
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":true}", boundaryJson.RootElement.GetRawText());
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false}", boundaryJson.RootElement.GetRawText());
 
         var nested = StateCodec.Copy(state);
         BattleRuntime.Active(nested)!.Return = EffectReturn.Parent;
@@ -101,6 +101,47 @@ public sealed class ActionBoundaryBattleTests
         var unrelatedLoss = StateCodec.Copy(state);
         BattleLosses.Current(unrelatedLoss)!.SourceId = "event-card";
         Assert.Null(Projection.For(unrelatedLoss, attacker).ActionBoundary);
+    }
+
+    [Theory]
+    [InlineData(Side.FreePeoples, FreePeoplesStrategyCards03.CirdansShips)]
+    [InlineData(Side.Shadow, FreePeoplesStrategyCards03.CirdansShips)]
+    [InlineData(Side.FreePeoples, FreePeoplesStrategyCards03.GuardsOfCitadel)]
+    [InlineData(Side.Shadow, FreePeoplesStrategyCards03.GuardsOfCitadel)]
+    public void FirstChargeSpecialAttackLossExposesOnlyTheReviewedResumeMarker(Side attacker, string cardId)
+    {
+        var state = ChargeSpecialAttackLoss(attacker, cardId);
+        var owner = state.Pending!.Owner;
+        Assert.Equal(DecisionKind.Losses, state.Pending.Kind);
+        Assert.Equal(cardId, state.Pending.SourceId);
+        Assert.Equal(cardId, BattleLosses.Current(state)!.SourceId);
+
+        var own = Projection.For(state, owner);
+        var other = Projection.For(state, TurnFlow.Other(owner));
+        Assert.Equal(17, own.ActionBoundary!.Version);
+        Assert.False(own.ActionBoundary.Battle!.CompletesPaidAction);
+        Assert.True(own.ActionBoundary.Battle.SpecialAttackLoss);
+        Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
+            JsonSerializer.Serialize(other.ActionBoundary!.Battle));
+        Assert.True(own.Battle!.CardsRevealed);
+        Assert.Equal(nameof(BattleStage.BeforeRoll), own.Battle.Stage);
+        Assert.Equal(cardId, Assert.Single(own.Battle.SpecialAttacks).SourceId);
+        Assert.Equal(own.Battle.PendingHits, state.Pending.RequiredCount);
+        Assert.Single(own.ActionBoundary.PaidDieIds);
+
+        using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
+        Assert.Equal("{\"CompletesPaidAction\":false,\"SpecialAttackLoss\":true}",
+            boundaryJson.RootElement.GetRawText());
+        Assert.DoesNotContain("ResolutionFrame", JsonSerializer.Serialize(own.ActionBoundary));
+        Assert.DoesNotContain("NextStep", JsonSerializer.Serialize(own.ActionBoundary));
+
+        var nested = StateCodec.Copy(state);
+        nested.Resolution.Frames[1].NextStep = 0;
+        Assert.Null(Projection.For(nested, owner).ActionBoundary);
+
+        var mismatchedSource = StateCodec.Copy(state);
+        BattleLosses.Current(mismatchedSource)!.SourceId = "combat";
+        Assert.Null(Projection.For(mismatchedSource, owner).ActionBoundary);
     }
 
     [Theory]
@@ -120,7 +161,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, state.Pending.Owner);
         var other = Projection.For(state, TurnFlow.Other(state.Pending.Owner));
-        Assert.Equal(16, own.ActionBoundary!.Version);
+        Assert.Equal(17, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -129,7 +170,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(state.Pending.Owner, own.Battle.LossOwner);
         Assert.Equal(state.Pending.RequiredCount, own.Battle.PendingHits);
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":true}", boundaryJson.RootElement.GetRawText());
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false}", boundaryJson.RootElement.GetRawText());
     }
 
     [Theory]
@@ -147,7 +188,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, actor);
         var other = Projection.For(state, TurnFlow.Other(actor));
-        Assert.Equal(16, own.ActionBoundary!.Version);
+        Assert.Equal(17, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -155,7 +196,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(defenderWindow ? "DefenderCard" : "AttackerCard", own.Battle!.Stage);
         Assert.Single(own.ActionBoundary.PaidDieIds);
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":true}", boundaryJson.RootElement.GetRawText());
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false}", boundaryJson.RootElement.GetRawText());
     }
 
     [Fact]
@@ -203,6 +244,36 @@ public sealed class ActionBoundaryBattleTests
             BattleFixture.Put(state, defendingNation, UnitKind.Regular, BattleFixture.Target);
         state = BattleFixture.Begin(state, attackers.Select(unit => unit.Id));
         return BattleFixture.NoCards(state, 6, 6, 6, 6, 6, 6);
+    }
+
+    private static MatchState ChargeSpecialAttackLoss(Side attacker, string cardId)
+    {
+        var state = BattleFixture.State(attacker);
+        var attackingNation = attacker == Side.Shadow ? "sauron" : "gondor";
+        var defendingNation = attacker == Side.Shadow ? "gondor" : "sauron";
+        var attackingFigures = Enumerable.Range(0, 3)
+            .Select(_ => BattleFixture.Put(state, attackingNation, UnitKind.Regular, BattleFixture.Origin)).ToArray();
+        for (var index = 0; index < 3; index++)
+            BattleFixture.Put(state, defendingNation, UnitKind.Regular, BattleFixture.Target);
+        var elfRegion = attacker == Side.FreePeoples ? BattleFixture.Origin : BattleFixture.Target;
+        var elfElite = BattleFixture.Put(state, "elves", UnitKind.Elite, elfRegion);
+        state.Player(Side.FreePeoples).Hand.Add(cardId);
+        var attackers = attackingFigures.Select(unit => unit.Id)
+            .Concat(attacker == Side.FreePeoples ? [elfElite.Id] : []);
+        state = BattleFixture.Begin(state, attackers);
+
+        while (state.Pending!.Kind == DecisionKind.CombatCard)
+        {
+            var actor = state.Pending.Owner;
+            var selected = actor == Side.FreePeoples ? cardId : "";
+            state = BattleFixture.Execute(state, CommandKind.CommitCombatCard, new() { CardId = selected },
+                new SequenceRandom(5));
+        }
+
+        Assert.Equal(DecisionKind.Losses, state.Pending!.Kind);
+        Assert.Equal(cardId, state.Pending.SourceId);
+        Assert.Equal(1, BattleRuntime.Active(state)!.NextWork);
+        return state;
     }
 
     private static MatchState LaterRoundLossDecision(Side attacker, bool attackerHits)
