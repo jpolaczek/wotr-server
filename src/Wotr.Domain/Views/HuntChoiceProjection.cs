@@ -1,4 +1,5 @@
 using Wotr.Contracts;
+using Wotr.Domain.Content;
 
 namespace Wotr.Domain;
 
@@ -108,8 +109,6 @@ internal static class HuntChoiceProjection
         var sources = new List<string>();
         foreach (var selection in effect.Committed)
         {
-            if (!state.Configuration.Lords)
-                return false;
             var matches = reactions.Where(r =>
                 (r.RequiredTableCard ?? r.RequiredGuideId ?? r.RequiredCharacterId ?? r.Id) == selection.SourceId).ToArray();
             if (matches.Length == 0)
@@ -122,9 +121,13 @@ internal static class HuntChoiceProjection
             if (matches.Length != 1 || selection.Owner != Side.Shadow || selection.ChoiceId != "" ||
                 selection.TargetId != "" || !used.Add(matches[0].Id))
                 return false;
+            if (!state.Configuration.Lords && matches[0].RequiredTableCard is { } card &&
+                !CardCatalog.Enabled(state.Configuration, card))
+                return false;
             sources.Add(selection.SourceId);
         }
-        return effect.OfferedReactions.SequenceEqual(reactions.Where(r => !used.Contains(r.Id)).Select(r => r.Id)) &&
+        var offered = state.Configuration.Lords ? reactions.Where(r => !used.Contains(r.Id)) : reactions;
+        return effect.OfferedReactions.SequenceEqual(offered.Select(r => r.Id)) &&
                effect.Committed.Where(selection => sources.Contains(selection.SourceId) && selection.Owner == Side.Shadow)
                    .Select(selection => selection.SourceId).SequenceEqual(sources);
     }
