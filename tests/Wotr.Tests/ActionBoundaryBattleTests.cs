@@ -145,6 +145,63 @@ public sealed class ActionBoundaryBattleTests
     }
 
     [Theory]
+    [InlineData(Side.FreePeoples)]
+    [InlineData(Side.Shadow)]
+    public void PostCombatOnslaughtLossExposesOnlyTheReviewedResumeMarker(Side attacker)
+    {
+        var state = OnslaughtSpecialAttackLoss(attacker);
+        var owner = state.Pending!.Owner;
+        var loss = BattleLosses.Current(state)!;
+        Assert.Equal(Side.FreePeoples, owner);
+        Assert.False(loss.Voluntary);
+        Assert.False(loss.AdditionalAttack);
+        Assert.Equal(1, loss.Hits);
+        Assert.Equal(ShadowStrategyCards01.UrukHai, loss.SourceId);
+
+        var own = Projection.For(state, owner);
+        var other = Projection.For(state, TurnFlow.Other(owner));
+        Assert.Equal(17, own.ActionBoundary!.Version);
+        Assert.False(own.ActionBoundary.Battle!.CompletesPaidAction);
+        Assert.True(own.ActionBoundary.Battle.SpecialAttackLoss);
+        Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
+            JsonSerializer.Serialize(other.ActionBoundary!.Battle));
+        Assert.Equal(nameof(BattleStage.AfterLosses), own.Battle!.Stage);
+        Assert.Equal(ShadowStrategyCards01.UrukHai, own.Battle.LossSource);
+        Assert.Equal(1, own.Battle.PendingHits);
+        var attack = Assert.Single(own.Battle.SpecialAttacks);
+        Assert.Equal(Side.Shadow, attack.Side);
+        Assert.Equal(ShadowStrategyCards01.UrukHai, attack.SourceId);
+        var die = Assert.Single(attack.Dice);
+        Assert.Equal(4, die.HitTarget);
+        Assert.True(die.Hit);
+
+        var wrongCursor = StateCodec.Copy(state);
+        wrongCursor.Resolution.Frames[1].NextStep = 1;
+        Assert.Null(Projection.For(wrongCursor, owner).ActionBoundary);
+
+        var wrongAppliedHits = StateCodec.Copy(state);
+        wrongAppliedHits.Resolution.Frames[1].Effect!.AppliedHits = 0;
+        Assert.Null(Projection.For(wrongAppliedHits, owner).ActionBoundary);
+
+        var wrongLossKind = StateCodec.Copy(state);
+        BattleLosses.Current(wrongLossKind)!.Voluntary = true;
+        Assert.Null(Projection.For(wrongLossKind, owner).ActionBoundary);
+    }
+
+    [Theory]
+    [InlineData(Side.FreePeoples)]
+    [InlineData(Side.Shadow)]
+    public void ZeroOnslaughtSacrificeDoesNotExposeAnAttackLossMarker(Side attacker)
+    {
+        var state = BeginOnslaughtVoluntaryLosses(attacker);
+        state = BattleFixture.Losses(state);
+
+        Assert.Equal(DecisionKind.BattleContinue, state.Pending!.Kind);
+        Assert.Empty(BattleRuntime.Active(state)!.SpecialAttacks);
+        Assert.False(Projection.For(state, state.Pending.Owner).ActionBoundary?.Battle?.SpecialAttackLoss ?? false);
+    }
+
+    [Theory]
     [InlineData(Side.FreePeoples, false)]
     [InlineData(Side.FreePeoples, true)]
     [InlineData(Side.Shadow, false)]
@@ -273,6 +330,48 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(DecisionKind.Losses, state.Pending!.Kind);
         Assert.Equal(cardId, state.Pending.SourceId);
         Assert.Equal(1, BattleRuntime.Active(state)!.NextWork);
+        return state;
+    }
+
+    private static MatchState OnslaughtSpecialAttackLoss(Side attacker)
+    {
+        var state = BeginOnslaughtVoluntaryLosses(attacker);
+        var battle = BattleRuntime.Active(state)!;
+        var regular = BattleRules.Units(state, battle.Force(Side.Shadow))
+            .First(unit => unit.Kind == UnitKind.Regular && BoardRules.IsArmyUnit(unit));
+        state = BattleFixture.Execute(state, CommandKind.TakeBattleLosses,
+            new() { Losses = [BattleFixture.Loss(regular.Id)] }, new SequenceRandom(5));
+        Assert.Equal(DecisionKind.Losses, state.Pending!.Kind);
+        Assert.Equal(Side.FreePeoples, state.Pending.Owner);
+        Assert.Equal(ShadowStrategyCards01.UrukHai, BattleLosses.Current(state)!.SourceId);
+        return state;
+    }
+
+    private static MatchState BeginOnslaughtVoluntaryLosses(Side attacker)
+    {
+        var state = BattleFixture.State(attacker);
+        var attackingNation = attacker == Side.Shadow ? "sauron" : "gondor";
+        var defendingNation = attacker == Side.Shadow ? "gondor" : "sauron";
+        var attackers = Enumerable.Range(0, 3)
+            .Select(_ => BattleFixture.Put(state, attackingNation, UnitKind.Regular, BattleFixture.Origin)).ToArray();
+        for (var index = 0; index < 3; index++)
+            BattleFixture.Put(state, defendingNation, UnitKind.Regular, BattleFixture.Target);
+        state.Player(Side.Shadow).Hand.Add(ShadowStrategyCards01.UrukHai);
+        state = BattleFixture.Begin(state, attackers.Select(unit => unit.Id));
+
+        while (state.Pending!.Kind == DecisionKind.CombatCard)
+        {
+            var actor = state.Pending.Owner;
+            var cardId = actor == Side.Shadow ? ShadowStrategyCards01.UrukHai : "";
+            state = BattleFixture.Execute(state, CommandKind.CommitCombatCard,
+                new() { CardId = cardId }, new SequenceRandom(new int[64]));
+        }
+
+        Assert.Equal(DecisionKind.Losses, state.Pending!.Kind);
+        Assert.Equal(Side.Shadow, state.Pending.Owner);
+        Assert.True(BattleLosses.Current(state)!.Voluntary);
+        Assert.True(BattleLosses.Current(state)!.AdditionalAttack);
+        Assert.Equal(ShadowStrategyCards01.UrukHai, BattleLosses.Current(state)!.SourceId);
         return state;
     }
 

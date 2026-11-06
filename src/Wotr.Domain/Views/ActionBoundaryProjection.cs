@@ -133,7 +133,7 @@ internal static class ActionBoundaryProjection
             battleFrame.Corruption is not null || battle is not { Return: EffectReturn.FinishAction,
                 Stage: BattleStage.BeforeRoll, Round: 1, CardsRevealed: true, Mode: not BattleMode.Relief,
                 NextWork: > 0, CompletedRounds: 0, EndedByEffect: false, WhiteRiderUsed: false, Kings: null } ||
-            effectFrame.Window != "" ||
+            effectFrame.NextStep != 1 || effectFrame.Window != "" ||
             effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
             effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
             effectFrame.Corruption is not null || execution is not { Return: EffectReturn.Parent, Wait: EffectWait.None,
@@ -213,14 +213,14 @@ internal static class ActionBoundaryProjection
                 Stage: BattleStage.AfterLosses, Round: >= 1, CardsRevealed: true, Mode: not BattleMode.Relief,
                 CompletedRounds: var completedRounds, EndedByEffect: false, Kings: null } ||
             completedRounds != battle.Round - 1 || battle.WhiteRiderUsed ||
-            effectFrame.NextStep != 1 || effectFrame.Window != "" ||
+            effectFrame.NextStep is not (1 or 2) || effectFrame.Window != "" ||
             effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
             effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
             effectFrame.Corruption is not null || execution is not { Return: EffectReturn.Parent, Wait: EffectWait.None,
                 IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false } ||
             execution.NationId.Length != 0 || execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 ||
             execution.PaidFace != default || execution.ArmyOrder is not null || execution.ReactionWindow.Length != 0 ||
-            execution.CompletionWindowOffered || execution.AppliedHits != 0 || execution.OfferedReactions.Count != 0 ||
+            execution.CompletionWindowOffered || execution.OfferedReactions.Count != 0 ||
             execution.Committed.Count != 0 || execution.InspectedSovereign is not null || execution.InspectedHand is not null ||
             execution.RingRecovery is not null || execution.MadnessTarget is not null || execution.FellowshipMove ||
             lossFrame.EffectId != "" || lossFrame.NextStep != 0 || lossFrame.Window != "" ||
