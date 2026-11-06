@@ -1,6 +1,14 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.44.0 advances ActionBoundary to version 28. `DirectEventChoice`
+marks the first choice of a directly paid public event after checking its
+program, visible discard, resolving die, parent frame and current rule-generated
+options. It carries only the public card ID and payment face; it does not expose
+the resolution frame or cursor. Rules 0.15.29 emits this marker for that narrow
+window. Public content 1.0.44 pins the contract. Protocol and save schema do not
+change.
+
 Contracts 0.43.0 advances ActionBoundary to version 27. `FateMonsters` marks
 only the `Monsters Roused` branch choice and its East elite-region choice. The
 marker carries the public parent card, paid face and selected East branch; it

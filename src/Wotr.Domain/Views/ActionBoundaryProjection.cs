@@ -19,10 +19,15 @@ internal static class ActionBoundaryProjection
         var westPalantirDraw = CorruptionBoundaryProjection.WestPalantirDraw(state);
         var westPalantirDiscard = CorruptionBoundaryProjection.WestPalantirDiscard(state, viewer);
         var fateMonsters = FateMonstersEvent(state);
+        var directEventChoice = declaration is null && fellowshipMove is null && cardHunt is null && lureChoice is null &&
+            lurePlacement is null && companionJourney is null && fellowshipGuide is null && battle is null &&
+            corruptionEvent is null && westPalantirDraw is null && westPalantirDiscard is null && fateMonsters is null
+            ? DirectEventChoice(state) : null;
         var reviewedContinuation = declaration is not null || fellowshipMove is not null ||
             cardHunt is not null || lureChoice is not null || lurePlacement is not null || companionJourney is not null ||
             fellowshipGuide is not null || battle is not null || corruptionEvent is not null ||
-            westPalantirDraw is not null || westPalantirDiscard is not null || fateMonsters is not null;
+            westPalantirDraw is not null || westPalantirDiscard is not null || fateMonsters is not null ||
+            directEventChoice is not null;
         // Compose only explicitly reviewed continuations with module facts;
         // arbitrary expansion procedures are not inferred from their decision kind.
         if (!KingsBoundaryProjection.Supports(state, reviewedContinuation) ||
@@ -34,7 +39,7 @@ internal static class ActionBoundaryProjection
         if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
             fellowshipMove is null && cardHunt is null && lureChoice is null && lurePlacement is null && companionJourney is null &&
             fellowshipGuide is null && declaration is null && battle is null &&
-            !CorruptionBoundaryProjection.Supports(state) && fateMonsters is null)
+            !CorruptionBoundaryProjection.Supports(state) && fateMonsters is null && directEventChoice is null)
             return null;
 
         // Base/Fate discards never return to a hand/deck. Only a visible discharge
@@ -59,6 +64,7 @@ internal static class ActionBoundaryProjection
             WestPalantirDraw = westPalantirDraw,
             WestPalantirDiscard = westPalantirDiscard,
             FateMonsters = fateMonsters,
+            DirectEventChoice = directEventChoice,
             Lords = LordsBoundaryProjection.For(state),
             Kings = KingsBoundaryProjection.For(state, tiles.Unassigned),
             PaidDieIds = [.. state.Resolution.PaidDieIds],
@@ -289,6 +295,57 @@ internal static class ActionBoundaryProjection
             return null;
 
         return new() { CardId = cardId, CardCost = execution.PaidFace, BranchId = branchId };
+    }
+
+    private static DirectEventChoiceView? DirectEventChoice(MatchState state)
+    {
+        var pending = state.Pending;
+        var frames = state.Resolution.Frames;
+        if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
+            state.Resolution.ActionSequence is not null || state.Resolution.Window.Length != 0 ||
+            state.PoliticalReactions.Count != 0 || pending is not { Kind: DecisionKind.EffectChoice } ||
+            pending.Commands is not [CommandKind.ChooseEffect] || frames.Count != 1 ||
+            state.Resolution.PaidDieIds.Count != 1 || state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1)
+            return null;
+
+        var cardId = pending.SourceId;
+        var player = state.Player(pending.Owner);
+        if (!CardCatalog.Enabled(state.Configuration, cardId) ||
+            !EffectCatalog.All.Events.TryGetValue(cardId, out var definition) ||
+            !EffectCatalog.All.Programs.TryGetValue(definition.ProgramId, out var program) ||
+            program.Steps.Count == 0 || program.Steps[0] is not EffectChoiceStep choice ||
+            !player.Discard.Contains(cardId) || player.Hand.Contains(cardId) || player.Table.Contains(cardId) ||
+            !Discharged(state.Events.Where(item => item.OnlyFor is null)).Contains(cardId))
+            return null;
+
+        var frame = frames[0];
+        var execution = frame.Effect;
+        if (execution is null)
+            return null;
+        var candidates = choice.Candidates(state, execution);
+        if (frame.EffectId != definition.ProgramId || frame.NextStep != 1 || frame.Window.Length != 0 ||
+            frame.ReturnDecision is not null || frame.Fellowship is not null || frame.Hunt is not null ||
+            frame.Battle is not null || frame.BattleLoss is not null || frame.EventLoss is not null ||
+            frame.Corruption is not null || execution is not
+                { Owner: var owner, SourceId: var source, Return: EffectReturn.FinishAction, IsEvent: true,
+                    Wait: EffectWait.Choice, PalantirDrawPending: false, AnarionDrawPending: false,
+                    CompletionWindowOffered: false, ArmyOrder: null } || owner != pending.Owner || source != cardId ||
+            execution.PaidFace != DieFace.Event && execution.PaidFace != CardCatalog.All[cardId].EventType ||
+            execution.ReactionWindow.Length != 0 || execution.OfferedReactions.Count != 0 ||
+            execution.Committed is not [var played] || played != new EffectSelection(pending.Owner, cardId) ||
+            execution.AppliedHits != 0 || execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 ||
+            execution.NationId.Length != 0 || execution.InspectedSovereign is not null ||
+            execution.InspectedHand is not null || execution.RingRecovery is not null ||
+            execution.MadnessTarget is not null || execution.FellowshipMove || candidates.Count == 0 ||
+            !pending.PrivateChoices.SequenceEqual(candidates))
+            return null;
+
+        var paidDie = state.Dice.SingleOrDefault(die => die.Id == state.Resolution.PaidDieIds[0]);
+        if (paidDie is null || paidDie.Owner != pending.Owner || paidDie.Location != DieLocation.Resolving ||
+            !CanPayObservedFace(paidDie.Face, execution.PaidFace))
+            return null;
+
+        return new() { CardId = cardId, CardCost = execution.PaidFace };
     }
 
     private static bool CanPayObservedFace(DieFace face, DieFace cost) =>

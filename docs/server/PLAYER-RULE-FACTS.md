@@ -1,5 +1,12 @@
 # Player rule facts at an action boundary
 
+Contracts 0.44.0 add `ActionBoundaryView.DirectEventChoice` at boundary version
+28. It marks the first choice of a directly paid event when the exact public
+event card, discard, payment, effect program and rule-generated choice list all
+match. The marker carries only card ID and paid face. It emits no frame, cursor
+or private choice data. Public content 1.0.44 pins these shared facts; protocol
+and save schema are unchanged.
+
 Contracts 0.43.0 add `ActionBoundaryView.FateMonsters` at boundary version 27.
 It marks only the `Monsters Roused` branch choice and the following East elite
 region choice. The card ID and paid face are public; its `BranchId` is empty at

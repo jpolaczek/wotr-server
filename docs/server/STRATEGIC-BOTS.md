@@ -433,6 +433,22 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — direct event effect choice (2026-11-06)
+
+Contracts 0.44.0 / ActionBoundary v28 and rules 0.15.29 mark the first choice
+inside a direct paid public event. The marker includes the visible card and
+payment face only, and the server requires its exact top-level event program,
+public discard, resolving die and current engine-generated choice list. It does
+not serialize a frame or effect cursor. This opens a narrow generic contract
+for first-step event choices; the private runtime supports only the reviewed
+Kindred of Glorfindel recruit choice so far.
+
+Public `Strategy04RecruitmentTests` passed 46 cases, including four legal cost /
+die combinations and refusal of an altered cursor, payment or missing public
+play. Package and private reconstruction checks remain in progress. BOT-02 is
+still incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — Fate Monsters event choices (2026-11-06)
 
 Public source `a23cd410a8c0c2ea89ec185bfd047e65a93b602d` adds the rules 0.15.28
