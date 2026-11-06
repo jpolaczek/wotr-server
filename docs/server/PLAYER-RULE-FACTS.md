@@ -139,7 +139,7 @@ nine ordinary HTTP/restart/receipt-replay cases. Both passed; package/client pin
 are recorded in the [current checkpoint](STRATEGIC-BOTS.md). This is metadata
 verification, not BOT-02 or strategic acceptance.
 
-Contracts 0.29.0 provide optional `PlayerView.ActionBoundary` version 15. This is
+Contracts 0.30.0 provide optional `PlayerView.ActionBoundary` version 16. This is
 ordinary own-side player information, also passed through the existing bot input
 projection.
 It does not grant command permission and requires no new UI controls. Protocol 2,
@@ -167,7 +167,12 @@ first round. Version 14 extended this to later rounds when it is the single
 Version 15 also marks ordinary combat-card commitment windows in later rounds of
 that same top-level paid battle. Existing BattleView and DecisionView provide
 the public stage and choice; the boundary adds only the semantic paid-action
-return.
+return. Version 16 adds a reviewed paid Lure of the Ring choice context. It
+carries the public card ID and payment face only. The randomly selected Companion
+stays in the active Free Peoples player's existing legal effect options; it is
+not copied to the shared boundary. The projection admits only the pinned Lure
+program's direct choice with a valid target, exact payment, non-Gollum path and
+no pending Palantir draw. Other Lure continuations remain unsupported.
 Voluntary/event losses, nested battles, other battle contexts, arbitrary
 effect-discard returns, suspended Lords procedures and event/nested Kings
 procedures still omit the boundary. Never serialize
@@ -193,6 +198,7 @@ options and a decision token.
 | Fellowship movement progress | Previously offered guide windows, pending casualty consequences, voluntary revelation and the public origin/progress/companions of a returning Hobbit group. These are past public choices and obligations (B15–B19, BASE pp. 37–42), not private selections or executable effect steps. |
 | Additional Stronghold Hunts | Committed public reveal route, ordered remaining Strongholds and the resolved movement Hunt's ordinary view. Current guide/casualty/departure facts describe the active extra Hunt. The original movement tile and current tile retain their distinct public identities. B18 / T16-HUNT; no effect program, cursor or private choice is transferred. |
 | Hunt tile zones grouped by printed face | Public pool/prepared/drawn/spent/return-after-action/discard/removed/set-aside composition, B18/B19. Public special-tile IDs retain their card associations even for identical faces. No physical ordering, random samples or unrevealed Kings assignments. |
+| Lure choice | Public card ID and payment face only; the random Companion target remains in the chooser's existing `EffectChoices`, not shared boundary facts. BASE pp. 22–23, 28–29; T21-SH-CHAR-03. |
 
 `ActiveEffectView.Lifetime` additionally gives the already visible effect's applied
 turn, scope, required companions and whether it is private to its owner. The same
@@ -215,7 +221,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt. Public content 1.0.29 and pure rules 0.15.1 pin this contract; the contract schema, game protocol and save schema are unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt; version 16 includes the reviewed Lure choice. Public content 1.0.30 and pure rules 0.15.2 pin this contract; protocol and save schema remain unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing

@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.30.0 adds optional `ActionBoundaryView.LureChoice` and advances
+`ActionBoundaryView.Version` to 16. The fact identifies the public paid Lure of
+the Ring card and payment face while the Free Peoples choice is pending. The
+random Companion is not included; the chooser receives it through the existing
+`EffectChoices`. Public content 1.0.30 pins Contracts 0.30.0. Pure rules 0.15.2
+uses the same boundary. No command, protocol or save-schema behavior changes.
+
 Contracts 0.20.0 extend optional [action-boundary rule facts](server/PLAYER-RULE-FACTS.md)
 and visible effect lifetime metadata to the ordinary player view. Public content
 1.0.22 pins these contracts. Version 6 covers ordinary and paid base/Fate action

@@ -20,7 +20,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(15, own.ActionBoundary!.Version);
+        Assert.Equal(16, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.Equal(own.ActionBoundary.Battle.CompletesPaidAction,
             other.ActionBoundary!.Battle!.CompletesPaidAction);
@@ -79,7 +79,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(15, own.ActionBoundary!.Version);
+        Assert.Equal(16, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -120,7 +120,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, state.Pending.Owner);
         var other = Projection.For(state, TurnFlow.Other(state.Pending.Owner));
-        Assert.Equal(15, own.ActionBoundary!.Version);
+        Assert.Equal(16, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -147,7 +147,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, actor);
         var other = Projection.For(state, TurnFlow.Other(actor));
-        Assert.Equal(15, own.ActionBoundary!.Version);
+        Assert.Equal(16, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
