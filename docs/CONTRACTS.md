@@ -1,6 +1,14 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.35.0 adds `ActionBoundaryView.FellowshipGuide` and advances the
+boundary to version 19. It marks the narrow direct-separation continuation
+where the Free Peoples' paid Character die is resolving and only a Guide choice
+remains before that action finishes. It includes no saved frame or private
+choice. Public content 1.0.35 pins the contract; rules package 0.15.15 emits
+the fact only for that exact public decision. Protocol and save schema do not
+change.
+
 Contracts 0.34.0 adds `ActionBoundaryView.CompanionJourney` and advances the
 boundary to version 18. The fact identifies a reviewed Gwaihir or Swifter card,
 the active companion-choice/Guide stage and the card-defined travel limits. It
