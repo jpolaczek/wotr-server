@@ -203,6 +203,17 @@ these windows from public state and restores the visible response trail. Active
 nested Hunt continuations are still omitted. The change has not been built or
 tested and is not counted as accepted BOT-02 coverage.
 
+The next local rules change advances Contracts to 0.36.0, public content to
+1.0.36 and ActionBoundary to v20. Rules 0.15.17 carries the public
+source IDs already committed in a declaration reaction window and marks the
+active `Gates Are Closed` Hunt at its exact parent/Hunt stack position. It also
+lets the existing Balrog declaration Hunt retain earlier committed reactions.
+The route's deferred Fire and Shadow obligation is retained so the normal
+declaration continuation runs after the reaction chain.
+The private runtime source is 0.2.64 and rebuilds those decisions from the
+public source list. These changes are unverified, do not count toward the
+7,171/7,440 baseline, and do not change BOT-02 acceptance or gameplay readiness.
+
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
 reconstruction is blocked on a reviewed mapping from player information/history

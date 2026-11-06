@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 19;
+        public int Version { get; set; } = 20;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -54,6 +54,8 @@ namespace Wotr.Contracts
     {
         public List<string> Route { get; set; } = new List<string>();
         public List<string> RemainingStrongholds { get; set; } = new List<string>();
+        public List<string> CommittedReactionSources { get; set; } = new List<string>();
+        public bool FireAndShadowPending { get; set; }
     }
 
     // Semantic return fact for a direct paid attack. PlayerView.Battle supplies

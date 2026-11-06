@@ -146,6 +146,13 @@ marker is absent for card, Hunt, declaration, and other effect continuations.
 It carries no frame, source history, private choice, or extra command authority.
 Public content 1.0.35 and rules 0.15.15 pin this context.
 
+Contracts 0.36.0 add declaration-boundary facts at version 20: public source IDs
+already committed in a `fellowship.declared` reaction window, plus whether the
+route's Fire and Shadow effect is still pending. Rules 0.15.17 uses them to
+reconstruct public re-offers, an active `Gates Are Closed` Hunt and its deferred
+route effect from either seat's observation; no private choice or resolution
+frame is exposed. Public content 1.0.36 pins the contract.
+
 Rules 0.15.16 admits the public `fellowship.declared` reaction offer and its
 Lords re-offer when earlier public responses are represented by the exact
 remaining reaction IDs. It continues to omit unsupported active Hunt/card
@@ -262,7 +269,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt; version 16 includes the reviewed Lure choice; version 17 adds reviewed battle-loss and special-attack facts; version 18 marks paid Gwaihir/Swifter journeys, follow-up Guide choices, and the three reviewed OutsideCompanionJourneyStep event cards; version 19 marks direct paid companion separation followed by Guide selection. Public content 1.0.35 and rules 0.15.15 pin the current contract; protocol and save schema remain unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt; version 16 includes the reviewed Lure choice; version 17 adds reviewed battle-loss and special-attack facts; version 18 marks paid Gwaihir/Swifter journeys, follow-up Guide choices, and the three reviewed OutsideCompanionJourneyStep event cards; version 19 marks direct paid companion separation followed by Guide selection; version 20 carries public committed reaction sources and the deferred Fire and Shadow obligation for reviewed Fellowship declaration continuations. Public content 1.0.36 and rules 0.15.17 pin the current contract; protocol and save schema remain unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing

@@ -1,6 +1,14 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.36.0 adds public `FellowshipDeclarationView` facts for committed
+reaction source IDs and a pending Fire and Shadow obligation, and advances the
+boundary to version 20. The facts let an observer rebuild a pending reaction
+window, active Gates Hunt or deferred route effect without serializing effect
+frames or private choices. Public content 1.0.36 pins the contract; rules
+package 0.15.17 emits the facts only for reviewed declaration contexts.
+Protocol and save schema do not change.
+
 Contracts 0.35.0 adds `ActionBoundaryView.FellowshipGuide` and advances the
 boundary to version 19. It marks the narrow direct-separation continuation
 where the Free Peoples' paid Character die is resolving and only a Guide choice

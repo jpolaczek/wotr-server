@@ -17,12 +17,15 @@ internal static class BalrogHuntProjection
         var region = BoardRules.Region(state, reveal.Route[^1]);
         var ignoreReveal = declaration && region.OriginalOwner == Side.FreePeoples &&
             region.Settlement is "City" or "Stronghold";
+        var reactionValid = declaration
+            ? HuntChoiceProjection.DeclarationReactionsFrame(state, reaction, EffectWait.None)
+            : HuntEffectProjection.PlainShadowProgram(reaction, EffectCatalog.ReactionProgram, reveal.SourceId, 0, window) &&
+              reaction.Effect!.OfferedReactions.SequenceEqual(EffectCatalog.All.Reactions.Values
+                  .Where(r => r.Window == window).Select(r => r.Id));
         return reveal.Route.Contains("moria") &&
             state.Player(Side.Shadow).Discard.Contains(ShadowCharacterCards03.Balrog) &&
             !state.Player(Side.Shadow).Table.Contains(ShadowCharacterCards03.Balrog) &&
-            HuntEffectProjection.PlainShadowProgram(reaction, EffectCatalog.ReactionProgram, reveal.SourceId, 0, window) &&
-            reaction.Effect!.OfferedReactions.SequenceEqual(EffectCatalog.All.Reactions.Values
-                .Where(r => r.Window == window).Select(r => r.Id)) &&
+            reactionValid &&
             (fellowshipIndex <= 1 || reaction.Effect.Committed.Count == 0) &&
             HuntEffectProjection.PlainShadowProgram(program, ShadowCharacterCards03.BalrogReaction, ShadowCharacterCards03.Balrog, 1, "") &&
             program.Effect!.OfferedReactions.Count == 0 && program.Effect.Committed.Count == 0 &&
