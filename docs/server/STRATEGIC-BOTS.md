@@ -147,6 +147,22 @@ corruption, suspended expansion Hunts, card/battle/effect-discard continuations
 and full parity acceptance remain open. No production faction policy is
 registered; `gameplayReady=false`.
 
+### BOT-02 implementation checkpoint — Help Unlooked For battle (2026-11-06)
+
+Public commit `daffb48344c6feb7506695268f8159d3bf8a9502` advances Contracts to
+0.42.0 / ActionBoundary v26, rules to 0.15.25 and public content to 1.0.42. The
+boundary identifies the public `Help Unlooked For` parent event and paid face
+while its Relief battle is active. The projection verifies the event program,
+Free Peoples payment and public discard, the stronghold and opposing forces, and
+the garrison based reduction to the besieging army's dice. It exposes no engine
+frame or private combat card. Protocol and save schema are unchanged.
+
+Public projection, boundary and relief tests passed **520**, with three skips.
+Client commit `877f8021b6bcaa3ce2b79966d0f7baaf989110d0`
+pins Contracts 0.42.0 and content 1.0.42; dependency fetch and the 72-file
+server link check passed. The private runtime reconstruction is tracked in the
+adjacent private checkpoint. BOT-02 remains in progress and `gameplayReady=false`.
+
 ### BOT-02 implementation checkpoint — West Palantir excess discard (2026-11-06)
 
 Private commit `d1154ac99c67d560ccc71c5c1481dc29b0f43ccc` advances the runtime to
