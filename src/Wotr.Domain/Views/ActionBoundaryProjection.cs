@@ -14,7 +14,7 @@ internal static class ActionBoundaryProjection
         var lurePlacement = LurePlacementProjection.For(state, viewer);
         var companionJourney = CompanionJourneyProjection.For(state);
         var fellowshipGuide = FellowshipGuideProjection.For(state);
-        var battle = DirectBattle(state) ?? SpecialAttackLoss(state);
+        var battle = DirectBattle(state) ?? SpecialAttackLoss(state) ?? ReliefEventBattle(state);
         var corruptionEvent = CorruptionBoundaryProjection.Event(state);
         var westPalantirDraw = CorruptionBoundaryProjection.WestPalantirDraw(state);
         var westPalantirDiscard = CorruptionBoundaryProjection.WestPalantirDiscard(state, viewer);
@@ -125,6 +125,80 @@ internal static class ActionBoundaryProjection
                 die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving))
             return null;
         return new() { CompletesPaidAction = true };
+    }
+
+    private static BattleContextView? ReliefEventBattle(MatchState state)
+    {
+        var pending = state.Pending;
+        var frames = state.Resolution.Frames;
+        if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
+            state.Resolution.ActionSequence is not null || pending is null || frames.Count is < 2 or > 3)
+            return null;
+
+        const string cardId = FreePeoplesStrategyCards02.HelpUnlookedFor;
+        var eventFrame = frames[0];
+        var battleFrame = frames[1];
+        var execution = eventFrame.Effect;
+        var battle = battleFrame.Battle;
+        if (eventFrame.EffectId != cardId || eventFrame.NextStep != 1 || eventFrame.Window.Length != 0 ||
+            eventFrame.ReturnDecision is not null || eventFrame.Battle is not null || eventFrame.BattleLoss is not null ||
+            eventFrame.EventLoss is not null || eventFrame.Fellowship is not null || eventFrame.Hunt is not null ||
+            eventFrame.Corruption is not null || execution is not
+                { Owner: Side.FreePeoples, SourceId: cardId, Return: EffectReturn.FinishAction, Wait: EffectWait.None,
+                    IsEvent: true, PalantirDrawPending: false, AnarionDrawPending: false,
+                    CompletionWindowOffered: false, ArmyOrder: null } ||
+            execution.PaidFace is not (DieFace.Army or DieFace.Event) ||
+            execution.ReactionWindow.Length != 0 || execution.OfferedReactions.Count != 0 ||
+            execution.AppliedHits != 0 || execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 ||
+            execution.NationId.Length != 0 || execution.InspectedSovereign is not null ||
+            execution.InspectedHand is not null || execution.RingRecovery is not null ||
+            execution.MadnessTarget is not null || execution.FellowshipMove ||
+            execution.Committed is not [{ Owner: Side.FreePeoples, SourceId: cardId, ChoiceId: "", TargetId: "" }] ||
+            battleFrame.EffectId.Length != 0 || battleFrame.NextStep != 0 || battleFrame.Window.Length != 0 ||
+            battleFrame.ReturnDecision is not null || battleFrame.Effect is not null ||
+            battleFrame.Fellowship is not null || battleFrame.Hunt is not null || battleFrame.BattleLoss is not null ||
+            battleFrame.EventLoss is not null || battleFrame.Corruption is not null ||
+            battle is not { Return: EffectReturn.Parent, Mode: BattleMode.Relief } ||
+            battle.Attacker.Side != Side.FreePeoples || battle.Defender.Side != Side.Shadow ||
+            battle.Attacker.Region == battle.Region || battle.Attacker.Garrison ||
+            battle.Defender.Region != battle.Region || battle.Defender.Garrison ||
+            !BoardRules.Regions.TryGetValue(battle.Region, out var region) || region.Settlement != "Stronghold" ||
+            state.Control.GetValueOrDefault(battle.Region) != Side.FreePeoples ||
+            !state.Player(Side.FreePeoples).Discard.Contains(cardId) ||
+            state.Player(Side.FreePeoples).Hand.Contains(cardId) || state.Player(Side.FreePeoples).Table.Contains(cardId) ||
+            !Discharged(state.Events.Where(e => e.OnlyFor is null)).Contains(cardId) ||
+            EffectCatalog.All.Programs.TryGetValue(cardId, out var program) == false ||
+            program.Steps is not [ArmyOrderStep { Order: ArmyEventOrder.ReliefAttack }])
+            return null;
+
+        var reliefGarrison = state.Units.Count(unit => unit.Location == battle.Region && unit.Garrison &&
+            BoardRules.Owner(unit) == Side.FreePeoples && BoardRules.IsArmyUnit(unit));
+        if (reliefGarrison == 0 || battle.Defender.CombatDiceReduction != reliefGarrison ||
+            battle.Attacker.CombatDiceReduction != 0)
+            return null;
+
+        BattleLossProcedure? loss = null;
+        if (frames.Count == 3)
+        {
+            var lossFrame = frames[2];
+            loss = lossFrame.BattleLoss;
+            if (lossFrame.EffectId.Length != 0 || lossFrame.NextStep != 0 || lossFrame.Window.Length != 0 ||
+                lossFrame.ReturnDecision is not null || lossFrame.Effect is not null ||
+                lossFrame.Fellowship is not null || lossFrame.Hunt is not null || lossFrame.Battle is not null ||
+                loss is null || lossFrame.EventLoss is not null || lossFrame.Corruption is not null)
+                return null;
+        }
+
+        if (!BattleDecisionMatches(state, pending, battle, loss) || state.Resolution.PaidDieIds.Count != 1 ||
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
+            !state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] && die.Owner == Side.FreePeoples &&
+                die.Location == DieLocation.Resolving && (die.Face == DieFace.Event || die.Face == execution.PaidFace)))
+            return null;
+
+        return new()
+        {
+            ReliefEvent = new() { CardId = cardId, CardCost = execution.PaidFace }
+        };
     }
 
     private static bool IsRelentlessAssaultLoss(MatchState state, PendingDecision pending,

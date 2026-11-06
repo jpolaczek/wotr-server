@@ -16,8 +16,10 @@ resolved Hunt views describe one source tile. Respond/Decline resume through the
 ordinary rules without replaying the source Hunt or reveal route. It retains
 public one-use/casualty/departure facts alongside the existing Hunt view. The
 contract exposes no executable resolution frames or authoritative snapshots.
-Other card-origin/declaration Hunts, nested effect programs, battles/discards and
-Lords/Kings reconstruction remain separate acceptance gates.
+Boundary v26 also identifies the public parent card and paid face for the
+`Help Unlooked For` relief battle, whose participants and garrison dice reduction
+remain in the ordinary battle view. Other card-origin/declaration Hunts, nested
+effect programs, battle contexts and discards remain separate acceptance gates.
 
 BOT-12 now implements [saved PvE rooms](server/BOT-ROOMS.md): atomic CPU admission, durable assignments, scoped readiness/start and cancellation. The embedded runtime boundary/loader is BOT-17; [embedded scheduling and atomic opaque-memory recovery](server/BOT-HOST.md) are implemented in BOT-18. BOT-02/BOT-03 have private checkpoints only; reconstruction and complete candidate coverage remain pending.
 

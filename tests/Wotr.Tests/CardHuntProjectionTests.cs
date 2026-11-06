@@ -33,7 +33,7 @@ public sealed class CardHuntProjectionTests
             var view = Projection.For(state, side);
             var facts = Assert.IsType<CardHuntView>(view.ActionBoundary?.CardHunt);
             Assert.Null(view.ActionBoundary!.FellowshipMove);
-            Assert.Equal(25, view.ActionBoundary.Version);
+            Assert.Equal(26, view.ActionBoundary.Version);
             Assert.Equal(card, facts.CardId);
             Assert.Equal(window == "palantir" ? DieFace.Event : DieFace.Character, facts.CardCost);
             Assert.Equal(window == "palantir", facts.PalantirDrawPending);

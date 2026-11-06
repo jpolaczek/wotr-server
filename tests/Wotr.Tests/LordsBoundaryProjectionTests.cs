@@ -21,7 +21,7 @@ public sealed class LordsBoundaryProjectionTests
         {
             var view = Views.For(state, side);
             var facts = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
-            Assert.Equal(25, facts.Version);
+            Assert.Equal(26, facts.Version);
             Assert.NotNull(facts.Lords);
             Assert.Equal(state.Lords!.PaidWillOfWestIds, facts.Lords.PaidWillOfWestIds);
             Assert.Equal(state.Lords.ChoiceOrder, facts.Lords.SpecialDieChoiceOrder);

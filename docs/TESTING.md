@@ -1,7 +1,10 @@
 <a id="weryfikacja-i-odbiór"></a>
 # Verification and acceptance
 
-`ActionBoundaryProjectionTests` verify ordinary base/Fate rule facts, copied data,
+`ReliefBattleBoundaryTests` verify that both seats receive only the reviewed
+`Help Unlooked For` parent/payment fact and that malformed parents or garrison
+dice reductions suppress the boundary. `ActionBoundaryProjectionTests` verify
+ordinary base/Fate rule facts, copied data,
 hidden hand/deck/discard and tile-order invariance, visible discard provenance,
 effect lifetime visibility and absence at unsupported continuations. This is a
 player-contract check, not full BOT-02 reconstruction or strategy acceptance.

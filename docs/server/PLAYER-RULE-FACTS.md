@@ -1,5 +1,15 @@
 # Player rule facts at an action boundary
 
+Contracts 0.42.0 add `ActionBoundaryView.Battle.ReliefEvent` at boundary version
+26. It marks a `Help Unlooked For` battle only while the exact public event
+parent and resolving Free Peoples payment remain active. The card ID and paid
+face are public; the battle view already supplies participants and the rules
+reduction to the besieging force's combat dice. Rules 0.15.25 verifies the
+stronghold, both sides, the event program, public discard and garrison count
+before emitting the semantic return fact. It serializes no resolution frame or
+private combat-card selection. Public content 1.0.42 pins the contract; protocol
+and save schema are unchanged.
+
 Contracts 0.41.0 add `ActionBoundaryView.WestPalantirDiscard` at boundary version
 25. It marks only Shadow's excess-card decision after the Palantir deck choice
 following `The West Has Failed`. `DrawnCardId` is included only in Shadow's view,

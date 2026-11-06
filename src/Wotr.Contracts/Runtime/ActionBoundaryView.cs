@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 25;
+        public int Version { get; set; } = 26;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -62,12 +62,20 @@ namespace Wotr.Contracts
         public bool FireAndShadowPending { get; set; }
     }
 
-    // Semantic return fact for a direct paid attack. PlayerView.Battle supplies
+    // Semantic return fact for a reviewed battle. PlayerView.Battle supplies
     // the public combat state; this does not serialize its resolution frame.
     public sealed class BattleContextView
     {
         public bool CompletesPaidAction { get; set; }
         public bool SpecialAttackLoss { get; set; }
+        public ReliefEventBattleView? ReliefEvent { get; set; }
+    }
+
+    // Public parent event and payment for a Help Unlooked For relief battle.
+    public sealed class ReliefEventBattleView
+    {
+        public string CardId { get; set; } = "";
+        public DieFace CardCost { get; set; }
     }
 
     // Public parent-event/payment context for a Kings corruption attempt that
