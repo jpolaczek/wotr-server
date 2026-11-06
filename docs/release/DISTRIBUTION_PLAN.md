@@ -377,7 +377,7 @@ works against a new server and a new client's Find game needs the new routes.
    older client are refused and offered the update, and no active ranked match is affected, since none can exist before this client
    does. `WOTR_MODULE_CLIENTS` needs no entry for ranked play: it speaks of modules, and the search already refuses a module a
    client cannot play.
-5. **Website.** The site's cards on ranked play and avatars, and its Account link, go live with the checkout above.
+5. **Website.** The site's cards on ranked play and avatars, and its Sign in / My account tab, go live with the checkout above.
 
 **A later server release during ranked play.** A restart gives the downtime back to every clock (RANK-06), and nobody loses a game
 by it. A later required client update leaves active ranked matches alone (RANK-10 above). A change of protocol does not: plan it for
