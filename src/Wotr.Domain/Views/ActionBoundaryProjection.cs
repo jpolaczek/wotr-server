@@ -1,4 +1,5 @@
 using Wotr.Contracts;
+using Wotr.Domain.Content;
 
 namespace Wotr.Domain;
 
@@ -119,13 +120,15 @@ internal static class ActionBoundaryProjection
         var battle = battleFrame.Battle;
         var execution = effectFrame.Effect;
         var loss = lossFrame.BattleLoss;
+        if (battle is null || execution is null || loss is null)
+            return null;
         if (battleFrame.EffectId != "" || battleFrame.NextStep != 0 || battleFrame.Window != "" ||
             battleFrame.ReturnDecision is not null || battleFrame.Effect is not null || battleFrame.Fellowship is not null ||
             battleFrame.Hunt is not null || battleFrame.BattleLoss is not null || battleFrame.EventLoss is not null ||
             battleFrame.Corruption is not null || battle is not { Return: EffectReturn.FinishAction,
                 Stage: BattleStage.BeforeRoll, Round: 1, CardsRevealed: true, Mode: not BattleMode.Relief,
                 NextWork: 1, CompletedRounds: 0, EndedByEffect: false, WhiteRiderUsed: false, Kings: null } ||
-            effectFrame.EffectId != "combat.charge" || effectFrame.NextStep != 1 || effectFrame.Window != "" ||
+            effectFrame.NextStep != 1 || effectFrame.Window != "" ||
             effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
             effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
             effectFrame.Corruption is not null || execution is not { Return: EffectReturn.Parent, Wait: EffectWait.None,
@@ -141,20 +144,26 @@ internal static class ActionBoundaryProjection
             lossFrame.Corruption is not null || loss is not { Voluntary: false, AdditionalAttack: false, Hits: > 0 } ||
             pending.Commands.Count != 1 || pending.Commands[0] != CommandKind.TakeBattleLosses ||
             pending.Owner != loss.Owner || pending.RequiredCount != loss.Hits || pending.SourceId != loss.SourceId ||
-            loss.SourceId != execution.SourceId || execution.Owner != battle.SpecialAttacks.SingleOrDefault()?.Owner ||
-            battle.SpecialAttacks.Count != 1 || battle.SpecialAttacks[0].SourceId != loss.SourceId ||
+            loss.SourceId != execution.SourceId || battle.SpecialAttacks.Count != 1 ||
+            execution.Owner != battle.SpecialAttacks[0].Owner || loss.Owner != TurnFlow.Other(execution.Owner) ||
+            battle.SpecialAttacks[0].SourceId != loss.SourceId ||
             battle.SpecialAttacks[0].Dice.Count == 0 ||
             battle.SpecialAttacks[0].Dice.Count(die => die.Hit) != loss.Hits ||
             battle.Attacker.Round.Dice.Count != 0 || battle.Defender.Round.Dice.Count != 0 ||
-            !FreshChargeRound(battle.Attacker.Round) || !FreshChargeRound(battle.Defender.Round) ||
+            !FreshSpecialAttackRound(battle.Attacker.Round) || !FreshSpecialAttackRound(battle.Defender.Round) ||
+            battle.Attacker.Round.CardCancelled || battle.Defender.Round.CardCancelled ||
             battle.Work.Count == 0 || battle.Work[0] != new CombatWork(execution.Owner, execution.SourceId,
                 effectFrame.EffectId, 2) ||
+            !CardCatalog.All.TryGetValue(execution.SourceId, out var sourceCard) || sourceCard.Side != execution.Owner ||
+            !CardCatalog.Enabled(state, execution.SourceId) ||
             !EffectCatalog.All.Combats.TryGetValue(execution.SourceId, out var combat) ||
-            combat.Effects is not [{ Initiative: 2, ProgramId: "combat.charge" }] ||
-            !EffectCatalog.All.Programs.TryGetValue(effectFrame.EffectId, out var program) ||
-            program.Steps is not [ChargeStep] ||
+            combat.Effects.Count != 1 || combat.Effects[0].Initiative != 2 ||
+            combat.Effects[0].ProgramId != effectFrame.EffectId || !combat.Condition.CanPlay(state, battle, execution.Owner) ||
+            !EffectCatalog.All.Programs.TryGetValue(effectFrame.EffectId, out var program) || program.Steps.Count != 1 ||
+            !IsSupportedFirstStepSpecialAttack(effectFrame.EffectId, program.Steps[0]) ||
+            !IsSupportedFirstStepSpecialAttackOwner(execution.Owner, program.Steps[0]) ||
             battle.Force(execution.Owner).Round.CardId != execution.SourceId ||
-            execution.Owner != Side.FreePeoples || battle.Force(execution.Owner).Round.CardCancelled ||
+            battle.Force(execution.Owner).Round.CardCancelled ||
             state.Configuration.Kings ||
             !BattleRules.Alive(state, battle.Force(loss.Owner)) ||
             state.Resolution.PaidDieIds.Count != 1 ||
@@ -165,8 +174,8 @@ internal static class ActionBoundaryProjection
 
         var attack = battle.SpecialAttacks[0];
         var sourceForce = battle.Force(attack.Owner);
-        var diceCount = Math.Min(5, ChargeStep.Elites(state, sourceForce));
-        var hitTarget = BattleRules.HitTarget(state, battle, sourceForce);
+        var diceCount = FirstStepSpecialAttackDice(state, sourceForce, program.Steps[0]);
+        var hitTarget = FirstStepSpecialAttackHitTarget(state, battle, sourceForce, program.Steps[0]);
         if (attack.Dice.Count != diceCount || attack.Dice.Any(die => die.Result is < 1 or > 6 ||
             die.Modifier != 0 || die.HitTarget != hitTarget || die.Hit != BattleRoll.Hits(die.Result, 0, hitTarget) ||
             die.ConvertedHit || die.Reroll.HasValue || die.RerollModifier != 0 || die.RerollHit || die.CannotReroll))
@@ -175,7 +184,26 @@ internal static class ActionBoundaryProjection
         return new() { SpecialAttackLoss = true };
     }
 
-    private static bool FreshChargeRound(BattleRoundState round) =>
+    private static bool IsSupportedFirstStepSpecialAttack(string programId, EffectStep step) =>
+        (programId, step) is ("combat.charge", ChargeStep) or ("combat.sudden-strike", SuddenStrikeStep) or
+            ("combat.durins-bane", DurinsBaneStep);
+
+    private static bool IsSupportedFirstStepSpecialAttackOwner(Side owner, EffectStep step) =>
+        owner == Side.FreePeoples && (step is ChargeStep or SuddenStrikeStep) ||
+        owner == Side.Shadow && step is DurinsBaneStep;
+
+    private static int FirstStepSpecialAttackDice(MatchState state, BattleForce force, EffectStep step) => step switch
+    {
+        ChargeStep => Math.Min(5, ChargeStep.Elites(state, force)),
+        SuddenStrikeStep => Math.Clamp(BattleLeadership.Total(state, force), 0, 5),
+        DurinsBaneStep => 3,
+        _ => 0
+    };
+
+    private static int FirstStepSpecialAttackHitTarget(MatchState state, BattleState battle, BattleForce force,
+        EffectStep step) => step is DurinsBaneStep ? 4 : BattleRules.HitTarget(state, battle, force);
+
+    private static bool FreshSpecialAttackRound(BattleRoundState round) =>
         round.LeadershipPenalty == 0 && round.ReplacementSource is null && !round.DoubleSixes &&
         !round.OrderlyWithdrawal && round.CombatModifier == 0 && round.RerollModifier == 0 &&
         round.StrengthBonus == 0 && round.CombatDicePenalty == 0 && round.CombatDiceLimit == 5 &&
