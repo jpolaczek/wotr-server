@@ -135,6 +135,37 @@ public sealed class ActionBoundaryBattleTests
     }
 
     [Theory]
+    [InlineData(Side.FreePeoples)]
+    [InlineData(Side.Shadow)]
+    public void OnslaughtVoluntaryLossExposesOnlyItsPaidActionReturn(Side attacker)
+    {
+        var state = BeginOnslaughtVoluntaryLosses(attacker);
+        var own = Projection.For(state, Side.Shadow);
+        var other = Projection.For(state, Side.FreePeoples);
+        Assert.Equal(17, own.ActionBoundary!.Version);
+        Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
+        Assert.False(own.ActionBoundary.Battle.SpecialAttackLoss);
+        Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
+            JsonSerializer.Serialize(other.ActionBoundary!.Battle));
+        Assert.Equal(nameof(BattleStage.AfterLosses), own.Battle!.Stage);
+        Assert.True(own.Battle.VoluntaryLosses);
+        Assert.Equal(ShadowStrategyCards01.UrukHai, own.Battle.LossSource);
+        Assert.Equal(4, own.Battle.PendingHits);
+        Assert.Null(own.Battle.Attacker.VoluntaryLossHits);
+        Assert.Null(own.Battle.Defender.VoluntaryLossHits);
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false}",
+            JsonSerializer.Serialize(own.ActionBoundary.Battle));
+
+        var wrongCursor = StateCodec.Copy(state);
+        wrongCursor.Resolution.Frames[1].NextStep = 0;
+        Assert.Null(Projection.For(wrongCursor, Side.Shadow).ActionBoundary);
+
+        var wrongLossKind = StateCodec.Copy(state);
+        BattleLosses.Current(wrongLossKind)!.AdditionalAttack = false;
+        Assert.Null(Projection.For(wrongLossKind, Side.Shadow).ActionBoundary);
+    }
+
+    [Theory]
     [InlineData(Side.FreePeoples, FreePeoplesStrategyCards03.CirdansShips)]
     [InlineData(Side.Shadow, FreePeoplesStrategyCards03.CirdansShips)]
     [InlineData(Side.FreePeoples, FreePeoplesStrategyCards03.GuardsOfCitadel)]

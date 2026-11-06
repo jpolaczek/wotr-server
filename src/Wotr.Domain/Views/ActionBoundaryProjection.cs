@@ -78,9 +78,9 @@ internal static class ActionBoundaryProjection
 
         var frame = frames[0];
         var battle = frame.Battle;
-        var voluntaryRelentlessAssault = frames.Count == 3 && battle is not null &&
-            IsRelentlessAssaultLoss(state, pending, battle, frames);
-        if (frames.Count > 2 && !voluntaryRelentlessAssault)
+        var reviewedVoluntaryLoss = frames.Count == 3 && battle is not null &&
+            IsReviewedVoluntaryBattleLoss(state, pending, battle, frames);
+        if (frames.Count > 2 && !reviewedVoluntaryLoss)
             return null;
         if (frame.EffectId != "" || frame.NextStep != 0 || frame.Window != "" ||
             frame.ReturnDecision is not null || frame.Effect is not null || frame.Fellowship is not null ||
@@ -101,7 +101,7 @@ internal static class ActionBoundaryProjection
                 lossFrame.EventLoss is not null || lossFrame.Corruption is not null)
                 return null;
         }
-        else if (voluntaryRelentlessAssault)
+        else if (reviewedVoluntaryLoss)
             loss = frames[2].BattleLoss;
         if (!BattleDecisionMatches(state, pending, battle, loss) ||
             state.Resolution.PaidDieIds.Count != 1 ||
@@ -155,6 +155,55 @@ internal static class ActionBoundaryProjection
             program.Steps is [VoluntaryLossesStep { Maximum: 2, AdditionalAttack: false },
                 SacrificeResultStep { AdditionalAttack: false }] &&
             BattleRules.Alive(state, battle.Force(Side.Shadow));
+    }
+
+    private static bool IsReviewedVoluntaryBattleLoss(MatchState state, PendingDecision pending,
+        BattleState battle, IReadOnlyList<ResolutionFrame> frames) =>
+        IsRelentlessAssaultLoss(state, pending, battle, frames) ||
+        IsOnslaughtVoluntaryLoss(state, pending, battle, frames);
+
+    private static bool IsOnslaughtVoluntaryLoss(MatchState state, PendingDecision pending,
+        BattleState battle, IReadOnlyList<ResolutionFrame> frames)
+    {
+        var effectFrame = frames[1];
+        var lossFrame = frames[2];
+        var execution = effectFrame.Effect;
+        var loss = lossFrame.BattleLoss;
+        return pending.Kind == DecisionKind.Losses &&
+            battle is { Return: EffectReturn.FinishAction, Stage: BattleStage.AfterLosses, Round: >= 1,
+                CardsRevealed: true, Mode: not BattleMode.Relief, EndedByEffect: false } &&
+            battle.CompletedRounds == battle.Round - 1 && effectFrame.EffectId == "combat.onslaught" &&
+            effectFrame.NextStep == 1 && effectFrame.Window.Length == 0 && effectFrame.ReturnDecision is null &&
+            effectFrame.Fellowship is null && effectFrame.Hunt is null && effectFrame.Battle is null &&
+            effectFrame.BattleLoss is null && effectFrame.EventLoss is null && effectFrame.Corruption is null &&
+            execution is { Owner: Side.Shadow, SourceId: ShadowStrategyCards01.UrukHai,
+                Return: EffectReturn.Parent, Wait: EffectWait.None, AppliedHits: 0,
+                IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false } &&
+            execution.NationId.Length == 0 && execution.RegionId.Length == 0 && execution.TargetIds.Count == 0 &&
+            execution.PaidFace == default && execution.ArmyOrder is null && execution.ReactionWindow.Length == 0 &&
+            !execution.CompletionWindowOffered && execution.OfferedReactions.Count == 0 &&
+            execution.Committed.Count == 0 && execution.InspectedSovereign is null && execution.InspectedHand is null &&
+            execution.RingRecovery is null && execution.MadnessTarget is null && !execution.FellowshipMove &&
+            lossFrame.EffectId.Length == 0 && lossFrame.NextStep == 0 && lossFrame.Window.Length == 0 &&
+            lossFrame.ReturnDecision is null && lossFrame.Effect is null && lossFrame.Fellowship is null &&
+            lossFrame.Hunt is null && lossFrame.Battle is null && lossFrame.EventLoss is null &&
+            lossFrame.Corruption is null && loss is { Owner: Side.Shadow, Hits: 4, Voluntary: true,
+                AdditionalAttack: true, SourceId: ShadowStrategyCards01.UrukHai } &&
+            pending.Owner == loss.Owner && pending.RequiredCount == loss.Hits && pending.SourceId == loss.SourceId &&
+            pending.Presentation == "VoluntaryLosses" && pending.Commands is [CommandKind.TakeBattleLosses] &&
+            loss.SourceId == execution.SourceId && battle.NextWork > 0 && battle.NextWork <= battle.Work.Count &&
+            battle.Work[battle.NextWork - 1] == new CombatWork(Side.Shadow, ShadowStrategyCards01.UrukHai,
+                "combat.onslaught", 7) &&
+            battle.Force(Side.Shadow).Round is { CardId: ShadowStrategyCards01.UrukHai, CardCancelled: false,
+                VoluntaryLossHits: null, SpentHits: 0 } && battle.Attacker.Round.SpentHits == 0 &&
+            battle.Defender.Round.SpentHits == 0 && CardCatalog.Enabled(state, ShadowStrategyCards01.UrukHai) &&
+            EffectCatalog.All.Combats.TryGetValue(ShadowStrategyCards01.UrukHai, out var combat) &&
+            combat.Effects is [{ Initiative: 7, ProgramId: "combat.onslaught" }] &&
+            combat.Condition.CanPlay(state, battle, Side.Shadow) &&
+            EffectCatalog.All.Programs.TryGetValue("combat.onslaught", out var program) &&
+            program.Steps is [VoluntaryLossesStep { Maximum: 4, AdditionalAttack: true },
+                SacrificeResultStep { AdditionalAttack: true }] &&
+            BattleRules.Alive(state, battle.Attacker) && BattleRules.Alive(state, battle.Defender);
     }
 
     private static BattleContextView? SpecialAttackLoss(MatchState state)
@@ -364,7 +413,13 @@ internal static class ActionBoundaryProjection
                 SourceId: ShadowStrategyCards01.Dawn } && battle.Stage == BattleStage.BeforeRoll &&
             battle.Round == 1 && battle.CardsRevealed && battle.Mode != BattleMode.Relief &&
             pending.RequiredCount == loss.Hits && pending.Owner == loss.Owner &&
-            pending.Presentation == "VoluntaryLosses" && BattleRules.Alive(state, battle.Force(loss.Owner)),
+            pending.Presentation == "VoluntaryLosses" && BattleRules.Alive(state, battle.Force(loss.Owner)) ||
+            loss is { Owner: Side.Shadow, Hits: 4, Voluntary: true, AdditionalAttack: true,
+                SourceId: ShadowStrategyCards01.UrukHai } && battle.Stage == BattleStage.AfterLosses &&
+            battle.Round >= 1 && battle.CardsRevealed && battle.Mode != BattleMode.Relief &&
+            battle.CompletedRounds == battle.Round - 1 && pending.RequiredCount == loss.Hits &&
+            pending.Owner == loss.Owner && pending.Presentation == "VoluntaryLosses" &&
+            BattleRules.Alive(state, battle.Force(loss.Owner)),
         DecisionKind.CombatCard => battle.Round >= 1 && !battle.CardsRevealed &&
             !battle.Force(pending.Owner).Round.CardCommitted &&
             (battle.Stage == BattleStage.AttackerCard && pending.Owner == battle.Attacker.Side ||
