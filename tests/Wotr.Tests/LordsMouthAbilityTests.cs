@@ -7,6 +7,22 @@ namespace Wotr.Tests;
 
 public class LordsMouthAbilityTests
 {
+    [Fact]
+    public void AnArmyEventOffersOnlyCostsThatItsValidationAccepts()
+    {
+        var state = LordsCharacterFixture.State(Side.Shadow);
+        LordsCharacterFixture.Put(state, LordsCharacters.Mouth, "barad-dur", CharacterRules.Mouth);
+        foreach (var die in state.Dice.Where(die => die.Owner == Side.Shadow))
+            die.Face = DieFace.Muster;
+
+        var costs = EventRules.Costs(state, Side.Shadow, ShadowStrategyCards02.Moving);
+
+        Assert.DoesNotContain(costs, cost => cost.AbilityId == LordsCharacters.GreatSorcery);
+        Assert.DoesNotContain(costs, cost => cost.AbilityId == LordsArmyCosts.UseBalrog);
+        Assert.All(costs, cost => Assert.True(EventRules.ValidCost(state, Side.Shadow,
+            ShadowStrategyCards02.Moving, cost.DieId, cost.Face, cost.AbilityId)));
+    }
+
     [Theory]
     [InlineData(false)]
     [InlineData(true)]

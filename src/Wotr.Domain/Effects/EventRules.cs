@@ -30,7 +30,9 @@ public static class EventRules
             .SelectMany(d => faces.Where(f => DiceRules.CanPay(d, f))
                 .Select(f => new EventCostOption { DieId = d.Id, Face = f })).ToList();
         if (CardCatalog.All[cardId].EventType == DieFace.Army)
-            costs.AddRange(CharacterCosts.ArmyOptions(state, actor, 1).Where(c => c.AbilityId != "")
+            costs.AddRange(CharacterCosts.ArmyOptions(state, actor, 1)
+                // Great Sorcery and Use Balrog pay only for moving an army, so they are not event costs.
+                .Where(c => c.AbilityId != "" && CharacterCosts.CanPay(state, actor, c.DieId, c.Face, c.AbilityId))
                 .Select(c => new EventCostOption { DieId = c.DieId, Face = c.Face, AbilityId = c.AbilityId }));
         costs.AddRange(KingsPalantir.Costs(state, actor));
         return costs;

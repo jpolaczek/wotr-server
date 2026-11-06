@@ -433,6 +433,15 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — event costs from a wider walk (2026-11-06)
+
+A wider bot walk (two more seeds, 160 commands) found that rules offered Great Sorcery and
+Use Balrog as ways to pay for an Army event, although they pay only for moving an army and
+`EventRules.ValidCost` rejects them. A player in a Lords game saw a payment the server then
+refused. Rules 0.15.37 offers only costs that the same validation accepts. No contract or
+public content changes. BOT-02 is still incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — Scouts, Relentless Assault and Great Host (2026-11-06)
 
 Contracts 0.51.0 / ActionBoundary v35 and rules 0.15.36 mark the Scouts choice before the
