@@ -108,6 +108,11 @@ internal static class ActionBoundaryProjection
 
     private static BattleContextView? SpecialAttackLoss(MatchState state)
     {
+        return FirstStepSpecialAttackLoss(state) ?? PostCombatSpecialAttackLoss(state);
+    }
+
+    private static BattleContextView? FirstStepSpecialAttackLoss(MatchState state)
+    {
         var frames = state.Resolution.Frames;
         if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
             state.Resolution.ActionSequence is not null || state.Pending is not { Kind: DecisionKind.Losses } pending ||
@@ -127,7 +132,7 @@ internal static class ActionBoundaryProjection
             battleFrame.Hunt is not null || battleFrame.BattleLoss is not null || battleFrame.EventLoss is not null ||
             battleFrame.Corruption is not null || battle is not { Return: EffectReturn.FinishAction,
                 Stage: BattleStage.BeforeRoll, Round: 1, CardsRevealed: true, Mode: not BattleMode.Relief,
-                NextWork: 1, CompletedRounds: 0, EndedByEffect: false, WhiteRiderUsed: false, Kings: null } ||
+                NextWork: > 0, CompletedRounds: 0, EndedByEffect: false, WhiteRiderUsed: false, Kings: null } ||
             effectFrame.NextStep != 1 || effectFrame.Window != "" ||
             effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
             effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
@@ -151,9 +156,10 @@ internal static class ActionBoundaryProjection
             battle.SpecialAttacks[0].Dice.Count(die => die.Hit) != loss.Hits ||
             battle.Attacker.Round.Dice.Count != 0 || battle.Defender.Round.Dice.Count != 0 ||
             !FreshSpecialAttackRound(battle.Attacker.Round) || !FreshSpecialAttackRound(battle.Defender.Round) ||
-            battle.Attacker.Round.CardCancelled || battle.Defender.Round.CardCancelled ||
-            battle.Work.Count == 0 || battle.Work[0] != new CombatWork(execution.Owner, execution.SourceId,
-                effectFrame.EffectId, 2) ||
+            battle.NextWork > battle.Work.Count ||
+            battle.Work[battle.NextWork - 1] != new CombatWork(execution.Owner, execution.SourceId,
+                effectFrame.EffectId, 2) || battle.Work.Take(battle.NextWork - 1).Any(work =>
+                !battle.Force(work.Owner).Round.CardCancelled) || battle.Force(execution.Owner).Round.CardCancelled ||
             !CardCatalog.All.TryGetValue(execution.SourceId, out var sourceCard) || sourceCard.Side != execution.Owner ||
             !CardCatalog.Enabled(state, execution.SourceId) ||
             !EffectCatalog.All.Combats.TryGetValue(execution.SourceId, out var combat) ||
@@ -178,6 +184,82 @@ internal static class ActionBoundaryProjection
         var hitTarget = FirstStepSpecialAttackHitTarget(state, battle, sourceForce, program.Steps[0]);
         if (attack.Dice.Count != diceCount || attack.Dice.Any(die => die.Result is < 1 or > 6 ||
             die.Modifier != 0 || die.HitTarget != hitTarget || die.Hit != BattleRoll.Hits(die.Result, 0, hitTarget) ||
+            die.ConvertedHit || die.Reroll.HasValue || die.RerollModifier != 0 || die.RerollHit || die.CannotReroll))
+            return null;
+
+        return new() { SpecialAttackLoss = true };
+    }
+
+    private static BattleContextView? PostCombatSpecialAttackLoss(MatchState state)
+    {
+        var frames = state.Resolution.Frames;
+        if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
+            state.Resolution.ActionSequence is not null || state.Pending is not { Kind: DecisionKind.Losses } pending ||
+            frames.Count != 3)
+            return null;
+
+        var battleFrame = frames[0];
+        var effectFrame = frames[1];
+        var lossFrame = frames[2];
+        var battle = battleFrame.Battle;
+        var execution = effectFrame.Effect;
+        var loss = lossFrame.BattleLoss;
+        if (battle is null || execution is null || loss is null)
+            return null;
+        if (battleFrame.EffectId != "" || battleFrame.NextStep != 0 || battleFrame.Window != "" ||
+            battleFrame.ReturnDecision is not null || battleFrame.Effect is not null || battleFrame.Fellowship is not null ||
+            battleFrame.Hunt is not null || battleFrame.BattleLoss is not null || battleFrame.EventLoss is not null ||
+            battleFrame.Corruption is not null || battle is not { Return: EffectReturn.FinishAction,
+                Stage: BattleStage.AfterLosses, Round: >= 1, CardsRevealed: true, Mode: not BattleMode.Relief,
+                CompletedRounds: var completedRounds, EndedByEffect: false, Kings: null } ||
+            completedRounds != battle.Round - 1 || battle.WhiteRiderUsed ||
+            effectFrame.NextStep != 1 || effectFrame.Window != "" ||
+            effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
+            effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
+            effectFrame.Corruption is not null || execution is not { Return: EffectReturn.Parent, Wait: EffectWait.None,
+                IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false } ||
+            execution.NationId.Length != 0 || execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 ||
+            execution.PaidFace != default || execution.ArmyOrder is not null || execution.ReactionWindow.Length != 0 ||
+            execution.CompletionWindowOffered || execution.AppliedHits != 0 || execution.OfferedReactions.Count != 0 ||
+            execution.Committed.Count != 0 || execution.InspectedSovereign is not null || execution.InspectedHand is not null ||
+            execution.RingRecovery is not null || execution.MadnessTarget is not null || execution.FellowshipMove ||
+            lossFrame.EffectId != "" || lossFrame.NextStep != 0 || lossFrame.Window != "" ||
+            lossFrame.ReturnDecision is not null || lossFrame.Effect is not null || lossFrame.Fellowship is not null ||
+            lossFrame.Hunt is not null || lossFrame.Battle is not null || lossFrame.EventLoss is not null ||
+            lossFrame.Corruption is not null || loss is not { Voluntary: false, AdditionalAttack: false, Hits: > 0 } ||
+            pending.Commands.Count != 1 || pending.Commands[0] != CommandKind.TakeBattleLosses ||
+            pending.Owner != loss.Owner || pending.RequiredCount != loss.Hits || pending.SourceId != loss.SourceId ||
+            loss.SourceId != execution.SourceId || loss.Owner != TurnFlow.Other(execution.Owner) ||
+            battle.SpecialAttacks.Count == 0 || battle.SpecialAttacks[^1].Owner != execution.Owner ||
+            battle.SpecialAttacks[^1].SourceId != loss.SourceId ||
+            battle.SpecialAttacks[^1].Dice.Count == 0 ||
+            battle.SpecialAttacks[^1].Dice.Count(die => die.Hit) != loss.Hits ||
+            battle.NextWork == 0 || battle.NextWork > battle.Work.Count ||
+            battle.Work[battle.NextWork - 1] != new CombatWork(execution.Owner, execution.SourceId,
+                effectFrame.EffectId, 7) || battle.Work.Take(battle.NextWork - 1).Any(work =>
+                work.Initiative > 6 && !battle.Force(work.Owner).Round.CardCancelled) ||
+            !CardCatalog.All.TryGetValue(execution.SourceId, out var sourceCard) ||
+            sourceCard.Side != Side.Shadow || sourceCard.Side != execution.Owner ||
+            !CardCatalog.Enabled(state, execution.SourceId) ||
+            !EffectCatalog.All.Combats.TryGetValue(execution.SourceId, out var combat) ||
+            combat.Effects.Count != 1 || combat.Effects[0].Initiative != 7 ||
+            combat.Effects[0].ProgramId != effectFrame.EffectId ||
+            !combat.Condition.CanPlay(state, battle, execution.Owner) ||
+            battle.Force(execution.Owner).Round.CardCancelled ||
+            !EffectCatalog.All.Programs.TryGetValue(effectFrame.EffectId, out var program) ||
+            program.Steps is not [WeComeToKillStep] ||
+            !BattleRules.Alive(state, battle.Force(loss.Owner)) || state.Configuration.Kings ||
+            state.Resolution.PaidDieIds.Count != 1 ||
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
+            !state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
+                die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving))
+            return null;
+
+        var attack = battle.SpecialAttacks[^1];
+        var force = battle.Force(execution.Owner);
+        var diceCount = Math.Min(5, ChargeStep.Elites(state, force));
+        if (attack.Dice.Count != diceCount || attack.Dice.Any(die => die.Result is < 1 or > 6 ||
+            die.Modifier != 0 || die.HitTarget != 5 || die.Hit != BattleRoll.Hits(die.Result, 0, 5) ||
             die.ConvertedHit || die.Reroll.HasValue || die.RerollModifier != 0 || die.RerollHit || die.CannotReroll))
             return null;
 
