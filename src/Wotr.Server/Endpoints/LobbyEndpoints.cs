@@ -16,14 +16,24 @@ public static class LobbyEndpoints
                 ? RegistrationResult(new RegistrationResult(null, RegistrationError.UsernameTaken))
                 : RegistrationResult(await accounts.Register(request, cancellation)))
             .RequireRateLimiting(AuthenticationRateLimit.Email);
-        app.MapPost("/api/auth/login", async (LoginRequest request, AccountService accounts, CancellationToken cancellation) =>
-            SignInResult(await accounts.SignIn(request, _ => true, SessionPurpose.Game, cancellation)))
+        // RANK-10: below the client minimum only an account seated at a ranked match signs in; no password is looked at otherwise.
+        app.MapPost("/api/auth/login", async (LoginRequest request, HttpContext context, AccountService accounts, RankedMatches ranked,
+            CancellationToken cancellation) =>
+            RankedSeatExemption.IsWaiting(context) && !await ranked.HoldsSeatByName(request.Username, cancellation)
+                ? ModuleCompatibility.Refusal(context)
+                : SignInResult(await accounts.SignIn(request, _ => true, SessionPurpose.Game, cancellation)))
             .RequireRateLimiting(AuthenticationRateLimit.Login);
         app.MapPost("/api/auth/logout", async (HttpContext context, SessionStore sessions) =>
         {
             await sessions.Revoke(context.Request.Headers.Authorization.ToString()[7..], context.RequestAborted);
             return Results.NoContent();
         }).RequireAuthorization();
+        // AVATAR-02: what a running client shows for itself; a change made in the browser reaches it here.
+        app.MapGet("/api/auth/me", async (HttpContext context, AccountPage page) =>
+            await page.View(Account(context), context.RequestAborted) is { } view
+                ? Results.Ok(new SessionView { AccountId = Account(context), Username = view.Name, Avatar = view.Avatar })
+                : Results.NotFound())
+            .RequireAuthorization().RequireRateLimiting(GameRateLimits.Reads);
         MapRooms(app.MapGroup("/api/rooms").RequireAuthorization().RequireRateLimiting(GameRateLimits.Rooms));
     }
 

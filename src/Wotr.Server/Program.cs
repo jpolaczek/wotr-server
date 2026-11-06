@@ -66,8 +66,19 @@ builder.Services.AddSingleton<Lobby>();
 builder.Services.AddSingleton(services => TestScenarioOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
 builder.Services.AddSingleton<TestSessionStore>();
 builder.Services.AddSingleton<DemoSessionStore>();
+builder.Services.AddSingleton<RankedMatches>();
+builder.Services.AddSingleton(services => RankedOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
+builder.Services.AddSingleton<MatchPauses>();
+builder.Services.AddSingleton<MatchPresence>();
+builder.Services.AddSingleton<Leaderboard>();
+builder.Services.AddSingleton<RankedQueue>();
+builder.Services.AddSingleton<RankedPairingService>();
+builder.Services.AddHostedService(services => services.GetRequiredService<RankedPairingService>());
+builder.Services.AddSingleton<MoveClockService>();
+builder.Services.AddHostedService(services => services.GetRequiredService<MoveClockService>());
 builder.Services.AddSingleton(services => AdminOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<AdminAccess>();
+builder.Services.AddSingleton<AccountPage>();
 builder.Services.AddSingleton<AdminStatisticsStore>();
 builder.Services.AddSingleton(services => DemoOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton(services => new DemoBot(services.GetRequiredService<GameEngine>(), services.GetRequiredService<Projection>()));
@@ -88,6 +99,7 @@ if (args.Contains("--migrate", StringComparer.Ordinal))
     return;
 }
 app.UseServerTransport(app.Environment.IsDevelopment());
+LocalSite.Use(app);
 // AUTH-02: an email address for an account from before AUTH-02; the confirmation link is sent at once.
 if (setEmail is not null)
 {
@@ -121,11 +133,14 @@ app.UseWebSockets();
 app.UseAuthentication();
 // QUAL-02: after authentication, so signed-in budgets follow the account.
 app.UseRateLimiter();
+// RANK-10: it asks the database whether the account holds a ranked seat, so it needs the account and spends its budget.
+app.UseRankedSeatExemption();
 app.UseTestSeatGate();
 app.UseAuthorization();
 ServerHealth.Map(app);
 ClientReleaseEndpoints.Map(app);
 MatchEndpoints.Map(app);
+RankedQueueEndpoints.Map(app);
 CorrespondenceEndpoints.Map(app);
 ActionLogEndpoints.Map(app);
 BattleReportEndpoints.Map(app);
@@ -136,6 +151,7 @@ LobbyChatEndpoints.Map(app);
 RoomChatEndpoints.MapGames(app);
 TestScenarioEndpoints.Map(app);
 AccountEndpoints.Map(app);
+AccountPageEndpoints.Map(app);
 DemoEndpoints.Map(app);
 AdminEndpoints.Map(app);
 app.Run();

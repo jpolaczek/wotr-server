@@ -39,6 +39,7 @@ The test scenario mode (R31) launches the ready-to-use, named game situations wi
 | Id | Start | Title in Game | What I'm testing |
 | --- | --- | --- | --- |
 | `setup` | Free Peoples | Standard setup | New batch from standard setting, from the Fellowship phase. A declaration there would change nothing, so that phase offers only the Guide and Finish phase ([EXP-19](rules/T15-FELLOWSHIP.md)). |
+| `ranked-clock` | Free Peoples | Ranked clock and pause | RANK-09: a base game on a short move clock, 30 s for a move and 15 s for an answer, with a ranked game's pauses and Concede. Try the warning, the pause and a loss on time; it has no ranked seats, so no rating changes. |
 | `fp-character-move-fellowship` | Free Peoples | Move the Fellowship | Character: movement Fellowship; in Hunt die and Eye, so Shadow hunts. |
 | `fp-character-hide-fellowship` | Free Peoples | Hide the Fellowship | Character: Hidden the revealed Fellowship in Rivendell. |
 | `fp-character-separate-companions` | Free Peoples | Separate companions | Character: separation Companion from Fellowship. |

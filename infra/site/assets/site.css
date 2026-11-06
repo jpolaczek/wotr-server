@@ -114,6 +114,29 @@ h3 { font-size: 1.1rem; margin: 0 0 .4rem; letter-spacing: .03em; }
   text-transform: uppercase;
 }
 .nav a:hover { color: var(--gold-bright); }
+/* A tab hanging from the bar's gold line at its right end, as the game's edge tabs do. Out of the bar's flow, so the section links and
+   Create account stand as they did, and it stays on a phone, where the section links are hidden. */
+.topbar-inner { position: relative; }
+.account-tab {
+  position: absolute;
+  top: 100%;
+  right: max(16px, env(safe-area-inset-right, 0px));
+  padding: .3rem .75rem .35rem;
+  background: var(--lacquer);
+  border: 1px solid var(--gold);
+  border-top: 0;
+  border-radius: 0 0 .35rem .35rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .35);
+  color: var(--on-lacquer);
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: var(--title);
+  font-size: .7rem;
+  line-height: 1.2;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.account-tab:hover { color: var(--gold-bright); }
 
 .button {
   display: inline-block;
@@ -332,7 +355,7 @@ ol li { margin-bottom: .45rem; }
 }
 
 /* AUTH-02: account pages (registration, confirmation, password reset) on a parchment card. */
-.account-page main { padding: 2.5rem 0 3.5rem; }
+.account-page main { padding-block: 2.5rem 3.5rem; }
 .account {
   max-width: 34rem;
   margin: 0 auto;
@@ -377,6 +400,43 @@ ol li { margin-bottom: .45rem; }
 .account button:disabled { opacity: .6; cursor: progress; }
 .account .status[data-kind="error"] { color: var(--accent); font-weight: 600; }
 .account .status[data-kind="done"] { color: var(--ink); }
+
+/* AVATAR-02: the account page's ten avatars; the current one is marked in words as well as by its frame. */
+.account.profile { max-width: 46rem; }
+.account.profile h2 { font-family: var(--title); font-size: 1.15rem; margin: 1.6rem 0 .4rem; color: var(--accent); }
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(7rem, 100%), 1fr));
+  gap: .7rem;
+  margin: 1rem 0 .4rem;
+}
+.account button.avatar {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: .25rem;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: .6rem .35rem .4rem;
+  background: var(--page);
+  color: var(--ink);
+  border: 2px solid var(--line);
+  border-radius: .45rem;
+  font-family: inherit;
+  font-size: .9rem;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-align: center;
+}
+.account button.avatar img { display: block; width: 4.75rem; height: 4.75rem; }
+.account button.avatar:hover { border-color: var(--gold); }
+.account button.avatar:active { transform: translateY(1px); }
+.account button.avatar:focus-visible { outline: 3px solid var(--gold); outline-offset: 1px; }
+.account button.avatar[aria-pressed="true"] { border-color: var(--gold); background: var(--page-alt); font-weight: 600; }
+.account button.avatar:disabled { opacity: 1; cursor: progress; }
+.avatar-mark { visibility: hidden; font-size: .78rem; color: var(--accent); }
+[aria-pressed="true"] > .avatar-mark { visibility: visible; }
 
 /* ADMIN-01: the admin panel (/admin) on the account card, wider, with count tiles and a scrolling accounts table. */
 [hidden] { display: none !important; }

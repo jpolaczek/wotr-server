@@ -89,12 +89,18 @@ public sealed class GameEngine(params ICommandHandler[] handlers)
         if (command.Kind == CommandKind.SetCombatCardPolicy)
             return !string.IsNullOrEmpty(command.Payload.RulerTokenId) || !string.IsNullOrEmpty(command.Payload.CouncilTokenId) ? "IllegalChoice"
                 : handler is null ? "UnsupportedAction" : handler.Validate(original, actor, command);
+        // RANK-03: a concession needs no turn, whatever revision or decision the sender last saw.
+        if (command.Kind == CommandKind.Concede)
+            return handler is null ? "UnsupportedAction" : handler.Validate(original, actor, command);
         if (command.ExpectedRevision != original.Revision)
             return "StaleRevision";
         if (original.Pending is null || command.DecisionId != original.Pending.Id)
             return "DecisionExpired";
         if (original.Pending.Owner != actor)
             return "NotAuthorized";
+        // RANK-03: a timeout names exactly the decision whose clock ran out, which never lists it among its commands.
+        if (command.Kind == CommandKind.TimeOut)
+            return handler is null ? "UnsupportedAction" : handler.Validate(original, actor, command);
         if (!original.Pending.Commands.Contains(command.Kind))
             return "IllegalChoice";
         if (!KingsRulerTokens.Valid(original, actor, command) || !KingsCouncilEntry.ValidToken(original, actor, command))

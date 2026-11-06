@@ -337,3 +337,52 @@ decision of 2026-10-18), and a required release still downloads by itself before
 Tests: client EditMode `FirstMenuUpdateTests`, `UpdateCoordinatorTests` (the note's states, the Settings row's What's
 new); PlayMode `MainMenuLayoutTests` (the note on both screens in four layouts, no control moves).
 
+<a id="rank-10--required-updates-and-active-ranked-matches-2026-11-05"></a>
+## RANK-10 — Required updates and active ranked matches (2026-11-05)
+
+Leaving a ranked match loses it, so a required update must not take one away. While a match is active its seated
+players are exempt from the catalog's minimum version for that match's routes, for finding it through the queue's poll,
+and for signing in. A client that plays it to the end can read how it ended for an hour, and is otherwise refused
+with 409 `ClientUpdateRequired` as before; it cannot start a search. Everyone else below the minimum is refused
+exactly as before.
+
+The exemption covers the catalog's minimum only. A change of **protocol** past a client's version still refuses it,
+in a ranked match too, so a server release that drops a protocol ends the way back for clients in active ranked
+matches: their clocks run out and they lose. Plan such a release when `ranked_seats` is empty, or accept that.
+
+<a id="rank-09--rolling-out-ranked-play-2026-11-06"></a>
+## RANK-09 — Rolling out ranked play (2026-11-06)
+
+Nothing here runs without the owner's explicit request. The order is contracts, server, client, because an old client
+works against a new server and a new client's Find game needs the new routes.
+
+1. **Numbers.** Contracts 0.26.0 and public content 1.0.28 skip the `bot` line's numbers, and migrations 017–021 collide with
+   that line's 017–020. Whichever line merges second renumbers its migrations and bumps its versions, then repacks.
+2. **Contracts and content.** Publish the packages from the merged commit and pin them in the client.
+3. **Server.** Back up the database, deploy as for any release (`infra/production.sh`), and check that migrations 017–022
+   applied and `/health` answers. The migrations only add tables, columns and a wider check, so clients already released
+   keep working unchanged until the client below raises the minimum: they ignore the views' new fields. The one exception would
+   be a client from before this release reading My games on an account that has finished a ranked game, since it does not know
+   `VictoryCondition.Conceded` or `TimedOut`; the required update closes that.
+   Migration 022 gives every account the Eye or the Ring.
+   **Restart `web` after the checkout** (`infra/production.sh restart web`): nginx mounts `game.conf` and
+   `security-headers.conf` as single files, so a running container keeps the old file after a checkout replaces it, and without
+   the restart `/account` is not served. Check the new file first with `nginx -t` in a disposable container. The `site` folder is
+   mounted whole, so the page, its pictures and the site's text go live at the checkout: deploy and publish the client in one sitting. A Production server refuses to start with `Wotr:Ranked:ClockScalePercent` or
+   `Wotr:Ranked:PresenceScalePercent` set. `RankedOptions` holds the running values: pairing every second, a search lapsing after 6 s
+   without a poll, a pause ending after 10 minutes.
+4. **Client.** Publish it as a **required** update, in the same sitting as the server (`release_client.py <version>
+   --required-now`; owner's decision, 2026-11-06). Ranked play would not need it: a client without Find game cannot start a
+   search, so nobody is paired with one. The owner wants every player on the line with avatars and ranked play. Players on an
+   older client are refused and offered the update, and no active ranked match is affected, since none can exist before this client
+   does. `WOTR_MODULE_CLIENTS` needs no entry for ranked play: it speaks of modules, and the search already refuses a module a
+   client cannot play.
+5. **Website.** The site's cards on ranked play and avatars, and its Sign in / My account tab, go live with the checkout above.
+
+**A later server release during ranked play.** A restart gives the downtime back to every clock (RANK-06), and nobody loses a game
+by it. A later required client update leaves active ranked matches alone (RANK-10 above). A change of protocol does not: plan it for
+when `ranked_seats` is empty.
+
+**Going back.** The migrations stay; the previous server ignores the new tables. Matches started in the ranked queue then
+have no clock and no rating change, and their seats remain, so a later return to the new server continues them with
+clocks whose deadlines have passed. Ending them first is kinder: `SELECT count(*) FROM ranked_seats` shows whether any exist.

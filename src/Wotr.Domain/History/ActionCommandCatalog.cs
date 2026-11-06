@@ -31,7 +31,7 @@ public static class ActionCommandCatalog
             CommandKind.DeclineDismay or CommandKind.UseLoreBeforeActions => ActionContextKind.Dice,
         CommandKind.UseRing or CommandKind.UseVilya or CommandKind.DeclineVilya or
             CommandKind.ChooseCouncilToken or CommandKind.UseCouncilToken => ActionContextKind.Resources,
-        CommandKind.Pass or CommandKind.FinishActionSequence => ActionContextKind.General,
+        CommandKind.Pass or CommandKind.FinishActionSequence or CommandKind.Concede or CommandKind.TimeOut => ActionContextKind.General,
         _ => throw new ArgumentOutOfRangeException(nameof(kind), kind, "Command has no history classification.")
     };
 

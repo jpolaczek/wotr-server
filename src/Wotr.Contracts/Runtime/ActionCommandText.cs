@@ -73,6 +73,8 @@ namespace Wotr.Contracts
             CommandKind.DeclineDismay => "Declined Dismay.",
             CommandKind.UseLoreBeforeActions => "Used the Lore of the Elven Rings before actions.",
             CommandKind.FinishActionSequence => "Finished the remaining action steps.",
+            CommandKind.Concede => "Conceded the game.",
+            CommandKind.TimeOut => "Ran out of time.",
             _ => throw new System.ArgumentOutOfRangeException(nameof(kind))
         };
     }

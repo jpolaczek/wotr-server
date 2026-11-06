@@ -4,7 +4,7 @@ namespace Wotr.Server;
 
 // ADMIN-01: the admin panel's counts. Games come from the match ledger (MatchLedger), so a match its players removed
 // still counts; test scenarios and demo games against the CPU are counted apart. Technical accounts (test seats, the
-// CPU) are never users.
+// CPU) are never users. RANK-04: ranked games are games between people and count with the others.
 public sealed class AdminStatisticsStore(Database database)
 {
     private const string SummarySql =
@@ -16,14 +16,14 @@ public sealed class AdminStatisticsStore(Database database)
                 WHERE NOT a.technical AND s.created_at > now() - interval '7 days'),
             (SELECT count(*) FROM room_ledger),
             (SELECT count(*) FROM rooms WHERE NOT closed AND match_id IS NULL),
-            (SELECT count(*) FROM match_ledger WHERE kind = 'game'),
-            (SELECT count(*) FROM match_ledger WHERE kind = 'game' AND finished_at IS NOT NULL),
-            (SELECT count(*) FROM match_ledger l WHERE l.kind = 'game' AND l.finished_at IS NULL
+            (SELECT count(*) FROM match_ledger WHERE kind IN ('game', 'ranked')),
+            (SELECT count(*) FROM match_ledger WHERE kind IN ('game', 'ranked') AND finished_at IS NOT NULL),
+            (SELECT count(*) FROM match_ledger l WHERE l.kind IN ('game', 'ranked') AND l.finished_at IS NULL
                 AND EXISTS (SELECT 1 FROM matches m WHERE m.id = l.match_id)),
-            (SELECT count(*) FROM match_ledger l WHERE l.kind = 'game' AND l.finished_at IS NULL
+            (SELECT count(*) FROM match_ledger l WHERE l.kind IN ('game', 'ranked') AND l.finished_at IS NULL
                 AND NOT EXISTS (SELECT 1 FROM matches m WHERE m.id = l.match_id)),
-            (SELECT count(*) FROM match_ledger WHERE kind = 'game' AND winner = 'FreePeoples'),
-            (SELECT count(*) FROM match_ledger WHERE kind = 'game' AND winner = 'Shadow'),
+            (SELECT count(*) FROM match_ledger WHERE kind IN ('game', 'ranked') AND winner = 'FreePeoples'),
+            (SELECT count(*) FROM match_ledger WHERE kind IN ('game', 'ranked') AND winner = 'Shadow'),
             (SELECT count(*) FROM match_ledger WHERE kind = 'test'),
             (SELECT count(*) FROM match_ledger WHERE kind = 'demo')
         """;
@@ -46,7 +46,7 @@ public sealed class AdminStatisticsStore(Database database)
                    count(*) FILTER (WHERE (l.winner = 'FreePeoples' AND l.fp_account = a.id)
                                        OR (l.winner = 'Shadow' AND l.sh_account = a.id)) AS wins
             FROM match_ledger l
-            WHERE l.kind = 'game' AND (l.fp_account = a.id OR l.sh_account = a.id)
+            WHERE l.kind IN ('game', 'ranked') AND (l.fp_account = a.id OR l.sh_account = a.id)
         ) g
         WHERE NOT a.technical
         ORDER BY a.created_at DESC NULLS LAST, a.normalized_name

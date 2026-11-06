@@ -126,7 +126,7 @@ public class ReleaseModuleTests
         Assert.Equal(1, room.Version);
         Assert.Null(RoomRules.Configure(room, Request(1, new() { Fate = true, NewCities = true }), fate));
         Assert.Equal((2, true, true), (room.Version, room.Configuration.Fate, room.Configuration.NewCities));
-        var view = room.View(room.HostAccount, fate, [], 16);
+        var view = room.View(room.HostAccount, fate, [], 16, new Dictionary<string, string>());
         Assert.Equal([ExpansionModules.Fate], view.OfferedModules);
         Assert.True(view.ExpansionsAvailable);
         Assert.Empty(view.StartUnavailableReason);
@@ -142,7 +142,7 @@ public class ReleaseModuleTests
         Assert.Null(RoomRules.CanStart(room, 2, ReleaseScope.Full));
         var fate = new ReleaseScope([ExpansionModules.Fate]);
         Assert.Equal("ExpansionsUnavailable", RoomRules.CanStart(room, 2, fate));
-        Assert.Equal("ExpansionsUnavailable", room.View(room.HostAccount, fate, [], 16).StartUnavailableReason);
+        Assert.Equal("ExpansionsUnavailable", room.View(room.HostAccount, fate, [], 16, new Dictionary<string, string>()).StartUnavailableReason);
         Assert.True(room.Configuration.Lords);
     }
 

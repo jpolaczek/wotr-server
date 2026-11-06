@@ -16,6 +16,9 @@ public sealed class ExpansionHttpGameTests(ITestOutputHelper output)
 {
     private const int MoveLimit = 3000;
     private const int RestartEvery = 120;
+    // The bot's games vary: about 1.5 % of them end within 120 moves (the Ring corrupted by turn 6, as few as 31 moves in
+    // 600 games), so the first restart comes early enough for every game to cross one.
+    private const int FirstRestart = 20;
 
     [PostgresFact]
     public async Task AGameWithEveryExpansionFinishesOverHttpAcrossRestarts()
@@ -44,7 +47,8 @@ public sealed class ExpansionHttpGameTests(ITestOutputHelper output)
                 Assert.Equal(before, await ReadBoth(alice, bob, id));
             var store = host.Services.GetRequiredService<MatchStore>();
             var bot = host.Services.GetRequiredService<DemoBot>();
-            for (var batch = 0; batch < RestartEvery && moves < MoveLimit; batch++, moves++)
+            var batchSize = restarts == 0 ? FirstRestart : RestartEvery;
+            for (var batch = 0; batch < batchSize && moves < MoveLimit; batch++, moves++)
             {
                 var current = (await store.Read(id, "alice"))!.State;
                 if (current.Winner is not null)

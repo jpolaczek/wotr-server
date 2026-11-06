@@ -19,7 +19,7 @@ public sealed partial class RoomStore
         await using var query = Database.Command(connection, null, """
             SELECT r.id,r.room_name,a.username,r.fp_account IS NULL,r.sh_account IS NULL,
                 (SELECT count(*)::int FROM room_observers o WHERE o.room_id=r.id AND o.lease_until > now()),
-                (r.state->'configuration')::text
+                (r.state->'configuration')::text, a.avatar
             FROM rooms r JOIN accounts a ON a.id=r.host_account
             WHERE r.visibility='Public' AND NOT r.closed AND r.match_id IS NULL
                 AND r.host_account<>$1 AND r.fp_account IS DISTINCT FROM $1 AND r.sh_account IS DISTINCT FROM $1
@@ -45,7 +45,7 @@ public sealed partial class RoomStore
         var observers = reader.GetInt32(5);
         return new PublicRoomSummary
         {
-            Id = reader.GetString(0), Name = reader.GetString(1), Host = reader.GetString(2),
+            Id = reader.GetString(0), Name = reader.GetString(1), Host = reader.GetString(2), HostAvatar = reader.GetString(7),
             OpenSide = freePeoplesOpen ? Side.FreePeoples : Side.Shadow,
             Status = RoomStatus.Waiting,
             Players = (freePeoplesOpen ? 0 : 1) + (shadowOpen ? 0 : 1),

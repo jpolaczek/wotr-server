@@ -25,6 +25,9 @@ public sealed class RoomState
     public string MatchId { get; set; } = "";
     // MENU-24: accounts the host removed; they cannot take a seat in this room again.
     public List<string> Removed { get; set; } = [];
+    // RANK-04 (R35): the room of a ranked match keeps only its chat. Nobody joins, watches, invites, changes role or
+    // leaves it; a player ends the match only by conceding.
+    public bool Ranked { get; set; }
 
     // The two players; observers are kept apart (RoomObservers), so this never counts the audience.
     public bool Contains(string account) => account == FreePeoples || account == Shadow;
@@ -32,23 +35,34 @@ public sealed class RoomState
     public string PlayerName(string account) =>
         account == FreePeoples ? FreePeoplesName : account == Shadow ? ShadowName : "";
 
+    // Everyone a view of this room names, whose avatars it needs.
+    public string[] People(IEnumerable<RoomObserver> observers) =>
+        new[] { HostAccount, FreePeoples, Shadow }.Concat(observers.Select(observer => observer.Account))
+            .Where(account => account.Length > 0).Distinct().ToArray();
+
     // OBS-01: an observer sees the room and its audience but never the code of a room the host manages; You names a
     // seat only for a player (an observer's default perspective is Free Peoples).
-    public RoomView View(string account, ReleaseScope release, IReadOnlyList<RoomObserver> observers, int observerLimit) => new()
+    // AVATAR-02: avatars are read with the view, never kept in this state: a change must not touch Version, which the
+    // players' readiness is measured against.
+    public RoomView View(string account, ReleaseScope release, IReadOnlyList<RoomObserver> observers, int observerLimit,
+        IReadOnlyDictionary<string, string> avatars) => new()
     {
         Id = Id,
         Name = Name,
         Host = HostName,
+        HostAvatar = avatars.GetValueOrDefault(HostAccount, ""),
         IsHost = HostAccount == account,
         Managed = Managed,
         Visibility = Visibility,
         Status = Closed ? RoomStatus.Closed : MatchId.Length > 0 ? RoomStatus.Started : RoomStatus.Waiting,
         JoinCode = InvitationEnabled && (HostAccount == account || (!Managed && Contains(account))) ? JoinCode : "",
         FreePeoples = FreePeoplesName,
+        FreePeoplesAvatar = avatars.GetValueOrDefault(FreePeoples, ""),
         Shadow = ShadowName,
+        ShadowAvatar = avatars.GetValueOrDefault(Shadow, ""),
         You = account == Shadow ? Side.Shadow : Side.FreePeoples,
         Role = Contains(account) ? RoomRole.Player : RoomRole.Observer,
-        Observers = RoomObservers.Views(this, observers),
+        Observers = RoomObservers.Views(this, observers, avatars),
         ObserverLimit = observerLimit,
         Version = Version,
         FreePeoplesAccepted = FreePeoplesAccepted == Version,

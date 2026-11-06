@@ -21,12 +21,11 @@ public sealed class LobbyChat(Database database, TimeProvider clock)
         var clean = RoomChat.Clean(text);
         if (clean is null)
             return null;
-        var author = await Author(account, cancellation);
-        if (author is null)
+        if (await Author(account, cancellation) is not { } author)
             return null;
         lock (gate)
         {
-            var message = new LobbyMessage { Sequence = ++sequence, Author = author, Text = clean, At = clock.GetUtcNow() };
+            var message = new LobbyMessage { Sequence = ++sequence, Author = author.Name, AuthorAvatar = author.Avatar, Text = clean, At = clock.GetUtcNow() };
             relay.Add(message);
             Forget(message.At);
             return message;
@@ -63,10 +62,11 @@ public sealed class LobbyChat(Database database, TimeProvider clock)
             relay.RemoveRange(0, relay.Count - LobbyLimits.MessagesKept);
     }
 
-    private async Task<string?> Author(string account, CancellationToken cancellation)
+    private async Task<(string Name, string Avatar)?> Author(string account, CancellationToken cancellation)
     {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
-        await using var command = Database.Command(connection, null, "SELECT username FROM accounts WHERE id = $1", account);
-        return await command.ExecuteScalarAsync(cancellation) as string;
+        await using var command = Database.Command(connection, null, "SELECT username, avatar FROM accounts WHERE id = $1", account);
+        await using var reader = await command.ExecuteReaderAsync(cancellation);
+        return await reader.ReadAsync(cancellation) ? (reader.GetString(0), reader.GetString(1)) : null;
     }
 }

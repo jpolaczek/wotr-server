@@ -685,6 +685,13 @@ Public content 1.0.17 (UI-365) rewrites the expansions' ability texts (`characte
 names its subject and matches the rules; the files, keys and ids are unchanged and it still requires Contracts 0.15.0.
 The base-game entries are unchanged.
 
+Contracts 0.26.0 (RANK-03–RANK-10, R35) add ranked play: `RankedContracts.cs` (the search, its answers, the move clock
+with its pause and presence fields, the rating result and the leaderboard), `CommandKind` Concede and TimeOut,
+`VictoryCondition` Conceded and TimedOut, `MatchSummary.Ranked` and `PlayerView.Clock`. They skip 0.16.0–0.25.0, which the
+`bot` line holds, so that neither line reuses a version with other contents; whichever line merges second renumbers.
+Public content 1.0.28 has the same files as 1.0.17 and requires Contracts 0.26.0, and skips the `bot` line's numbers too.
+`RankedPreset.Rehearsal` is a test scenario's short clock (RANK-09, D14); no search can ask for it.
+
 <a id="wersje-klienta-katalog-wydań-i-zgodność--dist-05"></a>
 ## Client versions, release directory and compliance — DIST-05
 
@@ -876,3 +883,12 @@ Contracts 0.10.0 add `ClientPlatforms.Linux` (`linux-x64`) to `All` and `IsKnown
 like the other platforms: a release is announced only with the package, installer
 (`WotrOnline-<version>-linux.AppImage`) and signed manifest of all three platforms. The Steam Deck
 runs the Linux build and reports `linux-x64`.
+
+<a id="avatars--avatar-02"></a>
+## Avatars — AVATAR-02
+
+`AvatarIds` lists the ten identifiers. Beside each name a view gained its avatar: `SessionView.Avatar`, `LobbyMessage.AuthorAvatar`,
+`OnlinePlayer.Avatar`, `ChallengeView.FromAvatar` and `ToAvatar`, `PublicRoomSummary.HostAvatar`, `RoomView.HostAvatar`,
+`FreePeoplesAvatar` and `ShadowAvatar`, `RoomObserverView.Avatar`, `RoomChatMessage.AuthorAvatar`, `MatchSummary.OpponentAvatar`,
+and `RankedSearchView.Avatar` and `OpponentAvatar`. An empty value names nobody (an empty seat); an unknown one, from a newer server,
+is drawn as the Eye. The browser's account routes answer with server-side records, since no client reads them.

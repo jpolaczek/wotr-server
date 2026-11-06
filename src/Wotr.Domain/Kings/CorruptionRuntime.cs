@@ -164,19 +164,31 @@ public static class CorruptionRuntime
         Complete(state, attempt);
     }
 
+    // RANK-03: a game that ends during an attempt (a concession, a timeout or a victory reached meanwhile) spends its
+    // Eye and returns its tiles as completing it would, attaching none; GameEnding then clears the frames.
+    public static void Abandon(MatchState state)
+    {
+        foreach (var attempt in state.Resolution.Frames.Select(f => f.Corruption).OfType<CorruptionAttempt>())
+            Release(state, attempt);
+    }
+
     private static void Complete(MatchState state, CorruptionAttempt attempt)
     {
-        KingsTiles.Return(state, attempt.Drawn.Concat(attempt.Ignored));
-        if (attempt.DieId.Length > 0)
-        {
-            var die = state.Dice.Single(d => d.Id == attempt.DieId);
-            die.Location = DieLocation.Spent;
-            die.SpentWith = die.Special is not null ? Side.FreePeoples : null;
-            die.HuntOrigin = "";
-        }
+        Release(state, attempt);
         state.Resolution.Frames.RemoveAt(state.Resolution.Frames.Count - 1);
         state.Pending = null;
         if (attempt.Return == EffectReturn.FinishAction)
             TurnFlow.FinishAction(state, Side.Shadow);
+    }
+
+    private static void Release(MatchState state, CorruptionAttempt attempt)
+    {
+        KingsTiles.Return(state, attempt.Drawn.Concat(attempt.Ignored));
+        if (attempt.DieId.Length == 0)
+            return;
+        var die = state.Dice.Single(d => d.Id == attempt.DieId);
+        die.Location = DieLocation.Spent;
+        die.SpentWith = die.Special is not null ? Side.FreePeoples : null;
+        die.HuntOrigin = "";
     }
 }

@@ -996,3 +996,176 @@ host, the objects the player clicks, the cost, the commit gesture, a justified e
 same families from the decision's kind and presentation (`DecisionRoutes`), so the console status reopens the host
 that owns a decision; a choice no object owns yet keeps the generic list as its fallback. No protocol field,
 window manager or client rule engine is added.
+
+<a id="ranked-rating--rank-02"></a>
+## Ranked rating — RANK-02 (2026-11-05)
+
+`src/Wotr.Domain/Rating` holds the rating of ranked play ([RANKED_PLAY](RANKED_PLAY.md), R35). `PlayerRating` is an
+account's rating, deviation and volatility; `Glicko2.Game(winner, loser)` returns both players' new ratings, each
+computed from the other's rating before the game, and `Glicko2.Period` applies Glickman's steps 1-8 to a period of
+games. It is pure: no clock, database or random source, so the server calls it inside the finishing command's
+transaction and stores what it returns. The volatility iteration and the search for its lower bound are bounded,
+the expected score is kept a hair away from 0 and 1 so that any rating gap gives a finite result, and the deviation
+never falls below 45. `Glicko2Tests` reproduce Glickman's example and the numbers RANKED_PLAY quotes.
+
+<a id="concession-and-timeout--rank-03"></a>
+## Concession and timeout — RANK-03 (2026-11-05)
+
+`CommandKind.Concede` and `CommandKind.TimeOut` end a game as `VictoryCondition.Conceded` or `TimedOut`, a loss for
+the sender (`GameEndingCommands`, through `GameEnding.Finish`). A concession, like a combat-card preference, needs no
+turn: the engine skips the revision and decision checks for it. A timeout names exactly the decision whose clock ran
+out (its revision, id and owner), so one that arrives after a move went through ends nothing. Neither may carry a
+payload, so no token is spent on the way out. The engine holds no clock; only the server issues either, and the
+ordinary commands endpoint refuses both. `GameEnding.Finish` now also abandons a Kings corruption attempt in progress
+(`CorruptionRuntime.Abandon`: its Eye is spent and its tiles return, as completing it would), which a victory reached
+during an attempt previously left on the resolving die. A concession is an ordinary committed command, so its frame
+ends the replay. `ConcessionTests` end the game from all 31 decision kinds of the base and expansion corpora.
+
+<a id="ranked-matches--rank-04"></a>
+## Ranked matches — RANK-04 (2026-11-05)
+
+`RankedMatches.Start` (src/Wotr.Server/Ranked) creates a ranked match for two accounts in one transaction: the match
+(ledger kind `ranked`), an unlisted room for its chat (`RoomStore.InsertRanked`: no host, no invitation, `Ranked`
+set), its preset (`ranked_matches`), both seats (`ranked_seats`) and both rating rows (`player_ratings`). It locks
+both account rows in id order first, so two starts sharing an account are serialized; a seat lasts until the match
+finishes, so an account holds at most one active ranked match (`RankedMatchActive` names it).
+
+The rating changes in the transaction of the command that finishes the match: `MatchStore.SaveState` calls
+`RatingLedger.Finish` beside `MatchLedger.Finished`. Releasing the seats (`DELETE ... RETURNING`) is what makes the
+update happen once; both rating rows are then locked in account order, `Glicko2.Game` computes both results from the
+ratings before the game, and `rating_changes` keeps each player's before and after. Any failure rolls the finishing
+command back, so a match is never finished without its rating. Normal, test and demo matches hold no seats and change
+no rating.
+
+Nothing but a concession leaves a ranked match: `DELETE /api/matches/{id}` answers 409 `RankedMatch`, and the room
+refuses leave, invitation, role change and every join with the same code. `POST /api/matches/{id}/concede` takes the
+client's command id, so a retried concession returns its first receipt; `GET /api/matches/{id}/rating` gives the
+player's own rounded change. The rating is kept out of `PlayerView`, because frames store that view and replays would
+carry it. My games marks ranked rows (`MatchSummary.Ranked`) and titles them "Ranked · A vs B"; the admin panel counts
+ranked games with the others.
+
+<a id="ranked-queue--rank-05"></a>
+## Ranked queue — RANK-05 (2026-11-05)
+
+The rules of a pairing are pure (`src/Wotr.Domain/Ranked`). `RankedRules` validates a search and decides each
+dimension apart: expansions (D2), the faction (D3: requirements narrow the sides, then preferences, a tie is the
+server's draw) and the time preset (D4). `RankedMatching.Pair` lets the longest wait choose first: the compatible
+partner whose pairing meets both faction preferences, then the closest rating, within a window of 150 points plus 50
+per 10 s, unlimited after 2 minutes. `RankedMatchingTests` check every pair of the 2565 valid searches (6.6 million)
+against an oracle written from the rules' text in another form, and that the order of the two never matters.
+
+The searches live in `ranked_tickets` (migration 018), so every server process sees one queue; their times come from
+the server's `TimeProvider`. `RankedQueue` answers `POST`, `GET` and `DELETE /api/ranked/queue` with a
+`RankedSearchView`: a poll keeps a search eligible for 6 s, a lapsed search is told `Stopped` once, and an account
+with an active ranked match is always told `Matched` with the opponent's name and rounded rating. `RankedPairingService`
+runs `PairOnce` every second under a session advisory lock; each pair is started in its own transaction that first
+deletes both searches (`RETURNING` must give two) and then calls `RankedMatches.Create`, so a cancel either wins and
+nothing starts, or loses and is answered `Matched`. A module the server has not released is refused with
+`ExpansionsUnavailable`; one released but newer than the client's version with the module gate's
+`ClientUpdateRequired`. `Wotr:Ranked:PairingIntervalMilliseconds` = 0 turns the service off (tests pair by hand).
+
+<a id="move-clocks--rank-06"></a>
+## Move clocks — RANK-06 (2026-11-05)
+
+`MoveClock` (src/Wotr.Domain/Ranked) is an exhaustive switch from each `DecisionKind` to the big or small limit (D9)
+and gives each preset's limits; the engine holds no time. The server keeps one row per ranked match in `match_clocks`
+(migration 019). `RankedMatches.Create` starts the first decision's clock with the 15 s loading bonus;
+`MatchStore.Execute` then calls `MatchClocks.Follow` in the command's transaction, which starts a new clock with no
+credit when the decision id or owner changed and removes it when the match ended. The deadline is the shown limit plus
+3 s of grace. Past it, `Execute` refuses every command but the server's own `TimeOut` with `TimeExpired`, after the
+receipt lookup, so a retried command that already counted keeps its receipt.
+
+`MoveClockService` beats `server_heartbeat` and issues `TimeOut` for every passed deadline once a second, naming the
+timed decision and the revision read with it, so a move that went through first makes the timeout stale. At start it
+moves every running deadline by the downtime since the last heartbeat. `GET /api/matches/{id}` attaches the clock to
+the player's view (`PlayerView.Clock`: owner, kind, decision, time left before the shown limit, the limit, the warning
+point); the projection leaves it null, so replay frames never carry it. `Wotr:Ranked:ClockIntervalMilliseconds` = 0
+turns the service off; test hosts start with both ranked services off, as they would otherwise pair and time out
+other tests' matches in the shared database.
+
+An exception that leaves a `BackgroundService` stops the whole host by default, so neither ranked service lets one out:
+a failure costs that attempt and is logged. No deadline is judged until the downtime has been given back, which is
+retried each interval, and a match or pair that cannot be ended or started holds back no other.
+
+`Wotr:Ranked:ClockScalePercent` shortens every limit, the grace and the warning for tests and playtests, and
+`Wotr:Ranked:PresenceScalePercent` the socket's silence and presence's grace (RANK-10); a Production server refuses to
+start with either. They are apart because a real client heartbeats every 2 s whatever the clocks run at.
+
+<a id="pause--rank-07"></a>
+## Pause — RANK-07 (2026-11-05)
+
+`MatchPauses` (src/Wotr.Server/Ranked) lets each player of a ranked match pause three times, spent when the pause starts
+(`ranked_matches.fp_pauses`, `sh_pauses`), and either player unpause. It takes the match's row lock first, as a command
+does. A pause records when it began on the clock (`match_clocks.paused_at`), and unpausing moves the deadline by the
+pause's length, so exactly the same time comes back and a paused clock is never due. While paused, `MatchClocks.Refusal`
+answers every game command but a concession with `MatchPaused`, after the receipt lookup. `MoveClockService` ends a
+pause after 10 minutes, so a match whose players are both gone cannot stay frozen, and moves `paused_at` with the
+deadline over downtime, so a deployment counts towards neither.
+
+A pause is no rules event: it changes no game state, adds no frame and no revision. `match_clocks.version` rises
+instead, and the match socket's notice carries it as `clockVersion`, so both clients refetch within a second. The
+player's view shows `Paused`, `PausedBy` and each player's pauses left.
+
+<a id="leaderboard--rank-08"></a>
+## Leaderboard — RANK-08 (2026-11-05)
+
+`GET /api/leaderboard` (`Leaderboard`, src/Wotr.Server/Ranked) returns the top 25 by rating among accounts with a
+finished ranked game, ties going to more games and then the account id, and the caller's own row, or null before their
+first finished ranked game. It walks the partial index `player_ratings_order`; the caller's rank counts the rows ahead
+of theirs. No account id leaves the server, so a client finds its own row by rank.
+
+<a id="clock-rehearsal--rank-09"></a>
+## A test scenario's clock — RANK-09 (2026-11-06)
+
+The test scenario `ranked-clock` carries a clock with short limits (`RankedPreset.Rehearsal`, 30 s and 15 s) and the
+pauses of a ranked match, so the owner can try them alone (D14). It has a `ranked_matches` row and a `match_clocks` row but
+no `ranked_seats`, which are what `RatingLedger.Finish` follows, so it cannot change a rating. No search can ask for the
+preset. The test seat has no client, so the view always reports it online.
+
+<a id="reconnect--rank-10"></a>
+## Reconnect — RANK-10 (2026-11-05)
+
+A lost connection costs a seated ranked player only the time it lasts. Normal matches keep their socket, budget and
+gate. `RankedMatches.Seat` decides at the start of a socket whether it serves a seat (`ranked_seats`).
+
+- **Heartbeat.** A seat's client sends a frame every 2 s, of any kind and content. `MatchSocket` closes a socket silent
+  for 8 s, which frees its slot; a dead network shows no close of its own.
+- **Presence.** `MatchPresence` (src/Wotr.Server/Realtime) keeps, in memory, each seat's sockets and until when it counts
+  as heard. A seat is online while it has a socket, and for 8 s after its last frame, so a dropped socket that returns
+  at once shows nothing and two devices count as one. The match socket's notice carries `opponentOnline`, null outside
+  a seat, and `PlayerView.Clock.OpponentOnline` holds it for a client that has just loaded. A change wakes the socket at
+  once, with no revision and no write, so no clock or replay sees it. A server start counts every seat as online for
+  15 s while clients return, and a new match its seats for as long while they open the board.
+- **Budget.** `UpdateSocketBudget.TryTake(account, evictOldest: true)` gives a seat's socket a slot in place of that
+  account's oldest, which may be dead.
+- **Session.** `RankedMatches.Create` extends both players' live game sessions to at least 7 days ahead.
+- **Version gate.** `ClientCompatibilityGate` runs before authentication, so a request refused only for the catalog's
+  minimum, with a supported protocol, on a route a seat might exempt, goes on to `RankedSeatExemption`, which refuses it
+  after authentication unless the account holds the seat. The routes are everything under `/api/matches/{id}`, the
+  queue's poll and signing in. A match's routes stay open for an hour after it ended, because the seat goes with the last
+  command and the end screen still has to load. The search is refused as for any old client. Signing in has only a name
+  to go on, so a client below the minimum can tell a name that holds a seat by its 401 rather than 409; ranked names
+  are public on the leaderboard and a seat reveals nothing of the game.
+
+<a id="avatars--avatar-02-web-02-2026-11-06"></a>
+## Avatars — AVATAR-02, WEB-02 (2026-11-06)
+
+`accounts.avatar` holds one of the ten identifiers of `AvatarIds` (migration 022, which gave every existing account the Eye or
+the Ring). Registration draws one of those two from cryptographic entropy of its own, not from the injected random source, so a
+test's scripted dice are not spent on registrations.
+
+An avatar is read when a view is built and never copied, unlike a room's names. `AccountRename` shows why: rewriting a room's
+JSON bumps its `version`, which the players' readiness is measured against, so a click in the browser would un-ready a table.
+`RoomState.View` therefore takes the avatars as an argument and `AccountAvatars.Read` fetches everyone a room names in one
+primary-key query per read (one for a whole list, not one per room). Chat is the exception by decision (AVATAR-01 A7): a line
+keeps the avatar it was sent with, in the memory that holds the line. Since nothing is copied, a change racing a rename touches
+different columns of one row and cannot mix them.
+
+The browser's account page has its own session, `SessionPurpose.Account`, 8 hours. `SessionStore.Resolve` refuses that purpose,
+so it reaches no game route, and `AccountPage.Owner` accepts only that purpose, so a game session cannot change an avatar. The
+routes are `POST` and `DELETE /api/account/session`, `GET /api/account` and `PUT /api/account/avatar`, all `no-store`; sign-in goes
+through the same `SignInGuard` and login budget as the game's. A running client reads its own avatar from `GET /api/auth/me`, with
+its game session. The token lives in one variable of the page (`infra/site/assets/account.js`), so a reload asks for the password.
+
+A local server has no nginx: `LocalSite`, only in Development and only with `Wotr__Site__Root` set, serves `infra/site` as
+`infra/nginx/game.conf` does, with the headers of `security-headers.conf`, so a CSP violation shows locally too.

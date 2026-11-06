@@ -9,6 +9,8 @@ namespace Wotr.Contracts
     {
         public long Sequence { get; set; }
         public string Author { get; set; } = "";
+        // AVATAR-01 A7: the avatar the author had when this was sent.
+        public string AuthorAvatar { get; set; } = "";
         public string Text { get; set; } = "";
         public DateTimeOffset At { get; set; }
     }
@@ -21,6 +23,7 @@ namespace Wotr.Contracts
     public sealed class OnlinePlayer
     {
         public string Name { get; set; } = "";
+        public string Avatar { get; set; } = "";
         public bool You { get; set; }
     }
 
@@ -39,7 +42,9 @@ namespace Wotr.Contracts
     {
         public string Id { get; set; } = "";
         public string From { get; set; } = "";
+        public string FromAvatar { get; set; } = "";
         public string To { get; set; } = "";
+        public string ToAvatar { get; set; } = "";
         public ChallengeStatus Status { get; set; }
         public DateTimeOffset ExpiresAt { get; set; }
         public string RoomId { get; set; } = "";

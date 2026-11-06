@@ -1,11 +1,16 @@
 using System.Net.WebSockets;
 using System.Text.Json;
 using System.Threading.Channels;
+using Wotr.Contracts;
+using Wotr.Domain;
 
 namespace Wotr.Server;
 
-public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResolver sessions, UpdateSocketBudget budget)
+public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResolver sessions, UpdateSocketBudget budget,
+    RankedMatches ranked, MatchPresence presence)
 {
+    private sealed record UpdateStream(string Match, string Account, bool Observing, Side? Seat);
+
     // OBS-02: observing opens the same update stream for an observer of the match's room.
     public async Task Run(string id, HttpContext context, bool observing = false)
     {
@@ -21,7 +26,10 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
             return;
         }
         // QUAL-02: an account keeps a bounded number of update sockets; the slot returns however the socket ends.
-        if (!budget.TryTake(account))
+        // RANK-10: a seated ranked player always gets one, and that socket must keep talking.
+        var seat = observing ? null : await ranked.Seat(id, account, context.RequestAborted);
+        var slot = budget.TryTake(account, evictOldest: seat is not null);
+        if (slot is null)
         {
             context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
             context.Response.Headers.RetryAfter = "5";
@@ -29,25 +37,26 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
         }
         try
         {
-            await Serve(id, account, observing, context);
+            await Serve(new(id, account, observing, seat), slot, context);
         }
         finally
         {
-            budget.Release(account);
+            budget.Release(account, slot);
         }
     }
 
-    private async Task Serve(string id, string account, bool observing, HttpContext context)
+    private async Task Serve(UpdateStream stream, UpdateSocketSlot slot, HttpContext context)
     {
-        var subscription = hub.Subscribe(id, account);
+        var subscription = hub.Subscribe(stream.Match, stream.Account);
         try
         {
             using var socket = await context.WebSockets.AcceptWebSocketAsync();
-            using var lifetime = CancellationTokenSource.CreateLinkedTokenSource(context.RequestAborted);
-            var receive = ReceiveUntilClose(socket, lifetime);
+            using var seat = stream.Seat is { } side ? presence.Join(stream.Match, side) : null;
+            using var lifetime = CancellationTokenSource.CreateLinkedTokenSource(context.RequestAborted, slot.Evicted);
+            var receive = ReceiveUntilClose(socket, lifetime, seat);
             try
             {
-                await SendUpdates(id, account, observing, context.Request.Headers.Authorization.ToString()[7..],
+                await SendUpdates(stream, context.Request.Headers.Authorization.ToString()[7..],
                     socket, subscription.Channel.Reader, lifetime.Token);
             }
             catch (OperationCanceledException) { }
@@ -68,7 +77,7 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
                 socket.Abort();
             }
         }
-        finally { hub.Remove(id, subscription.Id); }
+        finally { hub.Remove(stream.Match, subscription.Id); }
     }
 
     // QUAL-05: a busy database closes the socket with 1013 (try again later), so the client reconnects and
@@ -88,7 +97,7 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
         catch (Exception error) when (error is WebSocketException or OperationCanceledException) { }
     }
 
-    private async Task SendUpdates(string id, string account, bool observing, string token, WebSocket socket,
+    private async Task SendUpdates(UpdateStream stream, string token, WebSocket socket,
         ChannelReader<long> updates, CancellationToken cancellation)
     {
         // Reading after subscribing closes the read/subscribe race; refresh recovers dropped notifications.
@@ -96,14 +105,16 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
         {
             if (await sessions.Resolve(token, cancellation) is null)
                 return;
-            var version = await Version(id, account, observing, cancellation);
+            var version = await Version(stream.Match, stream.Account, stream.Observing, cancellation);
             if (version is null)
                 return;
             var bytes = JsonSerializer.SerializeToUtf8Bytes(new
             {
-                matchId = id,
+                matchId = stream.Match,
                 revision = version.Revision,
-                privateVersion = version.PrivateVersion
+                privateVersion = version.PrivateVersion,
+                clockVersion = version.ClockVersion,
+                opponentOnline = OpponentOnline(stream)
             });
             await socket.SendAsync(bytes, WebSocketMessageType.Text, true, cancellation);
             using var tick = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
@@ -125,16 +136,26 @@ public sealed class MatchSocket(MatchStore store, RevisionHub hub, ISessionResol
         return await store.ReadObservedRevision(id, account, cancellation) is { } revision ? new(revision, 0) : null;
     }
 
-    private static async Task ReceiveUntilClose(WebSocket socket, CancellationTokenSource lifetime)
+    // RANK-10: known for a seat of a ranked match, and read afresh for every notice: at most 5 s old.
+    private bool? OpponentOnline(UpdateStream stream) =>
+        stream.Seat is { } side ? presence.Online(stream.Match, TurnFlow.Other(side)) : null;
+
+    // RANK-10: a seated player's client sends a frame every 2 s, of any kind and content. A socket silent for the limit
+    // is closed, which gives its slot back. A dead network shows no close, and normal matches need no frames.
+    private static async Task ReceiveUntilClose(WebSocket socket, CancellationTokenSource lifetime, MatchPresence.SeatSocket? seat)
     {
         var buffer = new byte[1024];
         try
         {
             while (socket.State == WebSocketState.Open)
             {
-                var read = await socket.ReceiveAsync(buffer, lifetime.Token);
+                using var silence = CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token);
+                if (seat is not null)
+                    silence.CancelAfter(seat.Silence);
+                var read = await socket.ReceiveAsync(buffer, silence.Token);
                 if (read.MessageType == WebSocketMessageType.Close)
                     break;
+                seat?.Heard();
             }
         }
         finally { await lifetime.CancelAsync(); }

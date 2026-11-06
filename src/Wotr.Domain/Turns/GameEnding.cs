@@ -12,6 +12,7 @@ public static class GameEnding
             var move = state.Resolution.Frames.Any(f => f.Hunt?.Return == HuntReturn.FinishMove);
             DiceRules.CompleteCost(state, owner, move);
         }
+        CorruptionRuntime.Abandon(state);
         foreach (var tile in state.HuntTiles.Where(t => t.Location == "drawn"))
             tile.Location = "discard";
         HuntPool.CompleteAction(state);
@@ -21,7 +22,14 @@ public static class GameEnding
         HuntReports.Capture(state);
         state.Resolution.Frames.Clear();
         HuntReports.CompleteIfIdle(state);
-        state.Events.Add(new() { Revision = state.Revision, Kind = condition.ToString(), Text = $"{winner} wins: {condition}." });
+        state.Events.Add(new() { Revision = state.Revision, Kind = condition.ToString(), Text = Text(winner, condition) });
         TurnFlow.Phase(state, GamePhase.Finished);
     }
+
+    private static string Text(Side winner, VictoryCondition condition) => condition switch
+    {
+        VictoryCondition.Conceded => $"{TurnFlow.Other(winner)} conceded. {winner} wins.",
+        VictoryCondition.TimedOut => $"{TurnFlow.Other(winner)} ran out of time. {winner} wins.",
+        _ => $"{winner} wins: {condition}."
+    };
 }

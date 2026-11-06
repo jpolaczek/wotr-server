@@ -22,7 +22,8 @@ public static class GameRuntime
         new SovereignCommands(),
         new CorruptionCommands(),
         new KingsDiceCommands(),
-        new DismayCommands());
+        new DismayCommands(),
+        new GameEndingCommands());
 
     public static Projection Projection(EffectCatalog effects) => new(
         new CoreOptions(),

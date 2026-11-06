@@ -82,9 +82,11 @@ public class PublicRoomTests
 
 internal static class MenuAccounts
 {
+    public const string Password = "menu test password long enough";
+
     public static Task<SessionView> Register(AccountHost host) =>
         TestAccounts.Register(host.Services.GetRequiredService<AccountService>(), "menu_" + Guid.NewGuid().ToString("N")[..20],
-            "menu test password long enough");
+            Password);
 
     public static HttpClient Client(AccountHost host, SessionView session)
     {

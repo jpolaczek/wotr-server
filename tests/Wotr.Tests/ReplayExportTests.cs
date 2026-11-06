@@ -104,6 +104,38 @@ public sealed partial class ReplayExportTests
             exporter.ForPlayer(table.Match, table.FreePeoplesAccount, new CancellationToken(true)));
     }
 
+    // RANK-03: a concession is an ordinary committed command, so the replay ends on the conceded game; no client sends
+    // a concession or a timeout as an ordinary command.
+    [PostgresFact]
+    public async Task AConcededMatchReplaysToItsEndAndNoClientSendsAnEndingAsACommand()
+    {
+        using var host = new AccountHost(extra: TestBudgets.Stress);
+        var table = await ShadowWinsTable.Create(host);
+        foreach (var kind in new[] { CommandKind.Concede, CommandKind.TimeOut })
+            Assert.Equal("IllegalChoice", await Sent(table.Shadow, table.Match, kind));
+        Assert.Equal("MatchNotFinished", await Refusal(table.FreePeoples, table.Match, "matches"));
+
+        await table.Concede();
+        var replay = await Download(table.FreePeoples, $"/api/matches/{table.Match}/replay");
+        Assert.Equal((Side.FreePeoples, VictoryCondition.Conceded, true),
+            (replay.Manifest.Winner, replay.Manifest.Victory, replay.Manifest.Complete));
+        var frames = await StoredFrames(table.Match);
+        Assert.Equal(frames, replay.Frames().Select(Normalized));
+        var last = JsonSerializer.Deserialize<ReplayFrame>(frames[^1], BoardCatalog.Json)!;
+        Assert.Equal((VictoryCondition.Conceded, VictoryCondition.Conceded), (last.FreePeoples.Victory, last.Shadow.Victory));
+        replay.CheckIntegrity();
+    }
+
+    private static async Task<string> Sent(HttpClient client, string match, CommandKind kind)
+    {
+        using var response = await client.PostAsJsonAsync($"/api/matches/{match}/commands", new GameCommand
+        {
+            MatchId = match, CommandId = Guid.NewGuid().ToString("N"), Kind = kind, Payload = new()
+        }, BoardCatalog.Json);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        return (await response.Content.ReadFromJsonAsync<ApiError>(BoardCatalog.Json))!.Error;
+    }
+
     private static async Task<string> Refusal(HttpClient client, string match, string area)
     {
         using var response = await client.GetAsync($"/api/{area}/{match}/replay");
@@ -281,6 +313,18 @@ public sealed partial class ReplayExportTests
             }, shadowAccount);
             Assert.True(receipt!.Accepted, receipt.Error);
             Assert.Equal(Side.Shadow, (await store.Read(Match, shadowAccount))!.State.Winner);
+        }
+
+        // RANK-03: the Shadow concedes through the store, the path the server's own endpoint uses.
+        public async Task Concede()
+        {
+            var state = (await store.Read(Match, shadowAccount))!.State;
+            var receipt = await store.Execute(new GameCommand
+            {
+                MatchId = Match, CommandId = Guid.NewGuid().ToString("N"), ExpectedRevision = state.Revision,
+                DecisionId = state.Pending!.Id, Kind = CommandKind.Concede, Payload = new()
+            }, shadowAccount);
+            Assert.True(receipt!.Accepted, receipt.Error);
         }
 
         private static async Task Link(string room, string match)

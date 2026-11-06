@@ -14,6 +14,8 @@ public sealed partial class RoomStore
     public Task<RoomResult> Invitation(string id, string account, CancellationToken cancellation = default) =>
         Change("id", id, account, Access.Participant, room =>
         {
+            if (room.State.Ranked)
+                return Task.FromResult<string?>(RankedRefusal);
             if (room.State.HostAccount != account)
                 return Task.FromResult<string?>("HostRequired");
             room.State.InvitationEnabled = true;
@@ -28,6 +30,9 @@ public sealed partial class RoomStore
         var result = await Change("id", id, account, Access.Participant, async room =>
         {
             var state = room.State;
+            // RANK-04: leaving a ranked match is a concession, never a quiet exit.
+            if (state.Ranked)
+                return RankedRefusal;
             if (room.Observes(account) && (state.MatchId.Length > 0 || state.HostAccount != account))
             {
                 await room.RemoveObserver(account, cancellation);
