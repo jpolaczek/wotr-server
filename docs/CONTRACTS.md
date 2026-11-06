@@ -7,8 +7,9 @@ procedure. It is null until that choice is resolved, including a resolved choice
 of zero. Both seats see the same result, allowing clients and observation-only
 simulation to reconstruct later combat modifiers without a saved effect frame.
 Public content 1.0.33 pins the contract; pure rules package 0.15.9 records the
-result in the battle round. ActionBoundary remains v17; protocol and save schema
-do not change.
+result in the battle round. Rules package 0.15.10 also marks the direct paid
+Relentless Assault voluntary-loss choice as a paid battle return using the
+existing ActionBoundary v17 fact. Protocol and save schema do not change.
 
 Contracts 0.32.0 adds public `BattleForceView.OrderlyWithdrawal`, set only after
 Free Peoples chooses the Orderly Withdrawal hit cancellation. Both players see
