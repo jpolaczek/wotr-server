@@ -23,6 +23,7 @@ namespace Wotr.Contracts
         public string Token { get; set; } = "";
         public string AccountId { get; set; } = "";
         public string Username { get; set; } = "";
+        public string Avatar { get; set; } = "";
         public DateTimeOffset ExpiresAt { get; set; }
     }
 
@@ -61,6 +62,7 @@ namespace Wotr.Contracts
     public sealed class RoomObserverView
     {
         public string Name { get; set; } = "";
+        public string Avatar { get; set; } = "";
         public bool IsHost { get; set; }
     }
 
@@ -116,6 +118,7 @@ namespace Wotr.Contracts
         public string Id { get; set; } = "";
         public string Name { get; set; } = "";
         public string Host { get; set; } = "";
+        public string HostAvatar { get; set; } = "";
         public Side OpenSide { get; set; }
         // OBS-01: a started room is listed for observing; CanPlay says a seat is free, CanObserve that the audience is not full.
         public RoomStatus Status { get; set; }
@@ -137,6 +140,7 @@ namespace Wotr.Contracts
     {
         public string Name { get; set; } = "";
         public string Host { get; set; } = "";
+        public string HostAvatar { get; set; } = "";
         public bool IsHost { get; set; }
         public bool Managed { get; set; }
         public RoomVisibility Visibility { get; set; }
@@ -145,7 +149,9 @@ namespace Wotr.Contracts
         public string Id { get; set; } = "";
         public string JoinCode { get; set; } = "";
         public string FreePeoples { get; set; } = "";
+        public string FreePeoplesAvatar { get; set; } = "";
         public string Shadow { get; set; } = "";
+        public string ShadowAvatar { get; set; } = "";
         public Side You { get; set; }
         public int Version { get; set; }
         public bool FreePeoplesAccepted { get; set; }

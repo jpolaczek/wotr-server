@@ -1146,3 +1146,26 @@ gate. `RankedMatches.Seat` decides at the start of a socket whether it serves a 
   command and the end screen still has to load. The search is refused as for any old client. Signing in has only a name
   to go on, so a client below the minimum can tell a name that holds a seat by its 401 rather than 409; ranked names
   are public on the leaderboard and a seat reveals nothing of the game.
+
+<a id="avatars--avatar-02-web-02-2026-11-06"></a>
+## Avatars — AVATAR-02, WEB-02 (2026-11-06)
+
+`accounts.avatar` holds one of the ten identifiers of `AvatarIds` (migration 022, which gave every existing account the Eye or
+the Ring). Registration draws one of those two from cryptographic entropy of its own, not from the injected random source, so a
+test's scripted dice are not spent on registrations.
+
+An avatar is read when a view is built and never copied, unlike a room's names. `AccountRename` shows why: rewriting a room's
+JSON bumps its `version`, which the players' readiness is measured against, so a click in the browser would un-ready a table.
+`RoomState.View` therefore takes the avatars as an argument and `AccountAvatars.Read` fetches everyone a room names in one
+primary-key query per read (one for a whole list, not one per room). Chat is the exception by decision (AVATAR-01 A7): a line
+keeps the avatar it was sent with, in the memory that holds the line. Since nothing is copied, a change racing a rename touches
+different columns of one row and cannot mix them.
+
+The browser's account page has its own session, `SessionPurpose.Account`, 8 hours. `SessionStore.Resolve` refuses that purpose,
+so it reaches no game route, and `AccountPage.Owner` accepts only that purpose, so a game session cannot change an avatar. The
+routes are `POST` and `DELETE /api/account/session`, `GET /api/account` and `PUT /api/account/avatar`, all `no-store`; sign-in goes
+through the same `SignInGuard` and login budget as the game's. A running client reads its own avatar from `GET /api/auth/me`, with
+its game session. The token lives in one variable of the page (`infra/site/assets/account.js`), so a reload asks for the password.
+
+A local server has no nginx: `LocalSite`, only in Development and only with `Wotr__Site__Root` set, serves `infra/site` as
+`infra/nginx/game.conf` does, with the headers of `security-headers.conf`, so a CSP violation shows locally too.

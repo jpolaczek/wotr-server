@@ -21,14 +21,14 @@ public sealed class LobbyPresence(LobbyOptions options)
     {
         await using var command = Database.Command(connection, null,
             """
-            SELECT a.id, a.username FROM lobby_presence p JOIN accounts a ON a.id = p.account_id
+            SELECT a.id, a.username, a.avatar FROM lobby_presence p JOIN accounts a ON a.id = p.account_id
             WHERE p.seen_at > now() - make_interval(secs => $1) AND NOT a.technical
             ORDER BY a.normalized_name
             """, options.Online.TotalSeconds);
         await using var reader = await command.ExecuteReaderAsync(cancellation);
         var players = new List<OnlinePlayer>();
         while (await reader.ReadAsync(cancellation))
-            players.Add(new OnlinePlayer { Name = reader.GetString(1), You = reader.GetString(0) == viewer });
+            players.Add(new OnlinePlayer { Name = reader.GetString(1), Avatar = reader.GetString(2), You = reader.GetString(0) == viewer });
         return players;
     }
 

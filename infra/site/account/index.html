@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <title>Your account · War of the Ring Online</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/assets/site.css?v=2026-11-06a">
+  <script src="/assets/account.js?v=2026-11-06a" defer></script>
+</head>
+<body class="account-page" data-page="profile">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">War of the Ring <span>Online</span></a>
+      <nav class="nav" aria-label="Site">
+        <a href="/#about">The game</a>
+        <a href="/#download">Download</a>
+        <a href="/account" aria-current="page">Account</a>
+      </nav>
+    </div>
+  </header>
+  <main class="account-wrap">
+    <div class="account profile">
+      <h1>Your account</h1>
+      <section id="sign-in">
+        <p class="lead">Sign in with the account name and password you use in the game.</p>
+        <form id="form" novalidate>
+          <label for="username">Account name</label>
+          <input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <button type="submit">Sign in</button>
+        </form>
+        <p class="note">No account yet? <a href="/account/register">Create one</a>. <a href="/account/forgot">Forgot your password?</a></p>
+      </section>
+      <section id="panel" hidden>
+        <p class="lead">Signed in as <strong id="name"></strong>.</p>
+        <h2>Your avatar</h2>
+        <p class="help">It stands beside your name in the game. A click saves it at once, and other players see it the next time a list or a room is read.</p>
+        <div id="avatars" class="avatar-grid" role="group" aria-label="Avatars"></div>
+        <button id="sign-out" type="button" class="quiet">Sign out</button>
+      </section>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="brand small">War of the Ring <span>Online</span></p>
+      <p>Free and open source (MIT) ·
+        <a href="https://github.com/jpolaczek/wotr-client" rel="noopener">Client</a> ·
+        <a href="https://github.com/jpolaczek/wotr-server" rel="noopener">Server</a> ·
+        <a href="/">Download the game</a></p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -342,3 +342,10 @@ account page that signs in with name and password and holds its own 8-hour sessi
 revoked by Sign out; a game session is never handed to a web page, and sign-in is throttled as the game's is (A5). A click
 on an avatar saves it at once (A6). A change shows on every list and room the next time it is read; chat lines already
 sent keep the avatar they were sent with (A7).
+
+<a id="the-account-page--avatar-02-web-02"></a>
+## The account page — AVATAR-02, WEB-02
+
+`/account` signs in with name and password and shows the ten avatars. A wrong password answers as the game's sign-in does and is
+throttled by the same guard. A click saves at once; a refused or failed save keeps the old avatar and says why. A reload asks for
+the password again, since the token is in the page's memory only. The game's Settings opens this address.

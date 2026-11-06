@@ -179,14 +179,15 @@ public sealed class RankedQueue(Database database, RankedOptions options, Releas
         await command.ExecuteNonQueryAsync(cancellation);
     }
 
-    // The account's ranked match and its opponent, named with their rounded rating, or nothing.
+    // The account's ranked match and its opponent, named with their avatar and rounded rating, or nothing.
     private static async Task<RankedSearchView?> Matched(NpgsqlConnection connection, string account,
         CancellationToken cancellation)
     {
         await using var command = Database.Command(connection, null,
             """
             SELECT mine.match_id, a.username, COALESCE(r.rating, $2),
-                COALESCE((SELECT own.rating FROM player_ratings own WHERE own.account_id = $1), $2)
+                COALESCE((SELECT own.rating FROM player_ratings own WHERE own.account_id = $1), $2),
+                a.avatar, (SELECT me.avatar FROM accounts me WHERE me.id = $1)
             FROM ranked_seats mine
             JOIN ranked_seats other ON other.match_id = mine.match_id AND other.account_id <> mine.account_id
             JOIN accounts a ON a.id = other.account_id
@@ -199,7 +200,8 @@ public sealed class RankedQueue(Database database, RankedOptions options, Releas
         return new RankedSearchView
         {
             Status = RankedSearchStatus.Matched, MatchId = reader.GetString(0), Opponent = reader.GetString(1),
-            OpponentRating = RatingLedger.Shown(reader.GetDouble(2)), Rating = RatingLedger.Shown(reader.GetDouble(3))
+            OpponentRating = RatingLedger.Shown(reader.GetDouble(2)), Rating = RatingLedger.Shown(reader.GetDouble(3)),
+            OpponentAvatar = reader.GetString(4), Avatar = reader.GetString(5)
         };
     }
 
@@ -207,9 +209,16 @@ public sealed class RankedQueue(Database database, RankedOptions options, Releas
         CancellationToken cancellation)
     {
         await using var command = Database.Command(connection, null,
-            "SELECT COALESCE((SELECT rating FROM player_ratings WHERE account_id = $1), $2)", account, Glicko2.InitialRating);
-        var rating = (double)(await command.ExecuteScalarAsync(cancellation))!;
-        return new RankedSearchView { Status = status, Rating = RatingLedger.Shown(rating) };
+            """
+            SELECT COALESCE((SELECT rating FROM player_ratings WHERE account_id = $1), $2),
+                COALESCE((SELECT avatar FROM accounts WHERE id = $1), '')
+            """, account, Glicko2.InitialRating);
+        await using var reader = await command.ExecuteReaderAsync(cancellation);
+        await reader.ReadAsync(cancellation);
+        return new RankedSearchView
+        {
+            Status = status, Rating = RatingLedger.Shown(reader.GetDouble(0)), Avatar = reader.GetString(1)
+        };
     }
 
     private static async Task<bool> Lock(NpgsqlConnection connection, string sql, CancellationToken cancellation)

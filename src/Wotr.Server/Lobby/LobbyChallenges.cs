@@ -182,7 +182,8 @@ public sealed class LobbyChallenges(Database database, LobbyPresence presence, L
     {
         await using var command = Database.Command(connection, transaction,
             $"""
-            SELECT c.id, f.username, t.username, c.status, c.expires_at, COALESCE(c.room_id, ''), c.expires_at <= now()
+            SELECT c.id, f.username, t.username, c.status, c.expires_at, COALESCE(c.room_id, ''), c.expires_at <= now(),
+                f.avatar, t.avatar
             FROM lobby_challenges c JOIN accounts f ON f.id = c.from_account JOIN accounts t ON t.id = c.to_account
             WHERE {filter} ORDER BY c.created_at
             """, value);
@@ -200,7 +201,9 @@ public sealed class LobbyChallenges(Database database, LobbyPresence presence, L
         {
             Id = reader.GetString(0),
             From = reader.GetString(1),
+            FromAvatar = reader.GetString(7),
             To = reader.GetString(2),
+            ToAvatar = reader.GetString(8),
             Status = Status(reader.GetString(3), roomId, reader.GetBoolean(6)),
             ExpiresAt = reader.GetFieldValue<DateTimeOffset>(4),
             RoomId = roomId

@@ -90,8 +90,11 @@ namespace Wotr.Contracts
         public RankedSearchStatus Status { get; set; }
         public int ElapsedSeconds { get; set; }
         public int Rating { get; set; }
+        // AVATAR-01 A8: one's own avatar beside the rating, and the opponent's in the presentation.
+        public string Avatar { get; set; } = "";
         public string MatchId { get; set; } = "";
         public string Opponent { get; set; } = "";
+        public string OpponentAvatar { get; set; } = "";
         public int OpponentRating { get; set; }
     }
 }

@@ -32,6 +32,8 @@ public sealed record SignInResult(SessionView? Session, TimeSpan? LockedFor);
 public sealed class AccountService(Database database, AccountRecovery recovery, EmailOutbox outbox, SignInGuard guard)
 {
     private const string EmailIndex = "accounts_normalized_email";
+    // Not the injected source: a test's scripted dice must not be spent on registrations.
+    private static readonly ServerRandom AvatarDraw = new();
 
     // For tools and fixtures that only create accounts (the client test seeder): no email ever leaves.
     public static AccountService WithoutEmail(Database database)
@@ -156,11 +158,15 @@ public sealed class AccountService(Database database, AccountRecovery recovery, 
         AccountRecovery.AccountAddress account, string hash, CancellationToken cancellation)
     {
         await using var command = Database.Command(connection, transaction,
-            "INSERT INTO accounts(id,username,normalized_name,password_hash,is_admin,email,normalized_email) " +
-            "VALUES ($1,$2,$3,$4,false,$5,$6)",
-            account.Id, account.Username, account.Username.ToUpperInvariant(), hash, account.Email, account.NormalizedEmail);
+            "INSERT INTO accounts(id,username,normalized_name,password_hash,is_admin,email,normalized_email,avatar) " +
+            "VALUES ($1,$2,$3,$4,false,$5,$6,$7)",
+            account.Id, account.Username, account.Username.ToUpperInvariant(), hash, account.Email, account.NormalizedEmail,
+            DefaultAvatar());
         await command.ExecuteNonQueryAsync(cancellation);
     }
+
+    // AVATAR-01 A2: the Eye or the Ring, half each; the account page changes it later.
+    private static string DefaultAvatar() => AvatarDraw.Next(2) == 0 ? AvatarIds.Eye : AvatarIds.Ring;
 
     private sealed record Account(string Id, string Username, string Hash);
 

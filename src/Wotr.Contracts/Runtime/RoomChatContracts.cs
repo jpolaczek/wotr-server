@@ -7,6 +7,8 @@ namespace Wotr.Contracts
     {
         public long Sequence { get; set; }
         public string Author { get; set; } = "";
+        // AVATAR-01 A7: the avatar the author had when this was sent.
+        public string AuthorAvatar { get; set; } = "";
         // OBS-01: Side names a player's seat; an observer's message has Role Observer and no meaningful side.
         public Side Side { get; set; }
         public RoomRole Role { get; set; }

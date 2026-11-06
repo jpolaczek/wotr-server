@@ -93,6 +93,10 @@ internal static class RoomObservers
         return await renew.ExecuteNonQueryAsync(cancellation) > 0;
     }
 
-    public static List<RoomObserverView> Views(RoomState room, IEnumerable<RoomObserver> observers) =>
-        observers.Select(o => new RoomObserverView { Name = o.Name, IsHost = o.Account == room.HostAccount }).ToList();
+    public static List<RoomObserverView> Views(RoomState room, IEnumerable<RoomObserver> observers,
+        IReadOnlyDictionary<string, string> avatars) =>
+        observers.Select(o => new RoomObserverView
+        {
+            Name = o.Name, Avatar = avatars.GetValueOrDefault(o.Account, ""), IsHost = o.Account == room.HostAccount
+        }).ToList();
 }

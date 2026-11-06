@@ -28,6 +28,12 @@ public static class LobbyEndpoints
             await sessions.Revoke(context.Request.Headers.Authorization.ToString()[7..], context.RequestAborted);
             return Results.NoContent();
         }).RequireAuthorization();
+        // AVATAR-02: what a running client shows for itself; a change made in the browser reaches it here.
+        app.MapGet("/api/auth/me", async (HttpContext context, AccountPage page) =>
+            await page.View(Account(context), context.RequestAborted) is { } view
+                ? Results.Ok(new SessionView { AccountId = Account(context), Username = view.Name, Avatar = view.Avatar })
+                : Results.NotFound())
+            .RequireAuthorization().RequireRateLimiting(GameRateLimits.Reads);
         MapRooms(app.MapGroup("/api/rooms").RequireAuthorization().RequireRateLimiting(GameRateLimits.Rooms));
     }
 

@@ -41,7 +41,7 @@ public sealed class RoomChat(RoomStore rooms, TimeProvider clock)
             return new(Error: "RoomNotFound");
         Append(roomId, new RoomChatMessage
         {
-            Author = member.Name, Role = member.Room.Role, Side = member.Room.You, Text = clean
+            Author = member.Name, AuthorAvatar = member.Avatar, Role = member.Room.Role, Side = member.Room.You, Text = clean
         });
         return new(View(roomId, 0, member.Room.Role));
     }
@@ -110,7 +110,7 @@ public sealed class RoomChat(RoomStore rooms, TimeProvider clock)
 
     private static RoomChatMessage Copy(RoomChatMessage message) => new()
     {
-        Sequence = message.Sequence, Author = message.Author, Side = message.Side, Role = message.Role, Text = message.Text
+        Sequence = message.Sequence, Author = message.Author, AuthorAvatar = message.AuthorAvatar, Side = message.Side, Role = message.Role, Text = message.Text
     };
 
     private sealed class RoomLog

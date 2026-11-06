@@ -45,14 +45,14 @@ async function post(path, body) {
       body: JSON.stringify(body),
     });
     let error = "";
-    if (!response.ok) {
-      try {
-        error = (await response.json()).error || "";
-      } catch (ignored) {
-        error = "";
-      }
+    let data = null;
+    try {
+      data = await response.json();
+      error = response.ok ? "" : data.error || "";
+    } catch (ignored) {
+      error = "";
     }
-    return { status: response.status, error, retryAfter: response.headers.get("Retry-After") };
+    return { status: response.status, data, error, retryAfter: response.headers.get("Retry-After") };
   } catch (failure) {
     return { status: 0, error: "Network" };
   }
@@ -151,7 +151,127 @@ function reset() {
   });
 }
 
-const PAGES = { register, verify, forgot, reset };
+// AVATAR-02 (AVATAR-01 A4-A6): the account page. Its token lives in this variable only, never in storage or the address, so
+// a reload asks for the password again. A click on an avatar saves it at once; a refusal keeps the old one and says why.
+const AVATARS = [
+  ["eye", "The Eye"],
+  ["ring", "The Ring"],
+  ["gondor", "Soldier of Gondor"],
+  ["rohan", "Soldier of Rohan"],
+  ["elves", "Elven warrior"],
+  ["dwarves", "Dwarven warrior"],
+  ["north", "Soldier of the North"],
+  ["sauron", "Orc of Sauron"],
+  ["isengard", "Uruk-hai of Isengard"],
+  ["southrons", "Southron warrior"],
+];
+
+let accountToken = "";
+
+async function accountCall(method, path, body) {
+  try {
+    const response = await fetch(path, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${accountToken}`,
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    const data = response.status === 204 ? null : await response.json().catch(() => null);
+    return { status: response.status, data, error: (data && data.error) || "", retryAfter: response.headers.get("Retry-After") };
+  } catch (failure) {
+    return { status: 0, error: "Network" };
+  }
+}
+
+function avatarButton(id, label) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "avatar";
+  button.dataset.avatar = id;
+  const picture = document.createElement("img");
+  picture.src = `/assets/avatars/${id}.png`;
+  picture.srcset = `/assets/avatars/${id}.png 1x, /assets/avatars/${id}@2x.png 2x`;
+  picture.alt = label;
+  picture.width = 96;
+  picture.height = 96;
+  const name = document.createElement("span");
+  name.textContent = label;
+  name.setAttribute("aria-hidden", "true");
+  const mark = document.createElement("span");
+  mark.className = "avatar-mark";
+  mark.textContent = "Your avatar";
+  button.append(picture, name, mark);
+  button.addEventListener("click", () => chooseAvatar(id, label));
+  return button;
+}
+
+function markAvatar(chosen) {
+  for (const button of $("avatars").children) {
+    button.setAttribute("aria-pressed", button.dataset.avatar === chosen ? "true" : "false");
+  }
+}
+
+function busyAvatars(busy) {
+  for (const button of $("avatars").children) button.disabled = busy;
+}
+
+function showSignIn(message) {
+  accountToken = "";
+  $("password").value = "";
+  $("panel").hidden = true;
+  $("sign-in").hidden = false;
+  status(message || "", message ? "error" : "");
+}
+
+function showAccount(name, avatar) {
+  $("name").textContent = name;
+  markAvatar(avatar);
+  $("sign-in").hidden = true;
+  $("panel").hidden = false;
+}
+
+async function chooseAvatar(id, label) {
+  busyAvatars(true);
+  const result = await accountCall("PUT", "/api/account/avatar", { avatar: id });
+  busyAvatars(false);
+  if (result.status === 401) {
+    showSignIn("Your session has ended. Sign in again.");
+  } else if (result.status === 200) {
+    markAvatar(result.data.avatar);
+    status(`${label} is now your avatar.`, "done");
+  } else {
+    status(`Your avatar did not change. ${common(result)}`, "error");
+  }
+}
+
+async function signOut() {
+  await accountCall("DELETE", "/api/account/session");
+  showSignIn();
+  status("You have signed out.", "done");
+}
+
+function profile() {
+  const grid = $("avatars");
+  for (const [id, label] of AVATARS) grid.append(avatarButton(id, label));
+  $("sign-out").addEventListener("click", signOut);
+  onSubmit(async () => {
+    const username = $("username").value.trim();
+    const password = $("password").value;
+    if (!username || !password) return status("Enter your account name and password.", "error");
+    const result = await post("/api/account/session", { username, password });
+    if (result.status === 401) return status("Account name or password not accepted. Try again, or reset your password.", "error");
+    if (result.status !== 200) return status(common(result), "error");
+    accountToken = result.data.token;
+    $("password").value = "";
+    status("", "");
+    showAccount(result.data.name, result.data.avatar);
+  });
+}
+
+const PAGES = { register, verify, forgot, reset, profile };
 
 document.addEventListener("DOMContentLoaded", () => {
   const page = PAGES[document.body.dataset.page];

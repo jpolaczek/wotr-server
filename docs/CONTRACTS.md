@@ -883,3 +883,12 @@ Contracts 0.10.0 add `ClientPlatforms.Linux` (`linux-x64`) to `All` and `IsKnown
 like the other platforms: a release is announced only with the package, installer
 (`WotrOnline-<version>-linux.AppImage`) and signed manifest of all three platforms. The Steam Deck
 runs the Linux build and reports `linux-x64`.
+
+<a id="avatars--avatar-02"></a>
+## Avatars — AVATAR-02
+
+`AvatarIds` lists the ten identifiers. Beside each name a view gained its avatar: `SessionView.Avatar`, `LobbyMessage.AuthorAvatar`,
+`OnlinePlayer.Avatar`, `ChallengeView.FromAvatar` and `ToAvatar`, `PublicRoomSummary.HostAvatar`, `RoomView.HostAvatar`,
+`FreePeoplesAvatar` and `ShadowAvatar`, `RoomObserverView.Avatar`, `RoomChatMessage.AuthorAvatar`, `MatchSummary.OpponentAvatar`,
+and `RankedSearchView.Avatar` and `OpponentAvatar`. An empty value names nobody (an empty seat); an unknown one, from a newer server,
+is drawn as the Eye. The browser's account routes answer with server-side records, since no client reads them.

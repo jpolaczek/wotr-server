@@ -7,7 +7,7 @@ using Wotr.Domain.Content;
 namespace Wotr.Server;
 
 // The room as one of its participants sees it, with the name they appear under (the room chat, OBS-01).
-public sealed record RoomParticipant(RoomView Room, string Name);
+public sealed record RoomParticipant(RoomView Room, string Name, string Avatar);
 
 // UI-96: the release scope decides which configurations new tables may use; tests built without DI keep everything.
 // OBS-01: a room has two seats and an audience of up to sixteen observers (ObserverOptions).
@@ -48,7 +48,7 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
             room.Name, account, room.Visibility.ToString());
         await command.ExecuteNonQueryAsync(cancellation);
         await MatchLedger.TableSet(connection, room.Id, account, cancellation);
-        return room.View(account, scope, [], audience.Limit);
+        return await ViewOf(connection, null, room, account, [], cancellation);
     }
 
     // The open rooms this account plays in or watches. LOBBY-05: a room whose match finished or is gone has left My games.
@@ -57,8 +57,17 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         var rooms = await Participating(connection, account, cancellation);
         var observers = await RoomObservers.ActiveIn(connection, null, rooms.Select(r => r.Id).ToArray(), cancellation);
-        return rooms.Select(room => room.View(account, scope, observers.GetValueOrDefault(room.Id) ?? [], audience.Limit))
+        var people = rooms.SelectMany(room => room.People(observers.GetValueOrDefault(room.Id) ?? [])).Distinct().ToArray();
+        var avatars = await AccountAvatars.Read(connection, null, people, cancellation);
+        return rooms.Select(room => room.View(account, scope, observers.GetValueOrDefault(room.Id) ?? [], audience.Limit, avatars))
             .ToList();
+    }
+
+    private async Task<RoomView> ViewOf(NpgsqlConnection connection, NpgsqlTransaction? transaction, RoomState room,
+        string account, IReadOnlyList<RoomObserver> observers, CancellationToken cancellation)
+    {
+        var avatars = await AccountAvatars.Read(connection, transaction, room.People(observers), cancellation);
+        return room.View(account, scope, observers, audience.Limit, avatars);
     }
 
     private static async Task<List<RoomState>> Participating(NpgsqlConnection connection, string account,
@@ -105,7 +114,9 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         var room = Deserialize(json);
         var observers = await RoomObservers.Active(connection, null, id, cancellation);
         var name = room.Contains(account) ? room.PlayerName(account) : observers.Find(o => o.Account == account)?.Name;
-        return new RoomParticipant(room.View(account, scope, observers, audience.Limit), name ?? "");
+        var avatars = await AccountAvatars.Read(connection, null, [.. room.People(observers), account], cancellation);
+        return new RoomParticipant(room.View(account, scope, observers, audience.Limit, avatars), name ?? "",
+            avatars.GetValueOrDefault(account, ""));
     }
 
     // OBS-01: the heartbeat of a participant who is not reading the waiting room (a live observer, every 15 s).
@@ -165,8 +176,9 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
         if (error is not null)
             return new(Error: error);
         await Save(room, cancellation);
+        var view = await ViewOf(connection, transaction, state, account, room.Observers, cancellation);
         await transaction.CommitAsync(cancellation);
-        return new(state.View(account, scope, room.Observers, audience.Limit));
+        return new(view);
     }
 
     private static string? Refusal(LockedRoom room, string account, Access access)

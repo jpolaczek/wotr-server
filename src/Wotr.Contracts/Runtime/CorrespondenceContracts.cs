@@ -10,6 +10,7 @@ namespace Wotr.Contracts
         public string Name { get; set; } = "";
         public string MatchId { get; set; } = "";
         public string Opponent { get; set; } = "";
+        public string OpponentAvatar { get; set; } = "";
         public Side You { get; set; }
         public MatchConfiguration Configuration { get; set; } = new MatchConfiguration();
         public int Turn { get; set; }

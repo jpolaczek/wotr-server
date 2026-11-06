@@ -78,6 +78,7 @@ builder.Services.AddSingleton<MoveClockService>();
 builder.Services.AddHostedService(services => services.GetRequiredService<MoveClockService>());
 builder.Services.AddSingleton(services => AdminOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton<AdminAccess>();
+builder.Services.AddSingleton<AccountPage>();
 builder.Services.AddSingleton<AdminStatisticsStore>();
 builder.Services.AddSingleton(services => DemoOptions.Read(services.GetRequiredService<IConfiguration>()));
 builder.Services.AddSingleton(services => new DemoBot(services.GetRequiredService<GameEngine>(), services.GetRequiredService<Projection>()));
@@ -98,6 +99,7 @@ if (args.Contains("--migrate", StringComparer.Ordinal))
     return;
 }
 app.UseServerTransport(app.Environment.IsDevelopment());
+LocalSite.Use(app);
 // AUTH-02: an email address for an account from before AUTH-02; the confirmation link is sent at once.
 if (setEmail is not null)
 {
@@ -149,6 +151,7 @@ LobbyChatEndpoints.Map(app);
 RoomChatEndpoints.MapGames(app);
 TestScenarioEndpoints.Map(app);
 AccountEndpoints.Map(app);
+AccountPageEndpoints.Map(app);
 DemoEndpoints.Map(app);
 AdminEndpoints.Map(app);
 app.Run();
