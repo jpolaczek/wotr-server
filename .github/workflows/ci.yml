@@ -71,7 +71,12 @@ jobs:
           fi
           ls -d /usr/lib/postgresql/*/bin
       - run: dotnet restore --locked-mode
-      - run: dotnet test --no-restore --configuration Release --logger 'trx;LogFileName=backend.trx' --results-directory .artifacts/test-results
+      # In one test host the suite outgrows this runner's memory, and the kernel kills the runner (docs/TESTING.md, EXP-10). A test host starting
+      # while a CPU-heavy test runs may wait longer for its first connection than production's five seconds.
+      - name: Backend tests, in six test hosts
+        env:
+          WOTR_DB_POOL_WAIT_SECONDS: '30'
+        run: bash scripts/test_parts.sh .artifacts/test-results
       - run: python3 scripts/card_coverage.py --check --results .artifacts/test-results/backend.trx
       - run: python3 scripts/lords_card_coverage.py --check --results .artifacts/test-results/backend.trx
       - run: python3 scripts/kings_card_coverage.py --check --results .artifacts/test-results/backend.trx
