@@ -17,7 +17,8 @@ internal static class CompanionJourneyProjection
         var effectFrame = frames[0];
         var effect = effectFrame.Effect;
         var card = effect?.SourceId ?? "";
-        if (card is not (FreePeoplesCharacterCards03.Gwaihir or FreePeoplesCharacterCards03.Swifter) ||
+        if (card is not (FreePeoplesCharacterCards03.Gwaihir or FreePeoplesCharacterCards03.Swifter or
+                FreePeoplesStrategyCards01.BookOfMazarbul or FreePeoplesStrategyCards02.FearFireFoes or FateCards.Book) ||
             effectFrame.EffectId != card || effectFrame.NextStep != 1 || effectFrame.Window != "" ||
             effectFrame.ReturnDecision is not null || effectFrame.Battle is not null ||
             effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
@@ -28,17 +29,16 @@ internal static class CompanionJourneyProjection
                 FellowshipMove: false, NationId: "", RegionId: "", TargetIds.Count: 0,
                 AppliedHits: 0, ReactionWindow: "", OfferedReactions.Count: 0,
                 Committed.Count: 1 } ||
-            effect.SourceId != card || effect.PaidFace is not (DieFace.Character or DieFace.Event) ||
+            effect.SourceId != card || !PaidFaceMatchesCard(card, effect.PaidFace) ||
             effect.ArmyOrder is not null || effect.InspectedHand is not null ||
             effect.InspectedSovereign is not null || effect.RingRecovery is not null ||
             effect.MadnessTarget is not null || effect.Committed[0] is not
                 { Owner: Side.FreePeoples, SourceId: var committedCard, ChoiceId: "", TargetId: "" } ||
             committedCard != card || !PlayedCardIsPubliclyDiscarded(state, card) ||
-            !SinglePaidEventDieMatches(state, effect.PaidFace))
+            !SinglePaidDieMatches(state, effect.PaidFace))
             return null;
 
-        if (!EffectCatalog.All.Programs.TryGetValue(card, out var program) ||
-            program.Steps is not [CompanionJourneyStep step])
+        if (!EffectCatalog.All.Programs.TryGetValue(card, out var program))
             return null;
 
         var fellowshipFrame = frames[1];
@@ -50,16 +50,21 @@ internal static class CompanionJourneyProjection
             fellowship.SeparationRange != 0 || fellowship.SeparationBonus != 0 ||
             fellowship.Route.Count != 0 || fellowship.AdditionalHuntRegions.Count != 0 ||
             fellowship.AwaitingHunts || fellowship.RevealEffectsPending || fellowship.FireAndShadowPending ||
-            fellowship.ChooseGuideAfterPlacement || !JourneyMatchesCard(journey, step))
+            fellowship.ChooseGuideAfterPlacement || !JourneyMatchesCard(card, program, journey))
             return null;
 
+        var separationCommands = journey.AllowSeparation
+            ? new[] { CommandKind.SeparateCompanions, CommandKind.MoveCompanions }
+            : new[] { CommandKind.MoveCompanions };
         var stage = fellowship.Kind switch
         {
             FellowshipProcedureKind.Separation when pending.Kind == DecisionKind.CompanionSeparation &&
                 pending.SourceId == card && pending.Window == "" && pending.RequiredCount == 0 &&
-                pending.Commands.SequenceEqual([CommandKind.SeparateCompanions, CommandKind.MoveCompanions]) =>
+                pending.Commands.SequenceEqual(separationCommands) =>
                 FellowshipProcedureKind.Separation.ToString(),
-            FellowshipProcedureKind.Guide when pending.Kind == DecisionKind.Guide && pending.SourceId == "" &&
+            FellowshipProcedureKind.Guide when journey.AllowSeparation &&
+                (card is FreePeoplesCharacterCards03.Gwaihir or FreePeoplesCharacterCards03.Swifter) &&
+                pending.Kind == DecisionKind.Guide && pending.SourceId == "" &&
                 pending.Window == "" && pending.RequiredCount == 0 &&
                 pending.Commands.SequenceEqual([CommandKind.SelectGuide]) => FellowshipProcedureKind.Guide.ToString(),
             _ => ""
@@ -87,7 +92,12 @@ internal static class CompanionJourneyProjection
         return player.Discard.Contains(card) && !player.Hand.Contains(card) && !player.Table.Contains(card);
     }
 
-    private static bool SinglePaidEventDieMatches(MatchState state, DieFace face)
+    private static bool PaidFaceMatchesCard(string card, DieFace face) =>
+        card is FreePeoplesCharacterCards03.Gwaihir or FreePeoplesCharacterCards03.Swifter
+            ? face is DieFace.Character or DieFace.Event
+            : face is DieFace.Muster or DieFace.Event;
+
+    private static bool SinglePaidDieMatches(MatchState state, DieFace face)
     {
         var resolving = state.Dice.Where(die => die.Location == DieLocation.Resolving).ToArray();
         if (resolving.Length != 1)
@@ -97,8 +107,17 @@ internal static class CompanionJourneyProjection
             state.Resolution.PaidDieIds.SequenceEqual([die.Id]);
     }
 
-    private static bool JourneyMatchesCard(CompanionJourney journey, CompanionJourneyStep step) =>
-        journey.AllowSeparation && !journey.AllowNoMovement && journey.MaximumGroups == 1 &&
-        journey.FixedLevel == step.FixedLevel && journey.Bonus == step.Bonus &&
-        journey.AllowBesiegedDestination;
+    private static bool JourneyMatchesCard(string card, EffectDefinition program, CompanionJourney journey)
+    {
+        if (card is FreePeoplesCharacterCards03.Gwaihir or FreePeoplesCharacterCards03.Swifter)
+            return program.Steps is [CompanionJourneyStep step] && journey.AllowSeparation &&
+                !journey.AllowNoMovement && journey.MaximumGroups == 1 &&
+                journey.FixedLevel == step.FixedLevel && journey.Bonus == step.Bonus &&
+                journey.AllowBesiegedDestination;
+
+        return card is FreePeoplesStrategyCards01.BookOfMazarbul or FreePeoplesStrategyCards02.FearFireFoes or FateCards.Book &&
+            program.Steps.Count > 0 && program.Steps[0] is OutsideCompanionJourneyStep &&
+            !journey.AllowSeparation && journey.AllowNoMovement && journey.MaximumGroups == 0 &&
+            journey.FixedLevel is null && journey.Bonus == 0 && !journey.AllowBesiegedDestination;
+    }
 }

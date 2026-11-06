@@ -146,8 +146,17 @@ fact carries the source card, stage and public journey limits so a client can
 rebuild the legal choice from the same player information; it contains no
 resolution frames or selected movement. The Guide stage may carry queued public
 political reactions from the journey; the initial Separation stage requires
-none. Other card/separation continuations remain unmarked. Public content 1.0.34
-and rules 0.15.13 pin the contract.
+none. Public content 1.0.34 and rules 0.15.13 first shipped this fact.
+
+Rules 0.15.14 extends the same version-18 fact to the `OutsideCompanionJourneyStep`
+in Book of Mazarbul (base), Fear! Fire! Foes! and Book of Mazarbul (Fate). It
+appears only for the card's optional outside-Companion movement, with no
+separation, zero-or-more groups, no fixed level or bonus, and no besieged
+destination. The paid face is Muster or Event. The marker describes the
+printed journey limits, not a frame, route, or private selection; the ordinary
+Free Peoples options still determine the exact legal move. Other card programs
+and journey steps remain unmarked. Source card rules: T21-FP-STR-01,
+T21-FP-STR-02 and T32-FATE-CARDS.
 
 Contracts 0.33.0 also exposes `BattleForceView.VoluntaryLossHits` to both sides
 after a voluntary battle-loss choice resolves. Null means the choice has not
@@ -241,7 +250,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt; version 16 includes the reviewed Lure choice; version 17 adds reviewed battle-loss and special-attack facts; version 18 marks the paid Gwaihir/Swifter companion journey and follow-up Guide choices. Public content 1.0.34 and rules 0.15.12 pin the current contract; protocol and save schema remain unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt; version 16 includes the reviewed Lure choice; version 17 adds reviewed battle-loss and special-attack facts; version 18 marks paid Gwaihir/Swifter journeys, follow-up Guide choices, and the three reviewed OutsideCompanionJourneyStep event cards. Public content 1.0.34 and rules 0.15.14 pin the current contract; protocol and save schema remain unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing

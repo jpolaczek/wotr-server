@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Wotr.Contracts;
 using Wotr.Domain;
+using Wotr.Domain.Content;
 using Xunit;
 using static Wotr.Domain.FreePeoplesCharacterCards03;
 
@@ -63,6 +64,73 @@ public sealed class CompanionJourneyProjectionTests
         Assert.Equal(JsonSerializer.Serialize(fp.ActionBoundary), JsonSerializer.Serialize(shadow.ActionBoundary));
         Assert.Null(shadow.Decision);
         Assert.Empty(shadow.Options);
+    }
+
+    [Theory]
+    [InlineData(FreePeoplesStrategyCards01.BookOfMazarbul, false, "erebor")]
+    [InlineData(FreePeoplesStrategyCards02.FearFireFoes, false, "the-shire")]
+    [InlineData(FateCards.Book, true, "iron-hills")]
+    public void OutsideCompanionJourneyExposesOnlyItsOptionalMoveAndPrintedParameters(
+        string card, bool fate, string destination)
+    {
+        var state = fate ? FateFixture.Actions() : TurnTests.Actions();
+        foreach (var die in state.Dice.Where(d => d.Owner == Side.FreePeoples && d.Location == DieLocation.Available))
+            die.Face = DieFace.Character;
+        var companionId = state.Fellowship.Companions.First();
+        state.Fellowship.Companions.Remove(companionId);
+        var companion = CharacterCatalog.Companion(state, companionId);
+        companion.Location = destination;
+        state.Characters.Add(companion);
+        EventTests.GiveCard(state, Side.FreePeoples, card);
+        var costDie = state.Dice.First(d => d.Owner == Side.FreePeoples && d.Location == DieLocation.Available);
+        costDie.Face = DieFace.Muster;
+        state = EventTests.Execute(state, EventTests.Play(state, card, DieFace.Muster));
+        Assert.Equal(DecisionKind.CompanionSeparation, state.Pending!.Kind);
+
+        var freePeoples = Projection.For(state, Side.FreePeoples);
+        var shadow = Projection.For(state, Side.Shadow);
+        var frameSummary = string.Join(" | ", state.Resolution.Frames.Select(frame =>
+            $"{frame.EffectId}:{frame.NextStep}:{frame.Effect?.SourceId}:{frame.Fellowship?.Kind}"));
+        var effect = state.Resolution.Frames[0].Effect!;
+        var journeyFacts = state.Resolution.Frames[1].Fellowship!.Journey!;
+        var program = EffectCatalog.All.Programs[card];
+        Assert.True(freePeoples.ActionBoundary?.CompanionJourney is not null,
+            $"{card}: boundary={freePeoples.ActionBoundary is not null}; frames={frameSummary}; " +
+            $"paid={string.Join(',', state.Resolution.PaidDieIds)}; pending={state.Pending.Kind}/{state.Pending.SourceId}; " +
+            $"face={effect.PaidFace}; owner={effect.Owner}; return={effect.Return}; wait={effect.Wait}; " +
+            $"event={effect.IsEvent}; committed={effect.Committed.Count}; " +
+            $"discard={state.Player(Side.FreePeoples).Discard.Contains(card)}; " +
+            $"journey={journeyFacts.AllowSeparation}/{journeyFacts.AllowNoMovement}/{journeyFacts.MaximumGroups}/" +
+            $"{journeyFacts.FixedLevel}/{journeyFacts.Bonus}/{journeyFacts.AllowBesiegedDestination}; " +
+            $"steps={string.Join(',', program.Steps.Select(step => step.GetType().Name))}; " +
+            $"commands={string.Join(',', state.Pending.Commands)}");
+        var journey = Assert.IsType<CompanionJourneyView>(freePeoples.ActionBoundary!.CompanionJourney);
+        Assert.Equal(18, freePeoples.ActionBoundary.Version);
+        Assert.Equal(card, journey.CardId);
+        Assert.Equal(nameof(FellowshipProcedureKind.Separation), journey.Stage);
+        Assert.False(journey.AllowSeparation);
+        Assert.True(journey.AllowNoMovement);
+        Assert.Equal(0, journey.MaximumGroups);
+        Assert.Null(journey.FixedLevel);
+        Assert.Equal(0, journey.Bonus);
+        Assert.False(journey.AllowBesiegedDestination);
+        var move = Assert.Single(freePeoples.Options);
+        Assert.Equal(CommandKind.MoveCompanions, move.Kind);
+        Assert.True(move.AllowEmptySelection);
+        Assert.Equal(0, move.MaximumGroups);
+        Assert.Empty(freePeoples.ActionBoundary.PendingPolitics);
+        Assert.Equal(JsonSerializer.Serialize(freePeoples.ActionBoundary),
+            JsonSerializer.Serialize(shadow.ActionBoundary));
+        Assert.Null(shadow.Decision);
+        Assert.Empty(shadow.Options);
+
+        var original = JsonSerializer.Serialize(freePeoples.ActionBoundary);
+        var opposingPlayer = state.Player(Side.Shadow);
+        opposingPlayer.Hand.Reverse();
+        foreach (var deck in opposingPlayer.Decks.Values)
+            deck.Reverse();
+        state.RandomSamples.Add(new() { Value = 613 });
+        Assert.Equal(original, JsonSerializer.Serialize(Projection.For(state, Side.FreePeoples).ActionBoundary));
     }
 
     [Theory]
