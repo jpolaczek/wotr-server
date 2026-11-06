@@ -147,6 +147,17 @@ corruption, suspended expansion Hunts, card/battle/effect-discard continuations
 and full parity acceptance remain open. No production faction policy is
 registered; `gameplayReady=false`.
 
+### BOT-02 implementation checkpoint — relief battle aftermath (2026-11-06)
+
+Rules 0.15.26 keeps the ActionBoundary v26 `Help Unlooked For` parent marker
+through combat losses, defender retreat and the resulting Advance window. At
+Advance, stronghold reconciliation has released surviving Free Peoples garrison
+units to the field; the projection verifies the retained dice reduction against
+those public field units. The public boundary/projection/relief test selection
+passed **31/31**. Contracts 0.42.0 and public content 1.0.42 are unchanged.
+Private reconstruction of this aftermath and full BOT-02 acceptance remain
+pending; `gameplayReady=false`.
+
 ### BOT-02 implementation checkpoint — Help Unlooked For battle (2026-11-06)
 
 Public commit `daffb48344c6feb7506695268f8159d3bf8a9502` advances Contracts to

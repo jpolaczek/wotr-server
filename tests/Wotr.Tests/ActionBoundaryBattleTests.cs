@@ -88,7 +88,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(attacker, own.Battle.LossOwner);
         Assert.Equal(state.Pending.RequiredCount, own.Battle.PendingHits);
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false}", boundaryJson.RootElement.GetRawText());
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null}", boundaryJson.RootElement.GetRawText());
 
         var nested = StateCodec.Copy(state);
         BattleRuntime.Active(nested)!.Return = EffectReturn.Parent;
@@ -122,7 +122,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(2, own.Battle.PendingHits);
         Assert.Null(own.Battle.Attacker.VoluntaryLossHits);
         Assert.Null(own.Battle.Defender.VoluntaryLossHits);
-        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false}",
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null}",
             JsonSerializer.Serialize(own.ActionBoundary.Battle));
 
         var wrongCursor = StateCodec.Copy(state);
@@ -153,7 +153,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(4, own.Battle.PendingHits);
         Assert.Null(own.Battle.Attacker.VoluntaryLossHits);
         Assert.Null(own.Battle.Defender.VoluntaryLossHits);
-        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false}",
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null}",
             JsonSerializer.Serialize(own.ActionBoundary.Battle));
 
         var wrongCursor = StateCodec.Copy(state);
@@ -192,7 +192,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Single(own.ActionBoundary.PaidDieIds);
 
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":false,\"SpecialAttackLoss\":true}",
+        Assert.Equal("{\"CompletesPaidAction\":false,\"SpecialAttackLoss\":true,\"ReliefEvent\":null}",
             boundaryJson.RootElement.GetRawText());
         Assert.DoesNotContain("ResolutionFrame", JsonSerializer.Serialize(own.ActionBoundary));
         Assert.DoesNotContain("NextStep", JsonSerializer.Serialize(own.ActionBoundary));
@@ -289,7 +289,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(state.Pending.Owner, own.Battle.LossOwner);
         Assert.Equal(state.Pending.RequiredCount, own.Battle.PendingHits);
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false}", boundaryJson.RootElement.GetRawText());
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null}", boundaryJson.RootElement.GetRawText());
     }
 
     [Theory]
@@ -315,7 +315,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(defenderWindow ? "DefenderCard" : "AttackerCard", own.Battle!.Stage);
         Assert.Single(own.ActionBoundary.PaidDieIds);
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false}", boundaryJson.RootElement.GetRawText());
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null}", boundaryJson.RootElement.GetRawText());
     }
 
     [Fact]

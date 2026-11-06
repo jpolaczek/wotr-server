@@ -3,11 +3,14 @@
 
 Contracts 0.42.0 advances ActionBoundary to version 26. `Battle.ReliefEvent`
 marks the reviewed `Help Unlooked For` battle with its public card ID and paid
-face. Rules 0.15.25 emits it only while the one-step event is the battle's
-parent, both sides and the stronghold match, the paid Free Peoples die is still
-resolving, and the besieging army's public dice reduction matches the Free
-Peoples garrison. It carries no engine frame or private combat-card choice.
-Public content 1.0.42 pins the contract. Protocol and save schema do not change.
+face. Rules 0.15.26 emits it only while the one-step event is the battle's
+parent, both sides and the stronghold match, and the paid Free Peoples die is
+still resolving. Before the defender retreats or is defeated, its dice reduction
+must match the garrison's army count. At the resulting Advance window, after
+stronghold reconciliation releases the garrison to the field, the same reduction
+must match those public Free Peoples field units. It carries no engine frame or
+private combat-card choice. Public content 1.0.42 pins the contract. Protocol and
+save schema do not change.
 
 Contracts 0.41.0 advances ActionBoundary to version 25. `WestPalantirDiscard`
 marks only Shadow's excess-card decision after the Palantir deck choice from

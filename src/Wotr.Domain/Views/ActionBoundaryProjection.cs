@@ -140,6 +140,10 @@ internal static class ActionBoundaryProjection
         var battleFrame = frames[1];
         var execution = eventFrame.Effect;
         var battle = battleFrame.Battle;
+        var defenderRetreated = battle is not null && battle.Defender.Region != battle.Region;
+        var region = battle is not null && BoardRules.Regions.TryGetValue(battle.Region, out var knownRegion)
+            ? knownRegion
+            : null;
         if (eventFrame.EffectId != cardId || eventFrame.NextStep != 1 || eventFrame.Window.Length != 0 ||
             eventFrame.ReturnDecision is not null || eventFrame.Battle is not null || eventFrame.BattleLoss is not null ||
             eventFrame.EventLoss is not null || eventFrame.Fellowship is not null || eventFrame.Hunt is not null ||
@@ -161,8 +165,11 @@ internal static class ActionBoundaryProjection
             battle is not { Return: EffectReturn.Parent, Mode: BattleMode.Relief } ||
             battle.Attacker.Side != Side.FreePeoples || battle.Defender.Side != Side.Shadow ||
             battle.Attacker.Region == battle.Region || battle.Attacker.Garrison ||
-            battle.Defender.Region != battle.Region || battle.Defender.Garrison ||
-            !BoardRules.Regions.TryGetValue(battle.Region, out var region) || region.Settlement != "Stronghold" ||
+            battle.Defender.Garrison ||
+            defenderRetreated && (region is null || battle.Stage != BattleStage.Advance || !battle.CardsRevealed ||
+                !region.Neighbors.Contains(battle.Defender.Region) || !BattleRules.Alive(state, battle.Defender) ||
+                !BattleMovement.IsFree(state, Side.Shadow, battle.Defender.Region)) ||
+            region is null || region.Settlement != "Stronghold" ||
             state.Control.GetValueOrDefault(battle.Region) != Side.FreePeoples ||
             !state.Player(Side.FreePeoples).Discard.Contains(cardId) ||
             state.Player(Side.FreePeoples).Hand.Contains(cardId) || state.Player(Side.FreePeoples).Table.Contains(cardId) ||
@@ -171,9 +178,10 @@ internal static class ActionBoundaryProjection
             program.Steps is not [ArmyOrderStep { Order: ArmyEventOrder.ReliefAttack }])
             return null;
 
-        var reliefGarrison = state.Units.Count(unit => unit.Location == battle.Region && unit.Garrison &&
+        var reliefReduction = state.Units.Count(unit => unit.Location == battle.Region &&
+            unit.Garrison != (battle.Stage == BattleStage.Advance) &&
             BoardRules.Owner(unit) == Side.FreePeoples && BoardRules.IsArmyUnit(unit));
-        if (reliefGarrison == 0 || battle.Defender.CombatDiceReduction != reliefGarrison ||
+        if (reliefReduction == 0 || battle.Defender.CombatDiceReduction != reliefReduction ||
             battle.Attacker.CombatDiceReduction != 0)
             return null;
 

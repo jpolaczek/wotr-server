@@ -4,11 +4,13 @@ Contracts 0.42.0 add `ActionBoundaryView.Battle.ReliefEvent` at boundary version
 26. It marks a `Help Unlooked For` battle only while the exact public event
 parent and resolving Free Peoples payment remain active. The card ID and paid
 face are public; the battle view already supplies participants and the rules
-reduction to the besieging force's combat dice. Rules 0.15.25 verifies the
+reduction to the besieging force's combat dice. Rules 0.15.26 verifies the
 stronghold, both sides, the event program, public discard and garrison count
-before emitting the semantic return fact. It serializes no resolution frame or
-private combat-card selection. Public content 1.0.42 pins the contract; protocol
-and save schema are unchanged.
+before emitting the semantic return fact. After retreat or defeat, its Advance
+window proves the retained dice reduction against the released Free Peoples
+field army after stronghold reconciliation. It serializes no resolution frame or
+private combat-card selection. Rules 0.15.26 uses that post-retreat projection;
+public content 1.0.42 pins the contract. Protocol and save schema are unchanged.
 
 Contracts 0.41.0 add `ActionBoundaryView.WestPalantirDiscard` at boundary version
 25. It marks only Shadow's excess-card decision after the Palantir deck choice

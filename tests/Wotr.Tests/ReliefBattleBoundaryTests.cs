@@ -58,6 +58,40 @@ public sealed class ReliefBattleBoundaryTests
         Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, Side.Shadow).ActionBoundary);
     }
 
+    [Fact]
+    public void ReliefBoundaryRetainsEventParentThroughLossRetreatAndAdvance()
+    {
+        var state = BeginReliefBattle();
+        state = BattleFixture.NoCards(state, 6, 1, 1, 1, 1, 1);
+        state = CardPackBattleFixture.NoRerolls(state);
+        Assert.Equal(DecisionKind.Losses, state.Pending!.Kind);
+        AssertReliefContext(state);
+
+        var battle = BattleRuntime.Active(state)!;
+        var shadowUnitId = battle.Defender.Participants.First(id => state.Units.Any(candidate => candidate.Id == id));
+        state = BattleFixture.Losses(state, BattleFixture.Loss(shadowUnitId));
+        Assert.Equal(DecisionKind.BattleContinue, state.Pending!.Kind);
+        state = CharacterFixture.Do(state, CommandKind.ContinueBattle);
+        Assert.Equal(DecisionKind.BattleRetreat, state.Pending!.Kind);
+        AssertReliefContext(state);
+
+        var retreat = BattleMovement.Retreats(state, BattleRuntime.Current(state)!).First();
+        state = CharacterFixture.Do(state, CommandKind.RetreatBattle, new() { RegionId = retreat });
+        Assert.Equal(DecisionKind.BattleAdvance, state.Pending!.Kind);
+        AssertReliefContext(state);
+    }
+
+    private static void AssertReliefContext(MatchState state)
+    {
+        foreach (var side in Enum.GetValues<Side>())
+        {
+            var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
+            Assert.Equal(26, view.ActionBoundary?.Version);
+            Assert.Equal(HelpUnlookedFor, view.ActionBoundary?.Battle?.ReliefEvent?.CardId);
+            Assert.Equal(2, view.Battle?.Defender.CombatDiceReduction);
+        }
+    }
+
     private static MatchState BeginReliefBattle()
     {
         var state = Relief(garrison: 2, shadow: 5);
