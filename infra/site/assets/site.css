@@ -114,6 +114,21 @@ h3 { font-size: 1.1rem; margin: 0 0 .4rem; letter-spacing: .03em; }
   text-transform: uppercase;
 }
 .nav a:hover { color: var(--gold-bright); }
+/* The bar's corner: the account page's small link above Create account. It takes no width from the section links, which only just
+   fit one row beside the button, and it stays on a phone, where they are hidden. */
+.topbar-corner { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; gap: .1rem; }
+.corner-link {
+  padding: .15rem 0;
+  color: var(--on-lacquer);
+  text-decoration: none;
+  font-family: var(--title);
+  font-size: .72rem;
+  line-height: 1;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.corner-link:hover { color: var(--gold-bright); }
+.topbar-corner .button.small { padding-block: .25rem; }
 
 .button {
   display: inline-block;
