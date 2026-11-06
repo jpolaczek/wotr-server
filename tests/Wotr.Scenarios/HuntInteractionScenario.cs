@@ -13,6 +13,8 @@ internal static class HuntInteractionScenario
             ["ui50-hunt-required"] = RequiredAllocation(random),
             ["ui50-hunt-no-dice"] = Rolled(random, false, empty: true),
             ["ui34-hunt-reroll"] = FellowshipScenario.Hunt(random),
+            ["ui509-stages"] = FellowshipScenario.Hunt(random),
+            ["ui509-moves"] = FellowshipScenario.Hunt(random),
             ["ui34-hunt-keep"] = Rolled(random, true),
             ["ui34-hunt-miss"] = Rolled(random, false)
         };
