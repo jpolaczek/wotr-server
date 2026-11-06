@@ -1,6 +1,6 @@
 {
   "repository": "jpolaczek/wotr-client",
-  "commit": "bbfaeee3163f661d8fe2ee7bff96c376f82c7778",
+  "commit": "3b79a5033a3fc32feb5547ac75c04f28d6910dc8",
   "files": [
     ".editorconfig",
     ".env.example",

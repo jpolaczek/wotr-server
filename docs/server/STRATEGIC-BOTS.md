@@ -140,11 +140,35 @@ or playing strength. Exact diagnostics and current early/later copy, reconstruct
 rollout/allocation/cancellation measurements remain private.
 
 BOT-02 remains in progress; BOT-03 stays blocked on complete reconstruction.
-Private runtime 0.2.67 now has source for both the nested corruption decision
-and its later Palantir deck choice after `The West Has Failed`. Both paths remain
-unbuilt and unverified. Other event/nested corruption, suspended expansion
-Hunts, card/battle/effect-discard continuations and full parity acceptance remain
-open. No production faction policy is registered; `gameplayReady=false`.
+Private runtime 0.2.68 now has source for the nested corruption decision, the
+Palantir deck choice and its resulting Shadow excess-card discard after `The
+West Has Failed`. These paths remain unbuilt and unverified. Other event/nested
+corruption, suspended expansion Hunts, card/battle/effect-discard continuations
+and full parity acceptance remain open. No production faction policy is
+registered; `gameplayReady=false`.
+
+### BOT-02 implementation checkpoint — West Palantir excess discard (2026-11-06)
+
+Private commit `d1154ac99c67d560ccc71c5c1481dc29b0f43ccc` advances the runtime to
+0.2.68 and reconstructs Shadow's excess-card decision after `The West Has
+Failed` returns from corruption, Palantir selects a deck, and one card is drawn.
+ActionBoundary v25 carries the paid event and the drawn-card identity only in
+Shadow's view, where that card is already in the hand. Rules emit the marker only
+when the West/Palantir frames, committed deck selection and latest private/public
+draw events agree. The runtime restores the completed Palantir child and
+`ResumeEffect`, without replaying the draw or exposing the card to Free Peoples.
+It accepts ordinary Event payment and the Kings Palantir Muster conversion.
+
+Public commit `ee5f5a8315280844fbb94be5d5ac78f2fce9ad12` provides rules 0.15.22
+(443 files; SHA-256
+`32b3531d6bf66f85acb7b5e43033f498f8360212f6bd21a11788c774c78a4991`), Contracts
+0.41.0 and content 1.0.41. Client commit
+`91586f8bcfb9018e3c6dc1c2964aec26e2df544a` pins the packages; client document
+links are pinned at `3b79a5033a3fc32feb5547ac75c04f28d6910dc8`. Public package
+generation, client dependency pin/fetch, private rules bootstrap and static diff
+checks passed. No tests or builds were run. This path is unverified and excluded
+from the 6,397/7,440 bounded-root count. BOT-02 remains in progress and
+`gameplayReady=false`. No push, release or deployment.
 
 ### BOT-02 implementation checkpoint — West Palantir deck choice (2026-11-06)
 
