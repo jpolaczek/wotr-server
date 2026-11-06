@@ -431,3 +431,24 @@ policies, all player-information parity surfaces, hidden-state permutations,
 stale generation/command rejection, server restart around command/memory commit,
 room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
+
+
+### BOT-02 implementation checkpoint — Fate Monsters event choices (2026-11-06)
+
+Public source `a23cd410a8c0c2ea89ec185bfd047e65a93b602d` adds the rules 0.15.28
+projection support for the exact `Monsters Roused` event continuation at
+ActionBoundary v27. Contracts 0.43.0 exposes only the parent card, paid face and
+selected East branch. The projection accepts the printed Muster or Event payment,
+including compatible Army/Muster and Will of the West dice, while checking the
+public discard, resolving Shadow die, committed trail and current legal choices.
+No frame or effect cursor is exposed. Public boundary/Fate tests passed 373 with
+8 integration tests skipped.
+
+Private runtime commit `c114207` / 0.2.72 reconstructs the West selection and East
+region choices, checks every candidate against engine legality and compares the
+resulting Shadow view after each action. Client commit `5779958` pins Contracts
+0.43.0/content 1.0.43 and server source `a23cd41`; its 72-file link check passed.
+Full private verification passed 2,209 C# and 17 Python tests with no skips, zero
+Release warnings/errors, and local package creation. BOT-02 remains incomplete;
+other effect choices, characters, battles and full sampled-decision parity remain
+open. `gameplayReady=false`; no policy, push, release or deployment.
