@@ -55,6 +55,7 @@ namespace Wotr.Contracts
         public int RerollModifier { get; set; }
         public int Hits { get; set; }
         public int SpentHits { get; set; }
+        public int? VoluntaryLossHits { get; set; }
         public bool CardCommitted { get; set; }
         public string CardBack { get; set; } = "";
         public string? CardId { get; set; }

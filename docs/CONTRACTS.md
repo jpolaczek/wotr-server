@@ -1,6 +1,15 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.33.0 adds public `BattleForceView.VoluntaryLossHits`, which records
+how many hits a player actually chose to spend on a voluntary battle-loss
+procedure. It is null until that choice is resolved, including a resolved choice
+of zero. Both seats see the same result, allowing clients and observation-only
+simulation to reconstruct later combat modifiers without a saved effect frame.
+Public content 1.0.33 pins the contract; pure rules package 0.15.9 records the
+result in the battle round. ActionBoundary remains v17; protocol and save schema
+do not change.
+
 Contracts 0.32.0 adds public `BattleForceView.OrderlyWithdrawal`, set only after
 Free Peoples chooses the Orderly Withdrawal hit cancellation. Both players see
 the resolved round-end obligation with the revealed combat card. It adds no

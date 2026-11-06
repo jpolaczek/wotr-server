@@ -74,6 +74,8 @@ public sealed class BattleRoundState
     public int RerollLimit { get; set; } = 5;
     public int ExtraHits { get; set; }
     public int SpentHits { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public int? VoluntaryLossHits { get; set; }
     public int CancelHits { get; set; }
     public int SpecialHits { get; set; }
     public HashSet<string> CancelledLeadership { get; set; } = [];

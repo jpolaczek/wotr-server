@@ -139,12 +139,15 @@ nine ordinary HTTP/restart/receipt-replay cases. Both passed; package/client pin
 are recorded in the [current checkpoint](STRATEGIC-BOTS.md). This is metadata
 verification, not BOT-02 or strategic acceptance.
 
-Contracts 0.32.0 also exposes `BattleForceView.OrderlyWithdrawal` to both sides
-after the public Lords combat choice; the flag is set only for the Free Peoples
-force when its player accepted the hit cancellation. It lets client and
-observation-only runtime consumers describe the mandatory stop/retreat and
-restore the rule state without reading a saved effect frame. No card identity
-or choice before the public reveal is exposed.
+Contracts 0.33.0 also exposes `BattleForceView.VoluntaryLossHits` to both sides
+after a voluntary battle-loss choice resolves. Null means the choice has not
+resolved; zero is a public decision to take no losses. The hit count lets
+observation-only simulation validate the card's later combat modifier without
+reading a saved effect frame or guessing from hidden history. Contracts 0.32.0
+exposes `BattleForceView.OrderlyWithdrawal` after the public Lords combat choice;
+the flag is set only for the Free Peoples force when its player accepted the hit
+cancellation. It lets consumers restore the mandatory stop/retreat from public
+facts without exposing a card identity or choice before reveal.
 
 Contracts 0.31.0 provide optional `PlayerView.ActionBoundary` version 17. This is
 ordinary own-side player information, also passed through the existing bot input
