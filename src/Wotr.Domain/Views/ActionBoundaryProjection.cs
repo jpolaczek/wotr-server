@@ -11,11 +11,12 @@ internal static class ActionBoundaryProjection
         var fellowshipMove = FellowshipMoveProjection.For(state);
         var cardHunt = CardHuntProjection.For(state);
         var lureChoice = LureChoiceProjection.For(state);
+        var lurePlacement = LurePlacementProjection.For(state, viewer);
         var companionJourney = CompanionJourneyProjection.For(state);
         var fellowshipGuide = FellowshipGuideProjection.For(state);
         var battle = DirectBattle(state) ?? SpecialAttackLoss(state);
         var reviewedContinuation = declaration is not null || fellowshipMove is not null ||
-            cardHunt is not null || lureChoice is not null || companionJourney is not null ||
+            cardHunt is not null || lureChoice is not null || lurePlacement is not null || companionJourney is not null ||
             fellowshipGuide is not null || battle is not null;
         // Compose only explicitly reviewed continuations with module facts;
         // arbitrary expansion procedures are not inferred from their decision kind.
@@ -26,7 +27,7 @@ internal static class ActionBoundaryProjection
             (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None))
             return null;
         if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
-            fellowshipMove is null && cardHunt is null && lureChoice is null && companionJourney is null &&
+            fellowshipMove is null && cardHunt is null && lureChoice is null && lurePlacement is null && companionJourney is null &&
             fellowshipGuide is null && declaration is null && battle is null &&
             !CorruptionBoundaryProjection.Supports(state))
             return null;
@@ -46,6 +47,7 @@ internal static class ActionBoundaryProjection
             FellowshipDeclaration = declaration,
             Battle = battle,
             LureChoice = lureChoice,
+            LurePlacement = lurePlacement,
             CompanionJourney = companionJourney,
             FellowshipGuide = fellowshipGuide,
             Lords = LordsBoundaryProjection.For(state),

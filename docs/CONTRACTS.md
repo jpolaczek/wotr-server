@@ -1,6 +1,14 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.37.0 adds `ActionBoundaryView.LurePlacement` at boundary version 21.
+For the Free Peoples only, it marks the public Lure elimination after it has
+selected the returnable Companion, during that Companion's placement or the
+resulting Guide choice. The target is already known to the chooser; the marker
+does not reveal the random target to Shadow. Public content 1.0.37 pins the
+contract; rules 0.15.18 emits it only for this reviewed continuation.
+Protocol and save schema do not change.
+
 Contracts 0.36.0 adds public `FellowshipDeclarationView` facts for committed
 reaction source IDs and a pending Fire and Shadow obligation, and advances the
 boundary to version 20. The facts let an observer rebuild a pending reaction

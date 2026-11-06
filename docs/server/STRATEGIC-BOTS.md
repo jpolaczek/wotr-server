@@ -203,16 +203,23 @@ these windows from public state and restores the visible response trail. Active
 nested Hunt continuations are still omitted. The change has not been built or
 tested and is not counted as accepted BOT-02 coverage.
 
-The next local rules change advances Contracts to 0.36.0, public content to
-1.0.36 and ActionBoundary to v20. Rules 0.15.17 carries the public
-source IDs already committed in a declaration reaction window and marks the
-active `Gates Are Closed` Hunt at its exact parent/Hunt stack position. It also
-lets the existing Balrog declaration Hunt retain earlier committed reactions.
-The route's deferred Fire and Shadow obligation is retained so the normal
-declaration continuation runs after the reaction chain.
-The private runtime source is 0.2.64 and rebuilds those decisions from the
-public source list. These changes are unverified, do not count toward the
-7,171/7,440 baseline, and do not change BOT-02 acceptance or gameplay readiness.
+Contracts 0.36.0 / content 1.0.36 / rules 0.15.17 is the declaration checkpoint
+above. The next local rules change advances Contracts to 0.37.0, public content
+to 1.0.37 and ActionBoundary to v21. Rules 0.15.18 carries the selected
+Companion for a Free Peoples Lure placement or Guide continuation after the
+public elimination choice. Shadow receives no target identity from this marker.
+The private runtime source advances to 0.2.65. This path is unverified and does
+not count toward BOT-02 acceptance or gameplay readiness.
+
+The v20 contract carries the public source IDs already committed in a declaration
+reaction window and marks the active `Gates Are Closed` Hunt at its exact
+parent/Hunt stack position. It also lets the existing Balrog declaration Hunt
+retain earlier committed reactions. The route's deferred Fire and Shadow
+obligation is retained so the normal declaration continuation runs after the
+reaction chain. The private runtime source was 0.2.64 and rebuilds those decisions
+from the public source list. This preceding change is unverified, does not count
+toward the 7,171/7,440 baseline, and does not change BOT-02 acceptance or gameplay
+readiness.
 
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
