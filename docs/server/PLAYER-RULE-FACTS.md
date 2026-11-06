@@ -1,12 +1,13 @@
 # Player rule facts at an action boundary
 
-Contracts 0.38.0 add `ActionBoundaryView.CorruptionEvent` at boundary version
-22. It marks only `The West Has Failed` after its target is selected and while
-the private Kings tile decision is pending. The public card and its paid face
-let the runtime reconstruct the parent event and return path; tile identities
-and Shadow's private choice remain in their existing visibility-limited fields.
-Rules 0.15.19 emits this fact only for the exact reviewed event/corruption stack.
-Public content 1.0.38 pins the contract; protocol and save schema are unchanged.
+Contracts 0.39.0 add `ActionBoundaryView.CorruptionEvent` at boundary version 23.
+It marks only `The West Has Failed` after its target is selected and while the
+private Kings tile decision is pending. It carries the public card, paid face
+and whether its Palantir event-cost draw is still pending, including cancellation
+by a public reaction. Tile identities and Shadow's private choice remain in
+their existing visibility-limited fields. Rules 0.15.20 emits this fact only
+for the exact reviewed event/corruption stack. Public content 1.0.39 pins the
+contract; protocol and save schema are unchanged.
 
 ## Direct ordinary battle losses — boundary v14
 
@@ -285,7 +286,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt; version 16 includes the reviewed Lure choice; version 17 adds reviewed battle-loss and special-attack facts; version 18 marks paid Gwaihir/Swifter journeys, follow-up Guide choices, and the three reviewed OutsideCompanionJourneyStep event cards; version 19 marks direct paid companion separation followed by Guide selection; version 20 carries public committed reaction sources and the deferred Fire and Shadow obligation for reviewed Fellowship declaration continuations; version 21 marks the Free Peoples’ visible Lure return-placement and Guide stages; version 22 marks the paid `The West Has Failed` parent event during its nested Kings corruption decision. Public content 1.0.38 and rules 0.15.19 pin the current contract; protocol and save schema remain unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt; version 16 includes the reviewed Lure choice; version 17 adds reviewed battle-loss and special-attack facts; version 18 marks paid Gwaihir/Swifter journeys, follow-up Guide choices, and the three reviewed OutsideCompanionJourneyStep event cards; version 19 marks direct paid companion separation followed by Guide selection; version 20 carries public committed reaction sources and the deferred Fire and Shadow obligation for reviewed Fellowship declaration continuations; version 21 marks the Free Peoples’ visible Lure return-placement and Guide stages; version 22 marks the paid `The West Has Failed` parent event during its nested Kings corruption decision; version 23 adds its pending Palantir follow-on flag. Public content 1.0.39 and rules 0.15.20 pin the current contract; protocol and save schema remain unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing

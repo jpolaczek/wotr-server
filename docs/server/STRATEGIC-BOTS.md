@@ -205,13 +205,14 @@ these windows from public state and restores the visible response trail. Active
 nested Hunt continuations are still omitted. The change has not been built or
 tested and is not counted as accepted BOT-02 coverage.
 
-Contracts 0.38.0 / content 1.0.38 / rules 0.15.19 is the current local source
-checkpoint. ActionBoundary v22 marks the paid `The West Has Failed` parent event
-while its Kings corruption choice is pending, retaining only the public card and
-cost. The runtime rebuilds the event continuation and returns through the parent;
-the marker does not carry tile choices or engine frames. Runtime source advances
-to 0.2.66. This path is unverified and does not count toward BOT-02 acceptance or
-gameplay readiness.
+Contracts 0.39.0 / content 1.0.39 / rules 0.15.20 is the current local source
+checkpoint. ActionBoundary v23 marks the paid `The West Has Failed` parent event
+while its Kings corruption choice is pending, retaining the public card, cost and
+pending Palantir draw consequence. This follow-on flag handles its cancellation
+by a public reaction. The runtime rebuilds the event continuation and returns
+through the parent; the marker carries no tile choices or engine frames. Runtime
+source is 0.2.66. This path is unverified and does not count toward BOT-02
+acceptance or gameplay readiness.
 
 Contracts 0.36.0 / content 1.0.36 / rules 0.15.17 is the declaration checkpoint
 above. The preceding local rules change advanced Contracts to 0.37.0, public content

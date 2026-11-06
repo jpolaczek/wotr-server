@@ -7,7 +7,12 @@ internal static class CorruptionBoundaryProjection
     internal static bool Supports(MatchState state) => OrdinaryEyeAttempt(state) || WestEventAttempt(state, out _);
 
     internal static CorruptionEventView? Event(MatchState state) => WestEventAttempt(state, out var effect)
-        ? new() { CardId = effect.SourceId, CardCost = effect.PaidFace }
+        ? new()
+        {
+            CardId = effect.SourceId,
+            CardCost = effect.PaidFace,
+            PalantirDrawPending = effect.PalantirDrawPending
+        }
         : null;
 
     private static bool OrdinaryEyeAttempt(MatchState state) => state.Configuration.Kings && state.Kings is not null &&
@@ -102,8 +107,7 @@ internal static class CorruptionBoundaryProjection
             root.Committed[0] != new EffectSelection(Side.Shadow, KingsCards02.West) ||
             root.Committed[1] != new EffectSelection(Side.Shadow, KingsCards02.West,
                 attempt.SovereignId, SovereignLifecycle.Region(state, sovereign.Id)) ||
-            root.PalantirDrawPending != (root.PaidFace == DieFace.Event &&
-                state.Player(Side.Shadow).Table.Contains(ShadowCharacterCards04.Palantir)))
+            root.PalantirDrawPending && root.PaidFace != DieFace.Event)
             return false;
 
         var paidDieId = state.Resolution.PaidDieIds[0];

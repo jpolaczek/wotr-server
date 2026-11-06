@@ -1,6 +1,14 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.39.0 advances ActionBoundary to version 23. The reviewed
+`CorruptionEvent` fact also carries whether `The West Has Failed` still owes the
+Palantir event-cost draw; a public reaction can cancel that follow-on while the
+corruption decision is suspended. This is a semantic public consequence, not a
+saved frame or private choice. Public content 1.0.39 pins the contract; rules
+0.15.20 emits it only for the exact reviewed continuation. Protocol and save
+schema do not change.
+
 Contracts 0.38.0 adds `ActionBoundaryView.CorruptionEvent` at boundary version
 22. It marks only the paid `The West Has Failed` event while its nested Kings
 corruption attempt is pending, carrying the public event card and paid face so
