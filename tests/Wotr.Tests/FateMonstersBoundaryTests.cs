@@ -8,17 +8,23 @@ namespace Wotr.Tests;
 
 public sealed class FateMonstersBoundaryTests
 {
-    [Fact]
-    public void FateMonstersBoundaryIdentifiesItsParentAndSelectedEastBranch()
+    [Theory]
+    [InlineData(DieFace.Muster, DieFace.Muster)]
+    [InlineData(DieFace.Event, DieFace.Event)]
+    [InlineData(DieFace.Muster, DieFace.ArmyMuster)]
+    public void FateMonstersBoundaryIdentifiesItsParentAndSelectedEastBranch(DieFace cost, DieFace dieFace)
     {
-        var state = Play(State(FateCards.Monsters), FateCards.Monsters);
-        AssertContext(state, "");
+        var state = State(FateCards.Monsters);
+        var payment = Cost(state, FateCards.Monsters, cost);
+        state.Dice.Single(die => die.Id == payment.DieId).Face = dieFace;
+        state = KingsFixture.Do(state, CommandKind.PlayEvent, payment);
+        AssertContext(state, "", cost);
         var shadow = GameRuntime.Projection(EffectCatalog.All).For(state, Side.Shadow);
         Assert.Equal(DecisionKind.EffectChoice, shadow.Decision!.Kind);
         Assert.Equal(new[] { FateCards.MonstersWest, FateCards.MonstersEast }, shadow.Decision.Choices);
 
         state = Choose(state, FateCards.MonstersEast);
-        AssertContext(state, FateCards.MonstersEast);
+        AssertContext(state, FateCards.MonstersEast, cost);
         shadow = GameRuntime.Projection(EffectCatalog.All).For(state, Side.Shadow);
         Assert.Equal(DecisionKind.EffectChoice, shadow.Decision!.Kind);
         Assert.Equal(FateMonstersEliteStep.Regions, shadow.Decision.Choices);
@@ -58,7 +64,7 @@ public sealed class FateMonstersBoundaryTests
             Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.FateMonsters));
     }
 
-    private static void AssertContext(MatchState state, string branch)
+    private static void AssertContext(MatchState state, string branch, DieFace cost)
     {
         foreach (var side in Enum.GetValues<Side>())
         {
@@ -66,7 +72,7 @@ public sealed class FateMonstersBoundaryTests
             Assert.Equal(27, view.ActionBoundary?.Version);
             var context = Assert.IsType<FateMonstersEventView>(view.ActionBoundary?.FateMonsters);
             Assert.Equal(FateCards.Monsters, context.CardId);
-            Assert.Equal(CardCatalog.All[FateCards.Monsters].EventType, context.CardCost);
+            Assert.Equal(cost, context.CardCost);
             Assert.Equal(branch, context.BranchId);
             Assert.Single(view.ActionBoundary!.PaidDieIds);
         }

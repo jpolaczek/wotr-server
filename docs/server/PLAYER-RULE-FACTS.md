@@ -3,9 +3,10 @@
 Contracts 0.43.0 add `ActionBoundaryView.FateMonsters` at boundary version 27.
 It marks only the `Monsters Roused` branch choice and the following East elite
 region choice. The card ID and paid face are public; its `BranchId` is empty at
-the first choice and identifies East at the second. Rules 0.15.27 verifies the
+the first choice and identifies East at the second. Rules 0.15.28 verifies the
 Fate configuration, exact event parent, public discard, resolving Shadow die,
-committed branch and current legal choices before emitting the fact. It
+committed branch and current legal choices before emitting the fact. It accepts
+the printed Muster payment or the Event payment, including legal flexible dice. It
 serializes no frame or effect cursor. Public content 1.0.43 pins the contract;
 protocol and save schema are unchanged.
 

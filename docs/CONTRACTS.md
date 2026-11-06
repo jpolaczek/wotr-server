@@ -4,9 +4,10 @@
 Contracts 0.43.0 advances ActionBoundary to version 27. `FateMonsters` marks
 only the `Monsters Roused` branch choice and its East elite-region choice. The
 marker carries the public parent card, paid face and selected East branch; it
-does not expose a resolution frame or effect cursor. Rules 0.15.27 emits it only
+does not expose a resolution frame or effect cursor. Rules 0.15.28 emits it only
 for the exact Fate event program, public discard, resolving Shadow payment and
-rules-matched choices. Public content 1.0.43 pins the contract. Protocol and
+rules-matched choices. It preserves the printed Muster cost or Event cost,
+including legal Army/Muster and Will of the West dice. Public content 1.0.43 pins the contract. Protocol and
 save schema do not change.
 
 Contracts 0.42.0 advances ActionBoundary to version 26. `Battle.ReliefEvent`

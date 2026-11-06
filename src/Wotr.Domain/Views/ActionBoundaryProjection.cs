@@ -241,7 +241,8 @@ internal static class ActionBoundaryProjection
                     ArmyOrder: null, Wait: EffectWait.Choice or EffectWait.None } ||
             execution.ReactionWindow.Length != 0 || execution.OfferedReactions.Count != 0 ||
             execution.AppliedHits != 0 || execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 ||
-            execution.NationId.Length != 0 || execution.PaidFace != CardCatalog.All[cardId].EventType ||
+            execution.NationId.Length != 0 ||
+            execution.PaidFace != DieFace.Event && execution.PaidFace != CardCatalog.All[cardId].EventType ||
             execution.InspectedSovereign is not null || execution.InspectedHand is not null ||
             execution.RingRecovery is not null || execution.MadnessTarget is not null || execution.FellowshipMove ||
             execution.Committed.Count is < 1 or > 2 ||
@@ -284,11 +285,15 @@ internal static class ActionBoundaryProjection
         var paidDieId = state.Resolution.PaidDieIds[0];
         var paidDie = state.Dice.SingleOrDefault(die => die.Id == paidDieId);
         if (paidDie is not { Owner: Side.Shadow, Location: DieLocation.Resolving } ||
-            paidDie.Face != DieFace.Event && paidDie.Face != execution.PaidFace)
+            !CanPayObservedFace(paidDie.Face, execution.PaidFace))
             return null;
 
         return new() { CardId = cardId, CardCost = execution.PaidFace, BranchId = branchId };
     }
+
+    private static bool CanPayObservedFace(DieFace face, DieFace cost) =>
+        face == cost || face == DieFace.WillOfTheWest ||
+        face == DieFace.ArmyMuster && cost is DieFace.Army or DieFace.Muster;
 
     private static bool IsRelentlessAssaultLoss(MatchState state, PendingDecision pending,
         BattleState battle, IReadOnlyList<ResolutionFrame> frames)
