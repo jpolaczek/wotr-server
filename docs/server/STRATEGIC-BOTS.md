@@ -171,6 +171,11 @@ failing bounded configuration walk passed **1/1**. Client commit
 source; its 72-file Markdown link check passed. No client code, package, Unity
 test or gameplay-ready status changed. BOT-02 remains in progress and
 `gameplayReady=false`; battle, discard and nested-expansion roots remain open.
+The latest 93-configuration bounded walks reconstructed **7,171/7,440** sampled
+roots; the remaining **269** were explicit unsupported decisions. Candidate
+legality matched the authoritative engine at every reconstructed root. The
+largest unresolved areas remain reactions, Guide continuations, card effects
+and battle advances; this sample is not exhaustive reachability.
 
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
