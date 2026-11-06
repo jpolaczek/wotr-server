@@ -26,7 +26,7 @@ internal static class BalrogHuntProjection
             state.Player(Side.Shadow).Discard.Contains(ShadowCharacterCards03.Balrog) &&
             !state.Player(Side.Shadow).Table.Contains(ShadowCharacterCards03.Balrog) &&
             reactionValid &&
-            (fellowshipIndex <= 1 || reaction.Effect.Committed.Count == 0) &&
+            (fellowshipIndex <= 1 || reaction.Effect!.Committed.Count == 0) &&
             HuntEffectProjection.PlainShadowProgram(program, ShadowCharacterCards03.BalrogReaction, ShadowCharacterCards03.Balrog, 1, "") &&
             program.Effect!.OfferedReactions.Count == 0 && program.Effect.Committed.Count == 0 &&
             active.EffectId == "hunt" && HuntChoiceProjection.PlainFrame(active) &&

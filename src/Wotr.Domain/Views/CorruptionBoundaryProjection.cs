@@ -1,4 +1,5 @@
 using Wotr.Contracts;
+using Wotr.Domain.Content;
 
 namespace Wotr.Domain;
 
@@ -90,7 +91,7 @@ internal static class CorruptionBoundaryProjection
     private static bool WestTarget(MatchState state, CorruptionAttempt attempt, out SovereignState sovereign)
     {
         sovereign = SovereignLifecycle.Find(state, attempt.SovereignId)!;
-        var region = SovereignLifecycle.Region(state, attempt.SovereignId);
+        var region = SovereignLifecycle.Region(state, sovereign);
         return state.Pending!.SourceId == attempt.SovereignId &&
             attempt.Stage is CorruptionStage.Drawing or CorruptionStage.Choosing or CorruptionStage.SequentialChoice &&
             attempt.DrawLimit == Math.Min(3, CorruptionRules.Eyes(state).Count()) &&
@@ -118,7 +119,7 @@ internal static class CorruptionBoundaryProjection
             root.Committed.Count != 2 ||
             root.Committed[0] != new EffectSelection(Side.Shadow, KingsCards02.West) ||
             root.Committed[1] != new EffectSelection(Side.Shadow, KingsCards02.West,
-                attempt.SovereignId, SovereignLifecycle.Region(state, sovereign.Id)) ||
+                attempt.SovereignId, SovereignLifecycle.Region(state, sovereign)) ||
             root.PalantirDrawPending && root.PaidFace != DieFace.Event)
             return false;
 
