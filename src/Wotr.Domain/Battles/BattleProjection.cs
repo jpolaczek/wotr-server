@@ -86,6 +86,7 @@ public static class BattleProjection
         CardBack = BattleCards.Back(force),
         CardId = force.Side == viewer || battle.CardsRevealed ? force.Round.CardId : null,
         CardCancelled = force.Round.CardCancelled,
+        OrderlyWithdrawal = force.Round.OrderlyWithdrawal,
         Dice = force.Round.Dice.Select(Die).ToList(),
         OwnRerollSelection = force.Side == viewer ? [.. force.Round.SelectedRerolls] : []
     };

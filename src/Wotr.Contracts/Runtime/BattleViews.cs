@@ -59,6 +59,7 @@ namespace Wotr.Contracts
         public string CardBack { get; set; } = "";
         public string? CardId { get; set; }
         public bool CardCancelled { get; set; }
+        public bool OrderlyWithdrawal { get; set; }
         public List<BattleDieView> Dice { get; set; } = new List<BattleDieView>();
         public List<string> OwnRerollSelection { get; set; } = new List<string>();
     }

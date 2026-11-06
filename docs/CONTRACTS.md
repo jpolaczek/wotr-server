@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.32.0 adds public `BattleForceView.OrderlyWithdrawal`, set only after
+Free Peoples chooses the Orderly Withdrawal hit cancellation. Both players see
+the resolved round-end obligation with the revealed combat card. It adds no
+saved frame or private choice. Public content 1.0.32 pins the contract; pure
+rules package 0.15.8 includes it. ActionBoundary remains v17; protocol and save
+schema do not change.
+
 Contracts 0.31.0 adds optional `BattleContextView.SpecialAttackLoss` and advances
 `ActionBoundaryView.Version` to 17. It marks a reviewed first-step Charge card
 loss while its battle-effect continuation is suspended. The marker carries no
