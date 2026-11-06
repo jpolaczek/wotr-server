@@ -177,6 +177,21 @@ legality matched the authoritative engine at every reconstructed root. The
 largest unresolved areas remain reactions, Guide continuations, card effects
 and battle advances; this sample is not exhaustive reachability.
 
+### BOT-02 implementation checkpoint — direct paid-separation Guide (2026-11-06)
+
+Rules source commit `990b15908665fb2d674a9fbe06aa61042e4c21c3` packages
+`wotr-rules` 0.15.15, Contracts 0.35.0 and public content 1.0.35. ActionBoundary
+v19 adds `FellowshipGuide` only for a direct paid Free Peoples companion
+separation with a Guide decision remaining. It carries no frame, source history,
+or selected private choice. Other public contexts now use boundary v19.
+
+Private commit `2089347` / runtime 0.2.62 consumes the marker and rebuilds the
+single Guide continuation from public companions, the resolving Character die
+and the ordinary SelectGuide option. This change has not been built or tested;
+it is not included in the prior 7,171/7,440 verified-root count. BOT-02 remains
+in progress, gameplayReady=false, and no policy is registered. No client code,
+release, deployment or push changed.
+
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
 reconstruction is blocked on a reviewed mapping from player information/history
