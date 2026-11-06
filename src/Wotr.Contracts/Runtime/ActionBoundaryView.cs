@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 26;
+        public int Version { get; set; } = 27;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -28,6 +28,7 @@ namespace Wotr.Contracts
         public CorruptionEventView? CorruptionEvent { get; set; }
         public WestPalantirDrawView? WestPalantirDraw { get; set; }
         public WestPalantirDiscardView? WestPalantirDiscard { get; set; }
+        public FateMonstersEventView? FateMonsters { get; set; }
         public LordsRuleFactsView? Lords { get; set; }
         public KingsRuleFactsView? Kings { get; set; }
     }
@@ -102,6 +103,15 @@ namespace Wotr.Contracts
         public string CardId { get; set; } = "";
         public DieFace CardCost { get; set; }
         public string DrawnCardId { get; set; } = "";
+    }
+
+    // Public parent card/payment and selected branch for Fate's Monsters Roused
+    // event. It marks only the branch and East elite-region decisions.
+    public sealed class FateMonstersEventView
+    {
+        public string CardId { get; set; } = "";
+        public DieFace CardCost { get; set; }
+        public string BranchId { get; set; } = "";
     }
 
     // Public consequences of the committed reveal route after a paid move.

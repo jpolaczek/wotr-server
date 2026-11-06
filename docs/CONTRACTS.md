@@ -1,6 +1,14 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.43.0 advances ActionBoundary to version 27. `FateMonsters` marks
+only the `Monsters Roused` branch choice and its East elite-region choice. The
+marker carries the public parent card, paid face and selected East branch; it
+does not expose a resolution frame or effect cursor. Rules 0.15.27 emits it only
+for the exact Fate event program, public discard, resolving Shadow payment and
+rules-matched choices. Public content 1.0.43 pins the contract. Protocol and
+save schema do not change.
+
 Contracts 0.42.0 advances ActionBoundary to version 26. `Battle.ReliefEvent`
 marks the reviewed `Help Unlooked For` battle with its public card ID and paid
 face. Rules 0.15.26 emits it only while the one-step event is the battle's

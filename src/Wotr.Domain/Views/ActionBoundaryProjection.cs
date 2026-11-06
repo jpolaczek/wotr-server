@@ -18,10 +18,11 @@ internal static class ActionBoundaryProjection
         var corruptionEvent = CorruptionBoundaryProjection.Event(state);
         var westPalantirDraw = CorruptionBoundaryProjection.WestPalantirDraw(state);
         var westPalantirDiscard = CorruptionBoundaryProjection.WestPalantirDiscard(state, viewer);
+        var fateMonsters = FateMonstersEvent(state);
         var reviewedContinuation = declaration is not null || fellowshipMove is not null ||
             cardHunt is not null || lureChoice is not null || lurePlacement is not null || companionJourney is not null ||
             fellowshipGuide is not null || battle is not null || corruptionEvent is not null ||
-            westPalantirDraw is not null || westPalantirDiscard is not null;
+            westPalantirDraw is not null || westPalantirDiscard is not null || fateMonsters is not null;
         // Compose only explicitly reviewed continuations with module facts;
         // arbitrary expansion procedures are not inferred from their decision kind.
         if (!KingsBoundaryProjection.Supports(state, reviewedContinuation) ||
@@ -33,7 +34,7 @@ internal static class ActionBoundaryProjection
         if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
             fellowshipMove is null && cardHunt is null && lureChoice is null && lurePlacement is null && companionJourney is null &&
             fellowshipGuide is null && declaration is null && battle is null &&
-            !CorruptionBoundaryProjection.Supports(state))
+            !CorruptionBoundaryProjection.Supports(state) && fateMonsters is null)
             return null;
 
         // Base/Fate discards never return to a hand/deck. Only a visible discharge
@@ -57,6 +58,7 @@ internal static class ActionBoundaryProjection
             CorruptionEvent = corruptionEvent,
             WestPalantirDraw = westPalantirDraw,
             WestPalantirDiscard = westPalantirDiscard,
+            FateMonsters = fateMonsters,
             Lords = LordsBoundaryProjection.For(state),
             Kings = KingsBoundaryProjection.For(state, tiles.Unassigned),
             PaidDieIds = [.. state.Resolution.PaidDieIds],
@@ -207,6 +209,85 @@ internal static class ActionBoundaryProjection
         {
             ReliefEvent = new() { CardId = cardId, CardCost = execution.PaidFace }
         };
+    }
+
+    private static FateMonstersEventView? FateMonstersEvent(MatchState state)
+    {
+        const string cardId = FateCards.Monsters;
+        var pending = state.Pending;
+        var frames = state.Resolution.Frames;
+        if (!state.Configuration.Fate || state.Phase != GamePhase.ActionResolution ||
+            state.AfterDiscard != DiscardContinuation.None || state.Resolution.ActionSequence is not null ||
+            pending is not { Kind: DecisionKind.EffectChoice, Owner: Side.Shadow } || pending.SourceId != cardId ||
+            state.Resolution.Window.Length != 0 || state.PoliticalReactions.Count != 0 ||
+            frames.Count is < 1 or > 2 || state.Resolution.PaidDieIds.Count != 1 ||
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
+            !CardCatalog.Enabled(state.Configuration, cardId) ||
+            !EffectCatalog.All.Programs.TryGetValue(cardId, out var program) ||
+            program.Steps is not [FateMonstersBranchStep] ||
+            !state.Player(Side.Shadow).Discard.Contains(cardId) || state.Player(Side.Shadow).Hand.Contains(cardId) ||
+            state.Player(Side.Shadow).Table.Contains(cardId) ||
+            !Discharged(state.Events.Where(e => e.OnlyFor is null)).Contains(cardId))
+            return null;
+
+        var parent = frames[0];
+        var execution = parent.Effect;
+        if (parent.EffectId != cardId || parent.NextStep != 1 || parent.Window.Length != 0 ||
+            parent.ReturnDecision is not null || parent.Fellowship is not null || parent.Hunt is not null ||
+            parent.Battle is not null || parent.BattleLoss is not null || parent.EventLoss is not null ||
+            parent.Corruption is not null || execution is not
+                { Owner: Side.Shadow, SourceId: cardId, Return: EffectReturn.FinishAction, IsEvent: true,
+                    PalantirDrawPending: false, AnarionDrawPending: false, CompletionWindowOffered: false,
+                    ArmyOrder: null, Wait: EffectWait.Choice or EffectWait.None } ||
+            execution.ReactionWindow.Length != 0 || execution.OfferedReactions.Count != 0 ||
+            execution.AppliedHits != 0 || execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 ||
+            execution.NationId.Length != 0 || execution.PaidFace != CardCatalog.All[cardId].EventType ||
+            execution.InspectedSovereign is not null || execution.InspectedHand is not null ||
+            execution.RingRecovery is not null || execution.MadnessTarget is not null || execution.FellowshipMove ||
+            execution.Committed.Count is < 1 or > 2 ||
+            execution.Committed[0] != new EffectSelection(Side.Shadow, cardId, "", ""))
+            return null;
+
+        var branchId = "";
+        if (frames.Count == 1)
+        {
+            if (execution.Wait != EffectWait.Choice || execution.Committed.Count != 1 ||
+                pending.PrivateChoices.Count != 2 ||
+                !pending.PrivateChoices.SequenceEqual(new[] { FateCards.MonstersWest, FateCards.MonstersEast }) ||
+                parent.ReturnDecision is not null)
+                return null;
+        }
+        else
+        {
+            branchId = FateCards.MonstersEast;
+            var child = frames[1];
+            if (execution.Wait != EffectWait.None || execution.Committed.Count != 2 ||
+                execution.Committed[1] != new EffectSelection(Side.Shadow, cardId, branchId, "") ||
+                child.EffectId != branchId || child.NextStep != 1 || child.Window.Length != 0 ||
+                child.ReturnDecision is not null || child.Fellowship is not null || child.Hunt is not null ||
+                child.Battle is not null || child.BattleLoss is not null || child.EventLoss is not null ||
+                child.Corruption is not null || child.Effect is not
+                    { Owner: Side.Shadow, SourceId: cardId, Return: EffectReturn.Parent, Wait: EffectWait.Choice,
+                        IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false,
+                        CompletionWindowOffered: false, ArmyOrder: null } childExecution ||
+                childExecution.PaidFace != default || childExecution.ReactionWindow.Length != 0 ||
+                childExecution.OfferedReactions.Count != 0 || childExecution.AppliedHits != 0 ||
+                childExecution.RegionId.Length != 0 || childExecution.TargetIds.Count != 0 ||
+                childExecution.NationId.Length != 0 || childExecution.Committed.Count != 0 ||
+                childExecution.InspectedSovereign is not null || childExecution.InspectedHand is not null ||
+                childExecution.RingRecovery is not null || childExecution.MadnessTarget is not null ||
+                childExecution.FellowshipMove || pending.PrivateChoices.Count == 0 ||
+                !pending.PrivateChoices.SequenceEqual(new FateMonstersEliteStep().Candidates(state, childExecution)))
+                return null;
+        }
+
+        var paidDieId = state.Resolution.PaidDieIds[0];
+        var paidDie = state.Dice.SingleOrDefault(die => die.Id == paidDieId);
+        if (paidDie is not { Owner: Side.Shadow, Location: DieLocation.Resolving } ||
+            paidDie.Face != DieFace.Event && paidDie.Face != execution.PaidFace)
+            return null;
+
+        return new() { CardId = cardId, CardCost = execution.PaidFace, BranchId = branchId };
     }
 
     private static bool IsRelentlessAssaultLoss(MatchState state, PendingDecision pending,

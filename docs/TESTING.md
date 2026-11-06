@@ -4,6 +4,8 @@
 `ReliefBattleBoundaryTests` verify that both seats receive only the reviewed
 `Help Unlooked For` parent/payment fact through losses, retreat and advance, and
 that malformed parents or garrison dice reductions suppress the boundary.
+`FateMonstersBoundaryTests` verify both public parent/branch choices and reject
+altered event, payment or committed-branch facts.
 `ActionBoundaryProjectionTests` verify
 ordinary base/Fate rule facts, copied data,
 hidden hand/deck/discard and tile-order invariance, visible discard provenance,
