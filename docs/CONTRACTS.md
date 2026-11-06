@@ -1,6 +1,14 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.48.0 advances ActionBoundary to version 32. `DirectEventChoices` in
+rules 0.15.33 now reviews choices by step type rather than by card, which marks 43
+events. It covers a first choice whose candidates come from the public board, a
+choice after an automatic public step, and a recruitment in a public region left by
+an earlier step. The marker still carries only the public card ID and payment
+face. A step type outside the list stays unmarked until it is reviewed. Public
+content 1.0.48 pins the contract. Protocol and save schema do not change.
+
 Contracts 0.47.0 advances ActionBoundary to version 31. `DirectEventChoice` also
 marks the first choice of Celeborn's Galadhrim, The Spirit of Mordor, Faramir's Rangers, Men of Little
 Villages, Work of the Enemy, Dwarves of the Iron Hills, Hill-Trolls, Many Kings to

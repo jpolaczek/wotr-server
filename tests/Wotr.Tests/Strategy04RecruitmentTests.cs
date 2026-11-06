@@ -28,7 +28,7 @@ public class Strategy04RecruitmentTests
         foreach (var side in Enum.GetValues<Side>())
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(31, view.ActionBoundary?.Version);
+            Assert.Equal(32, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(KindredOfGlorfindel, context.CardId);
             Assert.Equal(cost, context.CardCost);
@@ -51,21 +51,6 @@ public class Strategy04RecruitmentTests
         else
             state.Events.RemoveAll(item => item.Kind == "EventPlayed");
 
-        Assert.All(Enum.GetValues<Side>(), side =>
-            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
-    }
-
-    [Theory]
-    [InlineData(KingBrandsMen)]
-    [InlineData(SwordsInEriador)]
-    [InlineData(DainIronfoot)]
-    [InlineData(Eomer)]
-    [InlineData(ThranduilsArchers)]
-    public void UnreviewedDirectEventsRemainUnmarked(string card)
-    {
-        var state = BattleFixture.State();
-        state.Nations.Single(nation => nation.Id == "elves").StepsToWar = 3;
-        state = Play(state, card);
         Assert.All(Enum.GetValues<Side>(), side =>
             Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
     }

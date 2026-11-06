@@ -345,7 +345,9 @@ internal static class ActionBoundaryProjection
 
         var selectionMatches = cardId == KingsCards02.Service && frame.NextStep == 2
             ? ServiceSovereignSelected(state, execution)
-            : HasNoEventSelection(execution);
+            : choice is RecruitEffectStep { Region: "" }
+                ? HasPublicRecruitRegion(execution)
+                : HasNoEventSelection(execution);
         if (!selectionMatches)
             return null;
 
@@ -356,6 +358,11 @@ internal static class ActionBoundaryProjection
 
         return new() { CardId = cardId, CardCost = execution.PaidFace };
     }
+
+    private static bool HasPublicRecruitRegion(EffectExecution execution) =>
+        BoardRules.Regions.ContainsKey(execution.RegionId) && execution.TargetIds.Count == 0 &&
+        execution.NationId.Length == 0 && execution.Committed.All(selection =>
+            selection.Owner == execution.Owner && selection.SourceId == execution.SourceId);
 
     private static bool HasNoEventSelection(EffectExecution execution) =>
         execution.Committed.Count == 1 && execution.RegionId.Length == 0 &&

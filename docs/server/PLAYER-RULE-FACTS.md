@@ -1,5 +1,11 @@
 # Player rule facts at an action boundary
 
+Contracts 0.48.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version
+32. Review is now by step type, covering 43 events. The owner rebuilds a recruitment
+region from their legal options, whose targets already name it, so no new field is
+needed. Public content 1.0.48 pins these shared facts; protocol and save schema are
+unchanged.
+
 Contracts 0.47.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version
 31 to the first choice of eleven more directly paid events, for either side:
 Celeborn's Galadhrim, The Spirit of Mordor, Faramir's Rangers, Men of Little

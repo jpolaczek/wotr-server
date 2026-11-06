@@ -433,6 +433,17 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — direct events reviewed by step type (2026-11-06)
+
+Contracts 0.48.0 / ActionBoundary v32 and rules 0.15.33 replace the card list in
+`DirectEventChoices` with a list of reviewed step types, marking 43 events. Each
+listed step takes its candidates only from the public board and the event's own
+earlier choices. `DirectEventChoiceFamilyTests` pins the exact event set, so any
+addition is explicit, and covers first choices, automatic earlier steps and
+recruitment in a chosen region. BOT-02 is still incomplete; no policy, push,
+release or deployment.
+
+
 ### BOT-02 implementation checkpoint — direct first-choice events (2026-11-06)
 
 Contracts 0.47.0 / ActionBoundary v31 and rules 0.15.32 extend `DirectEventChoice`

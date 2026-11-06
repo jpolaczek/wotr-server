@@ -7,19 +7,33 @@ namespace Wotr.Tests;
 
 public sealed class DirectEventChoiceFamilyTests
 {
+    private const string CirdansShips = "base.fp.strategy.13";
+    private const string HalfOrcs = "base.sh.strategy.13";
+    private const string Stewards = "base.fp.character.23";
+
     private static readonly string[] Cards =
     [
         FreePeoplesStrategyCards03.CelebornsGaladhrim,
+        FreePeoplesStrategyCards03.GuardsOfCitadel,
+        FreePeoplesStrategyCards03.Grimbeorn,
+        FreePeoplesStrategyCards04.SwordsInEriador,
+        FreePeoplesStrategyCards04.DainIronfoot,
         FreePeoplesStrategyCards01.SpiritOfMordor,
         FreePeoplesStrategyCards01.FaramirsRangers,
+        FreePeoplesStrategyCards02.RedArrow,
+        CirdansShips,
         KingsCards02.Villages,
         KingsCards04.Enemy,
         FateCards.Dwarves,
+        FateCards.Orcs,
         ShadowStrategyCards03.HillTrolls,
         ShadowStrategyCards03.ManyKings,
         ShadowStrategyCards03.NewPower,
+        HalfOrcs,
         ShadowStrategyCards04.MistyMountains,
-        ShadowStrategyCards04.Horde
+        ShadowStrategyCards04.Horde,
+        ShadowCharacterCards02.Weather,
+        ShadowCharacterCards04.Captain
     ];
 
     public static TheoryData<string> EachCard()
@@ -39,6 +53,33 @@ public sealed class DirectEventChoiceFamilyTests
         return data;
     }
 
+    [Fact]
+    public void ReviewedEventsAreExactlyThese()
+    {
+        var reviewed = EffectCatalog.All.Events
+            .Where(pair => EffectCatalog.All.Programs.TryGetValue(pair.Value.ProgramId, out var program) &&
+                Enumerable.Range(1, program.Steps.Count).Any(step => DirectEventChoices.IsReviewed(pair.Key, step, program)))
+            .Select(pair => pair.Key).OrderBy(id => id, StringComparer.Ordinal);
+
+        Assert.Equal(
+        [
+            "base.fp.character.23",
+            "base.fp.strategy.05", "base.fp.strategy.06", "base.fp.strategy.09", "base.fp.strategy.13",
+            "base.fp.strategy.14", "base.fp.strategy.15", "base.fp.strategy.16", "base.fp.strategy.17",
+            "base.fp.strategy.18", "base.fp.strategy.19", "base.fp.strategy.20", "base.fp.strategy.21",
+            "base.fp.strategy.22", "base.fp.strategy.23", "base.fp.strategy.24",
+            "base.sh.character.10", "base.sh.character.24",
+            "base.sh.strategy.01", "base.sh.strategy.11", "base.sh.strategy.12", "base.sh.strategy.13",
+            "base.sh.strategy.14", "base.sh.strategy.15", "base.sh.strategy.16", "base.sh.strategy.17",
+            "base.sh.strategy.18", "base.sh.strategy.19", "base.sh.strategy.20", "base.sh.strategy.21",
+            "base.sh.strategy.22", "base.sh.strategy.23", "base.sh.strategy.24",
+            "fate.fp.strategy.19", "fate.fp.strategy.22", "fate.sh.strategy.20",
+            "kings.fp.strategy.08", "kings.fp.strategy.25", "kings.fp.strategy.26",
+            "kings.sh.strategy.01", "kings.sh.strategy.18", "kings.sh.strategy.26",
+            "lords.fp.strategy.25"
+        ], reviewed);
+    }
+
     [Theory]
     [MemberData(nameof(EachCard))]
     public void MarksTheFirstChoiceWithOnlyThePublicCardAndPayment(string card)
@@ -47,15 +88,69 @@ public sealed class DirectEventChoiceFamilyTests
 
         Assert.Equal(DecisionKind.EffectChoice, state.Pending!.Kind);
         Assert.Equal(card, state.Pending.SourceId);
-        var cost = CardCatalog.All[card].EventType;
-        Assert.All(Enum.GetValues<Side>(), side =>
+        AssertMarked(state, card);
+    }
+
+    [Theory]
+    [InlineData(CirdansShips)]
+    [InlineData(HalfOrcs)]
+    public void MarksTheRecruitmentInTheChosenRegion(string card)
+    {
+        var state = Played(card);
+        var region = state.Pending!.PrivateChoices[0];
+
+        state = KingsFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = [region] });
+
+        Assert.Equal("ReserveFigures", state.Pending!.Presentation);
+        Assert.Equal(region, state.Resolution.Frames[0].Effect!.RegionId);
+        AssertMarked(state, card);
+    }
+
+    [Fact]
+    public void MarksRangersRecruitmentAfterTheRoll()
+    {
+        var state = Played(FreePeoplesStrategyCards01.FaramirsRangers);
+
+        state = KingsFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = [state.Pending!.PrivateChoices[0]] }, 0, 0, 0);
+
+        Assert.Equal("ReserveFigures", state.Pending!.Presentation);
+        Assert.Equal(3, state.Resolution.Frames[0].NextStep);
+        Assert.Equal("osgiliath", state.Resolution.Frames[0].Effect!.RegionId);
+        AssertMarked(state, FreePeoplesStrategyCards01.FaramirsRangers);
+    }
+
+    [Fact]
+    public void MarksARecruitmentAfterAnAutomaticBoromirRegion()
+    {
+        var state = Played(Stewards);
+
+        Assert.Equal(2, state.Resolution.Frames[0].NextStep);
+        Assert.Equal(StewardsCondition.Boromir(state)!.Location, state.Resolution.Frames[0].Effect!.RegionId);
+        AssertMarked(state, Stewards);
+    }
+
+    [Theory]
+    [InlineData("missing-region")]
+    [InlineData("unknown-region")]
+    [InlineData("target")]
+    [InlineData("nation")]
+    [InlineData("foreign-selection")]
+    public void TheChosenRegionMustBeAPublicRegion(string change)
+    {
+        var state = Played(CirdansShips);
+        state = KingsFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = [state.Pending!.PrivateChoices[0]] });
+        var execution = state.Resolution.Frames[0].Effect!;
+        switch (change)
         {
-            var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(31, view.ActionBoundary?.Version);
-            var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
-            Assert.Equal(card, context.CardId);
-            Assert.Equal(cost, context.CardCost);
-        });
+            case "missing-region": execution.RegionId = ""; break;
+            case "unknown-region": execution.RegionId = "nowhere"; break;
+            case "target": execution.TargetIds = ["altered"]; break;
+            case "nation": execution.NationId = "elves"; break;
+            case "foreign-selection": execution.Committed.Add(new(Side.Shadow, CirdansShips)); break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
     }
 
     [Theory]
@@ -78,18 +173,24 @@ public sealed class DirectEventChoiceFamilyTests
             Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
     }
 
-    [Theory]
-    [InlineData(FreePeoplesStrategyCards01.SpiritOfMordor)]
-    [InlineData(FreePeoplesStrategyCards01.FaramirsRangers)]
-    public void TheMarkerEndsWithTheFirstChoice(string card)
+    [Fact]
+    public void AStepTypeOutsideTheReviewRemainsUnmarked()
     {
-        var state = Played(card);
-        var region = state.Pending!.PrivateChoices[0];
+        var program = EffectCatalog.All.Programs["base.fp.strategy.04"];
+        Assert.DoesNotContain(Enumerable.Range(0, program.Steps.Count + 2), step =>
+            DirectEventChoices.IsReviewed("base.fp.strategy.04", step, program));
+    }
 
-        state = KingsFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = [region] }, 5, 5, 5, 5, 5);
-
+    private static void AssertMarked(MatchState state, string card)
+    {
         Assert.All(Enum.GetValues<Side>(), side =>
-            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+        {
+            var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
+            Assert.Equal(32, view.ActionBoundary?.Version);
+            var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
+            Assert.Equal(card, context.CardId);
+            Assert.Equal(CardCatalog.All[card].EventType, context.CardCost);
+        });
     }
 
     private static MatchState Played(string card)
@@ -109,7 +210,7 @@ public sealed class DirectEventChoiceFamilyTests
         {
             case KingsCards02.Villages: return KingsCardsFixture.State();
             case KingsCards04.Enemy: return KingsCardsFixture.State(Side.Shadow);
-            case FateCards.Dwarves: return FateCardsFixture.State(card);
+            case FateCards.Dwarves or FateCards.Orcs: return FateCardsFixture.State(card);
         }
 
         var state = BattleFixture.State(CardCatalog.All[card].Side);
@@ -123,8 +224,19 @@ public sealed class DirectEventChoiceFamilyTests
                 }
                 break;
             case FreePeoplesStrategyCards01.FaramirsRangers:
-                BattleFixture.Put(state, "sauron", UnitKind.Regular, "osgiliath");
                 BattleFixture.Put(state, "sauron", UnitKind.Regular, "north-ithilien");
+                BattleFixture.Put(state, "sauron", UnitKind.Regular, "south-ithilien");
+                BattleFixture.Put(state, "gondor", UnitKind.Regular, "osgiliath");
+                break;
+            case FreePeoplesStrategyCards02.RedArrow:
+                state.Nations.Single(nation => nation.Id == "gondor").Active = true;
+                break;
+            case CirdansShips:
+                BattleFixture.Put(state, "elves", UnitKind.Regular, "grey-havens");
+                BattleFixture.Put(state, "gondor", UnitKind.Regular, "dol-amroth");
+                break;
+            case Stewards:
+                CharacterFixture.Put(state, KingsCardsFixture.Boromir, "minas-tirith");
                 break;
             case ShadowStrategyCards03.HillTrolls:
                 state.Nations.Single(nation => nation.Id == "sauron").StepsToWar = 0;
@@ -134,8 +246,19 @@ public sealed class DirectEventChoiceFamilyTests
             case ShadowStrategyCards03.NewPower:
                 CharacterFixture.Put(state, CharacterRules.Saruman, "orthanc");
                 break;
+            case HalfOrcs:
+                BattleFixture.Put(state, "isengard", UnitKind.Regular, "orthanc");
+                BattleFixture.Put(state, "isengard", UnitKind.Regular, "north-dunland");
+                state.Nations.Single(nation => nation.Id == "isengard").StepsToWar = 0;
+                break;
             case ShadowStrategyCards04.Horde:
                 state.Nations.Single(nation => nation.Id == "southrons").StepsToWar = 0;
+                break;
+            case ShadowCharacterCards02.Weather:
+                state.Fellowship.Progress = 1;
+                break;
+            case ShadowCharacterCards04.Captain:
+                CharacterFixture.Put(state, CharacterRules.WitchKing, "angmar");
                 break;
         }
         return state;
