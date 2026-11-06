@@ -361,9 +361,9 @@ works against a new server and a new client's Find game needs the new routes.
 2. **Contracts and content.** Publish the packages from the merged commit and pin them in the client.
 3. **Server.** Back up the database, deploy as for any release (`infra/production.sh`), and check that migrations 017–022
    applied and `/health` answers. The migrations only add tables, columns and a wider check, so clients already released
-   keep working unchanged: they ignore the views' new fields. The one exception needs two installations of different ages: a
-   client from before this release fails to read My games on an account that has finished a ranked game, since it does not know
-   `VictoryCondition.Conceded` or `TimedOut`. Nobody reaches that by updating, as an update does not go backwards.
+   keep working unchanged until the client below raises the minimum: they ignore the views' new fields. The one exception would
+   be a client from before this release reading My games on an account that has finished a ranked game, since it does not know
+   `VictoryCondition.Conceded` or `TimedOut`; the required update closes that.
    Migration 022 gives every account the Eye or the Ring.
    **Restart `web` after the checkout** (`infra/production.sh restart web`): nginx mounts `game.conf` and
    `security-headers.conf` as single files, so a running container keeps the old file after a checkout replaces it, and without
@@ -371,10 +371,12 @@ works against a new server and a new client's Find game needs the new routes.
    mounted whole, so the page, its pictures and the site's text go live at the checkout: deploy and publish the client in one sitting. A Production server refuses to start with `Wotr:Ranked:ClockScalePercent` or
    `Wotr:Ranked:PresenceScalePercent` set. `RankedOptions` holds the running values: pairing every second, a search lapsing after 6 s
    without a poll, a pause ending after 10 minutes.
-4. **Client.** Publish it as an **optional** update. A client without Find game cannot start a search, so nobody is paired
-   with one, and players who update find each other. `WOTR_MODULE_CLIENTS` needs no entry for ranked play: it speaks of
-   modules, and the search already refuses a module a client cannot play. Make the update required only if the release has
-   another reason to.
+4. **Client.** Publish it as a **required** update, in the same sitting as the server (`release_client.py <version>
+   --required-now`; owner's decision, 2026-11-06). Ranked play would not need it: a client without Find game cannot start a
+   search, so nobody is paired with one. The owner wants every player on the line with avatars and ranked play. Players on an
+   older client are refused and offered the update, and no active ranked match is affected, since none can exist before this client
+   does. `WOTR_MODULE_CLIENTS` needs no entry for ranked play: it speaks of modules, and the search already refuses a module a
+   client cannot play.
 5. **Website.** The site's cards on ranked play and avatars, and its Account link, go live with the checkout above.
 
 **A later server release during ranked play.** A restart gives the downtime back to every clock (RANK-06), and nobody loses a game
