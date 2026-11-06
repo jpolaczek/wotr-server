@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.41.0 advances ActionBoundary to version 25. `WestPalantirDiscard`
+marks only Shadow's excess-card decision after the Palantir deck choice from
+`The West Has Failed`. Its drawn card identity is already visible in Shadow's
+hand and is omitted from the Free Peoples view. Rules 0.15.22 validates the
+immediate draw event pair and committed deck choice before emitting the fact;
+public content 1.0.41 pins the contract. Protocol and save schema do not change.
+
 Contracts 0.40.0 advances ActionBoundary to version 24. `WestPalantirDraw` marks
 the deck choice after `The West Has Failed` returns from its Kings corruption
 procedure. It carries the paid event and face; the selected target stays in the

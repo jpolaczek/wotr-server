@@ -17,16 +17,17 @@ internal static class ActionBoundaryProjection
         var battle = DirectBattle(state) ?? SpecialAttackLoss(state);
         var corruptionEvent = CorruptionBoundaryProjection.Event(state);
         var westPalantirDraw = CorruptionBoundaryProjection.WestPalantirDraw(state);
+        var westPalantirDiscard = CorruptionBoundaryProjection.WestPalantirDiscard(state, viewer);
         var reviewedContinuation = declaration is not null || fellowshipMove is not null ||
             cardHunt is not null || lureChoice is not null || lurePlacement is not null || companionJourney is not null ||
             fellowshipGuide is not null || battle is not null || corruptionEvent is not null ||
-            westPalantirDraw is not null;
+            westPalantirDraw is not null || westPalantirDiscard is not null;
         // Compose only explicitly reviewed continuations with module facts;
         // arbitrary expansion procedures are not inferred from their decision kind.
         if (!KingsBoundaryProjection.Supports(state, reviewedContinuation) ||
             !LordsBoundaryProjection.Supports(state, reviewedContinuation))
             return null;
-        if (state.Resolution.Frames.Count > 0 && declaration is null &&
+        if (state.Resolution.Frames.Count > 0 && declaration is null && westPalantirDiscard is null &&
             (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None))
             return null;
         if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
@@ -55,6 +56,7 @@ internal static class ActionBoundaryProjection
             FellowshipGuide = fellowshipGuide,
             CorruptionEvent = corruptionEvent,
             WestPalantirDraw = westPalantirDraw,
+            WestPalantirDiscard = westPalantirDiscard,
             Lords = LordsBoundaryProjection.For(state),
             Kings = KingsBoundaryProjection.For(state, tiles.Unassigned),
             PaidDieIds = [.. state.Resolution.PaidDieIds],

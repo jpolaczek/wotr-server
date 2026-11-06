@@ -1,5 +1,13 @@
 # Player rule facts at an action boundary
 
+Contracts 0.41.0 add `ActionBoundaryView.WestPalantirDiscard` at boundary version
+25. It marks only Shadow's excess-card decision after the Palantir deck choice
+following `The West Has Failed`. `DrawnCardId` is included only in Shadow's view,
+where that card is already present in the hand; the Free Peoples receives no
+marker or card identity. Rules 0.15.22 requires the exact West/Palantir stack,
+the committed deck selection, and the matching private/public draw event pair.
+Public content 1.0.41 pins the contract; protocol and save schema are unchanged.
+
 Contracts 0.40.0 add `ActionBoundaryView.WestPalantirDraw` at boundary version 24.
 It marks only the paid `The West Has Failed` event after its Kings corruption
 procedure and while Palantir asks Shadow to choose a deck. The marker carries

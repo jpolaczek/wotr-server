@@ -5,7 +5,8 @@ namespace Wotr.Domain;
 internal static class CorruptionBoundaryProjection
 {
     internal static bool Supports(MatchState state) => OrdinaryEyeAttempt(state) ||
-        WestEventAttempt(state, out _) || WestPalantirDrawContext(state, out _);
+        WestEventAttempt(state, out _) || WestPalantirDrawContext(state, out _) ||
+        WestPalantirDiscardContext(state, out _, out _);
 
     internal static CorruptionEventView? Event(MatchState state) => WestEventAttempt(state, out var effect)
         ? new()
@@ -19,6 +20,11 @@ internal static class CorruptionBoundaryProjection
     internal static WestPalantirDrawView? WestPalantirDraw(MatchState state) =>
         WestPalantirDrawContext(state, out var effect)
             ? new() { CardId = effect.SourceId, CardCost = effect.PaidFace }
+            : null;
+
+    internal static WestPalantirDiscardView? WestPalantirDiscard(MatchState state, Side viewer) =>
+        viewer == Side.Shadow && WestPalantirDiscardContext(state, out var effect, out var drawnCardId)
+            ? new() { CardId = effect.SourceId, CardCost = effect.PaidFace, DrawnCardId = drawnCardId }
             : null;
 
     private static bool OrdinaryEyeAttempt(MatchState state) => state.Configuration.Kings && state.Kings is not null &&
@@ -155,6 +161,106 @@ internal static class CorruptionBoundaryProjection
             return false;
 
         execution = root;
+        return true;
+    }
+
+    private static bool WestPalantirDiscardContext(MatchState state, out EffectExecution execution,
+        out string drawnCardId)
+    {
+        execution = null!;
+        drawnCardId = "";
+        var hand = state.Player(Side.Shadow).Hand;
+        if (!state.Configuration.Kings || state.Kings is null ||
+            state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.ResumeEffect ||
+            state.Pending is not { Kind: DecisionKind.DiscardCards, Owner: Side.Shadow } pending ||
+            pending.Commands is not [CommandKind.DiscardCards] || pending.RequiredCount != hand.Count - 6 ||
+            hand.Count != 7 || pending.RequiredCount != 1 || pending.PrivateChoices.Count != hand.Count ||
+            !pending.PrivateChoices.ToHashSet(StringComparer.Ordinal).SetEquals(hand) ||
+            state.Resolution.ActionSequence is not null || state.Resolution.Window.Length != 0 ||
+            state.Resolution.PaidDieIds.Count != 1 || state.PoliticalReactions.Count != 0 ||
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
+            !state.Player(Side.Shadow).Table.Contains(ShadowCharacterCards04.Palantir) ||
+            !state.Player(Side.Shadow).Discard.Contains(KingsCards02.West) ||
+            state.Player(Side.Shadow).Hand.Contains(KingsCards02.West) ||
+            state.Player(Side.Shadow).Table.Contains(KingsCards02.West) ||
+            state.Kings.RulerDiscardOrder.Count != 0 || state.Lords?.ChoiceOrder.Count > 0 ||
+            !EffectCatalog.All.Programs.TryGetValue(KingsCards02.West, out var westProgram) ||
+            westProgram.Steps is not [WestCorruptionStep] ||
+            !EffectCatalog.All.Programs.TryGetValue(ShadowCharacterCards04.PalantirDraw, out var palantirProgram) ||
+            palantirProgram.Steps is not [PalantirDrawStep] ||
+            state.Resolution.Frames is not [var parent, var draw] ||
+            !HuntEffectProjection.PlainShadowProgram(draw, ShadowCharacterCards04.PalantirDraw,
+                ShadowCharacterCards04.Palantir, 1, "") ||
+            draw.Effect!.Committed.Count != 0 || draw.Effect.OfferedReactions.Count != 0 ||
+            !WestPalantirDiscardParent(state, parent, state.Resolution.PaidDieIds[0], out var root,
+                out var selectedDeck) ||
+            !TryCurrentPalantirDraw(state, hand, selectedDeck, out drawnCardId))
+        {
+            drawnCardId = "";
+            return false;
+        }
+
+        execution = root;
+        return true;
+    }
+
+    private static bool WestPalantirDiscardParent(MatchState state, ResolutionFrame frame, string paidDieId,
+        out EffectExecution execution, out string selectedDeck)
+    {
+        execution = null!;
+        selectedDeck = "";
+        if (frame.EffectId != KingsCards02.West || frame.NextStep != 1 || frame.Window.Length != 0 ||
+            frame.ReturnDecision is not null || frame.Fellowship is not null || frame.Hunt is not null ||
+            frame.Battle is not null || frame.BattleLoss is not null || frame.EventLoss is not null ||
+            frame.Corruption is not null || frame.Effect is not { Owner: Side.Shadow,
+                SourceId: KingsCards02.West, PaidFace: DieFace.Event, Return: EffectReturn.FinishAction,
+                Wait: EffectWait.None, IsEvent: true, PalantirDrawPending: false, AnarionDrawPending: false,
+                NationId: "", RegionId: "", ArmyOrder: null, ReactionWindow: "",
+                CompletionWindowOffered: false, FellowshipMove: false, AppliedHits: 0,
+                InspectedSovereign: null, InspectedHand: null, RingRecovery: null, MadnessTarget: null } root ||
+            root.TargetIds.Count != 0 || root.OfferedReactions.Count != 0 || root.Committed.Count != 3 ||
+            root.Committed[0] != new EffectSelection(Side.Shadow, KingsCards02.West) ||
+            root.Committed[1].Owner != Side.Shadow || root.Committed[1].SourceId != KingsCards02.West ||
+            !SovereignCatalog.All.ContainsKey(root.Committed[1].ChoiceId) ||
+            !BoardRules.Regions.ContainsKey(root.Committed[1].TargetId) ||
+            root.Committed[2].Owner != Side.Shadow ||
+            root.Committed[2].SourceId != ShadowCharacterCards04.Palantir ||
+            root.Committed[2].TargetId.Length != 0 ||
+            !state.Player(Side.Shadow).Decks.ContainsKey(root.Committed[2].ChoiceId) ||
+            !PaidDieMatches(state, paidDieId, DieFace.Event))
+            return false;
+
+        selectedDeck = root.Committed[2].ChoiceId;
+        execution = root;
+        return true;
+    }
+
+    private static bool TryCurrentPalantirDraw(MatchState state, IReadOnlyCollection<string> hand,
+        string selectedDeck, out string drawnCardId)
+    {
+        drawnCardId = "";
+        if (state.Events.Count < 3)
+            return false;
+
+        var choice = state.Events[^3];
+        var privateDraw = state.Events[^2];
+        var publicDraw = state.Events[^1];
+        if (choice.Revision != state.Revision || privateDraw.Revision != state.Revision ||
+            publicDraw.Revision != state.Revision || choice.Kind != "OwnEffectChoice" ||
+            choice.OnlyFor != Side.Shadow || choice.Activity is not { Actor: Side.Shadow } choiceActivity ||
+            choiceActivity.Facts.SourceId != ShadowCharacterCards04.Palantir ||
+            choiceActivity.Facts.Targets is not [var chosenDeck] || chosenDeck != selectedDeck ||
+            privateDraw.Kind != "CardDrawn" || privateDraw.OnlyFor != Side.Shadow ||
+            publicDraw.Kind != "CardsDrawn" || publicDraw.OnlyFor is not null ||
+            privateDraw.Activity?.Facts.Cards is not [{ Owner: Side.Shadow, Use: ActionCardUse.Draw,
+                Id.Length: > 0 } card] ||
+            publicDraw.Activity?.Facts.Cards is not [{ Owner: Side.Shadow, Use: ActionCardUse.Draw,
+                Id: "", Deck: var deck, Count: 1 }] || deck != selectedDeck ||
+            card.Deck != selectedDeck || !hand.Contains(card.Id) ||
+            !CardCatalog.All.TryGetValue(card.Id, out var definition) || definition.Deck != selectedDeck)
+            return false;
+
+        drawnCardId = card.Id;
         return true;
     }
 

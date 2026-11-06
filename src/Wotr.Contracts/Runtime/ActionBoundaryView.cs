@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 24;
+        public int Version { get; set; } = 25;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -27,6 +27,7 @@ namespace Wotr.Contracts
         public FellowshipGuideView? FellowshipGuide { get; set; }
         public CorruptionEventView? CorruptionEvent { get; set; }
         public WestPalantirDrawView? WestPalantirDraw { get; set; }
+        public WestPalantirDiscardView? WestPalantirDiscard { get; set; }
         public LordsRuleFactsView? Lords { get; set; }
         public KingsRuleFactsView? Kings { get; set; }
     }
@@ -84,6 +85,15 @@ namespace Wotr.Contracts
     {
         public string CardId { get; set; } = "";
         public DieFace CardCost { get; set; }
+    }
+
+    // Shadow's private excess-card decision after that reviewed Palantir draw.
+    // DrawnCardId is owner-visible already in the hand; it is omitted from FP views.
+    public sealed class WestPalantirDiscardView
+    {
+        public string CardId { get; set; } = "";
+        public DieFace CardCost { get; set; }
+        public string DrawnCardId { get; set; } = "";
     }
 
     // Public consequences of the committed reveal route after a paid move.
