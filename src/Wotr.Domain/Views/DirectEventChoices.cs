@@ -30,6 +30,16 @@ public static class DirectEventChoices
         return 0;
     }
 
+    // The step whose roll leaves event losses pending, or 0. These steps apply plain
+    // Event casualties, and the rest of their programs never read the rolled target.
+    public static int LossStep(EffectDefinition program)
+    {
+        for (var index = 0; index < program.Steps.Count; index++)
+            if (program.Steps[index] is ArmyEventDamageStep or EnemyArmyStep)
+                return index + 1;
+        return 0;
+    }
+
     public static bool TravelsFirst(EffectDefinition program) => program.Steps.Count > 0 &&
         program.Steps[0] is MoveNazgulStep or BlackCaptainStep;
 

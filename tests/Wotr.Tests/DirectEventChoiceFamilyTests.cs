@@ -314,6 +314,101 @@ public sealed class DirectEventChoiceFamilyTests
             Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
     }
 
+    [Theory]
+    [InlineData(FreePeoplesStrategyCards01.SpiritOfMordor, Side.Shadow)]
+    [InlineData(FreePeoplesStrategyCards01.FaramirsRangers, Side.Shadow)]
+    public void MarksTheLossesOfAnArmyEventForTheirOwner(string card, Side lossOwner)
+    {
+        var state = LossesOf(card);
+
+        Assert.Equal(lossOwner, state.Pending!.Owner);
+        Assert.Equal(DecisionKind.Losses, state.Pending.Kind);
+        AssertMarked(state, card);
+        Assert.Equal(card, GameRuntime.Projection(EffectCatalog.All).For(state, lossOwner).EventLoss!.SourceId);
+    }
+
+    [Theory]
+    [InlineData("source")]
+    [InlineData("cause")]
+    [InlineData("cursor")]
+    [InlineData("event-wait")]
+    [InlineData("extra-frame")]
+    [InlineData("payment")]
+    public void TheLossesRequireTheirExactFrames(string change)
+    {
+        var state = LossesOf(FreePeoplesStrategyCards01.SpiritOfMordor);
+        var loss = state.Resolution.Frames[1].EventLoss!;
+        switch (change)
+        {
+            case "source": state.Resolution.Frames[1].EventLoss = loss with { SourceId = "base.fp.strategy.06" }; break;
+            case "cause": state.Resolution.Frames[1].EventLoss = loss with { Cause = CasualtyCause.DestructiveEvent }; break;
+            case "cursor": state.Resolution.Frames[0].NextStep = 0; break;
+            case "event-wait": state.Resolution.Frames[0].Effect!.Wait = EffectWait.Choice; break;
+            case "extra-frame": state.Resolution.Frames.Insert(0, new()); break;
+            case "payment":
+                state.Dice.Single(die => die.Id == state.Resolution.PaidDieIds[0]).Location = DieLocation.Spent;
+                break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
+    [Theory]
+    [InlineData(FreePeoplesCharacterCards02.Alone)]
+    [InlineData(FreePeoplesCharacterCards03.ThereAndBack)]
+    [InlineData(FateCards.ThereAndBack)]
+    public void MarksTheSeparationThatOpensAnEvent(string card)
+    {
+        var state = Separating(card);
+
+        Assert.Equal(DecisionKind.CompanionSeparation, state.Pending!.Kind);
+        AssertMarked(state, card);
+    }
+
+    [Theory]
+    [InlineData("journey")]
+    [InlineData("bonus")]
+    [InlineData("origin")]
+    [InlineData("source")]
+    [InlineData("cursor")]
+    public void TheSeparationRequiresItsExactFrames(string change)
+    {
+        var state = Separating(FreePeoplesCharacterCards03.ThereAndBack);
+        var procedure = state.Resolution.Frames[1].Fellowship!;
+        switch (change)
+        {
+            case "journey": procedure.Journey = new(); break;
+            case "bonus": procedure.SeparationBonus = 9; break;
+            case "origin": procedure.SeparationOrigin = "rivendell"; break;
+            case "source": procedure.SourceId = "base.fp.character.11"; break;
+            case "cursor": state.Resolution.Frames[0].NextStep = 0; break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
+    [Fact]
+    public void MarksAidAsACompanionJourney()
+    {
+        var state = KingsCardsFixture.State();
+        KingsCardsFixture.Companion(state, KingsCardsFixture.Boromir, "minas-tirith");
+        EventTests.GiveCard(state, Side.FreePeoples, KingsFreePeoplesCards01.Aid);
+        var die = state.Dice.First(item => item.Owner == Side.FreePeoples && item.Location == DieLocation.Available);
+        die.Face = DieFace.Event;
+        state = KingsFixture.Do(state, CommandKind.PlayEvent,
+            new() { CardId = KingsFreePeoplesCards01.Aid, DieId = die.Id, CardCost = DieFace.Event });
+
+        Assert.Equal(DecisionKind.CompanionSeparation, state.Pending!.Kind);
+        Assert.All(Enum.GetValues<Side>(), side =>
+        {
+            var boundary = GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary!;
+            Assert.Equal(KingsFreePeoplesCards01.Aid, boundary.CompanionJourney!.CardId);
+            Assert.Null(boundary.DirectEventChoice);
+        });
+    }
+
     [Fact]
     public void AStepTypeOutsideTheReviewRemainsUnmarked()
     {
@@ -327,11 +422,26 @@ public sealed class DirectEventChoiceFamilyTests
         Assert.All(Enum.GetValues<Side>(), side =>
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(33, view.ActionBoundary?.Version);
+            Assert.Equal(34, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(card, context.CardId);
             Assert.Equal(cost ?? CardCatalog.All[card].EventType, context.CardCost);
         });
+    }
+
+    private static MatchState LossesOf(string card)
+    {
+        var state = Played(card);
+        return KingsFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = [state.Pending!.PrivateChoices[0]] }, 5, 5, 5, 5, 5);
+    }
+
+    private static MatchState Separating(string card)
+    {
+        var state = card == FateCards.ThereAndBack ? FateCardsFixture.State(card) : BattleFixture.State();
+        EventTests.GiveCard(state, Side.FreePeoples, card);
+        var die = state.Dice.First(item => item.Owner == Side.FreePeoples && item.Location == DieLocation.Available);
+        die.Face = DieFace.Character;
+        return KingsFixture.Do(state, CommandKind.PlayEvent, new() { CardId = card, DieId = die.Id, CardCost = DieFace.Character });
     }
 
     private static MatchState GreyWindow(string card)

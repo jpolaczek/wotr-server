@@ -433,6 +433,16 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — event losses and separation (2026-11-06)
+
+Contracts 0.50.0 / ActionBoundary v34 and rules 0.15.35 mark the losses left by The
+Spirit of Mordor, Faramir's Rangers and Work of the Enemy, the separation that opens
+Alone or There and Back, and Aid's companion journey. `DirectEventChoiceFamilyTests`
+and `CompanionJourneyProjectionTests` cover them and refuse altered frames. Return to
+Valinor stays unmarked, see the player rule facts. BOT-02 is still incomplete; no
+policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — event reaction windows and Nazgul travel (2026-11-06)
 
 Contracts 0.49.0 / ActionBoundary v33 and rules 0.15.34 mark `event.played` and

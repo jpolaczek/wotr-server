@@ -1,5 +1,13 @@
 # Player rule facts at an action boundary
 
+Contracts 0.50.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version
+34 to event losses and event separations, and `CompanionJourney` to Aid. A loss belongs
+to the target's owner, usually the event's opponent, so that player's effect trail may
+hold nothing of the event; the remaining steps of these programs never read the rolled
+target. Return to Valinor stays unmarked: it repeats, and the regions it already visited
+are not in the view of the player taking the losses. Public content 1.0.50 pins these
+shared facts; protocol and save schema are unchanged.
+
 Contracts 0.49.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version
 33 to event reaction windows and Nazgul travel, with the same two fields. A pending
 Palantir draw follows from public facts: a Shadow event paid with an Event die while

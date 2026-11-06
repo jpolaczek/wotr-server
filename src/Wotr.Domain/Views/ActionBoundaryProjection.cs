@@ -308,9 +308,9 @@ internal static class ActionBoundaryProjection
             return null;
 
         var cardId = pending.SourceId;
-        if (!CardCatalog.All.TryGetValue(cardId, out var card) || card.Side != pending.Owner)
+        if (!CardCatalog.All.TryGetValue(cardId, out var card))
             return null;
-        var player = state.Player(pending.Owner);
+        var player = state.Player(card.Side);
         if (!CardCatalog.Enabled(state.Configuration, cardId) ||
             !EffectCatalog.All.Events.TryGetValue(cardId, out var definition) ||
             !EffectCatalog.All.Programs.TryGetValue(definition.ProgramId, out var program) ||
@@ -325,32 +325,65 @@ internal static class ActionBoundaryProjection
             frame.Battle is not null || frame.BattleLoss is not null || frame.EventLoss is not null ||
             frame.Corruption is not null || execution is not
                 { Owner: var owner, SourceId: var source, Return: EffectReturn.FinishAction, IsEvent: true,
-                    AnarionDrawPending: false, ArmyOrder: null } || owner != pending.Owner || source != cardId ||
+                    AnarionDrawPending: false, ArmyOrder: null } || owner != card.Side || source != cardId ||
             execution.PaidFace != DieFace.Event && execution.PaidFace != card.EventType ||
             execution.ReactionWindow.Length != 0 || execution.OfferedReactions.Count != 0 ||
-            execution.Committed.Count == 0 || execution.Committed[0] != new EffectSelection(pending.Owner, cardId) ||
+            execution.Committed.Count == 0 || execution.Committed[0] != new EffectSelection(card.Side, cardId) ||
             execution.AppliedHits != 0 || execution.InspectedSovereign is not null ||
             execution.InspectedHand is not null || execution.RingRecovery is not null ||
             execution.MadnessTarget is not null || execution.FellowshipMove)
             return null;
 
+        // Losses fall to the target's owner, usually the event's opponent. Every other
+        // reviewed decision belongs to the event's owner.
         var reviewed = pending.Kind switch
         {
+            DecisionKind.Losses => IsReviewedEventLoss(state, pending, frame, execution, program),
+            _ when pending.Owner != card.Side => false,
             DecisionKind.EffectChoice => IsReviewedEventChoice(state, pending, frame, execution, program),
             DecisionKind.Reaction => IsReviewedEventReaction(state, pending, frame, execution, program),
             DecisionKind.CharacterEvent => IsReviewedNazgulTravel(state, pending, frame, execution, program),
+            DecisionKind.CompanionSeparation => IsReviewedEventSeparation(state, pending, frame, execution, program),
             _ => false
         };
         if (!reviewed)
             return null;
 
         var paidDie = state.Dice.SingleOrDefault(die => die.Id == state.Resolution.PaidDieIds[0]);
-        if (paidDie is null || paidDie.Owner != pending.Owner || paidDie.Location != DieLocation.Resolving ||
+        if (paidDie is null || paidDie.Owner != card.Side || paidDie.Location != DieLocation.Resolving ||
             !CanPayObservedFace(paidDie.Face, execution.PaidFace))
             return null;
 
         return new() { CardId = cardId, CardCost = execution.PaidFace };
     }
+
+    // The public loss view names the target, hits and rolls. The program's remaining
+    // steps do not read the rolled target, so nothing else needs restoring.
+    private static bool IsReviewedEventLoss(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program) =>
+        pending.Commands is [CommandKind.TakeEventLosses] && state.Resolution.Frames is [_, var lossFrame] &&
+        lossFrame is { EffectId: "", NextStep: 0, Window: "", ReturnDecision: null, Effect: null, Fellowship: null,
+            Hunt: null, Battle: null, BattleLoss: null, Corruption: null,
+            EventLoss: { Cause: CasualtyCause.Event } loss } &&
+        loss.SourceId == execution.SourceId && loss.Target.Owner == pending.Owner && loss.Hits > 0 &&
+        pending.RequiredCount == loss.Hits &&
+        execution is { Wait: EffectWait.None, CompletionWindowOffered: false } &&
+        DirectEventChoices.LossStep(program) is > 0 and var step && frame.NextStep == step &&
+        execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution);
+
+    private static bool IsReviewedEventSeparation(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program) =>
+        pending is { Commands: [CommandKind.SeparateCompanions], Window: "", RequiredCount: 0 } &&
+        state.Resolution.Frames is [_, var separation] && HuntChoiceProjection.PlainFrame(separation) &&
+        separation.EffectId == "fellowship.Separation" &&
+        separation.Fellowship is { Kind: FellowshipProcedureKind.Separation, Return: FellowshipReturn.Parent, Journey: null,
+            FixedCompanions.Count: 0, SeparationOrigin: "", SeparationRange: 0, Route.Count: 0,
+            AdditionalHuntRegions.Count: 0, AwaitingHunts: false, RevealEffectsPending: false,
+            FireAndShadowPending: false, ChooseGuideAfterPlacement: false } fellowship &&
+        fellowship.SourceId == execution.SourceId && program.Steps.Count > 0 &&
+        program.Steps[0] is SeparateCompanionsStep step && fellowship.SeparationBonus == step.Bonus &&
+        frame.NextStep == 1 && execution is { Wait: EffectWait.None, CompletionWindowOffered: false } &&
+        HasNoEventSelection(execution);
 
     private static bool IsReviewedEventChoice(MatchState state, PendingDecision pending, ResolutionFrame frame,
         EffectExecution execution, EffectDefinition program)

@@ -18,7 +18,8 @@ internal static class CompanionJourneyProjection
         var effect = effectFrame.Effect;
         var card = effect?.SourceId ?? "";
         if (card is not (FreePeoplesCharacterCards03.Gwaihir or FreePeoplesCharacterCards03.Swifter or
-                FreePeoplesStrategyCards01.BookOfMazarbul or FreePeoplesStrategyCards02.FearFireFoes or FateCards.Book) ||
+                FreePeoplesStrategyCards01.BookOfMazarbul or FreePeoplesStrategyCards02.FearFireFoes or FateCards.Book or
+                KingsFreePeoplesCards01.Aid) ||
             effectFrame.EffectId != card || effectFrame.NextStep != 1 || effectFrame.Window != "" ||
             effectFrame.ReturnDecision is not null || effectFrame.Battle is not null ||
             effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
@@ -93,7 +94,7 @@ internal static class CompanionJourneyProjection
     }
 
     private static bool PaidFaceMatchesCard(string card, DieFace face) =>
-        card is FreePeoplesCharacterCards03.Gwaihir or FreePeoplesCharacterCards03.Swifter
+        card is FreePeoplesCharacterCards03.Gwaihir or FreePeoplesCharacterCards03.Swifter or KingsFreePeoplesCards01.Aid
             ? face is DieFace.Character or DieFace.Event
             : face is DieFace.Muster or DieFace.Event;
 
@@ -114,6 +115,11 @@ internal static class CompanionJourneyProjection
                 !journey.AllowNoMovement && journey.MaximumGroups == 1 &&
                 journey.FixedLevel == step.FixedLevel && journey.Bonus == step.Bonus &&
                 journey.AllowBesiegedDestination;
+
+        if (card == KingsFreePeoplesCards01.Aid)
+            return program.Steps is [KingsCompanionJourneyStep, AwakenWithCompanionStep] && !journey.AllowSeparation &&
+                journey.AllowNoMovement && journey.MaximumGroups == 0 && journey.FixedLevel is null &&
+                journey.Bonus == 0 && journey.AllowBesiegedDestination;
 
         return card is FreePeoplesStrategyCards01.BookOfMazarbul or FreePeoplesStrategyCards02.FearFireFoes or FateCards.Book &&
             program.Steps.Count > 0 && program.Steps[0] is OutsideCompanionJourneyStep &&

@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.50.0 advances ActionBoundary to version 34. `DirectEventChoice` also marks
+pending losses from `ArmyEventDamageStep` and `EnemyArmyStep`, for the target's owner,
+and the separation that opens an event through `SeparateCompanionsStep`.
+`CompanionJourney` also marks Aid. The existing public `EventLoss` view names the
+target, hits and rolls, so no field is added. Rules 0.15.35 and public content 1.0.50
+pin the contract. Protocol and save schema do not change.
+
 Contracts 0.49.0 advances ActionBoundary to version 33. `DirectEventChoice` also
 marks the reaction windows of a directly paid event: `event.played` before its first
 step and `event.completed` after its last, for any event. These windows hold no step
