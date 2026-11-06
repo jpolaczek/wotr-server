@@ -140,13 +140,31 @@ or playing strength. Exact diagnostics and current early/later copy, reconstruct
 rollout/allocation/cancellation measurements remain private.
 
 BOT-02 remains in progress; BOT-03 stays blocked on complete reconstruction.
-The paid `The West Has Failed` nested corruption source is now marked for local
-runtime reconstruction but remains unverified; other event/nested corruption,
-suspended expansion Hunts and card/battle/effect-discard
-continuations and nested expansion acceptance remain. No production faction policy
-is registered; gameplayReady=false. The isolated worktree passed verification and
-was fast-forwarded into main; the unrelated Core.csproj edit stayed byte-identical.
-Evidence is local in `.artifacts/bot02-completion/corruption/`. No push, release or
+The paid `The West Has Failed` nested corruption continuation now has a private
+runtime source checkpoint, but remains unbuilt and unverified. The later Palantir
+deck choice, other event/nested corruption, suspended expansion Hunts and
+card/battle/effect-discard continuations, and full parity acceptance remain open.
+No production faction policy is registered; `gameplayReady=false`.
+
+### BOT-02 implementation checkpoint — West corruption return (2026-11-06)
+
+Private commit `febf037858e35f78a950dff7af7ad671f3895d13` advances the runtime to
+0.2.66 and reconstructs the paid `The West Has Failed` continuation while its
+Kings corruption draw or choice is pending. Public ActionBoundary v23 carries
+the card, payment face and whether Palantir still has a draw pending after public
+reactions. The runtime validates the public effect trail, resolving die, tile
+facts and exact card program, then restores the parent event and corruption
+continuation without replaying a draw or serializing engine frames.
+
+The runtime pins rules 0.15.20 from public commit
+`453b0da60fcebacc96684020d1c0632d67ff55bf` (443 files; SHA-256
+`e115598d1c0ae4e4abade4d389aecd5c4aff7003af3fa8dd6fdea0f1ca0e3be2`),
+Contracts 0.39.0 and public content 1.0.39. Client commit
+`cded5e016d33f7adaea5731cd2424bd22227d2da` pins these packages; public peer
+links are at `a592fb6`. `git diff --check`, pinned dependency archive/hash
+inspection and the 443-file bootstrap integrity check passed. No tests or builds
+were run. This source path is not included in the 6,397/7,440 bounded-root count
+and does not change BOT-02 acceptance or gameplay readiness. No push, release or
 deployment was performed.
 
 ### BOT-02 implementation checkpoint — outside companion journeys (2026-11-06)
