@@ -433,6 +433,17 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — event reaction windows and Nazgul travel (2026-11-06)
+
+Contracts 0.49.0 / ActionBoundary v33 and rules 0.15.34 mark `event.played` and
+`event.completed` for any directly paid event, and the Nazgul travel in Black Captain
+and in the events that open with it. Spear of Terror applies to every Shadow Character
+event and the Gandalf draw to every Free Peoples event paid with an Event die, so this
+reaches much further than the bounded walk shows. `DirectEventChoiceFamilyTests` cover
+both windows, the Palantir expectation and refusal of altered frames. BOT-02 is still
+incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — direct events reviewed by step type (2026-11-06)
 
 Contracts 0.48.0 / ActionBoundary v32 and rules 0.15.33 replace the card list in

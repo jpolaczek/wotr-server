@@ -1,5 +1,11 @@
 # Player rule facts at an action boundary
 
+Contracts 0.49.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version
+33 to event reaction windows and Nazgul travel, with the same two fields. A pending
+Palantir draw follows from public facts: a Shadow event paid with an Event die while
+the Palantir is on the table, unless the owner's trail shows Spear of Terror. Public
+content 1.0.49 pins these shared facts; protocol and save schema are unchanged.
+
 Contracts 0.48.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version
 32. Review is now by step type, covering 43 events. The owner rebuilds a recruitment
 region from their legal options, whose targets already name it, so no new field is

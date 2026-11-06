@@ -30,6 +30,26 @@ public static class DirectEventChoices
         return 0;
     }
 
+    public static bool TravelsFirst(EffectDefinition program) => program.Steps.Count > 0 &&
+        program.Steps[0] is MoveNazgulStep or BlackCaptainStep;
+
+    public static bool IsCaptainFlight(EffectSelection selection) => selection ==
+        new EffectSelection(Wotr.Contracts.Side.Shadow, ShadowCharacterCards04.Captain, BlackCaptainStep.Fly);
+
+    // Accepting Spear of Terror adds this one entry to the event's trail.
+    public static bool IsSpearOfTerror(EffectSelection selection) =>
+        selection == new EffectSelection(Wotr.Contracts.Side.Shadow, LordsCharacters.WitchKing);
+
+    public static bool BelongsToEvent(EffectSelection selection, string cardId) =>
+        selection.SourceId == cardId || IsSpearOfTerror(selection);
+
+    // A Shadow event paid with an Event die draws from the Palantir when it ends,
+    // unless Spear of Terror replaced that draw.
+    public static bool PalantirDrawExpected(MatchState state, EffectExecution execution) =>
+        execution.Owner == Wotr.Contracts.Side.Shadow && execution.PaidFace == Wotr.Contracts.DieFace.Event &&
+        state.Player(execution.Owner).Table.Contains(ShadowCharacterCards04.Palantir) &&
+        !execution.Committed.Any(IsSpearOfTerror);
+
     private static bool IsAutomaticPublicStep(EffectStep step) =>
         step is AdvanceFixedNationStep or WitchKingReturnStep;
 

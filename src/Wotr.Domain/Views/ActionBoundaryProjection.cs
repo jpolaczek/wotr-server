@@ -303,8 +303,7 @@ internal static class ActionBoundaryProjection
         var frames = state.Resolution.Frames;
         if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
             state.Resolution.ActionSequence is not null || state.Resolution.Window.Length != 0 ||
-            state.PoliticalReactions.Count != 0 || pending is not { Kind: DecisionKind.EffectChoice } ||
-            pending.Commands is not [CommandKind.ChooseEffect] || frames.Count != 1 ||
+            state.PoliticalReactions.Count != 0 || pending is null || frames.Count == 0 ||
             state.Resolution.PaidDieIds.Count != 1 || state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1)
             return null;
 
@@ -315,40 +314,34 @@ internal static class ActionBoundaryProjection
         if (!CardCatalog.Enabled(state.Configuration, cardId) ||
             !EffectCatalog.All.Events.TryGetValue(cardId, out var definition) ||
             !EffectCatalog.All.Programs.TryGetValue(definition.ProgramId, out var program) ||
-            !player.Discard.Contains(cardId) || player.Hand.Contains(cardId) || player.Table.Contains(cardId) ||
+            !(definition.StaysOnTable ? player.Table : player.Discard).Contains(cardId) || player.Hand.Contains(cardId) ||
             !Discharged(state.Events.Where(item => item.OnlyFor is null)).Contains(cardId))
             return null;
 
         var frame = frames[0];
         var execution = frame.Effect;
-        if (execution is null || !DirectEventChoices.IsReviewed(cardId, frame.NextStep, program) ||
-            program.Steps[frame.NextStep - 1] is not EffectChoiceStep choice ||
-            pending.Presentation != choice.Presentation)
-            return null;
-
-        var candidates = choice.Candidates(state, execution);
-        if (frame.EffectId != definition.ProgramId || frame.Window.Length != 0 ||
+        if (execution is null || frame.EffectId != definition.ProgramId || frame.Window.Length != 0 ||
             frame.ReturnDecision is not null || frame.Fellowship is not null || frame.Hunt is not null ||
             frame.Battle is not null || frame.BattleLoss is not null || frame.EventLoss is not null ||
             frame.Corruption is not null || execution is not
                 { Owner: var owner, SourceId: var source, Return: EffectReturn.FinishAction, IsEvent: true,
-                    Wait: EffectWait.Choice, PalantirDrawPending: false, AnarionDrawPending: false,
-                    CompletionWindowOffered: false, ArmyOrder: null } || owner != pending.Owner || source != cardId ||
+                    AnarionDrawPending: false, ArmyOrder: null } || owner != pending.Owner || source != cardId ||
             execution.PaidFace != DieFace.Event && execution.PaidFace != card.EventType ||
             execution.ReactionWindow.Length != 0 || execution.OfferedReactions.Count != 0 ||
             execution.Committed.Count == 0 || execution.Committed[0] != new EffectSelection(pending.Owner, cardId) ||
             execution.AppliedHits != 0 || execution.InspectedSovereign is not null ||
             execution.InspectedHand is not null || execution.RingRecovery is not null ||
-            execution.MadnessTarget is not null || execution.FellowshipMove || candidates.Count == 0 ||
-            !pending.PrivateChoices.SequenceEqual(candidates))
+            execution.MadnessTarget is not null || execution.FellowshipMove)
             return null;
 
-        var selectionMatches = cardId == KingsCards02.Service && frame.NextStep == 2
-            ? ServiceSovereignSelected(state, execution)
-            : choice is RecruitEffectStep { Region: "" }
-                ? HasPublicRecruitRegion(execution)
-                : HasNoEventSelection(execution);
-        if (!selectionMatches)
+        var reviewed = pending.Kind switch
+        {
+            DecisionKind.EffectChoice => IsReviewedEventChoice(state, pending, frame, execution, program),
+            DecisionKind.Reaction => IsReviewedEventReaction(state, pending, frame, execution, program),
+            DecisionKind.CharacterEvent => IsReviewedNazgulTravel(state, pending, frame, execution, program),
+            _ => false
+        };
+        if (!reviewed)
             return null;
 
         var paidDie = state.Dice.SingleOrDefault(die => die.Id == state.Resolution.PaidDieIds[0]);
@@ -359,14 +352,74 @@ internal static class ActionBoundaryProjection
         return new() { CardId = cardId, CardCost = execution.PaidFace };
     }
 
+    private static bool IsReviewedEventChoice(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program)
+    {
+        var cardId = execution.SourceId;
+        if (pending.Commands is not [CommandKind.ChooseEffect] || state.Resolution.Frames.Count != 1 ||
+            execution is not { Wait: EffectWait.Choice, CompletionWindowOffered: false } ||
+            !DirectEventChoices.IsReviewed(cardId, frame.NextStep, program) ||
+            program.Steps[frame.NextStep - 1] is not EffectChoiceStep choice ||
+            pending.Presentation != choice.Presentation)
+            return false;
+
+        var candidates = choice.Candidates(state, execution);
+        if (candidates.Count == 0 || !pending.PrivateChoices.SequenceEqual(candidates) ||
+            execution.PalantirDrawPending != DirectEventChoices.PalantirDrawExpected(state, execution))
+            return false;
+
+        return cardId == KingsCards02.Service && frame.NextStep == 2
+            ? ServiceSovereignSelected(state, execution)
+            : choice is RecruitEffectStep { Region: "" }
+                ? HasPublicRecruitRegion(execution)
+                : HasNoEventSelection(execution);
+    }
+
+    // The route options come from the public Nazgul positions. The card's only
+    // earlier state is the owner's order to fly, which stays in their own trail.
+    private static bool IsReviewedNazgulTravel(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program) =>
+        pending is { Owner: Wotr.Contracts.Side.Shadow, Commands: [CommandKind.MoveShadowCharacters] } &&
+        state.Resolution.Frames.Count == 1 && execution is { Wait: EffectWait.NazgulTravel, CompletionWindowOffered: false } &&
+        frame.NextStep == 1 && DirectEventChoices.TravelsFirst(program) &&
+        execution.RegionId.Length == 0 && execution.TargetIds.Count == 0 && execution.NationId.Length == 0 &&
+        execution.Committed.Skip(1).All(selection => DirectEventChoices.IsSpearOfTerror(selection) ||
+            DirectEventChoices.IsCaptainFlight(selection)) && execution.Committed.Count <= 3 &&
+        execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution);
+
+    // A window opened on an event in play holds no step state: event.played comes
+    // before the first step, and event.completed after the last.
+    private static bool IsReviewedEventReaction(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program)
+    {
+        if (pending.Commands is not [CommandKind.RespondEffect, CommandKind.DeclineReaction] ||
+            state.Resolution.Frames is not [_, var window] || window.EffectId != EffectCatalog.ReactionProgram ||
+            window.NextStep != 0 || window.Window.Length != 0 || window.ReturnDecision is not null ||
+            window.Effect is not { Return: EffectReturn.Parent, Wait: EffectWait.Reaction, IsEvent: false } reaction ||
+            reaction.Owner != pending.Owner || reaction.SourceId != pending.SourceId ||
+            reaction.ReactionWindow != pending.Window || reaction.Committed.Count != 0 ||
+            execution.Wait != EffectWait.None)
+            return false;
+
+        return pending.Window switch
+        {
+            "event.played" => frame.NextStep == 0 && !execution.CompletionWindowOffered &&
+                execution.Committed.Count == 1 && HasNoEventSelection(execution) &&
+                execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution),
+            "event.completed" => frame.NextStep == program.Steps.Count && execution.CompletionWindowOffered &&
+                !execution.PalantirDrawPending,
+            _ => false
+        };
+    }
+
     private static bool HasPublicRecruitRegion(EffectExecution execution) =>
         BoardRules.Regions.ContainsKey(execution.RegionId) && execution.TargetIds.Count == 0 &&
         execution.NationId.Length == 0 && execution.Committed.All(selection =>
-            selection.Owner == execution.Owner && selection.SourceId == execution.SourceId);
+            selection.Owner == execution.Owner && DirectEventChoices.BelongsToEvent(selection, execution.SourceId));
 
     private static bool HasNoEventSelection(EffectExecution execution) =>
-        execution.Committed.Count == 1 && execution.RegionId.Length == 0 &&
-        execution.TargetIds.Count == 0 && execution.NationId.Length == 0;
+        execution.Committed.Skip(1).All(DirectEventChoices.IsSpearOfTerror) && execution.Committed.Count <= 2 &&
+        execution.RegionId.Length == 0 && execution.TargetIds.Count == 0 && execution.NationId.Length == 0;
 
     // The engine selects a lone eligible ruler without recording an owner choice,
     // so only that forced case may leave the selection out of the effect trail.

@@ -1,6 +1,15 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.49.0 advances ActionBoundary to version 33. `DirectEventChoice` also
+marks the reaction windows of a directly paid event: `event.played` before its first
+step and `event.completed` after its last, for any event. These windows hold no step
+state, so they need no review by step type. It also marks the Nazgul travel that opens
+an event or follows Black Captain's order to fly. The marker still carries only the
+public card ID and payment face. Rules 0.15.34 also accepts a pending Palantir draw
+when public facts require it, and the trail entry left by Spear of Terror. Public
+content 1.0.49 pins the contract. Protocol and save schema do not change.
+
 Contracts 0.48.0 advances ActionBoundary to version 32. `DirectEventChoices` in
 rules 0.15.33 now reviews choices by step type rather than by card, which marks 43
 events. It covers a first choice whose candidates come from the public board, a

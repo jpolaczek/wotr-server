@@ -173,6 +173,147 @@ public sealed class DirectEventChoiceFamilyTests
             Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
     }
 
+    [Theory]
+    [InlineData(DieFace.Character, false)]
+    [InlineData(DieFace.Event, false)]
+    [InlineData(DieFace.Event, true)]
+    public void MarksTheSpearWindowBeforeTheFirstStep(DieFace face, bool palantir)
+    {
+        var state = LordsChiefReactionTests.Play(LordsChiefReactionTests.BeforeEvent(palantir), face: face);
+
+        Assert.Equal("event.played", state.Pending!.Window);
+        Assert.Equal(palantir, state.Resolution.Frames[0].Effect!.PalantirDrawPending);
+        AssertMarked(state, ShadowCharacterCards03.Lidless, face);
+    }
+
+    [Theory]
+    [InlineData(DieFace.Character, false)]
+    [InlineData(DieFace.Event, true)]
+    public void MarksTheFirstChoiceAfterSpearWasTaken(DieFace face, bool palantir)
+    {
+        var state = LordsChiefReactionTests.BeforeEvent(palantir);
+        state.Fellowship.Progress = 1;
+        state = LordsChiefReactionTests.Play(state, ShadowCharacterCards02.Weather, face);
+        state = LordsFixture.Do(state, CommandKind.RespondEffect, new() { ReactionId = ChiefReactions.Spear });
+
+        Assert.Equal(DecisionKind.EffectChoice, state.Pending!.Kind);
+        Assert.False(state.Resolution.Frames[0].Effect!.PalantirDrawPending);
+        Assert.True(DirectEventChoices.IsSpearOfTerror(state.Resolution.Frames[0].Effect!.Committed[1]));
+        AssertMarked(state, ShadowCharacterCards02.Weather, face);
+    }
+
+    [Fact]
+    public void TheFirstChoiceExpectsThePalantirDraw()
+    {
+        var state = LordsChiefReactionTests.BeforeEvent(palantir: true, chiefRegion: "moria");
+        state.Fellowship.Progress = 1;
+        state = LordsChiefReactionTests.Play(state, ShadowCharacterCards02.Weather, DieFace.Event);
+
+        Assert.Equal(DecisionKind.EffectChoice, state.Pending!.Kind);
+        Assert.True(state.Resolution.Frames[0].Effect!.PalantirDrawPending);
+        AssertMarked(state, ShadowCharacterCards02.Weather, DieFace.Event);
+
+        state.Resolution.Frames[0].Effect!.PalantirDrawPending = false;
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
+    [Fact]
+    public void MarksTheNazgulTravelAfterTheCaptainsOrderToFly()
+    {
+        var state = Played(ShadowCharacterCards04.Captain);
+        state = KingsFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = [BlackCaptainStep.Fly] });
+
+        Assert.Equal(DecisionKind.CharacterEvent, state.Pending!.Kind);
+        Assert.Equal(EffectWait.NazgulTravel, state.Resolution.Frames[0].Effect!.Wait);
+        AssertMarked(state, ShadowCharacterCards04.Captain);
+    }
+
+    [Theory]
+    [InlineData("base.sh.character.09")]
+    [InlineData("base.sh.character.11")]
+    [InlineData("base.sh.character.23")]
+    public void MarksTheNazgulTravelThatOpensAnEvent(string card)
+    {
+        var state = BattleFixture.State(Side.Shadow);
+        CharacterFixture.Put(state, CharacterRules.WitchKing, "angmar");
+        state.Fellowship.Progress = 1;
+        EventTests.GiveCard(state, Side.Shadow, card);
+        var die = state.Dice.First(item => item.Owner == Side.Shadow && item.Location == DieLocation.Available);
+        die.Face = DieFace.Character;
+        state = KingsFixture.Do(state, CommandKind.PlayEvent, new() { CardId = card, DieId = die.Id, CardCost = DieFace.Character });
+
+        Assert.Equal(DecisionKind.CharacterEvent, state.Pending!.Kind);
+        AssertMarked(state, card);
+    }
+
+    [Theory]
+    [InlineData("cursor")]
+    [InlineData("foreign-trail")]
+    [InlineData("region")]
+    [InlineData("wait")]
+    public void TheNazgulTravelRequiresItsExactFrame(string change)
+    {
+        var state = Played(ShadowCharacterCards04.Captain);
+        state = KingsFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = [BlackCaptainStep.Fly] });
+        var frame = state.Resolution.Frames[0];
+        switch (change)
+        {
+            case "cursor": frame.NextStep = 2; break;
+            case "foreign-trail": frame.Effect!.Committed.Add(new(Side.Shadow, "altered")); break;
+            case "region": frame.Effect!.RegionId = "angmar"; break;
+            case "wait": frame.Effect!.Wait = EffectWait.None; break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
+    [Theory]
+    [InlineData("base.fp.strategy.02")]
+    [InlineData("base.fp.strategy.14")]
+    public void MarksTheGreyDrawWindowAfterTheLastStep(string card)
+    {
+        var state = GreyWindow(card);
+
+        Assert.Equal("event.completed", state.Pending!.Window);
+        AssertMarked(state, card, DieFace.Event);
+    }
+
+    [Theory]
+    [InlineData("window-cursor")]
+    [InlineData("window-owner")]
+    [InlineData("window-source")]
+    [InlineData("window-trail")]
+    [InlineData("event-cursor")]
+    [InlineData("completion-flag")]
+    [InlineData("palantir")]
+    [InlineData("event-frame")]
+    [InlineData("payment")]
+    public void TheCompletedWindowRequiresItsExactFrames(string change)
+    {
+        var state = GreyWindow("base.fp.strategy.14");
+        var parent = state.Resolution.Frames[0];
+        var window = state.Resolution.Frames[1];
+        switch (change)
+        {
+            case "window-cursor": window.NextStep = 1; break;
+            case "window-owner": window.Effect!.Owner = Side.Shadow; break;
+            case "window-source": window.Effect!.SourceId = "base.fp.strategy.15"; break;
+            case "window-trail": window.Effect!.Committed.Add(new(Side.FreePeoples, "altered")); break;
+            case "event-cursor": parent.NextStep = 1; break;
+            case "completion-flag": parent.Effect!.CompletionWindowOffered = false; break;
+            case "palantir": parent.Effect!.PalantirDrawPending = true; break;
+            case "event-frame": parent.EffectId = "base.fp.strategy.15"; break;
+            case "payment":
+                state.Dice.Single(die => die.Id == state.Resolution.PaidDieIds[0]).Location = DieLocation.Spent;
+                break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
     [Fact]
     public void AStepTypeOutsideTheReviewRemainsUnmarked()
     {
@@ -181,16 +322,29 @@ public sealed class DirectEventChoiceFamilyTests
             DirectEventChoices.IsReviewed("base.fp.strategy.04", step, program));
     }
 
-    private static void AssertMarked(MatchState state, string card)
+    private static void AssertMarked(MatchState state, string card, DieFace? cost = null)
     {
         Assert.All(Enum.GetValues<Side>(), side =>
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(32, view.ActionBoundary?.Version);
+            Assert.Equal(33, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(card, context.CardId);
-            Assert.Equal(CardCatalog.All[card].EventType, context.CardCost);
+            Assert.Equal(cost ?? CardCatalog.All[card].EventType, context.CardCost);
         });
+    }
+
+    private static MatchState GreyWindow(string card)
+    {
+        var state = BattleFixture.State();
+        state.Fellowship.Guide = CharacterRules.Grey;
+        EventTests.GiveCard(state, Side.FreePeoples, card);
+        var die = state.Dice.First(item => item.Owner == Side.FreePeoples && item.Location == DieLocation.Available);
+        die.Face = DieFace.Event;
+        state = KingsFixture.Do(state, CommandKind.PlayEvent, new() { CardId = card, DieId = die.Id, CardCost = DieFace.Event });
+        while (state.Pending!.Kind == DecisionKind.EffectChoice)
+            state = KingsFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = [state.Pending.PrivateChoices[0]] });
+        return state;
     }
 
     private static MatchState Played(string card)
