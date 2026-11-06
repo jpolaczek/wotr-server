@@ -33,7 +33,8 @@ internal static class CardHuntProjection
             hunt = frames[activeIndex].Hunt!;
         }
         var revelationOffer = strongholds is not null && activeIndex == 1;
-        if (!revelationOffer && !HuntChoiceProjection.Supports(state, hunt, activeIndex))
+        if (!revelationOffer && !BreakingChoice(state, hunt, activeIndex) &&
+            !HuntChoiceProjection.Supports(state, hunt, activeIndex))
             return null;
         var facts = new CardHuntView
         {
@@ -49,7 +50,8 @@ internal static class CardHuntProjection
         if (frame.Effect is not { IsEvent: true, Owner: Side.Shadow, Return: EffectReturn.FinishAction,
                 Wait: EffectWait.None } effect ||
             effect.SourceId is not (ShadowCharacterCards01.OrcPatrol or ShadowCharacterCards01.IsildursBane or
-                ShadowCharacterCards02.FoulThing or ShadowCharacterCards02.Strike) || frame.EffectId != effect.SourceId ||
+                ShadowCharacterCards02.FoulThing or ShadowCharacterCards02.Strike or ShadowCharacterCards03.Breaking) ||
+            frame.EffectId != effect.SourceId ||
             frame.NextStep != (effect.SourceId == ShadowCharacterCards02.Strike ? 2 : 1) ||
             frame.Window != "" || frame.ReturnDecision is not null || frame.Battle is not null ||
             frame.BattleLoss is not null || frame.EventLoss is not null || frame.Corruption is not null ||
@@ -67,8 +69,19 @@ internal static class CardHuntProjection
     private static bool CardHunt(MatchState state, HuntProcedure hunt, string card)
     {
         if (hunt.SourceId != card || hunt.Return != HuntReturn.Parent || hunt.Movement ||
-            hunt.Purpose != HuntPurpose.Hunt || hunt.DeclarationHunt || hunt.IgnoreRevealIcon ||
-            hunt.FireAndShadow || hunt.DrawnBy != Side.Shadow || hunt.DiceReduction != 0)
+            hunt.DeclarationHunt || hunt.IgnoreRevealIcon || hunt.FireAndShadow ||
+            hunt.DrawnBy != Side.Shadow || hunt.DiceReduction != 0)
+            return false;
+        if (card == ShadowCharacterCards03.Breaking)
+        {
+            var breakingStep = EffectCatalog.All.Programs[card].Steps.SingleOrDefault();
+            return breakingStep is BreakingFellowshipStep && hunt.Purpose == HuntPurpose.CompanionSeparation &&
+                !hunt.Rolled && hunt.TileRule == HuntTileRule.IgnoreEyesAndFellowship &&
+                hunt.DamageRule == HuntDamageRule.Normal && hunt.Bonus == 0 && hunt.RollBonus == 0 &&
+                hunt.RerollBonus == 0 && hunt.EyeDamage == 0 && hunt.Dice.Count == 0 &&
+                hunt.RerollSources.Count == 0;
+        }
+        if (hunt.Purpose != HuntPurpose.Hunt)
             return false;
         if (card == ShadowCharacterCards02.Strike)
             return hunt.Rolled && !hunt.Mordor && hunt.TileRule == HuntTileRule.All &&
@@ -80,5 +93,22 @@ internal static class CardHuntProjection
         return !hunt.Rolled && hunt.TileRule == step.TileRule && hunt.DamageRule == step.DamageRule &&
             hunt.Bonus == 0 && hunt.RollBonus == 0 && hunt.RerollBonus == 0 && hunt.EyeDamage == 0 &&
             hunt.Dice.Count == 0 && hunt.RerollSources.Count == 0;
+    }
+
+    private static bool BreakingChoice(MatchState state, HuntProcedure hunt, int activeIndex)
+    {
+        if (hunt.SourceId != ShadowCharacterCards03.Breaking || hunt.Purpose != HuntPurpose.CompanionSeparation ||
+            hunt.Stage != HuntStage.Done || hunt.TileId.Length == 0 || hunt.Damage <= 0 ||
+            hunt.Damage >= state.Fellowship.Companions.Count ||
+            EffectCatalog.All.Programs[ShadowCharacterCards03.BreakingChoice].Steps is not [BreakingSeparationStep] ||
+            state.Pending is not { Kind: DecisionKind.EffectChoice, Owner: Side.FreePeoples } pending ||
+            pending.SourceId != ShadowCharacterCards03.Breaking || pending.RequiredCount != hunt.Damage ||
+            state.Resolution.Frames.Count != activeIndex + 2)
+            return false;
+
+        var program = state.Resolution.Frames[activeIndex + 1];
+        return HuntEffectProjection.PlainProgram(program, ShadowCharacterCards03.BreakingChoice,
+                   Side.FreePeoples, ShadowCharacterCards03.Breaking, 1, "", EffectWait.Choice) &&
+               program.Effect!.Committed.Count == 0 && program.Effect.OfferedReactions.Count == 0;
     }
 }

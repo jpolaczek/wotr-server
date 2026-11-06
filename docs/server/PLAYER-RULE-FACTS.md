@@ -153,8 +153,12 @@ Fellowship movement action. Ordinary/paid army windows have no suspended frames.
 The Hunt context supports rerolls, damage, public reaction windows, guide choice,
 initial reveal-route choice, returning Hobbit placement and additional Stronghold
 Hunts after that move's committed reveal route. Paid Orc Patrol, Isildur's
-Bane, Foul Thing and the committed Nazgûl Strike Hunt have their own CardHunt context with the same reviewed
-choice/reveal/Stronghold windows. Both the uncommitted revelation offer and the
+Bane, Foul Thing, Breaking Fellowship and the committed Nazgûl Strike Hunt have
+their own CardHunt context with the same reviewed choice/reveal/Stronghold
+windows. Breaking Fellowship uses the existing public
+`HuntView.SeparatesCompanions` marker and exposes its direct companion-selection
+continuation only when the card, tile, damage, owner and pinned effect step agree;
+it adds no fields to the contract. Both the uncommitted revelation offer and the
 active Balrog reaction after revelation use the same context. Declaration has its
 own unpaid return context. Reviewed Hunts also support the nested Worn choice.
 Version 13 marked an ordinary non-voluntary `combat` loss choice only in the
@@ -211,7 +215,7 @@ roots only and has no paid-action provenance. Consumers must not interpret absen
 new fields in an older response as empty obligations. Version 3 has no
 Fellowship movement continuation context. Version 4 omits the committed reveal
 route and additional Stronghold obligations. Version 5 has no direct event-card
-Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows. Public content 1.0.29 and pure rules 0.15.0 pin this contract; game rules, protocol and save schema are unchanged.
+Hunt context. Version 6 omits declaration continuations. Version 7 omits Lords/Council facts. Version 8 omits Kings and unassigned tile facts. Version 9 omits active ordinary corruption draws. Version 10 has no configured Lords/Kings Hunt composition; version 11 omits the direct paid battle return; version 12 has no battle-loss provenance; version 13 marks first-round losses only; version 14 extends loss provenance to later rounds; version 15 includes later-round card windows and the reviewed Breaking Fellowship card Hunt. Public content 1.0.29 and pure rules 0.15.1 pin this contract; the contract schema, game protocol and save schema are unchanged.
 
 `FellowshipMove` denotes only a paid ordinary move whose cost completes after
 the Hunt. It must never be inferred merely because `HuntView` is present. Existing

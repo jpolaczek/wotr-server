@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Wotr.Contracts
 {
-    // Public obligations of a paid Orc Patrol, Isildur's Bane or Foul Thing event.
+    // Public obligations of reviewed paid Shadow event card Hunts, including Breaking Fellowship.
     // The card's definition determines its rules; this is not an effect cursor.
     public sealed class CardHuntView : HuntProgressView
     {
