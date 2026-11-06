@@ -83,9 +83,35 @@ internal static class HuntChoiceProjection
         frame.Effect is { Owner: Side.Shadow, ReactionWindow: "fellowship.revealed" } effect &&
         effect.SourceId == hunt.TileId;
 
-    internal static bool DeclarationOffer(MatchState state, ResolutionFrame frame) =>
-        PlainFrame(frame) && ReactionFrame(state, frame) &&
-        frame.Effect is { Owner: Side.Shadow, ReactionWindow: "fellowship.declared", SourceId: "fellowship" };
+    internal static bool DeclarationWindow(MatchState state, ResolutionFrame frame)
+    {
+        if (!PlainFrame(frame) || state.Pending is not
+                { Kind: DecisionKind.Reaction, Owner: Side.Shadow, Window: "fellowship.declared", SourceId: "fellowship" } ||
+            frame.EffectId != EffectCatalog.ReactionProgram || frame.Effect is not
+                { Owner: Side.Shadow, Wait: EffectWait.Reaction, Return: EffectReturn.Parent,
+                    ReactionWindow: "fellowship.declared", SourceId: "fellowship" } effect ||
+            effect.IsEvent || effect.CompletionWindowOffered || effect.PalantirDrawPending ||
+            effect.NationId != "" || effect.RegionId != "" || effect.TargetIds.Count != 0 ||
+            effect.ArmyOrder is not null || effect.AppliedHits != 0 || effect.PaidFace != default ||
+            effect.InspectedHand is not null || effect.InspectedSovereign is not null ||
+            effect.RingRecovery is not null || effect.MadnessTarget is not null || effect.AnarionDrawPending ||
+            effect.FellowshipMove)
+            return false;
+
+        var reactions = EffectCatalog.All.Reactions.Values.Where(r => r.Window == "fellowship.declared").ToArray();
+        var used = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var selection in effect.Committed)
+        {
+            if (!state.Configuration.Lords || selection.Owner != Side.Shadow ||
+                selection.ChoiceId != "" || selection.TargetId != "")
+                return false;
+            var matches = reactions.Where(r =>
+                (r.RequiredTableCard ?? r.RequiredGuideId ?? r.RequiredCharacterId ?? r.Id) == selection.SourceId).ToArray();
+            if (matches.Length != 1 || !used.Add(matches[0].Id))
+                return false;
+        }
+        return effect.OfferedReactions.SequenceEqual(reactions.Where(r => !used.Contains(r.Id)).Select(r => r.Id));
+    }
 
     private static bool ReactionFrame(MatchState state, ResolutionFrame frame)
     {

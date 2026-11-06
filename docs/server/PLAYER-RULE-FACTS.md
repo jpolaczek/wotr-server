@@ -146,6 +146,11 @@ marker is absent for card, Hunt, declaration, and other effect continuations.
 It carries no frame, source history, private choice, or extra command authority.
 Public content 1.0.35 and rules 0.15.15 pin this context.
 
+Rules 0.15.16 admits the public `fellowship.declared` reaction offer and its
+Lords re-offer when earlier public responses are represented by the exact
+remaining reaction IDs. It continues to omit unsupported active Hunt/card
+continuations and carries no selected opposing choice.
+
 Contracts 0.34.0 add optional `ActionBoundaryView.CompanionJourney` at boundary
 version 18. It marks only the Free Peoples' paid Gwaihir or Swifter event while
 its pinned companion journey or resulting Guide choice is pending. The ordinary

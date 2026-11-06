@@ -192,6 +192,13 @@ it is not included in the prior 7,171/7,440 verified-root count. BOT-02 remains
 in progress, gameplayReady=false, and no policy is registered. No client code,
 release, deployment or push changed.
 
+Rules source 0.15.16 extends the same v19 projection to public Shadow reactions
+at `fellowship.declared`, including a re-offer after an earlier public reaction
+has been used. The projector checks exact remaining reaction identities and
+public owner/source facts. Active nested Hunt continuations are still omitted.
+The private runtime change that restores these reaction trails is pending
+verification and is not counted as accepted BOT-02 coverage.
+
 Implementation checkpoint (2026-10-26): the private runtime has an internal
 bounded pure-engine kernel and constrained card partition sampler. Production
 reconstruction is blocked on a reviewed mapping from player information/history

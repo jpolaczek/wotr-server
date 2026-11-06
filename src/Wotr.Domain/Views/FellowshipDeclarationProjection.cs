@@ -25,8 +25,7 @@ internal static class FellowshipDeclarationProjection
         };
         if (frames.Count == 2 && frames[1].Effect is not null)
             return state.Fellowship.Hidden && declaration.AdditionalHuntRegions.Count == 0 &&
-                route.Contains("moria") && state.Player(Side.Shadow).Table.Contains(ShadowCharacterCards03.Balrog) &&
-                HuntChoiceProjection.DeclarationOffer(state, frames[1]) ? facts : null;
+                HuntChoiceProjection.DeclarationWindow(state, frames[1]) ? facts : null;
 
         var balrog = frames.Count >= 4 && frames[2].EffectId == ShadowCharacterCards03.BalrogReaction;
         var index = balrog ? 3 : 1;
