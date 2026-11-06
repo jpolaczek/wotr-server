@@ -140,11 +140,32 @@ or playing strength. Exact diagnostics and current early/later copy, reconstruct
 rollout/allocation/cancellation measurements remain private.
 
 BOT-02 remains in progress; BOT-03 stays blocked on complete reconstruction.
-The paid `The West Has Failed` nested corruption continuation now has a private
-runtime source checkpoint, but remains unbuilt and unverified. The later Palantir
-deck choice, other event/nested corruption, suspended expansion Hunts and
-card/battle/effect-discard continuations, and full parity acceptance remain open.
-No production faction policy is registered; `gameplayReady=false`.
+Private runtime 0.2.67 now has source for both the nested corruption decision
+and its later Palantir deck choice after `The West Has Failed`. Both paths remain
+unbuilt and unverified. Other event/nested corruption, suspended expansion
+Hunts, card/battle/effect-discard continuations and full parity acceptance remain
+open. No production faction policy is registered; `gameplayReady=false`.
+
+### BOT-02 implementation checkpoint — West Palantir deck choice (2026-11-06)
+
+Private commit `ddd499569ebb8933f2615cff3d26571e60775811` advances the runtime to
+0.2.67 and reconstructs the Palantir deck choice after the paid `The West Has
+Failed` event returns from its Kings corruption procedure. ActionBoundary v24
+marks only this exact parent-event/Palantir stack and carries the event identity
+and paid face; the target remains in the owner's effect trail. Runtime reopens
+the pinned choice without replaying the corruption or drawing a card. It retains
+the earlier v23 marker's handling of a public-reaction cancellation and accepts
+the Kings Palantir Muster conversion when validating Event payment.
+
+Rules 0.15.21 from public commit
+`a31fd541196efdca719dfd5ab4473cf263288252` contains 443 files (SHA-256
+`c827957f64ed1cfc980241e5585ddf0b9c6200a475fce60d115e070cc533a2cf`), Contracts
+0.40.0 and public content 1.0.40. Client commit
+`bbfaeee3163f661d8fe2ee7bff96c376f82c7778` pins the packages. Public package
+generation, the client dependency bootstrap and private 443-file rules bootstrap
+passed; static diff checks passed. No tests or builds were run. This path is
+unverified and excluded from the 6,397/7,440 bounded-root count. It does not
+change BOT-02 acceptance or gameplay readiness. No push, release or deployment.
 
 ### BOT-02 implementation checkpoint — West corruption return (2026-11-06)
 
