@@ -140,7 +140,9 @@ or playing strength. Exact diagnostics and current early/later copy, reconstruct
 rollout/allocation/cancellation measurements remain private.
 
 BOT-02 remains in progress; BOT-03 stays blocked on complete reconstruction.
-Event/nested corruption, suspended expansion Hunts and other card/battle/effect-discard
+The paid `The West Has Failed` nested corruption source is now marked for local
+runtime reconstruction but remains unverified; other event/nested corruption,
+suspended expansion Hunts and card/battle/effect-discard
 continuations and nested expansion acceptance remain. No production faction policy
 is registered; gameplayReady=false. The isolated worktree passed verification and
 was fast-forwarded into main; the unrelated Core.csproj edit stayed byte-identical.
@@ -203,8 +205,16 @@ these windows from public state and restores the visible response trail. Active
 nested Hunt continuations are still omitted. The change has not been built or
 tested and is not counted as accepted BOT-02 coverage.
 
+Contracts 0.38.0 / content 1.0.38 / rules 0.15.19 is the current local source
+checkpoint. ActionBoundary v22 marks the paid `The West Has Failed` parent event
+while its Kings corruption choice is pending, retaining only the public card and
+cost. The runtime rebuilds the event continuation and returns through the parent;
+the marker does not carry tile choices or engine frames. Runtime source advances
+to 0.2.66. This path is unverified and does not count toward BOT-02 acceptance or
+gameplay readiness.
+
 Contracts 0.36.0 / content 1.0.36 / rules 0.15.17 is the declaration checkpoint
-above. The next local rules change advances Contracts to 0.37.0, public content
+above. The preceding local rules change advanced Contracts to 0.37.0, public content
 to 1.0.37 and ActionBoundary to v21. Rules 0.15.18 carries the selected
 Companion for a Free Peoples Lure placement or Guide continuation after the
 public elimination choice. Shadow receives no target identity from this marker.

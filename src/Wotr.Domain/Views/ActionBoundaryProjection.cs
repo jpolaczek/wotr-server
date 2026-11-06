@@ -15,9 +15,10 @@ internal static class ActionBoundaryProjection
         var companionJourney = CompanionJourneyProjection.For(state);
         var fellowshipGuide = FellowshipGuideProjection.For(state);
         var battle = DirectBattle(state) ?? SpecialAttackLoss(state);
+        var corruptionEvent = CorruptionBoundaryProjection.Event(state);
         var reviewedContinuation = declaration is not null || fellowshipMove is not null ||
             cardHunt is not null || lureChoice is not null || lurePlacement is not null || companionJourney is not null ||
-            fellowshipGuide is not null || battle is not null;
+            fellowshipGuide is not null || battle is not null || corruptionEvent is not null;
         // Compose only explicitly reviewed continuations with module facts;
         // arbitrary expansion procedures are not inferred from their decision kind.
         if (!KingsBoundaryProjection.Supports(state, reviewedContinuation) ||
@@ -50,6 +51,7 @@ internal static class ActionBoundaryProjection
             LurePlacement = lurePlacement,
             CompanionJourney = companionJourney,
             FellowshipGuide = fellowshipGuide,
+            CorruptionEvent = corruptionEvent,
             Lords = LordsBoundaryProjection.For(state),
             Kings = KingsBoundaryProjection.For(state, tiles.Unassigned),
             PaidDieIds = [.. state.Resolution.PaidDieIds],

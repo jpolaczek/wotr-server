@@ -1,6 +1,14 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.38.0 adds `ActionBoundaryView.CorruptionEvent` at boundary version
+22. It marks only the paid `The West Has Failed` event while its nested Kings
+corruption attempt is pending, carrying the public event card and paid face so
+the runtime can return to the parent event after the tile decision. It does not
+serialize engine frames or expose Shadow's tile choices. Public content 1.0.38
+pins the contract; rules 0.15.19 emits it only for the reviewed two-frame
+continuation. Protocol and save schema do not change.
+
 Contracts 0.37.0 adds `ActionBoundaryView.LurePlacement` at boundary version 21.
 For the Free Peoples only, it marks the public Lure elimination after it has
 selected the returnable Companion, during that Companion's placement or the
