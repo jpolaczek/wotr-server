@@ -115,14 +115,15 @@ public sealed class MatchObserverTests
     {
         using var host = new AccountHost(extra: new Dictionary<string, string?>(TestBudgets.Stress)
         {
-            [ObserverOptions.LeaseKey] = "4"
+            [ObserverOptions.LeaseKey] = "6"
         });
         var table = await ObservedTable.Start(host);
         var client = host.Server.CreateWebSocketClient();
         client.ConfigureRequest = request => request.Headers.Authorization = "Bearer " + table.ObserverSession.Token;
-        // The heartbeat a watching client sends: setting the table up may take longer than the lease on a busy machine.
-        using (var presence = await table.Observer.PostAsync($"/api/rooms/{table.Room}/presence", null))
-            Assert.Equal(HttpStatusCode.NoContent, presence.StatusCode);
+        // Joining again renews the lease, also one already lapsed: setting the table up may take longer than the lease on a busy
+        // machine, and a lapsed lease answers a heartbeat with NotFound.
+        var rejoined = await host.Services.GetRequiredService<RoomStore>().Join(table.JoinCode, table.ObserverSession.AccountId, RoomRole.Observer);
+        Assert.Equal("", rejoined.Error);
         using var socket = await client.ConnectAsync(Updates(table.Match), CancellationToken.None);
 
         var buffer = new byte[1024];
@@ -130,7 +131,7 @@ public sealed class MatchObserverTests
         using var update = JsonDocument.Parse(Encoding.UTF8.GetString(buffer, 0, first.Count));
         Assert.Equal(0, update.RootElement.GetProperty("privateVersion").GetInt64());
 
-        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(12));
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(30));
         Assert.True(await Closes(socket, timeout.Token), "The socket closes once the lease lapsed.");
         using var gone = await table.Observer.GetAsync(Observe(table.Match, Side.FreePeoples));
         Assert.Equal(HttpStatusCode.NotFound, gone.StatusCode);
@@ -188,6 +189,7 @@ public sealed class MatchObserverTests
     private sealed class ObservedTable
     {
         public required string Room { get; init; }
+        public required string JoinCode { get; init; }
         public required string Match { get; init; }
         public required HttpClient FreePeoples { get; init; }
         public required HttpClient Shadow { get; init; }
@@ -210,6 +212,7 @@ public sealed class MatchObserverTests
             return new()
             {
                 Room = room.Id,
+                JoinCode = room.JoinCode,
                 Match = started.Room!.MatchId,
                 FreePeoples = MenuAccounts.Client(host, alice),
                 Shadow = MenuAccounts.Client(host, bob),

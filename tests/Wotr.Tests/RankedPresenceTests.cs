@@ -128,11 +128,13 @@ public sealed class RankedPresenceTests(ClockDatabase database) : IClassFixture<
         string match;
         using (var first = Host())
             (fp, _, match) = await Start(first);
-        using var second = Host();
+        // Its own clock: in real time a busy machine can spend the whole grace on one request.
+        var clock = new TestClock(DateTimeOffset.UtcNow);
+        using var second = Host(clock);
         Assert.True((await Clock(second, fp, match)).OpponentOnline);
-        await Task.Delay(Grace / 2);
+        clock.Advance(Grace / 2);
         Assert.True((await Clock(second, fp, match)).OpponentOnline);
-        await Task.Delay(Grace);
+        clock.Advance(Grace);
         Assert.False((await Clock(second, fp, match)).OpponentOnline);
     }
 
@@ -218,10 +220,11 @@ public sealed class RankedPresenceTests(ClockDatabase database) : IClassFixture<
         Assert.Equal(HttpStatusCode.Conflict, (await old.GetAsync($"/api/matches/{match}")).StatusCode);
     }
 
-    private AccountHost Host()
+    private AccountHost Host(TimeProvider? clock = null)
     {
         var settings = new Dictionary<string, string?>(TestBudgets.Stress) { [RankedOptions.PresenceScaleKey] = "25" };
-        return new AccountHost(database.Connection, extra: settings);
+        return new AccountHost(database.Connection, extra: settings,
+            services: clock is null ? null : services => services.AddSingleton(clock));
     }
 
     private static async Task<(SessionView, SessionView, string)> Start(AccountHost host)
