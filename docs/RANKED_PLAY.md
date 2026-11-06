@@ -189,3 +189,10 @@ then by account id. Below the list the player sees their own rank and rating. Th
   loosens with waiting.
 - [Glickman, Example of the Glicko-2 system](http://www.glicko.net/glicko/glicko2.pdf): the algorithm and the worked
   example.
+
+<a id="the-opponent-presentation--avatar-01-a9"></a>
+## The opponent presentation (AVATAR-01 A9)
+
+When a search matches, the Find game window shows the opponent's avatar, name and rating for 3 seconds, then the board opens.
+This fits within the 15 s the first decision gains for loading, and the clock is not started any earlier for it. The
+presentation reveals nothing beyond those three.

@@ -31,3 +31,9 @@ Open an issue in [wotr-server](https://github.com/jpolaczek/wotr-server/issues) 
 account name (no email address or other details). The maintainer confirms through the account's email address and
 then deletes the account: name, email address, password hash and sessions. Replays that other players saved on their
 own computers cannot be recalled.
+
+<a id="avatars--avatar-01"></a>
+## Avatars — AVATAR-01
+
+A player's avatar is one of ten identifiers from a fixed set. It is public, like the account name, and is shown beside that
+name to other players. It tells nothing else about the account: no account id, email address or activity.

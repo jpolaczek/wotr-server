@@ -328,3 +328,17 @@ cannot show. `ModuleClientPolicy` pairs each module with that first version.
 Tests: `ModuleClientTests` (parsing, broken settings, which versions play which modules, the Production rule, and over
 HTTP an older client refused at a Fate table's join, read, confirm, start, match, updates, replay and observe while a
 current client plays it and the older one keeps base tables; without the setting nothing is restricted).
+
+<a id="avatars--avatar-01"></a>
+## Avatars — AVATAR-01 (owner, 2026-11-05)
+
+Every account has one of ten avatars: `eye`, `ring`, and one regular soldier per nation: `gondor`, `rohan`, `elves`,
+`dwarves`, `north`, `sauron`, `isengard`, `southrons`. The identifiers live in Contracts, so the server validates and
+the client draws the same set (A1). A new account gets `eye` or `ring` from the server's random source, half each, and a
+migration gives every existing account one the same way (A2).
+
+The avatar is public, like the account name, and reveals nothing else (A3). It is chosen only in the browser (A4), on an
+account page that signs in with name and password and holds its own 8-hour session of purpose `account`, in page memory only,
+revoked by Sign out; a game session is never handed to a web page, and sign-in is throttled as the game's is (A5). A click
+on an avatar saves it at once (A6). A change shows on every list and room the next time it is read; chat lines already
+sent keep the avatar they were sent with (A7).
