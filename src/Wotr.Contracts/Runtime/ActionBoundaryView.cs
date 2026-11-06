@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 23;
+        public int Version { get; set; } = 24;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -26,6 +26,7 @@ namespace Wotr.Contracts
         public CompanionJourneyView? CompanionJourney { get; set; }
         public FellowshipGuideView? FellowshipGuide { get; set; }
         public CorruptionEventView? CorruptionEvent { get; set; }
+        public WestPalantirDrawView? WestPalantirDraw { get; set; }
         public LordsRuleFactsView? Lords { get; set; }
         public KingsRuleFactsView? Kings { get; set; }
     }
@@ -75,6 +76,14 @@ namespace Wotr.Contracts
         public string CardId { get; set; } = "";
         public DieFace CardCost { get; set; }
         public bool PalantirDrawPending { get; set; }
+    }
+
+    // Return of the paid West event after its corruption procedure, when the
+    // event's Palantir follow-on is asking Shadow to choose a deck.
+    public sealed class WestPalantirDrawView
+    {
+        public string CardId { get; set; } = "";
+        public DieFace CardCost { get; set; }
     }
 
     // Public consequences of the committed reveal route after a paid move.
