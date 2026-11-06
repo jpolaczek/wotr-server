@@ -1,5 +1,13 @@
 # Player rule facts at an action boundary
 
+Contracts 0.46.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version
+30 to both choices of Ever at Your Service. The marker keeps the same two fields,
+card ID and paid face. The owner rebuilds the selected ruler from their effect
+trail; the opposing player receives no selection. When only one ruler is eligible
+the engine selects it without an owner choice, so its trail holds only the card
+play and the eligible ruler follows from public sovereign facts. Public content
+1.0.46 pins these shared facts; protocol and save schema are unchanged.
+
 Contracts 0.45.0 add `ActionBoundaryView.DirectEventChoice` at boundary version
 29. It marks only Kindred of Glorfindel's first choice in a directly paid event,
 after checking the exact card, discard, payment, effect program and rule-generated

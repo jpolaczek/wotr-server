@@ -1,6 +1,17 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.46.0 advances ActionBoundary to version 30. `DirectEventChoice` also
+marks both choices of Ever at Your Service (`kings.fp.strategy.25`): the ruler
+choice and the recruitment that follows it, including the recruitment after the
+engine selected a lone eligible ruler. The marker still carries only the public
+card ID and payment face. The selected ruler stays in the owner's effect trail
+and is never added to the marker, so the opponent does not read it there. Rules
+0.15.31 emits the marker after checking the exact program, cursor, selection,
+ruler region and nation, public discard, resolving die and rule-generated
+options. Public content 1.0.46 pins the contract. Protocol and save schema do
+not change.
+
 Contracts 0.45.0 advances ActionBoundary to version 29. `DirectEventChoice`
 marks only Kindred of Glorfindel's first choice in its directly paid event,
 after checking the exact program, visible discard, resolving die, parent frame

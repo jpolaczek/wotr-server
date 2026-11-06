@@ -309,23 +309,26 @@ internal static class ActionBoundaryProjection
             return null;
 
         var cardId = pending.SourceId;
-        if (cardId != FreePeoplesStrategyCards04.KindredOfGlorfindel)
+        if (cardId is not (FreePeoplesStrategyCards04.KindredOfGlorfindel or KingsCards02.Service) ||
+            pending.Owner != Side.FreePeoples)
             return null;
         var player = state.Player(pending.Owner);
         if (!CardCatalog.Enabled(state.Configuration, cardId) ||
             !EffectCatalog.All.Events.TryGetValue(cardId, out var definition) ||
             !EffectCatalog.All.Programs.TryGetValue(definition.ProgramId, out var program) ||
-            program.Steps.Count == 0 || program.Steps[0] is not EffectChoiceStep choice ||
             !player.Discard.Contains(cardId) || player.Hand.Contains(cardId) || player.Table.Contains(cardId) ||
             !Discharged(state.Events.Where(item => item.OnlyFor is null)).Contains(cardId))
             return null;
 
         var frame = frames[0];
         var execution = frame.Effect;
-        if (execution is null)
+        if (execution is null || !IsReviewedDirectEventStep(cardId, frame.NextStep, program) ||
+            program.Steps[frame.NextStep - 1] is not EffectChoiceStep choice ||
+            pending.Presentation != choice.Presentation)
             return null;
+
         var candidates = choice.Candidates(state, execution);
-        if (frame.EffectId != definition.ProgramId || frame.NextStep != 1 || frame.Window.Length != 0 ||
+        if (frame.EffectId != definition.ProgramId || frame.Window.Length != 0 ||
             frame.ReturnDecision is not null || frame.Fellowship is not null || frame.Hunt is not null ||
             frame.Battle is not null || frame.BattleLoss is not null || frame.EventLoss is not null ||
             frame.Corruption is not null || execution is not
@@ -334,12 +337,17 @@ internal static class ActionBoundaryProjection
                     CompletionWindowOffered: false, ArmyOrder: null } || owner != pending.Owner || source != cardId ||
             execution.PaidFace != DieFace.Event && execution.PaidFace != CardCatalog.All[cardId].EventType ||
             execution.ReactionWindow.Length != 0 || execution.OfferedReactions.Count != 0 ||
-            execution.Committed is not [var played] || played != new EffectSelection(pending.Owner, cardId) ||
-            execution.AppliedHits != 0 || execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 ||
-            execution.NationId.Length != 0 || execution.InspectedSovereign is not null ||
+            execution.Committed.Count == 0 || execution.Committed[0] != new EffectSelection(pending.Owner, cardId) ||
+            execution.AppliedHits != 0 || execution.InspectedSovereign is not null ||
             execution.InspectedHand is not null || execution.RingRecovery is not null ||
             execution.MadnessTarget is not null || execution.FellowshipMove || candidates.Count == 0 ||
             !pending.PrivateChoices.SequenceEqual(candidates))
+            return null;
+
+        var selectionMatches = cardId == KingsCards02.Service && frame.NextStep == 2
+            ? ServiceSovereignSelected(state, execution)
+            : HasNoEventSelection(execution);
+        if (!selectionMatches)
             return null;
 
         var paidDie = state.Dice.SingleOrDefault(die => die.Id == state.Resolution.PaidDieIds[0]);
@@ -348,6 +356,35 @@ internal static class ActionBoundaryProjection
             return null;
 
         return new() { CardId = cardId, CardCost = execution.PaidFace };
+    }
+
+    private static bool IsReviewedDirectEventStep(string cardId, int nextStep, EffectDefinition program) => cardId switch
+    {
+        FreePeoplesStrategyCards04.KindredOfGlorfindel => nextStep == 1 && program.Steps is
+            [RecruitEffectStep { Nation: "elves", Region: "rivendell", Leader: false, Count: 1, RequiredKind: null },
+                DrawCardsStep { Deck: "strategy", Count: 1 }],
+        KingsCards02.Service => nextStep is 1 or 2 && program.Steps is
+            [ServiceSovereignStep, ServiceRecruitStep, ServiceCorruptionStep],
+        _ => false
+    };
+
+    private static bool HasNoEventSelection(EffectExecution execution) =>
+        execution.Committed.Count == 1 && execution.RegionId.Length == 0 &&
+        execution.TargetIds.Count == 0 && execution.NationId.Length == 0;
+
+    // The engine selects a lone eligible ruler without recording an owner choice,
+    // so only that forced case may leave the selection out of the effect trail.
+    private static bool ServiceSovereignSelected(MatchState state, EffectExecution execution)
+    {
+        var eligible = NonCorruptedSovereigns.OnBoard(state).ToArray();
+        if (execution.TargetIds is not [var sovereignId] ||
+            eligible.SingleOrDefault(item => item.Id == sovereignId) is not { } sovereign)
+            return false;
+        var region = SovereignLifecycle.Region(state, sovereign);
+        if (execution.RegionId != region || execution.NationId != SovereignCatalog.All[sovereign.Id].Nation)
+            return false;
+        return execution.Committed.Count == 1 ? eligible.Length == 1 : execution.Committed is [_, var selection] &&
+            selection == new EffectSelection(execution.Owner, execution.SourceId, sovereign.Id, region);
     }
 
     private static bool CanPayObservedFace(DieFace face, DieFace cost) =>

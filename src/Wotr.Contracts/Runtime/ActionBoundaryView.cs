@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 29;
+        public int Version { get; set; } = 30;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -115,9 +115,8 @@ namespace Wotr.Contracts
         public string BranchId { get; set; } = "";
     }
 
-    // Kindred of Glorfindel's public first-step choice in its direct paid action.
-    // The card and payment are already public; this marks the semantic return
-    // without serializing a resolution frame or effect cursor.
+    // A reviewed choice in a direct paid event action. The card and payment are
+    // already public; this never serializes a resolution frame or effect cursor.
     public sealed class DirectEventChoiceView
     {
         public string CardId { get; set; } = "";

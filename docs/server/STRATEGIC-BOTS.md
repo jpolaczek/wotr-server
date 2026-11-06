@@ -433,6 +433,18 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Ever at Your Service (2026-11-06)
+
+Contracts 0.46.0 / ActionBoundary v30 and rules 0.15.31 extend `DirectEventChoice`
+to both Ever at Your Service choices. The second marker requires the exact
+program and cursor, the recorded ruler selection and that ruler's current region
+and nation; a lone eligible ruler is the one case with no recorded selection.
+The marker adds no field, frame, cursor or selection. Public `KingsServiceTests`
+cover four legal cost / die combinations, the forced ruler, and refusal of an
+altered cursor, payment, public play, ruler, region, nation or selection. BOT-02
+is still incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — direct event effect choice (2026-11-06)
 
 Contracts 0.45.0 / ActionBoundary v29 and rules 0.15.30 mark only the first
