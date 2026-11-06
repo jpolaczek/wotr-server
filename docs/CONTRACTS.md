@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.51.0 advances ActionBoundary to version 35. `Battle` also marks three
+combat-card decisions, reviewed by printed effect in `ReviewedCombatCards`: the Scouts
+choice before the roll, the voluntary losses of every Relentless Assault card rather
+than only The Dawn of Battle's, and the one hit Great Host deals when its army outnumbers
+the enemy two to one. No field is added. Rules 0.15.36 and public content 1.0.51 pin the
+contract. Protocol and save schema do not change.
+
 Contracts 0.50.0 advances ActionBoundary to version 34. `DirectEventChoice` also marks
 pending losses from `ArmyEventDamageStep` and `EnemyArmyStep`, for the target's owner,
 and the separation that opens an event through `SeparateCompanionsStep`.

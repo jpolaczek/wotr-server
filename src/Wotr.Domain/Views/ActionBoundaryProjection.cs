@@ -99,6 +99,9 @@ internal static class ActionBoundaryProjection
             state.Resolution.ActionSequence is not null || pending is null || frames.Count is < 1 or > 3)
             return null;
 
+        if (pending.Kind == DecisionKind.EffectChoice)
+            return IsReviewedScoutsChoice(state, pending, frames) ? new() { CompletesPaidAction = true } : null;
+
         var frame = frames[0];
         var battle = frame.Battle;
         var reviewedVoluntaryLoss = frames.Count == 3 && battle is not null &&
@@ -134,6 +137,45 @@ internal static class ActionBoundaryProjection
             return null;
         return new() { CompletesPaidAction = true };
     }
+
+    // Scouts opens at initiative 1, before any roll, and rests on revealed cards and the
+    // public board. Its options go to the defender alone.
+    private static bool IsReviewedScoutsChoice(MatchState state, PendingDecision pending, IReadOnlyList<ResolutionFrame> frames)
+    {
+        if (frames is not [var battleFrame, var effectFrame] || battleFrame.Battle is not { } battle ||
+            effectFrame.Effect is not { } execution || !IsPlainBattleFrame(battleFrame) ||
+            pending.Commands is not [CommandKind.ChooseEffect] || pending.Presentation != "RegionOrShelter" ||
+            !ReviewedCombatCards.IsScouts(pending.SourceId) || !CardCatalog.Enabled(state, pending.SourceId))
+            return false;
+
+        var scouts = new CombatWork(pending.Owner, pending.SourceId, ReviewedCombatCards.ScoutsProgram, 1);
+        if (battle is not { Return: EffectReturn.FinishAction, Stage: BattleStage.BeforeRoll, Round: 1, CardsRevealed: true,
+                Mode: not BattleMode.Relief, CompletedRounds: 0, EndedByEffect: false, NextWork: 1, WhiteRiderUsed: false } ||
+            battle.Id.Length == 0 || battle.Defender.Side != pending.Owner || battle.Attacker.Side == battle.Defender.Side ||
+            battle.Work.Count == 0 || battle.Work[0] != scouts || battle.SpecialAttacks.Count != 0 ||
+            battle.Defender.Round.CardId != pending.SourceId || battle.Defender.Round.CardCancelled ||
+            battle.Attacker.Round.Dice.Count != 0 || battle.Defender.Round.Dice.Count != 0 ||
+            effectFrame.EffectId != scouts.ProgramId || effectFrame.NextStep != 1 || effectFrame.Window.Length != 0 ||
+            effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
+            effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
+            effectFrame.Corruption is not null || execution is not { Return: EffectReturn.Parent, Wait: EffectWait.Choice,
+                IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false, AppliedHits: 0 } ||
+            execution.Owner != pending.Owner || execution.SourceId != pending.SourceId ||
+            execution.Committed.Count != 0 || execution.TargetIds.Count != 0 || execution.RegionId.Length != 0 ||
+            !EffectCatalog.All.Programs.TryGetValue(scouts.ProgramId, out var program) || program.Steps is not [ScoutsStep step] ||
+            !EffectCatalog.All.Combats[pending.SourceId].Condition.CanPlay(state, battle, pending.Owner) ||
+            !pending.PrivateChoices.SequenceEqual(step.Candidates(state, execution)))
+            return false;
+
+        return state.Resolution.PaidDieIds.Count == 1 &&
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) == 1 &&
+            state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
+                die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving);
+    }
+
+    private static bool IsPlainBattleFrame(ResolutionFrame frame) =>
+        frame is { EffectId: "", NextStep: 0, Window: "", ReturnDecision: null, Effect: null, Fellowship: null,
+            Hunt: null, BattleLoss: null, EventLoss: null, Corruption: null };
 
     private static BattleContextView? ReliefEventBattle(MatchState state)
     {
@@ -480,7 +522,8 @@ internal static class ActionBoundaryProjection
         var lossFrame = frames[2];
         var execution = effectFrame.Effect;
         var loss = lossFrame.BattleLoss;
-        return pending.Kind == DecisionKind.Losses &&
+        var source = execution?.SourceId ?? "";
+        return pending.Kind == DecisionKind.Losses && ReviewedCombatCards.IsRelentlessAssault(source) &&
             battle is { Return: EffectReturn.FinishAction, Stage: BattleStage.BeforeRoll, Round: 1,
                 CardsRevealed: true, Mode: not BattleMode.Relief, CompletedRounds: 0,
                 EndedByEffect: false, NextWork: > 0 } &&
@@ -488,7 +531,7 @@ internal static class ActionBoundaryProjection
             effectFrame.Window.Length == 0 && effectFrame.ReturnDecision is null &&
             effectFrame.Fellowship is null && effectFrame.Hunt is null && effectFrame.Battle is null &&
             effectFrame.BattleLoss is null && effectFrame.EventLoss is null && effectFrame.Corruption is null &&
-            execution is { Owner: Side.Shadow, SourceId: ShadowStrategyCards01.Dawn,
+            execution is { Owner: Side.Shadow,
                 Return: EffectReturn.Parent, Wait: EffectWait.None, AppliedHits: 0,
                 IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false } &&
             execution.NationId.Length == 0 && execution.RegionId.Length == 0 && execution.TargetIds.Count == 0 &&
@@ -500,16 +543,16 @@ internal static class ActionBoundaryProjection
             lossFrame.ReturnDecision is null && lossFrame.Effect is null && lossFrame.Fellowship is null &&
             lossFrame.Hunt is null && lossFrame.Battle is null && lossFrame.EventLoss is null &&
             lossFrame.Corruption is null && loss is { Owner: Side.Shadow, Hits: 2, Voluntary: true,
-                AdditionalAttack: false, SourceId: ShadowStrategyCards01.Dawn } &&
+                AdditionalAttack: false } &&
             pending.Owner == loss.Owner && pending.RequiredCount == loss.Hits && pending.SourceId == loss.SourceId &&
             pending.Presentation == "VoluntaryLosses" && pending.Commands is [CommandKind.TakeBattleLosses] &&
             loss.SourceId == execution.SourceId && battle.SpecialAttacks.Count == 0 &&
-            battle.Work[battle.NextWork - 1] == new CombatWork(Side.Shadow, ShadowStrategyCards01.Dawn,
+            battle.Work[battle.NextWork - 1] == new CombatWork(Side.Shadow, source,
                 "combat.relentless-assault", 3) &&
-            battle.Force(Side.Shadow).Round is { CardId: ShadowStrategyCards01.Dawn, CardCancelled: false,
-                VoluntaryLossHits: null } && battle.Attacker.Round.Dice.Count == 0 && battle.Defender.Round.Dice.Count == 0 &&
-            CardCatalog.Enabled(state, ShadowStrategyCards01.Dawn) &&
-            EffectCatalog.All.Combats.TryGetValue(ShadowStrategyCards01.Dawn, out var combat) &&
+            battle.Force(Side.Shadow).Round is { CardCancelled: false, VoluntaryLossHits: null } shadowRound &&
+            shadowRound.CardId == source && battle.Attacker.Round.Dice.Count == 0 && battle.Defender.Round.Dice.Count == 0 &&
+            CardCatalog.Enabled(state, source) &&
+            EffectCatalog.All.Combats.TryGetValue(source, out var combat) &&
             combat.Effects is [{ Initiative: 3, ProgramId: "combat.relentless-assault" }] &&
             combat.Condition.CanPlay(state, battle, Side.Shadow) &&
             EffectCatalog.All.Programs.TryGetValue("combat.relentless-assault", out var program) &&
@@ -569,7 +612,7 @@ internal static class ActionBoundaryProjection
 
     private static BattleContextView? SpecialAttackLoss(MatchState state)
     {
-        return FirstStepSpecialAttackLoss(state) ?? PostCombatSpecialAttackLoss(state);
+        return FirstStepSpecialAttackLoss(state) ?? PostCombatSpecialAttackLoss(state) ?? GreatHostLoss(state);
     }
 
     private static BattleContextView? FirstStepSpecialAttackLoss(MatchState state)
@@ -646,6 +689,47 @@ internal static class ActionBoundaryProjection
         if (attack.Dice.Count != diceCount || attack.Dice.Any(die => die.Result is < 1 or > 6 ||
             die.Modifier != 0 || die.HitTarget != hitTarget || die.Hit != BattleRoll.Hits(die.Result, 0, hitTarget) ||
             die.ConvertedHit || die.Reroll.HasValue || die.RerollModifier != 0 || die.RerollHit || die.CannotReroll))
+            return null;
+
+        return new() { SpecialAttackLoss = true };
+    }
+
+    // Great Host rolls nothing: its one hit follows from the public army sizes.
+    private static BattleContextView? GreatHostLoss(MatchState state)
+    {
+        var frames = state.Resolution.Frames;
+        if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
+            state.Resolution.ActionSequence is not null || state.Pending is not { Kind: DecisionKind.Losses } pending ||
+            frames is not [var battleFrame, var effectFrame, var lossFrame] ||
+            battleFrame.Battle is not { } battle || effectFrame.Effect is not { } execution ||
+            lossFrame.BattleLoss is not { } loss || !IsPlainBattleFrame(battleFrame) ||
+            !ReviewedCombatCards.IsGreatHost(execution.SourceId) || !CardCatalog.Enabled(state, execution.SourceId))
+            return null;
+
+        var work = new CombatWork(execution.Owner, execution.SourceId, ReviewedCombatCards.GreatHostProgram, 7);
+        if (battle is not { Return: EffectReturn.FinishAction, Stage: BattleStage.AfterLosses, Round: >= 1, CardsRevealed: true,
+                Mode: not BattleMode.Relief, EndedByEffect: false, WhiteRiderUsed: false, Kings: null, NextWork: > 0 } ||
+            battle.CompletedRounds != battle.Round - 1 || battle.NextWork > battle.Work.Count ||
+            battle.Work[battle.NextWork - 1] != work || battle.SpecialAttacks.Count != 0 ||
+            battle.Force(execution.Owner).Round.CardCancelled ||
+            battle.Force(execution.Owner).Round.CardId != execution.SourceId ||
+            effectFrame.EffectId != work.ProgramId || effectFrame.NextStep != 1 || effectFrame.Window.Length != 0 ||
+            effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
+            effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
+            effectFrame.Corruption is not null || execution is not { Return: EffectReturn.Parent, Wait: EffectWait.None,
+                IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false, AppliedHits: 0 } ||
+            execution.Committed.Count != 0 || execution.TargetIds.Count != 0 || execution.RegionId.Length != 0 ||
+            lossFrame is not { EffectId: "", NextStep: 0, Window: "", ReturnDecision: null, Effect: null, Fellowship: null,
+                Hunt: null, Battle: null, EventLoss: null, Corruption: null } ||
+            loss is not { Voluntary: false, AdditionalAttack: false, Hits: 1 } || loss.SourceId != execution.SourceId ||
+            loss.Owner != TurnFlow.Other(execution.Owner) || pending.Commands is not [CommandKind.TakeBattleLosses] ||
+            pending.Owner != loss.Owner || pending.RequiredCount != loss.Hits || pending.SourceId != loss.SourceId ||
+            !EffectCatalog.All.Programs.TryGetValue(work.ProgramId, out var program) || program.Steps is not [GreatHostStep] ||
+            !ReviewedCombatCards.GreatHostHits(state, battle, execution.Owner) ||
+            !BattleRules.Alive(state, battle.Force(loss.Owner)) || state.Resolution.PaidDieIds.Count != 1 ||
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
+            !state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
+                die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving))
             return null;
 
         return new() { SpecialAttackLoss = true };
@@ -770,8 +854,8 @@ internal static class ActionBoundaryProjection
                 BattleRules.Alive(state, battle.Force(loss.Owner)) &&
                 (battle.Stage == BattleStage.DefenderLosses && loss.Owner == battle.Attacker.Side ||
                  battle.Stage == BattleStage.AfterLosses && loss.Owner == battle.Defender.Side) ||
-            loss is { Owner: Side.Shadow, Hits: 2, Voluntary: true, AdditionalAttack: false,
-                SourceId: ShadowStrategyCards01.Dawn } && battle.Stage == BattleStage.BeforeRoll &&
+            loss is { Owner: Side.Shadow, Hits: 2, Voluntary: true, AdditionalAttack: false } &&
+            ReviewedCombatCards.IsRelentlessAssault(loss.SourceId) && battle.Stage == BattleStage.BeforeRoll &&
             battle.Round == 1 && battle.CardsRevealed && battle.Mode != BattleMode.Relief &&
             pending.RequiredCount == loss.Hits && pending.Owner == loss.Owner &&
             pending.Presentation == "VoluntaryLosses" && BattleRules.Alive(state, battle.Force(loss.Owner)) ||

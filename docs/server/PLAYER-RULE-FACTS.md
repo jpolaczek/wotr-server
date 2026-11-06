@@ -1,5 +1,11 @@
 # Player rule facts at an action boundary
 
+Contracts 0.51.0 extend the `Battle` fact at boundary version 35 to Scouts, every Relentless
+Assault card and Great Host. Each rests on revealed cards and the public board: Scouts opens
+before any roll, and Great Host rolls nothing because its hit follows from the army sizes.
+The defender alone receives the Scouts options. Public content 1.0.51 pins these shared
+facts; protocol and save schema are unchanged.
+
 Contracts 0.50.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version
 34 to event losses and event separations, and `CompanionJourney` to Aid. A loss belongs
 to the target's owner, usually the event's opponent, so that player's effect trail may

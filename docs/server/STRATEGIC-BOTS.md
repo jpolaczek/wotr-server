@@ -433,6 +433,15 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Scouts, Relentless Assault and Great Host (2026-11-06)
+
+Contracts 0.51.0 / ActionBoundary v35 and rules 0.15.36 mark the Scouts choice before the
+roll, the voluntary losses of every Relentless Assault card and the Great Host loss.
+`ReviewedCombatCards` qualifies a card by its single printed effect.
+`BattleCardBoundaryTests` covers them and refuses altered frames. BOT-02 is still
+incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — event losses and separation (2026-11-06)
 
 Contracts 0.50.0 / ActionBoundary v34 and rules 0.15.35 mark the losses left by The
