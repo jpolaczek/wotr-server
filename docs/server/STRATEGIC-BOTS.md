@@ -433,6 +433,14 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — every Onslaught card (2026-11-07)
+
+Contracts 0.55.0 / ActionBoundary v39 and rules 0.15.41 review Onslaught by its printed
+effect, as Relentless Assault and Great Host already were, so Misty Mountains and Orcs
+Multiplying reconstruct like Uruk-hai. BOT-02 is still incomplete; no policy, push,
+release or deployment.
+
+
 ### BOT-02 implementation checkpoint — announced battle cancellations (2026-11-07)
 
 Contracts 0.54.0 / ActionBoundary v38 and rules 0.15.40 add each force's cancelled hits

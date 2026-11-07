@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.55.0 advances ActionBoundary to version 39. The `Battle` fact now also marks the
+voluntary-loss decision of every Onslaught card (Uruk-hai, Misty Mountains and Orcs
+Multiplying), not only Uruk-hai: `ReviewedCombatCards.IsOnslaught` qualifies a card by its
+single printed effect. Rules 0.15.41 and public content 1.0.55 pin the contract. Protocol
+and save schema do not change.
+
 Contracts 0.54.0 advances ActionBoundary to version 38. The `Battle` fact also carries
 `AttackerCancelledHits` and `DefenderCancelledHits`: the hits each force has cancelled in
 this Combat round, as announced at the table (Shield Wall, Orderly Withdrawal or a Heroic

@@ -23,7 +23,7 @@ public sealed class LureChoiceProjectionTests
         Assert.Equal(2, choices.Count);
         var target = Assert.Single(choices.Select(choice => choice.SourceId).Distinct(StringComparer.Ordinal));
 
-        Assert.Equal(38, facts.Version);
+        Assert.Equal(39, facts.Version);
         Assert.Equal(ShadowCharacterCards03.Lure, facts.LureChoice!.CardId);
         Assert.Equal(DieFace.Character, facts.LureChoice.CardCost);
         Assert.Null(facts.CardHunt);

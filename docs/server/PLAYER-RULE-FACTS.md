@@ -1,5 +1,10 @@
 # Player rule facts at an action boundary
 
+Contracts 0.55.0 extend the `Battle` fact at boundary version 39 to the Onslaught voluntary
+losses of all three Onslaught cards. The decision rests on the revealed card and the public
+board, as for Uruk-hai before. Public content 1.0.55 pins these shared facts; protocol and
+save schema are unchanged.
+
 Contracts 0.54.0 extend the `Battle` fact at boundary version 38 with each force's
 cancelled hits this Combat round. A Heroic Death sacrifice is announced with the hits it
 cancels, so both players know it; the fact repeats that number for every reviewed battle

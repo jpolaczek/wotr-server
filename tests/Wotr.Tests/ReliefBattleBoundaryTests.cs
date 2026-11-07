@@ -21,7 +21,7 @@ public sealed class ReliefBattleBoundaryTests
 
         foreach (var view in new[] { freePeoples, shadow })
         {
-            Assert.Equal(38, view.ActionBoundary?.Version);
+            Assert.Equal(39, view.ActionBoundary?.Version);
             var context = Assert.IsType<BattleContextView>(view.ActionBoundary?.Battle);
             Assert.False(context.CompletesPaidAction);
             Assert.False(context.SpecialAttackLoss);
@@ -86,7 +86,7 @@ public sealed class ReliefBattleBoundaryTests
         foreach (var side in Enum.GetValues<Side>())
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(38, view.ActionBoundary?.Version);
+            Assert.Equal(39, view.ActionBoundary?.Version);
             Assert.Equal(HelpUnlookedFor, view.ActionBoundary?.Battle?.ReliefEvent?.CardId);
             Assert.Equal(2, view.Battle?.Defender.CombatDiceReduction);
         }

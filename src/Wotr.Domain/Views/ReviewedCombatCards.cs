@@ -11,12 +11,16 @@ public static class ReviewedCombatCards
     public const string RelentlessAssaultProgram = "combat.relentless-assault";
     public const string GreatHostProgram = "combat.great-host";
     public const string ScoutsProgram = "combat.scouts";
+    public const string OnslaughtProgram = "combat.onslaught";
 
     public static bool IsRelentlessAssault(string cardId) => IsShadowCard(cardId) &&
         HasOnlyEffect(cardId, 3, RelentlessAssaultProgram);
 
     public static bool IsGreatHost(string cardId) => IsShadowCard(cardId) &&
         HasOnlyEffect(cardId, 7, GreatHostProgram);
+
+    public static bool IsOnslaught(string cardId) => IsShadowCard(cardId) &&
+        HasOnlyEffect(cardId, 7, OnslaughtProgram);
 
     public static bool IsScouts(string cardId) => CardCatalog.All.TryGetValue(cardId, out var card) &&
         card.Side == Side.FreePeoples && HasOnlyEffect(cardId, 1, ScoutsProgram);
