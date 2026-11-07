@@ -385,7 +385,7 @@ internal static class ActionBoundaryProjection
             _ when pending.Owner != card.Side => false,
             DecisionKind.EffectChoice => IsReviewedEventChoice(state, pending, frame, execution, program),
             DecisionKind.Reaction => IsReviewedEventReaction(state, pending, frame, execution, program),
-            DecisionKind.CharacterEvent => IsReviewedNazgulTravel(state, pending, frame, execution, program),
+            DecisionKind.CharacterEvent => IsReviewedEventTravel(state, pending, frame, execution, program),
             DecisionKind.CompanionSeparation => IsReviewedEventSeparation(state, pending, frame, execution, program),
             DecisionKind.ArmyEvent => IsReviewedArmyOrder(state, pending, frame, execution, program),
             _ => false
@@ -450,34 +450,38 @@ internal static class ActionBoundaryProjection
 
         return cardId == KingsCards02.Service && frame.NextStep == 2
             ? ServiceSovereignSelected(state, execution)
-            : choice is RecruitEffectStep { Region: "" }
+            : DirectEventChoices.ReadsAnEarlierRegion(choice)
                 ? HasPublicRecruitRegion(execution)
                 : HasNoEventSelection(execution);
     }
 
-    // The route options come from the public Nazgul positions. The card's only
-    // earlier state is the owner's order to fly, which stays in their own trail.
-    private static bool IsReviewedNazgulTravel(MatchState state, PendingDecision pending, ResolutionFrame frame,
+    // The route options come from the public Nazgul or Balrog positions. The card's
+    // only earlier state is the owner's order to fly or to travel alone, which stays
+    // in their own trail.
+    private static bool IsReviewedEventTravel(MatchState state, PendingDecision pending, ResolutionFrame frame,
         EffectExecution execution, EffectDefinition program) =>
         pending is { Owner: Wotr.Contracts.Side.Shadow, Commands: [CommandKind.MoveShadowCharacters] } &&
-        state.Resolution.Frames.Count == 1 && execution is { Wait: EffectWait.NazgulTravel, CompletionWindowOffered: false } &&
-        frame.NextStep == 1 && DirectEventChoices.TravelsFirst(program) &&
+        state.Resolution.Frames.Count == 1 && execution is { CompletionWindowOffered: false } && frame.NextStep == 1 &&
         execution.RegionId.Length == 0 && execution.TargetIds.Count == 0 && execution.NationId.Length == 0 &&
-        execution.Committed.Skip(1).All(selection => DirectEventChoices.IsSpearOfTerror(selection) ||
-            DirectEventChoices.IsCaptainFlight(selection)) && execution.Committed.Count <= 3 &&
-        execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution);
+        execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution) &&
+        (execution.Wait == EffectWait.NazgulTravel && DirectEventChoices.TravelsFirst(program) &&
+            execution.Committed.Skip(1).All(selection => DirectEventChoices.IsSpearOfTerror(selection) ||
+                DirectEventChoices.IsCaptainFlight(selection)) && execution.Committed.Count <= 3 ||
+         execution.Wait == EffectWait.BalrogTravel &&
+            DirectEventChoices.ChoseBalrog(program, frame.NextStep, execution.Committed, BalrogEventStep.Alone) &&
+            BalrogEventTravel.Travel(state) is { } travel && travel.Targets.Any(region => region != travel.Origin));
 
     private static bool IsReviewedArmyOrder(MatchState state, PendingDecision pending, ResolutionFrame frame,
         EffectExecution execution, EffectDefinition program) =>
-        state.Resolution.Frames.Count == 1 && DirectEventChoices.LeadsToArmyOrder(program, frame.NextStep) &&
-        program.Steps[frame.NextStep - 1] is ArmyOrderStep step &&
-        execution is { Wait: EffectWait.Army, CompletionWindowOffered: false } && execution.ArmyOrder == step.Order &&
-        pending.Presentation == step.Order.ToString() && pending.Commands.SequenceEqual(ArmyOrderStep.Commands(step.Order)) &&
+        state.Resolution.Frames.Count == 1 &&
+        DirectEventChoices.ArmyOrderAt(program, frame.NextStep, execution.Committed) is { } order &&
+        execution is { Wait: EffectWait.Army, CompletionWindowOffered: false } && execution.ArmyOrder == order &&
+        pending.Presentation == order.ToString() && pending.Commands.SequenceEqual(ArmyOrderStep.Commands(order)) &&
         execution.RegionId.Length == 0 && execution.TargetIds.Count == 0 && execution.NationId.Length == 0 &&
         execution.Committed.All(selection => selection.Owner == execution.Owner &&
             DirectEventChoices.BelongsToEvent(selection, execution.SourceId)) &&
         execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution) &&
-        ArmyEventOptions.Armies(state, execution.Owner, step.Order).Any();
+        ArmyEventOptions.Armies(state, execution.Owner, order).Any();
 
     // The branch choice and the recruitment it opens each live in their own nested
     // program. Their candidates come from the public board; the owner's trail holds

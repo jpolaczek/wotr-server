@@ -76,7 +76,7 @@ public sealed class DirectEventChoiceFamilyTests
             "fate.fp.strategy.19", "fate.fp.strategy.22", "fate.sh.strategy.20",
             "kings.fp.strategy.08", "kings.fp.strategy.25", "kings.fp.strategy.26",
             "kings.sh.strategy.01", "kings.sh.strategy.18", "kings.sh.strategy.26",
-            "lords.fp.strategy.25"
+            "lords.fp.strategy.25", "lords.sh.character.17"
         ], reviewed);
     }
 
@@ -489,6 +489,81 @@ public sealed class DirectEventChoiceFamilyTests
     }
 
     [Fact]
+    public void MarksTheDunlendingMoveIntoTheRecruitmentRegion()
+    {
+        var state = DunlendingMove();
+
+        Assert.Equal(3, state.Resolution.Frames[0].NextStep);
+        AssertMarked(state, ShadowStrategyCards02.Rage);
+    }
+
+    [Theory]
+    [InlineData("region")]
+    [InlineData("foreign-trail")]
+    [InlineData("target")]
+    public void TheDunlendingMoveRequiresItsPublicRegion(string change)
+    {
+        var state = DunlendingMove();
+        var execution = state.Resolution.Frames[0].Effect!;
+        switch (change)
+        {
+            case "region": execution.RegionId = ""; break;
+            case "foreign-trail": execution.Committed.Add(new(Side.Shadow, "altered")); break;
+            case "target": execution.TargetIds = ["altered"]; break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(BalrogEventStep.Alone)]
+    [InlineData(BalrogEventStep.Army)]
+    public void MarksTheBalrogOrderAndTheTravelOrArmyItOpens(string choice)
+    {
+        var state = LordsShadowManeuverTests.BalrogChoice();
+        Assert.Equal("BalrogOrder", state.Pending!.Presentation);
+        Assert.Equal([BalrogEventStep.Decline, BalrogEventStep.Alone, BalrogEventStep.Army], state.Pending.PrivateChoices);
+        if (choice.Length > 0)
+            state = LordsCardsFixture.Choose(state, choice);
+
+        Assert.Equal(choice switch
+        {
+            BalrogEventStep.Alone => DecisionKind.CharacterEvent,
+            BalrogEventStep.Army => DecisionKind.ArmyEvent,
+            _ => DecisionKind.EffectChoice
+        }, state.Pending!.Kind);
+        AssertMarked(state, LordsShadowCards.Balrog, DieFace.Event);
+    }
+
+    [Theory]
+    [InlineData(BalrogEventStep.Alone, "swapped")]
+    [InlineData(BalrogEventStep.Alone, "extra")]
+    [InlineData(BalrogEventStep.Alone, "cursor")]
+    [InlineData(BalrogEventStep.Army, "swapped")]
+    [InlineData(BalrogEventStep.Army, "extra")]
+    [InlineData(BalrogEventStep.Army, "cursor")]
+    [InlineData(BalrogEventStep.Army, "order")]
+    public void TheBalrogTravelOrArmyRequiresItsOwnersChoice(string choice, string change)
+    {
+        var state = LordsCardsFixture.Choose(LordsShadowManeuverTests.BalrogChoice(), choice);
+        var frame = state.Resolution.Frames[0];
+        var execution = frame.Effect!;
+        var other = choice == BalrogEventStep.Alone ? BalrogEventStep.Army : BalrogEventStep.Alone;
+        switch (change)
+        {
+            case "swapped": execution.Committed[^1] = execution.Committed[^1] with { ChoiceId = other }; break;
+            case "extra": execution.Committed.Insert(1, new(Side.Shadow, LordsShadowCards.Balrog, BalrogEventStep.Decline)); break;
+            case "cursor": frame.NextStep = 0; break;
+            case "order": execution.ArmyOrder = ArmyEventOrder.DolGuldurManeuver; break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
+    [Fact]
     public void AStepTypeOutsideTheReviewRemainsUnmarked()
     {
         var program = EffectCatalog.All.Programs["base.fp.strategy.04"];
@@ -501,11 +576,22 @@ public sealed class DirectEventChoiceFamilyTests
         Assert.All(Enum.GetValues<Side>(), side =>
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(36, view.ActionBoundary?.Version);
+            Assert.Equal(37, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(card, context.CardId);
             Assert.Equal(cost ?? CardCatalog.All[card].EventType, context.CardCost);
         });
+    }
+
+    // Rage of the Dunlendings chooses a region, recruits there, then offers the Dunland units.
+    private static MatchState DunlendingMove()
+    {
+        var state = Played(ShadowStrategyCards02.Rage);
+        while (state.Pending is { Kind: DecisionKind.EffectChoice } pending && pending.Presentation != "ArmyFigures")
+            state = KingsFixture.Do(state, CommandKind.ChooseEffect,
+                new() { Ids = [.. pending.PrivateChoices.Take(Math.Max(1, pending.RequiredCount))] });
+        Assert.Equal("ArmyFigures", state.Pending!.Presentation);
+        return state;
     }
 
     private static MatchState ArmyMovement() =>
@@ -592,6 +678,13 @@ public sealed class DirectEventChoiceFamilyTests
                 break;
             case Stewards:
                 CharacterFixture.Put(state, KingsCardsFixture.Boromir, "minas-tirith");
+                break;
+            case ShadowStrategyCards02.Rage:
+                var isengard = state.Nations.Single(nation => nation.Id == "isengard");
+                isengard.Active = true;
+                isengard.StepsToWar = 0;
+                BattleFixture.Put(state, "isengard", UnitKind.Regular, "north-dunland");
+                BattleFixture.Put(state, "isengard", UnitKind.Elite, "south-dunland");
                 break;
             case ShadowStrategyCards03.HillTrolls:
                 state.Nations.Single(nation => nation.Id == "sauron").StepsToWar = 0;

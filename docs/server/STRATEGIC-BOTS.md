@@ -433,6 +433,18 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — the Balrog event (2026-11-07)
+
+Contracts 0.53.0 / ActionBoundary v37 and rules 0.15.39 mark the Balrog event's order
+choice and the lone travel or army order it opens, and the Rage of the Dunlendings move.
+The Balrog was the largest group, 60 roots, that the wider walk still left unsupported
+without a new contract decision; Rage was 14 more, and 24 corruption attempts paid with a
+Keeper Eye.
+`DirectEventChoiceFamilyTests` covers all three decisions and refuses a swapped or extra
+choice, a moved cursor or another army order. BOT-02 is still incomplete; no policy,
+push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — Kings national cards and army events (2026-11-07)
 
 Contracts 0.52.0 / ActionBoundary v36 and rules 0.15.38 mark the branch and nested

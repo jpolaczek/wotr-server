@@ -39,7 +39,7 @@ internal static class CorruptionBoundaryProjection
         state.Pending.SourceId == attempt.SovereignId &&
         attempt.Stage is CorruptionStage.Drawing or CorruptionStage.Choosing or CorruptionStage.SequentialChoice &&
         state.Dice.Count(d => d.Location == DieLocation.Resolving) == 1 &&
-        state.Dice.Any(d => d.Id == attempt.DieId && d.Owner == Side.Shadow &&
+        state.Dice.Any(d => d.Id == attempt.DieId && DiceRules.HuntsForShadow(d) &&
             d.Face == DieFace.Eye && d.Location == DieLocation.Resolving);
 
     private static bool WestEventAttempt(MatchState state, out EffectExecution effect)

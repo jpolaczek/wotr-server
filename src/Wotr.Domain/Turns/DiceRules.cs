@@ -56,8 +56,11 @@ public static class DiceRules
 
     public static bool CanDraw(DieState die) => CanPay(die, DieFace.Event) || CanPay(die, DieFace.CardDraw);
 
-    public static bool IsShadowHuntDie(DieState die) => die.Location == DieLocation.Hunt &&
-        (die.Owner == Side.Shadow || die.Special is not null && die.HuntOrigin == LordsDiceCatalog.KeeperEye);
+    public static bool IsShadowHuntDie(DieState die) => die.Location == DieLocation.Hunt && HuntsForShadow(die);
+
+    // A Free Peoples ring die that rolled an Eye joins the Shadow's Hunt dice as a Keeper Eye.
+    public static bool HuntsForShadow(DieState die) =>
+        die.Owner == Side.Shadow || die.Special is not null && die.HuntOrigin == LordsDiceCatalog.KeeperEye;
 
     public static bool CanPay(DieState die, DieFace required) => die.Location == DieLocation.Available &&
         (die.Face == required || die.Face == DieFace.WillOfTheWest ||

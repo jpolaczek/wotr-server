@@ -21,7 +21,7 @@ public sealed class CorruptionBoundaryProjectionTests
         foreach (var side in Enum.GetValues<Side>())
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(36, view.ActionBoundary!.Version);
+            Assert.Equal(37, view.ActionBoundary!.Version);
             Assert.Empty(view.ActionBoundary.PaidDieIds);
             Assert.Equal(attempt.DieId, view.CorruptionAttempt!.DieId);
             Assert.Equal(attempt.Drawn.Count, view.CorruptionAttempt.DrawnCount);
@@ -92,7 +92,27 @@ public sealed class CorruptionBoundaryProjectionTests
         Assert.Null(new Projection().For(state, Side.Shadow).ActionBoundary);
     }
 
-    internal static MatchState At(string window, int configuration = 0, bool visible = false)
+    [Theory]
+    [InlineData(LordsDiceCatalog.Vilya)]
+    [InlineData(LordsDiceCatalog.Nenya)]
+    [InlineData(LordsDiceCatalog.Narya)]
+    public void AKeeperEyeOfTheFreePeoplesPaysAnOrdinaryAttempt(string die)
+    {
+        var state = At("draw", configuration: 1, keeperEye: die);
+        var paid = state.Dice.Single(item => item.Id == die);
+        Assert.Equal(Side.FreePeoples, paid.Owner);
+        Assert.Equal(DieLocation.Resolving, paid.Location);
+        Assert.Equal(DecisionKind.CorruptionTile, state.Pending!.Kind);
+
+        var view = GameRuntime.Projection(EffectCatalog.All).For(state, Side.Shadow);
+        Assert.Equal(37, view.ActionBoundary?.Version);
+        Assert.Equal(die, view.CorruptionAttempt!.DieId);
+
+        paid.HuntOrigin = "";
+        Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, Side.Shadow).ActionBoundary);
+    }
+
+    internal static MatchState At(string window, int configuration = 0, bool visible = false, string keeperEye = "")
     {
         var state = KingsBoundaryProjectionTests.At("action", configuration, visible);
         state.Configuration.SequentialCorruption = window.StartsWith("sequential", StringComparison.Ordinal);
@@ -102,8 +122,14 @@ public sealed class CorruptionBoundaryProjectionTests
             die.Location = DieLocation.Hunt;
             die.HuntOrigin = "rolled-eye";
         }
+        if (keeperEye.Length > 0)
+            KingsIntegrationFixture.SpecialEye(state, keeperEye);
         TurnFlow.SelectNext(state, Side.Shadow);
-        var payload = new CommandPayload { CharacterId = SovereignCatalog.Denethor, DieId = CorruptionRules.Eyes(state).First().Id };
+        var payload = new CommandPayload
+        {
+            CharacterId = SovereignCatalog.Denethor,
+            DieId = keeperEye.Length > 0 ? keeperEye : CorruptionRules.Eyes(state).First().Id
+        };
         state = Draw(state, CommandKind.AttemptCorruption, window == "ignored" ? "eye" : "0", payload);
         if (window is "mixed" or "sequential-ignored")
             state = Draw(state, CommandKind.DrawCorruptionTile, "eye");

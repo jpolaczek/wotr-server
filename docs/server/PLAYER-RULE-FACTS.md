@@ -1,5 +1,13 @@
 # Player rule facts at an action boundary
 
+Contracts 0.53.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version 37 to
+the Balrog event. Its choices come from the Balrog's public position, its travel targets
+and the armies that include it. The chosen order, `balrog.alone` or `balrog.army`, is in
+the owner's trail. The Rage of the Dunlendings move offers the public Dunland units for the
+region the event recruited in. An ordinary corruption attempt paid with a Keeper Eye now
+has its boundary like one paid with a Shadow die. Public content 1.0.53 pins these shared
+facts; protocol and save schema are unchanged.
+
 Contracts 0.52.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version 36 to
 Kings national cards and army events. A national card's branch is `recruit` or
 `corruption`, and the owner's trail records it; the recruitment's candidates come from the

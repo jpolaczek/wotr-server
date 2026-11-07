@@ -17,8 +17,12 @@ public static class DirectEventChoices
         var earlier = program.Steps.Take(nextStep - 1).ToArray();
         var step = program.Steps[nextStep - 1];
         return earlier.All(IsAutomaticPublicStep) && OpensFromPublicBoard(step) ||
-            step is RecruitEffectStep { Region: "", Leader: false } && earlier.All(LeavesAPublicRecruitRegion);
+            step is RecruitEffectStep { Region: "", Leader: false } && earlier.All(LeavesAPublicRecruitRegion) ||
+            step is DunlendingMoveStep && earlier is [DunlendingRegionStep, RecruitEffectStep { Region: "", Leader: false }];
     }
+
+    // A reviewed step that reads only the public region an earlier step of its event left.
+    public static bool ReadsAnEarlierRegion(EffectStep step) => step is RecruitEffectStep { Region: "" } or DunlendingMoveStep;
 
     // The one reviewed step a pending choice with this presentation can be at, or 0.
     public static int StepFor(string cardId, string presentation, EffectDefinition program)
@@ -45,6 +49,21 @@ public static class DirectEventChoices
     public static bool LeadsToArmyOrder(EffectDefinition program, int nextStep) =>
         nextStep >= 1 && nextStep <= program.Steps.Count && program.Steps[nextStep - 1] is ArmyOrderStep &&
         program.Steps.Take(nextStep - 1).All(step => step is BlackCaptainStep or MoveNazgulStep or DolGuldurRecruitStep);
+
+    // The army order a reviewed event waits on at this step, or null. The Balrog's
+    // own choice opens its order inside its one step.
+    public static ArmyEventOrder? ArmyOrderAt(EffectDefinition program, int nextStep,
+        IReadOnlyList<EffectSelection> committed) =>
+        LeadsToArmyOrder(program, nextStep) && program.Steps[nextStep - 1] is ArmyOrderStep step ? step.Order
+            : ChoseBalrog(program, nextStep, committed, BalrogEventStep.Army) ? ArmyEventOrder.BalrogManeuver : null;
+
+    // The Balrog event has one step. Once its owner chooses to travel alone or with an
+    // army, the trail ends with that choice, after the card and any Spear of Terror.
+    public static bool ChoseBalrog(EffectDefinition program, int nextStep, IReadOnlyList<EffectSelection> committed,
+        string choice) =>
+        program.Steps is [BalrogEventStep] && nextStep == 1 && committed.Count is 2 or 3 &&
+        committed[^1] == new EffectSelection(Wotr.Contracts.Side.Shadow, committed[0].SourceId, choice) &&
+        committed.Skip(1).SkipLast(1).All(IsSpearOfTerror);
 
     public static bool TravelsFirst(EffectDefinition program) => program.Steps.Count > 0 &&
         program.Steps[0] is MoveNazgulStep or BlackCaptainStep;
@@ -90,7 +109,7 @@ public static class DirectEventChoices
     public static bool OpensFromPublicBoard(EffectStep step) => step is
         RecruitmentBatchStep or RecruitEffectStep { Region.Length: > 0 } or RecruitTogetherStep or RecruitRegionStep or
         HillTrollsStep or CruelWeatherStep or BlackCaptainStep or ArmyEventDamageStep or EnemySovereignStep or
-        FateOrcsRegionStep or ValinorRegionStep or KingsValinorStep or WisdomBranchStep;
+        FateOrcsRegionStep or ValinorRegionStep or KingsValinorStep or WisdomBranchStep or BalrogEventStep;
 
     private static bool LeavesAPublicRecruitRegion(EffectStep step) => step is
         RecruitRegionStep or ArmyEventDamageStep or RangersRecruitStep or StewardsRegionStep;

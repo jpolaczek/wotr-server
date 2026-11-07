@@ -28,7 +28,7 @@ public sealed class FellowshipMoveProjectionTests
             var boundary = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
             var progress = Assert.IsType<FellowshipMoveView>(boundary.FellowshipMove);
             var hunt = HuntRuntime.Active(state)!;
-            Assert.Equal(36, boundary.Version);
+            Assert.Equal(37, boundary.Version);
             Assert.Equal(hunt.OfferedGuides, progress.GuideWindowsOffered);
             Assert.Equal(hunt.CasualtyEffectsPending, progress.CasualtyConsequencesPending);
             Assert.Equal(hunt.DepartingCompanions, progress.DepartingCompanions);
@@ -84,7 +84,7 @@ public sealed class FellowshipMoveProjectionTests
         {
             var view = Projection.For(state, side);
             var facts = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
-            Assert.Equal(36, facts.Version);
+            Assert.Equal(37, facts.Version);
             Assert.Equal(1, view.Hunt!.DiceReduction);
             Assert.Equal(1, view.Hunt.RerollBonus);
             Assert.NotNull(facts.FellowshipMove);

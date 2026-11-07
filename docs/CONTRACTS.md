@@ -1,6 +1,15 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.53.0 advances ActionBoundary to version 37. `DirectEventChoice` also marks
+the Balrog event (`lords.sh.character.17`): its order choice, and the lone travel or the
+army movement or attack that choice opens. The owner's trail ends with that choice. It
+also marks the Rage of the Dunlendings move into the region its event recruited in. The
+marker still carries only the public card ID and payment face. An ordinary corruption
+attempt may also be paid with a Keeper Eye, a Free Peoples ring die that rolled an Eye;
+`DiceRules.HuntsForShadow` is the rule both the engine and the projection read. Rules 0.15.39 and public
+content 1.0.53 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.52.0 advances ActionBoundary to version 36. `DirectEventChoice` also marks
 the branch choice of a Kings national card and the recruitment it opens, each in its own
 nested program, and the one army movement or attack of an `ArmyOrderStep` event. The
