@@ -367,7 +367,8 @@ internal static class ActionBoundaryProjection
             frame.Battle is not null || frame.BattleLoss is not null || frame.EventLoss is not null ||
             frame.Corruption is not null || execution is not
                 { Owner: var owner, SourceId: var source, Return: EffectReturn.FinishAction, IsEvent: true,
-                    AnarionDrawPending: false, ArmyOrder: null } || owner != card.Side || source != cardId ||
+                    AnarionDrawPending: false } || owner != card.Side || source != cardId ||
+            execution.ArmyOrder is not null && pending.Kind != DecisionKind.ArmyEvent ||
             execution.PaidFace != DieFace.Event && execution.PaidFace != card.EventType ||
             execution.ReactionWindow.Length != 0 || execution.OfferedReactions.Count != 0 ||
             execution.Committed.Count == 0 || execution.Committed[0] != new EffectSelection(card.Side, cardId) ||
@@ -386,6 +387,7 @@ internal static class ActionBoundaryProjection
             DecisionKind.Reaction => IsReviewedEventReaction(state, pending, frame, execution, program),
             DecisionKind.CharacterEvent => IsReviewedNazgulTravel(state, pending, frame, execution, program),
             DecisionKind.CompanionSeparation => IsReviewedEventSeparation(state, pending, frame, execution, program),
+            DecisionKind.ArmyEvent => IsReviewedArmyOrder(state, pending, frame, execution, program),
             _ => false
         };
         if (!reviewed)
@@ -431,6 +433,9 @@ internal static class ActionBoundaryProjection
         EffectExecution execution, EffectDefinition program)
     {
         var cardId = execution.SourceId;
+        if (pending.Commands is [CommandKind.ChooseEffect] &&
+            DirectEventChoices.IsNationalCard(program, out _, out var otherwise, out var recruit))
+            return IsReviewedNationalCardChoice(state, pending, frame, execution, otherwise, recruit);
         if (pending.Commands is not [CommandKind.ChooseEffect] || state.Resolution.Frames.Count != 1 ||
             execution is not { Wait: EffectWait.Choice, CompletionWindowOffered: false } ||
             !DirectEventChoices.IsReviewed(cardId, frame.NextStep, program) ||
@@ -461,6 +466,57 @@ internal static class ActionBoundaryProjection
         execution.Committed.Skip(1).All(selection => DirectEventChoices.IsSpearOfTerror(selection) ||
             DirectEventChoices.IsCaptainFlight(selection)) && execution.Committed.Count <= 3 &&
         execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution);
+
+    private static bool IsReviewedArmyOrder(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program) =>
+        state.Resolution.Frames.Count == 1 && DirectEventChoices.LeadsToArmyOrder(program, frame.NextStep) &&
+        program.Steps[frame.NextStep - 1] is ArmyOrderStep step &&
+        execution is { Wait: EffectWait.Army, CompletionWindowOffered: false } && execution.ArmyOrder == step.Order &&
+        pending.Presentation == step.Order.ToString() && pending.Commands.SequenceEqual(ArmyOrderStep.Commands(step.Order)) &&
+        execution.RegionId.Length == 0 && execution.TargetIds.Count == 0 && execution.NationId.Length == 0 &&
+        execution.Committed.All(selection => selection.Owner == execution.Owner &&
+            DirectEventChoices.BelongsToEvent(selection, execution.SourceId)) &&
+        execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution) &&
+        ArmyEventOptions.Armies(state, execution.Owner, step.Order).Any();
+
+    // The branch choice and the recruitment it opens each live in their own nested
+    // program. Their candidates come from the public board; the owner's trail holds
+    // the branch once chosen.
+    private static bool IsReviewedNationalCardChoice(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, string otherwise, string recruit)
+    {
+        var frames = state.Resolution.Frames;
+        if (frames.Count is not (2 or 3) || frame.NextStep != 1 ||
+            execution is not { Wait: EffectWait.None, CompletionWindowOffered: false } ||
+            execution.PalantirDrawPending != DirectEventChoices.PalantirDrawExpected(state, execution) ||
+            execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 || execution.NationId.Length != 0 ||
+            !IsNestedEventFrame(frames[1], execution, otherwise, frames.Count == 2 ? EffectWait.Choice : EffectWait.None))
+            return false;
+
+        var played = new EffectSelection(execution.Owner, execution.SourceId);
+        var branch = frames.Count == 2;
+        var active = branch ? frames[1] : frames[2];
+        if (!branch && !IsNestedEventFrame(active, execution, recruit, EffectWait.Choice))
+            return false;
+        var expectedTrail = branch ? new[] { played } :
+            new[] { played, new EffectSelection(execution.Owner, execution.SourceId, "recruit") };
+        if (!execution.Committed.SequenceEqual(expectedTrail) ||
+            EffectCatalog.All.Programs[active.EffectId].Steps[0] is not EffectChoiceStep choice ||
+            pending.Presentation != choice.Presentation)
+            return false;
+        var candidates = choice.Candidates(state, active.Effect!);
+        return candidates.Count != 0 && pending.PrivateChoices.SequenceEqual(candidates);
+    }
+
+    private static bool IsNestedEventFrame(ResolutionFrame frame, EffectExecution parent, string programId, EffectWait wait) =>
+        frame is { NextStep: 1, Window: "", ReturnDecision: null, Fellowship: null, Hunt: null, Battle: null,
+            BattleLoss: null, EventLoss: null, Corruption: null } && frame.EffectId == programId &&
+        frame.Effect is { Return: EffectReturn.Parent, IsEvent: false, PalantirDrawPending: false,
+            AnarionDrawPending: false, CompletionWindowOffered: false, AppliedHits: 0, ArmyOrder: null } nested &&
+        nested.Wait == wait && nested.Owner == parent.Owner && nested.SourceId == parent.SourceId &&
+        nested.Committed.Count == 0 && nested.TargetIds.Count == 0 && nested.NationId.Length == 0 &&
+        nested.RegionId.Length == 0 && nested.ReactionWindow.Length == 0 && nested.OfferedReactions.Count == 0 && nested.InspectedSovereign is null &&
+        nested.InspectedHand is null && nested.RingRecovery is null && nested.MadnessTarget is null && !nested.FellowshipMove;
 
     // A window opened on an event in play holds no step state: event.played comes
     // before the first step, and event.completed after the last.

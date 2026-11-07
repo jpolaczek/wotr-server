@@ -40,6 +40,12 @@ public static class DirectEventChoices
         return 0;
     }
 
+    // An army event moves or attacks once, with options from the public board. The
+    // steps before it are automatic or leave their choice in the owner's trail.
+    public static bool LeadsToArmyOrder(EffectDefinition program, int nextStep) =>
+        nextStep >= 1 && nextStep <= program.Steps.Count && program.Steps[nextStep - 1] is ArmyOrderStep &&
+        program.Steps.Take(nextStep - 1).All(step => step is BlackCaptainStep or MoveNazgulStep or DolGuldurRecruitStep);
+
     public static bool TravelsFirst(EffectDefinition program) => program.Steps.Count > 0 &&
         program.Steps[0] is MoveNazgulStep or BlackCaptainStep;
 
@@ -63,7 +69,25 @@ public static class DirectEventChoices
     private static bool IsAutomaticPublicStep(EffectStep step) =>
         step is AdvanceFixedNationStep or WitchKingReturnStep;
 
-    private static bool OpensFromPublicBoard(EffectStep step) => step is
+    // A Kings national card nests its branch and recruitment in programs of their own.
+    public static bool IsNationalCard(EffectDefinition program, out string sovereign, out string otherwise,
+        out string recruit)
+    {
+        sovereign = otherwise = recruit = "";
+        if (program.Steps is not [KingsNationalCardStep national] ||
+            !EffectCatalog.All.Programs.TryGetValue(national.OtherwiseProgram, out var branchProgram) ||
+            branchProgram.Steps is not [KingsRecruitOrCleanseStep branch, DrawCardsStep] ||
+            branch.Sovereign != national.Sovereign ||
+            !EffectCatalog.All.Programs.TryGetValue(branch.RecruitProgram, out var recruitProgram) ||
+            recruitProgram.Steps is not [var recruitment] || !OpensFromPublicBoard(recruitment))
+            return false;
+        sovereign = national.Sovereign;
+        otherwise = national.OtherwiseProgram;
+        recruit = branch.RecruitProgram;
+        return true;
+    }
+
+    public static bool OpensFromPublicBoard(EffectStep step) => step is
         RecruitmentBatchStep or RecruitEffectStep { Region.Length: > 0 } or RecruitTogetherStep or RecruitRegionStep or
         HillTrollsStep or CruelWeatherStep or BlackCaptainStep or ArmyEventDamageStep or EnemySovereignStep or
         FateOrcsRegionStep or ValinorRegionStep or KingsValinorStep or WisdomBranchStep;

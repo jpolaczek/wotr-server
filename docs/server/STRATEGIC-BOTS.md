@@ -433,6 +433,15 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Kings national cards and army events (2026-11-07)
+
+Contracts 0.52.0 / ActionBoundary v36 and rules 0.15.38 mark the branch and nested
+recruitment of the four Kings national cards, and the army movement or attack of every
+`ArmyOrderStep` event. Together they were about 140 of the 600 roots the wider walk left
+unsupported. `DirectEventChoiceFamilyTests` covers both and refuses altered frames.
+BOT-02 is still incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — event costs from a wider walk (2026-11-06)
 
 A wider bot walk (two more seeds, 160 commands) found that rules offered Great Sorcery and

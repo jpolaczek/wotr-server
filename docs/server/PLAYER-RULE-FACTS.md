@@ -1,5 +1,11 @@
 # Player rule facts at an action boundary
 
+Contracts 0.52.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version 36 to
+Kings national cards and army events. A national card's branch is `recruit` or
+`corruption`, and the owner's trail records it; the recruitment's candidates come from the
+public board. An army event moves or attacks once with options from the public board.
+Public content 1.0.52 pins these shared facts; protocol and save schema are unchanged.
+
 Contracts 0.51.0 extend the `Battle` fact at boundary version 35 to Scouts, every Relentless
 Assault card and Great Host. Each rests on revealed cards and the public board: Scouts opens
 before any roll, and Great Host rolls nothing because its hit follows from the army sizes.

@@ -409,6 +409,85 @@ public sealed class DirectEventChoiceFamilyTests
         });
     }
 
+    [Theory]
+    [InlineData(KingsCards02.Dain)]
+    [InlineData(KingsCards02.Thranduil)]
+    [InlineData(KingsFreePeoplesCards01.Riders)]
+    [InlineData(KingsFreePeoplesCards01.Brand)]
+    public void MarksTheBranchAndRecruitmentOfAKingsNationalCard(string card)
+    {
+        var state = NationalCardBranch(card);
+
+        Assert.Equal("SovereignCardBranch", state.Pending!.Presentation);
+        Assert.Equal(2, state.Resolution.Frames.Count);
+        AssertMarked(state, card, DieFace.Event);
+
+        state = KingsFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = ["recruit"] });
+        if (state.Pending?.Kind != DecisionKind.EffectChoice)
+        {
+            // A lone recruit is placed by the engine without a choice; Thranduil always offers two.
+            Assert.NotEqual(KingsCards02.Thranduil, card);
+            return;
+        }
+        Assert.Equal(3, state.Resolution.Frames.Count);
+        AssertMarked(state, card, DieFace.Event);
+    }
+
+    [Theory]
+    [InlineData("branch-trail")]
+    [InlineData("nested-owner")]
+    [InlineData("nested-program")]
+    [InlineData("nested-cursor")]
+    [InlineData("nested-region")]
+    public void TheNationalCardBranchRequiresItsExactFrames(string change)
+    {
+        var state = NationalCardBranch(KingsCards02.Thranduil);
+        var nested = state.Resolution.Frames[1];
+        switch (change)
+        {
+            case "branch-trail": state.Resolution.Frames[0].Effect!.Committed.Add(new(Side.FreePeoples, KingsCards02.Thranduil, "recruit")); break;
+            case "nested-owner": nested.Effect!.Owner = Side.Shadow; break;
+            case "nested-program": nested.EffectId = KingsCards02.Dain + ".otherwise"; break;
+            case "nested-cursor": nested.NextStep = 2; break;
+            case "nested-region": nested.Effect!.RegionId = "dale"; break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
+    [Fact]
+    public void MarksTheArmyMovementOfAnEvent()
+    {
+        var state = ArmyMovement();
+
+        Assert.Equal(DecisionKind.ArmyEvent, state.Pending!.Kind);
+        AssertMarked(state, ShadowStrategyCards02.Moving);
+    }
+
+    [Theory]
+    [InlineData("order")]
+    [InlineData("cursor")]
+    [InlineData("presentation")]
+    [InlineData("commands")]
+    [InlineData("foreign-trail")]
+    public void TheArmyMovementRequiresItsExactFrame(string change)
+    {
+        var state = ArmyMovement();
+        var execution = state.Resolution.Frames[0].Effect!;
+        switch (change)
+        {
+            case "order": execution.ArmyOrder = ArmyEventOrder.ReliefAttack; break;
+            case "cursor": state.Resolution.Frames[0].NextStep = 0; break;
+            case "presentation": state.Pending!.Presentation = "Altered"; break;
+            case "commands": state.Pending!.Commands = [CommandKind.MoveArmies]; break;
+            case "foreign-trail": execution.Committed.Add(new(Side.Shadow, "altered")); break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
     [Fact]
     public void AStepTypeOutsideTheReviewRemainsUnmarked()
     {
@@ -422,11 +501,23 @@ public sealed class DirectEventChoiceFamilyTests
         Assert.All(Enum.GetValues<Side>(), side =>
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(35, view.ActionBoundary?.Version);
+            Assert.Equal(36, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(card, context.CardId);
             Assert.Equal(cost ?? CardCatalog.All[card].EventType, context.CardCost);
         });
+    }
+
+    private static MatchState ArmyMovement() =>
+        ShadowStrategy02Fixture.Play(ShadowStrategy02Fixture.State(ShadowStrategyCards02.Moving), ShadowStrategyCards02.Moving);
+
+    private static MatchState NationalCardBranch(string card)
+    {
+        var state = KingsCardsFixture.State();
+        EventTests.GiveCard(state, Side.FreePeoples, card);
+        var die = state.Dice.First(item => item.Owner == Side.FreePeoples && item.Location == DieLocation.Available);
+        die.Face = DieFace.Event;
+        return KingsFixture.Do(state, CommandKind.PlayEvent, new() { CardId = card, DieId = die.Id, CardCost = DieFace.Event });
     }
 
     private static MatchState LossesOf(string card)

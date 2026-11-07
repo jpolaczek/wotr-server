@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.52.0 advances ActionBoundary to version 36. `DirectEventChoice` also marks
+the branch choice of a Kings national card and the recruitment it opens, each in its own
+nested program, and the one army movement or attack of an `ArmyOrderStep` event. The
+marker still carries only the public card ID and payment face. `ArmyOrderStep.Commands`
+now gives the decision's commands to both the engine and the projection. Rules 0.15.38 and
+public content 1.0.52 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.51.0 advances ActionBoundary to version 35. `Battle` also marks three
 combat-card decisions, reviewed by printed effect in `ReviewedCombatCards`: the Scouts
 choice before the roll, the voluntary losses of every Relentless Assault card rather

@@ -24,7 +24,7 @@ public sealed class BreakingCardHuntProjectionTests
         {
             var view = Projector.For(state, side);
             var boundary = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
-            Assert.Equal(35, boundary.Version);
+            Assert.Equal(36, boundary.Version);
             Assert.Equal(ShadowCharacterCards03.Breaking, boundary.CardHunt!.CardId);
             Assert.Equal(DieFace.Character, boundary.CardHunt.CardCost);
             Assert.True(view.Hunt!.SeparatesCompanions);
