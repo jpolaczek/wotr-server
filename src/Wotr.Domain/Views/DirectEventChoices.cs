@@ -109,7 +109,8 @@ public static class DirectEventChoices
     public static bool OpensFromPublicBoard(EffectStep step) => step is
         RecruitmentBatchStep or RecruitEffectStep { Region.Length: > 0 } or RecruitTogetherStep or RecruitRegionStep or
         HillTrollsStep or CruelWeatherStep or BlackCaptainStep or ArmyEventDamageStep or EnemySovereignStep or
-        FateOrcsRegionStep or ValinorRegionStep or KingsValinorStep or WisdomBranchStep or BalrogEventStep;
+        FateOrcsRegionStep or ValinorRegionStep or KingsValinorStep or WisdomBranchStep or BalrogEventStep or
+        LidlessEyeStep;
 
     private static bool LeavesAPublicRecruitRegion(EffectStep step) => step is
         RecruitRegionStep or ArmyEventDamageStep or RangersRecruitStep or StewardsRegionStep;

@@ -433,6 +433,14 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — The Lidless Eye and an event's excess (2026-11-07)
+
+Contracts 0.56.0 / ActionBoundary v40 and rules 0.15.42 mark The Lidless Eye's dice choice
+and the stack-limit decision an event leaves before it completes; together 23 of the 139
+roots the wide walk left unsupported. BOT-02 is still incomplete; no policy, push, release
+or deployment.
+
+
 ### BOT-02 implementation checkpoint — every Onslaught card (2026-11-07)
 
 Contracts 0.55.0 / ActionBoundary v39 and rules 0.15.41 review Onslaught by its printed

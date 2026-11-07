@@ -68,7 +68,7 @@ public sealed class DirectEventChoiceFamilyTests
             "base.fp.strategy.14", "base.fp.strategy.15", "base.fp.strategy.16", "base.fp.strategy.17",
             "base.fp.strategy.18", "base.fp.strategy.19", "base.fp.strategy.20", "base.fp.strategy.21",
             "base.fp.strategy.22", "base.fp.strategy.23", "base.fp.strategy.24",
-            "base.sh.character.10", "base.sh.character.24",
+            "base.sh.character.10", "base.sh.character.18", "base.sh.character.24",
             "base.sh.strategy.01", "base.sh.strategy.11", "base.sh.strategy.12", "base.sh.strategy.13",
             "base.sh.strategy.14", "base.sh.strategy.15", "base.sh.strategy.16", "base.sh.strategy.17",
             "base.sh.strategy.18", "base.sh.strategy.19", "base.sh.strategy.20", "base.sh.strategy.21",
@@ -489,6 +489,15 @@ public sealed class DirectEventChoiceFamilyTests
     }
 
     [Fact]
+    public void MarksTheLidlessEyeChoiceOfUnusedShadowDice()
+    {
+        var state = Played(ShadowCharacterCards03.Lidless);
+
+        Assert.Equal("ActionDie", state.Pending!.Presentation);
+        AssertMarked(state, ShadowCharacterCards03.Lidless);
+    }
+
+    [Fact]
     public void MarksTheDunlendingMoveIntoTheRecruitmentRegion()
     {
         var state = DunlendingMove();
@@ -576,7 +585,7 @@ public sealed class DirectEventChoiceFamilyTests
         Assert.All(Enum.GetValues<Side>(), side =>
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(39, view.ActionBoundary?.Version);
+            Assert.Equal(40, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(card, context.CardId);
             Assert.Equal(cost ?? CardCatalog.All[card].EventType, context.CardCost);

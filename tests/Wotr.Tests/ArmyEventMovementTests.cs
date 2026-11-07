@@ -98,6 +98,38 @@ public class ArmyEventMovementTests
         Assert.Empty(state.Resolution.Frames);
     }
 
+    [Theory]
+    [InlineData("")]
+    [InlineData("cursor")]
+    [InlineData("completed")]
+    [InlineData("foreign-trail")]
+    public void TheExcessAnEventLeavesIsMarkedWithItsCardOnly(string change)
+    {
+        var state = March();
+        for (var i = 0; i < 10; i++)
+            BattleFixture.Put(state, "gondor", UnitKind.Regular, "osgiliath");
+        state = Play(state, ThroughDayNight);
+        state = Do(state, CommandKind.MoveArmies, Move(state, "north-ithilien", "osgiliath"));
+        Assert.Equal(DecisionKind.RemoveExcess, state.Pending!.Kind);
+        var frame = state.Resolution.Frames.Single();
+        Assert.Empty(state.PoliticalReactions);
+        switch (change)
+        {
+            case "cursor": frame.NextStep = 0; break;
+            case "completed": frame.Effect!.CompletionWindowOffered = true; break;
+            case "foreign-trail": frame.Effect!.Committed.Add(new(Side.FreePeoples, "altered")); break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+        {
+            var marked = GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice;
+            if (change.Length == 0)
+                Assert.Equal(ThroughDayNight, marked?.CardId);
+            else
+                Assert.Null(marked);
+        });
+    }
+
     [Fact]
     public void MarchHonorsEnemyArmiesBordersAndBesiegedStrongholds()
     {

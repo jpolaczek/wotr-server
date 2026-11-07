@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.56.0 advances ActionBoundary to version 40. `DirectEventChoice` also marks The
+Lidless Eye's choice of unused Shadow dice, and the excess an event's army leaves over the
+stack limit: that decision names no source, so the marker takes the card from the one open
+event frame, whose steps are all done. Rules 0.15.42 and public content 1.0.56 pin the
+contract. Protocol and save schema do not change.
+
 Contracts 0.55.0 advances ActionBoundary to version 39. The `Battle` fact now also marks the
 voluntary-loss decision of every Onslaught card (Uruk-hai, Misty Mountains and Orcs
 Multiplying), not only Uruk-hai: `ReviewedCombatCards.IsOnslaught` qualifies a card by its

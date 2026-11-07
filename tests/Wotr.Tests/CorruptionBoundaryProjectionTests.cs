@@ -21,7 +21,7 @@ public sealed class CorruptionBoundaryProjectionTests
         foreach (var side in Enum.GetValues<Side>())
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(39, view.ActionBoundary!.Version);
+            Assert.Equal(40, view.ActionBoundary!.Version);
             Assert.Empty(view.ActionBoundary.PaidDieIds);
             Assert.Equal(attempt.DieId, view.CorruptionAttempt!.DieId);
             Assert.Equal(attempt.Drawn.Count, view.CorruptionAttempt.DrawnCount);
@@ -105,7 +105,7 @@ public sealed class CorruptionBoundaryProjectionTests
         Assert.Equal(DecisionKind.CorruptionTile, state.Pending!.Kind);
 
         var view = GameRuntime.Projection(EffectCatalog.All).For(state, Side.Shadow);
-        Assert.Equal(39, view.ActionBoundary?.Version);
+        Assert.Equal(40, view.ActionBoundary?.Version);
         Assert.Equal(die, view.CorruptionAttempt!.DieId);
 
         paid.HuntOrigin = "";

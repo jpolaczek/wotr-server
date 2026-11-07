@@ -354,7 +354,8 @@ internal static class ActionBoundaryProjection
             state.Resolution.PaidDieIds.Count != 1 || state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1)
             return null;
 
-        var cardId = pending.SourceId;
+        // The stack-limit decision names no source; its event is the one frame still open.
+        var cardId = pending.Kind == DecisionKind.RemoveExcess ? frames[0].Effect?.SourceId ?? "" : pending.SourceId;
         if (!CardCatalog.All.TryGetValue(cardId, out var card))
             return null;
         var player = state.Player(card.Side);
@@ -393,6 +394,7 @@ internal static class ActionBoundaryProjection
             DecisionKind.CharacterEvent => IsReviewedEventTravel(state, pending, frame, execution, program),
             DecisionKind.CompanionSeparation => IsReviewedEventSeparation(state, pending, frame, execution, program),
             DecisionKind.ArmyEvent => IsReviewedArmyOrder(state, pending, frame, execution, program),
+            DecisionKind.RemoveExcess => IsReviewedEventExcess(state, pending, frame, execution, program),
             _ => false
         };
         if (!reviewed)
@@ -475,6 +477,17 @@ internal static class ActionBoundaryProjection
          execution.Wait == EffectWait.BalrogTravel &&
             DirectEventChoices.ChoseBalrog(program, frame.NextStep, execution.Committed, BalrogEventStep.Alone) &&
             BalrogEventTravel.Travel(state) is { } travel && travel.Targets.Any(region => region != travel.Origin));
+
+    // An event that leaves an army over the stack limit asks its owner to return the excess
+    // before it completes. Every step is done, so only the completion facts remain.
+    private static bool IsReviewedEventExcess(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program) =>
+        pending is { Commands: [CommandKind.RemoveExcess], Window: "" } && pending.SourceId.Length == 0 &&
+        state.Resolution.Frames.Count == 1 && frame.NextStep == program.Steps.Count &&
+        execution is { Wait: EffectWait.None, CompletionWindowOffered: false } &&
+        execution.Committed.All(selection => selection.Owner == execution.Owner &&
+            DirectEventChoices.BelongsToEvent(selection, execution.SourceId)) &&
+        execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution);
 
     private static bool IsReviewedArmyOrder(MatchState state, PendingDecision pending, ResolutionFrame frame,
         EffectExecution execution, EffectDefinition program) =>

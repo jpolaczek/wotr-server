@@ -20,7 +20,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(39, own.ActionBoundary!.Version);
+        Assert.Equal(40, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.Equal(own.ActionBoundary.Battle.CompletesPaidAction,
             other.ActionBoundary!.Battle!.CompletesPaidAction);
@@ -79,7 +79,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(39, own.ActionBoundary!.Version);
+        Assert.Equal(40, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -111,7 +111,7 @@ public sealed class ActionBoundaryBattleTests
         var state = BeginRelentlessAssaultVoluntaryLosses(attacker);
         var own = Projection.For(state, Side.Shadow);
         var other = Projection.For(state, Side.FreePeoples);
-        Assert.Equal(39, own.ActionBoundary!.Version);
+        Assert.Equal(40, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.False(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -142,7 +142,7 @@ public sealed class ActionBoundaryBattleTests
         var state = BeginOnslaughtVoluntaryLosses(attacker);
         var own = Projection.For(state, Side.Shadow);
         var other = Projection.For(state, Side.FreePeoples);
-        Assert.Equal(39, own.ActionBoundary!.Version);
+        Assert.Equal(40, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.False(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -180,7 +180,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, owner);
         var other = Projection.For(state, TurnFlow.Other(owner));
-        Assert.Equal(39, own.ActionBoundary!.Version);
+        Assert.Equal(40, own.ActionBoundary!.Version);
         Assert.False(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -235,7 +235,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, owner);
         var other = Projection.For(state, TurnFlow.Other(owner));
-        Assert.Equal(39, own.ActionBoundary!.Version);
+        Assert.Equal(40, own.ActionBoundary!.Version);
         Assert.False(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -293,7 +293,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, state.Pending.Owner);
         var other = Projection.For(state, TurnFlow.Other(state.Pending.Owner));
-        Assert.Equal(39, own.ActionBoundary!.Version);
+        Assert.Equal(40, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -320,7 +320,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, actor);
         var other = Projection.For(state, TurnFlow.Other(actor));
-        Assert.Equal(39, own.ActionBoundary!.Version);
+        Assert.Equal(40, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),

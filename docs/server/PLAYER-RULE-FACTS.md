@@ -1,5 +1,10 @@
 # Player rule facts at an action boundary
 
+Contracts 0.56.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version 40 to The
+Lidless Eye and to an event's stack-limit decision. Both rest on the public board: unused
+Shadow dice, and the units of the army over the limit. Public content 1.0.56 pins these
+shared facts; protocol and save schema are unchanged.
+
 Contracts 0.55.0 extend the `Battle` fact at boundary version 39 to the Onslaught voluntary
 losses of all three Onslaught cards. The decision rests on the revealed card and the public
 board, as for Uruk-hai before. Public content 1.0.55 pins these shared facts; protocol and
