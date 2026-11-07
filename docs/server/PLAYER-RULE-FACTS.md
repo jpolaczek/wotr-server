@@ -1,5 +1,11 @@
 # Player rule facts at an action boundary
 
+Contracts 0.54.0 extend the `Battle` fact at boundary version 38 with each force's
+cancelled hits this Combat round. A Heroic Death sacrifice is announced with the hits it
+cancels, so both players know it; the fact repeats that number for every reviewed battle
+window. Public content 1.0.54 pins these shared facts; protocol and save schema are
+unchanged.
+
 Contracts 0.53.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version 37 to
 the Balrog event. Its choices come from the Balrog's public position, its travel targets
 and the armies that include it. The chosen order, `balrog.alone` or `balrog.army`, is in

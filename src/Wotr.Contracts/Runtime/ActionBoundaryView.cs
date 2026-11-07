@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 37;
+        public int Version { get; set; } = 38;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -71,6 +71,10 @@ namespace Wotr.Contracts
         public bool CompletesPaidAction { get; set; }
         public bool SpecialAttackLoss { get; set; }
         public ReliefEventBattleView? ReliefEvent { get; set; }
+        // Hits each force has cancelled in this Combat round, as announced at the table:
+        // Shield Wall, Orderly Withdrawal or the hits a Heroic Death sacrifice cancelled.
+        public int AttackerCancelledHits { get; set; }
+        public int DefenderCancelledHits { get; set; }
     }
 
     // Public parent event and payment for a Help Unlooked For relief battle.

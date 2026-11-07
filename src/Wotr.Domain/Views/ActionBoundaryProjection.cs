@@ -15,6 +15,11 @@ internal static class ActionBoundaryProjection
         var companionJourney = CompanionJourneyProjection.For(state);
         var fellowshipGuide = FellowshipGuideProjection.For(state);
         var battle = DirectBattle(state) ?? SpecialAttackLoss(state) ?? ReliefEventBattle(state);
+        if (battle is not null && BattleRuntime.Active(state) is { } active)
+        {
+            battle.AttackerCancelledHits = active.Attacker.Round.CancelHits;
+            battle.DefenderCancelledHits = active.Defender.Round.CancelHits;
+        }
         var corruptionEvent = CorruptionBoundaryProjection.Event(state);
         var westPalantirDraw = CorruptionBoundaryProjection.WestPalantirDraw(state);
         var westPalantirDiscard = CorruptionBoundaryProjection.WestPalantirDiscard(state, viewer);

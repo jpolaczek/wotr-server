@@ -433,6 +433,15 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — announced battle cancellations (2026-11-07)
+
+Contracts 0.54.0 / ActionBoundary v38 and rules 0.15.40 add each force's cancelled hits
+to the `Battle` fact. Heroic Death's choice of how many hits a sacrifice cancels was the
+one cancellation the runtime could not infer, and it blocked about 100 of the 285 roots
+the wide walk left unsupported. BOT-02 is still incomplete; no policy, push, release or
+deployment.
+
+
 ### BOT-02 implementation checkpoint — the Balrog event (2026-11-07)
 
 Contracts 0.53.0 / ActionBoundary v37 and rules 0.15.39 mark the Balrog event's order

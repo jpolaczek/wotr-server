@@ -576,7 +576,7 @@ public sealed class DirectEventChoiceFamilyTests
         Assert.All(Enum.GetValues<Side>(), side =>
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(37, view.ActionBoundary?.Version);
+            Assert.Equal(38, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(card, context.CardId);
             Assert.Equal(cost ?? CardCatalog.All[card].EventType, context.CardCost);

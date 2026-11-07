@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.54.0 advances ActionBoundary to version 38. The `Battle` fact also carries
+`AttackerCancelledHits` and `DefenderCancelledHits`: the hits each force has cancelled in
+this Combat round, as announced at the table (Shield Wall, Orderly Withdrawal or a Heroic
+Death sacrifice). Rules 0.15.40 and public content 1.0.54 pin the contract. Protocol and
+save schema do not change.
+
 Contracts 0.53.0 advances ActionBoundary to version 37. `DirectEventChoice` also marks
 the Balrog event (`lords.sh.character.17`): its order choice, and the lone travel or the
 army movement or attack that choice opens. The owner's trail ends with that choice. It
