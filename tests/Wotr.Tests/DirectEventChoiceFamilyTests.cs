@@ -73,7 +73,7 @@ public sealed class DirectEventChoiceFamilyTests
             "base.sh.strategy.14", "base.sh.strategy.15", "base.sh.strategy.16", "base.sh.strategy.17",
             "base.sh.strategy.18", "base.sh.strategy.19", "base.sh.strategy.20", "base.sh.strategy.21",
             "base.sh.strategy.22", "base.sh.strategy.23", "base.sh.strategy.24",
-            "fate.fp.strategy.19", "fate.fp.strategy.22", "fate.sh.strategy.20",
+            "fate.fp.strategy.04", "fate.fp.strategy.19", "fate.fp.strategy.22", "fate.sh.strategy.20",
             "kings.fp.strategy.08", "kings.fp.strategy.25", "kings.fp.strategy.26",
             "kings.sh.strategy.01", "kings.sh.strategy.18", "kings.sh.strategy.26",
             "lords.fp.character.27", "lords.fp.strategy.25", "lords.fp.strategy.26", "lords.sh.character.17",
@@ -638,6 +638,32 @@ public sealed class DirectEventChoiceFamilyTests
             Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
     }
 
+    // Fate's Book: Gimli waits in the Iron Hills, the Free Peoples keep their companions where they
+    // are, the Dwarves go to war and recruit there from the reserve.
+    [Fact]
+    public void FatesBookRecruitmentAfterItsJourneyIsMarkedWithItsRegion()
+    {
+        var state = FateFixture.Actions();
+        foreach (var die in state.Dice.Where(d => d.Owner == Side.FreePeoples && d.Location == DieLocation.Available))
+            die.Face = DieFace.Character;
+        var companionId = state.Fellowship.Companions.First();
+        state.Fellowship.Companions.Remove(companionId);
+        var companion = Wotr.Domain.Content.CharacterCatalog.Companion(state, companionId);
+        companion.Location = "iron-hills";
+        state.Characters.Add(companion);
+        EventTests.GiveCard(state, Side.FreePeoples, FateCards.Book);
+        state.Dice.First(d => d.Owner == Side.FreePeoples && d.Location == DieLocation.Available).Face = DieFace.Muster;
+        state = EventTests.Execute(state, EventTests.Play(state, FateCards.Book, DieFace.Muster));
+        Assert.Equal(DecisionKind.CompanionSeparation, state.Pending!.Kind);
+        state = CharacterFixture.Do(state, CommandKind.MoveCompanions, new());
+
+        Assert.Equal(DecisionKind.EffectChoice, state.Pending!.Kind);
+        Assert.Equal("ReserveFigures", state.Pending.Presentation);
+        AssertMarked(state, FateCards.Book, DieFace.Muster);
+        Assert.Equal("iron-hills",
+            GameRuntime.Projection(EffectCatalog.All).For(state, Side.Shadow).ActionBoundary!.DirectEventChoice!.RegionId);
+    }
+
     [Fact]
     public void AStepTypeOutsideTheReviewRemainsUnmarked()
     {
@@ -651,7 +677,7 @@ public sealed class DirectEventChoiceFamilyTests
         Assert.All(Enum.GetValues<Side>(), side =>
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(55, view.ActionBoundary?.Version);
+            Assert.Equal(56, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(card, context.CardId);
             Assert.Equal(cost ?? CardCatalog.All[card].EventType, context.CardCost);

@@ -433,6 +433,12 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Fate's Book and a Mordor Track fix (2026-11-08)
+
+Contracts 0.72.0 / ActionBoundary v56 and rules 0.15.58 mark Fate's Book recruitment and fix
+v55's Smeagol check, which threw for a Fellowship on the Mordor Track once Smeagol had left.
+BOT-02 is still incomplete; no policy, push, release or deployment.
+
 ### BOT-02 implementation checkpoint — Palantir after an event and Smeagol's departure (2026-11-08)
 
 Contracts 0.71.0 / ActionBoundary v55 and rules 0.15.57 mark the Palantir's deck choice after a

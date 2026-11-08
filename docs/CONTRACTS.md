@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.72.0 advances ActionBoundary to version 56. `DirectEventChoice` also marks Fate's
+Book recruitment after its journey and the Dwarves' war, naming the region its region step left.
+The v55 check for Smeagol's departure no longer reads the Fellowship's region before its frames,
+so a Fellowship on the Mordor Track projects again after Smeagol left. Rules 0.15.58 and public
+content 1.0.72 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.71.0 advances ActionBoundary to version 55. `EventPalantirDraw` marks the Palantir
 of Orthanc's deck choice after any Shadow event paid with an Event die, naming the event, its
 cost and the region it chose. `FellowshipDeclaration` also marks the Guide chosen after Smeagol

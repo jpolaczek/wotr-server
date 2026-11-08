@@ -35,6 +35,21 @@ public sealed class SmeagolDeclarationBoundaryTests
         }
     }
 
+    // The check runs for every view: once Smeagol has left, a Fellowship on the Mordor Track,
+    // which has no board region, must still project.
+    [Fact]
+    public void AFellowshipOnTheMordorTrackAfterSmeagolLeftStillProjects()
+    {
+        var state = Declared();
+        state = LordsFixture.Do(state, CommandKind.SelectGuide, new() { GuideId = CompanionRules.Guides(state)[0] });
+        state.Fellowship.RegionId = MordorRules.Track;
+        state.Fellowship.MordorStep = 0;
+
+        Assert.True(state.Lords!.SmeagolLeft);
+        foreach (var side in new[] { Side.FreePeoples, Side.Shadow })
+            Assert.NotNull(Projection.For(state, side));
+    }
+
     [Theory]
     [InlineData("queue")]
     [InlineData("left")]

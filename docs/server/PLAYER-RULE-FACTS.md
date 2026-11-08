@@ -1,5 +1,9 @@
 # Player rule facts at an action boundary
 
+Contracts 0.72.0 extend `DirectEventChoice` at boundary version 56 with Fate's Book
+recruitment. Public content 1.0.72 pins these shared facts; protocol and save schema are
+unchanged.
+
 Contracts 0.71.0 add `EventPalantirDraw` at boundary version 55 and extend the declaration and
 companion-journey markers. Public content 1.0.71 pins these shared facts; protocol and save
 schema are unchanged.

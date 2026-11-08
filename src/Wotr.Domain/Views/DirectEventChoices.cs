@@ -22,7 +22,11 @@ public static class DirectEventChoices
             step is FateOrcsRecruitStep && earlier is [FateOrcsRegionStep] ||
             step is NorthRangersRegionStep && earlier is [NorthRangersAttackStep] ||
             step is RecruitEffectStep { Region: "", Leader: false } && earlier.All(LeavesAPublicRecruitRegion) ||
-            step is DunlendingMoveStep && earlier is [DunlendingRegionStep, RecruitEffectStep { Region: "", Leader: false }];
+            step is DunlendingMoveStep && earlier is [DunlendingRegionStep, RecruitEffectStep { Region: "", Leader: false }] ||
+            // Fate's Book: the optional journey and the Dwarves' war are public on the board; the
+            // recruitment reads the region its region step left.
+            step is RecruitEffectStep { Region: "", Leader: false } &&
+                earlier is [OutsideCompanionJourneyStep, FateBookWarStep, FateBookRegionStep];
     }
 
     // A reviewed step that reads only the public region an earlier step of its event left.
@@ -187,5 +191,6 @@ public static class DirectEventChoices
     // Events whose later step reads the region an earlier one left in the execution; the
     // boundary names that region, since a lone option leaves no choice in the trail.
     public static bool LeavesARegion(EffectDefinition program) =>
-        program.Steps is [NorthRangersAttackStep, NorthRangersRegionStep, ..] or [FateOrcsRegionStep, FateOrcsRecruitStep];
+        program.Steps is [NorthRangersAttackStep, NorthRangersRegionStep, ..] or [FateOrcsRegionStep, FateOrcsRecruitStep] or
+            [OutsideCompanionJourneyStep, FateBookWarStep, FateBookRegionStep, RecruitEffectStep];
 }

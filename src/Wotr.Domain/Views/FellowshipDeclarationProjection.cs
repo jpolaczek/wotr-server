@@ -106,9 +106,10 @@ internal static class FellowshipDeclarationProjection
 
     // Lords: Smeagol leaves a Fellowship declared in an unconquered City or Stronghold, and the Free
     // Peoples choose a new Guide before the declaration's own reactions and Hunts.
+    // It is read for every view, so the region test comes last and only for a board region: the
+    // Fellowship on the Mordor Track has none.
     private static bool SmeagolDeclarationGuide(MatchState state, IReadOnlyList<ResolutionFrame> frames) =>
-        state.Configuration.Lords && state.Lords is { SmeagolLeft: true } && !SmeagolRules.Present(state) &&
-        TravelRules.Sanctuary(state, state.Fellowship.RegionId) &&
+        state.Configuration.Lords && state.Phase == GamePhase.Fellowship &&
         frames is [_, var top] && HuntChoiceProjection.PlainFrame(top) && top.EffectId == "fellowship.Guide" &&
         top.Fellowship is { Kind: FellowshipProcedureKind.Guide, Return: FellowshipReturn.Parent, SourceId: "fellowship",
             AwaitingHunts: false, RevealEffectsPending: false, FireAndShadowPending: false, Journey: null,
@@ -116,7 +117,9 @@ internal static class FellowshipDeclarationProjection
         guide.Route.Count == 0 && guide.AdditionalHuntRegions.Count == 0 && guide.FixedCompanions.Count == 0 &&
         state.Pending is { Kind: DecisionKind.Guide, Owner: Side.FreePeoples, RequiredCount: 0, SourceId: "",
             Window: "", Commands: [CommandKind.SelectGuide] } pending &&
-        pending.PrivateChoices.Count >= 2 && pending.PrivateChoices.SequenceEqual(CompanionRules.Guides(state));
+        pending.PrivateChoices.Count >= 2 && pending.PrivateChoices.SequenceEqual(CompanionRules.Guides(state)) &&
+        state.Lords is { SmeagolLeft: true } && !SmeagolRules.Present(state) &&
+        BoardRules.Regions.ContainsKey(state.Fellowship.RegionId) && TravelRules.Sanctuary(state, state.Fellowship.RegionId);
 
     private static void CopyCommittedReactions(ResolutionFrame frame, FellowshipDeclarationView facts)
     {
