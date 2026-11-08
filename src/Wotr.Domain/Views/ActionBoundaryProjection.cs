@@ -14,7 +14,8 @@ internal static class ActionBoundaryProjection
         var lurePlacement = LurePlacementProjection.For(state, viewer);
         var companionJourney = CompanionJourneyProjection.For(state);
         var fellowshipGuide = FellowshipGuideProjection.For(state);
-        var battle = DirectBattle(state) ?? SpecialAttackLoss(state) ?? ReliefEventBattle(state);
+        var battle = DirectBattle(state) ?? SpecialAttackLoss(state) ?? ReliefEventBattle(state) ??
+            LandingEventBattle(state);
         if (battle is not null && BattleRuntime.Active(state) is { } active)
         {
             battle.AttackerCancelledHits = active.Attacker.Round.CancelHits;
@@ -479,6 +480,69 @@ internal static class ActionBoundaryProjection
         {
             ReliefEvent = new() { CardId = cardId, CardCost = execution.PaidFace }
         };
+    }
+
+    // Corsairs of Umbar land Shadow's Umbar army on the Gondor coast and attack the Free Peoples
+    // army there at once. The paid event waits under the battle with the landing region recorded;
+    // outside a siege the arrival keeps the attacker fighting until the defender withdraws.
+    private static BattleContextView? LandingEventBattle(MatchState state)
+    {
+        var pending = state.Pending;
+        var frames = state.Resolution.Frames;
+        if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
+            state.Resolution.ActionSequence is not null || pending is null || frames.Count is < 2 or > 3)
+            return null;
+
+        const string cardId = ShadowStrategyCards02.Corsairs;
+        var eventFrame = frames[0];
+        var battleFrame = frames[1];
+        var execution = eventFrame.Effect;
+        var battle = battleFrame.Battle;
+        if (eventFrame is not { EffectId: cardId, NextStep: 2, Window: "", ReturnDecision: null, Battle: null,
+                BattleLoss: null, EventLoss: null, Fellowship: null, Hunt: null, Corruption: null } ||
+            execution is not { Owner: Side.Shadow, SourceId: cardId, Return: EffectReturn.FinishAction,
+                Wait: EffectWait.None, IsEvent: true, PalantirDrawPending: false, AnarionDrawPending: false,
+                CompletionWindowOffered: false, ArmyOrder: null, FellowshipMove: false, AppliedHits: 0,
+                InspectedSovereign: null, InspectedHand: null, RingRecovery: null, MadnessTarget: null } ||
+            execution.PaidFace is not (DieFace.Army or DieFace.Event) || execution.ReactionWindow.Length != 0 ||
+            execution.OfferedReactions.Count != 0 || execution.TargetIds.Count != 0 || execution.NationId.Length != 0 ||
+            execution.Committed is not [{ Owner: Side.Shadow, SourceId: cardId, ChoiceId: "", TargetId: "" }] ||
+            !IsPlainBattleFrame(battleFrame) ||
+            battle is not { Return: EffectReturn.Parent, ArrivalBeforeBattle: true,
+                Mode: BattleMode.Field or BattleMode.Siege } ||
+            battle.Id.Length == 0 || battle.Region != execution.RegionId ||
+            battle.Attacker.Side != Side.Shadow || battle.Defender.Side != Side.FreePeoples ||
+            battle.Attacker.Region != battle.Region || battle.Attacker.Garrison ||
+            battle.Defender.Region != battle.Region ||
+            !BoardRules.CurrentRegions(state).Any(region => region.Id == battle.Region && region.Nation == "gondor" &&
+                region.Coastal) ||
+            !state.Player(Side.Shadow).Discard.Contains(cardId) ||
+            state.Player(Side.Shadow).Hand.Contains(cardId) || state.Player(Side.Shadow).Table.Contains(cardId) ||
+            !Discharged(state.Events.Where(e => e.OnlyFor is null)).Contains(cardId) ||
+            !EffectCatalog.All.Programs.TryGetValue(cardId, out var program) ||
+            program.Steps is not [ArmyOrderStep { Order: ArmyEventOrder.Corsairs }, CorsairBattleStep])
+            return null;
+
+        BattleLossProcedure? loss = null;
+        if (frames.Count == 3)
+        {
+            var lossFrame = frames[2];
+            loss = lossFrame.BattleLoss;
+            if (lossFrame.EffectId.Length != 0 || lossFrame.NextStep != 0 || lossFrame.Window.Length != 0 ||
+                lossFrame.ReturnDecision is not null || lossFrame.Effect is not null ||
+                lossFrame.Fellowship is not null || lossFrame.Hunt is not null || lossFrame.Battle is not null ||
+                loss is null || lossFrame.EventLoss is not null || lossFrame.Corruption is not null)
+                return null;
+        }
+
+        if (!BattleDecisionMatches(state, pending, battle, loss) || state.Resolution.PaidDieIds.Count != 1 ||
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
+            !state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] && die.Owner == Side.Shadow &&
+                die.Location == DieLocation.Resolving && (die.Face == execution.PaidFace ||
+                    execution.PaidFace == DieFace.Army && die.Face == DieFace.ArmyMuster)))
+            return null;
+
+        return new() { LandingEvent = new() { CardId = cardId, CardCost = execution.PaidFace } };
     }
 
     private static FateMonstersEventView? FateMonstersEvent(MatchState state)

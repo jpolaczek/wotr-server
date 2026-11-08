@@ -20,7 +20,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(51, own.ActionBoundary!.Version);
+        Assert.Equal(52, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.Equal(own.ActionBoundary.Battle.CompletesPaidAction,
             other.ActionBoundary!.Battle!.CompletesPaidAction);
@@ -79,7 +79,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(51, own.ActionBoundary!.Version);
+        Assert.Equal(52, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -88,7 +88,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(attacker, own.Battle.LossOwner);
         Assert.Equal(state.Pending.RequiredCount, own.Battle.PendingHits);
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0}", boundaryJson.RootElement.GetRawText());
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0,\"LandingEvent\":null}", boundaryJson.RootElement.GetRawText());
 
         var nested = StateCodec.Copy(state);
         BattleRuntime.Active(nested)!.Return = EffectReturn.Parent;
@@ -111,7 +111,7 @@ public sealed class ActionBoundaryBattleTests
         var state = BeginRelentlessAssaultVoluntaryLosses(attacker);
         var own = Projection.For(state, Side.Shadow);
         var other = Projection.For(state, Side.FreePeoples);
-        Assert.Equal(51, own.ActionBoundary!.Version);
+        Assert.Equal(52, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.False(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -122,7 +122,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(2, own.Battle.PendingHits);
         Assert.Null(own.Battle.Attacker.VoluntaryLossHits);
         Assert.Null(own.Battle.Defender.VoluntaryLossHits);
-        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0}",
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0,\"LandingEvent\":null}",
             JsonSerializer.Serialize(own.ActionBoundary.Battle));
 
         var wrongCursor = StateCodec.Copy(state);
@@ -142,7 +142,7 @@ public sealed class ActionBoundaryBattleTests
         var state = BeginOnslaughtVoluntaryLosses(attacker);
         var own = Projection.For(state, Side.Shadow);
         var other = Projection.For(state, Side.FreePeoples);
-        Assert.Equal(51, own.ActionBoundary!.Version);
+        Assert.Equal(52, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.False(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -153,7 +153,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(4, own.Battle.PendingHits);
         Assert.Null(own.Battle.Attacker.VoluntaryLossHits);
         Assert.Null(own.Battle.Defender.VoluntaryLossHits);
-        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0}",
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0,\"LandingEvent\":null}",
             JsonSerializer.Serialize(own.ActionBoundary.Battle));
 
         var wrongCursor = StateCodec.Copy(state);
@@ -252,7 +252,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, owner);
         var other = Projection.For(state, TurnFlow.Other(owner));
-        Assert.Equal(51, own.ActionBoundary!.Version);
+        Assert.Equal(52, own.ActionBoundary!.Version);
         Assert.False(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -264,7 +264,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Single(own.ActionBoundary.PaidDieIds);
 
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":false,\"SpecialAttackLoss\":true,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0}",
+        Assert.Equal("{\"CompletesPaidAction\":false,\"SpecialAttackLoss\":true,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0,\"LandingEvent\":null}",
             boundaryJson.RootElement.GetRawText());
         Assert.DoesNotContain("ResolutionFrame", JsonSerializer.Serialize(own.ActionBoundary));
         Assert.DoesNotContain("NextStep", JsonSerializer.Serialize(own.ActionBoundary));
@@ -307,7 +307,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, owner);
         var other = Projection.For(state, TurnFlow.Other(owner));
-        Assert.Equal(51, own.ActionBoundary!.Version);
+        Assert.Equal(52, own.ActionBoundary!.Version);
         Assert.False(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -365,7 +365,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, state.Pending.Owner);
         var other = Projection.For(state, TurnFlow.Other(state.Pending.Owner));
-        Assert.Equal(51, own.ActionBoundary!.Version);
+        Assert.Equal(52, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -374,7 +374,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(state.Pending.Owner, own.Battle.LossOwner);
         Assert.Equal(state.Pending.RequiredCount, own.Battle.PendingHits);
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0}", boundaryJson.RootElement.GetRawText());
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0,\"LandingEvent\":null}", boundaryJson.RootElement.GetRawText());
     }
 
     [Theory]
@@ -392,7 +392,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, actor);
         var other = Projection.For(state, TurnFlow.Other(actor));
-        Assert.Equal(51, own.ActionBoundary!.Version);
+        Assert.Equal(52, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -400,7 +400,7 @@ public sealed class ActionBoundaryBattleTests
         Assert.Equal(defenderWindow ? "DefenderCard" : "AttackerCard", own.Battle!.Stage);
         Assert.Single(own.ActionBoundary.PaidDieIds);
         using var boundaryJson = JsonDocument.Parse(JsonSerializer.Serialize(own.ActionBoundary.Battle));
-        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0}", boundaryJson.RootElement.GetRawText());
+        Assert.Equal("{\"CompletesPaidAction\":true,\"SpecialAttackLoss\":false,\"ReliefEvent\":null,\"AttackerCancelledHits\":0,\"DefenderCancelledHits\":0,\"LandingEvent\":null}", boundaryJson.RootElement.GetRawText());
     }
 
     [Fact]

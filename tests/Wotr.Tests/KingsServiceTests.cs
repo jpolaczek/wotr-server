@@ -22,7 +22,7 @@ public class KingsServiceTests
         var initialViews = Views(state);
         Assert.All(initialViews, view =>
         {
-            Assert.Equal(51, view.ActionBoundary?.Version);
+            Assert.Equal(52, view.ActionBoundary?.Version);
             AssertServiceMarker(view, cost);
         });
 

@@ -1,6 +1,11 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.68.0 advances ActionBoundary to version 52. `BattleContextView.LandingEvent`
+marks the battle a Corsairs of Umbar landing begins, with the paid event and its cost; the
+landing region is the battle's region and `BattleView.ArrivalBeforeBattle` is set. Rules
+0.15.54 and public content 1.0.68 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.67.0 advances ActionBoundary to version 51. `AnarionDraw` also marks the deck
 choice after an event paid with Denethor's Ruler die, once the event's own steps are done;
 `AnarionDrawView.CardId` and `CardCost` name that event. `DirectEventChoice` also marks

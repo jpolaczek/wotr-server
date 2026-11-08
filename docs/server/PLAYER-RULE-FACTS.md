@@ -1,5 +1,9 @@
 # Player rule facts at an action boundary
 
+Contracts 0.68.0 add `LandingEvent` to the battle context at boundary version 52: the public
+Corsairs of Umbar event and payment under the battle its landing begins. Public content 1.0.68
+pins these shared facts; protocol and save schema are unchanged.
+
 Contracts 0.67.0 extend `AnarionDraw` at boundary version 51 with the public event a Ruler die
 paid, and `DirectEventChoice` with Wisdom's politics branch. Public content 1.0.67 pins these
 shared facts; protocol and save schema are unchanged.

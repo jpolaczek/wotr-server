@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 51;
+        public int Version { get; set; } = 52;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -77,10 +77,19 @@ namespace Wotr.Contracts
         // Shield Wall, Orderly Withdrawal or the hits a Heroic Death sacrifice cancelled.
         public int AttackerCancelledHits { get; set; }
         public int DefenderCancelledHits { get; set; }
+        public LandingEventBattleView? LandingEvent { get; set; }
     }
 
     // Public parent event and payment for a Help Unlooked For relief battle.
     public sealed class ReliefEventBattleView
+    {
+        public string CardId { get; set; } = "";
+        public DieFace CardCost { get; set; }
+    }
+
+    // Public parent event and payment for the battle a Corsairs of Umbar landing begins. The
+    // landing region is the battle's region and the arrival is on the public board.
+    public sealed class LandingEventBattleView
     {
         public string CardId { get; set; } = "";
         public DieFace CardCost { get; set; }

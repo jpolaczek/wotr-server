@@ -24,7 +24,7 @@ public sealed class KingsBoundaryProjectionTests
         {
             var view = Views.For(state, side);
             var facts = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
-            Assert.Equal(51, facts.Version);
+            Assert.Equal(52, facts.Version);
             Assert.NotNull(facts.Kings);
             Assert.Equal(state.HuntTiles.Count, facts.HuntTiles.Sum(z => z.HiddenCount + z.Tiles.Sum(t => t.Count)));
             Assert.Equal(facts.HuntTiles.Sum(z => z.HiddenCount), facts.Kings.UnassignedHuntTiles.Sum(t => t.Count));

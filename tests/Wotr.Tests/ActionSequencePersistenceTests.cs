@@ -55,7 +55,7 @@ public class ActionSequencePersistenceTests
             Assert.Null(otherView.Decision);
             Assert.Empty(otherView.Options);
             Assert.NotNull(otherView.ActionSequence);
-            Assert.Equal(51, restored.ActionBoundary!.Version);
+            Assert.Equal(52, restored.ActionBoundary!.Version);
             Assert.Equal([first.Payload.DieId], restored.ActionBoundary.PaidDieIds);
             Assert.Equal(restored.ActionSequence.InitialFigureIds, otherView.ActionSequence!.InitialFigureIds);
             Assert.Equal(restored.ActionBoundary.PaidDieIds, otherView.ActionBoundary!.PaidDieIds);

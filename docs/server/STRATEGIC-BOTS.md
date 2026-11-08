@@ -433,6 +433,11 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Corsairs landing battle (2026-11-08)
+
+Contracts 0.68.0 / ActionBoundary v52 and rules 0.15.54 mark the battle a Corsairs of Umbar
+landing begins. BOT-02 is still incomplete; no policy, push, release or deployment.
+
 ### BOT-02 implementation checkpoint — Kings event tail (2026-11-08)
 
 Contracts 0.67.0 / ActionBoundary v51 and rules 0.15.53 mark the Palantir of Anarion after a
