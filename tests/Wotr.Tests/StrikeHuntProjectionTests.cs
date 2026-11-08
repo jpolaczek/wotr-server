@@ -40,7 +40,7 @@ public sealed class StrikeHuntProjectionTests
     }
 
     [Fact]
-    public void TheNazgulTravelIsMarkedButThePreHuntStrikeChoiceStillRequiresItsOwnContext()
+    public void TheNazgulTravelAndTheStrikeChoiceAfterItAreMarked()
     {
         var state = Shadow02TravelTests.BeforeTravel(ShadowCharacterCards02.Strike);
         state = Shadow01Fixture.Play(state, ShadowCharacterCards02.Strike);
@@ -52,6 +52,8 @@ public sealed class StrikeHuntProjectionTests
         state = CharacterFixture.Do(state, CommandKind.MoveShadowCharacters,
             Shadow02TravelTests.Flight(state, state.Fellowship.RegionId, id));
         Assert.Equal(DecisionKind.EffectChoice, state.Pending!.Kind);
-        Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, Side.Shadow).ActionBoundary);
+        // ActionBoundary v49 reviews the strike choice once the Nazgul have flown.
+        Assert.Equal(ShadowCharacterCards02.Strike, GameRuntime.Projection(EffectCatalog.All).For(state, Side.Shadow)
+            .ActionBoundary?.DirectEventChoice?.CardId);
     }
 }

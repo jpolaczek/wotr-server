@@ -1,5 +1,9 @@
 # Player rule facts at an action boundary
 
+Contracts 0.65.0 extend `DirectEventChoice` at boundary version 49 to five more event
+decisions; `RegionId` names only regions already public through a roll or a recruitment.
+Public content 1.0.65 pins these shared facts; protocol and save schema are unchanged.
+
 Contracts 0.64.0 extend the `Battle` fact at boundary version 48 to a Kings chieftain's
 replacement offer before the reveal. Public content 1.0.64 pins these shared facts; protocol
 and save schema are unchanged.

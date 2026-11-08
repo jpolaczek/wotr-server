@@ -23,7 +23,7 @@ public sealed class DeclarationHuntProjectionTests
             var view = projection.For(state, side);
             var boundary = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
             var declaration = Assert.IsType<FellowshipDeclarationView>(boundary.FellowshipDeclaration);
-            Assert.Equal(48, boundary.Version);
+            Assert.Equal(49, boundary.Version);
             Assert.True(boundary.FellowshipDeclaredThisTurn);
             Assert.Empty(boundary.PaidDieIds);
             Assert.Null(boundary.FellowshipMove);

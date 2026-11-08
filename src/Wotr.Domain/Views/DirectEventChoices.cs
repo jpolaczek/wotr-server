@@ -18,6 +18,9 @@ public static class DirectEventChoices
         var step = program.Steps[nextStep - 1];
         return earlier.All(IsAutomaticPublicStep) && OpensFromPublicBoard(step) ||
             step is MadnessRecruitStep && earlier is [MadnessAttackStep] ||
+            step is NazgulStrikeStep && earlier is [MoveNazgulStep] ||
+            step is FateOrcsRecruitStep && earlier is [FateOrcsRegionStep] ||
+            step is NorthRangersRegionStep && earlier is [NorthRangersAttackStep] ||
             step is RecruitEffectStep { Region: "", Leader: false } && earlier.All(LeavesAPublicRecruitRegion) ||
             step is DunlendingMoveStep && earlier is [DunlendingRegionStep, RecruitEffectStep { Region: "", Leader: false }];
     }
@@ -40,7 +43,7 @@ public static class DirectEventChoices
     public static int LossStep(EffectDefinition program)
     {
         for (var index = 0; index < program.Steps.Count; index++)
-            if (program.Steps[index] is ArmyEventDamageStep or EnemyArmyStep or MadnessAttackStep)
+            if (program.Steps[index] is ArmyEventDamageStep or EnemyArmyStep or MadnessAttackStep or NorthRangersAttackStep)
                 return index + 1;
         return 0;
     }
@@ -76,6 +79,10 @@ public static class DirectEventChoices
         }
         return true;
     }
+
+    // How many armies the Rangers could attack now; before their losses, one means it chose alone.
+    public static int RangersTargets(MatchState state) =>
+        new NorthRangersAttackStep().Candidates(state, new EffectExecution()).Count;
 
     // How many armies Madness could strike now; before its losses, one means it chose alone.
     public static int MadnessTargets(MatchState state) =>
@@ -169,10 +176,16 @@ public static class DirectEventChoices
     public static bool OpensFromPublicBoard(EffectStep step) => step is
         RecruitmentBatchStep or RecruitEffectStep { Region.Length: > 0 } or RecruitTogetherStep or RecruitRegionStep or
         HillTrollsStep or CruelWeatherStep or BlackCaptainStep or ArmyEventDamageStep or EnemySovereignStep or
-        MadnessAttackStep or
+        MadnessAttackStep or WindFromWestStep or NorthRangersAttackStep or
         FateOrcsRegionStep or ValinorRegionStep or KingsValinorStep or WisdomBranchStep or BalrogEventStep or
         LidlessEyeStep;
 
     private static bool LeavesAPublicRecruitRegion(EffectStep step) => step is
-        RecruitRegionStep or ArmyEventDamageStep or RangersRecruitStep or StewardsRegionStep;
+        RecruitRegionStep or ArmyEventDamageStep or RangersRecruitStep or StewardsRegionStep or
+        NorthRangersAttackStep or NorthRangersRegionStep;
+
+    // Events whose later step reads the region an earlier one left in the execution; the
+    // boundary names that region, since a lone option leaves no choice in the trail.
+    public static bool LeavesARegion(EffectDefinition program) =>
+        program.Steps is [NorthRangersAttackStep, NorthRangersRegionStep, ..] or [FateOrcsRegionStep, FateOrcsRecruitStep];
 }

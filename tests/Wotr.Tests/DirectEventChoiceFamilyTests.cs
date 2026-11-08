@@ -68,7 +68,7 @@ public sealed class DirectEventChoiceFamilyTests
             "base.fp.strategy.14", "base.fp.strategy.15", "base.fp.strategy.16", "base.fp.strategy.17",
             "base.fp.strategy.18", "base.fp.strategy.19", "base.fp.strategy.20", "base.fp.strategy.21",
             "base.fp.strategy.22", "base.fp.strategy.23", "base.fp.strategy.24",
-            "base.sh.character.10", "base.sh.character.18", "base.sh.character.24",
+            "base.sh.character.10", "base.sh.character.11", "base.sh.character.18", "base.sh.character.24",
             "base.sh.strategy.01", "base.sh.strategy.11", "base.sh.strategy.12", "base.sh.strategy.13",
             "base.sh.strategy.14", "base.sh.strategy.15", "base.sh.strategy.16", "base.sh.strategy.17",
             "base.sh.strategy.18", "base.sh.strategy.19", "base.sh.strategy.20", "base.sh.strategy.21",
@@ -76,7 +76,8 @@ public sealed class DirectEventChoiceFamilyTests
             "fate.fp.strategy.19", "fate.fp.strategy.22", "fate.sh.strategy.20",
             "kings.fp.strategy.08", "kings.fp.strategy.25", "kings.fp.strategy.26",
             "kings.sh.strategy.01", "kings.sh.strategy.18", "kings.sh.strategy.26",
-            "lords.fp.strategy.25", "lords.sh.character.17", "lords.sh.strategy.26"
+            "lords.fp.character.27", "lords.fp.strategy.25", "lords.fp.strategy.26", "lords.sh.character.17",
+            "lords.sh.strategy.26"
         ], reviewed);
     }
 
@@ -394,6 +395,43 @@ public sealed class DirectEventChoiceFamilyTests
                 Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
     }
 
+    // Separating in Rivendell itself brings Gandalf to an Elven Stronghold, a political
+    // consequence that waits for the action to complete.
+    [Fact]
+    public void MarksTheGuideChoiceWithAPendingPoliticalConsequence()
+    {
+        var state = KingsFixture.Do(Separating(FreePeoplesCharacterCards03.ThereAndBack),
+            CommandKind.SeparateCompanions, new() { Ids = [CharacterRules.Grey, CharacterRules.Strider], Route = ["rivendell"] });
+
+        Assert.Equal(DecisionKind.Guide, state.Pending!.Kind);
+        Assert.NotEmpty(state.PoliticalReactions);
+        AssertMarked(state, FreePeoplesCharacterCards03.ThereAndBack);
+    }
+
+    [Theory]
+    [InlineData("erebor")]
+    [InlineData("mount-gundabad")]
+    public void MarksFateOrcsRecruitmentWithItsSecondRegion(string region)
+    {
+        var state = Played(FateCards.Orcs);
+        Assert.Equal("Region", state.Pending!.Presentation);
+        // Four Sauron Regulars wait in reserve, so the two regions must share them by choice.
+        foreach (var unit in state.Units.Where(unit => unit.Nation == "sauron" && unit.Kind == UnitKind.Regular &&
+                     unit.Location == "reserve").Skip(4).ToArray())
+            unit.Location = "barad-dur";
+        Assert.Equal(4, state.Units.Count(unit => unit.Nation == "sauron" && unit.Kind == UnitKind.Regular &&
+            unit.Location == "reserve"));
+        state = KingsFixture.Do(state, CommandKind.ChooseEffect, new() { Ids = [region] });
+
+        Assert.Equal("RecruitmentPlan", state.Pending!.Presentation);
+        Assert.All(Enum.GetValues<Side>(), side =>
+        {
+            var choice = GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice;
+            Assert.Equal(FateCards.Orcs, choice?.CardId);
+            Assert.Equal(region, choice!.RegionId);
+        });
+    }
+
     [Theory]
     [InlineData("journey")]
     [InlineData("bonus")]
@@ -613,7 +651,7 @@ public sealed class DirectEventChoiceFamilyTests
         Assert.All(Enum.GetValues<Side>(), side =>
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(48, view.ActionBoundary?.Version);
+            Assert.Equal(49, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(card, context.CardId);
             Assert.Equal(cost ?? CardCatalog.All[card].EventType, context.CardCost);

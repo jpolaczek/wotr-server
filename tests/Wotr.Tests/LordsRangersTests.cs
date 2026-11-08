@@ -15,6 +15,31 @@ public class LordsRangersTests
         return Play(state, LordsFreePeoplesCards.Rangers, 4, 0, 3);
     }
 
+    // The lone army in Bree is attacked without a choice; the boundary names each region the
+    // later steps read.
+    [Fact]
+    public void EveryRangersDecisionIsMarkedWithTheRegionItReads()
+    {
+        var losses = LossWindow();
+        var victim = EventLosses.Current(losses)!.Target.Units(losses).First().Id;
+        var region = LordsFixture.Do(StateCodec.Copy(losses), CommandKind.TakeEventLosses,
+            new() { Losses = [BattleFixture.Loss(victim)] });
+        var figures = Choose(StateCodec.Copy(region), "buckland");
+
+        Assert.Equal(DecisionKind.Losses, losses.Pending!.Kind);
+        Assert.Equal("Region", region.Pending!.Presentation);
+        Assert.Equal("ReserveFigures", figures.Pending!.Presentation);
+        foreach (var (state, regionId) in new[] { (losses, "bree"), (region, "bree"), (figures, "buckland") })
+            Assert.All(Enum.GetValues<Side>(), side =>
+            {
+                var choice = LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice;
+                Assert.Equal(LordsFreePeoplesCards.Rangers, choice?.CardId);
+                Assert.Equal(regionId, choice!.RegionId);
+            });
+        losses.Resolution.Frames[0].Effect!.RegionId = "arnor";
+        Assert.Null(LordsFixture.Views().For(losses, Side.Shadow).ActionBoundary?.DirectEventChoice);
+    }
+
     [Fact]
     public void OnlyArmiesInOrAdjacentToNorthAreEligibleAndDamagePrecedesRecruitment()
     {

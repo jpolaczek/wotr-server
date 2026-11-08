@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.65.0 advances ActionBoundary to version 49. `DirectEventChoice` also marks The
+Wind from the West's table-card choice, the Nazgul strike after their flight, Fate's second Orc
+recruitment, every step of Rangers of the North (attack, losses, region, figures), and an
+event's Guide choice while a political consequence of its separation waits. `RegionId` now
+also names the region Rangers attacked or recruit in and Fate's second Orc region. Rules
+0.15.51 and public content 1.0.65 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.64.0 advances ActionBoundary to version 48. The `Battle` fact also marks a Kings
 chieftain's offer to replace Shadow's card effects, made once both cards are committed and
 before the reveal; the options are the public chieftains fighting for Shadow. Rules 0.15.50 and

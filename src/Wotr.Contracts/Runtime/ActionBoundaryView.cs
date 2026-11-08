@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 48;
+        public int Version { get; set; } = 49;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -127,8 +127,10 @@ namespace Wotr.Contracts
     {
         public string CardId { get; set; } = "";
         public DieFace CardCost { get; set; }
-        // The army Madness and Horror struck; its region is not in the owner's trail when it was
-        // the only option. Empty for every other event.
+        // The region an earlier step left for a later one: the army Madness and Horror struck, the
+        // army Rangers of the North attacked and then their recruitment region, or Fate's second
+        // Orc recruitment region. A lone option leaves no choice in the owner's trail, so only this
+        // names it. Empty for every other event.
         public string RegionId { get; set; } = "";
         // The regions Return to Valinor already struck, in order; a lone option leaves no choice
         // in the owner's trail. Empty for every other event.

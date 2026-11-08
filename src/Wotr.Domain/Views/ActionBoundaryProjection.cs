@@ -531,10 +531,13 @@ internal static class ActionBoundaryProjection
     {
         var pending = state.Pending;
         var frames = state.Resolution.Frames;
+        // A separation may move a Companion into a nation's region; that political consequence
+        // waits, public, until the action completes.
         if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
             state.Resolution.ActionSequence is not null || state.Resolution.Window.Length != 0 ||
-            state.PoliticalReactions.Count != 0 || pending is null || frames.Count == 0 ||
-            state.Resolution.PaidDieIds.Count != 1 || state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1)
+            state.PoliticalReactions.Count != 0 && pending?.Kind != DecisionKind.Guide || pending is null ||
+            frames.Count == 0 || state.Resolution.PaidDieIds.Count != 1 ||
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1)
             return null;
 
         // The stack-limit and Guide decisions name no source; their event is the first frame.
@@ -597,7 +600,8 @@ internal static class ActionBoundaryProjection
 
         return new()
         {
-            CardId = cardId, CardCost = execution.PaidFace, RegionId = execution.MadnessTarget?.Region ?? "",
+            CardId = cardId, CardCost = execution.PaidFace,
+            RegionId = execution.MadnessTarget?.Region ?? (DirectEventChoices.LeavesARegion(program) ? execution.RegionId : ""),
             TargetIds = DirectEventChoices.RepeatsOnTargets(program) ? [.. execution.TargetIds] : []
         };
     }
@@ -637,6 +641,8 @@ internal static class ActionBoundaryProjection
         execution is { Wait: EffectWait.None, CompletionWindowOffered: false } &&
         DirectEventChoices.LossStep(program) is > 0 and var step && frame.NextStep == step &&
         execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution) &&
+        (program.Steps is not [NorthRangersAttackStep, ..] || execution.RegionId == loss.Target.Region &&
+            execution.Committed.Count == (DirectEventChoices.RangersTargets(state) == 1 ? 1 : 2)) &&
         (!DirectEventChoices.IsMadness(program) || execution.MadnessTarget == new MadnessTarget(loss.Target.Region,
             DirectEventChoices.MadnessBesieged(state, loss.Target.Region, loss.Target.Garrison)) &&
             execution.Committed.Count == (DirectEventChoices.MadnessTargets(state) == 1 ? 1 : 2));
@@ -707,6 +713,12 @@ internal static class ActionBoundaryProjection
 
         if (DirectEventChoices.IsMadness(program) && frame.NextStep == 2)
             return execution.MadnessTarget is not null;
+        // A region an earlier step chose is public through its roll or its recruitment limits.
+        if (DirectEventChoices.LeavesARegion(program) && frame.NextStep >= 2)
+            return execution.RegionId.Length == 0 || BoardRules.Regions.ContainsKey(execution.RegionId) &&
+                execution.TargetIds.Count == 0 && execution.NationId.Length == 0 &&
+                execution.Committed.All(selection => selection.Owner == execution.Owner &&
+                    DirectEventChoices.BelongsToEvent(selection, execution.SourceId));
         return cardId == KingsCards02.Service && frame.NextStep == 2
             ? ServiceSovereignSelected(state, execution)
             : DirectEventChoices.ReadsAnEarlierRegion(choice)

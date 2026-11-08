@@ -27,7 +27,7 @@ public sealed class BalrogHuntProjectionTests
         {
             var view = Projection.For(state, side);
             var facts = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
-            Assert.Equal(48, facts.Version);
+            Assert.Equal(49, facts.Version);
             Assert.Equal(ShadowCharacterCards03.Balrog, view.Hunt!.SourceId);
             var resolved = facts.FellowshipMove?.StrongholdHunts?.MovementHunt ?? facts.CardHunt?.StrongholdHunts?.ResolvedCardHunt;
             Assert.Equal(parent, resolved!.SourceId);
