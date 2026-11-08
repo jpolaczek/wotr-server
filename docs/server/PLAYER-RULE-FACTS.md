@@ -1,5 +1,10 @@
 # Player rule facts at an action boundary
 
+Contracts 0.59.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version 43 to the
+Kings inspection. The marker adds nothing to what each seat already reads: the opponent
+still sees only the count of the inspected tiles. Public content 1.0.59 pins these shared
+facts; protocol and save schema are unchanged.
+
 Contracts 0.58.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version 42 to
 Stormcrow's figure loss, which the opponent of the event's owner chooses. The marker adds
 nothing beyond the card and payment: the tile given to a sovereign stays face down for

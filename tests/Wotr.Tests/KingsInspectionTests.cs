@@ -19,6 +19,52 @@ public class KingsInspectionTests
         return Choose(state, card == Wisdom ? WisdomBranchStep.Inspect : "north");
     }
 
+    private static MatchState DarkAt(int step)
+    {
+        var state = State();
+        Tile(state, SovereignCatalog.Dain);
+        Tile(state, SovereignCatalog.Dain, KingsTiles.One);
+        Tile(state, SovereignCatalog.Denethor, "base.hunt.standard.1.0.2");
+        state = Play(state, Dark);
+        if (step >= 2)
+            state = Choose(state, "north");
+        if (step == 3)
+            state = Choose(state, SovereignCatalog.Dain);
+        return state;
+    }
+
+    [Theory]
+    [InlineData(1, "Nation")]
+    [InlineData(2, "Sovereign")]
+    [InlineData(3, "InspectedCorruption")]
+    public void EveryStepOfTheDarkInspectionIsMarkedWithTheCardOnly(int step, string presentation)
+    {
+        var state = DarkAt(step);
+
+        Assert.Equal(presentation, state.Pending!.Presentation);
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Equal(Dark, LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
+    }
+
+    [Theory]
+    [InlineData("nation")]
+    [InlineData("sovereign")]
+    [InlineData("trail")]
+    public void TheDarkInspectionRefusesAnInconsistentTrail(string change)
+    {
+        var state = DarkAt(3);
+        var execution = state.Resolution.Frames.Single().Effect!;
+        switch (change)
+        {
+            case "nation": execution.NationId = "gondor"; break;
+            case "sovereign": execution.InspectedSovereign = SovereignCatalog.Denethor; break;
+            case "trail": execution.Committed.RemoveAt(1); break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
     [Theory]
     [InlineData(Wisdom)]
     [InlineData(Dark)]

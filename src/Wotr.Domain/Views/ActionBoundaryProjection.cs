@@ -418,7 +418,8 @@ internal static class ActionBoundaryProjection
             // The first entry names the card, and the nation an event is played against.
             execution.Committed.Count == 0 || execution.Committed[0] != new EffectSelection(card.Side, cardId) &&
                 execution.Committed[0] != new EffectSelection(card.Side, cardId, execution.NationId) ||
-            execution.AppliedHits != 0 || execution.InspectedSovereign is not null ||
+            execution.AppliedHits != 0 ||
+            execution.InspectedSovereign is not null && !DirectEventChoices.IsInspection(program) ||
             execution.InspectedHand is not null || execution.RingRecovery is not null ||
             execution.MadnessTarget is not null || execution.FellowshipMove)
             return null;
@@ -482,6 +483,8 @@ internal static class ActionBoundaryProjection
         EffectExecution execution, EffectDefinition program)
     {
         var cardId = execution.SourceId;
+        if (DirectEventChoices.IsInspection(program))
+            return IsReviewedInspectionChoice(state, pending, frame, execution, program);
         if (pending.Commands is [CommandKind.ChooseEffect] &&
             DirectEventChoices.IsNationalCard(program, out _, out var otherwise, out var recruit))
             return IsReviewedNationalCardChoice(state, pending, frame, execution, otherwise, recruit);
@@ -502,6 +505,31 @@ internal static class ActionBoundaryProjection
             : DirectEventChoices.ReadsAnEarlierRegion(choice)
                 ? HasPublicRecruitRegion(execution)
                 : HasNoEventSelection(execution);
+    }
+
+    // Each inspection step finds its earlier choices in the owner's trail: the nation, then the
+    // sovereign whose tiles only the owner may now read.
+    private static bool IsReviewedInspectionChoice(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program)
+    {
+        if (pending.Commands is not [CommandKind.ChooseEffect] || state.Resolution.Frames.Count != 1 ||
+            execution is not { Wait: EffectWait.Choice, CompletionWindowOffered: false } ||
+            frame.NextStep is < 1 or > 3 || program.Steps[frame.NextStep - 1] is not EffectChoiceStep choice ||
+            pending.Presentation != choice.Presentation || execution.RegionId.Length != 0 ||
+            execution.TargetIds.Count != 0 ||
+            execution.PalantirDrawPending != DirectEventChoices.PalantirDrawExpected(state, execution))
+            return false;
+
+        var chosen = execution.Committed.Skip(1).ToArray();
+        if (chosen.Length != frame.NextStep - 1 ||
+            chosen.Any(selection => selection.Owner != execution.Owner || selection.SourceId != execution.SourceId) ||
+            (chosen.Length >= 1 ? chosen[0].ChoiceId != execution.NationId || chosen[0].TargetId.Length != 0
+                : execution.NationId.Length != 0) ||
+            (chosen.Length == 2 ? execution.InspectedSovereign != chosen[1].ChoiceId : execution.InspectedSovereign is not null))
+            return false;
+
+        var candidates = choice.Candidates(state, execution);
+        return candidates.Count > 0 && pending.PrivateChoices.SequenceEqual(candidates);
     }
 
     // The route options come from the public Nazgul or Balrog positions. The card's

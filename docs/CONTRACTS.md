@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.59.0 advances ActionBoundary to version 43. `DirectEventChoice` also marks each
+step of a Kings inspection (`DirectEventChoices.IsInspection`): the nation, the sovereign
+and the tile to return. The owner's trail holds the earlier choices; the sovereign's tiles
+stay readable only to the inspecting owner, as before. Rules 0.15.45 and public content
+1.0.59 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.58.0 advances ActionBoundary to version 42. `DirectEventChoice` also marks
 Stormcrow's last step, which asks the event's opponent to remove a figure of the nation it
 struck. The offered units name that nation; the earlier steps moved its political counter

@@ -73,6 +73,11 @@ public static class DirectEventChoices
         last is StormcrowLossStep or KingsStormcrowLossStep &&
         program.Steps.Skip(1).Take(program.Steps.Count - 2).All(step => step is StormcrowCorruptionStep);
 
+    // A Kings inspection names a nation and then a sovereign in its owner's trail, and shows
+    // that sovereign's tiles to the owner alone while they choose one to return.
+    public static bool IsInspection(EffectDefinition program) =>
+        program.Steps is [KingsNationStep { Activate: false }, SelectInspectedSovereignStep, InspectCorruptionStep];
+
     public static bool TravelsFirst(EffectDefinition program) => program.Steps.Count > 0 &&
         program.Steps[0] is MoveNazgulStep or BlackCaptainStep;
 

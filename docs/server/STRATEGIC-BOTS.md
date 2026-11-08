@@ -433,6 +433,13 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — the Kings inspection (2026-11-08)
+
+Contracts 0.59.0 / ActionBoundary v43 and rules 0.15.45 mark every step of the Kings
+inspection card, whose six roots were spread over its three choices. BOT-02 is still
+incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — Stormcrow's figure loss (2026-11-08)
 
 Contracts 0.58.0 / ActionBoundary v42 and rules 0.15.44 mark Stormcrow's last step, where
