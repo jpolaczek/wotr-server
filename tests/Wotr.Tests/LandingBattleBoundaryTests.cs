@@ -20,7 +20,7 @@ public sealed class LandingBattleBoundaryTests
         var freePeoples = Projection.For(state, Side.FreePeoples);
         foreach (var view in new[] { shadow, freePeoples })
         {
-            Assert.Equal(52, view.ActionBoundary?.Version);
+            Assert.Equal(53, view.ActionBoundary?.Version);
             var context = Assert.IsType<BattleContextView>(view.ActionBoundary?.Battle);
             Assert.False(context.CompletesPaidAction);
             Assert.False(context.SpecialAttackLoss);

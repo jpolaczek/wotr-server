@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.69.0 advances ActionBoundary to version 53. `SpecialAttackLoss` also marks the
+losses of a Charge or Sudden Strike after the opposing Durin's Bane at the same initiative,
+whose public dice have rolled and whose hits are taken, and `CompletesPaidAction` marks
+Relentless Assault's voluntary losses before the roll of a later round. Rules 0.15.55 and
+public content 1.0.69 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.68.0 advances ActionBoundary to version 52. `BattleContextView.LandingEvent`
 marks the battle a Corsairs of Umbar landing begins, with the paid event and its cost; the
 landing region is the battle's region and `BattleView.ArrivalBeforeBattle` is set. Rules

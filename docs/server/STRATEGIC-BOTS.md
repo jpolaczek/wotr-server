@@ -433,6 +433,12 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — second special attack and later Relentless Assault (2026-11-08)
+
+Contracts 0.69.0 / ActionBoundary v53 and rules 0.15.55 mark a Charge's losses after Durin's
+Bane at the same initiative and Relentless Assault in a later round. BOT-02 is still
+incomplete; no policy, push, release or deployment.
+
 ### BOT-02 implementation checkpoint — Corsairs landing battle (2026-11-08)
 
 Contracts 0.68.0 / ActionBoundary v52 and rules 0.15.54 mark the battle a Corsairs of Umbar

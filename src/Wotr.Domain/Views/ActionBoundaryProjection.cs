@@ -1086,10 +1086,11 @@ internal static class ActionBoundaryProjection
         var execution = effectFrame.Effect;
         var loss = lossFrame.BattleLoss;
         var source = execution?.SourceId ?? "";
+        // Relentless Assault asks before the roll of any round; earlier rounds have closed.
         return pending.Kind == DecisionKind.Losses && ReviewedCombatCards.IsRelentlessAssault(source) &&
-            battle is { Return: EffectReturn.FinishAction, Stage: BattleStage.BeforeRoll, Round: 1,
-                CardsRevealed: true, Mode: not BattleMode.Relief, CompletedRounds: 0,
-                EndedByEffect: false, NextWork: > 0 } &&
+            battle is { Return: EffectReturn.FinishAction, Stage: BattleStage.BeforeRoll, Round: >= 1,
+                CardsRevealed: true, Mode: not BattleMode.Relief, EndedByEffect: false, NextWork: > 0 } &&
+            battle.CompletedRounds == battle.Round - 1 &&
             effectFrame.EffectId == "combat.relentless-assault" && effectFrame.NextStep == 1 &&
             effectFrame.Window.Length == 0 && effectFrame.ReturnDecision is null &&
             effectFrame.Fellowship is null && effectFrame.Hunt is null && effectFrame.Battle is null &&
@@ -1225,17 +1226,17 @@ internal static class ActionBoundaryProjection
             lossFrame.Corruption is not null || loss is not { Voluntary: false, AdditionalAttack: false, Hits: > 0 } ||
             pending.Commands.Count != 1 || pending.Commands[0] != CommandKind.TakeBattleLosses ||
             pending.Owner != loss.Owner || pending.RequiredCount != loss.Hits || pending.SourceId != loss.SourceId ||
-            loss.SourceId != execution.SourceId || battle.SpecialAttacks.Count != 1 ||
-            execution.Owner != battle.SpecialAttacks[0].Owner || loss.Owner != TurnFlow.Other(execution.Owner) ||
-            battle.SpecialAttacks[0].SourceId != loss.SourceId ||
-            battle.SpecialAttacks[0].Dice.Count == 0 ||
-            battle.SpecialAttacks[0].Dice.Count(die => die.Hit) != loss.Hits ||
+            loss.SourceId != execution.SourceId || battle.SpecialAttacks.Count is < 1 or > 2 ||
+            execution.Owner != battle.SpecialAttacks[^1].Owner || loss.Owner != TurnFlow.Other(execution.Owner) ||
+            battle.SpecialAttacks[^1].SourceId != loss.SourceId ||
+            battle.SpecialAttacks[^1].Dice.Count == 0 ||
+            battle.SpecialAttacks[^1].Dice.Count(die => die.Hit) != loss.Hits ||
             battle.Attacker.Round.Dice.Count != 0 || battle.Defender.Round.Dice.Count != 0 ||
             !FreshSpecialAttackRound(battle.Attacker.Round) || !FreshSpecialAttackRound(battle.Defender.Round) ||
             battle.NextWork > battle.Work.Count ||
             battle.Work[battle.NextWork - 1] != new CombatWork(execution.Owner, execution.SourceId,
-                effectFrame.EffectId, 2) || battle.Work.Take(battle.NextWork - 1).Any(work =>
-                !battle.Force(work.Owner).Round.CardCancelled) || battle.Force(execution.Owner).Round.CardCancelled ||
+                effectFrame.EffectId, 2) || !EarlierFirstStepAttacksResolved(state, battle) ||
+            battle.Force(execution.Owner).Round.CardCancelled ||
             !CardCatalog.All.TryGetValue(execution.SourceId, out var sourceCard) || sourceCard.Side != execution.Owner ||
             !CardCatalog.Enabled(state, execution.SourceId) ||
             !EffectCatalog.All.Combats.TryGetValue(execution.SourceId, out var combat) ||
@@ -1255,16 +1256,46 @@ internal static class ActionBoundaryProjection
                 die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving))
             return null;
 
-        var attack = battle.SpecialAttacks[0];
-        var sourceForce = battle.Force(attack.Owner);
-        var diceCount = FirstStepSpecialAttackDice(state, sourceForce, program.Steps[0]);
-        var hitTarget = FirstStepSpecialAttackHitTarget(state, battle, sourceForce, program.Steps[0]);
-        if (attack.Dice.Count != diceCount || attack.Dice.Any(die => die.Result is < 1 or > 6 ||
-            die.Modifier != 0 || die.HitTarget != hitTarget || die.Hit != BattleRoll.Hits(die.Result, 0, hitTarget) ||
-            die.ConvertedHit || die.Reroll.HasValue || die.RerollModifier != 0 || die.RerollHit || die.CannotReroll))
+        if (!FirstStepAttackRolled(state, battle, battle.SpecialAttacks[^1], program.Steps[0]))
             return null;
 
         return new() { SpecialAttackLoss = true };
+    }
+
+    // Effects queued ahead of this attack belong to a cancelled card or are the opposing card's own
+    // first-step special attack at initiative 2, whose public dice have rolled and whose hits are taken.
+    private static bool EarlierFirstStepAttacksResolved(MatchState state, BattleState battle)
+    {
+        var earlier = battle.Work.Take(battle.NextWork - 1)
+            .Where(work => !battle.Force(work.Owner).Round.CardCancelled).ToArray();
+        if (earlier.Length != battle.SpecialAttacks.Count - 1)
+            return false;
+        for (var index = 0; index < earlier.Length; index++)
+        {
+            var work = earlier[index];
+            var attack = battle.SpecialAttacks[index];
+            if (work.Initiative != 2 || attack.Owner != work.Owner || attack.SourceId != work.CardId ||
+                battle.Force(work.Owner).Round.CardId != work.CardId || !CardCatalog.Enabled(state, work.CardId) ||
+                !EffectCatalog.All.Combats.TryGetValue(work.CardId, out var combat) || combat.Effects.Count != 1 ||
+                combat.Effects[0].Initiative != 2 || combat.Effects[0].ProgramId != work.ProgramId ||
+                !EffectCatalog.All.Programs.TryGetValue(work.ProgramId, out var program) || program.Steps.Count != 1 ||
+                !IsSupportedFirstStepSpecialAttack(work.ProgramId, program.Steps[0]) ||
+                !IsSupportedFirstStepSpecialAttackOwner(work.Owner, program.Steps[0]) ||
+                !FirstStepAttackRolled(state, battle, attack, program.Steps[0]))
+                return false;
+        }
+        return true;
+    }
+
+    private static bool FirstStepAttackRolled(MatchState state, BattleState battle, SpecialAttackResult attack,
+        EffectStep step)
+    {
+        var sourceForce = battle.Force(attack.Owner);
+        var diceCount = FirstStepSpecialAttackDice(state, sourceForce, step);
+        var hitTarget = FirstStepSpecialAttackHitTarget(state, battle, sourceForce, step);
+        return attack.Dice.Count == diceCount && !attack.Dice.Any(die => die.Result is < 1 or > 6 ||
+            die.Modifier != 0 || die.HitTarget != hitTarget || die.Hit != BattleRoll.Hits(die.Result, 0, hitTarget) ||
+            die.ConvertedHit || die.Reroll.HasValue || die.RerollModifier != 0 || die.RerollHit || die.CannotReroll);
     }
 
     // Great Host rolls nothing: its one hit follows from the public army sizes.
@@ -1430,7 +1461,8 @@ internal static class ActionBoundaryProjection
                  battle.Stage == BattleStage.AfterLosses && loss.Owner == battle.Defender.Side) ||
             loss is { Owner: Side.Shadow, Hits: 2, Voluntary: true, AdditionalAttack: false } &&
             ReviewedCombatCards.IsRelentlessAssault(loss.SourceId) && battle.Stage == BattleStage.BeforeRoll &&
-            battle.Round == 1 && battle.CardsRevealed && battle.Mode != BattleMode.Relief &&
+            battle.Round >= 1 && battle.CompletedRounds == battle.Round - 1 && battle.CardsRevealed &&
+            battle.Mode != BattleMode.Relief &&
             pending.RequiredCount == loss.Hits && pending.Owner == loss.Owner &&
             pending.Presentation == "VoluntaryLosses" && BattleRules.Alive(state, battle.Force(loss.Owner)) ||
             loss is { Owner: Side.Shadow, Hits: 4, Voluntary: true, AdditionalAttack: true } &&

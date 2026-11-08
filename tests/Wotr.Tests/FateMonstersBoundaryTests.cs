@@ -69,7 +69,7 @@ public sealed class FateMonstersBoundaryTests
         foreach (var side in Enum.GetValues<Side>())
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(52, view.ActionBoundary?.Version);
+            Assert.Equal(53, view.ActionBoundary?.Version);
             var context = Assert.IsType<FateMonstersEventView>(view.ActionBoundary?.FateMonsters);
             Assert.Equal(FateCards.Monsters, context.CardId);
             Assert.Equal(cost, context.CardCost);

@@ -20,7 +20,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(52, own.ActionBoundary!.Version);
+        Assert.Equal(53, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.Equal(own.ActionBoundary.Battle.CompletesPaidAction,
             other.ActionBoundary!.Battle!.CompletesPaidAction);
@@ -79,7 +79,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(52, own.ActionBoundary!.Version);
+        Assert.Equal(53, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -111,7 +111,7 @@ public sealed class ActionBoundaryBattleTests
         var state = BeginRelentlessAssaultVoluntaryLosses(attacker);
         var own = Projection.For(state, Side.Shadow);
         var other = Projection.For(state, Side.FreePeoples);
-        Assert.Equal(52, own.ActionBoundary!.Version);
+        Assert.Equal(53, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.False(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -142,7 +142,7 @@ public sealed class ActionBoundaryBattleTests
         var state = BeginOnslaughtVoluntaryLosses(attacker);
         var own = Projection.For(state, Side.Shadow);
         var other = Projection.For(state, Side.FreePeoples);
-        Assert.Equal(52, own.ActionBoundary!.Version);
+        Assert.Equal(53, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.False(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -252,7 +252,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, owner);
         var other = Projection.For(state, TurnFlow.Other(owner));
-        Assert.Equal(52, own.ActionBoundary!.Version);
+        Assert.Equal(53, own.ActionBoundary!.Version);
         Assert.False(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -307,7 +307,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, owner);
         var other = Projection.For(state, TurnFlow.Other(owner));
-        Assert.Equal(52, own.ActionBoundary!.Version);
+        Assert.Equal(53, own.ActionBoundary!.Version);
         Assert.False(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -365,7 +365,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, state.Pending.Owner);
         var other = Projection.For(state, TurnFlow.Other(state.Pending.Owner));
-        Assert.Equal(52, own.ActionBoundary!.Version);
+        Assert.Equal(53, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -392,7 +392,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, actor);
         var other = Projection.For(state, TurnFlow.Other(actor));
-        Assert.Equal(52, own.ActionBoundary!.Version);
+        Assert.Equal(53, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -448,6 +448,45 @@ public sealed class ActionBoundaryBattleTests
             BattleFixture.Put(state, defendingNation, UnitKind.Regular, BattleFixture.Target);
         state = BattleFixture.Begin(state, attackers.Select(unit => unit.Id));
         return BattleFixture.NoCards(state, 6, 6, 6, 6, 6, 6);
+    }
+
+    // The Elves attack the Balrog's Dimrill Dale with Cirdan's Ships: Durin's Bane and the Charge
+    // both strike at initiative 2, the defender first, so the Charge's losses follow the Bane's.
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void AChargeAfterDurinsBaneAtTheSameInitiativeIsMarked(bool changed)
+    {
+        var state = BattleFixture.State(Side.FreePeoples);
+        var attackers = Enumerable.Range(0, 3).Select(_ => BattleFixture.Put(state, "elves", UnitKind.Regular, "lorien"))
+            .Concat(Enumerable.Range(0, 2).Select(_ => BattleFixture.Put(state, "elves", UnitKind.Elite, "lorien")))
+            .Select(unit => unit.Id).ToArray();
+        for (var index = 0; index < 3; index++)
+            BattleFixture.Put(state, "sauron", UnitKind.Regular, "dimrill-dale");
+        state.Player(Side.FreePeoples).Hand.Add(FreePeoplesStrategyCards03.CirdansShips);
+        state.Player(Side.Shadow).Hand.Add(ShadowCharacterCards03.Balrog);
+        state = BattleFixture.Begin(state, attackers, from: "lorien", to: "dimrill-dale");
+        while (state.Pending!.Kind == DecisionKind.CombatCard)
+            state = BattleFixture.Execute(state, CommandKind.CommitCombatCard, new()
+            {
+                CardId = state.Pending.Owner == Side.FreePeoples ? FreePeoplesStrategyCards03.CirdansShips
+                    : ShadowCharacterCards03.Balrog
+            }, new SequenceRandom(5, 5, 5, 5, 5, 5, 5, 5));
+        Assert.Equal(DecisionKind.Losses, state.Pending!.Kind);
+        Assert.Equal(Side.FreePeoples, state.Pending.Owner);
+        Assert.True(Projection.For(state, Side.FreePeoples).ActionBoundary?.Battle?.SpecialAttackLoss);
+        var regulars = attackers.Take(state.Pending.RequiredCount).Select(id => BattleFixture.Loss(id)).ToArray();
+        state = BattleFixture.Execute(state, CommandKind.TakeBattleLosses, new() { Losses = [.. regulars] },
+            new SequenceRandom(5, 5, 5, 5, 5, 5, 5, 5));
+
+        Assert.Equal(DecisionKind.Losses, state.Pending!.Kind);
+        Assert.Equal(Side.Shadow, state.Pending.Owner);
+        Assert.Equal(FreePeoplesStrategyCards03.CirdansShips, state.Pending.SourceId);
+        Assert.Equal(2, BattleRuntime.Active(state)!.SpecialAttacks.Count);
+        if (changed)
+            BattleRuntime.Active(state)!.SpecialAttacks[0].Dice.RemoveAt(0);
+        foreach (var side in new[] { Side.FreePeoples, Side.Shadow })
+            Assert.Equal(!changed, Projection.For(state, side).ActionBoundary?.Battle?.SpecialAttackLoss ?? false);
     }
 
     private static MatchState ChargeSpecialAttackLoss(Side attacker, string cardId, bool kings = false)
@@ -563,6 +602,37 @@ public sealed class ActionBoundaryBattleTests
             Assert.True(Projection.For(state, side).ActionBoundary?.Battle?.CompletesPaidAction));
         BattleRuntime.Active(state)!.SpecialAttacks.Add(new(Side.Shadow, ShadowStrategyCards01.Dawn, []));
         Assert.Null(Projection.For(state, Side.Shadow).ActionBoundary?.Battle);
+    }
+
+    // Both sides pass in round one and the battle goes on; Shadow then reveals Dawn's Relentless
+    // Assault, which asks for its voluntary losses before round two's roll.
+    [Fact]
+    public void RelentlessAssaultInALaterRoundIsMarked()
+    {
+        var state = BattleFixture.State(Side.Shadow);
+        var attackers = Enumerable.Range(0, 3)
+            .Select(_ => BattleFixture.Put(state, "sauron", UnitKind.Regular, BattleFixture.Origin)).ToArray();
+        for (var index = 0; index < 3; index++)
+            BattleFixture.Put(state, "gondor", UnitKind.Regular, BattleFixture.Target);
+        state.Player(Side.Shadow).Hand.Add(ShadowStrategyCards01.Dawn);
+        state = BattleFixture.Begin(state, attackers.Select(unit => unit.Id));
+        while (state.Pending!.Kind == DecisionKind.CombatCard)
+            state = BattleFixture.Execute(state, CommandKind.CommitCombatCard, new() { CardId = "" },
+                new SequenceRandom(new int[64]));
+        state = BattleFixture.Execute(state, CommandKind.ContinueBattle, new());
+        state = BattleFixture.Execute(state, CommandKind.HoldBattle, new());
+        Assert.Equal(2, BattleRuntime.Active(state)!.Round);
+        while (state.Pending!.Kind == DecisionKind.CombatCard)
+            state = BattleFixture.Execute(state, CommandKind.CommitCombatCard, new()
+            {
+                CardId = state.Pending.Owner == Side.Shadow ? ShadowStrategyCards01.Dawn : ""
+            }, new SequenceRandom(new int[64]));
+
+        Assert.True(BattleLosses.Current(state)!.Voluntary);
+        foreach (var side in new[] { Side.FreePeoples, Side.Shadow })
+            Assert.True(Projection.For(state, side).ActionBoundary?.Battle?.CompletesPaidAction);
+        BattleRuntime.Active(state)!.CompletedRounds = 0;
+        Assert.Null(Projection.For(state, Side.Shadow).ActionBoundary);
     }
 
     private static MatchState BeginRelentlessAssaultVoluntaryLosses(Side attacker)

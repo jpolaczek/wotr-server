@@ -1,5 +1,9 @@
 # Player rule facts at an action boundary
 
+Contracts 0.69.0 extend the battle markers at boundary version 53: a second first-step special
+attack at the same initiative, and Relentless Assault in a later round. Public content 1.0.69
+pins these shared facts; protocol and save schema are unchanged.
+
 Contracts 0.68.0 add `LandingEvent` to the battle context at boundary version 52: the public
 Corsairs of Umbar event and payment under the battle its landing begins. Public content 1.0.68
 pins these shared facts; protocol and save schema are unchanged.
