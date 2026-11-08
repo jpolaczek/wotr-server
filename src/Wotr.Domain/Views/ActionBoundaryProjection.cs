@@ -467,8 +467,9 @@ internal static class ActionBoundaryProjection
             state.Resolution.PaidDieIds.Count != 1 || state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1)
             return null;
 
-        // The stack-limit decision names no source; its event is the one frame still open.
-        var cardId = pending.Kind == DecisionKind.RemoveExcess ? frames[0].Effect?.SourceId ?? "" : pending.SourceId;
+        // The stack-limit and Guide decisions name no source; their event is the first frame.
+        var cardId = pending.Kind is DecisionKind.RemoveExcess or DecisionKind.Guide
+            ? frames[0].Effect?.SourceId ?? "" : pending.SourceId;
         if (!CardCatalog.All.TryGetValue(cardId, out var card))
             return null;
         var player = state.Player(card.Side);
@@ -496,7 +497,7 @@ internal static class ActionBoundaryProjection
             execution.AppliedHits != 0 ||
             execution.InspectedSovereign is not null && !DirectEventChoices.IsInspection(program) ||
             execution.InspectedHand is not null || execution.RingRecovery is not null ||
-            execution.MadnessTarget is not null || execution.FellowshipMove)
+            execution.MadnessTarget is not null && !HasMadnessTarget(execution, program) || execution.FellowshipMove)
             return null;
 
         // Losses fall to the target's owner, usually the event's opponent. Every other
@@ -511,6 +512,7 @@ internal static class ActionBoundaryProjection
             DecisionKind.Reaction => IsReviewedEventReaction(state, pending, frame, execution, program),
             DecisionKind.CharacterEvent => IsReviewedEventTravel(state, pending, frame, execution, program),
             DecisionKind.CompanionSeparation => IsReviewedEventSeparation(state, pending, frame, execution, program),
+            DecisionKind.Guide => IsReviewedEventGuide(state, pending, frame, execution, program),
             DecisionKind.ArmyEvent => IsReviewedArmyOrder(state, pending, frame, execution, program),
             DecisionKind.RemoveExcess => IsReviewedEventExcess(state, pending, frame, execution, program),
             _ => false
@@ -523,7 +525,7 @@ internal static class ActionBoundaryProjection
             !CanPayObservedFace(paidDie.Face, execution.PaidFace))
             return null;
 
-        return new() { CardId = cardId, CardCost = execution.PaidFace };
+        return new() { CardId = cardId, CardCost = execution.PaidFace, RegionId = execution.MadnessTarget?.Region ?? "" };
     }
 
     // The public loss view names the target, hits and rolls. The program's remaining
@@ -538,7 +540,18 @@ internal static class ActionBoundaryProjection
         pending.RequiredCount == loss.Hits &&
         execution is { Wait: EffectWait.None, CompletionWindowOffered: false } &&
         DirectEventChoices.LossStep(program) is > 0 and var step && frame.NextStep == step &&
-        execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution);
+        execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution) &&
+        (!DirectEventChoices.IsMadness(program) || execution.MadnessTarget == new MadnessTarget(loss.Target.Region,
+            DirectEventChoices.MadnessBesieged(state, loss.Target.Region, loss.Target.Garrison)) &&
+            execution.Committed.Count == (DirectEventChoices.MadnessTargets(state) == 1 ? 1 : 2));
+
+    // Madness keeps its target from the owner's first choice, whose region it names; a lone
+    // option was taken automatically and left no choice in the trail.
+    private static bool HasMadnessTarget(EffectExecution execution, EffectDefinition program) =>
+        DirectEventChoices.IsMadness(program) && execution.MadnessTarget is { } target &&
+        BoardRules.Regions.ContainsKey(target.Region) && (execution.Committed is [_] ||
+            execution.Committed is [_, var chosen] && chosen.Owner == execution.Owner &&
+            chosen.SourceId == execution.SourceId && chosen.ChoiceId == target.Region && chosen.TargetId == target.Region);
 
     private static bool IsReviewedEventSeparation(MatchState state, PendingDecision pending, ResolutionFrame frame,
         EffectExecution execution, EffectDefinition program) =>
@@ -554,12 +567,31 @@ internal static class ActionBoundaryProjection
         frame.NextStep == 1 && execution is { Wait: EffectWait.None, CompletionWindowOffered: false } &&
         HasNoEventSelection(execution);
 
+    // A separation that takes the Guide away asks for a new one inside the same procedure,
+    // among the public Companions left in the Fellowship.
+    private static bool IsReviewedEventGuide(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program) =>
+        pending is { Commands: [CommandKind.SelectGuide], Window: "", RequiredCount: 0, SourceId: "" } &&
+        pending.PrivateChoices.Count >= 2 && pending.PrivateChoices.SequenceEqual(CompanionRules.Guides(state)) &&
+        state.Resolution.Frames is [_, var guide] && HuntChoiceProjection.PlainFrame(guide) &&
+        guide.EffectId == "fellowship.Separation" &&
+        guide.Fellowship is { Kind: FellowshipProcedureKind.Guide, Return: FellowshipReturn.Parent, Journey: null,
+            FixedCompanions.Count: 0, SeparationOrigin: "", SeparationRange: 0, Route.Count: 0,
+            AdditionalHuntRegions.Count: 0, AwaitingHunts: false, RevealEffectsPending: false,
+            FireAndShadowPending: false, ChooseGuideAfterPlacement: false } fellowship &&
+        fellowship.SourceId == execution.SourceId && program.Steps.Count > 0 &&
+        program.Steps[0] is SeparateCompanionsStep step && fellowship.SeparationBonus == step.Bonus &&
+        frame.NextStep == 1 && execution is { Wait: EffectWait.None, CompletionWindowOffered: false } &&
+        HasNoEventSelection(execution);
+
     private static bool IsReviewedEventChoice(MatchState state, PendingDecision pending, ResolutionFrame frame,
         EffectExecution execution, EffectDefinition program)
     {
         var cardId = execution.SourceId;
         if (DirectEventChoices.IsInspection(program))
             return IsReviewedInspectionChoice(state, pending, frame, execution, program);
+        if (program.Steps is [WisdomBranchStep] && state.Resolution.Frames.Count == 2)
+            return IsReviewedWisdomInspection(state, pending, frame, execution);
         if (pending.Commands is [CommandKind.ChooseEffect] &&
             DirectEventChoices.IsNationalCard(program, out _, out var otherwise, out var recruit))
             return IsReviewedNationalCardChoice(state, pending, frame, execution, otherwise, recruit);
@@ -575,11 +607,47 @@ internal static class ActionBoundaryProjection
             execution.PalantirDrawPending != DirectEventChoices.PalantirDrawExpected(state, execution))
             return false;
 
+        if (DirectEventChoices.IsMadness(program) && frame.NextStep == 2)
+            return execution.MadnessTarget is not null;
         return cardId == KingsCards02.Service && frame.NextStep == 2
             ? ServiceSovereignSelected(state, execution)
             : DirectEventChoices.ReadsAnEarlierRegion(choice)
                 ? HasPublicRecruitRegion(execution)
                 : HasNoEventSelection(execution);
+    }
+
+    // Wisdom's inspection runs in its own nested program: the sovereign, then the tile to
+    // return. The owner's trail holds the branch, then the sovereign once chosen.
+    private static bool IsReviewedWisdomInspection(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution)
+    {
+        if (pending.Commands is not [CommandKind.ChooseEffect] || state.Resolution.Frames is not [_, var nested] ||
+            frame.NextStep != 1 || execution is not { Wait: EffectWait.None, CompletionWindowOffered: false } ||
+            execution.PalantirDrawPending != DirectEventChoices.PalantirDrawExpected(state, execution) ||
+            execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 || execution.NationId.Length != 0 ||
+            execution.InspectedSovereign is not null || nested.EffectId != WisdomBranchStep.Inspect ||
+            nested is not { NextStep: 1 or 2, Window: "", ReturnDecision: null, Fellowship: null, Hunt: null,
+                Battle: null, BattleLoss: null, EventLoss: null, Corruption: null } ||
+            nested.Effect is not { Return: EffectReturn.Parent, Wait: EffectWait.Choice, IsEvent: false,
+                PalantirDrawPending: false, AnarionDrawPending: false, CompletionWindowOffered: false, AppliedHits: 0,
+                ArmyOrder: null, InspectedHand: null, RingRecovery: null, MadnessTarget: null, FellowshipMove: false } inner ||
+            inner.Owner != execution.Owner || inner.SourceId != execution.SourceId || inner.Committed.Count != 0 ||
+            inner.TargetIds.Count != 0 || inner.NationId.Length != 0 || inner.RegionId.Length != 0 ||
+            inner.ReactionWindow.Length != 0 || inner.OfferedReactions.Count != 0 ||
+            !EffectCatalog.All.Programs.TryGetValue(WisdomBranchStep.Inspect, out var inspect) ||
+            inspect.Steps is not [SelectInspectedSovereignStep, InspectCorruptionStep] ||
+            inspect.Steps[nested.NextStep - 1] is not EffectChoiceStep choice || pending.Presentation != choice.Presentation)
+            return false;
+
+        var trail = execution.Committed;
+        var expected = nested.NextStep + 1;
+        if (trail.Count != expected || trail[0] != new EffectSelection(execution.Owner, execution.SourceId) ||
+            trail.Skip(1).Any(selection => selection.Owner != execution.Owner || selection.SourceId != execution.SourceId) ||
+            trail[1].ChoiceId != WisdomBranchStep.Inspect || trail[1].TargetId.Length != 0 ||
+            (nested.NextStep == 1 ? inner.InspectedSovereign is not null : inner.InspectedSovereign != trail[2].ChoiceId))
+            return false;
+        var candidates = choice.Candidates(state, inner);
+        return candidates.Count != 0 && pending.PrivateChoices.SequenceEqual(candidates);
     }
 
     // Each inspection step finds its earlier choices in the owner's trail: the nation, then the

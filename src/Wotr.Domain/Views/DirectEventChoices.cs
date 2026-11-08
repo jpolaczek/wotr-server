@@ -17,6 +17,7 @@ public static class DirectEventChoices
         var earlier = program.Steps.Take(nextStep - 1).ToArray();
         var step = program.Steps[nextStep - 1];
         return earlier.All(IsAutomaticPublicStep) && OpensFromPublicBoard(step) ||
+            step is MadnessRecruitStep && earlier is [MadnessAttackStep] ||
             step is RecruitEffectStep { Region: "", Leader: false } && earlier.All(LeavesAPublicRecruitRegion) ||
             step is DunlendingMoveStep && earlier is [DunlendingRegionStep, RecruitEffectStep { Region: "", Leader: false }];
     }
@@ -35,14 +36,27 @@ public static class DirectEventChoices
     }
 
     // The step whose roll leaves event losses pending, or 0. These steps apply plain
-    // Event casualties, and the rest of their programs never read the rolled target.
+    // Event casualties; only Madness reads its target again, from the region the loss names.
     public static int LossStep(EffectDefinition program)
     {
         for (var index = 0; index < program.Steps.Count; index++)
-            if (program.Steps[index] is ArmyEventDamageStep or EnemyArmyStep)
+            if (program.Steps[index] is ArmyEventDamageStep or EnemyArmyStep or MadnessAttackStep)
                 return index + 1;
         return 0;
     }
+
+    // Madness and Horror rolls against a Free Peoples army near a Sauron Stronghold, then
+    // recruits beside it, or inside it when that army was besieged there before its losses.
+    public static bool IsMadness(EffectDefinition program) => program.Steps is [MadnessAttackStep, MadnessRecruitStep];
+
+    // How many armies Madness could strike now; before its losses, one means it chose alone.
+    public static int MadnessTargets(MatchState state) =>
+        new MadnessAttackStep().Candidates(state, new EffectExecution()).Count;
+
+    // Whether the army Madness targets is besieged in a Sauron Stronghold, read before its losses.
+    public static bool MadnessBesieged(MatchState state, string region, bool garrison) =>
+        garrison && BoardRules.Region(state, region) is { Nation: "sauron", Settlement: "Stronghold" } &&
+        BoardRules.Besieged(state, region, Wotr.Contracts.Side.FreePeoples);
 
     // An army event moves or attacks once, with options from the public board. The
     // steps before it are automatic or leave their choice in the owner's trail.
@@ -122,6 +136,7 @@ public static class DirectEventChoices
     public static bool OpensFromPublicBoard(EffectStep step) => step is
         RecruitmentBatchStep or RecruitEffectStep { Region.Length: > 0 } or RecruitTogetherStep or RecruitRegionStep or
         HillTrollsStep or CruelWeatherStep or BlackCaptainStep or ArmyEventDamageStep or EnemySovereignStep or
+        MadnessAttackStep or
         FateOrcsRegionStep or ValinorRegionStep or KingsValinorStep or WisdomBranchStep or BalrogEventStep or
         LidlessEyeStep;
 

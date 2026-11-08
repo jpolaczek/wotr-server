@@ -76,7 +76,7 @@ public sealed class DirectEventChoiceFamilyTests
             "fate.fp.strategy.19", "fate.fp.strategy.22", "fate.sh.strategy.20",
             "kings.fp.strategy.08", "kings.fp.strategy.25", "kings.fp.strategy.26",
             "kings.sh.strategy.01", "kings.sh.strategy.18", "kings.sh.strategy.26",
-            "lords.fp.strategy.25", "lords.sh.character.17"
+            "lords.fp.strategy.25", "lords.sh.character.17", "lords.sh.strategy.26"
         ], reviewed);
     }
 
@@ -366,6 +366,34 @@ public sealed class DirectEventChoiceFamilyTests
         AssertMarked(state, card);
     }
 
+    // Gandalf and Strider leave together, so three Companions of level 2 can guide.
+    private static MatchState GuideAfterSeparation() => KingsFixture.Do(Separating(FreePeoplesCharacterCards03.ThereAndBack),
+        CommandKind.SeparateCompanions, new() { Ids = [CharacterRules.Grey, CharacterRules.Strider], Route = ["rivendell", "fords-of-bruinen"] });
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("bonus")]
+    [InlineData("source")]
+    [InlineData("choices")]
+    public void MarksTheGuideChoiceAfterAnEventSeparation(string change)
+    {
+        var state = GuideAfterSeparation();
+        Assert.Equal(DecisionKind.Guide, state.Pending!.Kind);
+        var procedure = state.Resolution.Frames[1].Fellowship!;
+        switch (change)
+        {
+            case "bonus": procedure.SeparationBonus = 9; break;
+            case "source": procedure.SourceId = "base.fp.character.11"; break;
+            case "choices": state.Pending.PrivateChoices.RemoveAt(0); break;
+        }
+
+        if (change.Length == 0)
+            AssertMarked(state, FreePeoplesCharacterCards03.ThereAndBack);
+        else
+            Assert.All(Enum.GetValues<Side>(), side =>
+                Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
     [Theory]
     [InlineData("journey")]
     [InlineData("bonus")]
@@ -585,7 +613,7 @@ public sealed class DirectEventChoiceFamilyTests
         Assert.All(Enum.GetValues<Side>(), side =>
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(45, view.ActionBoundary?.Version);
+            Assert.Equal(46, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(card, context.CardId);
             Assert.Equal(cost ?? CardCatalog.All[card].EventType, context.CardCost);

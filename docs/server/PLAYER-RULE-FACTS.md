@@ -1,5 +1,10 @@
 # Player rule facts at an action boundary
 
+Contracts 0.62.0 extend `DirectEventChoice` at boundary version 46 to Wisdom's nested
+inspection, Madness and Horror and the Guide chosen after an event's separation. Besides the
+card and its payment it names only the region Madness struck, already public in its roll. Public content 1.0.62 pins these shared facts;
+protocol and save schema are unchanged.
+
 Contracts 0.61.0 add `AnarionDraw` and `CorruptionRemoval` at boundary version 45. Both
 repeat only public facts: the Ruler-die draw and its excess discard, and the actor whose
 action a political change interrupted. The `Battle` fact also marks the Mighty Attack choice. Public content 1.0.61 pins these shared facts;

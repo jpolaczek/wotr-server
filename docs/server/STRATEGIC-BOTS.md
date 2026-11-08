@@ -433,6 +433,14 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — nested and follow-on event choices (2026-11-08)
+
+Contracts 0.62.0 / ActionBoundary v46 and rules 0.15.48 mark Wisdom's nested inspection (20
+of 565 roots a six-seed walk left unsupported), Madness and Horror (48) and the Guide chosen
+after an event's separation (13). BOT-02 is still incomplete; no policy, push, release or
+deployment.
+
+
 ### BOT-02 implementation checkpoint — Kings action closers (2026-11-08)
 
 Contracts 0.61.0 / ActionBoundary v45 and rules 0.15.47 mark Denethor's Palantir of Anarion

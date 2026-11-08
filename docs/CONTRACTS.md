@@ -1,6 +1,16 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.62.0 advances ActionBoundary to version 46. `DirectEventChoice` also marks
+Wisdom's nested inspection (the sovereign, then the tile; the owner's trail holds the branch and
+the sovereign), Madness and Horror's region choice, the losses it deals and its recruitment
+(`DirectEventChoices.IsMadness`; the target keeps the chosen region and whether that army was
+besieged before its losses), and the Guide chosen when an event's separation takes the Guide
+away. `DirectEventChoiceView.RegionId` names the region Madness struck: when it was the
+only option the engine took it without a choice, so the owner's trail does not hold it. A
+Guide choice with a pending political consequence stays unmarked. Rules 0.15.48 and
+public content 1.0.62 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.61.0 advances ActionBoundary to version 45 with two Kings facts for programs
 that close an otherwise finished action. `AnarionDraw` marks Denethor's Palantir of Anarion
 after a card drawn with his Ruler die: the deck choice, then (`Discard`) any excess discard;

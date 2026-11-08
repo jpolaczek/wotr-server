@@ -26,6 +26,66 @@ public class LordsMadnessRecruitTests
         Assert.Single(state.Dice, d => d.Owner == Side.Shadow && d.Location == DieLocation.Spent);
     }
 
+    [Fact]
+    public void TheMadnessChoicesAndItsLossesAreMarkedWithTheCard()
+    {
+        var window = Window();
+        var losses = Attack(StateCodec.Copy(window), Target, 4, 4, 0);
+        var recruit = Attack(StateCodec.Copy(window), Target, 0, 1, 2);
+
+        Assert.Equal(DecisionKind.Losses, losses.Pending!.Kind);
+        Assert.Equal(2, recruit.Resolution.Frames[0].NextStep);
+        foreach (var state in new[] { window, losses, recruit })
+            Assert.All(Enum.GetValues<Side>(), side => Assert.Equal(LordsShadowCards.Madness,
+                Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
+    }
+
+    // With Gondor gone from Moria the Eagles' Eyrie is the lone target: the engine takes it
+    // without a choice, so only the boundary names the region.
+    [Fact]
+    public void ALoneMadnessTargetIsNamedThroughItsLossesAndRecruitment()
+    {
+        var state = State();
+        state.Units.RemoveAll(unit => unit.Location == "moria" && BoardRules.Owner(unit) == Side.FreePeoples);
+        var losses = Do(state, CommandKind.PlayEvent, LordsShadowCardsFixture.Cost(state, LordsShadowCards.Madness),
+            new SequenceRandom(4, 4, 0));
+        Assert.Equal(DecisionKind.Losses, losses.Pending!.Kind);
+        Assert.Single(losses.Resolution.Frames[0].Effect!.Committed);
+        var unit = EventLosses.Current(losses)!.Target.Units(losses).First();
+        var recruit = Do(StateCodec.Copy(losses), CommandKind.TakeEventLosses,
+            new() { Losses = [BattleFixture.Loss(unit.Id), BattleFixture.Loss(EventLosses.Current(losses)!.Target.Units(losses).Skip(1).First().Id)] });
+        Assert.Equal("Region", recruit.Pending!.Presentation);
+
+        foreach (var marked in new[] { losses, recruit })
+            Assert.All(Enum.GetValues<Side>(), side =>
+            {
+                var choice = Views().For(marked, side).ActionBoundary?.DirectEventChoice;
+                Assert.Equal(LordsShadowCards.Madness, choice?.CardId);
+                Assert.Equal(Target, choice!.RegionId);
+            });
+        losses.Resolution.Frames[0].Effect!.Committed.Add(new(Side.Shadow, LordsShadowCards.Madness, Target, Target));
+        Assert.Null(Views().For(losses, Side.FreePeoples).ActionBoundary?.DirectEventChoice);
+    }
+
+    [Theory]
+    [InlineData("region")]
+    [InlineData("besieged")]
+    [InlineData("trail")]
+    public void TheMadnessRecruitmentRefusesAnInconsistentTarget(string change)
+    {
+        var state = Attack(Window(), Target, 0, 1, 2);
+        var execution = state.Resolution.Frames[0].Effect!;
+        switch (change)
+        {
+            case "region": execution.MadnessTarget = execution.MadnessTarget! with { Region = "moria" }; break;
+            case "besieged": execution.MadnessTarget = execution.MadnessTarget! with { Besieged = true }; break;
+            case "trail": execution.Committed[1] = execution.Committed[1] with { ChoiceId = "moria", TargetId = "moria" }; break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(Views().For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
