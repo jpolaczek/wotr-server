@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.66.0 advances ActionBoundary to version 50. The `Battle` fact also marks a
+Relentless Assault voluntary loss after a Sudden Strike at initiative 2, whose public dice and
+taken hits precede it, and Brand's offer to replace his owner's card after the reveal and
+before the roll. Rules 0.15.52 and public content 1.0.66 pin the contract. Protocol and save
+schema do not change.
+
 Contracts 0.65.0 advances ActionBoundary to version 49. `DirectEventChoice` also marks The
 Wind from the West's table-card choice, the Nazgul strike after their flight, Fate's second Orc
 recruitment, every step of Rangers of the North (attack, losses, region, figures), and an

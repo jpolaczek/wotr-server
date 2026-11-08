@@ -114,7 +114,7 @@ internal static class ActionBoundaryProjection
         if (pending.Kind == DecisionKind.EffectChoice)
             return IsReviewedScoutsChoice(state, pending, frames) || IsReviewedHeroicDeathChoice(state, pending, frames) ||
                 IsReviewedMightyAttackChoice(state, pending, frames) || IsReviewedOrderlyWithdrawalChoice(state, pending, frames) ||
-                IsReviewedChieftainChoice(state, pending, frames)
+                IsReviewedChieftainChoice(state, pending, frames) || IsReviewedBrandChoice(state, pending, frames)
                 ? new() { CompletesPaidAction = true } : null;
         if (pending.Kind == DecisionKind.Reaction)
             return IsReviewedSorcererWindow(state, pending, frames) ? new() { CompletesPaidAction = true } : null;
@@ -325,6 +325,40 @@ internal static class ActionBoundaryProjection
             execution is { Owner: Side.Shadow, SourceId: KingsChieftainCombat.Choice, Return: EffectReturn.Parent,
                 Wait: EffectWait.Choice, IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false,
                 CompletionWindowOffered: false, AppliedHits: 0 } &&
+            execution.Committed.Count == 0 && execution.TargetIds.Count == 0 &&
+            pending.PrivateChoices.SequenceEqual(step.Candidates(state, execution)) &&
+            state.Resolution.PaidDieIds.Count == 1 &&
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) == 1 &&
+            state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
+                die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving);
+    }
+
+    // Brand may replace his owner's card effects once per battle, after the reveal and before
+    // the roll. His public status names the owner, and both cards are public.
+    private static bool IsReviewedBrandChoice(MatchState state, PendingDecision pending,
+        IReadOnlyList<ResolutionFrame> frames)
+    {
+        if (frames is not [var battleFrame, var choiceFrame] || battleFrame.Battle is not { } battle ||
+            choiceFrame.Effect is not { } execution || !IsPlainBattleFrame(battleFrame) ||
+            pending is not { Presentation: "CombatReplacement", Window: "", Commands: [CommandKind.ChooseEffect] } ||
+            pending.SourceId != SovereignCatalog.Brand ||
+            !EffectCatalog.All.Programs.TryGetValue(KingsBattle.BrandChoice, out var program) ||
+            program.Steps is not [BrandCombatChoiceStep step])
+            return false;
+
+        return battle is { Return: EffectReturn.FinishAction, Stage: BattleStage.BeforeRoll, Round: >= 1,
+                CardsRevealed: true, Mode: not BattleMode.Relief, EndedByEffect: false, NextWork: 0,
+                Kings: { BrandUsed: false } kings } &&
+            kings.BrandOfferedRound == battle.Round && battle.CompletedRounds == battle.Round - 1 &&
+            battle.Id.Length != 0 && battle.Attacker.Side != battle.Defender.Side &&
+            battle.SpecialAttacks.Count == 0 && battle.Attacker.Round.Dice.Count == 0 &&
+            battle.Defender.Round.Dice.Count == 0 && battle.Attacker.Round.ReplacementSource is null &&
+            battle.Defender.Round.ReplacementSource is null && battle.Force(pending.Owner).Round.CardId.Length != 0 &&
+            choiceFrame is { EffectId: KingsBattle.BrandChoice, NextStep: 1, Window: "", ReturnDecision: null,
+                Fellowship: null, Hunt: null, Battle: null, BattleLoss: null, EventLoss: null, Corruption: null } &&
+            execution is { Return: EffectReturn.Parent, Wait: EffectWait.Choice, IsEvent: false,
+                PalantirDrawPending: false, AnarionDrawPending: false, CompletionWindowOffered: false, AppliedHits: 0 } &&
+            execution.Owner == pending.Owner && execution.SourceId == SovereignCatalog.Brand &&
             execution.Committed.Count == 0 && execution.TargetIds.Count == 0 &&
             pending.PrivateChoices.SequenceEqual(step.Candidates(state, execution)) &&
             state.Resolution.PaidDieIds.Count == 1 &&
@@ -982,7 +1016,7 @@ internal static class ActionBoundaryProjection
                 AdditionalAttack: false } &&
             pending.Owner == loss.Owner && pending.RequiredCount == loss.Hits && pending.SourceId == loss.SourceId &&
             pending.Presentation == "VoluntaryLosses" && pending.Commands is [CommandKind.TakeBattleLosses] &&
-            loss.SourceId == execution.SourceId && battle.SpecialAttacks.Count == 0 &&
+            loss.SourceId == execution.SourceId && HasOnlyEarlierSuddenStrikes(battle) &&
             battle.Work[battle.NextWork - 1] == new CombatWork(Side.Shadow, source,
                 "combat.relentless-assault", 3) &&
             battle.Force(Side.Shadow).Round is { CardCancelled: false, VoluntaryLossHits: null } shadowRound &&
@@ -995,6 +1029,17 @@ internal static class ActionBoundaryProjection
             program.Steps is [VoluntaryLossesStep { Maximum: 2, AdditionalAttack: false },
                 SacrificeResultStep { AdditionalAttack: false }] &&
             BattleRules.Alive(state, battle.Force(Side.Shadow));
+    }
+
+    // A Sudden Strike resolved at initiative 2 leaves its public special-attack dice; its hits
+    // were taken before Relentless Assault opens.
+    private static bool HasOnlyEarlierSuddenStrikes(BattleState battle)
+    {
+        var strikes = battle.Work.Take(battle.NextWork - 1).Where(work =>
+            EffectCatalog.All.Programs.TryGetValue(work.ProgramId, out var program) && program.Steps is [SuddenStrikeStep]).ToArray();
+        return battle.SpecialAttacks.Count <= strikes.Length &&
+            battle.SpecialAttacks.All(attack => strikes.Any(work => work.Owner == attack.Owner && work.CardId == attack.SourceId)) &&
+            battle.SpecialAttacks.Select(attack => attack.SourceId).Distinct().Count() == battle.SpecialAttacks.Count;
     }
 
     private static bool IsReviewedVoluntaryBattleLoss(MatchState state, PendingDecision pending,

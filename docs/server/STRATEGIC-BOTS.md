@@ -433,6 +433,13 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — battle tail (2026-11-08)
+
+Contracts 0.66.0 / ActionBoundary v50 and rules 0.15.52 mark Relentless Assault after a Sudden
+Strike (18 of 143 roots a six-seed walk left unsupported) and Brand's replacement offer (6).
+BOT-02 is still incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — event tail (2026-11-08)
 
 Contracts 0.65.0 / ActionBoundary v49 and rules 0.15.51 mark The Wind from the West, the Nazgul

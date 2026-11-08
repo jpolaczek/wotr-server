@@ -57,6 +57,35 @@ public class KingsBattleTests
     }
 
     [Theory]
+    [InlineData(true, "")]
+    [InlineData(false, "")]
+    [InlineData(true, "used")]
+    [InlineData(true, "rolled")]
+    public void BrandsReplacementOfferIsMarkedBeforeTheRoll(bool awakened, string change)
+    {
+        var state = Cards(Battle(SovereignCatalog.Brand, awakened), BattleFixture.FpCard, KingsCards03.Valinor);
+        var battle = BattleRuntime.Active(state)!;
+        // The fixture attacks without an action die; a played attack has one resolving.
+        var paid = Die(state, battle.Attacker.Side);
+        paid.Location = DieLocation.Resolving;
+        state.Resolution.PaidDieIds = [paid.Id];
+        switch (change)
+        {
+            case "used": battle.Kings!.BrandUsed = true; break;
+            case "rolled": battle.Attacker.Round.Dice.Add(new() { Id = "rolled", Result = 1 }); break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+        {
+            var facts = GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.Battle;
+            if (change.Length == 0)
+                Assert.True(facts?.CompletesPaidAction);
+            else
+                Assert.Null(facts);
+        });
+    }
+
+    [Theory]
     [InlineData(true)]
     [InlineData(false)]
     public void BrandReplacesHisOwnersCardOnlyAfterRevealAndOnlyOnceForTheEntireBattle(bool awakened)
