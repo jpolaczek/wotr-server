@@ -105,7 +105,8 @@ internal static class ActionBoundaryProjection
             return null;
 
         if (pending.Kind == DecisionKind.EffectChoice)
-            return IsReviewedScoutsChoice(state, pending, frames) ? new() { CompletesPaidAction = true } : null;
+            return IsReviewedScoutsChoice(state, pending, frames) || IsReviewedHeroicDeathChoice(state, pending, frames)
+                ? new() { CompletesPaidAction = true } : null;
 
         var frame = frames[0];
         var battle = frame.Battle;
@@ -168,6 +169,43 @@ internal static class ActionBoundaryProjection
             execution.Owner != pending.Owner || execution.SourceId != pending.SourceId ||
             execution.Committed.Count != 0 || execution.TargetIds.Count != 0 || execution.RegionId.Length != 0 ||
             !EffectCatalog.All.Programs.TryGetValue(scouts.ProgramId, out var program) || program.Steps is not [ScoutsStep step] ||
+            !EffectCatalog.All.Combats[pending.SourceId].Condition.CanPlay(state, battle, pending.Owner) ||
+            !pending.PrivateChoices.SequenceEqual(step.Candidates(state, execution)))
+            return false;
+
+        return state.Resolution.PaidDieIds.Count == 1 &&
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) == 1 &&
+            state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
+                die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving);
+    }
+
+    // Heroic Death opens at initiative 6, after both rolls and re-rolls and before any
+    // casualty. Its options come from the owner's public figures and the incoming hits.
+    private static bool IsReviewedHeroicDeathChoice(MatchState state, PendingDecision pending,
+        IReadOnlyList<ResolutionFrame> frames)
+    {
+        if (frames is not [var battleFrame, var effectFrame] || battleFrame.Battle is not { } battle ||
+            effectFrame.Effect is not { } execution || !IsPlainBattleFrame(battleFrame) ||
+            pending.Commands is not [CommandKind.ChooseEffect] || pending.Presentation != "SacrificeAndHits" ||
+            !ReviewedCombatCards.IsHeroicDeath(pending.SourceId) || !CardCatalog.Enabled(state, pending.SourceId))
+            return false;
+
+        var work = new CombatWork(pending.Owner, pending.SourceId, ReviewedCombatCards.HeroicDeathProgram, 6);
+        if (battle is not { Return: EffectReturn.FinishAction, Stage: BattleStage.BeforeLosses, Round: >= 1,
+                CardsRevealed: true, Mode: not BattleMode.Relief, EndedByEffect: false } ||
+            battle.CompletedRounds != battle.Round - 1 || battle.Id.Length == 0 ||
+            battle.Attacker.Side == battle.Defender.Side || battle.NextWork < 1 ||
+            battle.NextWork > battle.Work.Count || battle.Work[battle.NextWork - 1] != work ||
+            battle.Force(pending.Owner).Round.CardId != pending.SourceId || battle.Force(pending.Owner).Round.CardCancelled ||
+            effectFrame.EffectId != work.ProgramId || effectFrame.NextStep != 1 || effectFrame.Window.Length != 0 ||
+            effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
+            effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
+            effectFrame.Corruption is not null || execution is not { Return: EffectReturn.Parent, Wait: EffectWait.Choice,
+                IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false, AppliedHits: 0 } ||
+            execution.Owner != pending.Owner || execution.SourceId != pending.SourceId ||
+            execution.Committed.Count != 0 || execution.TargetIds.Count != 0 || execution.RegionId.Length != 0 ||
+            !EffectCatalog.All.Programs.TryGetValue(work.ProgramId, out var program) ||
+            program.Steps is not [HeroicDeathStep step] ||
             !EffectCatalog.All.Combats[pending.SourceId].Condition.CanPlay(state, battle, pending.Owner) ||
             !pending.PrivateChoices.SequenceEqual(step.Candidates(state, execution)))
             return false;

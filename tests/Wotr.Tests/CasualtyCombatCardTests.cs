@@ -42,6 +42,35 @@ public class CasualtyCombatCardTests
     }
 
     [Theory]
+    [InlineData("")]
+    [InlineData("cursor")]
+    [InlineData("presentation")]
+    [InlineData("choices")]
+    [InlineData("committed")]
+    public void TheHeroicDeathChoiceIsMarkedOnlyInItsReviewedFrame(string change)
+    {
+        var state = HeroicChoice();
+        Assert.Equal("SacrificeAndHits", state.Pending!.Presentation);
+        Assert.True(ReviewedCombatCards.IsHeroicDeath(state.Pending.SourceId));
+        switch (change)
+        {
+            case "cursor": state.Resolution.Frames[1].NextStep = 0; break;
+            case "presentation": state.Pending.Presentation = "Altered"; break;
+            case "choices": state.Pending.PrivateChoices.RemoveAt(0); break;
+            case "committed": state.Resolution.Frames[1].Effect!.Committed.Add(new(Side.FreePeoples, "altered")); break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+        {
+            var facts = GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.Battle;
+            if (change.Length == 0)
+                Assert.True(facts?.CompletesPaidAction);
+            else
+                Assert.Null(facts);
+        });
+    }
+
+    [Theory]
     [InlineData(0)]
     [InlineData(2)]
     [InlineData(3)]

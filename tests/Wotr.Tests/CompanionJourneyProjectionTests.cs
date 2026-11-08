@@ -23,7 +23,7 @@ public sealed class CompanionJourneyProjectionTests
             var view = Projection.For(state, side);
             var boundary = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
             var journey = Assert.IsType<CompanionJourneyView>(boundary.CompanionJourney);
-            Assert.Equal(40, boundary.Version);
+            Assert.Equal(41, boundary.Version);
             Assert.Equal(card, journey.CardId);
             Assert.Equal(nameof(FellowshipProcedureKind.Separation), journey.Stage);
             Assert.True(journey.AllowSeparation);
@@ -105,7 +105,7 @@ public sealed class CompanionJourneyProjectionTests
             $"steps={string.Join(',', program.Steps.Select(step => step.GetType().Name))}; " +
             $"commands={string.Join(',', state.Pending.Commands)}");
         var journey = Assert.IsType<CompanionJourneyView>(freePeoples.ActionBoundary!.CompanionJourney);
-        Assert.Equal(40, freePeoples.ActionBoundary.Version);
+        Assert.Equal(41, freePeoples.ActionBoundary.Version);
         Assert.Equal(card, journey.CardId);
         Assert.Equal(nameof(FellowshipProcedureKind.Separation), journey.Stage);
         Assert.False(journey.AllowSeparation);

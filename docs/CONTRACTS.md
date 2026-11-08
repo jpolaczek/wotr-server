@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.57.0 advances ActionBoundary to version 41. The `Battle` fact also marks a
+Heroic Death choice: initiative 6, after both rolls and re-rolls and before any casualty,
+with options from the owner's public figures and the incoming hits.
+`ReviewedCombatCards.IsHeroicDeath` qualifies a card by its single printed effect. Rules
+0.15.43 and public content 1.0.57 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.56.0 advances ActionBoundary to version 40. `DirectEventChoice` also marks The
 Lidless Eye's choice of unused Shadow dice, and the excess an event's army leaves over the
 stack limit: that decision names no source, so the marker takes the card from the one open

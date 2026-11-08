@@ -48,7 +48,7 @@ public class KingsChieftainHuntTests
         var state = Window();
         var projection = GameRuntime.Projection(EffectCatalog.All);
         var view = projection.For(state, Side.FreePeoples);
-        Assert.Equal(40, view.ActionBoundary!.Version);
+        Assert.Equal(41, view.ActionBoundary!.Version);
         Assert.Equal(1, view.Hunt!.RerollBonus);
 
         state.Characters.Single(c => c.Id == KingsChieftains.Ugluk).Location = "orthanc";

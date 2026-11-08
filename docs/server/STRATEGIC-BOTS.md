@@ -433,6 +433,13 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — the Heroic Death choice (2026-11-08)
+
+Contracts 0.57.0 / ActionBoundary v41 and rules 0.15.43 mark the Heroic Death choice
+itself, the 16 roots the wide walk still left in that family once v38 announced the hits
+it cancels. BOT-02 is still incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — The Lidless Eye and an event's excess (2026-11-07)
 
 Contracts 0.56.0 / ActionBoundary v40 and rules 0.15.42 mark The Lidless Eye's dice choice

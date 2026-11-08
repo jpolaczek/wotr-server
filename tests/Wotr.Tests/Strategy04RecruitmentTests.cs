@@ -28,7 +28,7 @@ public class Strategy04RecruitmentTests
         foreach (var side in Enum.GetValues<Side>())
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(40, view.ActionBoundary?.Version);
+            Assert.Equal(41, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(KindredOfGlorfindel, context.CardId);
             Assert.Equal(cost, context.CardCost);
