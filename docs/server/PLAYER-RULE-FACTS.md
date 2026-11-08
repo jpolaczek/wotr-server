@@ -1,5 +1,9 @@
 # Player rule facts at an action boundary
 
+Contracts 0.64.0 extend the `Battle` fact at boundary version 48 to a Kings chieftain's
+replacement offer before the reveal. Public content 1.0.64 pins these shared facts; protocol
+and save schema are unchanged.
+
 Contracts 0.63.0 extend `DirectEventChoice` at boundary version 47 to Return to Valinor's
 repeated strikes; `TargetIds` names the regions already struck, each public through its roll.
 The `Battle` fact also marks the Orderly Withdrawal choice.

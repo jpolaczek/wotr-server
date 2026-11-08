@@ -113,7 +113,8 @@ internal static class ActionBoundaryProjection
 
         if (pending.Kind == DecisionKind.EffectChoice)
             return IsReviewedScoutsChoice(state, pending, frames) || IsReviewedHeroicDeathChoice(state, pending, frames) ||
-                IsReviewedMightyAttackChoice(state, pending, frames) || IsReviewedOrderlyWithdrawalChoice(state, pending, frames)
+                IsReviewedMightyAttackChoice(state, pending, frames) || IsReviewedOrderlyWithdrawalChoice(state, pending, frames) ||
+                IsReviewedChieftainChoice(state, pending, frames)
                 ? new() { CompletesPaidAction = true } : null;
         if (pending.Kind == DecisionKind.Reaction)
             return IsReviewedSorcererWindow(state, pending, frames) ? new() { CompletesPaidAction = true } : null;
@@ -295,6 +296,38 @@ internal static class ActionBoundaryProjection
             return false;
 
         return state.Resolution.PaidDieIds.Count == 1 &&
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) == 1 &&
+            state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
+                die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving);
+    }
+
+    // A Kings chieftain may replace Shadow's card effects once both cards are committed and
+    // before they are revealed. The options are the public chieftains fighting for Shadow.
+    private static bool IsReviewedChieftainChoice(MatchState state, PendingDecision pending,
+        IReadOnlyList<ResolutionFrame> frames)
+    {
+        if (frames is not [var battleFrame, var choiceFrame] || battleFrame.Battle is not { } battle ||
+            choiceFrame.Effect is not { } execution || !IsPlainBattleFrame(battleFrame) ||
+            pending is not { Owner: Side.Shadow, Presentation: "CombatReplacement", Window: "",
+                Commands: [CommandKind.ChooseEffect] } || pending.SourceId != KingsChieftainCombat.Choice ||
+            !EffectCatalog.All.Programs.TryGetValue(KingsChieftainCombat.Choice, out var program) ||
+            program.Steps is not [ChieftainCombatChoiceStep step])
+            return false;
+
+        return battle is { Return: EffectReturn.FinishAction, Stage: BattleStage.BeforeReveal, Round: >= 1,
+                CardsRevealed: false, Mode: not BattleMode.Relief, EndedByEffect: false } &&
+            battle.CompletedRounds == battle.Round - 1 && battle.Id.Length != 0 &&
+            battle.Attacker.Side != battle.Defender.Side && battle.Work.Count == 0 && battle.NextWork == 0 &&
+            battle.Force(Side.Shadow).Round.CardId.Length != 0 &&
+            battle.Attacker.Round.ReplacementSource is null && battle.Defender.Round.ReplacementSource is null &&
+            choiceFrame is { EffectId: KingsChieftainCombat.Choice, NextStep: 1, Window: "", ReturnDecision: null,
+                Fellowship: null, Hunt: null, Battle: null, BattleLoss: null, EventLoss: null, Corruption: null } &&
+            execution is { Owner: Side.Shadow, SourceId: KingsChieftainCombat.Choice, Return: EffectReturn.Parent,
+                Wait: EffectWait.Choice, IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false,
+                CompletionWindowOffered: false, AppliedHits: 0 } &&
+            execution.Committed.Count == 0 && execution.TargetIds.Count == 0 &&
+            pending.PrivateChoices.SequenceEqual(step.Candidates(state, execution)) &&
+            state.Resolution.PaidDieIds.Count == 1 &&
             state.Dice.Count(die => die.Location == DieLocation.Resolving) == 1 &&
             state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
                 die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving);

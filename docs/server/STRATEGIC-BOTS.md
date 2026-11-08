@@ -433,6 +433,13 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Kings chieftain replacement (2026-11-08)
+
+Contracts 0.64.0 / ActionBoundary v48 and rules 0.15.50 mark a Kings chieftain's replacement
+offer before the reveal (32 of 292 roots a six-seed walk left unsupported). BOT-02 is still
+incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — Return to Valinor (2026-11-08)
 
 Contracts 0.63.0 / ActionBoundary v47 and rules 0.15.49 mark Return to Valinor's repeated

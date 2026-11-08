@@ -1,6 +1,11 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.64.0 advances ActionBoundary to version 48. The `Battle` fact also marks a Kings
+chieftain's offer to replace Shadow's card effects, made once both cards are committed and
+before the reveal; the options are the public chieftains fighting for Shadow. Rules 0.15.50 and
+public content 1.0.64 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.63.0 advances ActionBoundary to version 47. `DirectEventChoice` also marks every
 choice and every loss of Return to Valinor, which repeats its one step for each Elven
 Stronghold (`DirectEventChoices.RepeatsOnTargets`). `DirectEventChoiceView.TargetIds` lists the
