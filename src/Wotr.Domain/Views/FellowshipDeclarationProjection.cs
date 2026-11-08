@@ -7,10 +7,11 @@ internal static class FellowshipDeclarationProjection
     internal static FellowshipDeclarationView? For(MatchState state)
     {
         var frames = state.Resolution.Frames;
+        var smeagolGuide = SmeagolDeclarationGuide(state, frames);
         if (state.Phase != GamePhase.Fellowship || state.Pending is null ||
             state.AfterDiscard != DiscardContinuation.None || state.Resolution.PaidDieIds.Count != 0 ||
             state.Resolution.ActionSequence is not null || state.PoliticalReactions.Count != 0 ||
-            frames.Count is < 2 or > 6 || !DeclarationFrame(state, frames[0]) ||
+            frames.Count is < 2 or > 6 || !DeclarationFrame(state, frames[0], smeagolGuide) ||
             state.Fellowship.LastDeclarationTurn != state.Turn || state.Fellowship.Progress != 0 ||
             state.Fellowship.MordorStep.HasValue)
             return null;
@@ -24,6 +25,9 @@ internal static class FellowshipDeclarationProjection
             Route = [.. route], RemainingStrongholds = [.. declaration.AdditionalHuntRegions],
             FireAndShadowPending = declaration.FireAndShadowPending
         };
+        if (smeagolGuide)
+            return declaration.AdditionalHuntRegions.Count == 0 ? facts : null;
+
         if (frames.Count == 2 && frames[1].Effect is not null)
         {
             if (!HuntChoiceProjection.DeclarationWindow(state, frames[1]) ||
@@ -85,7 +89,7 @@ internal static class FellowshipDeclarationProjection
         return facts;
     }
 
-    private static bool DeclarationFrame(MatchState state, ResolutionFrame frame) =>
+    private static bool DeclarationFrame(MatchState state, ResolutionFrame frame, bool revealEffectsPending) =>
         frame.EffectId == "fellowship.Declaration" && frame.NextStep == 0 && frame.Window == "" &&
         frame.ReturnDecision is { Kind: DecisionKind.FellowshipPhase, Owner: Side.FreePeoples } pending &&
         pending.Commands.SequenceEqual(TurnDecisionCommands.Fellowship()) && pending.PrivateChoices.Count == 0 &&
@@ -93,11 +97,26 @@ internal static class FellowshipDeclarationProjection
         frame.Effect is null && frame.Hunt is null && frame.Battle is null && frame.BattleLoss is null &&
         frame.EventLoss is null && frame.Corruption is null &&
         frame.Fellowship is { Kind: FellowshipProcedureKind.Declaration, Return: FellowshipReturn.Decision,
-            SourceId: "fellowship", AwaitingHunts: true, RevealEffectsPending: false } declaration &&
+            SourceId: "fellowship", AwaitingHunts: true } declaration &&
+        declaration.RevealEffectsPending == revealEffectsPending &&
         declaration.Journey is null && declaration.FixedCompanions.Count == 0 &&
         declaration.SeparationOrigin == "" && declaration.SeparationRange == 0 && declaration.SeparationBonus == 0 &&
         !declaration.ChooseGuideAfterPlacement &&
         (!declaration.FireAndShadowPending || FireAndShadow.Applies(state, declaration.Route));
+
+    // Lords: Smeagol leaves a Fellowship declared in an unconquered City or Stronghold, and the Free
+    // Peoples choose a new Guide before the declaration's own reactions and Hunts.
+    private static bool SmeagolDeclarationGuide(MatchState state, IReadOnlyList<ResolutionFrame> frames) =>
+        state.Configuration.Lords && state.Lords is { SmeagolLeft: true } && !SmeagolRules.Present(state) &&
+        TravelRules.Sanctuary(state, state.Fellowship.RegionId) &&
+        frames is [_, var top] && HuntChoiceProjection.PlainFrame(top) && top.EffectId == "fellowship.Guide" &&
+        top.Fellowship is { Kind: FellowshipProcedureKind.Guide, Return: FellowshipReturn.Parent, SourceId: "fellowship",
+            AwaitingHunts: false, RevealEffectsPending: false, FireAndShadowPending: false, Journey: null,
+            ChooseGuideAfterPlacement: false, SeparationOrigin: "", SeparationRange: 0, SeparationBonus: 0 } guide &&
+        guide.Route.Count == 0 && guide.AdditionalHuntRegions.Count == 0 && guide.FixedCompanions.Count == 0 &&
+        state.Pending is { Kind: DecisionKind.Guide, Owner: Side.FreePeoples, RequiredCount: 0, SourceId: "",
+            Window: "", Commands: [CommandKind.SelectGuide] } pending &&
+        pending.PrivateChoices.Count >= 2 && pending.PrivateChoices.SequenceEqual(CompanionRules.Guides(state));
 
     private static void CopyCommittedReactions(ResolutionFrame frame, FellowshipDeclarationView facts)
     {

@@ -104,7 +104,9 @@ internal static class CompanionJourneyProjection
         if (resolving.Length != 1)
             return false;
         var die = resolving[0];
-        return die.Owner == Side.FreePeoples && die.Face == face &&
+        // An Army/Muster die pays a Muster card as Muster; nothing else is ambiguous here.
+        return die.Owner == Side.FreePeoples &&
+            (die.Face == face || face is DieFace.Army or DieFace.Muster && die.Face == DieFace.ArmyMuster) &&
             state.Resolution.PaidDieIds.SequenceEqual([die.Id]);
     }
 

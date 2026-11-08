@@ -23,7 +23,7 @@ public sealed class CompanionJourneyProjectionTests
             var view = Projection.For(state, side);
             var boundary = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
             var journey = Assert.IsType<CompanionJourneyView>(boundary.CompanionJourney);
-            Assert.Equal(54, boundary.Version);
+            Assert.Equal(55, boundary.Version);
             Assert.Equal(card, journey.CardId);
             Assert.Equal(nameof(FellowshipProcedureKind.Separation), journey.Stage);
             Assert.True(journey.AllowSeparation);
@@ -70,8 +70,9 @@ public sealed class CompanionJourneyProjectionTests
     [InlineData(FreePeoplesStrategyCards01.BookOfMazarbul, false, "erebor")]
     [InlineData(FreePeoplesStrategyCards02.FearFireFoes, false, "the-shire")]
     [InlineData(FateCards.Book, true, "iron-hills")]
+    [InlineData(FreePeoplesStrategyCards02.FearFireFoes, false, "the-shire", DieFace.ArmyMuster)]
     public void OutsideCompanionJourneyExposesOnlyItsOptionalMoveAndPrintedParameters(
-        string card, bool fate, string destination)
+        string card, bool fate, string destination, DieFace dieFace = DieFace.Muster)
     {
         var state = fate ? FateFixture.Actions() : TurnTests.Actions();
         foreach (var die in state.Dice.Where(d => d.Owner == Side.FreePeoples && d.Location == DieLocation.Available))
@@ -83,7 +84,7 @@ public sealed class CompanionJourneyProjectionTests
         state.Characters.Add(companion);
         EventTests.GiveCard(state, Side.FreePeoples, card);
         var costDie = state.Dice.First(d => d.Owner == Side.FreePeoples && d.Location == DieLocation.Available);
-        costDie.Face = DieFace.Muster;
+        costDie.Face = dieFace;
         state = EventTests.Execute(state, EventTests.Play(state, card, DieFace.Muster));
         Assert.Equal(DecisionKind.CompanionSeparation, state.Pending!.Kind);
 
@@ -105,7 +106,7 @@ public sealed class CompanionJourneyProjectionTests
             $"steps={string.Join(',', program.Steps.Select(step => step.GetType().Name))}; " +
             $"commands={string.Join(',', state.Pending.Commands)}");
         var journey = Assert.IsType<CompanionJourneyView>(freePeoples.ActionBoundary!.CompanionJourney);
-        Assert.Equal(54, freePeoples.ActionBoundary.Version);
+        Assert.Equal(55, freePeoples.ActionBoundary.Version);
         Assert.Equal(card, journey.CardId);
         Assert.Equal(nameof(FellowshipProcedureKind.Separation), journey.Stage);
         Assert.False(journey.AllowSeparation);

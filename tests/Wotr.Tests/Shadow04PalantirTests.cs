@@ -27,6 +27,39 @@ public class Shadow04PalantirTests
         Assert.Contains(Palantir, state.Player(Side.Shadow).Discard);
     }
 
+    // Shadow plays The Lidless Eye with an Event die while the Palantir of Orthanc is on its table:
+    // once the event's own choice is made, the Palantir's deck choice is marked with the event.
+    [Theory]
+    [InlineData("")]
+    [InlineData("cursor")]
+    [InlineData("pending")]
+    [InlineData("trail")]
+    public void ThePalantirDeckChoiceAfterAnEventIsMarkedWithTheEvent(string change)
+    {
+        var state = State(ShadowCharacterCards03.Lidless);
+        Table(state, Palantir);
+        var cost = EventCost(state, ShadowCharacterCards03.Lidless);
+        cost.CardCost = DieFace.Event;
+        state.Dice.Single(d => d.Id == cost.DieId).Face = DieFace.Event;
+        state = Do(state, CommandKind.PlayEvent, cost);
+        state = Do(state, CommandKind.ChooseEffect, new());
+        Assert.Equal("Deck", state.Pending!.Presentation);
+        switch (change)
+        {
+            case "cursor": state.Resolution.Frames[0].NextStep = 0; break;
+            case "pending": state.Resolution.Frames[0].Effect!.PalantirDrawPending = true; break;
+            case "trail": state.Resolution.Frames[0].Effect!.Committed.Add(new(Side.Shadow, Palantir)); break;
+        }
+
+        var projection = GameRuntime.Projection(EffectCatalog.All);
+        foreach (var side in new[] { Side.Shadow, Side.FreePeoples })
+        {
+            var facts = projection.For(state, side).ActionBoundary?.EventPalantirDraw;
+            Assert.Equal(change.Length == 0 ? ShadowCharacterCards03.Lidless : null, facts?.CardId);
+            Assert.Equal(change.Length == 0 ? DieFace.Event : null, facts?.CardCost);
+        }
+    }
+
     [Theory]
     [InlineData(DieFace.Character, false)]
     [InlineData(DieFace.Event, false)]

@@ -24,19 +24,21 @@ internal static class ActionBoundaryProjection
         var corruptionEvent = CorruptionBoundaryProjection.Event(state);
         var westPalantirDraw = CorruptionBoundaryProjection.WestPalantirDraw(state);
         var westPalantirDiscard = CorruptionBoundaryProjection.WestPalantirDiscard(state, viewer);
+        var eventPalantirDraw = EventPalantirDrawProjection.For(state);
         var fateMonsters = FateMonstersEvent(state);
         var anarionDraw = KingsActionBoundaryProjection.AnarionDraw(state);
         var corruptionRemoval = KingsActionBoundaryProjection.CorruptionRemoval(state);
         var directEventChoice = declaration is null && fellowshipMove is null && cardHunt is null && lureChoice is null &&
             lurePlacement is null && companionJourney is null && fellowshipGuide is null && battle is null &&
             corruptionEvent is null && westPalantirDraw is null && westPalantirDiscard is null && fateMonsters is null &&
-            anarionDraw is null && corruptionRemoval is null
+            anarionDraw is null && corruptionRemoval is null && eventPalantirDraw is null
             ? DirectEventChoice(state) : null;
         var reviewedContinuation = declaration is not null || fellowshipMove is not null ||
             cardHunt is not null || lureChoice is not null || lurePlacement is not null || companionJourney is not null ||
             fellowshipGuide is not null || battle is not null || corruptionEvent is not null ||
             westPalantirDraw is not null || westPalantirDiscard is not null || fateMonsters is not null ||
-            directEventChoice is not null || anarionDraw is not null || corruptionRemoval is not null;
+            directEventChoice is not null || anarionDraw is not null || corruptionRemoval is not null ||
+            eventPalantirDraw is not null;
         // Compose only explicitly reviewed continuations with module facts;
         // arbitrary expansion procedures are not inferred from their decision kind.
         if (!KingsBoundaryProjection.Supports(state, reviewedContinuation) ||
@@ -50,7 +52,7 @@ internal static class ActionBoundaryProjection
             fellowshipMove is null && cardHunt is null && lureChoice is null && lurePlacement is null && companionJourney is null &&
             fellowshipGuide is null && declaration is null && battle is null &&
             !CorruptionBoundaryProjection.Supports(state) && fateMonsters is null && directEventChoice is null &&
-            anarionDraw is null && corruptionRemoval is null)
+            anarionDraw is null && corruptionRemoval is null && eventPalantirDraw is null)
             return null;
 
         // Base/Fate discards never return to a hand/deck. Only a visible discharge
@@ -74,6 +76,7 @@ internal static class ActionBoundaryProjection
             CorruptionEvent = corruptionEvent,
             WestPalantirDraw = westPalantirDraw,
             WestPalantirDiscard = westPalantirDiscard,
+            EventPalantirDraw = eventPalantirDraw,
             FateMonsters = fateMonsters,
             DirectEventChoice = directEventChoice,
             AnarionDraw = anarionDraw,

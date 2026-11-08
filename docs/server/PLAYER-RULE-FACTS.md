@@ -1,5 +1,9 @@
 # Player rule facts at an action boundary
 
+Contracts 0.71.0 add `EventPalantirDraw` at boundary version 55 and extend the declaration and
+companion-journey markers. Public content 1.0.71 pins these shared facts; protocol and save
+schema are unchanged.
+
 Contracts 0.70.0 extend the Hunt markers at boundary version 54: a movement Hunt after
 Flocks of Crebain, and a declaration's Fire and Shadow Hunt. Public content 1.0.70 pins these
 shared facts; protocol and save schema are unchanged.

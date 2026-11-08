@@ -433,6 +433,12 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Palantir after an event and Smeagol's departure (2026-11-08)
+
+Contracts 0.71.0 / ActionBoundary v55 and rules 0.15.57 mark the Palantir's deck choice after a
+Shadow event, the Guide after Smeagol leaves a declaration, and a journey paid with an
+Army/Muster die. BOT-02 is still incomplete; no policy, push, release or deployment.
+
 ### BOT-02 implementation checkpoint — Crebain and Fire and Shadow Hunts (2026-11-08)
 
 Contracts 0.70.0 / ActionBoundary v54 and rules 0.15.56 mark a movement Hunt after Flocks of

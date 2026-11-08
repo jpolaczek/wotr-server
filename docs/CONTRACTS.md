@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.71.0 advances ActionBoundary to version 55. `EventPalantirDraw` marks the Palantir
+of Orthanc's deck choice after any Shadow event paid with an Event die, naming the event, its
+cost and the region it chose. `FellowshipDeclaration` also marks the Guide chosen after Smeagol
+leaves a Fellowship declared in an unconquered City or Stronghold, and `CompanionJourney`
+accepts an Army/Muster die paying a Muster card. Rules 0.15.57 and public content 1.0.71 pin
+the contract. Protocol and save schema do not change.
+
 Contracts 0.70.0 advances ActionBoundary to version 54. `FellowshipMove` also marks a
 movement Hunt whose roll Flocks of Crebain raised by one, the bonus public on the Hunt view,
 and `FellowshipDeclaration` marks the Lords' Fire and Shadow Hunt a declared route draws,

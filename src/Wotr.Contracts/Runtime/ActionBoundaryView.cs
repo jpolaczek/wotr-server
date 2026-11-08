@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 54;
+        public int Version { get; set; } = 55;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -28,6 +28,7 @@ namespace Wotr.Contracts
         public CorruptionEventView? CorruptionEvent { get; set; }
         public WestPalantirDrawView? WestPalantirDraw { get; set; }
         public WestPalantirDiscardView? WestPalantirDiscard { get; set; }
+        public EventPalantirDrawView? EventPalantirDraw { get; set; }
         public FateMonstersEventView? FateMonsters { get; set; }
         public DirectEventChoiceView? DirectEventChoice { get; set; }
         public AnarionDrawView? AnarionDraw { get; set; }
@@ -102,6 +103,16 @@ namespace Wotr.Contracts
         public string CardId { get; set; } = "";
         public DieFace CardCost { get; set; }
         public bool PalantirDrawPending { get; set; }
+    }
+
+    // Shadow's Palantir of Orthanc after an event paid with an Event die: the event has finished
+    // its own steps and the deck choice opens on top of it, before its completion window.
+    public sealed class EventPalantirDrawView
+    {
+        public string CardId { get; set; } = "";
+        public DieFace CardCost { get; set; }
+        // The region the finished event chose, as its public results show.
+        public string RegionId { get; set; } = "";
     }
 
     // Return of the paid West event after its corruption procedure, when the
