@@ -1,5 +1,10 @@
 # Player rule facts at an action boundary
 
+Contracts 0.73.0 add `DirectEventChoice.RingRecoveryRolls` at boundary version 57 and extend the
+event marker to the Wind's hand inspection, a completion window with pending politics and the
+discard after Gandalf's draw. Public content 1.0.73 pins these shared facts; protocol and save
+schema are unchanged.
+
 Contracts 0.72.0 extend `DirectEventChoice` at boundary version 56 with Fate's Book
 recruitment. Public content 1.0.72 pins these shared facts; protocol and save schema are
 unchanged.

@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.73.0 advances ActionBoundary to version 57. `DirectEventChoice` also marks The Three
+Rings' ring choice after its recovery roll, repeating the three public dice in
+`RingRecoveryRolls`; The Wind from the West's choice from Shadow's inspected hand, which that
+choice lists to the Free Peoples alone; an event's completion window while a political
+consequence waits; and the excess discard after Gandalf the Grey's draw at that window. Rules
+0.15.59 and public content 1.0.73 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.72.0 advances ActionBoundary to version 56. `DirectEventChoice` also marks Fate's
 Book recruitment after its journey and the Dwarves' war, naming the region its region step left.
 The v55 check for Smeagol's departure no longer reads the Fellowship's region before its frames,

@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 56;
+        public int Version { get; set; } = 57;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -155,6 +155,9 @@ namespace Wotr.Contracts
         // The regions Return to Valinor already struck, in order; a lone option leaves no choice
         // in the owner's trail. Empty for every other event.
         public List<string> TargetIds { get; set; } = new List<string>();
+        // The three dice The Three Rings rolled to recover Elven Rings, as the history shows them;
+        // each 5 or 6 recovers one. Empty for every other event.
+        public List<int> RingRecoveryRolls { get; set; } = new List<int>();
     }
 
     // Denethor's Palantir of Anarion after a card drawn, or an event played, with his Ruler die:

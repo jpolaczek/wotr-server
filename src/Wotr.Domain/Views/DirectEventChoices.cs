@@ -26,8 +26,26 @@ public static class DirectEventChoices
             // Fate's Book: the optional journey and the Dwarves' war are public on the board; the
             // recruitment reads the region its region step left.
             step is RecruitEffectStep { Region: "", Leader: false } &&
-                earlier is [OutsideCompanionJourneyStep, FateBookWarStep, FateBookRegionStep];
+                earlier is [OutsideCompanionJourneyStep, FateBookWarStep, FateBookRegionStep] ||
+            // The Three Rings: the recovery roll is public, and its successes set the choice.
+            step is RecoverRingsStep && earlier is [RollRingRecoveryStep] ||
+            // The Wind from the West: the Free Peoples chose to inspect Shadow's hand, which their
+            // choice then lists in full.
+            step is InspectShadowHandStep && earlier is [WindFromWestStep];
     }
+
+    // The Wind from the West's hand inspection: its owner's trail holds the choice to inspect.
+    public static bool InspectsShadowHand(EffectDefinition program, int nextStep, EffectExecution execution) =>
+        program.Steps is [WindFromWestStep, InspectShadowHandStep] && nextStep == 2 &&
+        execution.InspectedHand == Contracts.Side.Shadow &&
+        execution.Committed is [_, { ChoiceId: WindFromWestStep.Inspect, TargetId: "" } inspect] &&
+        inspect.Owner == execution.Owner && inspect.SourceId == execution.SourceId;
+
+    // The Three Rings roll three dice for the Elven Rings and recover one per 5 or 6.
+    public static bool RecoversRings(EffectDefinition program, EffectExecution execution) =>
+        program.Steps is [RollRingRecoveryStep, RecoverRingsStep] && execution.RingRecovery is { } recovery &&
+        recovery.Rolls.Count == 3 && recovery.Rolls.All(roll => roll is >= 1 and <= 6) &&
+        recovery.Successes == recovery.Rolls.Count(roll => roll >= 5);
 
     // A reviewed step that reads only the public region an earlier step of its event left.
     public static bool ReadsAnEarlierRegion(EffectStep step) => step is RecruitEffectStep { Region: "" } or DunlendingMoveStep;

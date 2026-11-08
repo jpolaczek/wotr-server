@@ -433,6 +433,12 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — the last event roots (2026-11-08)
+
+Contracts 0.73.0 / ActionBoundary v57 and rules 0.15.59 mark The Three Rings' ring choice, The
+Wind from the West's inspected hand, a completion window with pending politics and the discard
+after Gandalf's draw. BOT-02 is still incomplete; no policy, push, release or deployment.
+
 ### BOT-02 implementation checkpoint — Fate's Book and a Mordor Track fix (2026-11-08)
 
 Contracts 0.72.0 / ActionBoundary v56 and rules 0.15.58 mark Fate's Book recruitment and fix

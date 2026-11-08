@@ -45,7 +45,7 @@ internal static class ActionBoundaryProjection
             !LordsBoundaryProjection.Supports(state, reviewedContinuation))
             return null;
         if (state.Resolution.Frames.Count > 0 && declaration is null && westPalantirDiscard is null &&
-            anarionDraw is not { Discard: true } &&
+            anarionDraw is not { Discard: true } && directEventChoice is null &&
             (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None))
             return null;
         if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
@@ -634,15 +634,21 @@ internal static class ActionBoundaryProjection
         var frames = state.Resolution.Frames;
         // A separation may move a Companion into a nation's region; that political consequence
         // waits, public, until the action completes.
-        if (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None ||
+        // Gandalf's draw at the completion window can leave an excess discard that resumes the event.
+        var greyDrawDiscard = pending is { Kind: DecisionKind.DiscardCards } &&
+            state.AfterDiscard == DiscardContinuation.ResumeEffect;
+        if (state.Phase != GamePhase.ActionResolution ||
+            state.AfterDiscard != DiscardContinuation.None && !greyDrawDiscard ||
             state.Resolution.ActionSequence is not null || state.Resolution.Window.Length != 0 ||
-            state.PoliticalReactions.Count != 0 && pending?.Kind != DecisionKind.Guide || pending is null ||
+            state.PoliticalReactions.Count != 0 && pending?.Kind is not (DecisionKind.Guide or DecisionKind.Reaction) ||
+            state.PoliticalReactions.Count != 0 && pending is { Kind: DecisionKind.Reaction } &&
+                pending.Window != "event.completed" || pending is null ||
             frames.Count == 0 || state.Resolution.PaidDieIds.Count != 1 ||
             state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1)
             return null;
 
         // The stack-limit and Guide decisions name no source; their event is the first frame.
-        var cardId = pending.Kind is DecisionKind.RemoveExcess or DecisionKind.Guide
+        var cardId = pending.Kind is DecisionKind.RemoveExcess or DecisionKind.Guide or DecisionKind.DiscardCards
             ? frames[0].Effect?.SourceId ?? "" : pending.SourceId;
         if (!CardCatalog.All.TryGetValue(cardId, out var card))
             return null;
@@ -670,7 +676,8 @@ internal static class ActionBoundaryProjection
                 execution.Committed[0] != new EffectSelection(card.Side, cardId, execution.NationId) ||
             execution.AppliedHits != 0 ||
             execution.InspectedSovereign is not null && !DirectEventChoices.IsInspection(program) ||
-            execution.InspectedHand is not null || execution.RingRecovery is not null ||
+            execution.InspectedHand is not null && !DirectEventChoices.InspectsShadowHand(program, frame.NextStep, execution) ||
+            execution.RingRecovery is not null && !DirectEventChoices.RecoversRings(program, execution) ||
             execution.MadnessTarget is not null && !HasMadnessTarget(execution, program) || execution.FellowshipMove)
             return null;
 
@@ -689,6 +696,7 @@ internal static class ActionBoundaryProjection
             DecisionKind.Guide => IsReviewedEventGuide(state, pending, frame, execution, program),
             DecisionKind.ArmyEvent => IsReviewedArmyOrder(state, pending, frame, execution, program),
             DecisionKind.RemoveExcess => IsReviewedEventExcess(state, pending, frame, execution, program),
+            DecisionKind.DiscardCards => IsReviewedGreyDrawDiscard(state, pending, frame, execution, program),
             _ => false
         };
         if (!reviewed)
@@ -703,9 +711,43 @@ internal static class ActionBoundaryProjection
         {
             CardId = cardId, CardCost = execution.PaidFace,
             RegionId = execution.MadnessTarget?.Region ?? (DirectEventChoices.LeavesARegion(program) ? execution.RegionId : ""),
-            TargetIds = DirectEventChoices.RepeatsOnTargets(program) ? [.. execution.TargetIds] : []
+            TargetIds = DirectEventChoices.RepeatsOnTargets(program) ? [.. execution.TargetIds] : [],
+            RingRecoveryRolls = execution.RingRecovery is { } recovery ? [.. recovery.Rolls] : []
         };
     }
+
+    // Gandalf the Grey, as Guide, draws from the deck matching the finished Event card at its
+    // completion window; a hand over the limit then discards before that window resumes.
+    private static bool IsReviewedGreyDrawDiscard(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program)
+    {
+        var hand = state.Player(Side.FreePeoples).Hand;
+        return state.AfterDiscard == DiscardContinuation.ResumeEffect &&
+            pending is { Owner: Side.FreePeoples, Commands: [CommandKind.DiscardCards], SourceId: "", Window: "" } &&
+            pending.RequiredCount == hand.Count - 6 && pending.RequiredCount > 0 &&
+            pending.PrivateChoices.SequenceEqual(hand) &&
+            CharacterRules.GuideDefinition(state) == CharacterRules.Grey &&
+            frame.NextStep == program.Steps.Count && execution.Owner == Side.FreePeoples &&
+            execution is { Wait: EffectWait.None, CompletionWindowOffered: true, PalantirDrawPending: false,
+                PaidFace: DieFace.Event } &&
+            state.Resolution.Frames is [_, var window, var draw] &&
+            window is { EffectId: EffectCatalog.ReactionProgram, NextStep: 0, Window: "", ReturnDecision: null,
+                Fellowship: null, Hunt: null, Battle: null, BattleLoss: null, EventLoss: null, Corruption: null,
+                Effect: { Owner: Side.FreePeoples, Return: EffectReturn.Parent, Wait: EffectWait.None, IsEvent: false,
+                    ReactionWindow: "event.completed" } reaction } &&
+            // Only his draw was offered, so nothing else reopens once the discard is made.
+            reaction.SourceId == execution.SourceId && reaction.Committed.Count == 0 &&
+            reaction.OfferedReactions is [GreyDraw] &&
+            draw is { EffectId: GreyDraw, NextStep: 1, Window: "", ReturnDecision: null, Fellowship: null, Hunt: null,
+                Battle: null, BattleLoss: null, EventLoss: null, Corruption: null,
+                Effect: { Owner: Side.FreePeoples, Return: EffectReturn.Parent, Wait: EffectWait.None, IsEvent: false,
+                    ReactionWindow: "", CompletionWindowOffered: false } drawExecution } &&
+            drawExecution.SourceId == CharacterRules.Grey && drawExecution.Committed.Count == 0 &&
+            EffectCatalog.All.Programs.TryGetValue(GreyDraw, out var drawProgram) &&
+            drawProgram.Steps is [CharacterReactionStep { Ability: CharacterReaction.GreyDraw }];
+    }
+
+    private const string GreyDraw = "character.grey-draw";
 
     // The public loss view names the target, hits and rolls. The program's remaining
     // steps do not read the rolled target, so nothing else needs restoring.
@@ -822,6 +864,9 @@ internal static class ActionBoundaryProjection
                 execution.TargetIds.Count == 0 && execution.NationId.Length == 0 &&
                 execution.Committed.All(selection => selection.Owner == execution.Owner &&
                     DirectEventChoices.BelongsToEvent(selection, execution.SourceId));
+        if (choice is InspectShadowHandStep)
+            return DirectEventChoices.InspectsShadowHand(program, frame.NextStep, execution) &&
+                execution.RegionId.Length == 0 && execution.TargetIds.Count == 0 && execution.NationId.Length == 0;
         return cardId == KingsCards02.Service && frame.NextStep == 2
             ? ServiceSovereignSelected(state, execution)
             : DirectEventChoices.ReadsAnEarlierRegion(choice)

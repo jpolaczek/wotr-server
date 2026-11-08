@@ -76,7 +76,7 @@ public sealed class DirectEventChoiceFamilyTests
             "fate.fp.strategy.04", "fate.fp.strategy.19", "fate.fp.strategy.22", "fate.sh.strategy.20",
             "kings.fp.strategy.08", "kings.fp.strategy.25", "kings.fp.strategy.26",
             "kings.sh.strategy.01", "kings.sh.strategy.18", "kings.sh.strategy.26",
-            "lords.fp.character.27", "lords.fp.strategy.25", "lords.fp.strategy.26", "lords.sh.character.17",
+            "lords.fp.character.27", "lords.fp.character.28", "lords.fp.strategy.25", "lords.fp.strategy.26", "lords.sh.character.17",
             "lords.sh.strategy.26"
         ], reviewed);
     }
@@ -677,7 +677,7 @@ public sealed class DirectEventChoiceFamilyTests
         Assert.All(Enum.GetValues<Side>(), side =>
         {
             var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
-            Assert.Equal(56, view.ActionBoundary?.Version);
+            Assert.Equal(57, view.ActionBoundary?.Version);
             var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
             Assert.Equal(card, context.CardId);
             Assert.Equal(cost ?? CardCatalog.All[card].EventType, context.CardCost);

@@ -1,5 +1,5 @@
 {
   "name": "wotr-rules",
-  "version": "0.15.58",
+  "version": "0.15.59",
   "description": "Pure rules and shared contracts for isolated simulations; no server, database, transport or bot policy."
 }
