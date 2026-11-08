@@ -48,6 +48,15 @@ internal static class FellowshipDeclarationProjection
             return facts;
         }
 
+        if (frames[1].Hunt is { FireAndShadow: true } fire)
+        {
+            if (!FireAndShadowHunt(state, declaration, frames[1], fire) ||
+                !FireAndShadowGuide(state, fire, frames) && !HuntChoiceProjection.Supports(state, fire, 1))
+                return null;
+            HuntChoiceProjection.CopyProgress(fire, facts);
+            return facts;
+        }
+
         var balrog = frames.Count >= 4 && frames[2].EffectId == ShadowCharacterCards03.BalrogReaction;
         var index = balrog ? 3 : 1;
         if (frames[index].Hunt is not { } hunt)
@@ -105,6 +114,31 @@ internal static class FellowshipDeclarationProjection
         var all = TravelRules.AdditionalHunts(state, route);
         return remaining.Count <= all.Count && all.TakeLast(remaining.Count).SequenceEqual(remaining);
     }
+
+    // Fire and Shadow: a declared route that passes the Lords' Balrog draws one tile for him at once.
+    private static bool FireAndShadowHunt(MatchState state, FellowshipProcedure declaration, ResolutionFrame frame,
+        HuntProcedure hunt) =>
+        state.Configuration.Lords && state.Fellowship.Hidden && declaration.AdditionalHuntRegions.Count == 0 &&
+        !declaration.FireAndShadowPending && frame.EffectId == "hunt" && HuntChoiceProjection.PlainFrame(frame) &&
+        hunt is { SourceId: LordsCharacters.Balrog, Return: HuntReturn.Parent, Movement: false, Rolled: false,
+            Mordor: false, TileRule: HuntTileRule.All, DamageRule: HuntDamageRule.Normal, Purpose: HuntPurpose.Hunt,
+            DeclarationHunt: true, IgnoreRevealIcon: true, DrawnBy: Side.Shadow, DiceReduction: 0, Bonus: 0,
+            RollBonus: 0, RerollBonus: 0, EyeDamage: 0 } &&
+        hunt.Dice.Count == 0 && hunt.RerollSources.Count == 0 && hunt.TileId.Length != 0;
+
+    // An Eye eliminates the Balrog and the Guide together; the new Guide is chosen before the
+    // corruption stage that follows.
+    private static bool FireAndShadowGuide(MatchState state, HuntProcedure hunt, IReadOnlyList<ResolutionFrame> frames) =>
+        frames is [_, _, var top] && HuntChoiceProjection.PlainFrame(top) && top.EffectId == "fellowship.Guide" &&
+        top.Fellowship is { Kind: FellowshipProcedureKind.Guide, Return: FellowshipReturn.Parent, SourceId: "fellowship",
+            AwaitingHunts: false, RevealEffectsPending: false, FireAndShadowPending: false, Journey: null,
+            ChooseGuideAfterPlacement: false, SeparationOrigin: "", SeparationRange: 0, SeparationBonus: 0 } guide &&
+        guide.Route.Count == 0 && guide.AdditionalHuntRegions.Count == 0 && guide.FixedCompanions.Count == 0 &&
+        state.Pending is { Kind: DecisionKind.Guide, Owner: Side.FreePeoples, RequiredCount: 0, SourceId: "",
+            Window: "", Commands: [CommandKind.SelectGuide] } pending &&
+        pending.PrivateChoices.Count >= 2 && pending.PrivateChoices.SequenceEqual(CompanionRules.Guides(state)) &&
+        hunt.Stage == HuntStage.Corruption && HuntPool.Definitions.TryGetValue(hunt.TileId, out var tile) &&
+        tile.Value == "eye" && CharacterRules.InPlay(state, LordsCharacters.Balrog) is null;
 
     private static bool GatesDeclarationHunt(MatchState state, FellowshipProcedure declaration,
         ResolutionFrame frame, HuntProcedure hunt) =>

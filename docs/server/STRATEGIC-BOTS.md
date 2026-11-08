@@ -433,6 +433,12 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Crebain and Fire and Shadow Hunts (2026-11-08)
+
+Contracts 0.70.0 / ActionBoundary v54 and rules 0.15.56 mark a movement Hunt after Flocks of
+Crebain and a declaration's Fire and Shadow Hunt. BOT-02 is still incomplete; no policy, push,
+release or deployment.
+
 ### BOT-02 implementation checkpoint — second special attack and later Relentless Assault (2026-11-08)
 
 Contracts 0.69.0 / ActionBoundary v53 and rules 0.15.55 mark a Charge's losses after Durin's

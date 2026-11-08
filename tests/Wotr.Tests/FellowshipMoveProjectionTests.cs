@@ -28,7 +28,7 @@ public sealed class FellowshipMoveProjectionTests
             var boundary = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
             var progress = Assert.IsType<FellowshipMoveView>(boundary.FellowshipMove);
             var hunt = HuntRuntime.Active(state)!;
-            Assert.Equal(53, boundary.Version);
+            Assert.Equal(54, boundary.Version);
             Assert.Equal(hunt.OfferedGuides, progress.GuideWindowsOffered);
             Assert.Equal(hunt.CasualtyEffectsPending, progress.CasualtyConsequencesPending);
             Assert.Equal(hunt.DepartingCompanions, progress.DepartingCompanions);
@@ -84,11 +84,42 @@ public sealed class FellowshipMoveProjectionTests
         {
             var view = Projection.For(state, side);
             var facts = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
-            Assert.Equal(53, facts.Version);
+            Assert.Equal(54, facts.Version);
             Assert.Equal(1, view.Hunt!.DiceReduction);
             Assert.Equal(1, view.Hunt.RerollBonus);
             Assert.NotNull(facts.FellowshipMove);
         }
+    }
+
+    // Shadow discards Flocks of Crebain as the movement Hunt rolls: its +1 stays public on the
+    // Hunt through the re-roll and the damage, and the paid move is still the continuation.
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void CrebainsRollBonusKeepsThePaidMoveContinuation(bool damage)
+    {
+        var state = HuntTests.State(2, "moria");
+        state.RandomSamples.Clear();
+        Shadow03Fixture.Table(state, ShadowCharacterCards03.Crebain);
+        HuntTests.Pool(state, HuntTests.Three);
+        state = HuntTests.Move(state, new SequenceRandom());
+        state = CharacterFixture.Do(state, CommandKind.RespondEffect,
+            new() { ReactionId = ShadowCharacterCards03.CrebainReaction }, new SequenceRandom(4, 0));
+        Assert.Equal(DecisionKind.HuntReroll, state.Pending!.Kind);
+        if (damage)
+            state = CharacterFixture.Do(state, CommandKind.RerollHunt, new() { Ids = ["hunt-die-1"] },
+                new SequenceRandom(4, 0));
+
+        Assert.Equal(damage ? DecisionKind.HuntDamage : DecisionKind.HuntReroll, state.Pending!.Kind);
+        Assert.Equal(1, HuntRuntime.Active(state)!.RollBonus);
+        foreach (var side in Enum.GetValues<Side>())
+        {
+            var view = Projection.For(state, side);
+            Assert.NotNull(view.ActionBoundary?.FellowshipMove);
+            Assert.Equal(1, view.Hunt!.EffectBonus);
+        }
+        HuntRuntime.Active(state)!.RollBonus = 2;
+        Assert.Null(Projection.For(state, Side.FreePeoples).ActionBoundary);
     }
 
     [Theory]

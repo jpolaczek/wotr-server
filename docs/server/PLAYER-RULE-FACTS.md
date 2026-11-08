@@ -1,5 +1,9 @@
 # Player rule facts at an action boundary
 
+Contracts 0.70.0 extend the Hunt markers at boundary version 54: a movement Hunt after
+Flocks of Crebain, and a declaration's Fire and Shadow Hunt. Public content 1.0.70 pins these
+shared facts; protocol and save schema are unchanged.
+
 Contracts 0.69.0 extend the battle markers at boundary version 53: a second first-step special
 attack at the same initiative, and Relentless Assault in a later round. Public content 1.0.69
 pins these shared facts; protocol and save schema are unchanged.

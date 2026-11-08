@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.70.0 advances ActionBoundary to version 54. `FellowshipMove` also marks a
+movement Hunt whose roll Flocks of Crebain raised by one, the bonus public on the Hunt view,
+and `FellowshipDeclaration` marks the Lords' Fire and Shadow Hunt a declared route draws,
+including the new Guide after an Eye eliminates the Balrog and the Guide. Rules 0.15.56 and
+public content 1.0.70 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.69.0 advances ActionBoundary to version 53. `SpecialAttackLoss` also marks the
 losses of a Charge or Sudden Strike after the opposing Durin's Bane at the same initiative,
 whose public dice have rolled and whose hits are taken, and `CompletesPaidAction` marks

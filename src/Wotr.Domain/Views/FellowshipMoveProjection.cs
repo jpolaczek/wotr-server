@@ -43,5 +43,12 @@ internal static class FellowshipMoveProjection
                 d.Owner == Side.FreePeoples && d.Source == SovereignCatalog.RulerSource &&
                 d.Face == DieFace.Character && d.Location == DieLocation.Resolving)) &&
         hunt.RerollBonus == (hunt.Stage is HuntStage.BeforeRoll or HuntStage.Roll
-            ? 0 : KingsChieftainHunt.RerollBonus(state)) && hunt.RollBonus == 0;
+            ? 0 : KingsChieftainHunt.RerollBonus(state)) && (hunt.RollBonus == 0 || CrebainBonus(state, hunt));
+
+    // Flocks of Crebain, discarded from Shadow's table as the roll begins, adds one to that roll
+    // and its re-rolls; nothing else raises the roll bonus.
+    private static bool CrebainBonus(MatchState state, HuntProcedure hunt) =>
+        hunt.RollBonus == 1 && hunt.Stage is not (HuntStage.BeforeRoll or HuntStage.Roll) && !hunt.Mordor &&
+        state.Player(Side.Shadow).Discard.Contains(ShadowCharacterCards03.Crebain) &&
+        !state.Player(Side.Shadow).Table.Contains(ShadowCharacterCards03.Crebain);
 }
