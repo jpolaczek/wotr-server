@@ -1,5 +1,9 @@
 # Player rule facts at an action boundary
 
+Contracts 0.60.0 extend the `Battle` fact at boundary version 44 to the Witch-king's
+round-closed Sorcerer offer; it repeats only that the battle completes the paid action.
+Public content 1.0.60 pins these shared facts; protocol and save schema are unchanged.
+
 Contracts 0.59.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version 43 to the
 Kings inspection. The marker adds nothing to what each seat already reads: the opponent
 still sees only the count of the inspected tiles. Public content 1.0.59 pins these shared

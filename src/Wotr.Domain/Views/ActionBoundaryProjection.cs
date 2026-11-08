@@ -107,6 +107,8 @@ internal static class ActionBoundaryProjection
         if (pending.Kind == DecisionKind.EffectChoice)
             return IsReviewedScoutsChoice(state, pending, frames) || IsReviewedHeroicDeathChoice(state, pending, frames)
                 ? new() { CompletesPaidAction = true } : null;
+        if (pending.Kind == DecisionKind.Reaction)
+            return IsReviewedSorcererWindow(state, pending, frames) ? new() { CompletesPaidAction = true } : null;
 
         var frame = frames[0];
         var battle = frame.Battle;
@@ -211,6 +213,34 @@ internal static class ActionBoundaryProjection
             return false;
 
         return state.Resolution.PaidDieIds.Count == 1 &&
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) == 1 &&
+            state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
+                die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving);
+    }
+
+    // The Witch-king's Sorcerer is offered once round one has closed: its cards are discarded and
+    // the battle goes on or ends. The offer rests on the public battle and the revealed card.
+    private static bool IsReviewedSorcererWindow(MatchState state, PendingDecision pending,
+        IReadOnlyList<ResolutionFrame> frames)
+    {
+        if (frames is not [var battleFrame, var reactionFrame] || battleFrame.Battle is not { } battle ||
+            reactionFrame.Effect is not { } execution || !IsPlainBattleFrame(battleFrame) ||
+            pending is not { Owner: Side.Shadow, Window: "battle.round.closed",
+                Commands: [CommandKind.RespondEffect, CommandKind.DeclineReaction] } ||
+            pending.SourceId != CharacterRules.WitchKing)
+            return false;
+
+        return battle is { Return: EffectReturn.FinishAction, Round: 1, CardsRevealed: true, CompletedRounds: 1,
+                SorcererOffered: true, Stage: BattleStage.Finish or BattleStage.NextRound } &&
+            battle.Mode != BattleMode.Relief && battle.Id.Length != 0 &&
+            battle.Attacker.Round.Closed && battle.Defender.Round.Closed &&
+            reactionFrame is { NextStep: 0, Window: "", ReturnDecision: null, Fellowship: null, Hunt: null,
+                Battle: null, BattleLoss: null, EventLoss: null, Corruption: null } &&
+            reactionFrame.EffectId == EffectCatalog.ReactionProgram &&
+            execution is { Owner: Side.Shadow, Return: EffectReturn.Parent, Wait: EffectWait.Reaction,
+                ReactionWindow: "battle.round.closed", IsEvent: false } &&
+            execution.SourceId == CharacterRules.WitchKing && execution.Committed.Count == 0 &&
+            state.Resolution.PaidDieIds.Count == 1 &&
             state.Dice.Count(die => die.Location == DieLocation.Resolving) == 1 &&
             state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
                 die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving);

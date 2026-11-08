@@ -433,6 +433,13 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — the Sorcerer offer (2026-11-08)
+
+Contracts 0.60.0 / ActionBoundary v44 and rules 0.15.46 mark the Witch-king's Sorcerer offer
+after round one, the largest group (40 of 629) a six-seed walk left unsupported. BOT-02 is
+still incomplete; no policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — the Kings inspection (2026-11-08)
 
 Contracts 0.59.0 / ActionBoundary v43 and rules 0.15.45 mark every step of the Kings

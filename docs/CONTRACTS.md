@@ -1,6 +1,11 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.60.0 advances ActionBoundary to version 44. The `Battle` fact also marks the
+Witch-king's Sorcerer offer once round one has closed, whether the battle goes on or ends.
+The offer rests on the public battle and the revealed card. Rules 0.15.46 and public content
+1.0.60 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.59.0 advances ActionBoundary to version 43. `DirectEventChoice` also marks each
 step of a Kings inspection (`DirectEventChoices.IsInspection`): the nation, the sovereign
 and the tile to return. The owner's trail holds the earlier choices; the sovereign's tiles

@@ -20,7 +20,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(43, own.ActionBoundary!.Version);
+        Assert.Equal(44, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.Equal(own.ActionBoundary.Battle.CompletesPaidAction,
             other.ActionBoundary!.Battle!.CompletesPaidAction);
@@ -79,7 +79,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, attacker);
         var other = Projection.For(state, TurnFlow.Other(attacker));
-        Assert.Equal(43, own.ActionBoundary!.Version);
+        Assert.Equal(44, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -111,7 +111,7 @@ public sealed class ActionBoundaryBattleTests
         var state = BeginRelentlessAssaultVoluntaryLosses(attacker);
         var own = Projection.For(state, Side.Shadow);
         var other = Projection.For(state, Side.FreePeoples);
-        Assert.Equal(43, own.ActionBoundary!.Version);
+        Assert.Equal(44, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.False(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -142,7 +142,7 @@ public sealed class ActionBoundaryBattleTests
         var state = BeginOnslaughtVoluntaryLosses(attacker);
         var own = Projection.For(state, Side.Shadow);
         var other = Projection.For(state, Side.FreePeoples);
-        Assert.Equal(43, own.ActionBoundary!.Version);
+        Assert.Equal(44, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.False(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -163,6 +163,65 @@ public sealed class ActionBoundaryBattleTests
         var wrongLossKind = StateCodec.Copy(state);
         BattleLosses.Current(wrongLossKind)!.AdditionalAttack = false;
         Assert.Null(Projection.For(wrongLossKind, Side.Shadow).ActionBoundary);
+    }
+
+    // Round one closes after a miss on both sides; the defender then retreats or holds.
+    internal static MatchState SorcererOffer(bool retreat)
+    {
+        var state = BattleFixture.State(Side.Shadow);
+        var unit = BattleFixture.Put(state, "sauron", UnitKind.Regular, BattleFixture.Origin);
+        var witchKing = CharacterFixture.Put(state, CharacterRules.WitchKing, BattleFixture.Origin);
+        BattleFixture.Put(state, "gondor", UnitKind.Regular, BattleFixture.Target);
+        HandRules.Add(state.Player(Side.Shadow), ShadowStrategyCards04.Musterings);
+        state = BattleFixture.Execute(state, CommandKind.AttackArmy,
+            BattleFixture.AttackPayload(state, [unit.Id, witchKing.Id]), new SequenceRandom(new int[64]));
+        for (var step = 0; step < 12 && state.Pending is { Window: not "battle.round.closed" } pending; step++)
+        {
+            var (kind, payload) = pending.Kind switch
+            {
+                DecisionKind.CombatCard => (CommandKind.CommitCombatCard, new CommandPayload
+                    { CardId = pending.Owner == Side.Shadow ? ShadowStrategyCards04.Musterings : "" }),
+                DecisionKind.BattleReroll => (CommandKind.RerollBattle, new CommandPayload()),
+                DecisionKind.BattleContinue => (CommandKind.ContinueBattle, new CommandPayload()),
+                DecisionKind.BattleRetreat => retreat
+                    ? (CommandKind.RetreatBattle, new CommandPayload
+                        { RegionId = BattleMovement.Retreats(state, BattleRuntime.Active(state)!).First() })
+                    : (CommandKind.HoldBattle, new CommandPayload()),
+                _ => throw new InvalidOperationException($"Unexpected {pending.Kind}.")
+            };
+            state = BattleFixture.Execute(state, kind, payload, new SequenceRandom(new int[64]));
+        }
+        Assert.Equal("battle.round.closed", state.Pending!.Window);
+        return state;
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void TheSorcererOfferAfterRoundOneIsMarked(bool retreat)
+    {
+        var state = SorcererOffer(retreat);
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.True(Projection.For(state, side).ActionBoundary?.Battle?.CompletesPaidAction));
+    }
+
+    [Theory]
+    [InlineData("round")]
+    [InlineData("open")]
+    [InlineData("window")]
+    public void TheSorcererOfferRequiresItsClosedFirstRound(string change)
+    {
+        var state = SorcererOffer(retreat: true);
+        var battle = BattleRuntime.Active(state)!;
+        switch (change)
+        {
+            case "round": battle.Round = 2; break;
+            case "open": battle.Attacker.Round.Closed = false; break;
+            case "window": state.Resolution.Frames[^1].Effect!.ReactionWindow = "event.played"; break;
+        }
+
+        Assert.Null(Projection.For(state, Side.Shadow).ActionBoundary?.Battle);
     }
 
     [Fact]
@@ -193,7 +252,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, owner);
         var other = Projection.For(state, TurnFlow.Other(owner));
-        Assert.Equal(43, own.ActionBoundary!.Version);
+        Assert.Equal(44, own.ActionBoundary!.Version);
         Assert.False(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -248,7 +307,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, owner);
         var other = Projection.For(state, TurnFlow.Other(owner));
-        Assert.Equal(43, own.ActionBoundary!.Version);
+        Assert.Equal(44, own.ActionBoundary!.Version);
         Assert.False(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(own.ActionBoundary.Battle.SpecialAttackLoss);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -306,7 +365,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, state.Pending.Owner);
         var other = Projection.For(state, TurnFlow.Other(state.Pending.Owner));
-        Assert.Equal(43, own.ActionBoundary!.Version);
+        Assert.Equal(44, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
@@ -333,7 +392,7 @@ public sealed class ActionBoundaryBattleTests
 
         var own = Projection.For(state, actor);
         var other = Projection.For(state, TurnFlow.Other(actor));
-        Assert.Equal(43, own.ActionBoundary!.Version);
+        Assert.Equal(44, own.ActionBoundary!.Version);
         Assert.True(own.ActionBoundary.Battle!.CompletesPaidAction);
         Assert.True(other.ActionBoundary!.Battle!.CompletesPaidAction);
         Assert.Equal(JsonSerializer.Serialize(own.ActionBoundary.Battle),
