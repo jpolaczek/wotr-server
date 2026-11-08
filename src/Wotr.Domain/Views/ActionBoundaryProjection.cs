@@ -415,7 +415,9 @@ internal static class ActionBoundaryProjection
             execution.ArmyOrder is not null && pending.Kind != DecisionKind.ArmyEvent ||
             execution.PaidFace != DieFace.Event && execution.PaidFace != card.EventType ||
             execution.ReactionWindow.Length != 0 || execution.OfferedReactions.Count != 0 ||
-            execution.Committed.Count == 0 || execution.Committed[0] != new EffectSelection(card.Side, cardId) ||
+            // The first entry names the card, and the nation an event is played against.
+            execution.Committed.Count == 0 || execution.Committed[0] != new EffectSelection(card.Side, cardId) &&
+                execution.Committed[0] != new EffectSelection(card.Side, cardId, execution.NationId) ||
             execution.AppliedHits != 0 || execution.InspectedSovereign is not null ||
             execution.InspectedHand is not null || execution.RingRecovery is not null ||
             execution.MadnessTarget is not null || execution.FellowshipMove)
@@ -426,6 +428,8 @@ internal static class ActionBoundaryProjection
         var reviewed = pending.Kind switch
         {
             DecisionKind.Losses => IsReviewedEventLoss(state, pending, frame, execution, program),
+            DecisionKind.EffectChoice when pending.Owner != card.Side =>
+                IsReviewedOpponentFigureLoss(state, pending, frame, execution, program),
             _ when pending.Owner != card.Side => false,
             DecisionKind.EffectChoice => IsReviewedEventChoice(state, pending, frame, execution, program),
             DecisionKind.Reaction => IsReviewedEventReaction(state, pending, frame, execution, program),
@@ -515,6 +519,19 @@ internal static class ActionBoundaryProjection
          execution.Wait == EffectWait.BalrogTravel &&
             DirectEventChoices.ChoseBalrog(program, frame.NextStep, execution.Committed, BalrogEventStep.Alone) &&
             BalrogEventTravel.Travel(state) is { } travel && travel.Targets.Any(region => region != travel.Origin));
+
+    private static bool IsReviewedOpponentFigureLoss(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program) =>
+        pending is { Commands: [CommandKind.ChooseEffect], Window: "" } && state.Resolution.Frames.Count == 1 &&
+        DirectEventChoices.IsOpponentFigureLoss(program, frame.NextStep) &&
+        program.Steps[^1] is EffectChoiceStep step && pending.Presentation == step.Presentation &&
+        pending.Owner == step.Chooser(state, execution) && pending.Owner != execution.Owner &&
+        execution is { Wait: EffectWait.Choice, CompletionWindowOffered: false } &&
+        execution.NationId.Length > 0 && execution.RegionId.Length == 0 && execution.TargetIds.Count == 0 &&
+        execution.Committed.Skip(1).All(DirectEventChoices.IsSpearOfTerror) && execution.Committed.Count <= 2 &&
+        step.Candidates(state, execution) is { Count: > 0 } candidates && pending.PrivateChoices.SequenceEqual(candidates) &&
+        candidates.All(id => state.Units.SingleOrDefault(unit => unit.Id == id)?.Nation == execution.NationId) &&
+        execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution);
 
     // An event that leaves an army over the stack limit asks its owner to return the excess
     // before it completes. Every step is done, so only the completion facts remain.

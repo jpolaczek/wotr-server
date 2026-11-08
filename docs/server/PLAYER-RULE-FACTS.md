@@ -1,5 +1,11 @@
 # Player rule facts at an action boundary
 
+Contracts 0.58.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version 42 to
+Stormcrow's figure loss, which the opponent of the event's owner chooses. The marker adds
+nothing beyond the card and payment: the tile given to a sovereign stays face down for
+whoever cannot read it. Public content 1.0.58 pins these shared facts; protocol and save
+schema are unchanged.
+
 Contracts 0.57.0 extend the `Battle` fact at boundary version 41 to the Heroic Death
 choice. The figures that may be sacrificed and the hits they could cancel come from the
 public battle; nothing else is exposed. Special-attack losses in Kings games without a

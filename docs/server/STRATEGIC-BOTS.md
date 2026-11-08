@@ -433,6 +433,14 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Stormcrow's figure loss (2026-11-08)
+
+Contracts 0.58.0 / ActionBoundary v42 and rules 0.15.44 mark Stormcrow's last step, where
+the event's opponent removes a figure of the struck nation: the 24 Kings roots that were the
+largest group the wide walk still left unsupported. BOT-02 is still incomplete; no policy,
+push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — the Heroic Death choice (2026-11-08)
 
 Contracts 0.57.0 / ActionBoundary v41 and rules 0.15.43 mark the Heroic Death choice

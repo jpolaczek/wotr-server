@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.58.0 advances ActionBoundary to version 42. `DirectEventChoice` also marks
+Stormcrow's last step, which asks the event's opponent to remove a figure of the nation it
+struck. The offered units name that nation; the earlier steps moved its political counter
+and, in Kings, gave its sovereign a face-down tile. Rules 0.15.44 and public content 1.0.58
+pin the contract. Protocol and save schema do not change.
+
 Contracts 0.57.0 advances ActionBoundary to version 41. The `Battle` fact also marks a
 Heroic Death choice: initiative 6, after both rolls and re-rolls and before any casualty,
 with options from the owner's public figures and the incoming hits.

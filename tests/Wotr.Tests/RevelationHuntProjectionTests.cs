@@ -24,7 +24,7 @@ public sealed class RevelationHuntProjectionTests
         {
             var view = Projection.For(state, side);
             var facts = Assert.IsType<ActionBoundaryView>(view.ActionBoundary);
-            Assert.Equal(41, facts.Version);
+            Assert.Equal(42, facts.Version);
             var resolved = facts.FellowshipMove?.StrongholdHunts?.MovementHunt ?? facts.CardHunt!.StrongholdHunts!.ResolvedCardHunt;
             var remaining = facts.FellowshipMove?.StrongholdHunts?.RemainingStrongholds ?? facts.CardHunt!.StrongholdHunts!.RemainingStrongholds;
             Assert.Equal(parent, resolved.SourceId);

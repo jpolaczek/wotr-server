@@ -65,6 +65,14 @@ public static class DirectEventChoices
         committed[^1] == new EffectSelection(Wotr.Contracts.Side.Shadow, committed[0].SourceId, choice) &&
         committed.Skip(1).SkipLast(1).All(IsSpearOfTerror);
 
+    // Stormcrow's last step asks the opponent to remove a figure of the nation it struck. The
+    // steps before it move that nation's political counter and, in Kings, give its sovereign a
+    // face-down tile; both are already on the board, and the offered units name the nation.
+    public static bool IsOpponentFigureLoss(EffectDefinition program, int nextStep) =>
+        nextStep == program.Steps.Count && program.Steps is [RetreatPoliticalCounterStep, .., var last] &&
+        last is StormcrowLossStep or KingsStormcrowLossStep &&
+        program.Steps.Skip(1).Take(program.Steps.Count - 2).All(step => step is StormcrowCorruptionStep);
+
     public static bool TravelsFirst(EffectDefinition program) => program.Steps.Count > 0 &&
         program.Steps[0] is MoveNazgulStep or BlackCaptainStep;
 
