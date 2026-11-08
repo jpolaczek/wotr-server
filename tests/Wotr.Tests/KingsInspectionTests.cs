@@ -80,6 +80,19 @@ public class KingsInspectionTests
             Assert.Equal(Wisdom, LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
     }
 
+    [Fact]
+    public void WisdomsPoliticsBranchIsMarkedWithTheCardOnly()
+    {
+        var state = Choose(Play(State(), Wisdom), WisdomBranchStep.Politics);
+
+        Assert.Equal("Nation", state.Pending!.Presentation);
+        Assert.Equal(WisdomBranchStep.Politics, state.Resolution.Frames[^1].EffectId);
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Equal(Wisdom, LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
+        state.Resolution.Frames[0].Effect!.Committed.RemoveAt(1);
+        Assert.Null(LordsFixture.Views().For(state, Side.FreePeoples).ActionBoundary?.DirectEventChoice);
+    }
+
     // Only Dain holds tiles, so the engine takes him without a choice in the trail.
     [Theory]
     [InlineData(Wisdom)]

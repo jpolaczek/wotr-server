@@ -1,5 +1,9 @@
 # Player rule facts at an action boundary
 
+Contracts 0.67.0 extend `AnarionDraw` at boundary version 51 with the public event a Ruler die
+paid, and `DirectEventChoice` with Wisdom's politics branch. Public content 1.0.67 pins these
+shared facts; protocol and save schema are unchanged.
+
 Contracts 0.66.0 extend the `Battle` fact at boundary version 50 to Relentless Assault after a
 Sudden Strike and Brand's replacement offer. Public content 1.0.66 pins these shared facts;
 protocol and save schema are unchanged.

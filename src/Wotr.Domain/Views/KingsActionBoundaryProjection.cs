@@ -1,4 +1,5 @@
 using Wotr.Contracts;
+using Wotr.Domain.Content;
 
 namespace Wotr.Domain;
 
@@ -7,7 +8,57 @@ namespace Wotr.Domain;
 // removal a political change offers before the action that caused it finishes.
 internal static class KingsActionBoundaryProjection
 {
-    internal static AnarionDrawView? AnarionDraw(MatchState state)
+    internal static AnarionDrawView? AnarionDraw(MatchState state) =>
+        AnarionDrawAfterAction(state) ?? AnarionDrawAfterEvent(state);
+
+    // An event paid with the Ruler die has finished its own steps; the draw opens on top of it,
+    // before its completion window.
+    private static AnarionDrawView? AnarionDrawAfterEvent(MatchState state)
+    {
+        if (!Plain(state) || state.Kings!.PendingCorruptionRemoval.Count != 0 ||
+            state.AfterDiscard != DiscardContinuation.None || state.Resolution.PaidDieIds is not [var paid] ||
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
+            !state.Dice.Any(die => die.Id == paid && die.Owner == Side.FreePeoples &&
+                die.Location == DieLocation.Resolving && die.Source == SovereignCatalog.RulerSource &&
+                die.Face == DieFace.Event) ||
+            state.Resolution.Frames is not [var eventFrame, var drawFrame] ||
+            eventFrame.Effect is not { } execution || drawFrame.Effect is not { } draw ||
+            !CardCatalog.All.TryGetValue(execution.SourceId, out var card) || card.Side != Side.FreePeoples ||
+            !EffectCatalog.All.Events.TryGetValue(execution.SourceId, out var definition) ||
+            !EffectCatalog.All.Programs.TryGetValue(definition.ProgramId, out var eventProgram) ||
+            !EffectCatalog.All.Programs.TryGetValue(KingsAnarion.ProgramId, out var drawProgram) ||
+            drawProgram.Steps is not [AnarionDrawStep])
+            return null;
+        var player = state.Player(Side.FreePeoples);
+        var played = execution.SourceId;
+        return eventFrame is { Window: "", ReturnDecision: null, Fellowship: null, Hunt: null, Battle: null,
+                BattleLoss: null, EventLoss: null, Corruption: null } &&
+            eventFrame.EffectId == definition.ProgramId && eventFrame.NextStep == eventProgram.Steps.Count &&
+            execution is { Owner: Side.FreePeoples, Return: EffectReturn.FinishAction, Wait: EffectWait.None,
+                IsEvent: true, PaidFace: DieFace.Event, PalantirDrawPending: false, AnarionDrawPending: false,
+                CompletionWindowOffered: false, NationId: "", RegionId: "", ArmyOrder: null, AppliedHits: 0,
+                ReactionWindow: "", InspectedHand: null, InspectedSovereign: null, RingRecovery: null,
+                MadnessTarget: null, FellowshipMove: false } &&
+            execution.TargetIds.Count == 0 && execution.OfferedReactions.Count == 0 &&
+            execution.Committed.Count >= 1 && execution.Committed[0] == new EffectSelection(Side.FreePeoples, played) &&
+            execution.Committed.All(selection => selection.Owner == Side.FreePeoples &&
+                DirectEventChoices.BelongsToEvent(selection, played)) &&
+            CardCatalog.Enabled(state.Configuration, played) && !player.Hand.Contains(played) &&
+            (definition.StaysOnTable ? player.Table : player.Discard).Contains(played) &&
+            drawFrame is { NextStep: 1, Window: "", ReturnDecision: null, Fellowship: null, Hunt: null, Battle: null,
+                BattleLoss: null, EventLoss: null, Corruption: null } &&
+            drawFrame.EffectId == KingsAnarion.ProgramId &&
+            draw is { Owner: Side.FreePeoples, Return: EffectReturn.Parent, Wait: EffectWait.Choice, IsEvent: false,
+                PalantirDrawPending: false, AnarionDrawPending: false, CompletionWindowOffered: false,
+                NationId: "", RegionId: "", AppliedHits: 0 } &&
+            draw.SourceId == SovereignCatalog.Denethor && draw.Committed.Count == 0 && draw.TargetIds.Count == 0 &&
+            state.Pending is { Kind: DecisionKind.EffectChoice, Owner: Side.FreePeoples, Presentation: "Deck",
+                SourceId: SovereignCatalog.Denethor, RequiredCount: 1, Window: "",
+                Commands: [CommandKind.ChooseEffect] }
+            ? new() { CardId = played, CardCost = execution.PaidFace } : null;
+    }
+
+    private static AnarionDrawView? AnarionDrawAfterAction(MatchState state)
     {
         if (!Plain(state) || state.Kings!.PendingCorruptionRemoval.Count != 0 ||
             state.Resolution.PaidDieIds is not [var paid] ||

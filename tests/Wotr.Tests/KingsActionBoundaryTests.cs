@@ -73,12 +73,20 @@ public class KingsActionBoundaryTests
     }
 
     [Fact]
-    public void AnEventPaidWithTheRulerDieIsNotAnAnarionDraw()
+    public void TheAnarionDrawAfterAnEventPaidWithTheRulerDieNamesTheEvent()
     {
         var state = KingsAnarionTests.EventWindow();
 
         Assert.Equal(2, state.Resolution.Frames.Count);
-        Assert.Null(Projection.For(state, Side.FreePeoples).ActionBoundary?.AnarionDraw);
+        Assert.All(Enum.GetValues<Side>(), side =>
+        {
+            var draw = Projection.For(state, side).ActionBoundary?.AnarionDraw;
+            Assert.Equal("base.fp.strategy.15", draw?.CardId);
+            Assert.Equal(DieFace.Event, draw!.CardCost);
+            Assert.False(draw.Discard);
+        });
+        state.Resolution.Frames[0].NextStep = 0;
+        Assert.Null(Projection.For(state, Side.FreePeoples).ActionBoundary);
     }
 
     [Fact]

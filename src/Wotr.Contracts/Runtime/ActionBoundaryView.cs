@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 50;
+        public int Version { get; set; } = 51;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -137,11 +137,14 @@ namespace Wotr.Contracts
         public List<string> TargetIds { get; set; } = new List<string>();
     }
 
-    // Denethor's Palantir of Anarion after a card drawn with his Ruler die: the deck choice,
-    // then any excess discard. The chosen deck stays only in the owner's effect trail.
+    // Denethor's Palantir of Anarion after a card drawn, or an event played, with his Ruler die:
+    // the deck choice, then (after a draw) any excess discard. The chosen deck stays only in the
+    // owner's effect trail. CardId and CardCost name the event, and are empty after a draw.
     public sealed class AnarionDrawView
     {
         public bool Discard { get; set; }
+        public string CardId { get; set; } = "";
+        public DieFace CardCost { get; set; }
     }
 
     // The optional Kings corruption removal a political change offers before the action that

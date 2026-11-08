@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.67.0 advances ActionBoundary to version 51. `AnarionDraw` also marks the deck
+choice after an event paid with Denethor's Ruler die, once the event's own steps are done;
+`AnarionDrawView.CardId` and `CardCost` name that event. `DirectEventChoice` also marks
+Wisdom's politics branch, a nested program with its nation choice. Rules 0.15.53 and public
+content 1.0.67 pin the contract. Protocol and save schema do not change.
+
 Contracts 0.66.0 advances ActionBoundary to version 50. The `Battle` fact also marks a
 Relentless Assault voluntary loss after a Sudden Strike at initiative 2, whose public dice and
 taken hits precede it, and Brand's offer to replace his owner's card after the reveal and

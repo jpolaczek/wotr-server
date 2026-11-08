@@ -726,6 +726,8 @@ internal static class ActionBoundaryProjection
         var cardId = execution.SourceId;
         if (DirectEventChoices.IsInspection(program))
             return IsReviewedInspectionChoice(state, pending, frame, execution, program);
+        if (program.Steps is [WisdomBranchStep] && state.Resolution.Frames is [_, { EffectId: WisdomBranchStep.Politics } politics])
+            return IsReviewedWisdomPolitics(state, pending, frame, execution, politics);
         if (program.Steps is [WisdomBranchStep] && state.Resolution.Frames.Count == 2)
             return IsReviewedWisdomInspection(state, pending, frame, execution);
         if (DirectEventChoices.RepeatsOnTargets(program))
@@ -773,6 +775,33 @@ internal static class ActionBoundaryProjection
             execution.PalantirDrawPending != DirectEventChoices.PalantirDrawExpected(state, execution))
             return false;
         var candidates = choice.Candidates(state, execution);
+        return candidates.Count != 0 && pending.PrivateChoices.SequenceEqual(candidates);
+    }
+
+    // Wisdom's politics branch runs in its own nested program: the Free Peoples nation it
+    // activates and advances, chosen from the public board.
+    private static bool IsReviewedWisdomPolitics(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, ResolutionFrame nested)
+    {
+        if (pending.Commands is not [CommandKind.ChooseEffect] || frame.NextStep != 1 ||
+            execution is not { Wait: EffectWait.None, CompletionWindowOffered: false } ||
+            execution.PalantirDrawPending != DirectEventChoices.PalantirDrawExpected(state, execution) ||
+            execution.RegionId.Length != 0 || execution.TargetIds.Count != 0 || execution.NationId.Length != 0 ||
+            execution.InspectedSovereign is not null ||
+            nested is not { NextStep: 1, Window: "", ReturnDecision: null, Fellowship: null, Hunt: null,
+                Battle: null, BattleLoss: null, EventLoss: null, Corruption: null } ||
+            nested.Effect is not { Return: EffectReturn.Parent, Wait: EffectWait.Choice, IsEvent: false,
+                PalantirDrawPending: false, AnarionDrawPending: false, CompletionWindowOffered: false, AppliedHits: 0,
+                ArmyOrder: null, InspectedHand: null, InspectedSovereign: null, RingRecovery: null,
+                MadnessTarget: null, FellowshipMove: false, NationId: "", RegionId: "" } inner ||
+            inner.Owner != execution.Owner || inner.SourceId != execution.SourceId || inner.Committed.Count != 0 ||
+            inner.TargetIds.Count != 0 || inner.ReactionWindow.Length != 0 || inner.OfferedReactions.Count != 0 ||
+            !EffectCatalog.All.Programs.TryGetValue(WisdomBranchStep.Politics, out var politics) ||
+            politics.Steps is not [KingsNationStep { Activate: true } choice] || pending.Presentation != choice.Presentation ||
+            !execution.Committed.SequenceEqual([new EffectSelection(execution.Owner, execution.SourceId),
+                new EffectSelection(execution.Owner, execution.SourceId, WisdomBranchStep.Politics)]))
+            return false;
+        var candidates = choice.Candidates(state, inner);
         return candidates.Count != 0 && pending.PrivateChoices.SequenceEqual(candidates);
     }
 
