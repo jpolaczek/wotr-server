@@ -165,6 +165,19 @@ public sealed class ActionBoundaryBattleTests
         Assert.Null(Projection.For(wrongLossKind, Side.Shadow).ActionBoundary);
     }
 
+    [Fact]
+    public void AFirstStepSpecialAttackLossInAKingsGameIsMarkedUnlessACardIsReplaced()
+    {
+        var state = ChargeSpecialAttackLoss(Side.Shadow, FreePeoplesStrategyCards03.CirdansShips, kings: true);
+        var owner = state.Pending!.Owner;
+        Assert.True(state.Configuration.Kings);
+        Assert.True(Projection.For(state, owner).ActionBoundary?.Battle?.SpecialAttackLoss);
+
+        var replaced = StateCodec.Copy(state);
+        BattleRuntime.Active(replaced)!.Force(owner).Round.ReplacementSource = "replaced";
+        Assert.Null(Projection.For(replaced, owner).ActionBoundary?.Battle);
+    }
+
     [Theory]
     [InlineData(Side.FreePeoples, FreePeoplesStrategyCards03.CirdansShips)]
     [InlineData(Side.Shadow, FreePeoplesStrategyCards03.CirdansShips)]
@@ -378,9 +391,18 @@ public sealed class ActionBoundaryBattleTests
         return BattleFixture.NoCards(state, 6, 6, 6, 6, 6, 6);
     }
 
-    private static MatchState ChargeSpecialAttackLoss(Side attacker, string cardId)
+    private static MatchState ChargeSpecialAttackLoss(Side attacker, string cardId, bool kings = false)
     {
         var state = BattleFixture.State(attacker);
+        if (kings)
+        {
+            // Kings is set up once, during setup; the battle fixture has already left that phase.
+            var phase = state.Phase;
+            state.Configuration.Kings = true;
+            state.Phase = GamePhase.Setup;
+            KingsSetup.Initialize(state);
+            state.Phase = phase;
+        }
         var attackingNation = attacker == Side.Shadow ? "sauron" : "gondor";
         var defendingNation = attacker == Side.Shadow ? "gondor" : "sauron";
         var attackingFigures = Enumerable.Range(0, 3)

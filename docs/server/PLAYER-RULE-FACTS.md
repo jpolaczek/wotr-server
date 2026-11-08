@@ -2,7 +2,9 @@
 
 Contracts 0.57.0 extend the `Battle` fact at boundary version 41 to the Heroic Death
 choice. The figures that may be sacrificed and the hits they could cancel come from the
-public battle; nothing else is exposed. Public content 1.0.57 pins these shared facts;
+public battle; nothing else is exposed. Special-attack losses in Kings games without a
+combat replacement or Kings battle state carry the same marker as elsewhere. Public content
+1.0.57 pins these shared facts;
 protocol and save schema are unchanged.
 
 Contracts 0.56.0 extend `ActionBoundaryView.DirectEventChoice` at boundary version 40 to The

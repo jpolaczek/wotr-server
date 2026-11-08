@@ -788,7 +788,8 @@ internal static class ActionBoundaryProjection
             !IsSupportedFirstStepSpecialAttackOwner(execution.Owner, program.Steps[0]) ||
             battle.Force(execution.Owner).Round.CardId != execution.SourceId ||
             battle.Force(execution.Owner).Round.CardCancelled ||
-            state.Configuration.Kings ||
+            // A Kings game qualifies too: a combat replacement fails the fresh-round check,
+            // and a Brand offer, made before any card effect, gives the battle Kings state.
             !BattleRules.Alive(state, battle.Force(loss.Owner)) ||
             state.Resolution.PaidDieIds.Count != 1 ||
             state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
@@ -906,7 +907,8 @@ internal static class ActionBoundaryProjection
             !combat.Condition.CanPlay(state, battle, execution.Owner) ||
             battle.Force(execution.Owner).Round.CardCancelled ||
             !EffectCatalog.All.Programs.TryGetValue(effectFrame.EffectId, out var program) ||
-            !BattleRules.Alive(state, battle.Force(loss.Owner)) || state.Configuration.Kings ||
+            !BattleRules.Alive(state, battle.Force(loss.Owner)) ||
+            battle.Attacker.Round.ReplacementSource is not null || battle.Defender.Round.ReplacementSource is not null ||
             state.Resolution.PaidDieIds.Count != 1 ||
             state.Dice.Count(die => die.Location == DieLocation.Resolving) != 1 ||
             !state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&

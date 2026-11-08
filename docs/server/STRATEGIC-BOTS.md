@@ -437,7 +437,8 @@ No fixture, module selector or passing build establishes playing strength.
 
 Contracts 0.57.0 / ActionBoundary v41 and rules 0.15.43 mark the Heroic Death choice
 itself, the 16 roots the wide walk still left in that family once v38 announced the hits
-it cancels. BOT-02 is still incomplete; no policy, push, release or deployment.
+it cancels. They also mark special-attack losses in Kings games: a blanket Kings exclusion
+had kept 14 Sudden Strike roots unmarked, although no Kings rule was involved. BOT-02 is still incomplete; no policy, push, release or deployment.
 
 
 ### BOT-02 implementation checkpoint — The Lidless Eye and an event's excess (2026-11-07)
