@@ -433,6 +433,15 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Kings action closers (2026-11-08)
+
+Contracts 0.61.0 / ActionBoundary v45 and rules 0.15.47 mark Denethor's Palantir of Anarion
+after a Ruler-die draw (24 of 605 roots a six-seed walk left unsupported, with its discard),
+the Kings corruption removal before an action completes (36) and the Mighty Attack choice
+(12; 60 more roots follow it in the same battle). BOT-02 is still incomplete; no policy, push,
+release or deployment.
+
+
 ### BOT-02 implementation checkpoint — the Sorcerer offer (2026-11-08)
 
 Contracts 0.60.0 / ActionBoundary v44 and rules 0.15.46 mark the Witch-king's Sorcerer offer

@@ -24,27 +24,32 @@ internal static class ActionBoundaryProjection
         var westPalantirDraw = CorruptionBoundaryProjection.WestPalantirDraw(state);
         var westPalantirDiscard = CorruptionBoundaryProjection.WestPalantirDiscard(state, viewer);
         var fateMonsters = FateMonstersEvent(state);
+        var anarionDraw = KingsActionBoundaryProjection.AnarionDraw(state);
+        var corruptionRemoval = KingsActionBoundaryProjection.CorruptionRemoval(state);
         var directEventChoice = declaration is null && fellowshipMove is null && cardHunt is null && lureChoice is null &&
             lurePlacement is null && companionJourney is null && fellowshipGuide is null && battle is null &&
-            corruptionEvent is null && westPalantirDraw is null && westPalantirDiscard is null && fateMonsters is null
+            corruptionEvent is null && westPalantirDraw is null && westPalantirDiscard is null && fateMonsters is null &&
+            anarionDraw is null && corruptionRemoval is null
             ? DirectEventChoice(state) : null;
         var reviewedContinuation = declaration is not null || fellowshipMove is not null ||
             cardHunt is not null || lureChoice is not null || lurePlacement is not null || companionJourney is not null ||
             fellowshipGuide is not null || battle is not null || corruptionEvent is not null ||
             westPalantirDraw is not null || westPalantirDiscard is not null || fateMonsters is not null ||
-            directEventChoice is not null;
+            directEventChoice is not null || anarionDraw is not null || corruptionRemoval is not null;
         // Compose only explicitly reviewed continuations with module facts;
         // arbitrary expansion procedures are not inferred from their decision kind.
         if (!KingsBoundaryProjection.Supports(state, reviewedContinuation) ||
             !LordsBoundaryProjection.Supports(state, reviewedContinuation))
             return null;
         if (state.Resolution.Frames.Count > 0 && declaration is null && westPalantirDiscard is null &&
+            anarionDraw is not { Discard: true } &&
             (state.Phase != GamePhase.ActionResolution || state.AfterDiscard != DiscardContinuation.None))
             return null;
         if (state.Resolution.Frames.Count == 0 ? !SupportedWindow(state) :
             fellowshipMove is null && cardHunt is null && lureChoice is null && lurePlacement is null && companionJourney is null &&
             fellowshipGuide is null && declaration is null && battle is null &&
-            !CorruptionBoundaryProjection.Supports(state) && fateMonsters is null && directEventChoice is null)
+            !CorruptionBoundaryProjection.Supports(state) && fateMonsters is null && directEventChoice is null &&
+            anarionDraw is null && corruptionRemoval is null)
             return null;
 
         // Base/Fate discards never return to a hand/deck. Only a visible discharge
@@ -70,6 +75,8 @@ internal static class ActionBoundaryProjection
             WestPalantirDiscard = westPalantirDiscard,
             FateMonsters = fateMonsters,
             DirectEventChoice = directEventChoice,
+            AnarionDraw = anarionDraw,
+            CorruptionRemoval = corruptionRemoval,
             Lords = LordsBoundaryProjection.For(state),
             Kings = KingsBoundaryProjection.For(state, tiles.Unassigned),
             PaidDieIds = [.. state.Resolution.PaidDieIds],
@@ -105,7 +112,8 @@ internal static class ActionBoundaryProjection
             return null;
 
         if (pending.Kind == DecisionKind.EffectChoice)
-            return IsReviewedScoutsChoice(state, pending, frames) || IsReviewedHeroicDeathChoice(state, pending, frames)
+            return IsReviewedScoutsChoice(state, pending, frames) || IsReviewedHeroicDeathChoice(state, pending, frames) ||
+                IsReviewedMightyAttackChoice(state, pending, frames)
                 ? new() { CompletesPaidAction = true } : null;
         if (pending.Kind == DecisionKind.Reaction)
             return IsReviewedSorcererWindow(state, pending, frames) ? new() { CompletesPaidAction = true } : null;
@@ -208,6 +216,43 @@ internal static class ActionBoundaryProjection
             execution.Committed.Count != 0 || execution.TargetIds.Count != 0 || execution.RegionId.Length != 0 ||
             !EffectCatalog.All.Programs.TryGetValue(work.ProgramId, out var program) ||
             program.Steps is not [HeroicDeathStep step] ||
+            !EffectCatalog.All.Combats[pending.SourceId].Condition.CanPlay(state, battle, pending.Owner) ||
+            !pending.PrivateChoices.SequenceEqual(step.Candidates(state, execution)))
+            return false;
+
+        return state.Resolution.PaidDieIds.Count == 1 &&
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) == 1 &&
+            state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
+                die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving);
+    }
+
+    // Mighty Attack opens at initiative 4, after the combat roll and before any re-roll. Its
+    // options are the owner's Companions with Leadership left and the public missed dice.
+    private static bool IsReviewedMightyAttackChoice(MatchState state, PendingDecision pending,
+        IReadOnlyList<ResolutionFrame> frames)
+    {
+        if (frames is not [var battleFrame, var effectFrame] || battleFrame.Battle is not { } battle ||
+            effectFrame.Effect is not { } execution || !IsPlainBattleFrame(battleFrame) ||
+            pending.Commands is not [CommandKind.ChooseEffect] || pending.Presentation != "LeadershipAndMiss" ||
+            !ReviewedCombatCards.IsMightyAttack(pending.SourceId) || !CardCatalog.Enabled(state, pending.SourceId))
+            return false;
+
+        var work = new CombatWork(pending.Owner, pending.SourceId, ReviewedCombatCards.MightyAttackProgram, 4);
+        if (battle is not { Return: EffectReturn.FinishAction, Stage: BattleStage.BeforeReroll, Round: >= 1,
+                CardsRevealed: true, Mode: not BattleMode.Relief, EndedByEffect: false } ||
+            battle.CompletedRounds != battle.Round - 1 || battle.Id.Length == 0 ||
+            battle.Attacker.Side == battle.Defender.Side || battle.NextWork < 1 ||
+            battle.NextWork > battle.Work.Count || battle.Work[battle.NextWork - 1] != work ||
+            battle.Force(pending.Owner).Round.CardId != pending.SourceId || battle.Force(pending.Owner).Round.CardCancelled ||
+            effectFrame.EffectId != work.ProgramId || effectFrame.NextStep != 1 || effectFrame.Window.Length != 0 ||
+            effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
+            effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
+            effectFrame.Corruption is not null || execution is not { Return: EffectReturn.Parent, Wait: EffectWait.Choice,
+                IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false, AppliedHits: 0 } ||
+            execution.Owner != pending.Owner || execution.SourceId != pending.SourceId ||
+            execution.Committed.Count != 0 || execution.TargetIds.Count != 0 || execution.RegionId.Length != 0 ||
+            !EffectCatalog.All.Programs.TryGetValue(work.ProgramId, out var program) ||
+            program.Steps is not [MightyAttackStep step] ||
             !EffectCatalog.All.Combats[pending.SourceId].Condition.CanPlay(state, battle, pending.Owner) ||
             !pending.PrivateChoices.SequenceEqual(step.Candidates(state, execution)))
             return false;

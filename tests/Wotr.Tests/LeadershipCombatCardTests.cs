@@ -20,6 +20,35 @@ public class LeadershipCombatCardTests
     }
 
     [Theory]
+    [InlineData("")]
+    [InlineData("cursor")]
+    [InlineData("presentation")]
+    [InlineData("choices")]
+    [InlineData("stage")]
+    public void TheMightyAttackChoiceIsMarkedOnlyInItsReviewedFrame(string change)
+    {
+        var state = Reveal(BeforeCards(Horn), Horn);
+        Assert.Equal("LeadershipAndMiss", state.Pending!.Presentation);
+        Assert.True(ReviewedCombatCards.IsMightyAttack(state.Pending.SourceId));
+        switch (change)
+        {
+            case "cursor": state.Resolution.Frames[1].NextStep = 0; break;
+            case "presentation": state.Pending.Presentation = "Altered"; break;
+            case "choices": state.Pending.PrivateChoices.RemoveAt(0); break;
+            case "stage": BattleRuntime.Active(state)!.Stage = BattleStage.BeforeLosses; break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+        {
+            var facts = GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.Battle;
+            if (change.Length == 0)
+                Assert.True(facts?.CompletesPaidAction);
+            else
+                Assert.Null(facts);
+        });
+    }
+
+    [Theory]
     [InlineData(Horn, CharacterRules.Strider)]
     [InlineData(Staff, CharacterRules.Grey)]
     [InlineData(Athelas, CharacterRules.Strider)]

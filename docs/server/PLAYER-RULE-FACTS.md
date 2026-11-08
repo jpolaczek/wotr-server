@@ -1,5 +1,10 @@
 # Player rule facts at an action boundary
 
+Contracts 0.61.0 add `AnarionDraw` and `CorruptionRemoval` at boundary version 45. Both
+repeat only public facts: the Ruler-die draw and its excess discard, and the actor whose
+action a political change interrupted. The `Battle` fact also marks the Mighty Attack choice. Public content 1.0.61 pins these shared facts;
+protocol and save schema are unchanged.
+
 Contracts 0.60.0 extend the `Battle` fact at boundary version 44 to the Witch-king's
 round-closed Sorcerer offer; it repeats only that the battle completes the paid action.
 Public content 1.0.60 pins these shared facts; protocol and save schema are unchanged.

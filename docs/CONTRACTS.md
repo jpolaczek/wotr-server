@@ -1,6 +1,18 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.61.0 advances ActionBoundary to version 45 with two Kings facts for programs
+that close an otherwise finished action. `AnarionDraw` marks Denethor's Palantir of Anarion
+after a card drawn with his Ruler die: the deck choice, then (`Discard`) any excess discard;
+the chosen deck stays only in the owner's trail. `CorruptionRemoval` marks the optional
+removal a political change offers before the action that caused it completes, naming the
+`Actor` who still owes the paid dice and whether it was a Fellowship move. A removal that
+interrupts another decision, and the Anarion draw after an event, stay unmarked. The `Battle`
+fact also marks a Mighty Attack choice (`ReviewedCombatCards.IsMightyAttack`): initiative 4,
+after the combat roll and before any re-roll, with the owner's Companions and missed dice as
+options. Rules 0.15.47 and public content 1.0.61 pin the contract. Protocol and save schema do
+not change.
+
 Contracts 0.60.0 advances ActionBoundary to version 44. The `Battle` fact also marks the
 Witch-king's Sorcerer offer once round one has closed, whether the battle goes on or ends.
 The offer rests on the public battle and the revealed card. Rules 0.15.46 and public content

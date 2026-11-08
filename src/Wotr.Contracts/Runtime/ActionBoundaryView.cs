@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 44;
+        public int Version { get; set; } = 45;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -30,6 +30,8 @@ namespace Wotr.Contracts
         public WestPalantirDiscardView? WestPalantirDiscard { get; set; }
         public FateMonstersEventView? FateMonsters { get; set; }
         public DirectEventChoiceView? DirectEventChoice { get; set; }
+        public AnarionDrawView? AnarionDraw { get; set; }
+        public CorruptionRemovalView? CorruptionRemoval { get; set; }
         public LordsRuleFactsView? Lords { get; set; }
         public KingsRuleFactsView? Kings { get; set; }
     }
@@ -125,6 +127,21 @@ namespace Wotr.Contracts
     {
         public string CardId { get; set; } = "";
         public DieFace CardCost { get; set; }
+    }
+
+    // Denethor's Palantir of Anarion after a card drawn with his Ruler die: the deck choice,
+    // then any excess discard. The chosen deck stays only in the owner's effect trail.
+    public sealed class AnarionDrawView
+    {
+        public bool Discard { get; set; }
+    }
+
+    // The optional Kings corruption removal a political change offers before the action that
+    // caused it completes. Actor took that action and still owes its paid dice.
+    public sealed class CorruptionRemovalView
+    {
+        public Side Actor { get; set; }
+        public bool FellowshipMove { get; set; }
     }
 
     // Public consequences of the committed reveal route after a paid move.

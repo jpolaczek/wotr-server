@@ -13,6 +13,7 @@ public static class ReviewedCombatCards
     public const string ScoutsProgram = "combat.scouts";
     public const string OnslaughtProgram = "combat.onslaught";
     public const string HeroicDeathProgram = "combat.heroic-death";
+    public const string MightyAttackProgram = "combat.mighty-attack";
 
     public static bool IsRelentlessAssault(string cardId) => IsShadowCard(cardId) &&
         HasOnlyEffect(cardId, 3, RelentlessAssaultProgram);
@@ -25,6 +26,9 @@ public static class ReviewedCombatCards
 
     public static bool IsHeroicDeath(string cardId) => CardCatalog.All.TryGetValue(cardId, out var card) &&
         card.Side == Side.FreePeoples && HasOnlyEffect(cardId, 6, HeroicDeathProgram);
+
+    public static bool IsMightyAttack(string cardId) => CardCatalog.All.TryGetValue(cardId, out var card) &&
+        card.Side == Side.FreePeoples && HasOnlyEffect(cardId, 4, MightyAttackProgram);
 
     public static bool IsScouts(string cardId) => CardCatalog.All.TryGetValue(cardId, out var card) &&
         card.Side == Side.FreePeoples && HasOnlyEffect(cardId, 1, ScoutsProgram);
