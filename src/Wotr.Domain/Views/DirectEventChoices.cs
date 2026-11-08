@@ -49,6 +49,34 @@ public static class DirectEventChoices
     // recruits beside it, or inside it when that army was besieged there before its losses.
     public static bool IsMadness(EffectDefinition program) => program.Steps is [MadnessAttackStep, MadnessRecruitStep];
 
+    // Return to Valinor repeats its one step for each Elven Stronghold it strikes, each roll
+    // leaving losses; the execution's TargetIds hold the regions already struck.
+    public static bool RepeatsOnTargets(EffectDefinition program) =>
+        program.Steps is [ValinorRegionStep or KingsValinorStep];
+
+    // The owner's recorded choices are the struck regions in order, without the lone options
+    // the engine took by itself.
+    public static bool RecordsStruckRegions(EffectExecution execution) =>
+        execution.TargetIds.Distinct(StringComparer.Ordinal).Count() == execution.TargetIds.Count &&
+        execution.TargetIds.All(BoardRules.Regions.ContainsKey) &&
+        IsOrderedSubset(execution.Committed.Skip(1).ToArray(), execution);
+
+    private static bool IsOrderedSubset(IReadOnlyList<EffectSelection> chosen, EffectExecution execution)
+    {
+        var next = 0;
+        foreach (var selection in chosen)
+        {
+            if (selection.Owner != execution.Owner || selection.SourceId != execution.SourceId ||
+                selection.ChoiceId != selection.TargetId)
+                return false;
+            while (next < execution.TargetIds.Count && execution.TargetIds[next] != selection.ChoiceId)
+                next++;
+            if (next++ == execution.TargetIds.Count)
+                return false;
+        }
+        return true;
+    }
+
     // How many armies Madness could strike now; before its losses, one means it chose alone.
     public static int MadnessTargets(MatchState state) =>
         new MadnessAttackStep().Candidates(state, new EffectExecution()).Count;
@@ -89,6 +117,11 @@ public static class DirectEventChoices
 
     // A Kings inspection names a nation and then a sovereign in its owner's trail, and shows
     // that sovereign's tiles to the owner alone while they choose one to return.
+    // The one sovereign an inspection could read now, or null. A lone sovereign is taken
+    // without a choice in the trail, and its tiles stay put until the inspection returns one.
+    public static string? LoneInspectedSovereign(MatchState state) =>
+        new SelectInspectedSovereignStep().Candidates(state, new EffectExecution()) is [var only] ? only : null;
+
     public static bool IsInspection(EffectDefinition program) =>
         program.Steps is [KingsNationStep { Activate: false }, SelectInspectedSovereignStep, InspectCorruptionStep];
 

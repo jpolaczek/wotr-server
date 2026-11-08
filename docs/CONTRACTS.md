@@ -1,6 +1,17 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.63.0 advances ActionBoundary to version 47. `DirectEventChoice` also marks every
+choice and every loss of Return to Valinor, which repeats its one step for each Elven
+Stronghold (`DirectEventChoices.RepeatsOnTargets`). `DirectEventChoiceView.TargetIds` lists the
+regions already struck, in order: a lone option is taken without a choice, so the owner's trail
+holds only the strikes chosen among several. The `Battle` fact also marks the Orderly
+Withdrawal choice (`ReviewedCombatCards.IsOrderlyWithdrawal`) at initiative 6, while the opposing
+hits exceed those already cancelled. Both Kings inspections now also mark the tile step after a
+lone sovereign, which the engine takes without a choice in the trail
+(`DirectEventChoices.LoneInspectedSovereign`). Rules 0.15.49 and public content 1.0.63 pin the
+contract. Protocol and save schema do not change.
+
 Contracts 0.62.0 advances ActionBoundary to version 46. `DirectEventChoice` also marks
 Wisdom's nested inspection (the sovereign, then the tile; the owner's trail holds the branch and
 the sovereign), Madness and Horror's region choice, the losses it deals and its recruitment

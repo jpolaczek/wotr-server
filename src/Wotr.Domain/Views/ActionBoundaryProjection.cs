@@ -113,7 +113,7 @@ internal static class ActionBoundaryProjection
 
         if (pending.Kind == DecisionKind.EffectChoice)
             return IsReviewedScoutsChoice(state, pending, frames) || IsReviewedHeroicDeathChoice(state, pending, frames) ||
-                IsReviewedMightyAttackChoice(state, pending, frames)
+                IsReviewedMightyAttackChoice(state, pending, frames) || IsReviewedOrderlyWithdrawalChoice(state, pending, frames)
                 ? new() { CompletesPaidAction = true } : null;
         if (pending.Kind == DecisionKind.Reaction)
             return IsReviewedSorcererWindow(state, pending, frames) ? new() { CompletesPaidAction = true } : null;
@@ -253,6 +253,43 @@ internal static class ActionBoundaryProjection
             execution.Committed.Count != 0 || execution.TargetIds.Count != 0 || execution.RegionId.Length != 0 ||
             !EffectCatalog.All.Programs.TryGetValue(work.ProgramId, out var program) ||
             program.Steps is not [MightyAttackStep step] ||
+            !EffectCatalog.All.Combats[pending.SourceId].Condition.CanPlay(state, battle, pending.Owner) ||
+            !pending.PrivateChoices.SequenceEqual(step.Candidates(state, execution)))
+            return false;
+
+        return state.Resolution.PaidDieIds.Count == 1 &&
+            state.Dice.Count(die => die.Location == DieLocation.Resolving) == 1 &&
+            state.Dice.Any(die => die.Id == state.Resolution.PaidDieIds[0] &&
+                die.Owner == battle.Attacker.Side && die.Location == DieLocation.Resolving);
+    }
+
+    // Orderly Withdrawal opens at initiative 6, after both rolls and re-rolls and before any
+    // casualty, while the opposing hits exceed those already cancelled.
+    private static bool IsReviewedOrderlyWithdrawalChoice(MatchState state, PendingDecision pending,
+        IReadOnlyList<ResolutionFrame> frames)
+    {
+        if (frames is not [var battleFrame, var effectFrame] || battleFrame.Battle is not { } battle ||
+            effectFrame.Effect is not { } execution || !IsPlainBattleFrame(battleFrame) ||
+            pending.Commands is not [CommandKind.ChooseEffect] || pending.Presentation != "CombatEffect" ||
+            !ReviewedCombatCards.IsOrderlyWithdrawal(pending.SourceId) || !CardCatalog.Enabled(state, pending.SourceId))
+            return false;
+
+        var work = new CombatWork(pending.Owner, pending.SourceId, ReviewedCombatCards.OrderlyWithdrawalProgram, 6);
+        if (battle is not { Return: EffectReturn.FinishAction, Stage: BattleStage.BeforeLosses, Round: >= 1,
+                CardsRevealed: true, Mode: not BattleMode.Relief, EndedByEffect: false } ||
+            battle.CompletedRounds != battle.Round - 1 || battle.Id.Length == 0 ||
+            battle.Attacker.Side == battle.Defender.Side || battle.NextWork < 1 ||
+            battle.NextWork > battle.Work.Count || battle.Work[battle.NextWork - 1] != work ||
+            battle.Force(pending.Owner).Round.CardId != pending.SourceId || battle.Force(pending.Owner).Round.CardCancelled ||
+            effectFrame.EffectId != work.ProgramId || effectFrame.NextStep != 1 || effectFrame.Window.Length != 0 ||
+            effectFrame.ReturnDecision is not null || effectFrame.Fellowship is not null || effectFrame.Hunt is not null ||
+            effectFrame.Battle is not null || effectFrame.BattleLoss is not null || effectFrame.EventLoss is not null ||
+            effectFrame.Corruption is not null || execution is not { Return: EffectReturn.Parent, Wait: EffectWait.Choice,
+                IsEvent: false, PalantirDrawPending: false, AnarionDrawPending: false, AppliedHits: 0 } ||
+            execution.Owner != pending.Owner || execution.SourceId != pending.SourceId ||
+            execution.Committed.Count != 0 || execution.TargetIds.Count != 0 || execution.RegionId.Length != 0 ||
+            !EffectCatalog.All.Programs.TryGetValue(work.ProgramId, out var program) ||
+            program.Steps is not [OrderlyWithdrawalStep step] ||
             !EffectCatalog.All.Combats[pending.SourceId].Condition.CanPlay(state, battle, pending.Owner) ||
             !pending.PrivateChoices.SequenceEqual(step.Candidates(state, execution)))
             return false;
@@ -525,12 +562,38 @@ internal static class ActionBoundaryProjection
             !CanPayObservedFace(paidDie.Face, execution.PaidFace))
             return null;
 
-        return new() { CardId = cardId, CardCost = execution.PaidFace, RegionId = execution.MadnessTarget?.Region ?? "" };
+        return new()
+        {
+            CardId = cardId, CardCost = execution.PaidFace, RegionId = execution.MadnessTarget?.Region ?? "",
+            TargetIds = DirectEventChoices.RepeatsOnTargets(program) ? [.. execution.TargetIds] : []
+        };
     }
 
     // The public loss view names the target, hits and rolls. The program's remaining
     // steps do not read the rolled target, so nothing else needs restoring.
     private static bool IsReviewedEventLoss(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program) =>
+        DirectEventChoices.RepeatsOnTargets(program)
+            ? IsReviewedRepeatedLoss(state, pending, frame, execution)
+            : IsReviewedSingleLoss(state, pending, frame, execution, program);
+
+    // Return to Valinor's cursor steps back before each roll, so its losses wait at step zero
+    // with the region they struck last.
+    private static bool IsReviewedRepeatedLoss(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution) =>
+        pending.Commands is [CommandKind.TakeEventLosses] && state.Resolution.Frames is [_, var lossFrame] &&
+        lossFrame is { EffectId: "", NextStep: 0, Window: "", ReturnDecision: null, Effect: null, Fellowship: null,
+            Hunt: null, Battle: null, BattleLoss: null, Corruption: null,
+            EventLoss: { Cause: CasualtyCause.Event } loss } &&
+        loss.SourceId == execution.SourceId && loss.Target.Owner == pending.Owner && loss.Hits > 0 &&
+        pending.RequiredCount == loss.Hits && frame.NextStep == 0 &&
+        execution is { Wait: EffectWait.None, CompletionWindowOffered: false, TargetIds.Count: > 0 } &&
+        loss.Target.Region == execution.TargetIds[^1] && !loss.Target.Garrison &&
+        DirectEventChoices.RecordsStruckRegions(execution) &&
+        execution.RegionId.Length == 0 && execution.NationId.Length == 0 &&
+        execution.PalantirDrawPending == DirectEventChoices.PalantirDrawExpected(state, execution);
+
+    private static bool IsReviewedSingleLoss(MatchState state, PendingDecision pending, ResolutionFrame frame,
         EffectExecution execution, EffectDefinition program) =>
         pending.Commands is [CommandKind.TakeEventLosses] && state.Resolution.Frames is [_, var lossFrame] &&
         lossFrame is { EffectId: "", NextStep: 0, Window: "", ReturnDecision: null, Effect: null, Fellowship: null,
@@ -592,6 +655,8 @@ internal static class ActionBoundaryProjection
             return IsReviewedInspectionChoice(state, pending, frame, execution, program);
         if (program.Steps is [WisdomBranchStep] && state.Resolution.Frames.Count == 2)
             return IsReviewedWisdomInspection(state, pending, frame, execution);
+        if (DirectEventChoices.RepeatsOnTargets(program))
+            return IsReviewedRepeatedChoice(state, pending, frame, execution, program);
         if (pending.Commands is [CommandKind.ChooseEffect] &&
             DirectEventChoices.IsNationalCard(program, out _, out var otherwise, out var recruit))
             return IsReviewedNationalCardChoice(state, pending, frame, execution, otherwise, recruit);
@@ -614,6 +679,22 @@ internal static class ActionBoundaryProjection
             : DirectEventChoices.ReadsAnEarlierRegion(choice)
                 ? HasPublicRecruitRegion(execution)
                 : HasNoEventSelection(execution);
+    }
+
+    // Each Return to Valinor choice names one more Elven Stronghold; the regions already struck
+    // are public and leave their options.
+    private static bool IsReviewedRepeatedChoice(MatchState state, PendingDecision pending, ResolutionFrame frame,
+        EffectExecution execution, EffectDefinition program)
+    {
+        if (pending.Commands is not [CommandKind.ChooseEffect] || state.Resolution.Frames.Count != 1 ||
+            frame.NextStep != 1 || execution is not { Wait: EffectWait.Choice, CompletionWindowOffered: false } ||
+            program.Steps[0] is not EffectChoiceStep choice || pending.Presentation != choice.Presentation ||
+            execution.RegionId.Length != 0 || execution.NationId.Length != 0 ||
+            !DirectEventChoices.RecordsStruckRegions(execution) ||
+            execution.PalantirDrawPending != DirectEventChoices.PalantirDrawExpected(state, execution))
+            return false;
+        var candidates = choice.Candidates(state, execution);
+        return candidates.Count != 0 && pending.PrivateChoices.SequenceEqual(candidates);
     }
 
     // Wisdom's inspection runs in its own nested program: the sovereign, then the tile to
@@ -640,11 +721,14 @@ internal static class ActionBoundaryProjection
             return false;
 
         var trail = execution.Committed;
-        var expected = nested.NextStep + 1;
-        if (trail.Count != expected || trail[0] != new EffectSelection(execution.Owner, execution.SourceId) ||
+        var automatic = nested.NextStep == 2 && trail.Count == 2 && inner.InspectedSovereign is { } lone &&
+            DirectEventChoices.LoneInspectedSovereign(state) == lone;
+        if (trail.Count != nested.NextStep + 1 && !automatic ||
+            trail[0] != new EffectSelection(execution.Owner, execution.SourceId) ||
             trail.Skip(1).Any(selection => selection.Owner != execution.Owner || selection.SourceId != execution.SourceId) ||
             trail[1].ChoiceId != WisdomBranchStep.Inspect || trail[1].TargetId.Length != 0 ||
-            (nested.NextStep == 1 ? inner.InspectedSovereign is not null : inner.InspectedSovereign != trail[2].ChoiceId))
+            (nested.NextStep == 1 ? inner.InspectedSovereign is not null
+                : !automatic && inner.InspectedSovereign != trail[2].ChoiceId))
             return false;
         var candidates = choice.Candidates(state, inner);
         return candidates.Count != 0 && pending.PrivateChoices.SequenceEqual(candidates);
@@ -664,11 +748,14 @@ internal static class ActionBoundaryProjection
             return false;
 
         var chosen = execution.Committed.Skip(1).ToArray();
-        if (chosen.Length != frame.NextStep - 1 ||
+        var automatic = frame.NextStep == 3 && chosen.Length == 1 && execution.InspectedSovereign is { } lone &&
+            DirectEventChoices.LoneInspectedSovereign(state) == lone;
+        if (chosen.Length != frame.NextStep - 1 && !automatic ||
             chosen.Any(selection => selection.Owner != execution.Owner || selection.SourceId != execution.SourceId) ||
             (chosen.Length >= 1 ? chosen[0].ChoiceId != execution.NationId || chosen[0].TargetId.Length != 0
                 : execution.NationId.Length != 0) ||
-            (chosen.Length == 2 ? execution.InspectedSovereign != chosen[1].ChoiceId : execution.InspectedSovereign is not null))
+            (chosen.Length == 2 ? execution.InspectedSovereign != chosen[1].ChoiceId
+                : !automatic && execution.InspectedSovereign is not null))
             return false;
 
         var candidates = choice.Candidates(state, execution);

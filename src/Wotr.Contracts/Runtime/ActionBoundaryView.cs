@@ -7,7 +7,7 @@ namespace Wotr.Contracts
     // No save frames, private opposing choices, deck order or entropy belong here.
     public sealed class ActionBoundaryView
     {
-        public int Version { get; set; } = 46;
+        public int Version { get; set; } = 47;
         public bool FellowshipDeclaredThisTurn { get; set; }
         public bool MinionEverEntered { get; set; }
         public bool MandatoryHuntAllocation { get; set; }
@@ -130,6 +130,9 @@ namespace Wotr.Contracts
         // The army Madness and Horror struck; its region is not in the owner's trail when it was
         // the only option. Empty for every other event.
         public string RegionId { get; set; } = "";
+        // The regions Return to Valinor already struck, in order; a lone option leaves no choice
+        // in the owner's trail. Empty for every other event.
+        public List<string> TargetIds { get; set; } = new List<string>();
     }
 
     // Denethor's Palantir of Anarion after a card drawn with his Ruler die: the deck choice,

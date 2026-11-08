@@ -433,6 +433,14 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 implementation checkpoint — Return to Valinor (2026-11-08)
+
+Contracts 0.63.0 / ActionBoundary v47 and rules 0.15.49 mark Return to Valinor's repeated
+choices and losses (24 roots a six-seed walk left unsupported) and the Orderly Withdrawal
+choice (14), and inspect a lone sovereign without a choice in the trail (22). BOT-02 is still incomplete; no
+policy, push, release or deployment.
+
+
 ### BOT-02 implementation checkpoint — nested and follow-on event choices (2026-11-08)
 
 Contracts 0.62.0 / ActionBoundary v46 and rules 0.15.48 mark Wisdom's nested inspection (20

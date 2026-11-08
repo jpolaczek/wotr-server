@@ -80,6 +80,26 @@ public class KingsInspectionTests
             Assert.Equal(Wisdom, LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
     }
 
+    // Only Dain holds tiles, so the engine takes him without a choice in the trail.
+    [Theory]
+    [InlineData(Wisdom)]
+    [InlineData(Dark)]
+    public void ALoneSovereignIsInspectedWithoutAChoiceAndStillMarked(string card)
+    {
+        var state = State();
+        Tile(state, SovereignCatalog.Dain);
+        Tile(state, SovereignCatalog.Dain, KingsTiles.One);
+        state = Choose(Play(state, card), card == Wisdom ? WisdomBranchStep.Inspect : "north");
+
+        Assert.Equal("InspectedCorruption", state.Pending!.Presentation);
+        Assert.Equal(2, state.Resolution.Frames[0].Effect!.Committed.Count);
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Equal(card, LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
+        Tile(state, SovereignCatalog.Theoden);
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
     [Theory]
     [InlineData("branch")]
     [InlineData("sovereign")]

@@ -1,5 +1,10 @@
 # Player rule facts at an action boundary
 
+Contracts 0.63.0 extend `DirectEventChoice` at boundary version 47 to Return to Valinor's
+repeated strikes; `TargetIds` names the regions already struck, each public through its roll.
+The `Battle` fact also marks the Orderly Withdrawal choice.
+Public content 1.0.63 pins these shared facts; protocol and save schema are unchanged.
+
 Contracts 0.62.0 extend `DirectEventChoice` at boundary version 46 to Wisdom's nested
 inspection, Madness and Horror and the Guide chosen after an event's separation. Besides the
 card and its payment it names only the region Madness struck, already public in its roll. Public content 1.0.62 pins these shared facts;
