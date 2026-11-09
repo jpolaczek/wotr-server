@@ -1,6 +1,12 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.74.0 joins the CPU host line (0.73.0) with the expansions line (0.15.0): UI-361's
+hand split by deck in the public player summary, LOBBY-05's server-decided game lists and the
+offered modules. ActionBoundary stays at version 57. Rules 0.15.60 carry UI-442's corruption
+attempt (a single tile is placed without a decision) and public content 1.0.74 UI-365's texts.
+Protocol and save schema do not change.
+
 Contracts 0.73.0 advances ActionBoundary to version 57. `DirectEventChoice` also marks The Three
 Rings' ring choice after its recovery roll, repeating the three public dice in
 `RingRecoveryRolls`; The Wind from the West's choice from Shadow's inspected hand, which that
