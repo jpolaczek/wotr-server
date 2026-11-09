@@ -82,15 +82,20 @@ public class Shadow03HuntTests
     }
 
     [Fact]
-    public void WornDoesNotRevealHiddenDeckCompositionOrDiscardStrategy()
+    public void WornRevealsOnlyTheHandsDecksAndNeverDiscardsAStrategyCard()
     {
         var first = WornChoice();
         first = Do(first, CommandKind.RespondEffect, new() { ReactionId = WornReaction });
         first.Player(Side.FreePeoples).Hand = [FreePeoplesCharacterCards02.Bilbo];
+        var projection = new Projection(new EffectOptions());
+        // UI-361: a hand card's deck is public, as the decks' backs differ (BASE 2.4.1 pp. 14, 29); which card it is is not.
+        var same = StateCodec.Copy(first);
+        same.Player(Side.FreePeoples).Hand = ["base.fp.character.05"];
+        Assert.Equal(JsonSerializer.Serialize(projection.For(first, Side.Shadow)), JsonSerializer.Serialize(projection.For(same, Side.Shadow)));
         var second = StateCodec.Copy(first);
         second.Player(Side.FreePeoples).Hand = [FreePeoplesStrategyCards01.LastBattle];
-        var projection = new Projection(new EffectOptions());
-        Assert.Equal(JsonSerializer.Serialize(projection.For(first, Side.Shadow)), JsonSerializer.Serialize(projection.For(second, Side.Shadow)));
+        Assert.Equal(new Dictionary<string, int> { ["strategy"] = 1 },
+            projection.For(second, Side.Shadow).Players.Single(p => p.Side == Side.FreePeoples).HandDeckCounts);
         var before = second.RandomSamples.Count;
         second = Do(second, CommandKind.ChooseEffect, new() { Ids = [WornDiscardStep.RandomHand] });
         Assert.Single(second.Player(Side.FreePeoples).Hand);

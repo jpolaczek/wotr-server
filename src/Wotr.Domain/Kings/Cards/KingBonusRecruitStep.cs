@@ -39,7 +39,8 @@ public sealed record KingBonusRecruitStep : EffectChoiceStep
         var unit = context.State.Units.Single(u => u.Id == id);
         unit.Garrison = RecruitmentRules.EventGarrison(context.State, context.Owner, Region)!.Value;
         unit.Location = Region;
-        context.Record("EventRecruited", $"The King Is Revealed: recruited {unit.Kind} in Minas Morgul.");
+        var figure = unit.Kind == UnitKind.Nazgul ? "a Nazgûl" : "a Sauron Regular";
+        context.Record("EventRecruited", $"The King Is Revealed: recruited {figure} in Minas Morgul.");
         CasualtyRules.RemoveUnaccompanied(context.State, Region, unit.Garrison, context.Owner, CasualtyCause.Event);
     }
 }

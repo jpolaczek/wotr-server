@@ -100,7 +100,7 @@ Fuzz/property tests generate only source-compatible input states or consciously 
 <a id="macierz-sieci-i-zapisu"></a>
 ## Network and write Matrix
 
-UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/5779958c9c59050d9e7083e814ef0c5ff1a5f7c7/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/5779958c9c59050d9e7083e814ef0c5ff1a5f7c7/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/5779958c9c59050d9e7083e814ef0c5ff1a5f7c7/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
+UI-10: [transport](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-10-TRANSPORT.md), [reconciliation](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-10-DRAFTS.md), [raw server payodays](server/UI-10-ACCEPTANCE.md) and [real Unity sequences](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/UI-10-NETWORK.md) separate unit tests from acceptance from PostgreSQL and Kestrel. T21 reports remain the results of the earlier code; they do not replace the required regression after the UI-10 amendments.
 
 T07: `PostgresTests` and `TransportTests` require `WOTR_TEST_DB`. `bash scripts/test.sh` launches a separate local cluster and a full set without skip. Without the variable `dotnet test` explicitly skips integration. CI has PostgreSQL 17 and sets the variable; it does not replace the database with the atrap. [Test range T07](server/T07-TRANSACTIONS.md).
 
@@ -140,7 +140,7 @@ It is not enough to pass a full batch that does not accidentally select difficul
 <a id="odbiór-ui-i-wydajności"></a>
 ## acceptance UI and performance
 
-Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/5779958c9c59050d9e7083e814ef0c5ff1a5f7c7/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
+Applicable [list S01–S24](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/SCENARIOS.md) We measure local feedback time separately from the server response. The report provides hardware, build, number frames/pr bellows and network conditions; the “fluid” itself is not the result. A version without original graphics can pass acceptance if it maintains readability and resource interchangeability.
 
 ## Platform acceptance on real machines
 
@@ -582,3 +582,52 @@ private source commit `c114207`.
 
 These checks cover this card continuation only; they do not accept BOT-02, gameplay
 strength, every legal configuration or the remaining unsupported roots.
+
+<a id="exp-10"></a>
+## Every module on its own and in every combination — EXP-10 (2026-10-19)
+
+The owner's order: "make sure all the expansions and the whole game logic work correctly INDEPENDENTLY of each other".
+On `expansions` at `4193fe7`:
+
+- `ModuleIndependenceGameTests`: two demo CPUs play a complete game of each of the 93 legal configurations, one after
+  another in one class (split across four classes they ran in 10 minutes but crowded the suite's timing-sensitive
+  restart and demo tests on an 8-core machine).
+  At every step a module that is off opens none of its decisions (`SpecialDieChoice`, `KeepActionDie`,
+  `CouncilVersions` → Lords; `CouncilHomelands`, `CouncilToken` → Council; `RulerDiscard`, `CorruptionTile` → Kings;
+  `Dismay`), allows, offers or sends none of its handlers' commands (ownership read from each module handler's
+  `Handles`), and keeps no Lords/Council/Kings state, special or Ruler die or module character. Pieces: no card in two
+  places, every card from the decks the configuration built (or an enabled module's special card), no new army unit and
+  only a Kings sovereign that left its initial state leaves the armies, unique dice, Hunt tiles and characters. At every
+  module decision and every 25th step both sides' options are checked, the save reads back to the same bytes and
+  projections, and each projection ignores the other side's secrets. Default suite: one seed, 93/93 PASS (about 16
+  minutes on one core); `WOTR_SOAK_SEEDS=5`: 465/465 PASS in 47 m 3 s.
+- `ReleaseModuleTests.EveryReleaseOffersExactlyTheLegalConfigurationsOfItsOwnModules`: each of the eight sets of released
+  modules offers exactly the legal configurations of its own modules, over all 512 flag combinations, against an
+  independent oracle (13/13 PASS with the class).
+- `HiddenInformation.Perturbed` no longer changes the opponent's hand while Wind from the West lets the viewer inspect it
+  (the new games found that false alarm in Lords+Kings games; the projection itself was right).
+- CI coverage scripts: base 96 cards and 14 characters, Lords 14 cards, Kings 19 cards (11 replacements, 8 additions,
+  two Fate exclusions), Fate six cards and Gimli, catalog 30 rule families and 35 decision windows — all PASS.
+- Static audit of every configuration-flag read in Domain and Server, the engine's per-command hooks, the command
+  handlers, the option providers, deck composition and module state: no command of a module validates without it and
+  no module state is created in a base match. Cross-module points it found are documented rules: Mithril or Nenya
+  reopening the Shadow's replacement window under Lords (T24, T27-LORDS-03); Lore changing the Shadow Ruler die (T31's
+  order Lords → SH discard → FP discard → Dismay/Lore). Not specified but without effect today: when the Council's Hobbit
+  return and the Kings corruption removal queue in one command, the removal resolves first (Council Merry and Pippin
+  have no nation icon, so they cannot be the sovereign's companion). A loaded save does not re-validate its
+  configuration (`ConfigurationRules.Conflict` runs at match creation and in the room rules).
+- Full backend suite with these tests, in six test hosts (`expansion`, `kings`, `lords`, Fate/Council/Release/the module
+  games, base persistence, the rest; disjoint filters that cover every test): **4481/4481 PASS**, no failure, no abort;
+  the largest host peaked at 4.1 GB.
+- Open finding — the suite does not fit one test host on a 16 GB Mac. On `expansions` a single `dotnet test` run is
+  killed by the kernel for memory (exit 137; the system log reads `memorystatus: killing largest compressed process
+  dotnet … 21491 MB`) after 4–16 minutes, before and after EXP-10's tests alike, while `main`'s suite still runs in one
+  host. The memory is held, not merely unreleased: `ExpansionPersistenceTests` alone climbs steadily to 2.2–2.4 GB in
+  three minutes with the configuration-reload watchers off (`DOTNET_hostBuilder__reloadConfigOnChange=false`) and with the
+  workstation GC (`DOTNET_gcServer=0`) alike, while the bot games stay near 400 MB. Something the HTTP/PostgreSQL
+  persistence tests create (`AccountHost` hosts, their services or data sources) outlives its test; a heap snapshot
+  (`dotnet-gcdump`) of that class should name it. Until then run the suite in parts as above. Under that memory pressure
+  timing-sensitive tests also failed (HTTP restarts after 100 s, the demo CPU's 20-second hand-over), so the module games
+  run in one class, not four side by side.
+- `MatchObserverTests.ALapsedObserverLosesTheBoardAndItsOpenSocket` (a 2-second lease) fails under a loaded full run on
+  `main` and `expansions` alike and passes alone; its fix is a base change prepared on `main`.

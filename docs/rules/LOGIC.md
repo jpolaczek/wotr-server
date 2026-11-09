@@ -116,6 +116,17 @@ store their source, scope, duration condition and ending time. Execute an
 instruction to the extent possible and required by its text; partial execution
 does not authorize skipping a mandatory part.
 
+Visibility of a hand (UI-361, owner 2026-10-26): the Character and Strategy
+decks differ by their backs (BASE 2.4.1, PDF p. 14: "Character and Strategy
+decks according to the back of each card"; p. 29: "the back of the chosen card
+is always visible to the opponent"), so how many cards of each deck a hand holds
+is public, while which cards they are stays hidden; excess cards are discarded
+face down (p. 22). Example: the Shadow holding one Character and two Strategy
+cards shows `HandDeckCounts` {character 1, strategy 2} to both players; swapping
+a Strategy card for another leaves the Free Peoples' view identical. Tests:
+`ProjectionTests.EachHandsSplitByDeckIsPublicAndItsCardsStayHidden`,
+`Shadow03HuntTests.WornRevealsOnlyTheHandsDecksAndNeverDiscardsAStrategyCard`.
+
 A card exception overrides only the rule it identifies. Describe play
 conditions, costs, targets, order, reaction windows, partially unavailable
 targets, expiration and visibility separately. Do not reduce everything to

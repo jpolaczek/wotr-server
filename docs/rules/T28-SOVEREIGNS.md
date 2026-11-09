@@ -19,6 +19,8 @@ Instead of action dice Shadow selects the initial sovereign and the specific aut
 
 The cost comes out of Hunt before selection. The number of appropriate tiles is `min(3, remaining Eyes)`. The selection has a permanent cursor and record each next tile; it does not run HuntRuntime or ochrony/przewodnika/Sméagol. The usual Eye and Special are public, omitted and replaced; they do not return before the end of this attempt to not draw them again. Kings immediately completes the selection and ends openly on the sovereign as zero. At the normal end of Shadow selects one of the selected covered tiles, the remaining ones reveal and returns. The eye goes back to released, then returns to the usual interlacing of action.
 
+UI-442 (2026-11-02): a standard attempt draws all its tiles in the command that spends the Eye (or chooses the target of The West Has Failed); the cursor and the per-tile record stay, but no draw decision opens between the tiles. Two or more numeric tiles open the private choice; a single one (one Eye left, or a pool that ran out) is placed by the server without a decision (EXP-15 D8); a pool that runs out before any numeric tile ends the attempt with nothing placed. Only Sequential Corruption keeps one draw per command. Details and tests: [EXPANSIONS K02](EXPANSIONS.md#k02--suwereni-przebudzenie-i-zepsucie).
+
 The tile assigned to the sovereign, the tile retained in the procedure and the tile in the pool are separate places. Physical selection of the pool is shared with the normal Hunt, but not its reactions. Two Kings tiles have a value of 1/2 for Hunt and the effects of events (p.7); identification of their zeros only concerns the corruption of sovereigns.
 
 <a id="polityka-i-usuwanie-kafla"></a>

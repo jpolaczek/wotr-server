@@ -53,25 +53,8 @@ public class ExpansionInteractionTests
     [InlineData(true, true)]
     public void FullCompositionCorruptionSkipsSmeagolExcludesCaptainAndPreservesSpecialEyeCost(bool visible, bool sequential)
     {
-        var state = Corruption(visible, sequential);
-        Assert.Equal(2, CorruptionRuntime.Current(state)!.DrawLimit);
-        Assert.Equal(CorruptionStage.Drawing, CorruptionRuntime.Current(state)!.Stage);
-        Assert.Empty(CorruptionRuntime.Current(state)!.Drawn);
-        Assert.DoesNotContain(state.Characters, character => character.DefinitionId == LordsCharacters.Smeagol);
-        state = KingsIntegrationFixture.Draw(ExpansionFixture.Reload(state), HuntTests.Three);
-        // UI-141: the pool composition is public, so both worlds hold the same tiles: One waits in the pool.
-        var seen = StateCodec.Copy(state);
-        seen.HuntTiles.Single(tile => tile.Id == KingsCorruptionTests.One).Location = "pool";
-        var fp = ExpansionFixture.Json(seen, Side.FreePeoples);
-        var changed = StateCodec.Copy(seen);
-        CorruptionRuntime.Current(changed)!.Drawn = [KingsCorruptionTests.One];
-        changed.Pending!.PrivateChoices = sequential ? [KingsCorruptionTests.One] : [];
-        changed.HuntTiles.Single(tile => tile.Id == HuntTests.Three).Location = "pool";
-        changed.HuntTiles.Single(tile => tile.Id == KingsCorruptionTests.One).Location = "corruption-draw";
-        Assert.Equal(fp, ExpansionFixture.Json(changed, Side.FreePeoples));
-        state = KingsIntegrationFixture.Draw(ExpansionFixture.Reload(state), KingsCorruptionTests.One);
-        if (!sequential)
-            state = KingsFixture.Do(state, CommandKind.ChooseCorruptionTile, new() { Ids = [KingsCorruptionTests.One] });
+        var state = CorruptionReady(visible, sequential);
+        state = sequential ? SequentialDraws(state) : StandardDraws(state);
         var sovereign = KingsFixture.Sovereign(state, SovereignCatalog.Thranduil);
         Assert.Equal(new[] { KingsCorruptionTests.One }, sovereign.Tiles);
         var view = ExpansionFixture.Views.For(state, Side.FreePeoples).Sovereigns.Single(item => item.Id == sovereign.Id);
@@ -84,7 +67,58 @@ public class ExpansionInteractionTests
         ExpansionFixture.Reload(state);
     }
 
-    internal static MatchState Corruption(bool visible, bool sequential)
+    // UI-442: one command sets Sméagol's tile aside and draws the 3 and the 1; the Shadow then chooses privately.
+    private static MatchState StandardDraws(MatchState state)
+    {
+        state = KingsFixture.Do(ExpansionFixture.Reload(state), CommandKind.AttemptCorruption, CorruptionPayload,
+            KingsFixture.DrawOrder(state, SmeagolTile, HuntTests.Three, KingsCorruptionTests.One));
+        var attempt = CorruptionRuntime.Current(state)!;
+        Assert.Equal((2, CorruptionStage.Choosing), (attempt.DrawLimit, attempt.Stage));
+        Assert.Equal(new[] { SmeagolTile }, attempt.Ignored);
+        Assert.Equal(new[] { HuntTests.Three, KingsCorruptionTests.One }, attempt.Drawn);
+        Assert.DoesNotContain(state.Characters, character => character.DefinitionId == LordsCharacters.Smeagol);
+        AssertPrivateDraw(state, HuntTests.Three);
+        return KingsFixture.Do(ExpansionFixture.Reload(state), CommandKind.ChooseCorruptionTile, new() { Ids = [KingsCorruptionTests.One] });
+    }
+
+    // Sequential: Sméagol's tile is set aside and a draw is the only step; the last allowed draw places its tile.
+    private static MatchState SequentialDraws(MatchState state)
+    {
+        state = KingsFixture.Do(ExpansionFixture.Reload(state), CommandKind.AttemptCorruption, CorruptionPayload,
+            KingsFixture.DrawOrder(state, SmeagolTile));
+        var attempt = CorruptionRuntime.Current(state)!;
+        Assert.Equal((2, CorruptionStage.Drawing), (attempt.DrawLimit, attempt.Stage));
+        Assert.Empty(attempt.Drawn);
+        Assert.DoesNotContain(state.Characters, character => character.DefinitionId == LordsCharacters.Smeagol);
+        state = DrawNext(ExpansionFixture.Reload(state), HuntTests.Three);
+        AssertPrivateDraw(state, HuntTests.Three);
+        return DrawNext(ExpansionFixture.Reload(state), KingsCorruptionTests.One);
+    }
+
+    private static MatchState DrawNext(MatchState state, string tile) =>
+        KingsFixture.Do(state, CommandKind.DrawCorruptionTile, new(), KingsFixture.DrawOrder(state, tile));
+
+    // UI-141: the pool composition is public, so the other world holds the same tiles with the 2 drawn instead.
+    private static void AssertPrivateDraw(MatchState state, string drawn)
+    {
+        var other = KingsCorruptionTests.Two;
+        var fp = ExpansionFixture.Json(state, Side.FreePeoples);
+        var changed = StateCodec.Copy(state);
+        var attempt = CorruptionRuntime.Current(changed)!;
+        attempt.Drawn[attempt.Drawn.IndexOf(drawn)] = other;
+        changed.Pending!.PrivateChoices = [.. changed.Pending.PrivateChoices.Select(id => id == drawn ? other : id)];
+        changed.HuntTiles.Single(tile => tile.Id == drawn).Location = "pool";
+        changed.HuntTiles.Single(tile => tile.Id == other).Location = "corruption-draw";
+        Assert.Equal(fp, ExpansionFixture.Json(changed, Side.FreePeoples));
+    }
+
+    internal const string SmeagolTile = "lords.hunt.smeagol.1";
+
+    internal static CommandPayload CorruptionPayload => new() { CharacterId = SovereignCatalog.Thranduil, DieId = LordsDiceCatalog.Nenya };
+
+    // The Shadow to attempt with Nenya's special Eye beside two Eyes and the Captain's die; the pool holds Sméagol's
+    // tile, the 3, the 1 and the 2.
+    internal static MatchState CorruptionReady(bool visible, bool sequential)
     {
         var state = Actions(visible: visible, sequential: sequential);
         state = KingsFixture.Do(state, CommandKind.DiscardDie, new() { DieId = KingsFixture.Die(state).Id });
@@ -98,8 +132,7 @@ public class ExpansionInteractionTests
         CaptainOfDespair.RecordCost(state, captain);
         Assert.True(CaptainOfDespair.CompleteCost(state, captain));
         Assert.Equal(3, CorruptionRules.Eyes(state).Count());
-        KingsFixture.Pool(state, "lords.hunt.smeagol.1");
-        return KingsFixture.Do(state, CommandKind.AttemptCorruption,
-            new() { CharacterId = SovereignCatalog.Thranduil, DieId = LordsDiceCatalog.Nenya }, 0);
+        KingsFixture.Pool(state, SmeagolTile, HuntTests.Three, KingsCorruptionTests.One, KingsCorruptionTests.Two);
+        return state;
     }
 }

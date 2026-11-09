@@ -7,11 +7,13 @@ namespace Wotr.Tests;
 
 public class KingsPersistenceTests
 {
+    // UI-442: a standard attempt draws in the command that spends the Eye, so that command restarts with all its draws.
     [PostgresFact]
-    public Task RestartBetweenDrawsKeepsEyeCostTargetAndHiddenCursor()
+    public Task RestartOfAnAttemptEndedByAKingsTileKeepsEyeCostTargetAndPlacement()
     {
-        var state = Attempt(3, tiles: [HuntTests.Three, KingsTiles.One]);
-        return LordsPersistenceTests.Restart(state, CommandKind.DrawCorruptionTile, new(), 0);
+        var state = Ready(3, HuntTests.Three, KingsTiles.One);
+        return LordsPersistenceTests.Restart(state, CommandKind.AttemptCorruption, AttemptPayload(state),
+            DrawOrder(state, HuntTests.Three, KingsTiles.One));
     }
 
     [PostgresFact]
@@ -19,11 +21,18 @@ public class KingsPersistenceTests
         LordsPersistenceTests.Restart(Attempt(), CommandKind.ChooseCorruptionTile, new() { Ids = [HuntTests.Three] });
 
     [PostgresFact]
-    public Task RestartOnLastNormalDrawKeepsBothPrivateChoices()
+    public Task RestartOfAStandardAttemptKeepsBothPrivateChoices()
     {
-        var one = HuntPool.Definitions.Values.First(t => t.Pool == "standard" && t.Value == "1" && !KingsTiles.IsKings(t.Id)).Id;
-        var state = Attempt(3, tiles: [HuntTests.Three, one]);
-        return LordsPersistenceTests.Restart(state, CommandKind.DrawCorruptionTile, new(), 0);
+        var state = Ready(3, HuntTests.Three, KingsCorruptionTests.One);
+        return LordsPersistenceTests.Restart(state, CommandKind.AttemptCorruption, AttemptPayload(state),
+            DrawOrder(state, HuntTests.Three, KingsCorruptionTests.One));
+    }
+
+    [PostgresFact]
+    public Task RestartOfASingleTileAttemptPlacesItWithoutADecision()
+    {
+        var state = Ready(2, HuntTests.Three);
+        return LordsPersistenceTests.Restart(state, CommandKind.AttemptCorruption, AttemptPayload(state), 0);
     }
 
     [PostgresFact]

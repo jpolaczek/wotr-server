@@ -90,3 +90,36 @@ The final `python3 scripts/source_fate.py --fetch` run: **PASS** for all six sou
 The coordinator has combined recommendations with `.artifacts/source-audit/fate/shared-recommendations.json` : six sources, update of earlier Fate entries, close GAP-FATE , accurate ID T32-CARDS/T32-GIMLI description F01/X03 and preread instructions. Final `python3 scripts/source_fate.py --registered` : **PASS**, six manifesto SHA-256 and all eight assigned ID according to index. Final `python3 scripts/tasks.py validate` : **PASS**, 87 tasks; graph, gate , requirements, rules, links, history, index and SHA-256 sources.
 
 Transfer: gate source T32-SETUP/T32-CARDS/T32-GIMLI/T32 is closed, but their implementation dependencies and T33 remain. No unresolved conflict in the read range has been found. The limitation on the print date is described above. The next work on the client (UI-10) requires separate start after acceptance aggregate T21; SRC-07 does not change runtime or contracts.
+
+<a id="player-texts-ui-365"></a>
+## Player texts (UI-365, 2026-10-27)
+
+The owner found Dwarf of Renown's tooltip senseless ("any die in X or Y moves the Dwarves"): the condition did not
+name Gimli. Every Fate text a player reads was checked against the criteria of UI-365 (the condition names its
+subject, who spends what, one or two short sentences, the UI's game terms, no ids or engine words) and against the
+meaning in the manifests, T32 and the engine. No text contradicted the rules; the rewrites keep each meaning and drop
+clauses that only restate general rules. Ability titles and the cards' printed wording stay where they were clear.
+
+| Location | Problem | New text |
+| --- | --- | --- |
+| Ability text, Gimli: Captain of the West | Three sentences; two restate the five-dice cap and Combat Strength in general. | When Gimli takes part in a battle, add 1 to the Free Peoples army’s Combat Strength (at most five Combat dice). |
+| Ability text, Gimli: Dwarf of Renown | A bare "In Iron Hills or Ered Luin" without Gimli; "die result", four clauses. The Dwarves are active from the Fate setup, so "does not activate" never changes play; Erebor is not in the list. | While Gimli is in the Iron Hills or Ered Luin, even if the Shadow controls it, you may spend any Action die to move the Dwarves one step toward war. |
+| Ability text, Gimli, Dwarven Lord: Guide | Three sentences; "decision"; the Council's shared group rule. | When a Hunt tile is drawn while Gimli is the Guide, you may separate him to reduce its damage by 1 (minimum 0), unless that damage must be taken as Corruption. |
+| Ability text, Gimli, Dwarven Lord: Dwarven Champion | "whose defending army is in", a meta sentence about "the current Fate board". | When Gimli takes part in a battle in a Dwarven region (not Erebor), attacking or defending, add 1 to the Free Peoples army’s Combat Strength (at most five Combat dice). |
+| Ability text, Gimli, Dwarven Lord: Messenger of Elrond | The same bare "In Iron Hills or Ered Luin"; the icon clause repeats Movement level. | While Gimli is in the Iron Hills or Ered Luin, even if the Shadow controls it, you may spend any Action die to activate the Dwarves and move them one step toward war. |
+| Ability text, Gimli, Dwarven Lord: Movement level | Four sentences; "With Council, its starting homelands". | Gimli moves as Level 2 but is Level 1 for everything else, such as Hunt casualties. He has no nation icon and may start in the Iron Hills or Ered Luin. |
+| There and Back Again, event | Region names without "the"; "advance Dwarves". | … in Carrock, the Iron Hills or the Woodland Realm, activate the North and advance the Dwarves, Elves and North by one political step each. |
+| Book of Mazarbul, event | "in that region" is ambiguous with a Companion in both. | … recruit one Dwarven Regular or Elite in that region (your choice if both). |
+| Orcs Multiplying Again, event | "distribute a limited reserve between the legal regions" is engine language and repeats the choice. | Recruit three Sauron Regulars in Dol Guldur and three in either Mount Gundabad or Erebor. If fewer than six remain in the Reserve, you choose how to split them. |
+| Dwarf of Renown option detail (server) | Shared generic "advance the nation's politics". | Spend any Action die to move the Dwarves one step toward war. (Base abilities keep theirs.) |
+| Monsters Roused plan details (server) | "Regulars in …" without a count. | One Sauron Regular each in …, and a Sauron Elite in Trollshaws / in one of them. |
+| Monsters Roused Elite detail (server) | "together with its Regular". | Recruit the Sauron Elite here, beside this region's Regular. |
+| Orcs Multiplying Again region detail (server) | "up to three"; "Share the available reserve". | Recruit three Sauron Regulars here and three in Dol Guldur. If the Reserve runs short, you choose how to split them. |
+| Scenarios `fate-gimli-renown`, `fate-gimli-messenger` | The same subjectless "any die"; the made-up title "Messenger of the Dwarves". | While he is there, spend any Action die …; the title is the printed "Messenger of Elrond". |
+| Scenario `fate-gimli-guide` | "his response in the Hunt window"; the damage reduction unsaid. | … separate him from the Fellowship before the damage to reduce it by 1. |
+| Scenarios `fate-card-book-of-mazarbul`, `fate-card-monsters-roused`, `fate-card-orcs-erebor-held` | "move them, then the Dwarves go to war" (moving both away cancels it); "place what it allows"; "leaves one plan". | "you may move them, and if one still stands in either region afterwards …"; "recruit what the reserve allows"; "leaves nothing to split". |
+
+Found clear and kept: the six ability titles, the other three events, all six Combat texts and titles, the Monsters
+Roused plan titles, the Orcs and Elite option titles, the Council version labels, and 25 of the 31 Fate test
+scenarios. Base-game texts with the same faults (the base Captain of the West's subjectless "While participating",
+the political options' "Advance dwarves") belong to `main` and were only reported.

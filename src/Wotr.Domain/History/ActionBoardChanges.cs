@@ -59,10 +59,12 @@ internal static class ActionBoardChanges
     private static bool Same(CharacterState a, CharacterState b) => a.Location == b.Location && a.Garrison == b.Garrison &&
         a.DefinitionId == b.DefinitionId && a.Level == b.Level && a.Leadership == b.Leadership && a.NationIcon == b.NationIcon;
 
+    // UI-344: Sméagol leaving the Fellowship is announced (SmeagolRules.Discard), so his departure is a public change.
     private static bool PublicCharacter(MatchState state, CharacterState character) =>
         character.Side == Side.Shadow || state.Lords is null ||
         state.Lords.RevealedCompanionVersions.GetValueOrDefault(character.Id) == character.DefinitionId ||
-        BoardRules.Regions.ContainsKey(character.Location);
+        BoardRules.Regions.ContainsKey(character.Location) ||
+        state.Lords.SmeagolLeft && character.DefinitionId == LordsCharacters.Smeagol;
 
     private static void Politics(MatchState before, MatchState after, ActionFacts facts)
     {

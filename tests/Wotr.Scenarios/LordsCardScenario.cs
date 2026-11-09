@@ -13,7 +13,25 @@ internal static class LordsCardScenario
         ["ui272-wind-table"] = WindTable(random),
         ["ui272-wind-hand"] = WindHand(random),
         ["ui272-safe-paths"] = SafePaths(random),
-        ["ui272-three-rings"] = ThreeRings(random)
+        ["ui272-three-rings"] = ThreeRings(random),
+        // UI-347: the test menu's builders of Orderly Withdrawal, the Balrog card and Evil Knowledge.
+        ["ui347-orderly-withdrawal"] = LordsDecisionScenarios.OrderlyWithdrawal(Guid.NewGuid().ToString("N"), random),
+        ["ui347-balrog"] = LordsDecisionScenarios.Balrog(Guid.NewGuid().ToString("N"), random),
+        ["ui347-evil-knowledge"] = LordsDecisionScenarios.EvilKnowledge(Guid.NewGuid().ToString("N"), random),
+        // Tests share a seeded match by its name, so a second test of the same situation has its own.
+        ["ui347-wind-finish"] = WindHand(random),
+        ["ui347-balrog-finish"] = LordsDecisionScenarios.Balrog(Guid.NewGuid().ToString("N"), random),
+        ["ui347-orderly-withdrawal-pass"] = LordsDecisionScenarios.OrderlyWithdrawal(Guid.NewGuid().ToString("N"), random),
+        // UI-348: Brand's Combat card replacement, Awakened (twice: the chip and the Pass) and Corrupted.
+        ["ui348-brand-heir"] = KingsDecisionScenarios.Brand(Guid.NewGuid().ToString("N"), random, true),
+        ["ui348-brand-heir-keep"] = KingsDecisionScenarios.Brand(Guid.NewGuid().ToString("N"), random, true),
+        ["ui348-brand-shadows"] = KingsDecisionScenarios.Brand(Guid.NewGuid().ToString("N"), random, false),
+        ["ui348-anarion"] = KingsDecisionScenarios.Anarion(Guid.NewGuid().ToString("N"), random),
+        // UI-277: the Black Serpent's substitution before the reveal: the chip and the Pass.
+        ["ui277-chieftain"] = KingsDecisionScenarios.Chieftain(Guid.NewGuid().ToString("N"), random),
+        ["ui277-chieftain-keep"] = KingsDecisionScenarios.Chieftain(Guid.NewGuid().ToString("N"), random),
+        // UI-277: a Chieftain's entry without a Council token, as the test menu starts it.
+        ["ui277-chieftain-entry"] = TestScenarioCatalog.Find("kings-sh-chieftain-entry")!.Create(Guid.NewGuid().ToString("N"))
     };
 
     private static MatchState State(IRandomSource random, Side actor)

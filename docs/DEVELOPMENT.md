@@ -17,7 +17,7 @@ The script uses the local `.artifacts/dotnet` if there is, otherwise SDK with PA
 
 ## Unity
 
-Unity Client is in a separate `jpolaczek/wotr-client` repository (DIST-03). Building, EditMode/PlayMode tests and packages describes its [DEVELOPMENT](https://github.com/jpolaczek/wotr-client/blob/5779958c9c59050d9e7083e814ef0c5ff1a5f7c7/docs/DEVELOPMENT.md); this link moves `python3 scripts/tasks.py pin-repo wotr-client`.
+Unity Client is in a separate `jpolaczek/wotr-client` repository (DIST-03). Building, EditMode/PlayMode tests and packages describes its [DEVELOPMENT](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/DEVELOPMENT.md); this link moves `python3 scripts/tasks.py pin-repo wotr-client`.
 
 <a id="środowisko-po-podziale--dist-03"></a>
 ## Environment after division — DIST-03
@@ -99,7 +99,7 @@ The account (AUTH-02) is assumed to require `POST /api/auth/register` with `user
 <a id="map-17--profil-konturów-i-rozdzielenie-transportu"></a>
 ## MAP-17 — contour profile and transport separation
 
-`tests/Wotr.Scenarios` saves `map17-profile.json` next to fixture `client-integration.json` during `scripts/test-client.sh`. These are safe server projections for Development-only honesty; do not copy to full private fixture profile with certifications. The new `map-profile-2` requires 36 workloads and 42 PNG, including dense field/garrison and Fate/White Hand changes.
+`tests/Wotr.Scenarios` saves `map17-profile.json` next to fixture `client-integration.json` during `scripts/test-client.sh`. These are safe server projections for Development-only honesty; do not copy to full private fixture profile with certifications. The new `map-profile-2` requires 44 workloads and 50 PNG, including dense field/garrison, Fate/White Hand changes and, since UI-407, a carried army with edge pan for each side (`drag-edge-fp`, `drag-edge-sh`; the client's `review-map-client.py --drag-input`).
 
 ```sh
 python3 scripts/review-map-client.py --player ".artifacts/map17/profile/Wotr.app/Contents/MacOS/War of the Ring Online" --input .artifacts/map17-profile.json --output .artifacts/map17-player --timeout 600
@@ -108,7 +108,7 @@ python3 scripts/test_map_profile.py
 
 Confirm the executable path in Info.plist of a specific build. Start with behaviour/przywr distorting player preferences (helper `clean_profile` In the scripts/smoke-macos.py ); final acceptance It's a wrapper. `.artifacts/map17-build-smoke.py profile` The values from the Development Player are distinct from smoke nonDevelopment and Editor tests. Check all images after automatic PASS . Measurement report without accounts/secret you can keep in docs/ui/profiles ; private exports remain in .artifacts.
 
-`scripts/test-map-tls.py` is a separate test of two script accounts on the local HTTPS/WSS proxy for the Test Kestrel5088: checks the CA certificate and localhost, private hands, notifications/reconnect and the same receipt. It does not change the implemented stack and removes the temporary leaf certificate key. It requires a real test host and fixture; do not run parallel with the batch using the same accounts or login limit. Units `scripts/test-client.sh` still uses HTTP/WS. Final command and results: [MAP17_ACCEPTANCE](https://github.com/jpolaczek/wotr-client/blob/5779958c9c59050d9e7083e814ef0c5ff1a5f7c7/docs/ui/MAP17_ACCEPTANCE.md).
+`scripts/test-map-tls.py` is a separate test of two script accounts on the local HTTPS/WSS proxy for the Test Kestrel5088: checks the CA certificate and localhost, private hands, notifications/reconnect and the same receipt. It does not change the implemented stack and removes the temporary leaf certificate key. It requires a real test host and fixture; do not run parallel with the batch using the same accounts or login limit. Units `scripts/test-client.sh` still uses HTTP/WS. Final command and results: [MAP17_ACCEPTANCE](https://github.com/jpolaczek/wotr-client/blob/cee738b36f76b4998c1470e59a7035b3e3380e06/docs/ui/MAP17_ACCEPTANCE.md).
 
 <a id="zgodność-klienta-i-lokalnego-serwera--ui-83"></a>
 ## Client and local server compatibility — UI-83

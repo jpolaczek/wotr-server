@@ -28,7 +28,7 @@ public sealed record FateOrcsRegionStep : EffectChoiceStep
     public override EffectChoiceView Describe(MatchState state, EffectExecution execution, string id) => new()
     {
         Id = id, TargetId = id, Title = "Second recruitment region",
-        Detail = "Recruit up to three Sauron Regulars here and three in Dol Guldur. Share the available reserve."
+        Detail = "Recruit three Sauron Regulars here and three in Dol Guldur. If the Reserve runs short, you choose how to split them."
     };
 
     public override void Choose(EffectContext context, string id) => context.Execution.RegionId = id;

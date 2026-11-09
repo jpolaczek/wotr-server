@@ -26,7 +26,7 @@ public sealed record LoreChangeStep : EffectChoiceStep
         if (dice.SingleOrDefault(d => d.Id == id) is { } die)
             return new() { Id = id, Title = die.Face.ToString(), SelectionGroup = "Die",
                 Detail = die.Source == "ruler" ? "Shadow Ruler die." : die.Special is null
-                    ? "Standard Shadow die." : die.Source + (die.Special.RemoveSymbol ? " · Remove" : "") };
+                    ? "Standard Shadow die." : "Lesser Minion die" + (die.Special.RemoveSymbol ? " · Remove." : ".") };
         var face = dice.SelectMany(d => LoreOfTheRings.Faces(d)).First(p => p.Key == id).Value;
         return new()
         {

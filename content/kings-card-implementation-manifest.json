@@ -1041,13 +1041,13 @@
           "tests": [
             "KingsWestTests.NazgulRangeAndInitialStatusRestrictTargetsButEventMayRepeatThisTurn",
             "KingsWestTests.WitchKingCountsAsNazgulForTheEventRange",
-            "KingsWestTests.EventDrawLimitUsesUnspentEyesWithoutNeedingUnusedFpDice"
+            "KingsWestTests.EventDrawsAsManyTilesAsUnspentEyesWithoutNeedingUnusedFpDice"
           ]
         },
         {
           "sourceText": "Próba jest dozwolona także wtedy, gdy FP nie mają już niewykorzystanych kości akcji.",
           "tests": [
-            "KingsWestTests.EventDrawLimitUsesUnspentEyesWithoutNeedingUnusedFpDice"
+            "KingsWestTests.EventDrawsAsManyTilesAsUnspentEyesWithoutNeedingUnusedFpDice"
           ]
         }
       ],
@@ -1072,7 +1072,7 @@
           "sourceText": "Zasięg tego samego lub sąsiedniego regionu; brak pobrania Oka i brak wymogu pozostałej kości FP.",
           "tests": [
             "KingsWestTests.NazgulRangeAndInitialStatusRestrictTargetsButEventMayRepeatThisTurn",
-            "KingsWestTests.EventDrawLimitUsesUnspentEyesWithoutNeedingUnusedFpDice"
+            "KingsWestTests.EventDrawsAsManyTilesAsUnspentEyesWithoutNeedingUnusedFpDice"
           ]
         },
         {
@@ -1101,11 +1101,11 @@
         "KingsCards02PersistenceTests.EveryCombatRestartsSecretCommitAndReveal",
         "KingsCards02PersistenceTests.EveryEventRestartsPaymentAndItsFirstDecision",
         "KingsCards02PersistenceTests.HopeRestartsChosenAwakeningAndVainRestartsZeroOrPaidLeadership",
-        "KingsCards02PersistenceTests.WestRestartsTargetEachDrawAndPrivateFinalTileChoice",
+        "KingsCards02PersistenceTests.WestRestartsTargetWithItsDrawsAndPrivateFinalTileChoice",
         "KingsDeckTests.CompleteDeckPersistsItsOrderAndDrawDoesNotReshuffleOrExposeTheDeck",
         "KingsDeckTests.DisabledKingsPreservesPreviousBaseAndLordsShuffleOrder",
         "KingsDeckTests.FactoryShufflesCompleteDecksWithElevenReplacementsEightAdditionsAndFateExclusions",
-        "KingsWestTests.EventDrawLimitUsesUnspentEyesWithoutNeedingUnusedFpDice",
+        "KingsWestTests.EventDrawsAsManyTilesAsUnspentEyesWithoutNeedingUnusedFpDice",
         "KingsWestTests.IgnoredTilesDoNotCountAndKingsTileImmediatelyReturnsToParent",
         "KingsWestTests.NazgulRangeAndInitialStatusRestrictTargetsButEventMayRepeatThisTurn",
         "KingsWestTests.NoNazgulInRangeConsumesOnlyTheEventWithoutRandomness",

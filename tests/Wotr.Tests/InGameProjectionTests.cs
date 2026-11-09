@@ -56,6 +56,26 @@ public class InGameProjectionTests
         Assert.NotNull(RingRules.Validate(state, Side.FreePeoples, new() { RingId = ring, DieId = die.Id, Face = DieFace.Army }));
     }
 
+    // UI-414 (owner): a Corrupted sovereign's effects are its passive ones, titled by ability and naming their place; the
+    // optional uses (Shadows in the North, the Fate abilities) are not effects.
+    [Fact]
+    public void CorruptedSovereignsProjectOnlyTheirPassiveEffectsTitledByAbility()
+    {
+        var state = KingsFixture.Actions();
+        foreach (var sovereign in state.Kings!.Sovereigns)
+            sovereign.Status = SovereignStatus.Corrupted;
+        var effects = InGameEffectProjection.For(state, Side.FreePeoples).Where(e => e.SourceKind == "Ability").ToList();
+        Assert.Equal(6, effects.Count);
+        Assert.Equal(5, effects.Count(e => e.Title.StartsWith("Corrupted ruler · ", StringComparison.Ordinal)));
+        var dain = effects.Single(e => e.Title == "Corrupted ruler · Dáin");
+        Assert.Contains("in Erebor", dain.Description);
+        Assert.Equal("erebor", dain.Targets.Single().Id);
+        Assert.Contains("in the Woodland Realm", effects.Single(e => e.Title == "Corrupted ruler · Thranduil").Description);
+        var mark = effects.Single(e => e.Title == "Mark of the White Hand · Théoden");
+        Assert.Equal("helms-deep", mark.Targets.Single().Id);
+        Assert.DoesNotContain(effects, e => e.Description.Contains("Shadow may", StringComparison.Ordinal));
+    }
+
     [Fact]
     public void AwakeningDiagnosticsFollowNationCostRouteAndTiming()
     {
@@ -295,12 +315,12 @@ public class InGameProjectionTests
     [Fact]
     public void PrivateHandAndVisibleCorruptionDrawCannotChangeTheOtherSidesDiagnostics()
     {
-        var state = KingsFixture.Attempt(3, tiles: [HuntTests.Three]);
+        var state = KingsFixture.Attempt(3, tiles: [HuntTests.Three, KingsCorruptionTests.One]);
         state.Configuration.VisibleCorruption = true;
         var changed = StateCodec.Copy(state);
         changed.Player(Side.Shadow).Hand = ["private-card"];
         state.Player(Side.Shadow).Hand = ["different-private-card"];
-        CorruptionRuntime.Current(changed)!.Drawn[0] = "base.hunt.standard.1.0.1";
+        CorruptionRuntime.Current(changed)!.Drawn[0] = KingsCorruptionTests.Two;
         Assert.Equal(Json(Views.For(state, Side.FreePeoples)), Json(Views.For(changed, Side.FreePeoples)));
         Assert.Empty(Views.For(changed, Side.FreePeoples).CorruptionAttempt!.OwnChoices);
     }

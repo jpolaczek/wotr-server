@@ -104,9 +104,14 @@ public static class InGameEffectProjection
         return condition.Length == 0 ? duration + "." : duration + ", or when " + condition + ".";
     }
 
+    // UI-414 (owner): the Effects tab lists what holds by itself: each Corrupted sovereign's recruitment ban, titled by its
+    // ability and naming its place, and Théoden's Mark of the White Hand. Brand's Shadows in the North and the Fate
+    // abilities are the Shadow's optional uses, offered in battle and described with the character, so they are not
+    // effects (KINGS pp.12-13).
     private static IEnumerable<ActiveEffectView> SovereignEffects(SovereignState sovereign)
     {
         var definition = SovereignCatalog.All[sovereign.Id];
+        var name = definition.Title.Split(' ')[0];
         var target = sovereign.Id switch
         {
             SovereignCatalog.Brand => new EffectTargetView { Kind = "Nation", Id = "north", Label = "North figures in every region" },
@@ -116,27 +121,32 @@ public static class InGameEffectProjection
         yield return new()
         {
             Id = $"{sovereign.Id}:recruitment", SourceId = definition.CorruptedCard, SourceKind = "Ability",
-            Title = definition.Title, Owner = Side.Shadow, SourceReference = "KINGS pp.12–13; " + definition.CorruptedCard,
-            Description = sovereign.Id == SovereignCatalog.Thranduil
-                ? "Prevents recruiting Elites here through Muster or character abilities. Event recruitment keeps its own rules."
-                : "Prevents recruiting Leaders and Elites in this scope through Muster or character abilities. Event recruitment keeps its own rules.",
+            Title = "Corrupted ruler · " + name, Owner = Side.Shadow, SourceReference = "KINGS pp.12–13; " + definition.CorruptedCard,
+            Description = RecruitmentWeakness(sovereign.Id),
             Duration = "WhileCorrupted", ExpiresWhen = "SovereignRemoved",
             ExpiryDescription = "When this corrupted sovereign is removed.", Targets = [target]
         };
+        if (sovereign.Id != SovereignCatalog.Theoden)
+            yield break;
         yield return new()
         {
-            Id = $"{sovereign.Id}:weakness", SourceId = definition.CorruptedCard, SourceKind = "Ability",
-            Title = definition.Title, Owner = Side.Shadow, SourceReference = "KINGS pp.12–13; " + definition.CorruptedCard,
-            Description = sovereign.Id switch
-            {
-                SovereignCatalog.Brand => "Once per battle involving North, Shadow may replace its combat card effect with Brand's cancellation.",
-                SovereignCatalog.Theoden => "Shadow-controlled Helm's Deep is an Isengard stronghold; its original victory-point ownership is unchanged.",
-                _ => "Once per siege battle here, Shadow may remove a participating Regular instead of reducing an Elite to extend the siege."
-            },
+            Id = $"{sovereign.Id}:white-hand", SourceId = definition.CorruptedCard, SourceKind = "Ability",
+            Title = "Mark of the White Hand · " + name, Owner = Side.Shadow, SourceReference = "KINGS pp.12–13; " + definition.CorruptedCard,
+            Description = "While Shadow controls Helm's Deep, it is an Isengard Stronghold but still counts as a captured Free Peoples " +
+                "Stronghold for victory points.",
             Duration = "WhileCorrupted", ExpiresWhen = "SovereignRemoved",
             ExpiryDescription = "When this corrupted sovereign is removed.",
-            Targets = sovereign.Id == SovereignCatalog.Theoden
-                ? [new() { Kind = "Region", Id = "helms-deep", Label = BoardRules.Regions["helms-deep"].Name }] : [target]
+            Targets = [new() { Kind = "Region", Id = "helms-deep", Label = BoardRules.Regions["helms-deep"].Name }]
         };
     }
+
+    // The ban covers Muster and character abilities (KingsWeaknesses.BlocksRecruit), never an Event card's recruit.
+    private static string RecruitmentWeakness(string sovereignId) => sovereignId switch
+    {
+        SovereignCatalog.Brand => "North Leaders and Elites cannot be recruited anywhere, except by Event cards.",
+        SovereignCatalog.Theoden => "Free Peoples Leaders and Elites cannot be recruited in Rohan's regions, except by Event cards.",
+        SovereignCatalog.Thranduil => "Elites cannot be recruited in the Woodland Realm, except by Event cards; Leaders still can.",
+        SovereignCatalog.Dain => "Leaders and Elites cannot be recruited in Erebor, except by Event cards.",
+        _ => "Leaders and Elites cannot be recruited in Minas Tirith, except by Event cards."
+    };
 }

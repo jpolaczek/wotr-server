@@ -22,7 +22,7 @@ public static class KingsPalantir
         DiceRules.Pay(state, actor, dieId, DieFace.Muster);
         state.Kings!.PalantirUsedTurn = state.Turn;
         state.Events.Add(new() { Revision = state.Revision, Kind = "PalantirUsed",
-            Text = "The Palantír of Barad-dûr: Shadow used Muster as Event for this turn." });
+            Text = "The Palantír of Barad-dûr: Shadow used a Muster die as an Event die (once per turn)." });
     }
 
     public static ActionOption? RemovalOption(MatchState state, Side actor) => actor == Side.FreePeoples &&

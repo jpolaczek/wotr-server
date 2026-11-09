@@ -43,6 +43,34 @@ public class ProjectionTests
         Assert.Equal(Json(preview.Preview(first, Side.FreePeoples, command)), Json(preview.Preview(second, Side.FreePeoples, command)));
         Assert.DoesNotContain("secret-a", Json(projection.For(first, Side.FreePeoples)));
     }
+
+    // UI-361: the decks' backs differ, so each hand's split by deck is public; which cards it holds stays hidden.
+    [Fact]
+    public void EachHandsSplitByDeckIsPublicAndItsCardsStayHidden()
+    {
+        var state = KernelTests.NewGame();
+        var shadow = state.Player(Side.Shadow);
+        var characters = ShadowCards("character");
+        var strategies = ShadowCards("strategy");
+        shadow.Hand.Clear();
+        shadow.Hand.AddRange([characters[0], strategies[0], strategies[1]]);
+
+        foreach (var viewer in new[] { Side.FreePeoples, Side.Shadow })
+        {
+            var seen = projection.For(state, viewer).Players.Single(p => p.Side == Side.Shadow);
+            Assert.Equal(3, seen.HandCount);
+            Assert.Equal(new Dictionary<string, int> { ["character"] = 1, ["strategy"] = 2 }, seen.HandDeckCounts);
+        }
+        var before = Json(projection.For(state, Side.FreePeoples));
+        shadow.Hand[1] = strategies[2];
+        Assert.Equal(before, Json(projection.For(state, Side.FreePeoples)));
+        shadow.Hand[1] = characters[1];
+        var after = projection.For(state, Side.FreePeoples).Players.Single(p => p.Side == Side.Shadow);
+        Assert.Equal(new Dictionary<string, int> { ["character"] = 2, ["strategy"] = 1 }, after.HandDeckCounts);
+    }
+
+    private static string[] ShadowCards(string deck) => CardCatalog.Base.Values
+        .Where(c => c.Side == Side.Shadow && c.Deck == deck).Select(c => c.Id).Take(3).ToArray();
     [Fact]
     public void CouncilVersionsArePrivateAndVisibleCorruptionIsExplicit()
     {

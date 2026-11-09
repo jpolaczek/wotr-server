@@ -820,9 +820,10 @@
     }
   ],
   "integrationTests": [
-    "KingsPersistenceTests.RestartBetweenDrawsKeepsEyeCostTargetAndHiddenCursor",
+    "KingsPersistenceTests.RestartOfAnAttemptEndedByAKingsTileKeepsEyeCostTargetAndPlacement",
     "KingsPersistenceTests.RestartBeforePrivateChoiceAndRetryDoNotExposeOrRedrawTheTile",
-    "KingsPersistenceTests.RestartOnLastNormalDrawKeepsBothPrivateChoices",
+    "KingsPersistenceTests.RestartOfAStandardAttemptKeepsBothPrivateChoices",
+    "KingsPersistenceTests.RestartOfASingleTileAttemptPlacesItWithoutADecision",
     "KingsPersistenceTests.RulerRecruitmentRestartsWithAllThreePlacementsAndOneCost",
     "KingsPersistenceTests.FarSightedPersistsItsChosenModeAndReducedRollWithoutRetryEntropy",
     "KingsPersistenceTests.RestartBeforePoliticalRemovalRetainsTheActionCostAndRandomChoice",

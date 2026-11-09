@@ -42,43 +42,102 @@ public static class CorruptionRuntime
         Draw(state, random);
     }
 
+    // UI-442 (owner, 2026-11-02): a standard attempt draws all its tiles in the command that starts it, as nothing can
+    // come between the draws (KINGS p. 12, step 2); Sequential Corruption draws one tile per decision (KINGS p. 18).
     public static void Draw(MatchState state, IRandomSource random)
     {
         var attempt = Current(state)!;
+        if (state.Configuration.SequentialCorruption)
+            DrawNext(state, attempt, random);
+        else
+            DrawAll(state, attempt, random);
+    }
+
+    // Draws until the limit of numeric tiles, a Kings tile ending the attempt or a pool with no tile left.
+    private static void DrawAll(MatchState state, CorruptionAttempt attempt, IRandomSource random)
+    {
+        while (attempt.Drawn.Count < attempt.DrawLimit && HuntPool.CanDrawPhysical(state))
+        {
+            if (DrawTile(state, attempt, random) == DrawnTile.Kings)
+                return;
+        }
+        PlaceOrChoose(state, attempt);
+    }
+
+    // EXP-15 D8: one drawn tile is the only possible choice, so the server places it; two or more wait for the Shadow.
+    private static void PlaceOrChoose(MatchState state, CorruptionAttempt attempt)
+    {
+        if (attempt.Drawn.Count == 0)
+        {
+            Complete(state, attempt);
+            return;
+        }
+        if (attempt.Drawn.Count == 1)
+        {
+            Choose(state, attempt.Drawn[0]);
+            return;
+        }
+        attempt.Stage = CorruptionStage.Choosing;
+        OpenChoice(state, attempt);
+    }
+
+    private static void DrawNext(MatchState state, CorruptionAttempt attempt, IRandomSource random)
+    {
+        var drawn = DrawTile(state, attempt, random);
+        if (drawn == DrawnTile.Kings)
+            return;
+        if (drawn == DrawnTile.Numeric && attempt.Drawn.Count == attempt.DrawLimit)
+        {
+            Choose(state, attempt.Drawn[^1]);
+            return;
+        }
+        attempt.Stage = drawn == DrawnTile.Numeric ? CorruptionStage.SequentialChoice : CorruptionStage.Drawing;
+        OpenChoice(state, attempt);
+    }
+
+    private enum DrawnTile { Kings, Ignored, Numeric }
+
+    private static DrawnTile DrawTile(MatchState state, CorruptionAttempt attempt, IRandomSource random)
+    {
         var tile = HuntPool.DrawPhysical(state, random);
         tile.Location = "corruption-draw";
         if (KingsTiles.IsKings(tile.Id))
         {
-            KingsTiles.Reveal(state, [tile.Id]);
-            CorruptionRules.Attach(state, SovereignLifecycle.Find(state, attempt.SovereignId)!, tile.Id);
-            Complete(state, attempt);
-            return;
+            AttachKingsTile(state, attempt, tile.Id);
+            return DrawnTile.Kings;
         }
         if (!KingsTiles.IsNumeric(tile.Id))
         {
-            attempt.Ignored.Add(tile.Id);
-            KingsTiles.Reveal(state, [tile.Id]);
-            attempt.Stage = CorruptionStage.Drawing;
+            Ignore(state, attempt, tile.Id);
+            return DrawnTile.Ignored;
         }
-        else
+        AddDrawn(state, attempt, tile.Id);
+        return DrawnTile.Numeric;
+    }
+
+    private static void AttachKingsTile(MatchState state, CorruptionAttempt attempt, string tileId)
+    {
+        KingsTiles.Reveal(state, [tileId]);
+        CorruptionRules.Attach(state, SovereignLifecycle.Find(state, attempt.SovereignId)!, tileId);
+        Complete(state, attempt);
+    }
+
+    private static void Ignore(MatchState state, CorruptionAttempt attempt, string tileId)
+    {
+        attempt.Ignored.Add(tileId);
+        KingsTiles.Reveal(state, [tileId]);
+    }
+
+    private static void AddDrawn(MatchState state, CorruptionAttempt attempt, string tileId)
+    {
+        attempt.Drawn.Add(tileId);
+        var activity = HistoryFacts.At(state, ActionContextKind.Characters, attempt.SovereignId);
+        activity.Facts.Targets.Add(tileId);
+        state.Events.Add(new()
         {
-            attempt.Drawn.Add(tile.Id);
-            var activity = HistoryFacts.At(state, ActionContextKind.Characters, attempt.SovereignId);
-            activity.Facts.Targets.Add(tile.Id);
-            state.Events.Add(new()
-            {
-                Revision = state.Revision, Kind = "OwnCorruptionTile", OnlyFor = Side.Shadow,
-                Text = "Drew a Corruption tile.", Activity = activity
-            });
-            if (state.Configuration.SequentialCorruption && attempt.Drawn.Count == attempt.DrawLimit)
-            {
-                Choose(state, tile.Id);
-                return;
-            }
-            attempt.Stage = state.Configuration.SequentialCorruption ? CorruptionStage.SequentialChoice
-                : attempt.Drawn.Count == attempt.DrawLimit ? CorruptionStage.Choosing : CorruptionStage.Drawing;
-        }
-        OpenChoice(state, attempt);
+            Revision = state.Revision, Kind = "OwnCorruptionTile", OnlyFor = Side.Shadow,
+            Text = "Drew a Corruption tile.", Activity = activity
+        });
     }
 
     public static void OpenChoice(MatchState state, CorruptionAttempt attempt)

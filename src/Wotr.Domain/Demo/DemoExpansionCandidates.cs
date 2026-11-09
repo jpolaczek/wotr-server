@@ -62,7 +62,8 @@ internal static class DemoExpansionCandidates
         yield return (CommandKind.DeclineDismay, new CommandPayload());
     }
 
-    // A corruption attempt draws again while it may, now and then, and otherwise keeps one of its drawn tiles.
+    // A Sequential corruption attempt draws again while it may, now and then, and otherwise keeps one of its drawn
+    // tiles; a standard attempt has drawn its tiles already (UI-442) and only keeps one.
     public static IEnumerable<(CommandKind, CommandPayload)> CorruptionTile(DemoContext context)
     {
         var draw = context.Options(CommandKind.DrawCorruptionTile).Any();

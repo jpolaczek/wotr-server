@@ -50,7 +50,8 @@ internal static class SovereignPanelScenario
         return state;
     }
 
-    private static MatchState Attempt(IRandomSource random, bool sequential, string first)
+    // The Shadow to attempt Thranduil with four Eyes in the Hunt Box and only this tile in the Hunt Pool.
+    private static MatchState Ready(IRandomSource random, bool sequential, string first)
     {
         var state = Actions(random, new() { Kings = true, SequentialCorruption = sequential, VisibleCorruption = true });
         foreach (var die in state.Dice.Where(d => d.Owner == Side.Shadow && d.Location == DieLocation.Available).Take(4))
@@ -62,6 +63,12 @@ internal static class SovereignPanelScenario
         foreach (var tile in state.HuntTiles)
             tile.Location = tile.Id == first ? "pool" : "removed";
         TurnFlow.SelectNext(state, Side.Shadow);
+        return state;
+    }
+
+    private static MatchState Attempt(IRandomSource random, bool sequential, string first)
+    {
+        var state = Ready(random, sequential, first);
         return Execute(state, CommandKind.AttemptCorruption,
             new() { CharacterId = SovereignCatalog.Thranduil, DieId = CorruptionRules.Eyes(state).First().Id }, 0);
     }
@@ -73,10 +80,13 @@ internal static class SovereignPanelScenario
         return state;
     }
 
+    // UI-442: before the standard attempt, whose own command draws every tile. The pool holds only an Eye tile and the
+    // discard pile the Kings tile, so the server's draws are fixed: the Eye is revealed and replaced, the emptied pool
+    // refills with the Kings tile, and the Kings tile ends the attempt on Thranduil.
     private static MatchState Replacement(IRandomSource random)
     {
-        var state = Attempt(random, false, "base.hunt.standard.eye.1.1");
-        state.HuntTiles.Single(t => t.Id == KingsTiles.One).Location = "pool";
+        var state = Ready(random, false, "base.hunt.standard.eye.1.1");
+        state.HuntTiles.Single(t => t.Id == KingsTiles.One).Location = "discard";
         return state;
     }
 }

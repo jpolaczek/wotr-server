@@ -59,7 +59,15 @@ public static class LordsCompanionSetup
             Revision = state.Revision,
             Kind = "CompanionRevealed",
             Activity = activity,
-            Text = $"{character.Id}: {character.DefinitionId}."
+            Text = $"{character.Id} is revealed as the {VersionName(character.DefinitionId)} version."
         });
     }
+
+    // Both versions of a Companion share the title, so the log names the revealed card by its edition.
+    private static string VersionName(string definitionId) => definitionId.Split('.')[0] switch
+    {
+        "lords" => "Lords of Middle-earth",
+        "fate" => "Fate of Erebor",
+        _ => "base"
+    };
 }

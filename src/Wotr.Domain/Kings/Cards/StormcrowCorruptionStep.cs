@@ -40,7 +40,7 @@ public sealed record KingsStormcrowLossStep : EffectChoiceStep
     public override EffectChoiceView Describe(MatchState state, EffectExecution execution, string id) => new()
     {
         Id = id, TargetId = state.Units.Single(u => u.Id == id).Location,
-        Detail = "Eliminate this whole Army unit. An Elite is not downgraded."
+        Detail = "Eliminate this Army unit; an Elite is removed, not downgraded."
     };
     public override void DescribePreview(MatchState state, EffectExecution execution, IReadOnlyList<string> ids, ActionPreview preview)
     {

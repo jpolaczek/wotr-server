@@ -114,8 +114,11 @@ public class MenuLifecycleTests
         Assert.NotEmpty(starts[0].Room!.MatchId);
         Assert.Equal(starts[0].Room!.MatchId, starts[1].Room!.MatchId);
         var matchId = starts[0].Room!.MatchId;
-        var summary = Assert.Single((await host.Services.GetRequiredService<MatchIndexStore>().List(alice.AccountId, MatchListFilter.All, "", 20)).Matches);
-        Assert.Equal("Persistent game", summary.Name);
+        var index = host.Services.GetRequiredService<MatchIndexStore>();
+        var summary = Assert.Single((await index.List(alice.AccountId, MatchListFilter.All, "", 20)).Matches);
+        // LOBBY-05: the room's name and both players, Free Peoples (Bob) first, for each of them.
+        Assert.Equal("Persistent game · " + bob.Username + " vs " + alice.Username, summary.Name);
+        Assert.Equal(summary.Name, Assert.Single((await index.List(bob.AccountId, null, "", 20)).Matches).Name);
         Assert.True(Wotr.Domain.ConfigurationRules.IsBase(summary.Configuration));
         await store.Leave(room.Id, alice.AccountId);
         await store.Leave(room.Id, bob.AccountId);

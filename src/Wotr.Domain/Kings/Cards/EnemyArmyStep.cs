@@ -14,7 +14,7 @@ public sealed record EnemyArmyStep : EffectChoiceStep
 
     public override EffectChoiceView Describe(MatchState state, EffectExecution execution, string id) =>
         DreadfulSpellsRules.Describe(Armies(state, execution).Single(a => DreadfulSpellsRules.Key(a) == id),
-            $"3 dice · {EnemySovereignStep.Threshold(state, execution.TargetIds.Single())}+", "Free Peoples chooses this Army's losses.");
+            $"3 dice · {EnemySovereignStep.Threshold(state, execution.TargetIds.Single())}+", "The Free Peoples choose this Army's losses.");
 
     public override void DescribePreview(MatchState state, EffectExecution execution, IReadOnlyList<string> ids, ActionPreview preview) =>
         preview.HasUnknownResult = true;

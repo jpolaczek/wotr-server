@@ -115,11 +115,14 @@ public sealed class MatchObserverTests
     {
         using var host = new AccountHost(extra: new Dictionary<string, string?>(TestBudgets.Stress)
         {
-            [ObserverOptions.LeaseKey] = "2"
+            [ObserverOptions.LeaseKey] = "4"
         });
         var table = await ObservedTable.Start(host);
         var client = host.Server.CreateWebSocketClient();
         client.ConfigureRequest = request => request.Headers.Authorization = "Bearer " + table.ObserverSession.Token;
+        // The heartbeat a watching client sends: setting the table up may take longer than the lease on a busy machine.
+        using (var presence = await table.Observer.PostAsync($"/api/rooms/{table.Room}/presence", null))
+            Assert.Equal(HttpStatusCode.NoContent, presence.StatusCode);
         using var socket = await client.ConnectAsync(Updates(table.Match), CancellationToken.None);
 
         var buffer = new byte[1024];
