@@ -30,6 +30,11 @@ public sealed class BotHostMetrics(BotHostOptions options) : IDisposable
     public bool CanEvaluate()
     {
         var current = GC.GetTotalMemory(forceFullCollection: false);
+        // BOT-20: a reading over the limit may be garbage the server GC has not collected yet. An idle
+        // scheduler allocates nothing, so the reading would never fall and every CPU game would stall
+        // (observed in a local 42-turn game). Measure the live heap before refusing work.
+        if (current >= options.MemoryPressureBytes)
+            current = GC.GetTotalMemory(forceFullCollection: true);
         lock (gate)
         {
             managed = Math.Max(managed, current);

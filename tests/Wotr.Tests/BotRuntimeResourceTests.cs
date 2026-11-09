@@ -69,6 +69,21 @@ public sealed class BotRuntimeResourceTests(ITestOutputHelper output)
         Assert.Equal(0L, await fixture.Scalar("SELECT count(*) FROM bot_runtime_proposals"));
     }
 
+    // BOT-20: uncollected garbage above the limit is not memory pressure. The gate measures the live
+    // heap before refusing, so an idle scheduler is not stalled by garbage no GC will ever collect.
+    [Fact]
+    public void GarbageAboveTheLimitIsNotMemoryPressure()
+    {
+        var live = GC.GetTotalMemory(forceFullCollection: true);
+        var options = new BotHostOptions(true, null, "0.2.0", 1, TimeSpan.FromSeconds(30), TimeSpan.FromMilliseconds(500),
+            TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5)) { MemoryPressureBytes = live + 64L * 1024 * 1024 };
+        using var metrics = new BotHostMetrics(options);
+        for (var chunk = 0; chunk < 256; chunk++)
+            GC.KeepAlive(new byte[1024 * 1024]);
+        Assert.True(metrics.CanEvaluate());
+        Assert.False(new BotHostMetrics(options with { MemoryPressureBytes = 1 }).CanEvaluate());
+    }
+
     [PostgresFact]
     public async Task MemoryPressureStartsNoEvaluationAndLeavesPendingDecisionUntouched()
     {
