@@ -433,6 +433,21 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-02 and BOT-03 accepted; BOT-04 checkpoint (2026-11-09)
+
+The owner accepted BOT-02 and BOT-03 on 2026-11-09. Private runtime 0.2.102 with
+ActionBoundary v57 / rules 0.15.59 reconstructs all 89,280 roots of the six-seed
+walk. The candidate generator leaves an executable fallback when a search is
+cancelled or exhausted, and proposes every offered family. BOT-04 adds private
+estimators over own-side reconstructions:
+- exact roll, Hunt and Kings corruption distributions read from the public pool
+  listing;
+- Monte Carlo battle outcomes with sample counts and intervals.
+
+They need no public contract change. Their estimates are conditional on the bot's
+own knowledge and never appear in player views. No policy is registered yet, and
+nothing was pushed, released or deployed.
+
 ### BOT-02 implementation checkpoint — the last event roots (2026-11-08)
 
 Contracts 0.73.0 / ActionBoundary v57 and rules 0.15.59 mark The Three Rings' ring choice, The
