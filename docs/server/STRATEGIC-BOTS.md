@@ -433,6 +433,22 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-10 and BOT-11 recorded (2026-11-09)
+
+The agent recorded BOT-10 (Lords and the Council) and BOT-11 (Kings and the
+tournament variants) as done under the same instruction; the owner may reopen
+them. Private runtime 0.2.104 also accepts a Ruler token action as a proposal.
+The view offers that action beside the ordinary options, so before this every
+token spend was rejected as a mismatched proposal.
+
+Every Lords and Kings card and every expansion ability has a recorded path in
+the private repository. Every valid combination of the Kings variants is played
+legally.
+
+No public contract changed. The faction policies are still not registered:
+registering them (BOT-20) makes CPU play use them, and needs the owner's
+decision. Nothing was pushed, released or deployed.
+
 ### BOT-04–BOT-09 recorded; BOT-10 and BOT-11 checkpoint (2026-11-09)
 
 Under the owner's instruction to continue the bot program, the agent recorded
