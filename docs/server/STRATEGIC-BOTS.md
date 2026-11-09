@@ -433,6 +433,26 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-04–BOT-09 recorded; BOT-10 and BOT-11 checkpoint (2026-11-09)
+
+Under the owner's instruction to continue the bot program, the agent recorded
+BOT-04–BOT-09 as done; the owner may reopen any of them. The private runtime
+(0.2.103, private memory schema 3) now holds:
+- the estimators;
+- the shared planner and bounded search;
+- the Shadow and Free Peoples policies;
+- the card manifest and card decisions;
+- the configured-board, Fate and New Cities behaviour.
+
+Each task passed the private verification and the six-seed walk.
+
+BOT-10 (Lords and Council) is a checkpoint, not a completion. BOT-11's Kings
+parts were built with it, but BOT-11 has not started in the registry. Neither
+task is complete; their remaining evidence is listed in the private repository. The
+faction policies are still not registered, so CPU play is unchanged until BOT-20.
+BOT-14's strength gate needs games against the demo bot and human players. No
+public contract changed, and nothing was pushed, released or deployed.
+
 ### BOT-02 and BOT-03 accepted; BOT-04 checkpoint (2026-11-09)
 
 The owner accepted BOT-02 and BOT-03 on 2026-11-09. Private runtime 0.2.102 with
