@@ -10,12 +10,17 @@ public sealed record BotRuntimeDescription(int AbiVersion, string RuntimeVersion
     string RulesVersion, string ContentVersion, bool GameplayReady, string[] Profiles, string[] Modules,
     BotRuntimePolicy[] Policies, string? MemoryFormat = null);
 
-public sealed record BotRuntimePolicy(string ProfileId, string PolicyVersion, string[] Features);
+// BOT-37: MigratesFrom names earlier policy versions whose saved games this policy continues: an
+// upgrade re-pins their seats to this version and the runtime migrates their opaque memory.
+public sealed record BotRuntimePolicy(string ProfileId, string PolicyVersion, string[] Features, string[]? MigratesFrom = null);
 
+// ABI 3 (BOT-37): the CPU's pace and the milliseconds the host still grants this decision, so the
+// runtime's own deadline is the host's.
 public sealed record BotRuntimeRequest(int AbiVersion, string InvocationId, string RuntimeVersion,
     int ProtocolVersion, string RulesVersion, string ContentVersion, string MatchId, Side Side,
     PlayerView Player, ActionLogStep[] History, BattleReportView[] Reports, ActionPreview[] Previews,
-    string? Memory, int SampleSeed, int MaximumWork, GameCommand[]? PreviewCommands = null)
+    string? Memory, int SampleSeed, int MaximumWork, GameCommand[]? PreviewCommands = null,
+    BotThinkingMode ThinkingMode = BotThinkingMode.Fast, int DeadlineMilliseconds = 5000)
 {
     public override string ToString() => "BotRuntimeRequest [private player information]";
 }
@@ -29,7 +34,7 @@ public sealed record BotRuntimeResponse(int AbiVersion, string InvocationId, str
 
 internal static class BotRuntimeProtocol
 {
-    internal const int Version = 2;
+    internal const int Version = 3;
     internal const int MaximumInputBytes = 16 * 1024 * 1024;
     internal const int MaximumOutputBytes = 4 * 1024 * 1024;
     internal static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web)
@@ -53,7 +58,8 @@ internal static class BotRuntimeProtocol
         description.Policies.Select(p => p.ProfileId).Distinct().Count() == description.Policies.Length &&
         description.Policies.All(p => description.Profiles.Contains(p.ProfileId) &&
             p.PolicyVersion is { Length: > 0 and <= 64 } && p.Features is { Length: > 0 and <= 10 } &&
-            p.Features.Contains("base") && p.Features.All(description.Modules.Contains)) &&
+            p.Features.Contains("base") && p.Features.All(description.Modules.Contains) &&
+            (p.MigratesFrom is null || p.MigratesFrom.Length <= 8 && p.MigratesFrom.All(v => v is { Length: > 0 and <= 64 } && v != p.PolicyVersion))) &&
         (!description.GameplayReady || description.Policies.Length == 2);
 
     internal static bool Valid(BotRuntimeRequest request, BotRuntimeDescription description) =>
@@ -64,7 +70,8 @@ internal static class BotRuntimeProtocol
         Enum.IsDefined(request.Side) && request.Player.Revision >= 0 && request.Player.Configuration is not null &&
         request.History is { Length: <= 4096 } && request.Reports is { Length: <= 128 } &&
         request.Previews is { Length: <= 16 } && request.MaximumWork is >= 1 and <= 100_000 &&
-        (request.PreviewCommands?.Length ?? 0) == request.Previews.Length;
+        (request.PreviewCommands?.Length ?? 0) == request.Previews.Length &&
+        Enum.IsDefined(request.ThinkingMode) && request.DeadlineMilliseconds is >= 50 and <= 15_000;
 
     internal static bool Valid(BotRuntimeResponse? response, BotRuntimeRequest request) =>
         response is not null && response.AbiVersion == Version && response.InvocationId == request.InvocationId &&

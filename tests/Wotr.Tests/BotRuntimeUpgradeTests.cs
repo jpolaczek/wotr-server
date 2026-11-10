@@ -88,7 +88,7 @@ public sealed class BotRuntimeUpgradeTests
         var target = next.Package.Description;
         switch (change)
         {
-            case "abi": target = target with { AbiVersion = 3 }; break;
+            case "abi": target = target with { AbiVersion = 4 }; break;
             case "protocol": target = target with { ProtocolVersion = 3 }; break;
             case "rules": target = target with { RulesVersion = "future" }; break;
             case "content": target = target with { ContentVersion = "future" }; break;
@@ -109,6 +109,34 @@ public sealed class BotRuntimeUpgradeTests
         Assert.True((await control.Status()).Draining);
         Assert.Null(await fixture.Jobs.Claim("incompatible"));
         Assert.Equal(0L, await fixture.Scalar("SELECT count(*) FROM command_receipts"));
+    }
+
+    // BOT-37: a target whose policy names the seat's earlier policy version in MigratesFrom continues
+    // the saved game: the upgrade re-pins the seat and the room to the target's version, keeping
+    // the saved state and memory bytes (the runtime migrates the memory on its next decision).
+    [PostgresFact]
+    public async Task AnUpgradeContinuesSeatsOfAPolicyVersionTheTargetMigratesFrom()
+    {
+        using var previous = new BotPackageFixture();
+        using var next = new BotPackageFixture(upgrade: true);
+        await using var fixture = await BotHostFixture.Create(previous.Settings());
+        var (_, room, work) = await fixture.Game();
+        await fixture.Stage(work);
+        var target = next.Package.Description;
+        target = target with { Policies = target.Policies.Select(p => p with { PolicyVersion = "fixture-2", MigratesFrom = ["fixture-1"] }).ToArray() };
+        var control = fixture.Host.Services.GetRequiredService<BotRuntimeControl>();
+        var epoch = await control.Drain();
+        var memory = await fixture.Scalar("SELECT memory FROM bot_runtime_jobs");
+        var match = await fixture.Scalar("SELECT state::text FROM matches");
+        Assert.True((await control.Upgrade(epoch, "0.2.0", target, next.Hash)).Applied);
+        Assert.Equal("fixture-2", await fixture.Scalar("SELECT policy_version FROM bot_assignments"));
+        Assert.Equal("fixture-2", await fixture.Scalar("SELECT state->'bot'->>'policyVersion' FROM rooms WHERE id=$1", room.Id));
+        Assert.Equal("0.2.1", await fixture.Scalar("SELECT runtime_version FROM bot_assignments"));
+        Assert.Equal(memory, await fixture.Scalar("SELECT memory FROM bot_runtime_jobs"));
+        Assert.Equal(match, await fixture.Scalar("SELECT state::text FROM matches"));
+        // Without the migration it stays incompatible.
+        Assert.False((await control.Upgrade(epoch, "0.2.1", target with
+            { RuntimeVersion = "0.2.2", Policies = target.Policies.Select(p => p with { PolicyVersion = "fixture-3", MigratesFrom = null }).ToArray() }, next.Hash)).Applied);
     }
 
     [PostgresFact]

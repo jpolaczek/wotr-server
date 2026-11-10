@@ -9,7 +9,7 @@ namespace Wotr.Server;
 public sealed record BotWork(string AssignmentId, string RoomId, int RoomVersion, string MatchId,
     string ParticipantId, Side Side, string PolicyVersion, string RuntimeVersion, long Generation,
     string OwnerId, long MemoryVersion, long HistoryPosition, string? Memory, BotRuntimeIdentity? Compatibility = null,
-    double QueueSeconds = 0, string? ManifestSha256 = null)
+    double QueueSeconds = 0, string? ManifestSha256 = null, BotThinkingMode ThinkingMode = BotThinkingMode.Fast)
 {
     public override string ToString() => "BotWork [private]";
 }
@@ -29,7 +29,8 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
             SELECT j.assignment_id,a.room_id,a.room_version,COALESCE(a.match_id,''),a.participant_id,a.side,
                 a.policy_version,a.runtime_version,j.generation,j.memory_version,j.history_position,j.memory,
                 j.compatibility::text,CASE WHEN j.available_at='-infinity' THEN 0 ELSE
-                    GREATEST(0,extract(epoch FROM clock_timestamp()-j.available_at))::double precision END
+                    GREATEST(0,extract(epoch FROM clock_timestamp()-j.available_at))::double precision END,
+                COALESCE(r.state->'bot'->>'thinkingMode','Fast')
             FROM bot_runtime_jobs j JOIN bot_assignments a ON a.id=j.assignment_id
             JOIN rooms r ON r.id=a.room_id LEFT JOIN matches m ON m.id=a.match_id
             WHERE a.status<>'cancelled' AND a.runtime_version=$1 AND NOT r.closed
@@ -48,7 +49,9 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
                 Enum.Parse<Side>(row.GetString(5)), row.GetString(6), row.GetString(7), row.GetInt64(8) + 1,
                 owner, row.GetInt64(9), row.GetInt64(10), row.IsDBNull(11) ? null : row.GetString(11),
                 row.IsDBNull(12) ? null : JsonSerializer.Deserialize<BotRuntimeIdentity>(row.GetString(12), BotRuntimeProtocol.Json),
-                row.GetDouble(13), options.ManifestSha256);
+                row.GetDouble(13), options.ManifestSha256,
+                // BOT-37: the room's saved pace; anything unknown is the default.
+                Enum.TryParse<BotThinkingMode>(row.GetString(14), out var mode) && Enum.IsDefined(mode) ? mode : BotThinkingMode.Fast);
         }
         await using var claim = Database.Command(connection, transaction, """
             UPDATE bot_runtime_jobs SET generation=$2,owner_id=$3,

@@ -100,7 +100,8 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
         var input = await inputs.Read(work, stopping, includeContext: pending is null);
         if (input is null)
             throw new BotWorkExpiredException();
-        var request = input.Request with { MaximumWork = options.MaximumWork / 3 };
+        var timeout = options.Timeout(work.ThinkingMode);
+        var request = input.Request with { MaximumWork = options.Work(work.ThinkingMode), ThinkingMode = work.ThinkingMode };
         if (work.Compatibility is null || work.Compatibility != BotRuntimeIdentity.Of(runtime.Description))
             return "MemoryIncompatible";
         if (capabilities.Unavailable(request.Player.Configuration, work.PolicyVersion, work.RuntimeVersion) is { } unavailable)
@@ -117,10 +118,12 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
             if (!metrics.CanEvaluate())
                 return "MemoryPressure";
             using var cancel = CancellationTokenSource.CreateLinkedTokenSource(stopping);
-            var remaining = options.DecisionTimeout - compute;
+            var remaining = timeout - compute;
             if (remaining <= TimeSpan.Zero)
                 return "RuntimeTimeout";
             cancel.CancelAfter(remaining);
+            // The runtime's deadline is what the host still grants (BOT-37, ABI 3).
+            request = request with { DeadlineMilliseconds = (int)Math.Clamp(remaining.TotalMilliseconds, 50, 15_000) };
             var token = cancel.Token;
             var started = Stopwatch.GetTimestamp();
             var evaluation = Task.Run(() =>
@@ -137,7 +140,7 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
                 return "RuntimeTimeout";
             }
             compute += Stopwatch.GetElapsedTime(started);
-            if (compute > options.DecisionTimeout || result.Reason == "Cancelled")
+            if (compute > timeout || result.Reason == "Cancelled")
             {
                 logger.LogInformation("Embedded bot decision at revision {Revision} timed out.", request.Player.Revision);
                 return "RuntimeTimeout";

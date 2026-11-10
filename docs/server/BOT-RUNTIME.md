@@ -1,4 +1,13 @@
-# Embedded runtime ABI — version 2
+# Embedded runtime ABI — version 3
+
+**ABI 3 (BOT-37, owner audit 2026-11-10).** The request adds `thinkingMode` (`Fast` or
+`Thorough`, the room's CPU pace) and `deadlineMilliseconds` (50–15,000: what the host still grants
+this evaluation after earlier preview rounds). The runtime's own hard deadline stays inside it.
+A policy entry in `Describe` may add `migratesFrom`: up to eight earlier policy versions whose saved
+games it continues; an upgrade re-pins such seats to the entry's `policyVersion` and the runtime
+migrates their opaque memory (the host settles any pending command first, as for every upgrade).
+A Fast evaluation keeps the earlier limits (five seconds, a third of the work); a Thorough one
+has `ThoroughDecisionTimeoutMilliseconds` (default and maximum 15,000) and the whole work.
 
 Owner decision 2026-10-27 replaces external bot hosting. The operator supplies a
 private `Wotr.Bot.Runtime.dll`; public builds do not reference it. The host loads

@@ -8,7 +8,16 @@ remain disabled by default and are not used by this embedded path.
 ## Admission
 
 `PUT /api/rooms/{id}/bot` uses the human session and accepts
-`{ "requestId": "<32 hexadecimal UUID characters>", "expectedVersion": 1 }`.
+`{ "requestId": "<32 hexadecimal UUID characters>", "expectedVersion": 1, "thinkingMode": "Fast" }`.
+
+**CPU pace (BOT-37, contracts 0.75.0).** `thinkingMode` is `Fast` (default: about three seconds a
+decision, at most five) or `Thorough` (it looks further ahead: about ten, at most fifteen); both
+are the same opponent. `PUT /api/rooms/{id}/bot/thinking` with
+`{ "expectedVersion": n, "thinkingMode": "Thorough" }` lets the host change it while the room
+waits: the room version rises and both confirmations are cleared (the CPU confirms again at once).
+After the start it answers `MatchAlreadyStarted`; without a CPU `BotNotSeated`. The pace is saved
+in the room state with the game (`bot.thinkingMode`); a room written before it reads as Fast.
+`BotSeatView.ThinkingMode` shows it.
 Only a seated, nontechnical host can reserve the empty opposite seat before start.
 The server selects `shadow-strong` or `free-peoples-strong`; the request contains
 no service URL, difficulty or arbitrary policy selector.

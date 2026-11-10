@@ -51,7 +51,7 @@ public sealed class RoomState
         ShadowKind = Occupant(Side.Shadow),
         Bot = Bot is null ? null : new()
         {
-            Side = Bot.Side, ProfileId = Bot.ProfileId, PolicyVersion = Bot.PolicyVersion,
+            Side = Bot.Side, ProfileId = Bot.ProfileId, PolicyVersion = Bot.PolicyVersion, ThinkingMode = Bot.ThinkingMode,
             Status = Closed ? BotSeatStatus.Unavailable :
                 (Bot.Side == Side.FreePeoples ? FreePeoplesAccepted : ShadowAccepted) == Version
                     ? BotSeatStatus.Ready : BotSeatStatus.Joining
@@ -83,6 +83,8 @@ public sealed class RoomBotState
     public string PolicyVersion { get; set; } = "";
     public long? ReadyGeneration { get; set; }
     public string? RuntimeVersion { get; set; }
+    // BOT-37: saved with the room and its game; a state written before it reads as Fast.
+    public BotThinkingMode ThinkingMode { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
     public bool? RuntimeHealthy { get; set; }
 }

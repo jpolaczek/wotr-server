@@ -8,7 +8,7 @@ namespace Wotr.Tests;
 public sealed class EmbeddedBotRuntimeTests
 {
     private static string Fixture => typeof(Wotr.Bot.Runtime.RuntimeEntryPoint).Assembly.Location;
-    private static BotRuntimeRequest Request() => new(2, Guid.NewGuid().ToString("N"), "0.2.0",
+    private static BotRuntimeRequest Request() => new(3, Guid.NewGuid().ToString("N"), "0.2.0",
         Protocol.Version, Protocol.RulesVersion, Protocol.ContentVersion, "fixture-match", Side.FreePeoples,
         new PlayerView
         {

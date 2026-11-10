@@ -8,7 +8,7 @@ public sealed partial class RoomStore
     public Task<RoomResult> AddBot(string id, string account, AddRoomBotRequest request,
         CancellationToken cancellation = default)
     {
-        if (!Guid.TryParseExact(request.RequestId, "N", out _) || request.ExpectedVersion < 1)
+        if (!Guid.TryParseExact(request.RequestId, "N", out _) || request.ExpectedVersion < 1 || !Enum.IsDefined(request.ThinkingMode))
             return Task.FromResult(new RoomResult(Error: "InvalidBotRequest"));
         return Change("id", id, account, Access.Player, async room =>
         {
@@ -44,7 +44,8 @@ public sealed partial class RoomStore
                 AssignmentId = assignment, ParticipantId = participant, Side = side,
                 ProfileId = side == Side.Shadow ? "shadow-strong" : "free-peoples-strong",
                 PolicyVersion = botRooms!.PolicyVersion,
-                RuntimeVersion = runtime?.Enabled == true ? runtime.Version : null
+                RuntimeVersion = runtime?.Enabled == true ? runtime.Version : null,
+                ThinkingMode = request.ThinkingMode
             };
             await using var insert = Database.Command(room.Connection, room.Transaction, """
                 INSERT INTO bot_assignments(id,room_id,host_account,participant_id,request_id,requested_version,
@@ -62,6 +63,34 @@ public sealed partial class RoomStore
                 await job.ExecuteNonQueryAsync(cancellation);
             }
             return null;
+        }, cancellation);
+    }
+
+    // BOT-37: the host changes the seated CPU's pace while the room waits. Like a configuration
+    // change it raises the room's version and clears both confirmations (the CPU confirms again
+    // at once); after the start the pace belongs to the game and cannot change.
+    public Task<RoomResult> SetBotThinking(string id, string account, ConfigureRoomBotRequest request,
+        CancellationToken cancellation = default)
+    {
+        if (request.ExpectedVersion < 1 || !Enum.IsDefined(request.ThinkingMode))
+            return Task.FromResult(new RoomResult(Error: "InvalidBotRequest"));
+        return Change("id", id, account, Access.Player, room =>
+        {
+            var state = room.State;
+            if (state.HostAccount != account)
+                return Task.FromResult<string?>("HostRequired");
+            if (state.MatchId.Length > 0)
+                return Task.FromResult<string?>("MatchAlreadyStarted");
+            if (state.Bot is not { } bot)
+                return Task.FromResult<string?>("BotNotSeated");
+            if (state.Version != request.ExpectedVersion)
+                return Task.FromResult<string?>("StaleConfiguration");
+            if (bot.ThinkingMode == request.ThinkingMode)
+                return Task.FromResult<string?>(null);
+            bot.ThinkingMode = request.ThinkingMode;
+            state.Version++;
+            state.FreePeoplesAccepted = state.ShadowAccepted = null;
+            return Task.FromResult<string?>(null);
         }, cancellation);
     }
 

@@ -35,7 +35,7 @@ public sealed class BotHostInputTests
         foreach (var report in first.Request.Reports)
             Assert.Equal(Json(await fixture.Host.Services.GetRequiredService<BattleReportStore>().Read(work.MatchId, report.Id, work.ParticipantId)), Json(report));
         var query = KernelTests.Command(state, CommandKind.CommitCombatCard);
-        var response = new BotRuntimeResponse(2, first.Request.InvocationId, "NeedPreviews", "", ["base"], PreviewRequests: [query]);
+        var response = new BotRuntimeResponse(3, first.Request.InvocationId, "NeedPreviews", "", ["base"], PreviewRequests: [query]);
         var withPreview = (await fixture.Inputs.AddPreviews(work, first.Request, response))!;
         Assert.Equal(Json(fixture.Host.Services.GetRequiredService<PreviewService>().Preview(state, side, query)), Json(withPreview.Previews.Single()));
         Assert.Equal(Json(query), Json(withPreview.PreviewCommands!.Single()));
@@ -63,7 +63,7 @@ public sealed class BotHostInputTests
         var proposal = fixture.Runtime.Decide(first.Request);
         await fixture.Jobs.Stage(work, first.Request, proposal, first.HistoryPosition);
         Assert.True((await fixture.Matches.Execute(proposal.Command!, work.ParticipantId, runtimeWork: work))!.Accepted);
-        var request = new BotRuntimeResponse(2, first.Request.InvocationId, "NeedPreviews", "", ["base"], PreviewRequests: [proposal.Command!]);
+        var request = new BotRuntimeResponse(3, first.Request.InvocationId, "NeedPreviews", "", ["base"], PreviewRequests: [proposal.Command!]);
         Assert.Null(await fixture.Inputs.AddPreviews(work, first.Request, request));
         var state = (await fixture.Matches.Read(work.MatchId, work.ParticipantId))!.State;
         state.Open(DecisionKind.FellowshipPhase, work.Side, [CommandKind.ContinueFellowship]);

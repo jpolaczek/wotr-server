@@ -48,19 +48,22 @@ internal sealed class BotHostFixture : IAsyncDisposable
         return fixture;
     }
 
-    public async Task<(SessionView Human, RoomView Room, BotWork Work)> Reserve(Side bot = Side.FreePeoples)
+    public async Task<(SessionView Human, RoomView Room, BotWork Work)> Reserve(Side bot = Side.FreePeoples,
+        BotThinkingMode mode = BotThinkingMode.Fast)
     {
         var human = await MenuAccounts.Register(Host);
         var room = await Rooms.Create(human.AccountId, new CreateRoomRequest { Side = TurnFlow.Other(bot), Name = "Runtime fixture" });
-        var reserved = await Rooms.AddBot(room.Id, human.AccountId, PveFixture.Request(room));
+        var request = PveFixture.Request(room);
+        request.ThinkingMode = mode;
+        var reserved = await Rooms.AddBot(room.Id, human.AccountId, request);
         Assert.Equal("", reserved.Error);
         return (human, reserved.Room!, (await Jobs.Claim("fixture-owner"))!);
     }
 
     public async Task<(SessionView Human, RoomView Room, BotWork Work)> Game(Side bot = Side.FreePeoples,
-        MatchState? seed = null, bool advanceHuman = true)
+        MatchState? seed = null, bool advanceHuman = true, BotThinkingMode mode = BotThinkingMode.Fast)
     {
-        var (human, room, ready) = await Reserve(bot);
+        var (human, room, ready) = await Reserve(bot, mode);
         Assert.True(await Rooms.ReadyRuntime(ready));
         Assert.Equal("", (await Rooms.SetReady(room.Id, human.AccountId, new() { ExpectedVersion = room.Version, Ready = true })).Error);
         var started = await Rooms.Start(room.Id, human.AccountId, room.Version);

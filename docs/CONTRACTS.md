@@ -1,6 +1,13 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.75.0 add the CPU's pace (BOT-37, the owner's audit of the strategic opponents):
+`BotThinkingMode` (`Fast`, `Thorough`), `AddRoomBotRequest.ThinkingMode`, `ConfigureRoomBotRequest`
+for `PUT /api/rooms/{id}/bot/thinking` and `BotSeatView.ThinkingMode`. The embedded runtime ABI
+becomes version 3 (the pace and the host's remaining deadline). Public content 1.0.75 pins the
+contract; its files are unchanged. ActionBoundary, rules 0.15.62, protocol and save schema do not
+change; a saved room without a pace is Fast.
+
 Contracts 0.74.0 joins the CPU host line (0.73.0) with the expansions line (0.15.0): UI-361's
 hand split by deck in the public player summary, LOBBY-05's server-decided game lists and the
 offered modules. ActionBoundary stays at version 57. Rules 0.15.62 carry UI-442's corruption

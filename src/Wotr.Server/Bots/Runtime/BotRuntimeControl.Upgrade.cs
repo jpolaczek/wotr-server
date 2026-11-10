@@ -24,9 +24,10 @@ public sealed partial class BotRuntimeControl
         if (await control.ExecuteScalarAsync(cancellation) is not true)
             return new(false, 0, "DrainRequired");
         var count = 0;
+        var migrations = new List<(string Assignment, string Room, string Policy)>();
         await using (var query = Database.Command(connection, transaction, """
             SELECT a.runtime_version,a.profile_id,a.policy_version,j.compatibility::text,
-                r.state::text FROM bot_assignments a JOIN bot_runtime_jobs j ON j.assignment_id=a.id
+                r.state::text,a.id,a.room_id FROM bot_assignments a JOIN bot_runtime_jobs j ON j.assignment_id=a.id
                 JOIN rooms r ON r.id=a.room_id WHERE a.status<>'cancelled' AND a.runtime_version IS NOT NULL
             ORDER BY a.id FOR UPDATE OF a,j
             """))
@@ -38,13 +39,27 @@ public sealed partial class BotRuntimeControl
                     return new(false, 0, "MixedRuntimeVersions");
                 if (row.IsDBNull(3) || JsonSerializer.Deserialize<BotRuntimeIdentity>(row.GetString(3), BotRuntimeProtocol.Json) != compatibility)
                     return new(false, 0, "MemoryOrRulesIncompatible");
-                var policy = target.Policies.SingleOrDefault(p => p.ProfileId == row.GetString(1) && p.PolicyVersion == row.GetString(2));
+                // BOT-37: a seat on an earlier policy the target continues is re-pinned to the target's version.
+                var policy = target.Policies.SingleOrDefault(p => p.ProfileId == row.GetString(1) &&
+                    (p.PolicyVersion == row.GetString(2) || p.MigratesFrom?.Contains(row.GetString(2)) == true));
                 var state = JsonSerializer.Deserialize<RoomState>(row.GetString(4), BoardCatalog.Json)!;
                 if (!target.GameplayReady || policy is null ||
                     !BotAccessOptions.Supports(state.Configuration, policy.Features.ToHashSet(StringComparer.Ordinal)))
                     return new(false, 0, "PolicyOrModulesIncompatible");
+                if (policy.PolicyVersion != row.GetString(2))
+                    migrations.Add((row.GetString(5), row.GetString(6), policy.PolicyVersion));
                 count++;
             }
+        }
+        foreach (var (assignment, room, policyVersion) in migrations)
+        {
+            await using var seat = Database.Command(connection, transaction,
+                "UPDATE bot_assignments SET policy_version=$2 WHERE id=$1", assignment, policyVersion);
+            await seat.ExecuteNonQueryAsync(cancellation);
+            await using var shown = Database.Command(connection, transaction,
+                "UPDATE rooms SET state=jsonb_set(state,'{bot,policyVersion}',to_jsonb($2::text)) WHERE id=$1 AND state->'bot'->>'assignmentId'=$3",
+                room, policyVersion, assignment);
+            await shown.ExecuteNonQueryAsync(cancellation);
         }
         await using var change = Database.Command(connection, transaction,
             "UPDATE bot_assignments SET runtime_version=$2 WHERE runtime_version=$1 AND status<>'cancelled'", sourceVersion, target.RuntimeVersion);
