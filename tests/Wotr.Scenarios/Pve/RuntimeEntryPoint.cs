@@ -9,7 +9,7 @@ public sealed class RuntimeEntryPoint
 {
     public string Describe() => JsonSerializer.Serialize(new
     {
-        abiVersion = 2, runtimeVersion = "0.0.13", protocolVersion = 2,
+        abiVersion = 3, runtimeVersion = "0.0.13", protocolVersion = 2,
         rulesVersion = "base-2e-2011-faq1.2", contentVersion = "base-setup-1",
         memoryFormat = "client-fixture/13", gameplayReady = true,
         profiles = new[] { "free-peoples-strong", "shadow-strong" }, modules = new[] { "base" },
@@ -35,12 +35,12 @@ public sealed class RuntimeEntryPoint
         };
         var option = options.FirstOrDefault(o => o!["kind"]!.GetValue<string>() == kind);
         if (mode == "done" || option is null)
-            return JsonSerializer.Serialize(new { abiVersion = 2, invocationId = request["invocationId"]!.GetValue<string>(),
+            return JsonSerializer.Serialize(new { abiVersion = 3, invocationId = request["invocationId"]!.GetValue<string>(),
                 status = "NoDecision", reason = "ClientFixtureLimit", modules = new[] { "base" } });
         var payload = Payload(player, option!, kind!);
         return JsonSerializer.Serialize(new
         {
-            abiVersion = 2, invocationId = request["invocationId"]!.GetValue<string>(),
+            abiVersion = 3, invocationId = request["invocationId"]!.GetValue<string>(),
             status = "Proposal", reason = "", modules = new[] { "base" }, policyVersion = "client-fixture-13",
             proposedMemory = mode switch { "setup" => "setup", "move" => "finish", "attack" => "combat", "hunt" => "hunt-result", _ => "done" },
             command = new
