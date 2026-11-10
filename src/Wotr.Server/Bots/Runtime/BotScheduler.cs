@@ -31,6 +31,7 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
                     if (!metrics.CanEvaluate())
                     {
                         metrics.Outcome("MemoryPressure");
+                        logger.LogInformation("Embedded bot work waits for memory.");
                         await Task.Delay(options.Retry, stopping);
                         continue;
                     }
@@ -42,7 +43,10 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
                     }
                     var error = await Run(work, runtime, task => evaluation = task, stopping);
                     if (error.Length > 0)
+                    {
                         metrics.Outcome(error);
+                        logger.LogInformation("Embedded bot work deferred: {Outcome}.", error);
+                    }
                     await Release(work, error, stopping);
                 }
                 catch (BotWorkExpiredException) { metrics.Outcome("StaleWork"); }
@@ -127,10 +131,17 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
             observe(evaluation);
             BotRuntimeResponse result;
             try { result = await evaluation.WaitAsync(cancel.Token); }
-            catch (OperationCanceledException) when (!stopping.IsCancellationRequested) { return "RuntimeTimeout"; }
+            catch (OperationCanceledException) when (!stopping.IsCancellationRequested)
+            {
+                logger.LogInformation("Embedded bot decision at revision {Revision} timed out.", request.Player.Revision);
+                return "RuntimeTimeout";
+            }
             compute += Stopwatch.GetElapsedTime(started);
             if (compute > options.DecisionTimeout || result.Reason == "Cancelled")
+            {
+                logger.LogInformation("Embedded bot decision at revision {Revision} timed out.", request.Player.Revision);
                 return "RuntimeTimeout";
+            }
             if (result.Status == "NeedPreviews")
             {
                 if (round == 2)
@@ -139,7 +150,13 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
                 continue;
             }
             if (result.Status != "Proposal")
+            {
+                // BOT-20: the runtime's own status and reason name a refusal without exposing its evaluation; the host
+                // retries the decision, and without them a CPU that pauses for minutes leaves no trace.
+                logger.LogInformation("Embedded bot refused a decision at revision {Revision}: {Status} {Reason}.",
+                    request.Player.Revision, result.Status, result.Reason);
                 return "RuntimeRefused";
+            }
             await jobs.Stage(work, request, result, input.HistoryPosition, stopping);
             return await Apply(work, result.Command!, stopping);
         }
