@@ -195,6 +195,13 @@ public static class DirectEventChoices
         return true;
     }
 
+    // UI-278: a committed branch names the object its description names, so the recruit branch's selection carries
+    // the sovereign's nation; the trail is checked against that same description.
+    public static EffectSelection NationalRecruitSelection(MatchState state, Wotr.Contracts.Side owner, string card, string otherwise) =>
+        EffectCatalog.All.Programs[otherwise].Steps[0] is KingsRecruitOrCleanseStep branch
+            ? new(owner, card, "recruit", branch.Describe(state, new EffectExecution { Owner = owner, SourceId = card }, "recruit").TargetId)
+            : new(owner, card, "recruit");
+
     public static bool OpensFromPublicBoard(EffectStep step) => step is
         RecruitmentBatchStep or RecruitEffectStep { Region.Length: > 0 } or RecruitTogetherStep or RecruitRegionStep or
         HillTrollsStep or CruelWeatherStep or BlackCaptainStep or ArmyEventDamageStep or EnemySovereignStep or

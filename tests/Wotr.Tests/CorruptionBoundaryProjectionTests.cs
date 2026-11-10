@@ -7,7 +7,10 @@ namespace Wotr.Tests;
 
 public sealed class CorruptionBoundaryProjectionTests
 {
-    internal static readonly string[] Windows = ["draw", "ignored", "mixed", "choice", "sequential", "sequential-later", "sequential-ignored"];
+    // UI-442: a standard attempt draws all its tiles in the command that starts it, so its only window is the choice
+    // among two or more numeric tiles, after any ignored ones; active draws exist only under Sequential Corruption.
+    internal static readonly string[] Windows = ["choice", "choice-ignored", "choice-mixed", "sequential", "sequential-eye",
+        "sequential-later", "sequential-ignored"];
     public static IEnumerable<object[]> Cases() => Enumerable.Range(0, 6).SelectMany(c => Windows.SelectMany(w =>
         new[] { false, true }.Select(v => new object[] { w, c, v })));
 
@@ -54,7 +57,7 @@ public sealed class CorruptionBoundaryProjectionTests
     [InlineData(true, true)]
     public void PrivateDrawAndPoolPermutationsCannotChangeFreePeoplesInformation(bool sequential, bool visible)
     {
-        var state = At(sequential ? "sequential-later" : "draw", 5, visible);
+        var state = At(sequential ? "sequential-later" : "choice", 5, visible);
         var projection = GameRuntime.Projection(EffectCatalog.All);
         var first = JsonSerializer.Serialize(projection.For(state, Side.FreePeoples));
         var attempt = CorruptionRuntime.Current(state)!;
@@ -79,7 +82,7 @@ public sealed class CorruptionBoundaryProjectionTests
     [InlineData("phase")]
     public void OtherReturnsAndUnreviewedContextsDoNotMasqueradeAsAnOrdinaryAttempt(string change)
     {
-        var state = At("draw");
+        var state = At("choice");
         switch (change)
         {
             case "parent": CorruptionRuntime.Current(state)!.Return = EffectReturn.Parent; break;
@@ -98,7 +101,7 @@ public sealed class CorruptionBoundaryProjectionTests
     [InlineData(LordsDiceCatalog.Narya)]
     public void AKeeperEyeOfTheFreePeoplesPaysAnOrdinaryAttempt(string die)
     {
-        var state = At("draw", configuration: 1, keeperEye: die);
+        var state = At("choice", configuration: 1, keeperEye: die);
         var paid = state.Dice.Single(item => item.Id == die);
         Assert.Equal(Side.FreePeoples, paid.Owner);
         Assert.Equal(DieLocation.Resolving, paid.Location);
@@ -130,24 +133,37 @@ public sealed class CorruptionBoundaryProjectionTests
             CharacterId = SovereignCatalog.Denethor,
             DieId = keeperEye.Length > 0 ? keeperEye : CorruptionRules.Eyes(state).First().Id
         };
-        state = Draw(state, CommandKind.AttemptCorruption, window == "ignored" ? "eye" : "0", payload);
-        if (window is "mixed" or "sequential-ignored")
-            state = Draw(state, CommandKind.DrawCorruptionTile, "eye");
-        if (window is "choice" or "sequential-later")
-            state = Draw(state, CommandKind.DrawCorruptionTile, "1");
-        if (window == "choice")
-            state = Draw(state, CommandKind.DrawCorruptionTile, "2");
+        string[] first = window switch
+        {
+            "choice" => ["0", "1", "2"],
+            "choice-ignored" => ["eye", "0", "1", "2"],
+            "choice-mixed" => ["0", "eye", "1", "2"],
+            "sequential-eye" => ["eye"],
+            _ => ["0"]
+        };
+        state = Draw(state, CommandKind.AttemptCorruption, first, payload);
+        if (window == "sequential-ignored")
+            state = Draw(state, CommandKind.DrawCorruptionTile, ["eye"]);
+        if (window == "sequential-later")
+            state = Draw(state, CommandKind.DrawCorruptionTile, ["1"]);
         return state;
     }
 
-    private static MatchState Draw(MatchState state, CommandKind kind, string value, CommandPayload? payload = null)
+    // One pool index per tile the command draws, each against the pool its earlier draws left.
+    private static MatchState Draw(MatchState state, CommandKind kind, string[] values, CommandPayload? payload = null)
     {
-        var pool = state.HuntTiles.Where(t => t.Location == "pool").ToList();
-        var index = pool.FindIndex(t => HuntPool.Definitions[t.Id] is { Pool: "standard" } definition &&
-            definition.Value == value && !KingsTiles.IsKings(t.Id));
-        Assert.True(index >= 0);
+        var pool = state.HuntTiles.Where(t => t.Location == "pool").Select(t => t.Id).ToList();
+        var indices = new List<int>();
+        foreach (var value in values)
+        {
+            var index = pool.FindIndex(id => HuntPool.Definitions[id] is { Pool: "standard" } definition &&
+                definition.Value == value && !KingsTiles.IsKings(id));
+            Assert.True(index >= 0);
+            indices.Add(index);
+            pool.RemoveAt(index);
+        }
         var result = GameRuntime.Engine(EffectCatalog.All).Execute(state, Side.Shadow,
-            BattleFixture.Command(state, kind, payload), new SequenceRandom(index));
+            BattleFixture.Command(state, kind, payload), new SequenceRandom([.. indices]));
         Assert.True(result.Receipt.Accepted, result.Receipt.Error);
         return result.State;
     }

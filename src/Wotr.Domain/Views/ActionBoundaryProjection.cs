@@ -1054,7 +1054,7 @@ internal static class ActionBoundaryProjection
         if (!branch && !IsNestedEventFrame(active, execution, recruit, EffectWait.Choice))
             return false;
         var expectedTrail = branch ? new[] { played } :
-            new[] { played, new EffectSelection(execution.Owner, execution.SourceId, "recruit") };
+            new[] { played, DirectEventChoices.NationalRecruitSelection(state, execution.Owner, execution.SourceId, otherwise) };
         if (!execution.Committed.SequenceEqual(expectedTrail) ||
             EffectCatalog.All.Programs[active.EffectId].Steps[0] is not EffectChoiceStep choice ||
             pending.Presentation != choice.Presentation)
