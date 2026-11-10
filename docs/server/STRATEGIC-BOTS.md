@@ -433,6 +433,24 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### BOT-20 checkpoint — CPU play with the expansions (2026-11-10)
+
+The owner approved BOT-20 on 2026-11-09. The private runtime (0.2.105 to 0.2.107)
+registers both faction policies under one accepted policy version, so a local
+host offers CPU games of the base game, Fate of Erebor (with New Cities), Lords
+of Middle-earth (with the Council) and Kings of Middle-earth (with its variants).
+Warriors of Middle-earth is not supported.
+
+- **Host.** The memory gate measures the live heap before it refuses a decision
+  (8c4f062): uncollected garbage had stalled a CPU forever.
+- **This branch.** `codex/bot20-expansions` merges `expansions` into the CPU host
+  line: contracts 0.74.0 (ActionBoundary v57), rules 0.15.60 and public content
+  1.0.74. The client branch of the same name adds the expansions' rules to the
+  waiting room, so a CPU table can choose its expansions.
+- **Not done.** The owner's playtest and BOT-14's strength evidence.
+
+Nothing was pushed, released or deployed.
+
 ### BOT-10 and BOT-11 recorded (2026-11-09)
 
 The agent recorded BOT-10 (Lords and the Council) and BOT-11 (Kings and the
