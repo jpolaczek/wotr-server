@@ -37,7 +37,11 @@ public sealed partial class BotRuntimeControl
             {
                 if (row.GetString(0) != sourceVersion)
                     return new(false, 0, "MixedRuntimeVersions");
-                if (row.IsDBNull(3) || JsonSerializer.Deserialize<BotRuntimeIdentity>(row.GetString(3), BotRuntimeProtocol.Json) != compatibility)
+                // BOT-37: the ABI is how the host calls the runtime, not what its memory means: a target
+                // that speaks the host's newer ABI keeps the seat when protocol, rules, content and memory
+                // format are the same, and the seat's identity is updated with the upgrade.
+                if (row.IsDBNull(3) || JsonSerializer.Deserialize<BotRuntimeIdentity>(row.GetString(3), BotRuntimeProtocol.Json) is not { } saved ||
+                    saved with { AbiVersion = compatibility.AbiVersion } != compatibility)
                     return new(false, 0, "MemoryOrRulesIncompatible");
                 // BOT-37: a seat on an earlier policy the target continues is re-pinned to the target's version.
                 var policy = target.Policies.SingleOrDefault(p => p.ProfileId == row.GetString(1) &&
@@ -61,6 +65,11 @@ public sealed partial class BotRuntimeControl
                 room, policyVersion, assignment);
             await shown.ExecuteNonQueryAsync(cancellation);
         }
+        await using (var identity = Database.Command(connection, transaction, """
+            UPDATE bot_runtime_jobs SET compatibility=$2::jsonb WHERE assignment_id IN
+                (SELECT id FROM bot_assignments WHERE runtime_version=$1 AND status<>'cancelled')
+            """, sourceVersion, JsonSerializer.Serialize(compatibility, BotRuntimeProtocol.Json)))
+            await identity.ExecuteNonQueryAsync(cancellation);
         await using var change = Database.Command(connection, transaction,
             "UPDATE bot_assignments SET runtime_version=$2 WHERE runtime_version=$1 AND status<>'cancelled'", sourceVersion, target.RuntimeVersion);
         await change.ExecuteNonQueryAsync(cancellation);

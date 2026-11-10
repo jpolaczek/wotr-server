@@ -124,6 +124,8 @@ public sealed class BotRuntimeUpgradeTests
         await fixture.Stage(work);
         var target = next.Package.Description;
         target = target with { Policies = target.Policies.Select(p => p with { PolicyVersion = "fixture-2", MigratesFrom = ["fixture-1"] }).ToArray() };
+        // The seat was saved by an ABI 2 runtime (0.2.108's).
+        await fixture.Execute("UPDATE bot_runtime_jobs SET compatibility=jsonb_set(compatibility,'{abiVersion}','2'::jsonb)");
         var control = fixture.Host.Services.GetRequiredService<BotRuntimeControl>();
         var epoch = await control.Drain();
         var memory = await fixture.Scalar("SELECT memory FROM bot_runtime_jobs");
@@ -134,6 +136,8 @@ public sealed class BotRuntimeUpgradeTests
         Assert.Equal("0.2.1", await fixture.Scalar("SELECT runtime_version FROM bot_assignments"));
         Assert.Equal(memory, await fixture.Scalar("SELECT memory FROM bot_runtime_jobs"));
         Assert.Equal(match, await fixture.Scalar("SELECT state::text FROM matches"));
+        // A seat saved under the previous ABI keeps its game too; its identity follows the upgrade.
+        Assert.Equal(target.AbiVersion.ToString(), await fixture.Scalar("SELECT compatibility->>'abiVersion' FROM bot_runtime_jobs"));
         // Without the migration it stays incompatible.
         Assert.False((await control.Upgrade(epoch, "0.2.1", target with
             { RuntimeVersion = "0.2.2", Policies = target.Policies.Select(p => p with { PolicyVersion = "fixture-3", MigratesFrom = null }).ToArray() }, next.Hash)).Applied);
