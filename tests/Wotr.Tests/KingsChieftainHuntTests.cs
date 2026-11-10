@@ -42,6 +42,17 @@ public class KingsChieftainHuntTests
         Assert.Single(view.Dice, d => !d.Success && !d.Rerolled);
     }
 
+    // ModuleIndependenceGameTests (flags 99, seed 1) reached a Hunt with Ugluk in play and the Fellowship on the
+    // Mordor Track, which is no board region: the bonus read its neighbours and threw.
+    [Fact]
+    public void UglukAddsNothingOnTheMordorTrack()
+    {
+        var state = Actions();
+        KingsDiceTests.Chieftain(state, KingsChieftains.Ugluk, "gorgoroth");
+        state.Fellowship.RegionId = MordorRules.Track;
+        Assert.Equal(0, KingsChieftainHunt.RerollBonus(state));
+    }
+
     [Fact]
     public void PublicMovementBoundaryRetainsOnlyTheLiveUglukModifier()
     {
