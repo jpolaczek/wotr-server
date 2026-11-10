@@ -442,7 +442,10 @@ of Middle-earth (with the Council) and Kings of Middle-earth (with its variants)
 Warriors of Middle-earth is not supported.
 
 - **Host.** The memory gate measures the live heap before it refuses a decision
-  (8c4f062): uncollected garbage had stalled a CPU forever.
+  (8c4f062): uncollected garbage had stalled a CPU forever. The output check
+  accepts an enabled Ruler token action (08708be): it had refused the CPU's
+  token moves and retried them, pausing Kings games for up to a minute and a
+  half. The host logs why it defers a CPU decision.
 - **This branch.** `codex/bot20-expansions` merges `expansions` into the CPU host
   line: contracts 0.74.0 (ActionBoundary v57), rules 0.15.62 and public content
   1.0.74. The client branch of the same name adds the expansions' rules to the
