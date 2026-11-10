@@ -433,6 +433,20 @@ room races, readable opponent presentation and clean public/player artifacts.
 No fixture, module selector or passing build establishes playing strength.
 
 
+### Owner audit of the strategic opponents — BOT-21 to BOT-39 (2026-11-10)
+
+The owner audited runtime 0.2.108 and asked for the tasks it describes. The private runtime 0.3.0
+(local branch `claude/bot-audit`) answers its stage A, B and C findings: an advance after a won
+battle now takes the region (it had moved no figures), a capture counts after the defenders
+retreat, a campaign keeps the army that besieges its target, and every decision compares its moves
+before any costly estimate within one deadline shared by every stage, then looks further ahead as
+time allows. This repository adds the CPU's pace (BOT-37): the host chooses Fast or Thorough in the
+room, it is saved with the game, and runtime ABI 3 passes it with the host's remaining deadline
+(contracts 0.75.0). A runtime may continue saved games of an earlier policy version; an upgrade
+re-pins their seats. Strength and timing are measured in whole in-process games against a frozen
+copy of the demo CPU (BOT-39); results are recorded with the task. Nothing was pushed, released or
+deployed.
+
 ### BOT-20 checkpoint — CPU play with the expansions (2026-11-10)
 
 The owner approved BOT-20 on 2026-11-09. The private runtime (0.2.105 to 0.2.108)
