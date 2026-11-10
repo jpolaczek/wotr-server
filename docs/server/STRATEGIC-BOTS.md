@@ -447,6 +447,19 @@ re-pins their seats. Strength and timing are measured in whole in-process games 
 copy of the demo CPU (BOT-39); results are recorded with the task. Nothing was pushed, released or
 deployed.
 
+Measured on 2026-11-10 (runtime 0.3.1, eight games at a time on one machine): at the Fast pace the
+CPU won 198 of 200 base games as the Free Peoples and 200 of 200 as the Shadow against the frozen
+demo CPU (95% intervals 96–100% and 98–100%), with decision times p95 about 3.0 s and a maximum of
+5.5 s; a 20-game Thorough subset per faction won 19 and 20 (maxima 10.4 and 12.4 s); two games of
+each side in all twelve expansion and variant configurations won 23 of 24 and 24 of 24. A decision
+completed at the deadline is now kept rather than refused (fixed after the run). Human games are
+still to be played by the owner.
+
+The CPU can also seat a bot that speaks the WotR Bot Protocol (behindmedia/wotr-protocol 0.1, base
+game only) in the private test tool (BOT-40): 20 games against the protocol's random bot finished
+with no refused command, no stall, no timeout and no illegal answer. AlphaWOTR is installed locally
+for sparring (BOT-41, BOT-42); it is never packaged or shipped.
+
 ### BOT-20 checkpoint — CPU play with the expansions (2026-11-10)
 
 The owner approved BOT-20 on 2026-11-09. The private runtime (0.2.105 to 0.2.108)
