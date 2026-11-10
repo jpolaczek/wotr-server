@@ -71,6 +71,30 @@ public sealed class EmbeddedBotRuntimeTests
         Assert.DoesNotContain("fixture-private-secret", response.Reason);
     }
 
+    // BOT-20: a local game paused the CPU for minutes. Its Ruler token's Fellowship move is offered in
+    // RulerTokenActions, not Options, and the host refused that proposal as foreign output on every retry.
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void ARulerTokenActionIsAProposalOnlyWhileItsTokenOffersIt(bool enabled)
+    {
+        using var runtime = EmbeddedBotRuntime.Load(Fixture);
+        var request = Request() with { Memory = "ruler-token" };
+        request.Player.RulerTokenActions =
+            [new() { TokenId = "token", AbilityId = "ability", Action = new() { Kind = CommandKind.MoveFellowship, Enabled = enabled } }];
+        var response = runtime.Decide(request);
+        if (enabled)
+        {
+            Assert.Equal("Proposal", response.Status);
+            Assert.Equal(CommandKind.MoveFellowship, response.Command!.Kind);
+        }
+        else
+        {
+            Assert.Equal("Refused", response.Status);
+            Assert.StartsWith("InvalidOutput:NotOffered:MoveFellowship", response.Reason);
+        }
+    }
+
     [Fact]
     public void CancelledDisposedForeignOrHumanDecisionInputsCannotProduceMoves()
     {
@@ -79,7 +103,7 @@ public sealed class EmbeddedBotRuntimeTests
         Assert.Equal("InvalidInput", runtime.Decide(Request() with { Side = Side.Shadow }).Reason);
         var humanTurn = Request();
         humanTurn.Player.DecisionOwner = Side.Shadow;
-        Assert.Equal("InvalidOutput", runtime.Decide(humanTurn).Reason);
+        Assert.StartsWith("InvalidOutput", runtime.Decide(humanTurn).Reason);
         runtime.Dispose();
         Assert.False(runtime.GameplayReady);
         Assert.Equal("RuntimeUnavailable", runtime.Decide(Request()).Reason);

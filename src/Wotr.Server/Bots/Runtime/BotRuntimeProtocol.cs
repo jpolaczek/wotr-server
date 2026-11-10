@@ -76,6 +76,23 @@ internal static class BotRuntimeProtocol
                 queries.All(command => Scoped(command, request) && CommandShape.IsValid(command)) :
                 response.Status is "NoDecision" or "Refused" && response.PreviewRequests is null));
 
+    // BOT-20: which rule an invalid response broke, for the host's log; enumerated values only.
+    internal static string Invalidity(BotRuntimeResponse? response, BotRuntimeRequest request)
+    {
+        if (response is null || response.AbiVersion != Version || response.InvocationId != request.InvocationId)
+            return "Identity";
+        if (response.Modules is not { Length: <= 10 } || !response.Modules.All(BotAccessOptions.KnownFeatures.Contains))
+            return "Modules";
+        if (response.Status != "Proposal" || response.Command is not { } command)
+            return "Shape";
+        if (response.PolicyVersion is not { Length: > 0 and <= 64 } || response.ProposedMemory is not { Length: > 0 and <= 2_000_000 })
+            return "PolicyOrMemory";
+        if (command.CommandId != request.InvocationId || command.MatchId != request.MatchId ||
+            command.ExpectedRevision != request.Player.Revision || command.DecisionId != request.Player.Decision?.Id)
+            return "CommandIdentity";
+        return $"NotOffered:{command.Kind}:{request.Player.Decision?.Kind}";
+    }
+
     private static bool Proposal(BotRuntimeResponse response, BotRuntimeRequest request) =>
         response.PolicyVersion is { Length: > 0 and <= 64 } && response.ProposedMemory is { Length: > 0 and <= 2_000_000 } &&
         response.Command is { } command && command.CommandId == request.InvocationId && Scoped(command, request);
@@ -85,5 +102,7 @@ internal static class BotRuntimeProtocol
         command.MatchId == request.MatchId && command.ExpectedRevision == request.Player.Revision &&
         request.Player.Winner is null && request.Player.DecisionOwner == request.Side && request.Player.Decision is not null &&
         command.DecisionId == request.Player.Decision.Id &&
-        request.Player.Options?.Any(option => option.Enabled && option.Kind == command.Kind) is true;
+        (request.Player.Options?.Any(option => option.Enabled && option.Kind == command.Kind) is true ||
+         // BOT-20: a Ruler token's action is offered beside the ordinary options (KINGS), never among them.
+         request.Player.RulerTokenActions?.Any(token => token.Action.Enabled && token.Action.Kind == command.Kind) is true);
 }

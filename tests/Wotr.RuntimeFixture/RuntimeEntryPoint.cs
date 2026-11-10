@@ -31,8 +31,10 @@ public sealed class RuntimeEntryPoint
         var player = request["player"]!;
         // Only a small scripted transport fixture, never a game policy.
         var allowed = new[] { "ContinueFellowship", "AllocateHunt", "CommitCombatCard", "DeclineReaction", "StopBattle", "FinishActionSequence", "Pass", "ResolveHuntDamage" };
-        var kind = player["options"]!.AsArray().FirstOrDefault(option =>
-            option?["enabled"]?.GetValue<bool>() != false && allowed.Contains(option!["kind"]!.GetValue<string>()))?["kind"]?.GetValue<string>();
+        var kind = mode == "ruler-token"
+            ? player["rulerTokenActions"]?.AsArray().FirstOrDefault()?["action"]?["kind"]?.GetValue<string>()
+            : player["options"]!.AsArray().FirstOrDefault(option =>
+                option?["enabled"]?.GetValue<bool>() != false && allowed.Contains(option!["kind"]!.GetValue<string>()))?["kind"]?.GetValue<string>();
         if (kind is null)
             return JsonSerializer.Serialize(new { abiVersion = 2, invocationId = request["invocationId"]!.GetValue<string>(),
                 status = "NoDecision", reason = "FixtureLimit", modules = new[] { "base" } });

@@ -111,7 +111,11 @@ public sealed class EmbeddedBotRuntime : IDisposable
                 if (json is null || Encoding.UTF8.GetByteCount(json) > BotRuntimeProtocol.MaximumOutputBytes)
                     return Refused("InvalidOutput");
                 var response = JsonSerializer.Deserialize<BotRuntimeResponse>(json, BotRuntimeProtocol.Json);
-                return BotRuntimeProtocol.Valid(response, request) ? response! : Refused("InvalidOutput");
+                if (BotRuntimeProtocol.Valid(response, request))
+                    return response!;
+                // The broken rule follows the reason for the host's log; a reason holds at most 64 characters.
+                var invalid = "InvalidOutput:" + BotRuntimeProtocol.Invalidity(response, request);
+                return Refused(invalid[..Math.Min(64, invalid.Length)]);
             }
             catch (Exception error) when (error is not OutOfMemoryException)
             {
