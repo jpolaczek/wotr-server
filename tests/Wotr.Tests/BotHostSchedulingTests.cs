@@ -127,7 +127,7 @@ public sealed class BotHostSchedulingTests
         await using (var held = Database.Command(connection, transaction, "SELECT id FROM matches WHERE id=$1 FOR UPDATE", work.MatchId))
             await held.ExecuteScalarAsync();
         var submit = fixture.Matches.Execute(proposal.Command!, work.ParticipantId, runtimeWork: work);
-        await fixture.Until("SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE wait_event_type='Lock' AND query LIKE '%SELECT state::text,fp_account%')", true);
+        await fixture.Until("SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE wait_event_type='Lock' AND query LIKE '%SELECT m.state::text,m.fp_account%')", true);
         await fixture.Expire(work);
         await transaction.CommitAsync();
         await Assert.ThrowsAsync<BotWorkExpiredException>(() => submit);

@@ -32,7 +32,7 @@ public class BotCredentialRevocationTests(BotApiFixture fixture)
         var queued = bot.PostAsJsonAsync($"/api/matches/{seat.State.Id}/commands", command, BoardCatalog.Json);
         try
         {
-            await fixture.WaitForLock("SELECT state::text,fp_account,events_indexed,recorded FROM matches");
+            await fixture.WaitForLock("SELECT m.state::text,m.fp_account,m.events_indexed,m.recorded");
             if (loss is "credential" or "lease")
                 await ExpireAfterTransactionStarted(seat, loss);
             else

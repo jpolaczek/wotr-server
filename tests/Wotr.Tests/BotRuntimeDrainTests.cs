@@ -48,7 +48,7 @@ public sealed class BotRuntimeDrainTests
         await using (var held = Database.Command(connection, transaction, "SELECT id FROM matches WHERE id=$1 FOR UPDATE", work.MatchId))
             await held.ExecuteScalarAsync();
         var submission = fixture.Matches.Execute(proposal.Command!, work.ParticipantId, runtimeWork: work);
-        await fixture.Until("SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE wait_event_type='Lock' AND query LIKE '%SELECT state::text,fp_account%')", true);
+        await fixture.Until("SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE wait_event_type='Lock' AND query LIKE '%SELECT m.state::text,m.fp_account%')", true);
         var control = fixture.Host.Services.GetRequiredService<BotRuntimeControl>();
         await control.Drain();
         Assert.False(submission.IsCompleted);
