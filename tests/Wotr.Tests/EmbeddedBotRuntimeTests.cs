@@ -54,6 +54,38 @@ public sealed class EmbeddedBotRuntimeTests
         Assert.Contains("free-peoples-strong", runtime.Description!.Profiles);
     }
 
+    // BOT-91: a local operator host writes each real request with its answer, in the private bot's stored-position
+    // format, only when a dump directory is configured.
+    [Fact]
+    public void ALocalHostDumpsItsRealRequestsOnlyWhenAsked()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "wotr-dump-" + Guid.NewGuid().ToString("N"));
+        var options = new BotHostOptions(true, Fixture, "0.2.0", 1, TimeSpan.FromSeconds(30), TimeSpan.FromMilliseconds(500),
+            TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5)) { AllowUnpackaged = true, RequestDumpDirectory = directory };
+        try
+        {
+            using (var runtime = EmbeddedBotRuntime.LoadConfigured(options))
+            {
+                Assert.Equal("Loaded", runtime.Status);
+                var request = Request();
+                Assert.Equal("Proposal", runtime.Decide(request).Status);
+                var file = Assert.Single(Directory.GetFiles(directory));
+                using var document = System.Text.Json.JsonDocument.Parse(File.ReadAllText(file));
+                Assert.Equal("real-request", document.RootElement.GetProperty("provenance").GetString());
+                Assert.Equal(request.InvocationId, document.RootElement.GetProperty("request").GetProperty("invocationId").GetString());
+                Assert.Equal("Proposal", document.RootElement.GetProperty("response").GetProperty("status").GetString());
+            }
+            using (var quiet = EmbeddedBotRuntime.LoadConfigured(options with { RequestDumpDirectory = null }))
+                quiet.Decide(Request());
+            Assert.Single(Directory.GetFiles(directory));
+        }
+        finally
+        {
+            if (Directory.Exists(directory))
+                Directory.Delete(directory, true);
+        }
+    }
+
     [Theory]
     [InlineData("foreign")]
     [InlineData("future")]

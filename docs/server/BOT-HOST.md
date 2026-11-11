@@ -67,3 +67,12 @@ libraries and both licenses. No client package/schema change, publication or
 real-strategy gameplay acceptance is claimed. [BOT-19 operations](BOT-OPERATIONS.md)
 add verified packages, memory compatibility identity, durable draining and compatible upgrades;
 BOT-20 owns real-policy integration.
+
+## The request dump of a local operator host (BOT-91)
+
+`Wotr:Bots:RequestDumpDirectory` (off by default, refused when `ASPNETCORE_ENVIRONMENT` is `Production`) makes a local
+operator host write every real runtime request with the runtime's answer into that directory, one file per request
+(`<match>-r<revision>-<side>-<invocation>.json`, `{"provenance":"real-request","request":…,"response":…}`). A request
+holds the CPU side's own view, its options, the history it was shown and its opaque memory: nothing of the human's
+hidden information. The private bot replays such a file as a stored position and keeps it as a test. A failure to write
+never changes the decision. Test: `EmbeddedBotRuntimeTests.ALocalHostDumpsItsRealRequestsOnlyWhenAsked`.

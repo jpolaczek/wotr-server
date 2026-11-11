@@ -12,6 +12,8 @@ public sealed class EmbeddedBotRuntime : IDisposable
     private Func<string, CancellationToken, string>? decide;
     private readonly BotRuntimeDescription? description;
     public string Status { get; }
+    // BOT-91: where a local operator host dumps its real requests (BotHostOptions.RequestDumpDirectory).
+    public string? DumpDirectory { get; private set; }
     public bool GameplayReady => decide is not null && description?.GameplayReady is true;
     public BotRuntimeDescription? Description => description is null ? null :
         description with { Profiles = [.. description.Profiles], Modules = [.. description.Modules],
@@ -60,7 +62,32 @@ public sealed class EmbeddedBotRuntime : IDisposable
         }
     }
 
+    // BOT-91: one file per request, in the private bot's stored-position format (provenance real-request), with the
+    // runtime's answer beside it. A failure to write never touches the decision.
+    private void Dump(BotRuntimeRequest request, string input, string? output)
+    {
+        if (DumpDirectory is null)
+            return;
+        try
+        {
+            Directory.CreateDirectory(DumpDirectory);
+            var name = $"{request.MatchId[..Math.Min(8, request.MatchId.Length)]}-r{request.Player.Revision}-{request.Side}-{request.InvocationId[..8]}.json";
+            var file = Path.Combine(DumpDirectory, string.Concat(name.Select(c => char.IsLetterOrDigit(c) || c is '-' or '.' ? c : '_')));
+            File.WriteAllText(file, "{\"provenance\":\"real-request\",\"request\":" + input + ",\"response\":" + (output ?? "null") + "}");
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+        }
+    }
+
     public static EmbeddedBotRuntime LoadConfigured(BotHostOptions options)
+    {
+        var loaded = LoadPackage(options);
+        loaded.DumpDirectory = options.RequestDumpDirectory;
+        return loaded;
+    }
+
+    private static EmbeddedBotRuntime LoadPackage(BotHostOptions options)
     {
         if (options.ManifestPath is null)
             return options.Enabled && !options.AllowUnpackaged ? new("PackageRequired") : Load(options.AssemblyPath, options.RuntimeVersion);
@@ -106,6 +133,7 @@ public sealed class EmbeddedBotRuntime : IDisposable
                 if (Encoding.UTF8.GetByteCount(input) > BotRuntimeProtocol.MaximumInputBytes)
                     return Refused("InvalidInput");
                 var json = decide(input, cancellation);
+                Dump(request, input, json);
                 if (cancellation.IsCancellationRequested)
                     return Refused("Cancelled");
                 if (json is null || Encoding.UTF8.GetByteCount(json) > BotRuntimeProtocol.MaximumOutputBytes)

@@ -17,6 +17,10 @@ public sealed record BotHostOptions(bool Enabled, string? AssemblyPath, string? 
     public TimeSpan Timeout(BotThinkingMode mode) => mode == BotThinkingMode.Thorough ? ThoroughDecisionTimeout : DecisionTimeout;
     public int Work(BotThinkingMode mode) => mode == BotThinkingMode.Thorough ? MaximumWork : MaximumWork / 3;
     public long MemoryPressureBytes { get; init; } = 512L * 1024 * 1024;
+    // BOT-91: a local operator host may write every real runtime request (the CPU side's own view, options, history and
+    // memory) with its answer into this directory, so a move noticed in a human game can be replayed as a test. Off by
+    // default; refused in Production.
+    public string? RequestDumpDirectory { get; init; }
 
     public static BotHostOptions Read(IConfiguration configuration)
     {
@@ -35,8 +39,12 @@ public sealed record BotHostOptions(bool Enabled, string? AssemblyPath, string? 
             AllowUnpackaged = section.GetValue<bool>("AllowUnpackagedRuntime"),
             MaximumWork = section.GetValue("MaximumWork", 100_000),
             ThoroughDecisionTimeout = TimeSpan.FromMilliseconds(section.GetValue("ThoroughDecisionTimeoutMilliseconds", 15_000)),
-            MemoryPressureBytes = memoryMiB * 1024 * 1024
+            MemoryPressureBytes = memoryMiB * 1024 * 1024,
+            RequestDumpDirectory = section["RequestDumpDirectory"] is { Length: > 0 } dump ? dump : null
         };
+        if (options.RequestDumpDirectory is not null &&
+            string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), "Production", StringComparison.OrdinalIgnoreCase))
+            throw new InvalidOperationException("The bot request dump is for local operator hosts only.");
         if (options.Workers is < 1 or > 8 || options.Lease.TotalSeconds is < 5 or > 300 ||
             options.Poll.TotalMilliseconds is < 50 or > 5000 || options.Retry.TotalSeconds is < 1 or > 60 ||
             options.DecisionTimeout.TotalMilliseconds is < 50 or > 5000 ||
