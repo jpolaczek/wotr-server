@@ -57,7 +57,7 @@ These requirements apply to the engine, server, client and acceptance testing. A
 | R29 | The client detects releases announced by the server. It downloads an optional version only with consent and allows deferral. It automatically downloads a required version in the background, including one scheduled with a deadline, and allows continued play until that deadline (D13). Players can repair the current installation. Replacement happens after a safe shutdown and a player click, preserving the journal/commandId, data and ability to resume games. The server enforces compatibility; packages and manifests are verified with an Ed25519 signature. |
 | R30 | The server, database, public website and packages are hosted on a personal Linux PC. The game and website use Cloudflare Tunnel/nginx; large packages use direct HTTPS to nginx through the provider's public IP. Acceptance covers access outside the LAN, autostart, certificate renewal, resumed transfers and restore. |
 | R31 | Test-scenario mode: named situations (e.g. “test Will of the West”) launched from the menu on a server with this option enabled. After setup the game proceeds normally, one client plays both sides, the result does not enter saved games, and restarting recreates the same situation. |
-| R32 | Demo mode (user decision, 2026-10-15): from the lobby, a player starts a base game against a simple CPU that selects legal moves for the other side through the same server rules engine. One demo per account: a new one replaces the previous one; normal games remain unlimited and have no CPU. |
+| R32 | CPU opponents: preserve the legacy demo and existing saves. Owner update 2026-10-27: multiple saved PvE games against two scripted faction policies in a closed-source runtime library loaded by the game server. The runtime receives copied player-side information, decisions, visible history, enabled expansions/variants and its opaque memory; it returns a command proposal and proposed memory. It receives no authoritative state or persistence services. One base implementation composes mechanic modules from configuration, not a bot per expansion combination. The server owns scheduling, validation, receipts and accepted memory persistence. The human host reserves the opposing CPU seat; normal Ready/Start applies. Players install only the game client. One strong level, normally 3 seconds and at most 5 seconds of cooperative decision computation; queue time measured separately. New PvE never replaces another save. Specification: [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). |
 
 <a id="obserwowanie-i-replaye--plan-z-2026-10-16"></a>
 ## Observing and replays — plan of 2026-10-16
@@ -124,12 +124,17 @@ start. Private setup decisions do not enter the shared summary.
 <a id="poza-mvp"></a>
 ## Outside the MVP
 
-Warriors of Middle-earth, other expansions and promos, 3–4 players, AI opponents
-in normal games (exception: the simple demo CPU in R32), mobile and browser apps,
+Warriors of Middle-earth, other expansions and promos, 3–4 players, bot hosting
+for third-party servers, offline/local bot installation, mobile and browser apps,
 and notifications outside the app. Observing and local replays were added to the
 plan by the user's decision of 2026-10-16 (R33/R34), and ranked matchmaking and
 ratings by the owner's decision of 2026-11-05 (R35); this does not claim
-implementation. Original artwork does not block a playable version.
+implementation. Original artwork does not block a playable version. Scripted
+strategic PvE was added on 2026-10-23 (R32); its embedded-runtime design
+supersedes separate hosting (2026-10-27). Host scheduling/atomic persistence are
+implemented in BOT-18; BOT-19 adds optional operator-only packages, bounded host
+resources, persistent draining and compatible upgrade/rollback without resetting
+saved memory or decisions. Real-policy gameplay acceptance remains pending.
 
 <a id="priorytet-przy-konflikcie"></a>
 ## Priority when requirements conflict

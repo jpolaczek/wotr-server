@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "wotr.contracts": {
+        "type": "Project"
+      },
+      "wotr.domain": {
+        "type": "Project",
+        "dependencies": {
+          "Wotr.Contracts": "[1.0.0, )"
+        }
+      }
+    }
+  }
+}

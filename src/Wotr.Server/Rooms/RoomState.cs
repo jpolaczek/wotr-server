@@ -23,6 +23,7 @@ public sealed class RoomState
     public int? ShadowAccepted { get; set; }
     public MatchConfiguration Configuration { get; set; } = ConfigurationRules.Normalize(new());
     public string MatchId { get; set; } = "";
+    public RoomBotState? Bot { get; set; }
     // MENU-24: accounts the host removed; they cannot take a seat in this room again.
     public List<string> Removed { get; set; } = [];
     // RANK-04 (R35): the room of a ranked match keeps only its chat. Nobody joins, watches, invites, changes role or
@@ -60,6 +61,15 @@ public sealed class RoomState
         FreePeoplesAvatar = avatars.GetValueOrDefault(FreePeoples, ""),
         Shadow = ShadowName,
         ShadowAvatar = avatars.GetValueOrDefault(Shadow, ""),
+        FreePeoplesKind = Occupant(Side.FreePeoples),
+        ShadowKind = Occupant(Side.Shadow),
+        Bot = Bot is null ? null : new()
+        {
+            Side = Bot.Side, ProfileId = Bot.ProfileId, PolicyVersion = Bot.PolicyVersion, ThinkingMode = Bot.ThinkingMode,
+            Status = Closed ? BotSeatStatus.Unavailable :
+                (Bot.Side == Side.FreePeoples ? FreePeoplesAccepted : ShadowAccepted) == Version
+                    ? BotSeatStatus.Ready : BotSeatStatus.Joining
+        },
         You = account == Shadow ? Side.Shadow : Side.FreePeoples,
         Role = Contains(account) ? RoomRole.Player : RoomRole.Observer,
         Observers = RoomObservers.Views(this, observers, avatars),
@@ -73,6 +83,24 @@ public sealed class RoomState
         ExpansionsAvailable = release.OffersExpansions,
         OfferedModules = release.Modules.ToList()
     };
+
+    private SeatOccupantKind Occupant(Side side) => RoomRules.Seat(this, side).Length == 0
+        ? SeatOccupantKind.Empty : Bot?.Side == side ? SeatOccupantKind.Cpu : SeatOccupantKind.Human;
+}
+
+public sealed class RoomBotState
+{
+    public string AssignmentId { get; set; } = "";
+    public string ParticipantId { get; set; } = "";
+    public Side Side { get; set; }
+    public string ProfileId { get; set; } = "";
+    public string PolicyVersion { get; set; } = "";
+    public long? ReadyGeneration { get; set; }
+    public string? RuntimeVersion { get; set; }
+    // BOT-37: saved with the room and its game; a state written before it reads as Fast.
+    public BotThinkingMode ThinkingMode { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
+    public bool? RuntimeHealthy { get; set; }
 }
 
 public sealed record RoomResult(RoomView? Room = null, string Error = "");

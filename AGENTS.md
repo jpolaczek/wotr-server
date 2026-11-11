@@ -146,5 +146,15 @@ explicit client pin.
 - Do not deploy or publish without authorization in the request. Do not add
   notifications outside the app, AI or Warriors of Middle-earth features.
   User-approved exceptions: a simple CPU exclusively in demo mode (2026-10-15,
-  R32, docs/server/DEMO-MODE.md); ranked matchmaking and ratings (owner,
+  R32, docs/server/DEMO-MODE.md); the strategic CPU (R32, updated 2026-10-27):
+  retain the legacy demo CPU and implement two strategic policies in a private
+  `wotr-bot` runtime library loaded by the operator's game server. The runtime
+  receives only copied own-side player information, decisions/history,
+  configuration and opaque memory; it returns proposals. The server schedules,
+  validates and persists accepted commands/memory. Compose expansion/variant
+  modules, never a bot per combination. The host requests CPU in the opposing room
+  seat. Players install no private component. Private policies/tests/binaries must
+  not enter public repositories, public archives or player installers. The
+  in-process runtime is trusted code; its API and architecture enforce information
+  minimization, not an OS sandbox. Ranked matchmaking and ratings (owner,
   2026-11-05, R35, docs/RANKED_PLAY.md). Other matchmaking stays out of scope.

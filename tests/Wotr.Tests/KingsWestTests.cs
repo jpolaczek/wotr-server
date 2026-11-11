@@ -1,5 +1,7 @@
+using System.Text.Json;
 using Wotr.Contracts;
 using Wotr.Domain;
+using Wotr.Domain.Content;
 using Xunit;
 using static Wotr.Domain.KingsCards02;
 using static Wotr.Tests.KingsCardsFixture;
@@ -17,6 +19,43 @@ public class KingsWestTests
         BattleFixture.Put(state, "sauron", UnitKind.Nazgul, "edoras");
         Pool(state, One, HuntTests.Three, KingsTiles.One);
         return state;
+    }
+
+    [Fact]
+    public void WestPalantirExcessDiscardIsOwnerVisibleAndDoesNotMutateTheMatch()
+    {
+        var state = Ready(1);
+        var shadow = state.Player(Side.Shadow);
+        foreach (var card in shadow.Hand.ToArray())
+            shadow.Decks[CardCatalog.All[card].Deck].Add(card);
+        shadow.Hand.Clear();
+        var palantir = ShadowCharacterCards04.Palantir;
+        Assert.True(shadow.Decks[CardCatalog.All[palantir].Deck].Remove(palantir));
+        shadow.Table.Add(palantir);
+        Pool(state, One);
+        for (var index = 0; index < 6; index++)
+            CardFlow.Draw(state, Side.Shadow, "character");
+
+        // EXP-15 D8 / UI-442: one Eye draws one tile, placed without a decision.
+        state = Choose(Play(state, West), SovereignCatalog.Dain, 0);
+        state = Choose(state, "character");
+        Assert.Equal(DecisionKind.DiscardCards, state.Pending!.Kind);
+        Assert.Equal(7, state.Player(Side.Shadow).Hand.Count);
+
+        var before = StateCodec.Write(state);
+        var projection = GameRuntime.Projection(EffectCatalog.All);
+        var shadowView = projection.For(state, Side.Shadow);
+        var freePeoplesView = projection.For(state, Side.FreePeoples);
+        var marker = Assert.IsType<WestPalantirDiscardView>(shadowView.ActionBoundary?.WestPalantirDiscard);
+        Assert.Equal(West, marker.CardId);
+        Assert.Equal(DieFace.Event, marker.CardCost);
+        Assert.Contains(marker.DrawnCardId, shadowView.Hand);
+        Assert.Null(freePeoplesView.ActionBoundary?.WestPalantirDiscard);
+        Assert.DoesNotContain(marker.DrawnCardId, JsonSerializer.Serialize(freePeoplesView));
+
+        marker.DrawnCardId = "mutated-projection";
+        Assert.Equal(before, StateCodec.Write(state));
+        Assert.Contains(shadowView.Hand, card => card != "mutated-projection");
     }
 
     // UI-442: the event's attempt draws its tiles at once, as many as the unspent Eyes (at most three).

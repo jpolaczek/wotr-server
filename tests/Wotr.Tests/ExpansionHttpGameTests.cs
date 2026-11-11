@@ -10,8 +10,8 @@ using Xunit.Abstractions;
 namespace Wotr.Tests;
 
 // EXP-03: one game with every expansion and variant, start to end, through the real command route and PostgreSQL.
-// Each move is the demo CPU's choice for the side to act, sent by that player over HTTP; the server restarts every
-// 120 moves, and after each restart both players read exactly the projections they read before it.
+// Each move is the demo CPU's choice for the side to act, sent by that player over HTTP. Restart after the first
+// committed move, then every 120 moves; both players must read exactly their pre-restart projections.
 public sealed class ExpansionHttpGameTests(ITestOutputHelper output)
 {
     private const int MoveLimit = 3000;

@@ -140,7 +140,7 @@ public static class CorruptionRuntime
         });
     }
 
-    private static void OpenChoice(MatchState state, CorruptionAttempt attempt)
+    public static void OpenChoice(MatchState state, CorruptionAttempt attempt)
     {
         var commands = new List<CommandKind>();
         if (CorruptionRules.CanDraw(attempt))

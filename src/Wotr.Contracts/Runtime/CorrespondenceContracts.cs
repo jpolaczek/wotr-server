@@ -7,6 +7,8 @@ namespace Wotr.Contracts
 
     public sealed class MatchSummary
     {
+        public bool IsPve { get; set; }
+        public BotSeatView? Bot { get; set; }
         public string Name { get; set; } = "";
         public string MatchId { get; set; } = "";
         public string Opponent { get; set; } = "";

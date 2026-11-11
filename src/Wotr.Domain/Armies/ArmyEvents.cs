@@ -37,7 +37,7 @@ public static class ArmyEvents
     }
 }
 
-public sealed record ArmyOrderStep(ArmyEventOrder Order) : EffectStep
+public sealed partial record ArmyOrderStep(ArmyEventOrder Order) : EffectStep
 {
     public override void Apply(EffectContext context)
     {
@@ -45,14 +45,19 @@ public sealed record ArmyOrderStep(ArmyEventOrder Order) : EffectStep
             return;
         context.Execution.ArmyOrder = Order;
         context.Execution.Wait = EffectWait.Army;
-        context.State.Open(DecisionKind.ArmyEvent, context.Owner,
-            ShadowArmyEvents.Supports(Order) ? ShadowArmyEvents.Siege(Order) ? [CommandKind.AttackArmy]
-                : [CommandKind.MoveArmies, CommandKind.AttackArmy, CommandKind.FinishArmyEvent]
-                : Order == ArmyEventOrder.ShadowMoving ? [CommandKind.MoveArmies, CommandKind.FinishArmyEvent]
-                : [Order == ArmyEventOrder.ReliefAttack ? CommandKind.AttackArmy : CommandKind.MoveArmies]);
+        context.State.Open(DecisionKind.ArmyEvent, context.Owner, Commands(Order));
         context.State.Pending!.SourceId = context.Execution.SourceId;
         context.State.Pending.Presentation = Order.ToString();
     }
+}
+
+public sealed partial record ArmyOrderStep
+{
+    public static CommandKind[] Commands(ArmyEventOrder order) =>
+        ShadowArmyEvents.Supports(order) ? ShadowArmyEvents.Siege(order) ? [CommandKind.AttackArmy]
+            : [CommandKind.MoveArmies, CommandKind.AttackArmy, CommandKind.FinishArmyEvent]
+            : order == ArmyEventOrder.ShadowMoving ? [CommandKind.MoveArmies, CommandKind.FinishArmyEvent]
+            : [order == ArmyEventOrder.ReliefAttack ? CommandKind.AttackArmy : CommandKind.MoveArmies];
 }
 
 public sealed record ArmyOrderCondition(ArmyEventOrder Order) : EventCondition

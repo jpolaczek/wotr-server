@@ -10,6 +10,52 @@ namespace Wotr.Tests;
 public class Strategy04RecruitmentTests
 {
     [Theory]
+    [InlineData(DieFace.Muster, DieFace.Muster)]
+    [InlineData(DieFace.Event, DieFace.Event)]
+    [InlineData(DieFace.Muster, DieFace.ArmyMuster)]
+    [InlineData(DieFace.Muster, DieFace.WillOfTheWest)]
+    public void KindredOfGlorfindelExposesItsFirstPaidRecruitmentChoice(DieFace cost, DieFace dieFace)
+    {
+        var state = BattleFixture.State();
+        state.Nations.Single(nation => nation.Id == "elves").StepsToWar = 3;
+        EventTests.GiveCard(state, Side.FreePeoples, KindredOfGlorfindel);
+        var payment = Cost(state, cost);
+        payment.CardId = KindredOfGlorfindel;
+        payment.CardCost = cost;
+        state.Dice.Single(die => die.Id == payment.DieId).Face = dieFace;
+        state = Do(state, CommandKind.PlayEvent, payment);
+
+        foreach (var side in Enum.GetValues<Side>())
+        {
+            var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
+            Assert.Equal(57, view.ActionBoundary?.Version);
+            var context = Assert.IsType<DirectEventChoiceView>(view.ActionBoundary?.DirectEventChoice);
+            Assert.Equal(KindredOfGlorfindel, context.CardId);
+            Assert.Equal(cost, context.CardCost);
+        }
+    }
+
+    [Theory]
+    [InlineData("cursor")]
+    [InlineData("payment")]
+    [InlineData("public-play")]
+    public void DirectEventChoiceRequiresPublicFirstStepAndPaidDie(string change)
+    {
+        var state = BattleFixture.State();
+        state.Nations.Single(nation => nation.Id == "elves").StepsToWar = 3;
+        state = Play(state, KindredOfGlorfindel);
+        if (change == "cursor")
+            state.Resolution.Frames[0].NextStep++;
+        else if (change == "payment")
+            state.Dice.Single(die => die.Id == state.Resolution.PaidDieIds[0]).Location = DieLocation.Spent;
+        else
+            state.Events.RemoveAll(item => item.Kind == "EventPlayed");
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
+    [Theory]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]

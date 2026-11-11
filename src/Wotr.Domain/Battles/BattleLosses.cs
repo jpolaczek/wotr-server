@@ -45,7 +45,10 @@ public static class BattleLosses
         state.Resolution.Frames.RemoveAt(state.Resolution.Frames.Count - 1);
         state.Pending = null;
         if (loss.Voluntary)
+        {
             EffectRuntime.Current(state)!.Effect!.AppliedHits = plan.AppliedHits;
+            force.Round.VoluntaryLossHits = plan.AppliedHits;
+        }
         var activity = HistoryFacts.Battle(state, BattleRuntime.Active(state)!);
         activity.Facts.SourceId = loss.SourceId;
         activity.Facts.LossDetails = [.. plan.LossFacts ?? []];

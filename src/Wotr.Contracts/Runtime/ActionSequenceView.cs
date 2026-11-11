@@ -13,5 +13,7 @@ namespace Wotr.Contracts
         public int Remaining { get; set; }
         public List<string> UsedIds { get; set; } = new List<string>();
         public List<string> UsedRegions { get; set; } = new List<string>();
+        // Public on-board figures eligible when this paid journey began.
+        public List<string> InitialFigureIds { get; set; } = new List<string>();
     }
 }

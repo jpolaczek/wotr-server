@@ -166,3 +166,42 @@ session that followed.
 This partly supersedes UI-105 and UI-128 ("army movement remains only clicks; drag remains only for reserves") for units
 and characters. Design: wotr-client `docs/ui/TABLETOP_FIGURES_UX.md`. Specification: UI-421 (the plan first registered
 as UI-398), UI-422, UI-400–UI-407.
+
+## D21 — strategic opponents: external service superseded by embedded runtime
+
+(Numbered D20 on the bot line; renumbered where it met the tabletop figures' D20 from `expansions`.)
+
+**Owner update, 2026-10-27:** the private repository now contains only a runtime
+library loaded by the game server. It receives copied player-visible information,
+decisions/history, configuration and opaque prior memory, and returns a proposed
+move/memory. The public host owns scheduling, persistence and validation. Two
+faction policies compose shared mechanic modules for the enabled expansions and
+variants; there is no policy executable per combination. No private binary enters
+a human client. This replaces the external-process, HTTP-control and private-store
+requirements below, which remain a record of the 2026-10-23 decision.
+
+### Previous decision (2026-10-23)
+
+Source: the owner's request for two scripted strategic opponents, followed by
+the explicit requirement for a separate closed-source application with no extra
+software installed by players. The owner selected only the operator's server
+for v1 and adding CPU in the empty opposing seat of a hosted room.
+
+- `wotr-bot` is a private headless application on operator infrastructure. Its
+  policies, weights and deployment artifacts do not enter the public repositories
+  or game packages. D17's public game code and existing licenses remain unchanged.
+- The server persists assignments and restricts seat credentials; the bot reads
+  exactly its own side's player information through the ordinary gameplay API.
+  It receives no game DB credentials, full saves, admin or observer access.
+- Keep the accepted two-faction plans, probability analysis, one strong level,
+  complete base/expansion/variant scope and multiple saved PvE games. Module
+  release and mechanic acceptance gates still control availability.
+- Human host Ready/Start follows CPU readiness for the current room version.
+  Play vs CPU is a shortcut to the same room. No extra installer or service UI.
+- Separate bot memory/journal and normal game receipts replace the earlier shared
+  transaction proposal. Uncertain submissions recover by the same command ID;
+  rejected commands do not advance the plan. Outages preserve the waiting game.
+- These are approved plans, not completed features or deployment authorization.
+
+Canonical specification: [STRATEGIC-BOTS](server/STRATEGIC-BOTS.md). The local
+21-task program remains planned; its aggregate acceptance is BOT-14.

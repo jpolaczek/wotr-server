@@ -1,6 +1,8 @@
 <a id="format-pliku-wotrreplay--wersja-1-replay-02-2026-10-16"></a>
 # File format `.wotrreplay` — version 1 (REPLAY-02, 2026-10-16)
 
+[Saved PvE](BOT-ROOMS.md) uses the same replay format and recorded player projections. CPU appears under its public name. Private strategy state is absent; bot credentials cannot download the two-perspective archive.
+
 The play file is a ZIP archive with entries JSON (UTF-8, field names like in Contracts: cameCase, enumy as text). Types are in `src/Wotr.Contracts/Runtime/ReplayContracts.cs` (`ReplayFormat`, `ReplayManifest`, `ReplayStep`, `ReplayTurn`, `ReplayFrame`, `ReplayBattleReport`). Designs and scenarios RP03/RP04: [OBSERVERS-REPLAYS](OBSERVERS-REPLAYS.md).
 
 <a id="źródło-danych"></a>

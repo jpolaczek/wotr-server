@@ -63,6 +63,30 @@ public class ShadowStrategy01SacrificeTests
     }
 
     [Theory]
+    [InlineData(Dawn, 0)]
+    [InlineData(Dawn, 2)]
+    [InlineData(UrukHai, 0)]
+    [InlineData(UrukHai, 4)]
+    public void VoluntaryLossResultIsPublicToBothBattleSeats(string card, int appliedHits)
+    {
+        var state = Shadow01Fixture.Reveal(Combat(card, own: 5), card, dice: new int[8]);
+        Assert.True(BattleLosses.Current(state)!.Voluntary);
+        Assert.Null(BattleRuntime.Active(state)!.Force(Side.Shadow).Round.VoluntaryLossHits);
+
+        state = Do(state, CommandKind.TakeBattleLosses, Sacrifice(state, appliedHits), new SequenceRandom(new int[64]));
+
+        var battle = BattleRuntime.Active(state)!;
+        Assert.Equal(appliedHits, battle.Force(Side.Shadow).Round.VoluntaryLossHits);
+        foreach (var side in Enum.GetValues<Side>())
+        {
+            var view = GameRuntime.Projection(EffectCatalog.All).For(state, side);
+            var shadow = view.Battle!.Attacker.Side == Side.Shadow
+                ? view.Battle.Attacker : view.Battle.Defender;
+            Assert.Equal(appliedHits, shadow.VoluntaryLossHits);
+        }
+    }
+
+    [Theory]
     [InlineData(false)]
     [InlineData(true)]
     public void OnslaughtWaitsForBothOrdinaryLossesBeforeOfferingSacrifice(bool shadowAttacks)

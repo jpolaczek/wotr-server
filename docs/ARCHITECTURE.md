@@ -1,9 +1,75 @@
 <a id="architektura"></a>
 # Architecture
 
+BOT-02 adds [shared player rule facts](server/PLAYER-RULE-FACTS.md) for base/Fate
+ordinary actions, paid army/recruitment/character steps and post-action excess
+removal. Boundary v6 also describes reviewed choices during the Hunt caused by
+an ordinary paid Fellowship move: rerolls, damage, bare public reactions, guide
+replacement, initial reveal routes, returning Hobbit placement and additional
+Stronghold Hunts after the committed route. Paid Orc Patrol, Isildur's Bane,
+Foul Thing and committed Nazgûl Strike Hunts retain the card identity, original Shadow payment and pending
+Palantir draw, with the same reviewed reveal/Stronghold consequences. The active
+Balrog table-card Hunt can suspend that queue after revelation, including an empty
+queue, while preserving the original FP or Shadow payment. The earlier
+uncommitted revelation offer also retains that complete queue; its current and
+resolved Hunt views describe one source tile. Respond/Decline resume through the
+ordinary rules without replaying the source Hunt or reveal route. It retains
+public one-use/casualty/departure facts alongside the existing Hunt view. The
+contract exposes no executable resolution frames or authoritative snapshots.
+Boundary v26 also identifies the public parent card and paid face for the
+`Help Unlooked For` relief battle, whose participants and garrison dice reduction
+remain in the ordinary battle view through losses, retreat and advance. Boundary
+v27 also marks only the reviewed `Monsters Roused` branch and East elite-region
+choices. Other card-origin/declaration Hunts, nested effect programs, battle
+contexts and discards remain separate acceptance gates.
+
+BOT-12 now implements [saved PvE rooms](server/BOT-ROOMS.md): atomic CPU admission, durable assignments, scoped readiness/start and cancellation. The embedded runtime boundary/loader is BOT-17; [embedded scheduling and atomic opaque-memory recovery](server/BOT-HOST.md) are implemented in BOT-18. BOT-02/BOT-03 have private checkpoints only; reconstruction and complete candidate coverage remain pending.
+
 The Unity client presents the player's role and prepares intents. The pure C#
 engine resolves rules on the server. ASP.NET Core persists the result before
 responding and sends each side only its authorized view.
+
+## Private embedded bot runtime — owner revision 2026-10-27
+
+The [canonical design](server/STRATEGIC-BOTS.md) now loads a private runtime DLL
+inside the game server. Two faction policies compose shared modules selected by
+MatchConfiguration. Public builds need no private source or binaries; players
+receive only the ordinary client. The old separate-service design is superseded.
+
+[ABI 2](server/BOT-RUNTIME.md) passes copied own-side PlayerView, configuration,
+decisions/options, visible history/reports/previews and opaque memory as JSON.
+The private entrypoint returns one ordinary command proposal and proposed memory
+or a refusal. It receives no live MatchState, database/service/engine handle,
+observer perspective, opponent secrets or future RNG. The host establishes input
+provenance using ordinary player projections. Shared CLR game objects do not cross
+the boundary; private rule dependencies load in a separate assembly context.
+
+The optional loader verifies `Wotr:Bots:RuntimeManifest`, its SHA-256 and the
+`RuntimeVersion` pin. Explicit `AllowUnpackagedRuntime` permits a loose
+`RuntimeAssembly` for development only. Absent/incompatible runtimes keep CPU
+unavailable without stopping ordinary server use. Loading does not start gameplay
+or acknowledge rooms. The current private policy catalog is empty.
+BOT-18 implements host scheduling, room readiness, per-seat evaluation generations and
+opaque memory/receipt recovery. The normal engine validates every command after
+rechecking the current decision/revision under the mutation lock. Proposed memory
+advances atomically with the accepted command/receipt and is never included in human views/replays.
+Migration 019 stores generation-fenced jobs and one pending/last proposal per seat.
+Migration 020 adds a durable drain epoch/package pin and opaque compatibility
+metadata. Room/match operations take the control lock before the job lock;
+drain fences generations and acknowledges only after earlier commits finish.
+Compatible version changes update assignment pins transactionally while retaining
+exact pending commands, game state and opaque memory. Restarts stay drained until
+the operator resumes the verified target package. See [operations](server/BOT-OPERATIONS.md).
+The host polls durable work after restart, supports bounded preview continuations,
+and gates room readiness on accepted policy/modules and current worker health.
+
+BOT-02/BOT-03 retain their private simulation/candidate checkpoints and unresolved
+reconstruction/fallback acceptance. Runtime proximity never authorizes direct
+hidden-state access. BOT-19 implements private DLL packaging, upgrade/rollback and
+bounded workers/work with a host memory-pressure gate; BOT-20 tests the real embedded policies/server/client. A load context is
+not an OS sandbox; cancellation and work/resource limits must be enforced
+cooperatively and at the host scheduler. Legacy BOT-16 HTTP identity/grant code
+remains disabled by default and is not used by the embedded runtime.
 
 <a id="planowane-obserwowanie-i-replaye--obs-00-2026-10-16"></a>
 ## Planned observing and replays — OBS-00 (2026-10-16)

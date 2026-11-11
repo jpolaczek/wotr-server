@@ -82,10 +82,12 @@ public static class BattleProjection
         RerollModifier = force.Round.RerollModifier,
         Hits = BattleRoll.HitCount(force),
         SpentHits = force.Round.SpentHits,
+        VoluntaryLossHits = force.Round.VoluntaryLossHits,
         CardCommitted = force.Round.CardCommitted,
         CardBack = BattleCards.Back(force),
         CardId = force.Side == viewer || battle.CardsRevealed ? force.Round.CardId : null,
         CardCancelled = force.Round.CardCancelled,
+        OrderlyWithdrawal = force.Round.OrderlyWithdrawal,
         Dice = force.Round.Dice.Select(Die).ToList(),
         OwnRerollSelection = force.Side == viewer ? [.. force.Round.SelectedRerolls] : []
     };

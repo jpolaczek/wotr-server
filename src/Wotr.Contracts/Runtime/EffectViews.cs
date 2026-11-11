@@ -37,6 +37,7 @@ namespace Wotr.Contracts
 
     public sealed class ActiveEffectView
     {
+        public EffectLifetimeView? Lifetime { get; set; }
         public string Id { get; set; } = "";
         public string SourceId { get; set; } = "";
         public Side Owner { get; set; }

@@ -61,6 +61,7 @@ public static class KingsProjection
             SovereignId = attempt.SovereignId, DieId = attempt.DieId, DrawLimit = attempt.DrawLimit,
             Sequential = state.Configuration.SequentialCorruption,
             DrawnCount = attempt.Drawn.Count, RevealedTiles = [.. attempt.Ignored],
+            OwnDrawnTiles = viewer == Side.Shadow ? attempt.Drawn.Select(id => Tile(id, id, true)).ToList() : [],
             OwnChoices = viewer != Side.Shadow ? [] : (state.Configuration.SequentialCorruption
                 ? CorruptionRules.Choices(attempt) : attempt.Drawn).Select(id => Tile(id, id, true)).ToList()
         } : null;

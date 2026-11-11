@@ -24,7 +24,7 @@ internal static class HuntInteractionScenario
         return result;
     }
 
-    private static MatchState Damage(IRandomSource random)
+    internal static MatchState Damage(IRandomSource random)
     {
         var state = FellowshipScenario.Actions(random);
         state.Fellowship.RegionId = "hollin";

@@ -20,7 +20,7 @@ public static class ActionLogEndpoints
             {
                 return Results.BadRequest(new { error = "InvalidPage" });
             }
-        });
+        }).AllowBot(BotOperation.Match);
         group.MapGet("/{id}/actions/{actionId}", async (string id, string actionId, ClaimsPrincipal user,
             ActionLogStore store, CancellationToken ct, ActionLogFilter filter = ActionLogFilter.All) =>
         {
@@ -28,6 +28,6 @@ public static class ActionLogEndpoints
                 return Results.BadRequest(new { error = "InvalidPage" });
             var action = await store.Action(id, user.FindFirstValue(ClaimTypes.NameIdentifier)!, actionId, filter, ct);
             return action is null ? Results.NotFound() : Results.Ok(action);
-        });
+        }).AllowBot(BotOperation.Match);
     }
 }

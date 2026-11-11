@@ -427,6 +427,9 @@
           "Wotr.Contracts": "[1.0.0, )"
         }
       },
+      "wotr.runtimefixture": {
+        "type": "Project"
+      },
       "wotr.server": {
         "type": "Project",
         "dependencies": {

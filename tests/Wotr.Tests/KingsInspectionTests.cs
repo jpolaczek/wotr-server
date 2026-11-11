@@ -19,6 +19,120 @@ public class KingsInspectionTests
         return Choose(state, card == Wisdom ? WisdomBranchStep.Inspect : "north");
     }
 
+    private static MatchState DarkAt(int step)
+    {
+        var state = State();
+        Tile(state, SovereignCatalog.Dain);
+        Tile(state, SovereignCatalog.Dain, KingsTiles.One);
+        Tile(state, SovereignCatalog.Denethor, "base.hunt.standard.1.0.2");
+        state = Play(state, Dark);
+        if (step >= 2)
+            state = Choose(state, "north");
+        if (step == 3)
+            state = Choose(state, SovereignCatalog.Dain);
+        return state;
+    }
+
+    [Theory]
+    [InlineData(1, "Nation")]
+    [InlineData(2, "Sovereign")]
+    [InlineData(3, "InspectedCorruption")]
+    public void EveryStepOfTheDarkInspectionIsMarkedWithTheCardOnly(int step, string presentation)
+    {
+        var state = DarkAt(step);
+
+        Assert.Equal(presentation, state.Pending!.Presentation);
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Equal(Dark, LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
+    }
+
+    [Theory]
+    [InlineData("nation")]
+    [InlineData("sovereign")]
+    [InlineData("trail")]
+    public void TheDarkInspectionRefusesAnInconsistentTrail(string change)
+    {
+        var state = DarkAt(3);
+        var execution = state.Resolution.Frames.Single().Effect!;
+        switch (change)
+        {
+            case "nation": execution.NationId = "gondor"; break;
+            case "sovereign": execution.InspectedSovereign = SovereignCatalog.Denethor; break;
+            case "trail": execution.Committed.RemoveAt(1); break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
+    [Theory]
+    [InlineData(1, "Sovereign")]
+    [InlineData(2, "InspectedCorruption")]
+    public void EveryStepOfTheWisdomInspectionIsMarkedWithTheCardOnly(int step, string presentation)
+    {
+        var state = Ready();
+        if (step == 2)
+            state = Choose(state, SovereignCatalog.Dain);
+
+        Assert.Equal(presentation, state.Pending!.Presentation);
+        Assert.Equal(WisdomBranchStep.Inspect, state.Resolution.Frames[^1].EffectId);
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Equal(Wisdom, LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
+    }
+
+    [Fact]
+    public void WisdomsPoliticsBranchIsMarkedWithTheCardOnly()
+    {
+        var state = Choose(Play(State(), Wisdom), WisdomBranchStep.Politics);
+
+        Assert.Equal("Nation", state.Pending!.Presentation);
+        Assert.Equal(WisdomBranchStep.Politics, state.Resolution.Frames[^1].EffectId);
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Equal(Wisdom, LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
+        state.Resolution.Frames[0].Effect!.Committed.RemoveAt(1);
+        Assert.Null(LordsFixture.Views().For(state, Side.FreePeoples).ActionBoundary?.DirectEventChoice);
+    }
+
+    // Only Dain holds tiles, so the engine takes him without a choice in the trail.
+    [Theory]
+    [InlineData(Wisdom)]
+    [InlineData(Dark)]
+    public void ALoneSovereignIsInspectedWithoutAChoiceAndStillMarked(string card)
+    {
+        var state = State();
+        Tile(state, SovereignCatalog.Dain);
+        Tile(state, SovereignCatalog.Dain, KingsTiles.One);
+        state = Choose(Play(state, card), card == Wisdom ? WisdomBranchStep.Inspect : "north");
+
+        Assert.Equal("InspectedCorruption", state.Pending!.Presentation);
+        Assert.Equal(2, state.Resolution.Frames[0].Effect!.Committed.Count);
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Equal(card, LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
+        Tile(state, SovereignCatalog.Theoden);
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
+    [Theory]
+    [InlineData("branch")]
+    [InlineData("sovereign")]
+    [InlineData("nested")]
+    public void TheWisdomInspectionRefusesAnInconsistentTrail(string change)
+    {
+        var state = Choose(Ready(), SovereignCatalog.Dain);
+        var root = state.Resolution.Frames[0].Effect!;
+        var nested = state.Resolution.Frames[1].Effect!;
+        switch (change)
+        {
+            case "branch": root.Committed[1] = root.Committed[1] with { ChoiceId = WisdomBranchStep.Politics }; break;
+            case "sovereign": nested.InspectedSovereign = SovereignCatalog.Denethor; break;
+            case "nested": nested.Committed.Add(new(Side.FreePeoples, Wisdom, "altered")); break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
     [Theory]
     [InlineData(Wisdom)]
     [InlineData(Dark)]
