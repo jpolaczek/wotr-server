@@ -11,6 +11,8 @@
 infra/secrets/
 infra/backups/
 infra/distribution/
+# The private CPU runtime packages are installed on the host only (docs/server/BOT-OPERATIONS.md).
+infra/bot-runtimes/
 *.user
 *.suo
 unity/**/Library/

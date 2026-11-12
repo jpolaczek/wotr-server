@@ -105,6 +105,16 @@ concerns the external bot service). A client release is needed only when the pla
 (a new pace, a new seat status, a new CPU control), and then the server keeps answering the previous client until the
 new one is required.
 
+## Production (Compose)
+
+`infra/compose.yaml` mounts `WOTR_BOT_RUNTIMES_DIR` (default `infra/bot-runtimes/`, ignored by Git) read-only at
+`/bot-runtimes` and passes the `WOTR_BOT_*` settings of `infra/production.env.example` as `Wotr__Bots__*`. To turn the CPU
+on: install the package into that directory on the host, `chown -R 1654:1654` it (the image's `app` user), set
+`WOTR_BOT_RUNTIME_ENABLED=true`, `WOTR_BOT_ROOMS_ENABLED=true`, the manifest path inside the container
+(`/bot-runtimes/<version-hash>/runtime-manifest.json`), its SHA-256, the runtime and policy versions and the features
+from the manifest's description; `docker compose ... run --rm server --bot-runtime inspect` must answer `Loaded`
+before `up -d`. A later CPU repeats the install with a new directory and the drain/upgrade/resume steps above.
+
 ## Resource and diagnostic boundaries
 
 Configure 1–8 workers, cooperative decision time (at most five seconds) and total
