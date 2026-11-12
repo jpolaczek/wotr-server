@@ -102,7 +102,9 @@
     "UseDismay",
     "DeclineDismay",
     "UseLoreBeforeActions",
-    "FinishActionSequence"
+    "FinishActionSequence",
+    "Concede",
+    "TimeOut"
   ],
   "phases": [
     "Setup",
@@ -118,7 +120,9 @@
     "RingCorrupted",
     "RingDestroyed",
     "ShadowMilitary",
-    "FreePeoplesMilitary"
+    "FreePeoplesMilitary",
+    "Conceded",
+    "TimedOut"
   ],
   "costs": [
     "Character",
@@ -131,7 +135,7 @@
     "CardDraw",
     "UseBalrog"
   ],
-  "shapes": {"ArmyMoveChoice": {"CharacterIds": "List<String>", "From": "String", "Route": "List<String>", "To": "String", "UnitIds": "List<String>"}, "AutoDecisionChange": {"BattleId": "String", "Enabled": "Boolean", "ExpectedVersion": "Int64", "HandVersion": "Int64"}, "BattleLossChoice": {"Kind": "BattleLossKind", "UnitId": "String"}, "BattleLossKind": ["Remove", "Downgrade"], "CommandKind": ["ContinueFellowship", "AllocateHunt", "DiscardCards", "DiscardDie", "Pass", "DrawCard", "UseRing", "DeclineReaction", "AdvancePolitics", "Recruit", "RemoveExcess", "MoveArmies", "PlayEvent", "ChooseEffect", "RespondEffect", "DeclareFellowship", "RevealFellowship", "HideFellowship", "SelectGuide", "SeparateCompanions", "MoveCompanions", "MoveFellowship", "RerollHunt", "ResolveHuntDamage", "EnterMordor", "AttackArmy", "CommitCombatCard", "RerollBattle", "TakeBattleLosses", "ContinueBattle", "StopBattle", "RetreatBattle", "HoldBattle", "AdvanceBattle", "FightFieldBattle", "RetreatIntoSiege", "ExtendSiege", "SetCombatCardPolicy", "EnterCharacter", "UseCharacterAbility", "MoveShadowCharacters", "TakeEventLosses", "DiscardProtection", "FinishArmyEvent", "DiscardPalantir", "DiscardDenethor", "ChooseSpecialDie", "UseNarya", "UseVilya", "DeclineVilya", "ChooseCompanionVersions", "UseEvilKnowledge", "ChooseCouncilHomelands", "ChooseCouncilToken", "UseCouncilToken", "DiscardLore", "DiscardGates", "AwakenSovereign", "RemoveCorruptedSovereign", "AttemptCorruption", "DrawCorruptionTile", "ChooseCorruptionTile", "DiscardRulerDie", "DiscardWelcome", "DiscardBaradPalantir", "UseDismay", "DeclineDismay", "UseLoreBeforeActions", "FinishActionSequence"], "CommandPayload": {"AbilityId": "String", "AutoDecision": "AutoDecisionChange", "CardCost": "DieFace", "CardId": "String", "CharacterId": "String", "CompanionMoves": "List<CompanionMoveChoice>", "CouncilTokenId": "String", "Deck": "String", "DieId": "String", "Face": "DieFace?", "GuideId": "String", "HuntResponse": "HuntResponse", "Ids": "List<String>", "Losses": "List<BattleLossChoice>", "MovementCost": "DieFace", "Moves": "List<ArmyMoveChoice>", "NationId": "String", "Placements": "List<UnitPlacementChoice>", "ReactionId": "String", "RegionId": "String", "RingId": "String", "Route": "List<String>", "RulerTokenId": "String", "Stepwise": "Boolean"}, "CompanionMoveChoice": {"Ids": "List<String>", "Route": "List<String>"}, "DieFace": ["Character", "Army", "Muster", "ArmyMuster", "Event", "WillOfTheWest", "Eye", "CardDraw", "UseBalrog"], "GameCommand": {"CommandId": "String", "DecisionId": "String", "ExpectedRevision": "Int64", "Kind": "CommandKind", "MatchId": "String", "Payload": "CommandPayload"}, "HuntResponse": ["Ring", "Guide", "RandomCompanion"], "UnitPlacementChoice": {"RegionId": "String", "UnitId": "String"}},
+  "shapes": {"ArmyMoveChoice": {"CharacterIds": "List<String>", "From": "String", "Route": "List<String>", "To": "String", "UnitIds": "List<String>"}, "AutoDecisionChange": {"BattleId": "String", "Enabled": "Boolean", "ExpectedVersion": "Int64", "HandVersion": "Int64"}, "BattleLossChoice": {"Kind": "BattleLossKind", "UnitId": "String"}, "BattleLossKind": ["Remove", "Downgrade"], "CommandKind": ["ContinueFellowship", "AllocateHunt", "DiscardCards", "DiscardDie", "Pass", "DrawCard", "UseRing", "DeclineReaction", "AdvancePolitics", "Recruit", "RemoveExcess", "MoveArmies", "PlayEvent", "ChooseEffect", "RespondEffect", "DeclareFellowship", "RevealFellowship", "HideFellowship", "SelectGuide", "SeparateCompanions", "MoveCompanions", "MoveFellowship", "RerollHunt", "ResolveHuntDamage", "EnterMordor", "AttackArmy", "CommitCombatCard", "RerollBattle", "TakeBattleLosses", "ContinueBattle", "StopBattle", "RetreatBattle", "HoldBattle", "AdvanceBattle", "FightFieldBattle", "RetreatIntoSiege", "ExtendSiege", "SetCombatCardPolicy", "EnterCharacter", "UseCharacterAbility", "MoveShadowCharacters", "TakeEventLosses", "DiscardProtection", "FinishArmyEvent", "DiscardPalantir", "DiscardDenethor", "ChooseSpecialDie", "UseNarya", "UseVilya", "DeclineVilya", "ChooseCompanionVersions", "UseEvilKnowledge", "ChooseCouncilHomelands", "ChooseCouncilToken", "UseCouncilToken", "DiscardLore", "DiscardGates", "AwakenSovereign", "RemoveCorruptedSovereign", "AttemptCorruption", "DrawCorruptionTile", "ChooseCorruptionTile", "DiscardRulerDie", "DiscardWelcome", "DiscardBaradPalantir", "UseDismay", "DeclineDismay", "UseLoreBeforeActions", "FinishActionSequence", "Concede", "TimeOut"], "CommandPayload": {"AbilityId": "String", "AutoDecision": "AutoDecisionChange", "CardCost": "DieFace", "CardId": "String", "CharacterId": "String", "CompanionMoves": "List<CompanionMoveChoice>", "CouncilTokenId": "String", "Deck": "String", "DieId": "String", "Face": "DieFace?", "GuideId": "String", "HuntResponse": "HuntResponse", "Ids": "List<String>", "Losses": "List<BattleLossChoice>", "MovementCost": "DieFace", "Moves": "List<ArmyMoveChoice>", "NationId": "String", "Placements": "List<UnitPlacementChoice>", "ReactionId": "String", "RegionId": "String", "RingId": "String", "Route": "List<String>", "RulerTokenId": "String", "Stepwise": "Boolean"}, "CompanionMoveChoice": {"Ids": "List<String>", "Route": "List<String>"}, "DieFace": ["Character", "Army", "Muster", "ArmyMuster", "Event", "WillOfTheWest", "Eye", "CardDraw", "UseBalrog"], "GameCommand": {"CommandId": "String", "DecisionId": "String", "ExpectedRevision": "Int64", "Kind": "CommandKind", "MatchId": "String", "Payload": "CommandPayload"}, "HuntResponse": ["Ring", "Guide", "RandomCompanion"], "UnitPlacementChoice": {"RegionId": "String", "UnitId": "String"}},
   "configurationFlags": [
     "Council",
     "Dismay",
@@ -1190,5 +1194,5 @@
     {"abilities": ["guide-first-move-to-fellowship-box", "combat-strength-plus-one", "may-transform-to-aragorn"], "id": "lords.character.strider", "side": "FreePeoples"},
     {"abilities": ["spear-of-terror", "he-sees-he-knows", "not-minion-for-gandalf-white"], "id": "lords.character.witch-king", "side": "Shadow"}
   ],
-  "sourceDigest": "82d02679877363548cfaaf0a04bd9160d03000c84da8b758adc7c5dabbd572d9"
+  "sourceDigest": "7ea4c77f97b5757d69c45e60f8bb325e68b4cac6560d6b5153ca13bb17089637"
 }
