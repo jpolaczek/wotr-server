@@ -93,6 +93,18 @@ There is no bot Compose service,
 image, database or default public Docker layer. `RoomsEnabled`,
 `AcceptedPolicyVersion` and `Features` retain their existing gameplay gates.
 
+## A new CPU is a server update only (2026-11-12)
+
+The owner's rule for the CPU line from client 0.11.0 on: a stronger CPU reaches players through the server alone, never
+through a new client download. The client carries no CPU: it plays against a CPU seat through the ordinary player API
+and names no runtime version, policy or pace time. A new runtime package therefore follows the procedure above (install,
+`inspect`, `drain`, `upgrade EPOCH SOURCE_VERSION`, start the host with the new manifest, `resume EPOCH`); the runtime's
+`MigratesFrom` lets the saved CPU games continue under the new policy. Such an update changes neither the client
+release catalog nor the minimum client version (`ClientCompatibilityPolicy` reads the catalog; `Wotr:Bots:MinimumVersion`
+concerns the external bot service). A client release is needed only when the player protocol or the contracts change
+(a new pace, a new seat status, a new CPU control), and then the server keeps answering the previous client until the
+new one is required.
+
 ## Resource and diagnostic boundaries
 
 Configure 1–8 workers, cooperative decision time (at most five seconds) and total
