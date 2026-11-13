@@ -43,6 +43,26 @@ public class LordsCards01InteractionTests
         Assert.Equal(DecisionKind.Losses, state.Pending.Kind);
     }
 
+    [Theory]
+    [InlineData(true, true)]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    [InlineData(false, false)]
+    public void OrderlyWithdrawalChoiceIsPublicToBothPlayers(bool fpAttacks, bool cancelHit)
+    {
+        var state = LordsWithdrawalTests.Window(fpAttacks);
+        state = Choose(state, cancelHit ? OrderlyWithdrawalStep.Cancel : OrderlyWithdrawalStep.Decline);
+
+        foreach (var viewer in new[] { Side.FreePeoples, Side.Shadow })
+        {
+            var battle = LordsFixture.Views().For(state, viewer).Battle!;
+            var freePeoples = battle.Attacker.Side == Side.FreePeoples ? battle.Attacker : battle.Defender;
+            var shadow = battle.Attacker.Side == Side.Shadow ? battle.Attacker : battle.Defender;
+            Assert.Equal(cancelHit, freePeoples.OrderlyWithdrawal);
+            Assert.False(shadow.OrderlyWithdrawal);
+        }
+    }
+
     [Fact]
     public void MandatoryWithdrawalMayEnterAnAvailableFriendlyStronghold()
     {

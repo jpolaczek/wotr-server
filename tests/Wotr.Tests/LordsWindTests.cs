@@ -17,6 +17,19 @@ public class LordsWindTests
     }
 
     [Fact]
+    public void TheWindsChoiceOfATableCardIsMarked()
+    {
+        var state = State();
+        EventTests.GiveCard(state, Side.Shadow, "base.sh.strategy.02");
+        state.Player(Side.Shadow).Table.AddRange([SmeagolRules.WeShallGetIt, ShadowCharacterCards04.Palantir]);
+        state = Play(state, LordsFreePeoplesCards.Wind);
+
+        Assert.Equal("TableCards", state.Pending!.Presentation);
+        Assert.All(Enum.GetValues<Side>(), side => Assert.Equal(LordsFreePeoplesCards.Wind,
+            LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice?.CardId));
+    }
+
+    [Fact]
     public void ATableCardForcesRemovalAndNeverGrantsHandAccess()
     {
         var state = State();

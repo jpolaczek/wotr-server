@@ -65,6 +65,23 @@ def display_status(task, tasks, gaps):
     return task["status"]
 
 
+def index_table(entries, tasks, gaps):
+    lines = ["| ID | Task | State | Remaining start conditions |",
+             "| --- | --- | --- | --- |"]
+    for task in entries:
+        waiting = blockers(task, tasks, gaps)
+        short = ", ".join(waiting[:3])
+        if len(waiting) > 3:
+            short += f" (+{len(waiting) - 3})"
+        if not short and task["status"] == "blocked":
+            short = (task.get("blocked_reason") or "See task history").split(". ", 1)[0]
+        title = task["title"].replace("|", "\\|")
+        short = short.replace("|", "\\|")
+        status = display_status(task, tasks, gaps)
+        lines.append(f"| [{task['id']}]({task['id']}.md) | {title} | `{status}` | {short or '—'} |")
+    return lines + [""]
+
+
 def index_text(data):
     tasks = {t["id"]: t for t in task_registry.records(data)}
     gaps = gaps_by_id()
@@ -76,22 +93,21 @@ def index_text(data):
              "[Stages and order](../ROADMAP.md) · [Workflow](../WORKFLOW.md) · "
              "[Active task states](tasks.json) · [Completion identifiers](completions.json)", ""]
     for stage, title in STAGES.items():
-        if not any(t["stage"] == stage for t in data["tasks"]):
+        entries = [t for t in ordered(data) if t["stage"] == stage]
+        if not entries:
             continue
-        lines += [f"## {stage} — {title}", "",
-                  "| ID | Task | State | Remaining start conditions |",
-                  "| --- | --- | --- | --- |"]
-        for task in ordered(data):
-            if task["stage"] != stage:
-                continue
-            waiting = blockers(task, tasks, gaps)
-            short = ", ".join(waiting[:3])
-            if len(waiting) > 3:
-                short += f" (+{len(waiting) - 3})"
-            title_safe = task["title"].replace("|", "\\|")
-            status = display_status(task, tasks, gaps)
-            lines.append(f"| [{task['id']}]({task['id']}.md) | {title_safe} | `{status}` | {short or '—'} |")
-        lines.append("")
+        lines += [f"## {stage} — {title}", ""]
+        bots = [t for t in entries if t["id"].startswith("BOT-")]
+        if bots:
+            lines += ["### Strategic bots (BOT)", "",
+                      "[Program status and completed foundations](STRATEGIC-BOTS.md). "
+                      "Grouped for navigation; task priorities and readiness rules are unchanged.", ""]
+            lines += index_table(bots, tasks, gaps)
+            entries = [t for t in entries if not t["id"].startswith("BOT-")]
+            if entries:
+                lines += ["### Other work", ""]
+        if entries:
+            lines += index_table(entries, tasks, gaps)
     lines += ["## Current work", ""]
     active = [t for t in ordered(data) if t["status"] in ("in_progress", "blocked")]
     for task in active:
@@ -205,8 +221,8 @@ def validate(data):
         if task["status"] != "planned":
             if not task["started_at"] or not task["assignee"] or not history:
                 error("missing start metadata")
-            elif history[0]["event"] != "start" or history[0]["at"] != task["started_at"]:
-                error("history does not begin with the recorded start")
+            elif not task_registry.matching_start(history, task["started_at"]):
+                error("execution history does not begin with the recorded start")
         if task["status"] == "blocked" and not task["blocked_reason"]:
             error("missing blocking reason")
         if task["status"] == "done":

@@ -138,6 +138,9 @@ namespace Wotr.Contracts
 
     public sealed class RoomView
     {
+        public SeatOccupantKind FreePeoplesKind { get; set; }
+        public SeatOccupantKind ShadowKind { get; set; }
+        public BotSeatView? Bot { get; set; }
         public string Name { get; set; } = "";
         public string Host { get; set; } = "";
         public string HostAvatar { get; set; } = "";

@@ -77,13 +77,35 @@ public class BaseCorpusTests
         CheckAndRemoveJournalAdditions(state, historical, entry.Command!);
         CheckAndRestoreNamedTexts(state, historical);
         historical.SchemaVersion = entry.SchemaVersion;
-        Assert.Equal(entry.ExpectedStateSha256, Hash(StateCodec.Write(historical)));
+        Assert.Equal(entry.ExpectedStateSha256, Hash(WithoutLaterBattleViewFields(historical)));
         Assert.Equal(entry.ExpectedDecision, result.State.Pending?.Kind);
         Assert.Equal(entry.ExpectedOwner, result.State.Pending?.Owner);
         Assert.Equal(entry.ExpectedVictory, result.State.Victory);
         Assert.Equal(entry.ExpectedRandomSamples, result.State.RandomSamples.Count);
         Assert.Equal(state.Units.Select(u => u.Id), result.State.Units.Select(u => u.Id));
         Assert.Equal(random.Calls, result.State.RandomSamples.Count - state.RandomSamples.Count);
+    }
+
+    // The battle force view later gained VoluntaryLossHits and OrderlyWithdrawal, which a
+    // saved LastBattleRound writes even when null or false. None of these reviewed battles
+    // used them, so they are checked here and left out of the reviewed bytes.
+    private static string WithoutLaterBattleViewFields(MatchState historical)
+    {
+        var bytes = StateCodec.Write(historical);
+        if (historical.LastBattleRound is not { } battle)
+            return bytes;
+        foreach (var force in new[] { battle.Attacker, battle.Defender })
+        {
+            Assert.Null(force.VoluntaryLossHits);
+            Assert.False(force.OrderlyWithdrawal);
+        }
+        foreach (var field in new[] { ",\"voluntaryLossHits\":null", ",\"orderlyWithdrawal\":false" })
+        {
+            var cleared = bytes.Replace(field, "");
+            Assert.Equal(2 * field.Length, bytes.Length - cleared.Length);
+            bytes = cleared;
+        }
+        return bytes;
     }
 
     // UI-198: new event texts name cards and characters by title. Each title is checked against the card or guide the

@@ -22,7 +22,7 @@ public static class MatchEndpoints
             if (view.Clock is not null)
                 view.Clock.OpponentOnline = match.Clock!.Preset == Wotr.Contracts.RankedPreset.Rehearsal || presence.Online(id, TurnFlow.Other(match.Side));
             return Results.Ok(view);
-        }).RequireRateLimiting(GameRateLimits.Reads).ForMatch();
+        }).RequireRateLimiting(GameRateLimits.Reads).ForMatch().AllowBot(BotOperation.Match);
         api.MapPost("/{id}/commands", async (string id, Wotr.Contracts.GameCommand request, HttpContext context, MatchStore store, RevisionHub hub,
             DemoBotRunner demos) =>
         {
@@ -43,7 +43,8 @@ public static class MatchEndpoints
                 {
                     error = "IllegalChoice"
                 });
-            var receipt = await store.Execute(request, Account(context), context.RequestAborted);
+            var receipt = await store.Execute(request, Account(context), context.RequestAborted,
+                botAuthority: BotIdentity.Of(context)?.Seat);
             if (receipt is null)
                 return Results.NotFound();
             if (receipt.Accepted && receipt.PublicStateChanged)
@@ -54,17 +55,17 @@ public static class MatchEndpoints
             else if (receipt.Accepted && receipt.AutoDecision is not null)
                 hub.Publish(id, receipt.Revision, Account(context));
             return Results.Ok(receipt);
-        }).RequireRateLimiting(GameRateLimits.Commands).ForMatch();
+        }).RequireRateLimiting(GameRateLimits.Commands).ForMatch().AllowBot(BotOperation.Match);
         api.MapGet("/{id}/receipts/{commandId}", async (string id, string commandId, HttpContext context, MatchStore store) =>
         {
             var receipt = await store.Receipt(id, commandId, Account(context), context.RequestAborted);
             return receipt is null ? Results.NotFound() : Results.Ok(receipt);
-        }).RequireRateLimiting(GameRateLimits.Reads);
+        }).RequireRateLimiting(GameRateLimits.Reads).AllowBot(BotOperation.Match);
         api.MapPost("/{id}/preview", async (string id, Wotr.Contracts.GameCommand request, HttpContext context, MatchStore store, PreviewService preview) =>
         {
             var match = await store.Read(id, Account(context), context.RequestAborted);
             return match is null ? Results.NotFound() : Results.Ok(preview.Preview(match.State, match.Side, request));
-        }).RequireRateLimiting(GameRateLimits.Previews).ForMatch();
+        }).RequireRateLimiting(GameRateLimits.Previews).ForMatch().AllowBot(BotOperation.Match);
         api.MapDelete("/{id}", async (string id, HttpContext context, MatchRemoval removal, RankedMatches ranked, RevisionHub hub) =>
         {
             // RANK-04: removing a ranked match would escape its loss; whether a match is ranked never changes.
@@ -77,7 +78,8 @@ public static class MatchEndpoints
             return Results.NoContent();
         }).RequireRateLimiting(GameRateLimits.Commands);
         // EXP-02: a client older than one of the match's modules gets ClientUpdateRequired instead of the game.
-        api.MapGet("/{id}/updates", (string id, HttpContext context, MatchSocket socket) => socket.Run(id, context)).ForMatch();
+        api.MapGet("/{id}/updates", (string id, HttpContext context, MatchSocket socket) => socket.Run(id, context))
+            .ForMatch().AllowBot(BotOperation.Match);
         RankedMatchEndpoints.Map(api);
     }
 }

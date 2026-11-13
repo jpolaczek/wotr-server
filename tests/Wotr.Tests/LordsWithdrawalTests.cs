@@ -23,6 +23,34 @@ public class LordsWithdrawalTests
         return CardPackBattleFixture.NoRerolls(state);
     }
 
+    [Theory]
+    [InlineData(true, "")]
+    [InlineData(false, "")]
+    [InlineData(true, "presentation")]
+    [InlineData(true, "choices")]
+    [InlineData(true, "cursor")]
+    public void TheOrderlyWithdrawalChoiceIsMarkedOnlyInItsReviewedFrame(bool fpAttacks, string change)
+    {
+        var state = Window(fpAttacks);
+        Assert.Equal("CombatEffect", state.Pending!.Presentation);
+        Assert.True(ReviewedCombatCards.IsOrderlyWithdrawal(state.Pending.SourceId));
+        switch (change)
+        {
+            case "presentation": state.Pending.Presentation = "Altered"; break;
+            case "choices": state.Pending.PrivateChoices.RemoveAt(0); break;
+            case "cursor": state.Resolution.Frames[1].NextStep = 0; break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+        {
+            var facts = GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.Battle;
+            if (change.Length == 0)
+                Assert.True(facts?.CompletesPaidAction);
+            else
+                Assert.Null(facts);
+        });
+    }
+
     internal static MatchState TakeLosses(MatchState state)
     {
         while (state.Pending?.Kind == DecisionKind.Losses)

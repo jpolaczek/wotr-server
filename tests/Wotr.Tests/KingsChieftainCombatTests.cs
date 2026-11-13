@@ -31,6 +31,36 @@ public class KingsChieftainCombatTests
     }
 
     [Theory]
+    [InlineData("")]
+    [InlineData("revealed")]
+    [InlineData("choices")]
+    [InlineData("replaced")]
+    public void TheChieftainChoiceIsMarkedOnlyBeforeTheReveal(string change)
+    {
+        var state = Cards(Ready(KingsChieftains.Ugluk), fpCard: Daring);
+        var battle = BattleRuntime.Active(state)!;
+        // The fixture attacks without an action die; a played attack has one resolving.
+        var paid = Die(state, battle.Attacker.Side);
+        paid.Location = DieLocation.Resolving;
+        state.Resolution.PaidDieIds = [paid.Id];
+        switch (change)
+        {
+            case "revealed": battle.CardsRevealed = true; break;
+            case "choices": state.Pending!.PrivateChoices.RemoveAt(0); break;
+            case "replaced": battle.Force(Side.Shadow).Round.ReplacementSource = KingsChieftains.Serpent; break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+        {
+            var facts = GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.Battle;
+            if (change.Length == 0)
+                Assert.True(facts?.CompletesPaidAction);
+            else
+                Assert.Null(facts);
+        });
+    }
+
+    [Theory]
     [InlineData(KingsCards03.Valinor, 1)]
     [InlineData(ShadowStrategyCards01.Dawn, 2)]
     [InlineData(ShadowStrategyCards02.Rage, 2)]

@@ -5,9 +5,9 @@ namespace Wotr.Server;
 public sealed partial class RoomStore
 {
     public Task<RoomResult> SetReady(string id, string account, RoomReadyRequest request,
-        CancellationToken cancellation = default) =>
+        CancellationToken cancellation = default, BotSeatAuthority? botAuthority = null) =>
         Change("id", id, account, Access.Player, room => Task.FromResult(
-            RoomRules.SetReady(room.State, account, request.ExpectedVersion, request.Ready)), cancellation);
+            SetRoomReady(room.State, account, request, botAuthority)), cancellation, botAuthority);
 
     // OBS-01: the code also lets observers in after the seats are taken or the match started, so the host may show
     // it at any time.

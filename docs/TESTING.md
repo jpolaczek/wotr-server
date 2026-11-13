@@ -1,6 +1,24 @@
 <a id="weryfikacja-i-odbiór"></a>
 # Verification and acceptance
 
+`ReliefBattleBoundaryTests` verify that both seats receive only the reviewed
+`Help Unlooked For` parent/payment fact through losses, retreat and advance, and
+that malformed parents or garrison dice reductions suppress the boundary.
+`FateMonstersBoundaryTests` verify both public parent/branch choices and reject
+altered event, payment or committed-branch facts.
+`ActionBoundaryProjectionTests` verify
+ordinary base/Fate rule facts, copied data,
+hidden hand/deck/discard and tile-order invariance, visible discard provenance,
+effect lifetime visibility and absence at unsupported continuations. This is a
+player-contract check, not full BOT-02 reconstruction or strategy acceptance.
+The final 2026-10-29 BOT-02 public batch passed 174 projection/privacy cases,
+including ordinary HTTP/restart checks in a disposable PostgreSQL database.
+Client Contracts 0.16.1/content 1.0.18 passed 21 existing Unity EditMode cases.
+The private runtime's clean-checkout verification passed 711 C# / 17 Python cases;
+private source/tests/binaries remain excluded from this repository and packages.
+
+BOT-12 adds `PveRoomTests`, `PveSeatRaceTests`, `PveSaveCompatibilityTests` and `BotRoomOptionsTests`. The PvE collection owns an isolated real PostgreSQL cluster and uses the actual room/player API, with a trusted grant stub for the historical external design. See [scope and fixture limitations](server/BOT-ROOMS.md). BOT-02/BOT-03 have private checkpoints only; the [current foundation checks](#private-bot-foundation-checks) do not establish complete reconstruction, candidate coverage or strategy acceptance.
+
 This document states what every change must prove and how the tests run. Results of individual checks are recorded
 in the local task registry and its testing log (`docs/tasks/`, ignored by Git since 2026-10-17); earlier per-task
 evidence remains in Git history. Environment setup is in [DEVELOPMENT](DEVELOPMENT.md).
@@ -198,6 +216,372 @@ released (EXP-05 waits for it).
 
 Limit: the client full-game driver (`FullGameChoices`) plays a narrow strategy and plays no Fate card; the cards'
 client steps are covered card by card (UI-266) and every Fate decision by the bot games.
+
+## Planned strategic bot service acceptance — 2026-10-23
+
+These are required future checks, not executed results. The
+[service specification](server/STRATEGIC-BOTS.md) defines their ownership.
+
+- Pure policy tests run in the private bot repository; public server tests use
+  protocol fixtures/test doubles. Private integration runs the real bot against
+  the ordinary HTTP/WebSocket server and isolated persistence.
+- Compare human/bot same-side snapshots, options, previews, history, reports,
+  updates and errors. Test opposite-side/foreign-game/admin/observer denials and
+  invariance when only unobserved true state changes.
+- Exercise CPU admission, competing human joins, duplicate requests, configuration
+  changes, cancellation, abandoned rooms, readiness and stale assignment workers.
+- Inject failure before POST, after game commit and before private memory commit;
+  include nested battle/Hunt/card decisions and the final move. Require one game
+  effect and one memory advancement, including receipt lookup/retry after restart.
+- Verify no bot artifacts in player/public server/seeder packages, independent
+  game builds without private credentials, isolated bot storage and version refusal.
+- Retain the mechanic matrix, tactical plans, complete legal configuration coverage,
+  all victories, fixed-seed games and 200-game/70%-win floor for each faction
+  against frozen DemoBot. Human review remains at least three games per faction.
+- Measure 3-second normal/5-second maximum computation separately from queue and
+  network latency, including late games and eight active matches. Verify normal
+  opponent presentation, human handoff, reconnect and Reduced motion in the client.
+
+Record policy/server/client/package versions, seeds, actual selected counts and
+results. Publishing documentation does not satisfy these runtime checks.
+
+## Bot inventory checks
+
+Run `python3 scripts/bot_coverage.py` and
+`python3 -m unittest discover -s tests/bots -v` for the public mechanic inventory.
+The compiled exporter regenerates with `python3 scripts/bot_coverage.py --generate`.
+See [inventory and handoff](bots/README.md): planned scenarios and existing rule
+tests are not evidence of a working strategic bot.
+
+## Private bot foundation checks
+
+Owner pivot 2026-10-27: the private artifact is now an embedded library.
+`EmbeddedBotRuntimeTests` exercises optional loading, dependency context, version
+pinning, malformed/oversized/foreign responses, cancellation and exception
+redaction using a public policy-free fixture. Private `BotRuntimeTests` exercises
+the real describe/decide entrypoint, copied context, both fixture profiles and
+all 768 raw / 93 normalized module configurations. Full verification publishes
+`Wotr.Bot.Runtime.dll` locally; it no longer starts an App CLI. Real private-DLL
+loading requires an operator-only smoke check outside public builds. Host
+scheduling/recovery is implemented by BOT-18; actual policy gameplay remains BOT-20.
+
+The following earlier checkpoints remain historical evidence:
+
+BOT-01's private `BotObservationTests`, `BotKnowledgePrivacyTests` and
+`BotMemoryTests` cover actual projection/hidden-state pairs, owner/observer
+isolation, deterministic work/seed inputs, plan round trips and explicit memory
+recovery. They do not replace HTTP/WebSocket authorization or journal crash tests.
+
+BOT-03's private checkpoint (2026-10-26) passes 664 C# and 9 Python cases through
+`bash scripts/verify.sh`, including candidate execution/invalid pairs and ten
+public-board march checks. The 192 bounded base-card event/combat walks use seed
+73, at most 24 committed steps and 64 proposals per decision: 13,763 proposals
+validate, 1,270 commands execute, and every walk reaches the next ordinary action.
+An additional 93 walks start from real setup, one per normalized configuration,
+using seed 137, at most 80 commands and 32 proposals per decision. They validate
+155,296 proposals and execute 7,440 commands through the acting player's own view;
+all end at the deliberate step cap. Twelve targeted expansion cases cover
+constrained recruitment, Ring recovery, temporary corruption inspection and
+Dismay, including invalid-command state/RNG checks and bounded work.
+Only one branch is executed per walk window. These results are not completed
+games, exhaustive reachable-decision coverage, strategic-strength or general
+simulation/fallback acceptance.
+The CLI still reports unready for gameplay; no player/server package changes
+are needed for this private checkpoint.
+
+BOT-16 adds `BotSeatAuthorizationTests`, `BotPlayerApiParityTests`,
+`BotCredentialRevocationTests` and `BotCompatibilityTests`. They run real Kestrel
+HTTP/WebSocket requests against an isolated temporary PostgreSQL cluster, using
+fixed `SequenceRandom` setup/battle fixtures (battle rolls 1, 1). They compare
+serialized same-side player information for both factions, enforce route/method
+denials, test token/generation/lease invalidation and renewal, and hold actual
+database locks to exercise delayed command/readiness requests and revocation
+after the mutation boundary. Expiry tests put the deadline after transaction
+start to distinguish a fresh clock from PostgreSQL `now()`. Room polling/readiness
+must not extend human presence. Existing `ClientCompatibilityTests`,
+`ModuleClientTests` and migration/transport/lobby suites remain required regressions.
+`BotAccessOptionsTests` checks configuration without a database. See the
+[authorization contract and lifecycle handoff](server/BOT-AUTHORIZATION.md).
+`ExpansionHttpGameTests` restarts after the first committed move, then every 120
+moves, so an early legal victory cannot bypass its projection/restart assertions.
+
+The private application runs `bash scripts/verify.sh`: verified offline rules
+inputs, module boundaries, locked restore, Release build, fixture tests and an
+runtime ABI check. Repeat from a clean checkout without a sibling server or
+private feed credentials. Publish locally to `.artifacts/private/wotr-bot-runtime` and
+inspect that tests/fixtures/server assemblies are absent; this output is never a
+human client dependency. The runtime Describe response must report unready while policies are absent.
+
+Public verification remains independent: run the server's package suites and
+isolated Release build, plus the existing client release/bootstrap CI fixtures.
+The [rules package](bots/RULES-PACKAGE.md) has deterministic archive/member checks.
+Full Unity builds and actual embedded-policy gameplay acceptance are separate from these
+foundation checks; no changed player runtime or package pin is introduced here.
+
+
+## Embedded bot host
+
+BOT-18 uses the BCL-only `Wotr.RuntimeFixture` DLL (never shipped by Server) and
+isolated real PostgreSQL clusters. Run `WOTR_TEST_DB=isolated dotnet test
+tests/Wotr.Tests/Wotr.Tests.csproj -c Release --filter 'FullyQualifiedName~BotHost|FullyQualifiedName~EmbeddedBotRuntimeTests'`.
+The marker enables PostgreSQL attributes; these selected tests own their clusters
+and do not connect to that marker as a database. Broader regression must use a real
+`WOTR_TEST_DB` connection as usual. Recovery cases kill actual Kestrel processes
+before journal, after journal, before atomic commit and after commit, including
+Ring destruction. PostgreSQL locks/triggers and fixture-only pauses establish the
+boundaries; production has no fault-injection endpoint or environment switch.
+Input tests compare ordinary player/history/report/preview services and hidden
+opponent permutations. Fixture outcomes do not certify real faction policies.
+
+BOT-18 verification (2026-10-28): the isolated regression passed 253 cases, with
+16 final boundary cases and 17 coexistence cases in follow-up batches, all without
+skips (258 distinct cases). Private verification passed 682 C# / nine Python;
+the actual private library passed four ABI cases. See [host behavior and
+limits](server/BOT-HOST.md); the real faction policies remain unready.
+
+## Private runtime operations
+
+BOT-19 adds `BotRuntimePackageTests`, `BotRuntimeDrainTests`,
+`BotRuntimeUpgradeTests` and `BotRuntimeResourceTests`. The upgrade fixture compiles
+the same public ABI test code as distinct 0.2.0/0.2.1 libraries; neither DLL ships
+with the server. Run `WOTR_TEST_DB=isolated dotnet test tests/Wotr.Tests -c Release
+--filter 'FullyQualifiedName~Wotr.Tests.BotRuntime'` for the 44 operations cases. The tests
+verify manifest/file corruption, dependencies and metadata, durable draining,
+waiting/committing command races, actual operator CLI/Kestrel restart, upgrade and
+rollback, exact accepted memory and pending-command preservation, incompatible
+identities/policies/modules and old-host fencing. Synthetic nested reactions use
+`KernelTests.NewGame` (92 fixed zero RNG values); the mutations use normal rules.
+No fixture move is evidence of strategy quality.
+
+Two resource cases run eight real PostgreSQL matches (setup seeds 1900–1907) with
+installed fixture DLLs, at 2 and 8 workers. A 250 ms fixture delay makes overlap observable. Each command
+receives 300 of a configured total 900 work units. Test output records evaluation
+count, peak concurrency, queue/compute p95 and sampled host managed/working-set
+memory; the memory-pressure case starts no work. Repeated preview requests stop
+after three evaluations without advancing memory or the decision. Those numbers measure this host
+fixture, not production strategy throughput or a hard allocation bound.
+
+`tests/packages/test_public_bot_boundary.py` rejects private libraries, symbols,
+source module paths and fixture binaries in ordinary distributions. CI checks a
+fresh public server publish with `scripts/check_public_artifacts.py`; the same
+script audits ZIP/tar/NuGet archives and unpacked Windows/macOS player trees.
+Private builds independently run 682 C# / 17 Python cases and create separate
+runtime/symbol archives. Actual private package installation/smoke checks stay in
+operator-only local artifacts. See [operations](server/BOT-OPERATIONS.md) for
+configuration, supported compatibility and the exact deployment boundary.
+
+BOT-19 verification (2026-10-28): 44 operations cases pass across the final
+66-case scheduler/boundary and 40-case operator batches. The broader regression
+ran 298 cases (297 passed); its whole-Fate observer replay returned 404 after a
+long run under load. The unchanged case passed alone on a fresh cluster in
+42 seconds. Its move-count-based presence renewal can expire during slow work;
+that remains a separate test timing limitation. Including the final boundary
+additions, 302 distinct server cases have passing evidence, with the initial
+failure retained rather than describing the first broad run as green.
+
+The actual private 0.2.1 operator package passes four faction/configuration ABI
+cases and four real host starts: offline inspection, restart while drained,
+invalid-package refusal with an available ordinary server, and resume with the
+matching package pin. Both public dependency archives (Contracts 0.15.0/content
+1.0.16), a fresh 15-file public server publish, existing 169/171-file Windows/macOS
+player trees and the 169-entry macOS installer payload pass the private-file audit.
+Those player builds predate BOT-19; no new Unity installer build or production
+deployment is claimed. Private verification remains 682 C# / 17 Python, with the
+actual artifact provenance/inventories and raw metrics retained locally.
+
+## CPU client integration fixture (BOT-13)
+
+The public test-only `Wotr.Scenarios` archive contains a bounded embedded ABI
+script (`Pve/RuntimeEntryPoint.cs`) for client transport and presentation checks.
+It reads only the copied player options and exercises fixed movement, recruitment
+card, combat and Hunt examples. It is not a strategic faction policy. Neither the
+ordinary server publish nor a player install includes this seeder assembly. The
+private artifact guard remains unchanged.
+
+With `WOTR_CLIENT_PVE_FIXTURE=1`, the client test harness explicitly loads this
+script into the real game server (runtime `0.0.13`, policy `client-fixture-13`,
+base only). The seeder prepares saved CPU matches through normal room admission,
+readiness and start, then holds their jobs until the test-only `--pve-release`
+CLI releases one. That CLI requires an isolated `_test` database and recognizes
+only this fixture policy; there is no public fixture endpoint. Every subsequent
+CPU command uses the host scheduler, side projection, validation and persistence.
+The private policies and actual gameplay acceptance remain BOT-20.
+
+BOT-13 client verification (2026-10-29): Unity `6000.6.0f1`, Contracts `0.15.0`,
+content `1.0.16`, pinned server/seeder `9aa74bad6200`; earlier unchanged cases used
+`34df1673d20d`. Focused batches passed 53 EditMode and 26 distinct PlayMode cases:
+CPU invitation/races/outage (6), presentation (11), room layout (1), and saved-game,
+pending-command, replay, demo and main-menu regressions (8). The layout matrix
+covers both sides at 1366×768 / 1920×1080 and 100% / 125%. Ten actual playback
+clips and 32 room frames are retained locally. The initial presentation run was
+6/9 because three assertions searched the own dice console; corrected assertions
+observe the opponent cost overlay, ordering and camera, and pass. No production
+presenter was replaced for the fixture. Public artifact guard: 3 tests, 301 archive
+entries and all 3127 client Assets entries inspected (1114 under Runtime). Local evidence in the client:
+`.artifacts/bot13/verification.json`, exact XML batches and `clips/manifest.json`.
+No private-policy gameplay, clean installer build, publication or deployment is
+claimed by these checks. The normal player assembly/package boundary excludes
+test seeder/fixtures and all private runtime/model artifacts.
+
+Reproduce client checks with `WOTR_CLIENT_PVE_FIXTURE=1 scripts/test-client.sh` and
+filters `PveInvitationNetworkTests`, `PvePresentationNetworkTests`,
+`PveRoomLayoutTests`; the script uses a disposable database and pinned test
+archives. EditMode checks additionally cover `CommandJournalTests`,
+`LocalRecoveryTests`, `OpponentPresentationQueueTests` and replay models. Scenario
+setup uses the existing FNV-1a scenario seeds plus seeder seed 13; Hunt response
+fixtures have recorded rolls, and subsequent live authority retains server RNG.
+
+## BOT-02 paid-action player facts — 2026-10-30
+
+Contracts 0.17.0 / boundary v3: 205 focused C# cases passed with no skips, using
+a disposable PostgreSQL database removed after the run. The filter covers action
+boundaries, action sequences/persistence and player/expansion/history/Hunt-pool
+privacy. Four paid action kinds and early finish survive real HTTP restarts.
+Public obligations include the original eligible figures, exact resolving die
+and deferred political causes. Nested frames, Lords/Kings and card/Hunt/battle
+continuation roots remain outside this contract. This is player-contract
+verification, not private bot strategy acceptance. Evidence: local
+`.artifacts/bot02-paid/public.trx` and `database.json`.
+
+## BOT-02 Fellowship-move Hunt facts — 2026-10-30
+
+Contracts 0.18.0 / boundary v4: **450 focused C# cases passed**, no skips, with
+an owned disposable PostgreSQL database removed after the run. The filter covers
+`FellowshipMoveProjectionTests`, action boundaries, all Hunt tests, projections,
+expansion/action-log privacy and action-sequence persistence. New cases check
+ordinary paid Hunt rerolls/damage, guide replacement, initial reveal routes,
+returning Hobbit placement, public reactions and Mordor; both sides receive the
+same public facts but only the acting player receives legal options. Copy/restart
+and hidden hand/deck/tile-order/entropy permutations preserve the facts. Unsupported
+card-return, nested, unknown-effect, expansion and wrong-payment roots are refused.
+This verifies the ordinary player contract, not private reconstruction or strategy
+acceptance. Evidence: `.artifacts/bot02-hunt/public.trx` and `database.json`.
+
+## BOT-02 additional Stronghold Hunt facts — 2026-10-30
+
+Contracts 0.19.0 / boundary v5: **466 focused C# cases passed**, no skips, using
+an owned disposable PostgreSQL database removed after the run. The Hunt/projection/
+privacy/action-boundary/persistence filter now includes 15 Stronghold projection
+cases and an additional real HTTP restart case. First and second Stronghold roots,
+guide/placement/reaction choices, public route/order, copy isolation and hidden
+hand/deck/tile/entropy invariance are covered. Unsupported or inconsistent parents
+refuse the boundary. The HTTP case restarts between both tiles, retries committed
+commands and verifies one remaining draw and one final movement payment. This is
+shared-contract verification, not strategy acceptance. Evidence:
+`.artifacts/bot02-stronghold/public.trx` and `database.json`.
+
+## BOT-02 direct event-card Hunt facts — 2026-10-31
+
+Contracts 0.20.0 / boundary v6: **499 selected C# tests passed**, no skips, with
+an owned UUID PostgreSQL database removed after execution. The previous filter
+now includes 30 direct card-Hunt projection cases and three HTTP restart cases.
+Orc Patrol, Isildur's Bane and Foul Thing expose shared card/payment/Palantir and
+Hunt-progress facts, including reviewed reveal and Stronghold consequences. Both
+seats receive copied public context; only the acting seat gets its decision and
+options. Hidden opposing hand/deck/trail/tile-order/entropy permutations preserve
+the other view. Inconsistent and unreviewed continuations omit the boundary.
+
+The initial broad run passed 487/499: nine existing boundary-version assertions
+needed v6 and three new HTTP tests needed the production enum JSON options.
+After those test corrections all 499 passed. Initial results remain alongside
+final evidence in `.artifacts/bot02-card-hunts/`; each HTTP case reopens the host,
+replays receipts without new entropy and verifies a single Shadow cost finishes
+as spent, without placing a Free Peoples die in the Hunt. These checks establish
+the ordinary contract and persistence, not private strategy acceptance.
+
+
+## BOT-02 Nazgûl Strike Hunt continuation — 2026-10-31
+
+Pure rules 0.6.1 extends the reviewed CardHunt projection without changing
+Contracts 0.20.0, ActionBoundary v6, public content or game rules. **531 selected
+C# tests passed**, no skips, using an owned UUID PostgreSQL database removed
+after execution. The filter includes CardHunt/StrikeHunt, Shadow02Strike,
+Hunt, projections, action boundaries and persistence/privacy regressions.
+The initial projection-only batch passed 60 cases. New coverage includes roll,
+reroll, Crebain, draw, damage, guide/Hobbit, reveal/Stronghold and Palantir roots,
+both seats' copied context, hidden-card/entropy invariance, and explicit refusal
+of earlier travel/choice roots and unsupported flags. Six additional HTTP cases
+restart between decisions and replay receipts without extra RNG, retaining one
+Shadow payment through completion. Artifacts: `.artifacts/bot02-strike/`.
+No client code or wire data changed, so Unity was not rerun for this checkpoint.
+These are contract/persistence checks, not strategic bot acceptance.
+
+
+## BOT-02 active Balrog Hunt after revelation — 2026-11-01
+
+Pure rules 0.6.2 reuses ActionBoundary v6 / Contracts 0.20.0 without a client or
+public-content change. **574 selected C# cases passed**, no skips, using an owned
+UUID PostgreSQL database removed after execution. The Hunt/projection/privacy/
+action-boundary filter includes 36 new Balrog projection cases and seven HTTP
+restart/replay cases. They cover ordinary movement and all four reviewed card
+parents, guide/replacement/Hobbit/draw/table choices, zero/one/two Stronghold
+obligations, copied per-seat context, hidden-data invariance and explicit refusal
+of mismatched nested returns/rules. HTTP cases retain the original FP/Shadow die
+through Balrog and the remaining Strongholds, with no replay entropy.
+
+The first projection build found a fixture using a nonexistent Regions property;
+corrected to the real Control map. The next batch passed 91/94: the Foul Thing
+fixture still had a mandatory Guide choice before revelation. Resolving that
+choice corrected all three cases; no game rule was changed. The successful broad
+run includes those corrections. Logs/TRX/DB cleanup evidence:
+`.artifacts/bot02-balrog/`. Unity was not rerun because wire/client/content sources
+were unchanged. These are contract/persistence checks, not strategic acceptance.
+
+The final 574-case rerun additionally relocates Shadow troops out of FP-controlled
+Moria in the zero-Stronghold fixture before its original movement. It passed with
+no skips; both disposable database cleanup commands succeeded. The pure rule
+source remains `214fbb1`; this later change affects test setup only.
+
+
+## BOT-02 uncommitted revelation offer — 2026-11-01
+
+Public source `7551df9` / pure rules 0.6.3 uses existing ActionBoundary v6,
+Contracts 0.20.0 and content 1.0.22 to describe the Shadow revelation reaction
+before choosing Balrog. No wire/client/content source or game rule changed;
+client pin `a5b34506` remains valid and Unity was not rerun.
+
+**611 selected C# / 10 package tests passed**, no skips. The same Hunt/projection/
+privacy/action-boundary filter includes 37 new cases: seven public copied-context
+roots, 14 unsupported/malformed continuation checks, two hidden-permutation checks
+and 14 HTTP restart/replay cases. Both Respond and Decline retain one original
+payment through the remaining zero/one/two Strongholds. Decline keeps Balrog;
+with no Strongholds it draws no tile. Restart after every command preserves the
+same views and reports; receipt replay consumes no entropy. The owned disposable
+PostgreSQL database was dropped successfully, without touching shared test data.
+
+The initial focused batch was 130/131: the deliberately nested refusal fixture
+cleared Pending, so its assertion now uses the known Shadow seat. The full
+611-case batch passed after this test-only fix. Package reproducibility and
+private/public archive-boundary checks passed. Rules archive: 425 files, SHA-256
+`cca68587df0a27364a7d19ad19fccff2a3e260ec8bf56c363d0061219cbe7d25`.
+Coverage regeneration passed: 1,399 mechanics / 2,798 planned scenarios / 93
+normalized configurations / 768 inputs (606 rejected), zero strategic acceptance.
+
+Exact commands, TRX results and database cleanup: local
+`.artifacts/bot02-revelation/verification.json`. The private runtime separately
+reports 1,349 C# / 17 Python passed; its tests, fixtures and diagnostics remain
+private. BOT-02 is still in progress and BOT-03 remains blocked on complete
+reconstruction. Production faction policies are absent.
+
+
+## BOT-02 Fate Monsters reconstruction — 2026-11-06
+
+Public boundary/Fate tests passed **373**, with **8** database/integration tests
+skipped. They verify both marker choices, the public parent/payment shape,
+Muster/Event and flexible Army/Muster payment dice, and refusal of malformed
+parent, payment or committed branch facts.
+
+Private `BotObservedFateMonstersTests` and relief boundary regression tests passed
+**14/14** focused cases. They check both branches, all three East elite destinations,
+Event/Muster/Army-Muster die legality, visible projection parity after each choice,
+completion of the paid event exactly once, hidden-side view copying and malformed
+marker refusal. Full private `bash scripts/verify.sh` passed **2,209 C# and 17
+Python tests**, with no skips, zero Release warnings/errors, locked restore, 443-file
+rules bootstrap and local runtime publish. Runtime package build succeeded after
+private source commit `c114207`.
+
+These checks cover this card continuation only; they do not accept BOT-02, gameplay
+strength, every legal configuration or the remaining unsupported roots.
 
 <a id="exp-10"></a>
 ## Every module on its own and in every combination — EXP-10 (2026-10-19)

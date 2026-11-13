@@ -42,6 +42,7 @@ public sealed class Projection(params IActionOptionsProvider[] providers)
             Configuration = ConfigurationRules.Normalize(state.Configuration),
             Revision = state.Revision,
             ActionSequence = ActionSequenceOptions.View(state),
+            ActionBoundary = ActionBoundaryProjection.For(state, viewer),
             Turn = state.Turn,
             Phase = state.Phase,
             You = viewer,

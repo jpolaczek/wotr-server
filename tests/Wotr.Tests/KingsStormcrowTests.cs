@@ -18,6 +18,32 @@ public class KingsStormcrowTests
         return Do(state, CommandKind.PlayEvent, EventCost(state, Stormcrow), 0);
     }
 
+    [Theory]
+    [InlineData("")]
+    [InlineData("nation")]
+    [InlineData("cursor")]
+    [InlineData("choices")]
+    public void TheOpponentsFigureLossIsMarkedWithTheCardOnly(string change)
+    {
+        var state = Choice();
+        var frame = state.Resolution.Frames.Single();
+        switch (change)
+        {
+            case "nation": frame.Effect!.NationId = "gondor"; break;
+            case "cursor": frame.NextStep = 1; break;
+            case "choices": state.Pending!.PrivateChoices.RemoveAt(0); break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+        {
+            var marked = GameRuntime.Projection(EffectCatalog.All).For(state, side).ActionBoundary?.DirectEventChoice;
+            if (change.Length == 0)
+                Assert.Equal(Stormcrow, marked?.CardId);
+            else
+                Assert.Null(marked);
+        });
+    }
+
     [Fact]
     public void RetreatsThenAddsPrivateTileThenLetsFpRemoveWholeUnitAnywhere()
     {

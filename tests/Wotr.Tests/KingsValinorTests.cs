@@ -49,6 +49,61 @@ public class KingsValinorTests
         }
     }
 
+    // Three Elven Strongholds hold one Regular each; every die hits. The last stronghold is the
+    // lone option, struck without a choice in the trail.
+    internal static IReadOnlyList<(MatchState State, string[] Targets)> RepeatedStrikes()
+    {
+        var state = Ready(Valinor);
+        foreach (var region in new[] { "lorien", "rivendell", "woodland-realm" })
+            BattleFixture.Put(state, "elves", UnitKind.Regular, region);
+        state = Play(state, Valinor);
+        var positions = new List<(MatchState State, string[] Targets)> { (state, []) };
+        foreach (var region in new[] { "rivendell", "lorien" })
+        {
+            state = Choose(state, region, 5);
+            positions.Add((state, [.. state.Resolution.Frames[0].Effect!.TargetIds]));
+            var id = EventLosses.Current(state)!.Target.Units(state).First().Id;
+            state = Do(state, CommandKind.TakeEventLosses, new() { Losses = [BattleFixture.Loss(id)] }, 5);
+            positions.Add((state, [.. state.Resolution.Frames[0].Effect!.TargetIds]));
+        }
+        Assert.Equal(DecisionKind.Losses, state.Pending!.Kind);
+        Assert.Equal(new[] { "rivendell", "lorien", "woodland-realm" }, state.Resolution.Frames[0].Effect!.TargetIds);
+        Assert.Equal(3, state.Resolution.Frames[0].Effect!.Committed.Count);
+        return positions;
+    }
+
+    [Fact]
+    public void EveryRepeatedChoiceAndItsLossesAreMarkedWithTheStruckRegions()
+    {
+        foreach (var (state, targets) in RepeatedStrikes())
+            Assert.All(Enum.GetValues<Side>(), side =>
+            {
+                var choice = LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice;
+                Assert.Equal(Valinor, choice?.CardId);
+                Assert.Equal(targets, choice!.TargetIds);
+            });
+    }
+
+    [Theory]
+    [InlineData("target")]
+    [InlineData("trail")]
+    [InlineData("cursor")]
+    public void RepeatedStrikesRefuseInconsistentRegions(string change)
+    {
+        var positions = RepeatedStrikes();
+        var state = change == "cursor" ? positions[2].State : positions[^1].State;
+        var execution = state.Resolution.Frames[0].Effect!;
+        switch (change)
+        {
+            case "target": execution.TargetIds[^1] = "grey-havens"; break;
+            case "trail": execution.Committed.Add(new(Side.Shadow, Valinor, "grey-havens", "grey-havens")); break;
+            case "cursor": state.Resolution.Frames[0].NextStep = 0; break;
+        }
+
+        Assert.All(Enum.GetValues<Side>(), side =>
+            Assert.Null(LordsFixture.Views().For(state, side).ActionBoundary?.DirectEventChoice));
+    }
+
     [Fact]
     public void SkipsConqueredAndBesiegedStrongholdsAndOffersOrderOfRemainingRegions()
     {

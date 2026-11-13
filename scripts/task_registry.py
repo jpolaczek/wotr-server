@@ -14,6 +14,12 @@ LOCAL_LEDGER = ROOT / 'docs/tasks/completions.json'
 REGISTRY = ROOT / 'docs/tasks/tasks.json'
 
 
+def matching_start(history, started_at):
+    """Planning notes may precede execution; the first execution event must be the recorded start."""
+    execution = next((event for event in history if event.get('event') != 'plan'), None)
+    return execution is not None and execution.get('event') == 'start' and execution.get('at') == started_at
+
+
 def completed_records():
     records = {}
     for path in (LOCAL_LEDGER, CONTENT_LEDGER):

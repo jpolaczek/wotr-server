@@ -39,7 +39,7 @@ public class MigrationRecoveryTests
             await database.Migrate();
             await database.Migrate();
             await using var versions = new NpgsqlCommand("SELECT string_agg(version::text, ',' ORDER BY version) FROM schema_migrations", connection);
-            Assert.Equal("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22", await versions.ExecuteScalarAsync());
+            Assert.Equal("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26", await versions.ExecuteScalarAsync());
         }
         finally { await Execute(control, $"DROP SCHEMA {schema} CASCADE"); }
     }

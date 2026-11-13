@@ -10,5 +10,5 @@ public static class BattleReportEndpoints
         {
             var report = await store.Read(id, battleId, user.FindFirstValue(ClaimTypes.NameIdentifier)!, cancellation);
             return report is null ? Results.NotFound() : Results.Ok(report);
-        }).RequireAuthorization().RequireRateLimiting(GameRateLimits.Reads);
+        }).RequireAuthorization().RequireRateLimiting(GameRateLimits.Reads).AllowBot(BotOperation.Match);
 }

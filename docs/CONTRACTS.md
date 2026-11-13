@@ -1,7 +1,408 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.76.0 join the CPU host line (0.75.0) with production `main` (0.26.0: ranked play,
+move clocks, pauses, the leaderboard and avatars). Both lines' messages stay as they were; a room's
+view carries the avatars and the CPU seat together, and `MatchKind` holds `Ranked` and `Pve`.
+The CPU's migrations follow production's (023 bot credentials, 024 PvE rooms, 025 the embedded
+runtime, 026 its operations); 024 replaces whatever ledger kind check stands with one that keeps
+`ranked`. Rules 0.15.63 carry production's concession and timeout (RANK-03), so a runtime must be
+built against them. Public content 1.0.76 pins the contract; ActionBoundary, protocol and save schema
+do not change.
+
+Contracts 0.75.0 add the CPU's pace (BOT-37, the owner's audit of the strategic opponents):
+`BotThinkingMode` (`Fast`, `Thorough`), `AddRoomBotRequest.ThinkingMode`, `ConfigureRoomBotRequest`
+for `PUT /api/rooms/{id}/bot/thinking` and `BotSeatView.ThinkingMode`. The embedded runtime ABI
+becomes version 3 (the pace and the host's remaining deadline). Public content 1.0.75 pins the
+contract; its files are unchanged. ActionBoundary, rules 0.15.62, protocol and save schema do not
+change; a saved room without a pace is Fast.
+
+Contracts 0.74.0 joins the CPU host line (0.73.0) with the expansions line (0.15.0): UI-361's
+hand split by deck in the public player summary, LOBBY-05's server-decided game lists and the
+offered modules. ActionBoundary stays at version 57. Rules 0.15.62 carry UI-442's corruption
+attempt (a standard attempt draws all its tiles at once; a single tile is placed without a decision)
+and public content 1.0.74 UI-365's texts. A Kings national card's recruit branch now names the
+sovereign's nation (UI-278), so the boundary expects that selection in the trail. Uglúk's Hunt
+re-roll bonus is 0 on the Mordor Track, which is no board region and has no re-roll source; it threw
+there before (a latent fault on `main` and `expansions` too, found by the module games).
+Protocol and save schema do not change.
+
+Contracts 0.73.0 advances ActionBoundary to version 57. `DirectEventChoice` also marks The Three
+Rings' ring choice after its recovery roll, repeating the three public dice in
+`RingRecoveryRolls`; The Wind from the West's choice from Shadow's inspected hand, which that
+choice lists to the Free Peoples alone; an event's completion window while a political
+consequence waits; and the excess discard after Gandalf the Grey's draw at that window. Rules
+0.15.59 and public content 1.0.73 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.72.0 advances ActionBoundary to version 56. `DirectEventChoice` also marks Fate's
+Book recruitment after its journey and the Dwarves' war, naming the region its region step left.
+The v55 check for Smeagol's departure no longer reads the Fellowship's region before its frames,
+so a Fellowship on the Mordor Track projects again after Smeagol left. Rules 0.15.58 and public
+content 1.0.72 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.71.0 advances ActionBoundary to version 55. `EventPalantirDraw` marks the Palantir
+of Orthanc's deck choice after any Shadow event paid with an Event die, naming the event, its
+cost and the region it chose. `FellowshipDeclaration` also marks the Guide chosen after Smeagol
+leaves a Fellowship declared in an unconquered City or Stronghold, and `CompanionJourney`
+accepts an Army/Muster die paying a Muster card. Rules 0.15.57 and public content 1.0.71 pin
+the contract. Protocol and save schema do not change.
+
+Contracts 0.70.0 advances ActionBoundary to version 54. `FellowshipMove` also marks a
+movement Hunt whose roll Flocks of Crebain raised by one, the bonus public on the Hunt view,
+and `FellowshipDeclaration` marks the Lords' Fire and Shadow Hunt a declared route draws,
+including the new Guide after an Eye eliminates the Balrog and the Guide. Rules 0.15.56 and
+public content 1.0.70 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.69.0 advances ActionBoundary to version 53. `SpecialAttackLoss` also marks the
+losses of a Charge or Sudden Strike after the opposing Durin's Bane at the same initiative,
+whose public dice have rolled and whose hits are taken, and `CompletesPaidAction` marks
+Relentless Assault's voluntary losses before the roll of a later round. Rules 0.15.55 and
+public content 1.0.69 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.68.0 advances ActionBoundary to version 52. `BattleContextView.LandingEvent`
+marks the battle a Corsairs of Umbar landing begins, with the paid event and its cost; the
+landing region is the battle's region and `BattleView.ArrivalBeforeBattle` is set. Rules
+0.15.54 and public content 1.0.68 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.67.0 advances ActionBoundary to version 51. `AnarionDraw` also marks the deck
+choice after an event paid with Denethor's Ruler die, once the event's own steps are done;
+`AnarionDrawView.CardId` and `CardCost` name that event. `DirectEventChoice` also marks
+Wisdom's politics branch, a nested program with its nation choice. Rules 0.15.53 and public
+content 1.0.67 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.66.0 advances ActionBoundary to version 50. The `Battle` fact also marks a
+Relentless Assault voluntary loss after a Sudden Strike at initiative 2, whose public dice and
+taken hits precede it, and Brand's offer to replace his owner's card after the reveal and
+before the roll. Rules 0.15.52 and public content 1.0.66 pin the contract. Protocol and save
+schema do not change.
+
+Contracts 0.65.0 advances ActionBoundary to version 49. `DirectEventChoice` also marks The
+Wind from the West's table-card choice, the Nazgul strike after their flight, Fate's second Orc
+recruitment, every step of Rangers of the North (attack, losses, region, figures), and an
+event's Guide choice while a political consequence of its separation waits. `RegionId` now
+also names the region Rangers attacked or recruit in and Fate's second Orc region. Rules
+0.15.51 and public content 1.0.65 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.64.0 advances ActionBoundary to version 48. The `Battle` fact also marks a Kings
+chieftain's offer to replace Shadow's card effects, made once both cards are committed and
+before the reveal; the options are the public chieftains fighting for Shadow. Rules 0.15.50 and
+public content 1.0.64 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.63.0 advances ActionBoundary to version 47. `DirectEventChoice` also marks every
+choice and every loss of Return to Valinor, which repeats its one step for each Elven
+Stronghold (`DirectEventChoices.RepeatsOnTargets`). `DirectEventChoiceView.TargetIds` lists the
+regions already struck, in order: a lone option is taken without a choice, so the owner's trail
+holds only the strikes chosen among several. The `Battle` fact also marks the Orderly
+Withdrawal choice (`ReviewedCombatCards.IsOrderlyWithdrawal`) at initiative 6, while the opposing
+hits exceed those already cancelled. Both Kings inspections now also mark the tile step after a
+lone sovereign, which the engine takes without a choice in the trail
+(`DirectEventChoices.LoneInspectedSovereign`). Rules 0.15.49 and public content 1.0.63 pin the
+contract. Protocol and save schema do not change.
+
+Contracts 0.62.0 advances ActionBoundary to version 46. `DirectEventChoice` also marks
+Wisdom's nested inspection (the sovereign, then the tile; the owner's trail holds the branch and
+the sovereign), Madness and Horror's region choice, the losses it deals and its recruitment
+(`DirectEventChoices.IsMadness`; the target keeps the chosen region and whether that army was
+besieged before its losses), and the Guide chosen when an event's separation takes the Guide
+away. `DirectEventChoiceView.RegionId` names the region Madness struck: when it was the
+only option the engine took it without a choice, so the owner's trail does not hold it. A
+Guide choice with a pending political consequence stays unmarked. Rules 0.15.48 and
+public content 1.0.62 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.61.0 advances ActionBoundary to version 45 with two Kings facts for programs
+that close an otherwise finished action. `AnarionDraw` marks Denethor's Palantir of Anarion
+after a card drawn with his Ruler die: the deck choice, then (`Discard`) any excess discard;
+the chosen deck stays only in the owner's trail. `CorruptionRemoval` marks the optional
+removal a political change offers before the action that caused it completes, naming the
+`Actor` who still owes the paid dice and whether it was a Fellowship move. A removal that
+interrupts another decision, and the Anarion draw after an event, stay unmarked. The `Battle`
+fact also marks a Mighty Attack choice (`ReviewedCombatCards.IsMightyAttack`): initiative 4,
+after the combat roll and before any re-roll, with the owner's Companions and missed dice as
+options. Rules 0.15.47 and public content 1.0.61 pin the contract. Protocol and save schema do
+not change.
+
+Contracts 0.60.0 advances ActionBoundary to version 44. The `Battle` fact also marks the
+Witch-king's Sorcerer offer once round one has closed, whether the battle goes on or ends.
+The offer rests on the public battle and the revealed card. Rules 0.15.46 and public content
+1.0.60 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.59.0 advances ActionBoundary to version 43. `DirectEventChoice` also marks each
+step of a Kings inspection (`DirectEventChoices.IsInspection`): the nation, the sovereign
+and the tile to return. The owner's trail holds the earlier choices; the sovereign's tiles
+stay readable only to the inspecting owner, as before. Rules 0.15.45 and public content
+1.0.59 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.58.0 advances ActionBoundary to version 42. `DirectEventChoice` also marks
+Stormcrow's last step, which asks the event's opponent to remove a figure of the nation it
+struck. The offered units name that nation; the earlier steps moved its political counter
+and, in Kings, gave its sovereign a face-down tile. Rules 0.15.44 and public content 1.0.58
+pin the contract. Protocol and save schema do not change.
+
+Contracts 0.57.0 advances ActionBoundary to version 41. The `Battle` fact also marks a
+Heroic Death choice: initiative 6, after both rolls and re-rolls and before any casualty,
+with options from the owner's public figures and the incoming hits.
+`ReviewedCombatCards.IsHeroicDeath` qualifies a card by its single printed effect. First-step
+and post-combat special-attack losses are now marked in Kings games too; an active combat
+replacement, or a battle with Kings state, still leaves them unmarked. Rules 0.15.43 and
+public content 1.0.57 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.56.0 advances ActionBoundary to version 40. `DirectEventChoice` also marks The
+Lidless Eye's choice of unused Shadow dice, and the excess an event's army leaves over the
+stack limit: that decision names no source, so the marker takes the card from the one open
+event frame, whose steps are all done. Rules 0.15.42 and public content 1.0.56 pin the
+contract. Protocol and save schema do not change.
+
+Contracts 0.55.0 advances ActionBoundary to version 39. The `Battle` fact now also marks the
+voluntary-loss decision of every Onslaught card (Uruk-hai, Misty Mountains and Orcs
+Multiplying), not only Uruk-hai: `ReviewedCombatCards.IsOnslaught` qualifies a card by its
+single printed effect. Rules 0.15.41 and public content 1.0.55 pin the contract. Protocol
+and save schema do not change.
+
+Contracts 0.54.0 advances ActionBoundary to version 38. The `Battle` fact also carries
+`AttackerCancelledHits` and `DefenderCancelledHits`: the hits each force has cancelled in
+this Combat round, as announced at the table (Shield Wall, Orderly Withdrawal or a Heroic
+Death sacrifice). Rules 0.15.40 and public content 1.0.54 pin the contract. Protocol and
+save schema do not change.
+
+Contracts 0.53.0 advances ActionBoundary to version 37. `DirectEventChoice` also marks
+the Balrog event (`lords.sh.character.17`): its order choice, and the lone travel or the
+army movement or attack that choice opens. The owner's trail ends with that choice. It
+also marks the Rage of the Dunlendings move into the region its event recruited in. The
+marker still carries only the public card ID and payment face. An ordinary corruption
+attempt may also be paid with a Keeper Eye, a Free Peoples ring die that rolled an Eye;
+`DiceRules.HuntsForShadow` is the rule both the engine and the projection read. Rules 0.15.39 and public
+content 1.0.53 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.52.0 advances ActionBoundary to version 36. `DirectEventChoice` also marks
+the branch choice of a Kings national card and the recruitment it opens, each in its own
+nested program, and the one army movement or attack of an `ArmyOrderStep` event. The
+marker still carries only the public card ID and payment face. `ArmyOrderStep.Commands`
+now gives the decision's commands to both the engine and the projection. Rules 0.15.38 and
+public content 1.0.52 pin the contract. Protocol and save schema do not change.
+
+Contracts 0.51.0 advances ActionBoundary to version 35. `Battle` also marks three
+combat-card decisions, reviewed by printed effect in `ReviewedCombatCards`: the Scouts
+choice before the roll, the voluntary losses of every Relentless Assault card rather
+than only The Dawn of Battle's, and the one hit Great Host deals when its army outnumbers
+the enemy two to one. No field is added. Rules 0.15.36 and public content 1.0.51 pin the
+contract. Protocol and save schema do not change.
+
+Contracts 0.50.0 advances ActionBoundary to version 34. `DirectEventChoice` also marks
+pending losses from `ArmyEventDamageStep` and `EnemyArmyStep`, for the target's owner,
+and the separation that opens an event through `SeparateCompanionsStep`.
+`CompanionJourney` also marks Aid. The existing public `EventLoss` view names the
+target, hits and rolls, so no field is added. Rules 0.15.35 and public content 1.0.50
+pin the contract. Protocol and save schema do not change.
+
+Contracts 0.49.0 advances ActionBoundary to version 33. `DirectEventChoice` also
+marks the reaction windows of a directly paid event: `event.played` before its first
+step and `event.completed` after its last, for any event. These windows hold no step
+state, so they need no review by step type. It also marks the Nazgul travel that opens
+an event or follows Black Captain's order to fly. The marker still carries only the
+public card ID and payment face. Rules 0.15.34 also accepts a pending Palantir draw
+when public facts require it, and the trail entry left by Spear of Terror. Public
+content 1.0.49 pins the contract. Protocol and save schema do not change.
+
+Contracts 0.48.0 advances ActionBoundary to version 32. `DirectEventChoices` in
+rules 0.15.33 now reviews choices by step type rather than by card, which marks 43
+events. It covers a first choice whose candidates come from the public board, a
+choice after an automatic public step, and a recruitment in a public region left by
+an earlier step. The marker still carries only the public card ID and payment
+face. A step type outside the list stays unmarked until it is reviewed. Public
+content 1.0.48 pins the contract. Protocol and save schema do not change.
+
+Contracts 0.47.0 advances ActionBoundary to version 31. `DirectEventChoice` also
+marks the first choice of Celeborn's Galadhrim, The Spirit of Mordor, Faramir's Rangers, Men of Little
+Villages, Work of the Enemy, Dwarves of the Iron Hills, Hill-Trolls, Many Kings to
+the Service of Mordor, A New Power is Rising, Shadows on the Misty Mountains and
+Horde from the East, and is no longer limited to the Free Peoples.
+`DirectEventChoices.IsReviewed` in rules 0.15.32 holds the reviewed card and exact
+program list, so the projection and an observation-only runtime read one source.
+The marker still carries only the public card ID and payment face. Later choices
+of these programs stay unmarked. Public content 1.0.47 pins the contract. Protocol
+and save schema do not change.
+
+Contracts 0.46.0 advances ActionBoundary to version 30. `DirectEventChoice` also
+marks both choices of Ever at Your Service (`kings.fp.strategy.25`): the ruler
+choice and the recruitment that follows it, including the recruitment after the
+engine selected a lone eligible ruler. The marker still carries only the public
+card ID and payment face. The selected ruler stays in the owner's effect trail
+and is never added to the marker, so the opponent does not read it there. Rules
+0.15.31 emits the marker after checking the exact program, cursor, selection,
+ruler region and nation, public discard, resolving die and rule-generated
+options. Public content 1.0.46 pins the contract. Protocol and save schema do
+not change.
+
+Contracts 0.45.0 advances ActionBoundary to version 29. `DirectEventChoice`
+marks only Kindred of Glorfindel's first choice in its directly paid event,
+after checking the exact program, visible discard, resolving die, parent frame
+and current rule-generated options. It carries only the public card ID and
+payment face; it does not expose the resolution frame or cursor. Rules 0.15.30
+emits this marker for that narrow window. Public content 1.0.45 pins the
+contract. Protocol and save schema do not change.
+
+Contracts 0.43.0 advances ActionBoundary to version 27. `FateMonsters` marks
+only the `Monsters Roused` branch choice and its East elite-region choice. The
+marker carries the public parent card, paid face and selected East branch; it
+does not expose a resolution frame or effect cursor. Rules 0.15.28 emits it only
+for the exact Fate event program, public discard, resolving Shadow payment and
+rules-matched choices. It preserves the printed Muster cost or Event cost,
+including legal Army/Muster and Will of the West dice. Public content 1.0.43 pins the contract. Protocol and
+save schema do not change.
+
+Contracts 0.42.0 advances ActionBoundary to version 26. `Battle.ReliefEvent`
+marks the reviewed `Help Unlooked For` battle with its public card ID and paid
+face. Rules 0.15.26 emits it only while the one-step event is the battle's
+parent, both sides and the stronghold match, and the paid Free Peoples die is
+still resolving. Before the defender retreats or is defeated, its dice reduction
+must match the garrison's army count. At the resulting Advance window, after
+stronghold reconciliation releases the garrison to the field, the same reduction
+must match those public Free Peoples field units. It carries no engine frame or
+private combat-card choice. Public content 1.0.42 pins the contract. Protocol and
+save schema do not change.
+
+Contracts 0.41.0 advances ActionBoundary to version 25. `WestPalantirDiscard`
+marks only Shadow's excess-card decision after the Palantir deck choice from
+`The West Has Failed`. Its drawn card identity is already visible in Shadow's
+hand and is omitted from the Free Peoples view. Rules 0.15.24 validates the
+immediate draw event pair and committed deck choice before emitting the fact;
+public content 1.0.41 pins the contract. Protocol and save schema do not change.
+
+Contracts 0.40.0 advances ActionBoundary to version 24. `WestPalantirDraw` marks
+the deck choice after `The West Has Failed` returns from its Kings corruption
+procedure. It carries the paid event and face; the selected target stays in the
+public effect trail. The v23 `CorruptionEvent` fact still carries whether the
+Palantir draw is pending, including cancellation by a public reaction. These are
+semantic public consequences, not saved frames or private choices. Public content
+1.0.40 pins the contract; rules 0.15.21 emits each fact only for its exact
+reviewed continuation. Protocol and save schema do not change.
+
+Contracts 0.38.0 adds `ActionBoundaryView.CorruptionEvent` at boundary version
+22. It marks only the paid `The West Has Failed` event while its nested Kings
+corruption attempt is pending, carrying the public event card and paid face so
+the runtime can return to the parent event after the tile decision. It does not
+serialize engine frames or expose Shadow's tile choices. Public content 1.0.38
+pins the contract; rules 0.15.19 emits it only for the reviewed two-frame
+continuation. Protocol and save schema do not change.
+
+Contracts 0.37.0 adds `ActionBoundaryView.LurePlacement` at boundary version 21.
+For the Free Peoples only, it marks the public Lure elimination after it has
+selected the returnable Companion, during that Companion's placement or the
+resulting Guide choice. The target is already known to the chooser; the marker
+does not reveal the random target to Shadow. Public content 1.0.37 pins the
+contract; rules 0.15.18 emits it only for this reviewed continuation.
+Protocol and save schema do not change.
+
+Contracts 0.36.0 adds public `FellowshipDeclarationView` facts for committed
+reaction source IDs and a pending Fire and Shadow obligation, and advances the
+boundary to version 20. The facts let an observer rebuild a pending reaction
+window, active Gates Hunt or deferred route effect without serializing effect
+frames or private choices. Public content 1.0.36 pins the contract; rules
+package 0.15.17 emits the facts only for reviewed declaration contexts.
+Protocol and save schema do not change.
+
+Contracts 0.35.0 adds `ActionBoundaryView.FellowshipGuide` and advances the
+boundary to version 19. It marks the narrow direct-separation continuation
+where the Free Peoples' paid Character die is resolving and only a Guide choice
+remains before that action finishes. It includes no saved frame or private
+choice. Public content 1.0.35 pins the contract; rules package 0.15.15 emits
+the fact only for that exact public decision. Protocol and save schema do not
+change.
+
+Contracts 0.34.0 adds `ActionBoundaryView.CompanionJourney` and advances the
+boundary to version 18. The fact identifies a reviewed Gwaihir or Swifter card,
+the active companion-choice/Guide stage and the card-defined travel limits. It
+contains no resolution frame or selected companion move. The Guide-stage fact
+may accompany queued public political reactions from the journey; initial
+Separation requires none. Public content 1.0.34 pins the contract; rules package
+0.15.13 emits the fact only for those exact programs. Protocol and save schema
+do not change.
+
+Contracts 0.33.0 adds public `BattleForceView.VoluntaryLossHits`, which records
+how many hits a player actually chose to spend on a voluntary battle-loss
+procedure. It is null until that choice is resolved, including a resolved choice
+of zero. Both seats see the same result, allowing clients and observation-only
+simulation to reconstruct later combat modifiers without a saved effect frame.
+Public content 1.0.33 pins the contract; pure rules package 0.15.9 records the
+result in the battle round. Rules package 0.15.10 marks the direct paid
+Relentless Assault voluntary-loss choice, and 0.15.11 adds the post-combat
+Onslaught voluntary-loss choice, using the existing ActionBoundary v17 fact.
+Protocol and save schema do not change.
+
+Contracts 0.32.0 adds public `BattleForceView.OrderlyWithdrawal`, set only after
+Free Peoples chooses the Orderly Withdrawal hit cancellation. Both players see
+the resolved round-end obligation with the revealed combat card. It adds no
+saved frame or private choice. Public content 1.0.32 pins the contract; pure
+rules package 0.15.8 includes it. ActionBoundary remains v17; protocol and save
+schema do not change.
+
+Contracts 0.31.0 adds optional `BattleContextView.SpecialAttackLoss` and advances
+`ActionBoundaryView.Version` to 17. It marks a reviewed first-step Charge card
+loss while its battle-effect continuation is suspended. The marker carries no
+frame, step cursor or hidden card information. Public content 1.0.31 pins
+Contracts 0.31.0. Pure rules 0.15.3 uses the same boundary. Protocol and
+save-schema behavior do not change.
+
+Contracts 0.20.0 extend optional [action-boundary rule facts](server/PLAYER-RULE-FACTS.md)
+and visible effect lifetime metadata to the ordinary player view. Public content
+1.0.22 pins these contracts. Version 6 covers ordinary and paid base/Fate action
+steps, deferred public politics, post-action excess removal and reviewed paid
+Fellowship-move and paid Orc Patrol/Isildur's Bane/Foul Thing/Nazgûl Strike Hunt choices,
+including their additional Stronghold Hunts, uncommitted revelation offer and active Balrog Hunt after revelation
+and original payment obligations. These contexts reuse the existing v6 fields.
+Unsupported continuations omit the boundary; no save,
+opposing secrets, command permission or new UI flow is exposed. Protocol 2 and
+save schema 3 remain unchanged.
+
+Contracts 0.15.0 add [CPU room admission and safe metadata](server/BOT-ROOMS.md): `PUT /api/rooms/{id}/bot`, `AddRoomBotRequest`, seat kinds/status, `RoomView.Bot` and `MatchSummary.IsPve/Bot`. Public content 1.0.16 pins the new contracts. Ordinary commands, player views, protocol 2 and save schema 3 are unchanged. The embedded runtime ABI/loader is BOT-17; BOT-18 implements the embedded host scheduler and atomic command/memory commit.
+
 The contract is implemented in stages T05–T07. In T06 there are DTO `PlayerView`, `ActionOption`, `DecisionView`, `ActionPreview`; endpoints adds T07. Each field has a specific visibility and version. The table below also includes target contracts for later tasks.
+
+## Client CPU invitation (BOT-13)
+
+The client consumes Contracts 0.15.0 and public content 1.0.16. Add CPU uses one
+`AddRoomBotRequest` ID/version while a response is uncertain; duplicate activation
+is ignored and retries reuse that request. A current authoritative room version
+or occupied seat resolves it. CPU status is displayed in the existing seat and
+Start also requires `Bot.Status == Ready`. My games uses `IsPve` for CPU identity
+and `Bot.Status` for availability without showing profile or policy metadata.
+The main-menu shortcut creates a private waiting room and invites CPU; it does
+not invoke the legacy `/demo` endpoint or start a match from a side click.
+Ordinary player commands and side-safe presentation remain unchanged.
+
+## Embedded CPU runtime contract
+
+Owner revision 2026-10-27 replaces external-service/control transport with a
+private decision library loaded by the game host. [ABI 2](server/BOT-RUNTIME.md)
+uses JSON strings and CancellationToken, with public server-only request/response
+envelopes. There is no private assembly reference in public builds and no new
+human player DTO or content/package/client pin change for BOT-17/BOT-18/BOT-19.
+
+The input wraps ordinary own-side PlayerView, MatchConfiguration, decisions,
+options, authorized action history, reports/previews, compatibility identifiers,
+opaque prior memory and compute bounds. The result is an ordinary GameCommand
+proposal plus opaque proposed memory, bounded preview requests, or a refusal.
+Preview commands/results are paired and revision checked; they do not commit memory. The host rechecks seat,
+current decision/revision and full engine legality before any commit. Opaque
+memory commits in the same transaction as accepted game state and receipt,
+never sent to players. Runtime descriptions separately declare accepted faction
+policy versions and module coverage. See [host persistence](server/BOT-HOST.md).
+
+ABI 2 additionally permits an opaque `memoryFormat` descriptor. New assignments
+require it and store ABI/protocol/rules/content/memory-format identity alongside
+opaque memory. [Operator packages and upgrades](server/BOT-OPERATIONS.md) bind
+the actual descriptor and every library hash. Upgrade/rollback keeps those
+identities and assigned policy versions unchanged, otherwise it refuses without
+resetting memory or consuming a pending command. Migration 020 is server-only;
+there is no new player endpoint, private assembly reference or client dependency.
+
+BOT-12 room admission/CPU metadata remain the player-facing contract. BOT-16
+control/seat HTTP credentials remain legacy/default-disabled code; the runtime
+has no HTTP or persistence capability. Missing player-visible data still requires
+a reviewed shared contract change; runtime hosting does not authorize snapshots.
+BOT-01 observation/memory and BOT-03 candidates remain private pure components.
+BOT-18 implements server scheduling, provenance, readiness and receipt/memory
+recovery; actual strategic and integrated gameplay acceptance is separate.
 
 <a id="główne-komunikaty"></a>
 ## Main messages

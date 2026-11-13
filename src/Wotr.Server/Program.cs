@@ -13,7 +13,8 @@ if (args.Contains("--health-check", StringComparer.Ordinal))
 }
 var setEmail = OperatorCommands.SetEmail(args);
 var rename = OperatorCommands.Rename(args);
-var builder = WebApplication.CreateBuilder(OperatorCommands.HostArguments(args));
+var botOperation = BotOperatorCommand.Parse(args);
+var builder = WebApplication.CreateBuilder(botOperation is null ? OperatorCommands.HostArguments(args) : []);
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 65536);
 builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddSingleton(_ => NpgsqlDataSource.Create(DatabaseConfiguration.Read(builder.Configuration)));
@@ -43,6 +44,17 @@ builder.Services.AddSingleton<IEmailSender>(EmailSenders.Create);
 builder.Services.AddSingleton<EmailOutbox>();
 builder.Services.AddHostedService(services => services.GetRequiredService<EmailOutbox>());
 builder.Services.AddSingleton<SessionStore>();
+builder.Services.AddSingleton(services => BotAccessOptions.Read(services.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton<BotCredentialStore>();
+builder.Services.AddSingleton(services => EmbeddedBotRuntime.LoadConfigured(services.GetRequiredService<BotHostOptions>()));
+builder.Services.AddSingleton(services => BotRoomOptions.Read(services.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton(services => BotHostOptions.Read(services.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton<BotRuntimeCapabilities>();
+builder.Services.AddSingleton<BotJobStore>();
+builder.Services.AddSingleton<BotInputStore>();
+builder.Services.AddSingleton<BotRuntimeControl>();
+builder.Services.AddSingleton<BotHostMetrics>();
+builder.Services.AddHostedService<BotScheduler>();
 builder.Services.AddSingleton<ISessionResolver>(services => services.GetRequiredService<SessionStore>());
 builder.Services.AddSingleton(services => ReleaseScope.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
 builder.Services.AddSingleton(services => ClientReleaseOptions.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
@@ -89,6 +101,12 @@ builder.Services.AddGameRateLimits();
 builder.Services.AddAuthentication("Bearer").AddScheme<AuthenticationSchemeOptions, BearerAuthentication>("Bearer", _ => { });
 builder.Services.AddAuthorization();
 var app = builder.Build();
+if (botOperation is not null)
+{
+    Environment.ExitCode = await botOperation.Run(app.Services);
+    await app.DisposeAsync();
+    return;
+}
 await app.Services.GetRequiredService<Database>().Migrate();
 app.UseSaveFailureHandling();
 app.UseDatabaseOverloadHandling();
@@ -128,9 +146,13 @@ app.Services.GetRequiredService<AdminOptions>();
 app.Services.GetRequiredService<ReleaseScope>();
 // EXP-02: a released module without its first client version stops Production at start.
 app.Services.GetRequiredService<ModuleClientPolicy>();
+app.Services.GetRequiredService<BotAccessOptions>();
+app.Services.GetRequiredService<BotRoomOptions>();
+app.Services.GetRequiredService<EmbeddedBotRuntime>();
 app.UseClientCompatibility();
 app.UseWebSockets();
 app.UseAuthentication();
+app.UseBotAccess();
 // QUAL-02: after authentication, so signed-in budgets follow the account.
 app.UseRateLimiter();
 // RANK-10: it asks the database whether the account holds a ranked seat, so it needs the account and spends its budget.
@@ -138,6 +160,7 @@ app.UseRankedSeatExemption();
 app.UseTestSeatGate();
 app.UseAuthorization();
 ServerHealth.Map(app);
+BotEndpoints.Map(app);
 ClientReleaseEndpoints.Map(app);
 MatchEndpoints.Map(app);
 RankedQueueEndpoints.Map(app);

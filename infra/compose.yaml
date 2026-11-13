@@ -59,9 +59,23 @@ services:
       Wotr__Email__Provider: ${WOTR_EMAIL_PROVIDER:-none}
       Wotr__Email__From: ${WOTR_EMAIL_FROM:-}
       Wotr__Email__ResendApiKeyFile: /run/secrets/resend_api_key
+      # The CPU opponent (docs/server/BOT-OPERATIONS.md): the private runtime package is installed on the host into
+      # WOTR_BOT_RUNTIMES_DIR (owned by the container's user, uid 1654) and mounted read-only at /bot-runtimes; the
+      # manifest path names it inside the container, e.g. /bot-runtimes/0.7.0-28d08085b979/runtime-manifest.json.
+      # A new CPU is a server update only: a new package, these settings and drain/upgrade/resume; no client release.
+      Wotr__Bots__RuntimeEnabled: ${WOTR_BOT_RUNTIME_ENABLED:-false}
+      Wotr__Bots__RuntimeManifest: ${WOTR_BOT_RUNTIME_MANIFEST:-}
+      Wotr__Bots__RuntimeManifestSha256: ${WOTR_BOT_RUNTIME_MANIFEST_SHA256:-}
+      Wotr__Bots__RuntimeVersion: ${WOTR_BOT_RUNTIME_VERSION:-}
+      Wotr__Bots__RoomsEnabled: ${WOTR_BOT_ROOMS_ENABLED:-false}
+      Wotr__Bots__AcceptedPolicyVersion: ${WOTR_BOT_POLICY_VERSION:-}
+      Wotr__Bots__Features: ${WOTR_BOT_FEATURES:-base}
+      Wotr__Bots__Workers: ${WOTR_BOT_WORKERS:-2}
+      Wotr__Bots__ManagedMemoryLimitMiB: ${WOTR_BOT_MEMORY_MIB:-1024}
     secrets: [db_connection]
     volumes:
       - ${WOTR_DISTRIBUTION_DIR:-./distribution}:/distribution:ro
+      - ${WOTR_BOT_RUNTIMES_DIR:-./bot-runtimes}:/bot-runtimes:ro
     networks:
       frontend:
         ipv4_address: ${WOTR_SERVER_IP:-172.30.93.3}

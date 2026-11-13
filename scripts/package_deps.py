@@ -20,6 +20,7 @@ import re
 import subprocess
 import tarfile
 import tempfile
+from check_public_artifacts import require_public
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CHANNEL = ROOT / ".artifacts/deps-channel"
@@ -74,6 +75,10 @@ def fingerprint(files):
 
 def archive(entries):
     """A gzip tar with sorted entries and fixed owners, modes and times."""
+    try:
+        require_public(entries)
+    except ValueError as error:
+        raise PackageError(str(error)) from error
     raw = io.BytesIO()
     with gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=ARCHIVE_TIME, compresslevel=9) as compressed:
         with tarfile.open(fileobj=compressed, mode="w", format=tarfile.USTAR_FORMAT) as tar:

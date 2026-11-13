@@ -44,6 +44,7 @@ namespace Wotr.Contracts
         public BattleView? LastBattleRound { get; set; }
         public DecisionView? Decision { get; set; }
         public ActionSequenceView? ActionSequence { get; set; }
+        public ActionBoundaryView? ActionBoundary { get; set; }
         public List<ActionOption> Options { get; set; } = new List<ActionOption>();
         public List<HistoryEntry> History { get; set; } = new List<HistoryEntry>();
         public List<ActiveEffectView> Effects { get; set; } = new List<ActiveEffectView>();

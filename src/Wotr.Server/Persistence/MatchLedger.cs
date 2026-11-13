@@ -9,7 +9,8 @@ public enum MatchKind
     Test,
     Demo,
     // RANK-04: a ranked match between two people, started by the server.
-    Ranked
+    Ranked,
+    Pve
 }
 
 // ADMIN-01: every match that ever started and every table that was set, kept apart from the live rows so the admin
@@ -47,6 +48,7 @@ public static class MatchLedger
         MatchKind.Test => "test",
         MatchKind.Demo => "demo",
         MatchKind.Ranked => "ranked",
+        MatchKind.Pve => "pve",
         _ => "game"
     };
 }

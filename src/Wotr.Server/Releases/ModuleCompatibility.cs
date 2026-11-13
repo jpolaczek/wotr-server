@@ -29,6 +29,9 @@ public static class ModuleCompatibility
         Func<EndpointFilterInvocationContext, Task<MatchConfiguration?>> configurationOf)
     {
         var http = context.HttpContext;
+        // Authenticated bot capability checks ran in BotAccessGate; Unity release numbering does not apply.
+        if (BotIdentity.Of(http) is not null)
+            return await next(context);
         var policy = http.RequestServices.GetRequiredService<ModuleClientPolicy>();
         if (!policy.Restricts)
             return await next(context);
