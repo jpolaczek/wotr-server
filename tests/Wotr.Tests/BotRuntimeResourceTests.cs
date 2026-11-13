@@ -55,7 +55,8 @@ public sealed class BotRuntimeResourceTests(ITestOutputHelper output)
         var before = await fixture.Scalar("SELECT state::text FROM matches");
         await fixture.Execute("UPDATE bot_runtime_jobs SET memory='preview-loop'");
         await fixture.Expire(work);
-        var options = package.Options(fixture.Settings) with { MaximumWork = 900 };
+        // The shared test host's live heap is no CPU host's: the memory gate (BOT-20) is not what this test measures.
+        var options = package.Options(fixture.Settings) with { MaximumWork = 900, MemoryPressureBytes = 1024L * 1024 * 1024 };
         using var metrics = new BotHostMetrics(options);
         using var scheduler = ActivatorUtilities.CreateInstance<BotScheduler>(fixture.Host.Services, options, metrics);
         await scheduler.StartAsync(default);

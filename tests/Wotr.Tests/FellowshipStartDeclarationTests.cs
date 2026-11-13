@@ -21,7 +21,8 @@ public class FellowshipStartDeclarationTests
     private static readonly string[] StateBookkeeping =
         ["revision", "decisionSequence", "pending.id", "fellowship.lastDeclarationTurn", "events"];
 
-    private static readonly string[] ViewBookkeeping = ["revision", "decision.id", "history"];
+    // The CPU's action boundary repeats fellowship.lastDeclarationTurn for this turn (bookkeeping like the state's own).
+    private static readonly string[] ViewBookkeeping = ["revision", "decision.id", "history", "actionBoundary.fellowshipDeclaredThisTurn"];
 
     private static readonly GameEngine Engine = GameRuntime.Engine(EffectCatalog.All);
     private static readonly Projection Views = GameRuntime.Projection(EffectCatalog.All);

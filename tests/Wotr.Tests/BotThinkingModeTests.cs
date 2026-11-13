@@ -64,7 +64,8 @@ public sealed class BotThinkingModeTests
         await using var fixture = await BotHostFixture.Create(package.Settings());
         var (_, _, work) = await fixture.Game(mode: mode);
         await fixture.Expire(work);
-        var options = package.Options(fixture.Settings) with { MaximumWork = 900 };
+        // The shared test host's live heap is no CPU host's: the memory gate (BOT-20) is not what this test measures.
+        var options = package.Options(fixture.Settings) with { MaximumWork = 900, MemoryPressureBytes = 1024L * 1024 * 1024 };
         using var metrics = new BotHostMetrics(options);
         using var scheduler = ActivatorUtilities.CreateInstance<BotScheduler>(fixture.Host.Services, options, metrics);
         await scheduler.StartAsync(default);
