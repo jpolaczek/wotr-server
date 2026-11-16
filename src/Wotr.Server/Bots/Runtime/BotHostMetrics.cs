@@ -18,7 +18,8 @@ public sealed class BotHostMetrics(BotHostOptions options) : IDisposable
         "BotConfigurationUnsupported", "MemoryIncompatible", "RuntimeTimeout", "RuntimeRefused", "PreviewLimit",
         "CommandRejected", "HostFailure", "ContextTooLarge", "StaleWork", "Drained", "MemoryPressure",
         "NotConfigured", "Unavailable", "Incompatible", "LoadFailed", "PackageRequired", "PackageInvalid", "PolicyUnavailable",
-        // BOT-225: the protocol seat's outcomes; every one but Answered and Forced hands the decision to the runtime.
+        // BOT-225: the protocol seat's outcomes; every one but Answered and Forced leaves the decision waiting (owner,
+        // 2026-11-17: the scripted runtime never plays for AlphaWOTR).
         "ProtocolAnswered", "ProtocolForced", "ProtocolNoQuestion", "ProtocolSidecarUnavailable", "ProtocolSidecarLost",
         "ProtocolTimeout", "ProtocolIllegalAnswer", "ProtocolStale"];
     private Counter<long>? outcomeCounter;

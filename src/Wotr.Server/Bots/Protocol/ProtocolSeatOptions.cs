@@ -3,9 +3,9 @@ using System.Text.Json.Nodes;
 namespace Wotr.Server;
 
 // BOT-225 (owner, 2026-11-16, R32): the operator's AlphaWOTR sidecar. A CPU seat of a base game plays through the WotR Bot
-// Protocol with the sidecar at Host:Port (one TCP connection per game, the sidecar starting one bot per connection); the
-// scripted runtime answers only when the seat cannot (every such answer is a defect, counted and logged). The time a
-// decision may take is AlphaWOTR's own (BOT-220 sets it from the production host's measurements).
+// Protocol with the sidecar at Host:Port (one TCP connection per game, the sidecar starting one bot per connection). The
+// scripted runtime never plays in its place (owner, 2026-11-17): a decision the seat cannot answer waits with its error and
+// is asked again. The time a decision may take is AlphaWOTR's own (BOT-220 sets it from the production host's measurements).
 public sealed record ProtocolSeatOptions(bool Enabled, string Host, int Port, TimeSpan ConnectTimeout, TimeSpan DecisionTimeout,
     IReadOnlyDictionary<string, JsonNode?> BotOptions)
 {

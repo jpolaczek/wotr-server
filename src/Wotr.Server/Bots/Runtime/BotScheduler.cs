@@ -113,23 +113,28 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
             await protocol.Finished(request.Player, stopping);
         if (request.Player.Winner is not null || request.Player.DecisionOwner != work.Side || request.Player.Decision is null)
             return "";
-        // BOT-225: a base game's CPU seat plays through the protocol sidecar; the runtime below answers only when the seat
-        // cannot, and every such answer is counted and logged (owner: each one is a defect).
+        // BOT-225: a base game's CPU seat plays through the protocol sidecar (AlphaWOTR). Owner, 2026-11-17: the scripted
+        // runtime never plays in its place. When the seat cannot answer, the decision is released with its error (the
+        // seat shows as unavailable, the operator's log has the error) and the same decision is asked again until AlphaWOTR
+        // answers it: the game waits, it is never played by another engine.
         if (protocol.Handles(request.Player))
         {
             var state = await inputs.ReadState(work, stopping) ?? throw new BotWorkExpiredException();
             var result = await protocol.Decide(request.Player, state, request.InvocationId, stopping);
-            metrics.Outcome("Protocol" + result.Outcome);
-            if (result.Command is { } chosen)
+            if (result.Outcome == "Stale")
+                throw new BotWorkExpiredException();
+            if (result.Command is not { } chosen)
             {
-                await jobs.StageProtocol(work, request, chosen, input.HistoryPosition, stopping);
-                var applied = await Apply(work, chosen, stopping);
-                if (applied.Length == 0)
-                    await protocol.Applied(request.Player, chosen, stopping);
-                return applied;
+                logger.LogError("AlphaWOTR could not answer {Kind} at revision {Revision} of match {Match} ({Outcome}); the game waits.",
+                    request.Player.Decision.Kind, request.Player.Revision, work.MatchId, result.Outcome);
+                return "Protocol" + result.Outcome;
             }
-            logger.LogWarning("The scripted runtime answers {Kind} at revision {Revision} for the protocol seat: {Outcome}.",
-                request.Player.Decision.Kind, request.Player.Revision, result.Outcome);
+            metrics.Outcome("Protocol" + result.Outcome);
+            await jobs.StageProtocol(work, request, chosen, input.HistoryPosition, stopping);
+            var applied = await Apply(work, chosen, stopping);
+            if (applied.Length == 0)
+                await protocol.Applied(request.Player, chosen, stopping);
+            return applied;
         }
         var compute = TimeSpan.Zero;
         metrics.QueueWait(work.QueueSeconds);

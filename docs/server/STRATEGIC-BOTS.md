@@ -24,10 +24,12 @@ base game. What changes against the sections below:
   from the server's options, not from private code.
 - **Information.** The seat sends only the CPU side's own projection, options and
   visible history (R11), as the runtime receives today.
-- **Coverage.** AlphaWOTR makes every decision of its seat. The scripted runtime stays
-  installed only as a safety net so a game never stops; a decision it answers is a
-  defect (dumped for replay, a regression test and a fix), never an accepted rate.
-  A decision with a single legal option (a reroll the rules make) is not a decision.
+- **Coverage.** AlphaWOTR makes every decision of its seat. Owner, 2026-11-17: the
+  scripted runtime never plays in its place. When the seat cannot answer, the game
+  waits: the player sees the CPU's error, the operator's log has it, and the same
+  decision is asked again until AlphaWOTR answers it. Such a stop should never happen;
+  each one is a defect (dumped for replay, a regression test and a fix). A decision
+  with a single legal option (a reroll the rules make) is not a decision.
 - **Time.** AlphaWOTR has its own decision budget, set from measurements on the
   production host; the 3 s / 5 s budget below applies to the scripted runtime.
 - **Saves.** CPU games saved before the switch finish with the runtime that began
@@ -63,11 +65,14 @@ Public code in `src/Wotr.Domain/BotProtocol` (the rules side) and
   decisions and opened again (`new_game`, then the turn's start) after a restart or a
   lost connection. The command is journalled like the runtime's, the runtime's memory
   unchanged.
-- **Safety net.** When the seat cannot answer (no sidecar, a lost connection, its clock
-  run out, a second illegal answer, a decision without a question) the scripted
-  runtime answers and the host counts the outcome (`ProtocolSidecarUnavailable`,
+- **No other engine.** When the seat cannot answer (no sidecar, a lost connection, its
+  clock run out, a second illegal answer, a decision without a question) nothing is
+  played: the host releases the decision with its error (`ProtocolSidecarUnavailable`,
   `ProtocolSidecarLost`, `ProtocolTimeout`, `ProtocolIllegalAnswer`,
-  `ProtocolNoQuestion`) and logs it; the owner counts each one as a defect.
+  `ProtocolNoQuestion` in the job's last error and the host's counters), the CPU seat
+  shows as unavailable, the operator's log has the error, and the same decision is
+  asked again after the retry interval (owner, 2026-11-17: the scripted runtime never
+  plays for AlphaWOTR). The player-facing message during a game is UI-540's.
 - **Settings** (`Wotr:Bots:Protocol`): `Enabled`, `Host` (127.0.0.1), `Port` (7311),
   `Sims` (the bot's declared option), `DecisionSeconds` (AlphaWOTR's clock for one of
   our decisions, 60 until BOT-220's measurements set it), `ConnectSeconds`,

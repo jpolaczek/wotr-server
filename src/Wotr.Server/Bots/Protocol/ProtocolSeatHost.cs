@@ -9,7 +9,8 @@ using Wotr.Domain.BotProtocol;
 
 namespace Wotr.Server;
 
-// What one protocol decision came to: the command the bot's answers complete, or why the runtime must answer instead.
+// What one protocol decision came to: the command the bot's answers complete, or why there is none (the decision then
+// waits and is asked again; no other engine answers it).
 public sealed record ProtocolSeatResult(GameCommand? Command, string Outcome, int Questions, double Seconds);
 
 // BOT-225: the CPU seats that play through the WotR Bot Protocol. One session per game and side with the operator's
