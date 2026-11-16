@@ -26,12 +26,8 @@ public static class ProtocolBattleQuestions
             yield return path;
         foreach (var card in option.EligibleIds)
         {
-            var command = new[]
-            {
-                context.Command(CommandKind.CommitCombatCard, new CommandPayload { Ids = new List<string> { card } }),
-                context.Command(CommandKind.CommitCombatCard, new CommandPayload { CardId = card })
-            }.FirstOrDefault(context.Legal);
-            if (command is not null)
+            var command = context.Command(CommandKind.CommitCombatCard, new CommandPayload { CardId = card });
+            if (context.Legal(command))
                 yield return new ProtocolPath(new ProtocolStep("COMBAT_CARD", ProtocolAtom.Of("combat_card", ("card", context.Card(card))),
                     "Play " + CardCatalog.Title(card), battle), command);
         }

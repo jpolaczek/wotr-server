@@ -10,7 +10,8 @@ public static class ProtocolCardQuestions
     {
         if (context.Option(CommandKind.DiscardCards) is not { } option)
             return Enumerable.Empty<ProtocolPath>();
-        var count = Math.Max(option.Minimum, context.View.Decision!.RequiredCount);
+        // One card per question: a discard of fewer cards than required reopens the decision for the next one.
+        var count = 1;
         // The same cards in another order are the same command: judged once.
         var judged = new Dictionary<string, bool>(StringComparer.Ordinal);
         bool Legal(GameCommand command)

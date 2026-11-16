@@ -1,0 +1,102 @@
+using System.Text.Json.Nodes;
+using Wotr.Contracts;
+using Wotr.Domain.Content;
+
+namespace Wotr.Domain.BotProtocol;
+
+// BOT-225: a card's recruitment (an EffectChoice with a recruitment plan): one figure per CARD_CHOICE, named by its region
+// and unit ("minas-tirith:REGULAR") with the region, Nation and unit as typed fields, until the card's count is placed.
+public static class ProtocolCardRecruitQuestions
+{
+    private sealed record Figure(string Region, string Nation, UnitKind Kind);
+
+    public static IEnumerable<ProtocolPath> For(ProtocolContext context, ActionOption option)
+    {
+        var plan = new Plan(context, option);
+        var node = plan.First();
+        return node.Branches.Select(b => b.Terminal
+            ? new ProtocolPath(new ProtocolStep(node.Question, b.Atom, b.Text, node.Context), b.Command!)
+            : new ProtocolPath(new ProtocolStep(node.Question, b.Atom, b.Text, node.Context), () => b.Next));
+    }
+
+    private sealed class Plan(ProtocolContext context, ActionOption option)
+    {
+        private readonly string card = context.View.Decision?.SourceId ?? "";
+        private readonly int count = Math.Max(1, Math.Max(option.Minimum, option.Maximum));
+        private readonly Dictionary<string, bool> judged = new(StringComparer.Ordinal);
+
+        public ProtocolNode First() => Node(new List<Figure>());
+
+        private ProtocolNode Node(IReadOnlyList<Figure> placed)
+        {
+            var branches = new List<ProtocolBranch>();
+            if (placed.Count >= option.Minimum && placed.Count > 0 && placed.Count < count && Legal(placed))
+                branches.Add(new ProtocolBranch(ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", "done"), ("skip", true)),
+                    "No more figures", Command(placed)));
+            foreach (var figure in Figures(placed))
+            {
+                var next = placed.Append(figure).ToList();
+                if (!Completable(next))
+                    continue;
+                var region = context.Region(figure.Region);
+                var unit = ProtocolVocabulary.Unit(figure.Kind);
+                var atom = ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", region + ":" + unit.ToUpperInvariant()),
+                    ("region", region), ("nation", context.Nation(figure.Nation)), ("unit", unit));
+                var text = $"A {figure.Kind} of {figure.Nation} in {figure.Region}";
+                branches.Add(next.Count >= count ? new ProtocolBranch(atom, text, Command(next)) : new ProtocolBranch(atom, text, () => Node(next)));
+            }
+            return new ProtocolNode("CARD_CHOICE", new JsonObject
+            {
+                ["card"] = context.Card(card), ["question"] = CardCatalog.Title(card) + ": recruit a figure"
+            }, branches);
+        }
+
+        // The figures a limit still allows, with a reserve figure left.
+        private IEnumerable<Figure> Figures(IReadOnlyList<Figure> placed)
+        {
+            var limits = option.EventRecruitment?.Limits ?? new List<RecruitmentLimit>();
+            foreach (var limit in limits)
+                foreach (var kind in limit.Kinds)
+                {
+                    var figure = new Figure(limit.RegionId, limit.Nation, kind);
+                    var here = placed.Count(p => p.Region == limit.RegionId && p.Nation == limit.Nation && limit.Kinds.Contains(p.Kind));
+                    var reserve = Reserve(limit.Nation, kind).Count - placed.Count(p => p.Nation == limit.Nation && p.Kind == kind);
+                    if ((limit.Maximum == 0 || here < limit.Maximum) && reserve > 0)
+                        yield return figure;
+                }
+        }
+
+        private IReadOnlyList<string> Reserve(string nation, UnitKind kind) =>
+            option.Recruitment.FirstOrDefault(r => r.Nation == nation && r.Kind == kind)?.ReserveIds ?? new List<string>();
+
+        // Filling the rest with the first figures allowed (or the last ones) makes a legal plan.
+        private bool Completable(IReadOnlyList<Figure> placed)
+        {
+            foreach (var last in new[] { false, true })
+            {
+                var plan = placed.ToList();
+                while (plan.Count < count && Figures(plan).ToList() is { Count: > 0 } open)
+                    plan.Add(last ? open[^1] : open[0]);
+                if (plan.Count >= option.Minimum && Legal(plan))
+                    return true;
+            }
+            return false;
+        }
+
+        private bool Legal(IReadOnlyList<Figure> placed)
+        {
+            var key = string.Join(",", placed.Select(p => p.Region + ":" + p.Nation + ":" + p.Kind));
+            return judged.TryGetValue(key, out var legal) ? legal : judged[key] = context.Legal(Command(placed));
+        }
+
+        private GameCommand Command(IReadOnlyList<Figure> placed)
+        {
+            var used = new HashSet<string>(StringComparer.Ordinal);
+            var placements = placed.Select(p => new UnitPlacementChoice
+            {
+                RegionId = p.Region, UnitId = Reserve(p.Nation, p.Kind).FirstOrDefault(id => used.Add(id)) ?? ""
+            }).ToList();
+            return context.Command(CommandKind.ChooseEffect, new CommandPayload { Placements = placements });
+        }
+    }
+}

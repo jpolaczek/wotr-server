@@ -57,7 +57,7 @@ public static class ProtocolHuntQuestions
             var routes = paths.GetValueOrDefault(target) ?? new List<List<string>>();
             if (target == start)
                 routes.Insert(0, new List<string> { start });
-            var legal = routes.Select(route => context.Command(CommandKind.RevealFellowship, new CommandPayload { Route = route, RegionId = target }))
+            var legal = routes.Select(route => context.Command(CommandKind.RevealFellowship, new CommandPayload { Route = route }))
                 .FirstOrDefault(context.Legal);
             if (legal is not null)
                 yield return new ProtocolPath(new ProtocolStep("REVEAL_FELLOWSHIP",
@@ -72,12 +72,18 @@ public static class ProtocolHuntQuestions
             yield return path;
         if (context.Option(CommandKind.DeclareFellowship) is { } declare)
         {
-            var targets = declare.Targets.Count > 0 ? declare.Targets : new List<string> { context.View.Fellowship.RegionId };
+            var start = context.View.Fellowship.RegionId;
+            var range = declare.Travel.FirstOrDefault()?.Range ?? context.View.Fellowship.Progress;
+            var targets = declare.Targets.Count > 0 ? declare.Targets : new List<string> { start };
             foreach (var region in targets)
-                foreach (var path in context.One("FELLOWSHIP_PHASE", ProtocolAtom.Of("declare", ("region", context.Region(region))),
-                             "Declare the Fellowship in " + region,
-                             context.Command(CommandKind.DeclareFellowship, new CommandPayload { RegionId = region })))
-                    yield return path;
+            {
+                var command = ProtocolRoutes.Between(start, region, range)
+                    .Select(route => context.Command(CommandKind.DeclareFellowship, new CommandPayload { Route = route }))
+                    .FirstOrDefault(context.Legal);
+                if (command is not null)
+                    yield return new ProtocolPath(new ProtocolStep("FELLOWSHIP_PHASE", ProtocolAtom.Of("declare", ("region", context.Region(region))),
+                        "Declare the Fellowship in " + region), command);
+            }
         }
         if (context.Option(CommandKind.EnterMordor) is not null)
             foreach (var path in context.One("FELLOWSHIP_PHASE", ProtocolAtom.Of("enter_mordor"), "Enter Mordor",

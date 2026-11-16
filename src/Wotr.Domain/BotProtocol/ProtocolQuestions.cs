@@ -79,6 +79,15 @@ public static class ProtocolQuestions
         DecisionKind.BattleRetreat => ProtocolBattleQuestions.Retreat(context),
         DecisionKind.StrongholdDefense => ProtocolBattleQuestions.FieldOrSiege(context),
         DecisionKind.DiscardCards => ProtocolCardQuestions.Discard(context),
+        DecisionKind.Action => ProtocolActionQuestions.For(context),
+        DecisionKind.Losses => ProtocolLossQuestions.Casualties(context),
+        DecisionKind.RemoveExcess => ProtocolLossQuestions.Excess(context),
+        DecisionKind.BattleAdvance => ProtocolArmyQuestions.Advance(context),
+        DecisionKind.ArmyEvent => ProtocolArmyQuestions.Event(context),
+        DecisionKind.CharacterEvent => ProtocolCharacterQuestions.MinionEvent(context),
+        DecisionKind.CompanionSeparation => ProtocolCharacterQuestions.Separation(context),
+        DecisionKind.EffectChoice => ProtocolEffectQuestions.Choice(context),
+        DecisionKind.Reaction => ProtocolEffectQuestions.Reaction(context),
         _ => Enumerable.Empty<ProtocolPath>()
     };
 
