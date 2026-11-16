@@ -170,6 +170,14 @@ public sealed class BotProtocolSessionTests(ITestOutputHelper output)
             string.Join(", ", outcomes.Select(o => $"{o.Key} {o.Value}")));
         Assert.Equal(1, bot.Connections);
         Assert.True(outcomes.Keys.All(k => k is "Answered" or "Forced"));
+        // The bot reads its socket on its own task: the end of the game reaches it a moment after the host sent it.
+        for (var wait = 0; wait < 100 && state.Winner is not null; wait++)
+        {
+            lock (bot.Received)
+                if (bot.Received.Any(m => (string?)m["type"] == "game_over"))
+                    break;
+            await Task.Delay(50);
+        }
         lock (bot.Received)
         {
             Assert.Contains(bot.Received, m => (string?)m["type"] == "event" && (string?)m["event"]!["kind"] == "turn_started");
