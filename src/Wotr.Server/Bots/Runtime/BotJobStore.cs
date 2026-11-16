@@ -89,12 +89,24 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
             ? JsonSerializer.Deserialize<GameCommand>(json, BoardCatalog.Json) : null;
     }
 
+    // BOT-225: a protocol seat's decision is journalled like the runtime's, its memory left as it was (the runtime that
+    // may answer later continues from its own last memory).
+    public Task StageProtocol(BotWork work, BotRuntimeRequest input, GameCommand command, long historyPosition,
+        CancellationToken cancellation = default)
+    {
+        if (command.CommandId != input.InvocationId || command.MatchId != work.MatchId || command.ExpectedRevision != input.Player.Revision ||
+            command.DecisionId != input.Player.Decision?.Id || !CommandShape.IsValid(command))
+            throw new ArgumentException("Invalid protocol proposal.");
+        return Stage(work, input, new BotRuntimeResponse(BotRuntimeProtocol.Version, input.InvocationId, "Proposal", "Protocol",
+            [], work.PolicyVersion, command, work.Memory), historyPosition, cancellation, protocol: true);
+    }
+
     public async Task Stage(BotWork work, BotRuntimeRequest input, BotRuntimeResponse proposal,
-        long historyPosition, CancellationToken cancellation = default)
+        long historyPosition, CancellationToken cancellation = default, bool protocol = false)
     {
         if (input.MatchId != work.MatchId || input.Side != work.Side || input.Memory != work.Memory ||
             proposal.Status != "Proposal" || proposal.PolicyVersion != work.PolicyVersion ||
-            !BotRuntimeProtocol.Valid(proposal, input) || !CommandShape.IsValid(proposal.Command!))
+            !protocol && !BotRuntimeProtocol.Valid(proposal, input) || !CommandShape.IsValid(proposal.Command!))
             throw new ArgumentException("Invalid bot proposal.");
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         await using var transaction = await connection.BeginTransactionAsync(cancellation);
@@ -114,7 +126,7 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
             WHERE bot_runtime_proposals.status<>'pending'
             """, work.AssignmentId, input.InvocationId, work.MemoryVersion, historyPosition,
             JsonSerializer.Serialize(proposal.Command, BoardCatalog.Json), CommandFingerprint.Create(proposal.Command!),
-            proposal.ProposedMemory!, work.MatchId, work.RuntimeVersion, work.PolicyVersion, work.ParticipantId);
+            (object?)proposal.ProposedMemory ?? DBNull.Value, work.MatchId, work.RuntimeVersion, work.PolicyVersion, work.ParticipantId);
         if (await stage.ExecuteNonQueryAsync(cancellation) != 1)
             throw new BotWorkExpiredException();
         await transaction.CommitAsync(cancellation);

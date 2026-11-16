@@ -6,7 +6,7 @@ namespace Wotr.Server;
 // Durable polling also recovers work without any player opening the match.
 public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities capabilities,
     BotJobStore jobs, BotInputStore inputs, RoomStore rooms, MatchStore matches, RevisionHub hub,
-    ILogger<BotScheduler> logger, BotHostMetrics metrics) : BackgroundService
+    ILogger<BotScheduler> logger, BotHostMetrics metrics, ProtocolSeatHost protocol) : BackgroundService
 {
     protected override Task ExecuteAsync(CancellationToken stopping) => !options.Enabled
         ? Task.CompletedTask : Task.WhenAll(Enumerable.Range(0, options.Workers).Select(_ => Worker(stopping)));
@@ -109,8 +109,28 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
         // Re-submit an exact journal entry before asking for any new decision, even after a turn changed.
         if (pending is not null)
             return await Apply(work, pending, stopping);
+        if (request.Player.Winner is not null)
+            await protocol.Finished(request.Player, stopping);
         if (request.Player.Winner is not null || request.Player.DecisionOwner != work.Side || request.Player.Decision is null)
             return "";
+        // BOT-225: a base game's CPU seat plays through the protocol sidecar; the runtime below answers only when the seat
+        // cannot, and every such answer is counted and logged (owner: each one is a defect).
+        if (protocol.Handles(request.Player))
+        {
+            var state = await inputs.ReadState(work, stopping) ?? throw new BotWorkExpiredException();
+            var result = await protocol.Decide(request.Player, state, request.InvocationId, stopping);
+            metrics.Outcome("Protocol" + result.Outcome);
+            if (result.Command is { } chosen)
+            {
+                await jobs.StageProtocol(work, request, chosen, input.HistoryPosition, stopping);
+                var applied = await Apply(work, chosen, stopping);
+                if (applied.Length == 0)
+                    await protocol.Applied(request.Player, chosen, stopping);
+                return applied;
+            }
+            logger.LogWarning("The scripted runtime answers {Kind} at revision {Revision} for the protocol seat: {Outcome}.",
+                request.Player.Decision.Kind, request.Player.Revision, result.Outcome);
+        }
         var compute = TimeSpan.Zero;
         metrics.QueueWait(work.QueueSeconds);
         for (var round = 0; round < 3; round++)

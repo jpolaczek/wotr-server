@@ -69,6 +69,17 @@ public sealed class BotInputStore(Database database, Projection projection, Prev
         };
     }
 
+    // BOT-225: the match's state for the protocol seat's judge (the engine's validation of the real decision); it never
+    // leaves the server.
+    public async Task<MatchState?> ReadState(BotWork work, CancellationToken cancellation = default)
+    {
+        await using var connection = await database.Source.OpenConnectionAsync(cancellation);
+        await using var transaction = await connection.BeginTransactionAsync(IsolationLevel.RepeatableRead, cancellation);
+        var match = await ReadMatch(connection, transaction, work, cancellation);
+        await transaction.CommitAsync(cancellation);
+        return match?.State;
+    }
+
     private static async Task<AuthorizedMatch?> ReadMatch(NpgsqlConnection connection, NpgsqlTransaction transaction,
         BotWork work, CancellationToken cancellation)
     {
