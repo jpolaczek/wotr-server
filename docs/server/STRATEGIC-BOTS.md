@@ -35,6 +35,50 @@ base game. What changes against the sections below:
 - **Versions.** AlphaWOTR is pinned by commit and file hashes; a newer version is a
   new task with its own acceptance.
 
+### The protocol seat (BOT-225)
+
+Public code in `src/Wotr.Domain/BotProtocol` (the rules side) and
+`src/Wotr.Server/Bots/Protocol` (the host side), written from the protocol's SPEC
+(draft 0.2, base game of 0.1) and the server's own options.
+
+- **Questions.** `ProtocolQuestions` writes the CPU's current decision as the
+  protocol's atomic questions (SPEC §4-§5). Every option is a prefix of a complete
+  command the engine accepts: complete commands and witnesses of partial ones are
+  judged by `GameEngine.Validate` on the match's own state, so a bot can never answer
+  into a dead end. Larger families are built only for the option the bot takes:
+  RECRUIT figure by figure; ARMY_MOVE/CHOOSE_ATTACK Army by Army with ARMY_SELECTION
+  per Nation and unit kind (absolute counts) and per Character; MOVE_COMPANIONS with
+  JOIN_GROUP; SEPARATE_COMPANIONS; MOVE_MINIONS (select, then move); CASUALTY one hit
+  at a time; card effects, card recruitments and the table cards' reactions as
+  CARD_CHOICE; WHITE_RIDER, GUIDE_ABILITY and the bonus draws. Routes the options leave
+  open are searched on the base map. A decision with one legal answer asks nothing;
+  rerolls follow the rule (every miss allowed is rolled again), as protocol 0.1's
+  referee does.
+- **View and events.** `ProtocolView` writes SPEC §7 from the CPU side's projection
+  only (R11). The host sends the events the bot follows: `turn_started`, `die_used`
+  for the seat's own dice, the Fellowship's move, hiding and entry to Mordor, and
+  `game_over`.
+- **Sessions.** One TCP session per game and side with the operator's sidecar
+  (`scripts/protocol_sidecar.py` starts one bot process per connection), kept between
+  decisions and opened again (`new_game`, then the turn's start) after a restart or a
+  lost connection. The command is journalled like the runtime's, the runtime's memory
+  unchanged.
+- **Safety net.** When the seat cannot answer (no sidecar, a lost connection, its clock
+  run out, a second illegal answer, a decision without a question) the scripted
+  runtime answers and the host counts the outcome (`ProtocolSidecarUnavailable`,
+  `ProtocolSidecarLost`, `ProtocolTimeout`, `ProtocolIllegalAnswer`,
+  `ProtocolNoQuestion`) and logs it; the owner counts each one as a defect.
+- **Settings** (`Wotr:Bots:Protocol`): `Enabled`, `Host` (127.0.0.1), `Port` (7311),
+  `Sims` (the bot's declared option), `DecisionSeconds` (AlphaWOTR's clock for one of
+  our decisions, 60 until BOT-220's measurements set it), `ConnectSeconds`,
+  `IdleSessionMinutes`. Only base games are asked (no expansion, no variant).
+- **Checks.** `BotProtocolVocabularyTests` (the vocabulary one to one against
+  `vocabulary-0.1.json`, the fingerprint), `BotProtocolSeatTests` (whole base games
+  answered at random through the seat on one side and on both: every command
+  accepted, no decision without a question), `BotProtocolSessionTests` (the session
+  over TCP, whole games through `ProtocolSeatHost` behind a socket, the view never
+  carrying the opponent's hand).
+
 ## Product and ownership
 
 - The operator installs the private runtime beside the game server. Public source,
