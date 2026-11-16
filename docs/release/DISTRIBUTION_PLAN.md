@@ -364,7 +364,8 @@ works against a new server and a new client's Find game needs the new routes.
    keep working unchanged until the client below raises the minimum: they ignore the views' new fields. The one exception would
    be a client from before this release reading My games on an account that has finished a ranked game, since it does not know
    `VictoryCondition.Conceded` or `TimedOut`; the required update closes that.
-   Migration 022 gives every account the Eye or the Ring.
+   Migration 022 gives every account the Eye or the Ring (AVATAR-03's migration 027 later replaces both with a nation's
+   soldier drawn at random).
    **Restart `web` after the checkout** (`infra/production.sh restart web`): nginx mounts `game.conf` and
    `security-headers.conf` as single files, so a running container keeps the old file after a checkout replaces it, and without
    the restart `/account` is not served. Check the new file first with `nginx -t` in a disposable container. The `site` folder is

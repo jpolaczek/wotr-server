@@ -49,14 +49,18 @@ public sealed class AvatarTests(ClockDatabase database) : IClassFixture<ClockDat
 
     private static RoomStore Rooms(AccountHost host) => host.Services.GetRequiredService<RoomStore>();
 
+    // AVATAR-03 (owner, 2026-11-17): every soldier is drawn, and never the retired Eye or Ring.
     [PostgresFact]
-    public async Task RegistrationsDrawBothDefaultsAndNothingElse()
+    public async Task RegistrationsDrawEverySoldierAndNothingElse()
     {
         using var host = Host();
         var avatars = new HashSet<string>();
         for (var index = 0; index < 200; index++)
             avatars.Add((await MenuAccounts.Register(host)).Avatar);
-        Assert.Equal(new HashSet<string> { AvatarIds.Eye, AvatarIds.Ring }, avatars);
+        Assert.Equal(AvatarIds.All.ToHashSet(), avatars);
+        Assert.Equal(8, AvatarIds.All.Count);
+        Assert.DoesNotContain(AvatarIds.Eye, AvatarIds.All);
+        Assert.DoesNotContain(AvatarIds.Ring, AvatarIds.All);
     }
 
     [PostgresFact]
@@ -99,6 +103,8 @@ public sealed class AvatarTests(ClockDatabase database) : IClassFixture<ClockDat
     [InlineData("gandalf")]
     [InlineData("")]
     [InlineData("EYE")]
+    [InlineData("eye")]
+    [InlineData("ring")]
     [InlineData(null)]
     public async Task AnUnknownAvatarIsRefusedAndTheOldOneStays(string? avatar)
     {
@@ -367,6 +373,49 @@ public sealed class AvatarTests(ClockDatabase database) : IClassFixture<ClockDat
             await using var session = Database.Command(connection, null,
                 "INSERT INTO sessions(token_hash,account_id,expires_at,purpose) VALUES ('hash','legacy0',now(),'account')");
             Assert.Equal(1, await session.ExecuteNonQueryAsync());
+        }
+        finally
+        {
+            await using var drop = admin.CreateCommand("DROP SCHEMA " + schema + " CASCADE");
+            await drop.ExecuteNonQueryAsync();
+        }
+    }
+
+    // AVATAR-03: migration 027 gives every account with the Eye or the Ring a soldier, refuses both afterwards, and gives a
+    // plain insert a soldier.
+    [PostgresFact]
+    public async Task TheSoldiersMigrationReplacesTheEyeAndTheRing()
+    {
+        await using var admin = NpgsqlDataSource.Create(database.Connection);
+        var schema = "soldiers_" + Guid.NewGuid().ToString("N");
+        await using (var create = admin.CreateCommand("CREATE SCHEMA " + schema))
+            await create.ExecuteNonQueryAsync();
+        try
+        {
+            var settings = new NpgsqlConnectionStringBuilder(database.Connection) { SearchPath = schema };
+            await using var data = NpgsqlDataSource.Create(settings.ConnectionString);
+            await using var connection = await data.OpenConnectionAsync();
+            await ApplyMigrations(connection, version => version < 27);
+            for (var index = 0; index < 80; index++)
+            {
+                await using var insert = Database.Command(connection, null,
+                    "INSERT INTO accounts(id,username,normalized_name,password_hash,is_admin,avatar) VALUES ($1,$2,$3,'legacy',false,$4)",
+                    "legacy" + index, "legacy_" + index, "LEGACY_" + index, index % 3 == 0 ? "eye" : index % 3 == 1 ? "ring" : "rohan");
+                await insert.ExecuteNonQueryAsync();
+            }
+
+            await ApplyMigrations(connection, version => version == 27);
+
+            await using var read = connection.CreateCommand();
+            read.CommandText = "SELECT string_agg(DISTINCT avatar, ',' ORDER BY avatar) FROM accounts";
+            var drawn = ((string)(await read.ExecuteScalarAsync())!).Split(',');
+            Assert.Subset(AvatarIds.All.ToHashSet(), drawn.ToHashSet());
+            Assert.True(drawn.Length > 3, string.Join(",", drawn));
+            await using var plain = Database.Command(connection, null,
+                "INSERT INTO accounts(id,username,normalized_name,password_hash,is_admin) VALUES ('plain','plain','PLAIN','x',false) RETURNING avatar");
+            Assert.Contains((string)(await plain.ExecuteScalarAsync())!, AvatarIds.All);
+            await using var eye = Database.Command(connection, null, "UPDATE accounts SET avatar='eye' WHERE id='plain'");
+            await Assert.ThrowsAsync<PostgresException>(() => eye.ExecuteNonQueryAsync());
         }
         finally
         {

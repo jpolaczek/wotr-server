@@ -154,8 +154,6 @@ function reset() {
 // AVATAR-02 (AVATAR-01 A4-A6): the account page. Its token lives in this variable only, never in storage or the address, so
 // a reload asks for the password again. A click on an avatar saves it at once; a refusal keeps the old one and says why.
 const AVATARS = [
-  ["eye", "The Eye"],
-  ["ring", "The Ring"],
   ["gondor", "Soldier of Gondor"],
   ["rohan", "Soldier of Rohan"],
   ["elves", "Elven warrior"],

@@ -165,8 +165,8 @@ public sealed class AccountService(Database database, AccountRecovery recovery, 
         await command.ExecuteNonQueryAsync(cancellation);
     }
 
-    // AVATAR-01 A2: the Eye or the Ring, half each; the account page changes it later.
-    private static string DefaultAvatar() => AvatarDraw.Next(2) == 0 ? AvatarIds.Eye : AvatarIds.Ring;
+    // AVATAR-03 (owner, 2026-11-17): one of all the avatars, each equally likely; the account page changes it later.
+    private static string DefaultAvatar() => AvatarIds.All[AvatarDraw.Next(AvatarIds.All.Count)];
 
     private sealed record Account(string Id, string Username, string Hash);
 
