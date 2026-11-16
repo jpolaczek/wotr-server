@@ -6,6 +6,35 @@ by the game server, not another server or network worker. Two scripted policies,
 Shadow and Free Peoples, share modular mechanics. The legacy CPU remains separate
 in [DEMO-MODE](DEMO-MODE.md). Neither strategic policy is ready for play yet.
 
+## AlphaWOTR — owner update 2026-11-16
+
+The owner's decisions (registry BOT-219): the CPU opponent becomes AlphaWOTR
+(github.com/Weyoun5/AlphaWOTR, MIT, Sarvesh Sadana), a neural search bot for the
+base game. What changes against the sections below:
+
+- **Rooms.** A vs-CPU room is the base game only: no expansion and no variant can be
+  chosen; the human chooses the faction. The client names the CPU and credits
+  AlphaWOTR and its licence. There is no choice between CPU opponents.
+- **Process.** The operator runs a pinned, unmodified AlphaWOTR as a local sidecar
+  (its own container on the internal network, no internet, licences kept). The game
+  server talks to it through a public WotR Bot Protocol seat
+  (github.com/behindmedia/wotr-protocol): the seat writes the server's own legal
+  options as the protocol's questions, step by step, and sends its answer back as an
+  ordinary command for validation. The seat is public code; it builds its questions
+  from the server's options, not from private code.
+- **Information.** The seat sends only the CPU side's own projection, options and
+  visible history (R11), as the runtime receives today.
+- **Coverage.** AlphaWOTR makes every decision of its seat. The scripted runtime stays
+  installed only as a safety net so a game never stops; a decision it answers is a
+  defect (dumped for replay, a regression test and a fix), never an accepted rate.
+  A decision with a single legal option (a reroll the rules make) is not a decision.
+- **Time.** AlphaWOTR has its own decision budget, set from measurements on the
+  production host; the 3 s / 5 s budget below applies to the scripted runtime.
+- **Saves.** CPU games saved before the switch finish with the runtime that began
+  them; new games use AlphaWOTR.
+- **Versions.** AlphaWOTR is pinned by commit and file hashes; a newer version is a
+  new task with its own acceptance.
+
 ## Product and ownership
 
 - The operator installs the private runtime beside the game server. Public source,
