@@ -151,7 +151,9 @@ public static class ProtocolActionQuestions
                 }
     }
 
-    // A Companion's political ability (Boromir, Legolas, Gimli) and the Voice of Saruman.
+    // A Companion's political ability (Boromir, Legolas, Gimli) and the Voice of Saruman. The Voice is a recruitment with a
+    // Muster die (`use_die` "recruit") marked by its variant, as AlphaWOTR's engine plays it: "settlements" (an Isengard
+    // Regular in each settlement) or "swap2" (Regulars in Orthanc become Elites); ProtocolHints reads which one it chose.
     private static IEnumerable<ProtocolPath> Abilities(ProtocolContext context)
     {
         if (context.Option(CommandKind.UseCharacterAbility) is not { } option)
@@ -164,12 +166,14 @@ public static class ProtocolActionQuestions
             foreach (var die in ability.Dice)
                 foreach (var targets in Choose(ability.Targets, Math.Max(1, ability.TargetCount)))
                 {
+                    var upgrade = ability.AbilityId == "voice-upgrade";
                     var fields = voice
-                        ? new (string, JsonNode?)[] { ("upgrade", ability.AbilityId.Contains("upgrade")) }
+                        ? new (string, JsonNode?)[] { ("nation", "ISENGARD"), ("saruman", upgrade ? "swap2" : "settlements") }
                         : new (string, JsonNode?)[] { ("character", key) };
-                    var atom = UseDie(context, die, voice ? "voice_of_saruman" : "companion_politics", fields);
-                    if (voice && !ability.AbilityId.Contains("upgrade"))
-                        atom["regions"] = new JsonArray(targets.Select(t => (JsonNode)context.Region(t)!).ToArray());
+                    var atom = UseDie(context, die, voice ? "recruit" : "companion_politics", fields);
+                    if (voice)
+                        atom[upgrade ? "region" : "placements"] = upgrade ? context.Region("orthanc")
+                            : new JsonArray(targets.Select(t => (JsonNode)context.Region(t)!).ToArray());
                     foreach (var path in context.One(Question, atom, DieText(context, die) + ": " + CharacterCatalog.Title(definition) +
                                  " uses " + ability.AbilityId, context.Command(CommandKind.UseCharacterAbility, new CommandPayload
                                  {

@@ -99,7 +99,11 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
                 var message = ProtocolSession.Decision(sideKey, question, Prompt(question));
                 var answer = await seat.Session.Ask(message, () => ProtocolView.Write(view, seat.Memory), (int)left.TotalMilliseconds, stopping);
                 asked++;
-                if (answer.Option is not { } option || !decision.Answer(option))
+                // What the bot's own engine chose, where the options cannot say it (the Voice of Saruman).
+                var option = answer.Option is { } o ? ProtocolHints.Adjust(question, o, answer.Info) : (int?)null;
+                if (option is not null && option != answer.Option)
+                    logger.LogInformation("The protocol seat took option {Option} for {Answer} after the bot's engine action.", option, answer.Option);
+                if (option is null || !decision.Answer(option.Value))
                     return Lost(view, seat, answer.Outcome switch { "timeout" => "Timeout", "illegal" => "IllegalAnswer", _ => "SidecarLost" },
                         asked, watch);
             }
