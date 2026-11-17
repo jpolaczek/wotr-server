@@ -20,6 +20,8 @@ public static class ProtocolEffectQuestions
             return ProtocolCardRecruitQuestions.For(context, option);
         if (context.View.Decision?.Presentation == "NazgulLeadership")
             return Leadership(context, option);
+        if (context.View.Decision is { Presentation: "ActionDie", SourceId: "base.sh.character.18" })
+            return LidlessEye(context, option);
         var plan = new ChoicePlan(context, option);
         var node = plan.First();
         return node.Branches.Select(b => b.Terminal
@@ -53,6 +55,52 @@ public static class ProtocolEffectQuestions
             yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", atom,
                 count == 0 ? "Forfeit no Leadership" : $"Forfeit {count} Leadership", frame), command);
         }
+    }
+
+    // The Lidless Eye: which unused dice become Eyes, as AlphaWOTR's engine asks it (a multiset of up to three faces, its
+    // dice_count and dice_faces). Dice of one face are alike; each multiset is one answer, the faces as its words.
+    private static IEnumerable<ProtocolPath> LidlessEye(ProtocolContext context, ActionOption option)
+    {
+        var card = context.View.Decision?.SourceId ?? "";
+        var dice = option.EligibleIds.Select(id => context.View.Dice.FirstOrDefault(d => d.Id == id))
+            .Where(d => d?.Face is not null).Select(d => d!).OrderBy(d => ProtocolVocabulary.Face(d.Face!.Value), StringComparer.Ordinal).ToList();
+        var frame = Question(context, card, CardCatalog.Title(card) + ": choose (actiondie → eye)");
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var subset in Subsets(dice.Count, Math.Max(0, option.Maximum)))
+        {
+            var chosen = subset.Select(i => dice[i]).ToList();
+            var faces = chosen.Select(d => ProtocolVocabulary.Face(d.Face!.Value)).ToList();
+            if (!seen.Add(string.Join(":", faces)))
+                continue;
+            var command = context.Command(CommandKind.ChooseEffect, new CommandPayload { Ids = chosen.Select(d => d.Id).ToList() });
+            if (!context.Legal(command))
+                continue;
+            var atom = ProtocolAtom.Of("card_choice", ("card", card.Length > 0 ? context.Card(card) : null),
+                ("answer", faces.Count == 0 ? "none" : string.Join(":", faces)), ("count", faces.Count));
+            if (faces.Count == 0)
+                atom["skip"] = true;
+            yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", atom,
+                faces.Count == 0 ? "No die becomes an Eye" : "Eyes from " + string.Join(", ", faces), frame), command);
+        }
+    }
+
+    // The index sets of up to `maximum` of `count` items, smallest first.
+    private static IEnumerable<IReadOnlyList<int>> Subsets(int count, int maximum)
+    {
+        IEnumerable<IReadOnlyList<int>> Grow(IReadOnlyList<int> prefix, int start, int size)
+        {
+            if (prefix.Count == size)
+            {
+                yield return prefix;
+                yield break;
+            }
+            for (var i = start; i < count; i++)
+                foreach (var subset in Grow(prefix.Append(i).ToList(), i + 1, size))
+                    yield return subset;
+        }
+        for (var size = 0; size <= Math.Min(count, maximum); size++)
+            foreach (var subset in Grow(new List<int>(), 0, size))
+                yield return subset;
     }
 
     public static JsonObject Question(ProtocolContext context, string card, string question) => new()

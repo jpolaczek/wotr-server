@@ -129,6 +129,31 @@ public sealed class BotProtocolCardTests
         Assert.True((bool?)skip["skip"]);
     }
 
+    // The Lidless Eye is one question of face multisets (AlphaWOTR's dice_count and dice_faces); dice of one face are alike.
+    [Fact]
+    public void TheLidlessEyeOffersFaceMultisets()
+    {
+        var dice = new[] { ("d1", DieFace.Army), ("d2", DieFace.Army), ("d3", DieFace.Muster), ("d4", DieFace.Character) };
+        var option = new ActionOption { Kind = CommandKind.ChooseEffect, Minimum = 0, Maximum = 3, EligibleIds = dice.Select(d => d.Item1).ToList() };
+        var view = new PlayerView
+        {
+            You = Side.Shadow, Options = [option],
+            Dice = dice.Select(d => new DieView { Id = d.Item1, Owner = Side.Shadow, Face = d.Item2, Location = DieLocation.Available }).ToList(),
+            Decision = new DecisionView { Kind = DecisionKind.EffectChoice, Presentation = "ActionDie", SourceId = "base.sh.character.18" }
+        };
+        var paths = ProtocolEffectQuestions.Choice(new ProtocolContext(view, _ => true)).ToList();
+        var answers = paths.Select(p => (string?)p.Steps[0].Atom["answer"]).ToList();
+        Assert.Equal(answers.Count, answers.Distinct().Count());
+        Assert.Contains("none", answers);
+        Assert.Contains("ARMY:ARMY", answers);
+        Assert.Contains("ARMY:ARMY:MUSTER", answers);
+        var pair = paths.Single(p => (string?)p.Steps[0].Atom["answer"] == "ARMY:ARMY");
+        Assert.Equal(2, (int?)pair.Steps[0].Atom["count"]);
+        Assert.Equal(new[] { "d1", "d2" }, pair.Command!.Payload.Ids);
+        // 0 dice, 3 single faces, 4 pairs (AA, AC, AM, CM), 4 triples (AAC, AAM, ACM... ) at most.
+        Assert.True(paths.Count <= 1 + 3 + 4 + 4);
+    }
+
     // The Palantír of Orthanc's deck is a draw with its deck (AlphaWOTR's engine decides it as its Palantír draw).
     [Fact]
     public void ThePalantirsDeckIsADraw()
