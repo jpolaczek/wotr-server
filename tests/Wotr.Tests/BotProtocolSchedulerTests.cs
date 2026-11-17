@@ -37,6 +37,34 @@ public sealed class BotProtocolSchedulerTests
         Assert.Equal("CpuBaseGameOnly", lords.Error);
     }
 
+    // The owner plays AlphaWOTR first: while the seat is open only to named accounts, everyone else's new CPU is the runtime.
+    [PostgresFact]
+    public async Task AnAccountOutsideTheOpeningGetsTheRuntime()
+    {
+        using var package = new BotPackageFixture();
+        var settings = Settings(package);
+        settings["Wotr:Bots:Protocol:Accounts"] = "someone-else";
+        await using var fixture = await BotHostFixture.Create(settings);
+        var (_, room, _) = await fixture.Reserve();
+        Assert.Equal("", room.Bot!.Engine);
+    }
+
+    // At most MaxGames AlphaWOTR games at once: a further CPU game is refused while they play (CpuBusy).
+    [PostgresFact]
+    public async Task AlphaWotrBeyondItsLimitIsBusy()
+    {
+        using var package = new BotPackageFixture();
+        var settings = Settings(package);
+        settings["Wotr:Bots:Protocol:MaxGames"] = "1";
+        await using var fixture = await BotHostFixture.Create(settings);
+        var (_, first, _) = await fixture.Reserve();
+        Assert.Equal(ProtocolSeatHost.AlphaWotr, first.Bot!.Engine);
+        var human = await MenuAccounts.Register(fixture.Host);
+        var room = await fixture.Rooms.Create(human.AccountId, new CreateRoomRequest { Side = Side.Shadow, Name = "Second" });
+        var second = await fixture.Rooms.AddBot(room.Id, human.AccountId, PveFixture.Request(room));
+        Assert.Equal("CpuBusy", second.Error);
+    }
+
     [PostgresFact]
     public async Task ASeatSavedBeforeAlphaWotrKeepsTheRuntime()
     {
@@ -65,7 +93,9 @@ public sealed class BotProtocolSchedulerTests
         var revision = (long)(await fixture.Scalar("SELECT revision FROM matches WHERE id=$1", room.MatchId))!;
         var options = package.Options(fixture.Settings) with { MemoryPressureBytes = 1024L * 1024 * 1024 };
 
-        // No sidecar listens: the decision is released with its error and the match does not move.
+        // No sidecar listens: the decision is released with its error and the match does not move; the player's view would
+        // say the CPU waits (BOT-226), from when, and the kind of failure only.
+        ProtocolSeatHost? waitingHost;
         using (var metrics = new BotHostMetrics(options))
         using (var host = Seat(ClosedPort()))
         using (var scheduler = ActivatorUtilities.CreateInstance<BotScheduler>(fixture.Host.Services, options, metrics, host))
@@ -73,22 +103,31 @@ public sealed class BotProtocolSchedulerTests
             await scheduler.StartAsync(default);
             try { await fixture.Until("SELECT last_error FROM bot_runtime_jobs WHERE assignment_id=$1", "ProtocolSidecarUnavailable", work.AssignmentId); }
             finally { await scheduler.StopAsync(default); }
+            var waiting = host.Waiting(room.MatchId, Side.FreePeoples);
+            Assert.NotNull(waiting);
+            Assert.True(waiting!.Waiting);
+            Assert.Equal("Unavailable", waiting.Problem);
+            Assert.NotNull(waiting.Since);
         }
         Assert.Equal(revision, (long)(await fixture.Scalar("SELECT revision FROM matches WHERE id=$1", room.MatchId))!);
         Assert.Equal(0L, (long)(await fixture.Scalar("SELECT memory_version FROM bot_runtime_jobs WHERE assignment_id=$1", work.AssignmentId))!);
 
-        // The protocol bot comes up: the same decision is played through it; the runtime's memory stays unwritten.
+        // The protocol bot comes up: the same decision is played through it; the runtime's memory stays unwritten, and the
+        // waiting state goes once AlphaWOTR answers.
         await fixture.Expire(work);
         using var bot = new ProtocolFakeBot(7);
         using (var metrics = new BotHostMetrics(options))
         using (var host = Seat(bot.Port))
         using (var scheduler = ActivatorUtilities.CreateInstance<BotScheduler>(fixture.Host.Services, options, metrics, host))
         {
+            waitingHost = host;
+            host.Unavailable(room.MatchId, Side.FreePeoples, "SidecarUnavailable");
             await scheduler.StartAsync(default);
             try { await fixture.Until("SELECT memory_version FROM bot_runtime_jobs WHERE assignment_id=$1", 1L, work.AssignmentId); }
             finally { await scheduler.StopAsync(default); }
         }
         Assert.True((long)(await fixture.Scalar("SELECT revision FROM matches WHERE id=$1", room.MatchId))! > revision);
+        Assert.Null(waitingHost!.Waiting(room.MatchId, Side.FreePeoples));
         Assert.Equal(DBNull.Value, await fixture.Scalar("SELECT memory FROM bot_runtime_jobs WHERE assignment_id=$1", work.AssignmentId));
         Assert.Equal(1, bot.Connections);
     }

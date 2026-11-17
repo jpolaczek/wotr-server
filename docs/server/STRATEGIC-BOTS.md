@@ -71,6 +71,17 @@ Public code in `src/Wotr.Domain/BotProtocol` (the rules side) and
   decisions and opened again (`new_game`, then the turn's start) after a restart or a
   lost connection. The command is journalled like the runtime's, the runtime's memory
   unchanged.
+- **Opening and capacity (release).** `Wotr:Bots:Protocol:Accounts` (comma-separated
+  account ids) opens AlphaWOTR to those accounts only while it is not yet for everyone
+  (the owner's playtest): any other account's new CPU is the runtime; empty means every
+  account. `MaxGames` (0 = no limit) refuses a new AlphaWOTR game (`CpuBusy`) while that
+  many hold a session or wait to start; the sidecar's `--max-games` must cover it.
+  A decision waiting longer than `StallAlertMinutes` (5) is a critical log line. While
+  a decision waits, a player's match view carries `Cpu` (`CpuSeatState`: waiting, since,
+  the kind of failure: Unavailable, Timeout, Error) and the room shows the CPU seat
+  unavailable; both clear when AlphaWOTR answers. A session opened in mid-turn (after a
+  restart) hears the turn's Mouth of Sauron Muster-as-Army and the Fellowship's act in
+  Mordor again, which the bot keeps from events.
 - **Install.** `scripts/install_alphawotr.sh [DIR]` (BOT-220) clones AlphaWOTR v0.2.0
   at its commit, checks the clone against its `RELEASE_MANIFEST.tsv`, makes a Python
   3.12 environment with the measured package versions (CPU torch 2.15.0) and proves the

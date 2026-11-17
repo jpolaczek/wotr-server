@@ -1,7 +1,9 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
-Contracts 0.77.0 (BOT-226, not yet released) add `BotSeatView.Engine`: `alphawotr` when AlphaWOTR
+Contracts 0.77.0 (BOT-226, not yet released) add `PlayerView.Cpu` (`CpuSeatState`: while AlphaWOTR's
+decision waits with an error, since when and the kind of failure only; null otherwise) and the room
+error `CpuBusy` (the operator's limit of AlphaWOTR games at once). They add `BotSeatView.Engine`: `alphawotr` when AlphaWOTR
 plays the CPU seat (fixed when the CPU joins; the client names and credits it, UI-540), empty for the
 scripted runtime of a seat saved before it. A room whose CPU is AlphaWOTR answers an expansion or a
 variant with `CpuBaseGameOnly`. Rules, protocol and save schema do not change; a saved room without

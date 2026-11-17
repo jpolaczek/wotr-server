@@ -14,7 +14,7 @@ public sealed record RoomParticipant(RoomView Room, string Name, string Avatar);
 public sealed partial class RoomStore(Database database, IRandomSource random, ReleaseScope? release = null,
     ObserverOptions? observerOptions = null, BotAccessOptions? bots = null, BotRoomOptions? botRooms = null,
     BotRuntimeCapabilities? runtime = null, BotHostOptions? botHost = null, EmptyRoomOptions? emptyRooms = null,
-    ProtocolSeatOptions? protocolSeat = null)
+    ProtocolSeatOptions? protocolSeat = null, ProtocolSeatHost? protocolHost = null)
 {
     private readonly ReleaseScope scope = release ?? ReleaseScope.Full;
     private readonly ObserverOptions audience = observerOptions ?? ObserverOptions.Default;

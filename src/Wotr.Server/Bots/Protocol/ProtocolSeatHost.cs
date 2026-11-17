@@ -21,7 +21,10 @@ public sealed record ProtocolSeatResult(GameCommand? Command, string Outcome, in
 public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine engine, ILogger<ProtocolSeatHost> logger) : IDisposable
 {
     private readonly ConcurrentDictionary<(string Match, Side Side), Seat> seats = new();
-    private readonly ConcurrentDictionary<(string Match, Side Side), int> failures = new();
+    // BOT-224/226: a seat's decision that waits with an error: how often it failed, since when, the last failure's kind, and
+    // whether the operator was alerted.
+    private sealed record Failure(int Count, DateTimeOffset Since, string Outcome, bool Alerted);
+    private readonly ConcurrentDictionary<(string Match, Side Side), Failure> failures = new();
 
     private sealed class Seat(ProtocolSession session, ProtocolMemory memory) : IDisposable
     {
@@ -29,6 +32,7 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
         public ProtocolMemory Memory { get; } = memory;
         public SemaphoreSlim Gate { get; } = new(1, 1);
         public int Turn { get; set; }
+        public bool Fresh { get; set; } = true;
         public DateTimeOffset Used { get; set; } = DateTimeOffset.UtcNow;
 
         public void Dispose()
@@ -44,7 +48,38 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
 
     // BOT-224: 5 s after a first failure, doubling while failures repeat, at most a minute; a success resets it.
     public TimeSpan RetryDelay(string match, Side side) =>
-        TimeSpan.FromSeconds(Math.Min(60, 5 * Math.Pow(2, Math.Max(0, failures.GetValueOrDefault((match, side)) - 1))));
+        TimeSpan.FromSeconds(Math.Min(60, 5 * Math.Pow(2, Math.Max(0, (failures.GetValueOrDefault((match, side))?.Count ?? 0) - 1))));
+
+    // BOT-226: what a player is told while the CPU's decision waits with an error (the kind of failure only).
+    public CpuSeatState? Waiting(string match, Side side) =>
+        failures.TryGetValue((match, side), out var failure)
+            ? new CpuSeatState { Waiting = true, Since = failure.Since, Problem = Problem(failure.Outcome) }
+            : null;
+
+    public static string Problem(string outcome) => outcome switch
+    {
+        "Timeout" => "Timeout",
+        "IllegalAnswer" or "NoQuestion" => "Error",
+        _ => "Unavailable"
+    };
+
+    // A failure noted outside a decision (the seat off, the game not a base game) and the end of one (a command played).
+    public void Unavailable(string match, Side side, string outcome) => Note(match, side, outcome);
+
+    public void Recovered(string match, Side side) => failures.TryRemove((match, side), out _);
+
+    private void Note(string match, Side side, string outcome)
+    {
+        var now = DateTimeOffset.UtcNow;
+        var failure = failures.AddOrUpdate((match, side), _ => new Failure(1, now, outcome, false),
+            (_, f) => f with { Count = f.Count + 1, Outcome = outcome });
+        if (!failure.Alerted && now - failure.Since >= options.StallAlert)
+        {
+            failures[(match, side)] = failure with { Alerted = true };
+            logger.LogCritical("AlphaWOTR's seat in match {Match} ({Side}) has waited {Minutes:F0} minutes ({Outcome}); the game cannot go on.",
+                match, side, (now - failure.Since).TotalMinutes, outcome);
+        }
+    }
 
     // A trace of every question and answer (the arena's audit; null on a game server).
     public Action<JsonObject>? Trace { get; set; }
@@ -105,7 +140,13 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
             {
                 await seat.Session.Event(new JsonObject { ["kind"] = "turn_started", ["turn"] = view.Turn }, stopping);
                 seat.Turn = view.Turn;
+                // BOT-224: a session opened in the middle of a turn (after a restart) hears what the bot keeps from the turn's
+                // events: the Mouth of Sauron's Muster used as an Army, the Fellowship in Mordor and its act there this turn.
+                if (seat.Fresh)
+                    foreach (var e in CatchUp(view, state))
+                        await seat.Session.Event(e, stopping);
             }
+            seat.Fresh = false;
             var asked = 0;
             var sideKey = ProtocolVocabulary.Side(side);
             while (decision.Question is { } question)
@@ -255,7 +296,7 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
     // A failure counts toward the retry interval and, where the operator asked for it, is written for replay.
     private void Failed(PlayerView view, string outcome)
     {
-        failures.AddOrUpdate((view.MatchId, view.You), 1, (_, n) => n + 1);
+        Note(view.MatchId, view.You, outcome);
         if (options.DumpDirectory is not { } folder)
             return;
         try
@@ -308,6 +349,18 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
         foreach (var (key, seat) in seats)
             if (seat.Used < limit && seat.Gate.CurrentCount == 1)
                 Close(key.Match, key.Side, seat);
+    }
+
+    private static IEnumerable<JsonObject> CatchUp(PlayerView view, MatchState state)
+    {
+        if (CharacterRules.InPlay(state, CharacterRules.Mouth) is { } mouth && mouth.LastArmyConversionTurn == state.Turn)
+            yield return new JsonObject { ["kind"] = "die_used", ["side"] = "SHADOW", ["face"] = "MUSTER", ["action"] = "move_armies" };
+        if (view.Fellowship.MordorStep is not null)
+        {
+            yield return new JsonObject { ["kind"] = "fellowship_entered_mordor", ["side"] = "FREE_PEOPLES" };
+            if (view.Fellowship.MordorAttemptedThisTurn == true)
+                yield return new JsonObject { ["kind"] = "fellowship_moved", ["side"] = "FREE_PEOPLES" };
+        }
     }
 
     private static GameCommand Identify(GameCommand command, PlayerView view, string invocationId) => new()

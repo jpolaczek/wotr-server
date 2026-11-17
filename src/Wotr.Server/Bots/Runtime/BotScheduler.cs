@@ -185,7 +185,9 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
             {
                 logger.LogError("AlphaWOTR's seat in match {Match} cannot play: {Reason}; the game waits.", work.MatchId,
                     protocol.Enabled ? "not a base game" : "the protocol seat is off");
-                return protocol.Enabled ? "ProtocolConfiguration" : "ProtocolDisabled";
+                var outcome = protocol.Enabled ? "ProtocolConfiguration" : "ProtocolDisabled";
+                protocol.Unavailable(work.MatchId, work.Side, outcome);
+                return outcome;
             }
             var state = await inputs.ReadState(work, stopping) ?? throw new BotWorkExpiredException();
             // The lease is kept while AlphaWOTR thinks (a decision of several questions outlasts it): another worker must
@@ -213,7 +215,10 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
             await jobs.StageProtocol(work, request, chosen, input.HistoryPosition, stopping);
             var applied = await Apply(work, chosen, stopping);
             if (applied.Length == 0)
+            {
+                protocol.Recovered(work.MatchId, work.Side);
                 await protocol.Applied(request.Player, chosen, stopping);
+            }
             return applied;
         }
         var compute = TimeSpan.Zero;
