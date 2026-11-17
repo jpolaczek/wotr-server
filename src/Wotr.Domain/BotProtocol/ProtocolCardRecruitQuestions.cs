@@ -4,8 +4,11 @@ using Wotr.Domain.Content;
 
 namespace Wotr.Domain.BotProtocol;
 
-// BOT-225: a card's recruitment (an EffectChoice with a recruitment plan): one figure per CARD_CHOICE, named by its region
-// and unit ("minas-tirith:REGULAR") with the region, Nation and unit as typed fields, until the card's count is placed.
+// BOT-225/BOT-221: a card's recruitment (an EffectChoice with a recruitment plan), two CARD_CHOICE questions per figure:
+// where (the region and its Nation, as typed fields) and then which unit (the bare word REGULAR, ELITE, LEADER or NAZGUL,
+// with the region's slug and the Nation's key as words of the question). This is the shape AlphaWOTR reads a card's
+// recruitment from: its engine places the card's figures inside the play, and its adapter answers from the board's
+// difference (a region by the figures it gained, then a unit word matched against them).
 public static class ProtocolCardRecruitQuestions
 {
     private sealed record Figure(string Region, string Nation, UnitKind Kind);
@@ -33,21 +36,40 @@ public static class ProtocolCardRecruitQuestions
             if (placed.Count >= option.Minimum && placed.Count > 0 && placed.Count < count && Legal(placed))
                 branches.Add(new ProtocolBranch(ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", "done"), ("skip", true)),
                     "No more figures", Command(placed)));
-            foreach (var figure in Figures(placed))
+            foreach (var place in Figures(placed).Where(f => Completable(placed.Append(f).ToList()))
+                         .GroupBy(f => (f.Region, f.Nation)))
             {
-                var next = placed.Append(figure).ToList();
-                if (!Completable(next))
-                    continue;
-                var region = context.Region(figure.Region);
-                var unit = ProtocolVocabulary.Unit(figure.Kind);
-                var atom = ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", region + ":" + unit.ToUpperInvariant()),
-                    ("region", region), ("nation", context.Nation(figure.Nation)), ("unit", unit));
-                var text = $"A {figure.Kind} of {figure.Nation} in {figure.Region}";
-                branches.Add(next.Count >= count ? new ProtocolBranch(atom, text, Command(next)) : new ProtocolBranch(atom, text, () => Node(next)));
+                var region = context.Region(place.Key.Region);
+                var nation = context.Nation(place.Key.Nation);
+                var atom = ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", region), ("region", region),
+                    ("nation", nation));
+                var kinds = place.ToList();
+                branches.Add(new ProtocolBranch(atom, $"A figure of {place.Key.Nation} in {place.Key.Region}", () => Unit(placed, kinds)));
             }
             return new ProtocolNode("CARD_CHOICE", new JsonObject
             {
-                ["card"] = context.Card(card), ["question"] = CardCatalog.Title(card) + ": recruit a figure"
+                ["card"] = context.Card(card), ["question"] = CardCatalog.Title(card) + ": where is a figure recruited?"
+            }, branches);
+        }
+
+        // The unit placed in the chosen region, as a bare unit word.
+        private ProtocolNode Unit(IReadOnlyList<Figure> placed, IReadOnlyList<Figure> kinds)
+        {
+            var branches = new List<ProtocolBranch>();
+            foreach (var figure in kinds)
+            {
+                var next = placed.Append(figure).ToList();
+                var unit = ProtocolVocabulary.Unit(figure.Kind);
+                var atom = ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", unit.ToUpperInvariant()),
+                    ("unit", unit), ("region", context.Region(figure.Region)), ("nation", context.Nation(figure.Nation)));
+                var text = $"A {figure.Kind} of {figure.Nation} in {figure.Region}";
+                branches.Add(next.Count >= count ? new ProtocolBranch(atom, text, Command(next)) : new ProtocolBranch(atom, text, () => Node(next)));
+            }
+            var first = kinds[0];
+            return new ProtocolNode("CARD_CHOICE", new JsonObject
+            {
+                ["card"] = context.Card(card),
+                ["question"] = $"Which unit is recruited in {context.Region(first.Region)} for {context.Nation(first.Nation)} ?"
             }, branches);
         }
 

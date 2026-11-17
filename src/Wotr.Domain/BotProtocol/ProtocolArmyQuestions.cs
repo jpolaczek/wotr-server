@@ -50,6 +50,16 @@ public static class ProtocolArmyQuestions
             if (context.Option(kind) is { } option &&
                 new ArmyPlan(context, option, kind, new CommandPayload(), Math.Max(1, option.Maximum), finish).First() is { Branches.Count: > 0 } node)
                 nodes.Add((kind, node));
+        // A card's single move or attack (Corsairs of Umbar, Grond, The Fighting Uruk-hai, a relief attack, the Nazgûl's or
+        // the Witch-king's manoeuvre): its target first, as CARD_CHOICE with from, to and region (AlphaWOTR's engine settles
+        // the card's target inside its play and its adapter reads it by these fields), then the Army's own questions for
+        // that target only.
+        if (nodes.Count > 0 && nodes.All(n => (context.Option(n.Kind)?.Maximum ?? 1) <= 1))
+        {
+            foreach (var path in Targets(context, nodes, finished ? finish : null))
+                yield return path;
+            yield break;
+        }
         if (nodes.Count == 2)
         {
             var card = context.View.Decision?.SourceId ?? "";
@@ -72,6 +82,29 @@ public static class ProtocolArmyQuestions
                     : new ProtocolPath(new ProtocolStep(node.Question, branch.Atom, branch.Text), () => branch.Next);
         if (nodes.Count == 0 && finished)
             yield return new ProtocolPath(new ProtocolStep("ARMY_MOVE", ProtocolAtom.Of("end"), "End the move"), finish!);
+    }
+
+    private static IEnumerable<ProtocolPath> Targets(ProtocolContext context, IReadOnlyList<(CommandKind Kind, ProtocolNode Node)> nodes,
+        GameCommand? finish)
+    {
+        var card = context.View.Decision?.SourceId ?? "";
+        var question = ProtocolEffectQuestions.Question(context, card, CardCatalog.Title(card) + ": which Army goes where?");
+        foreach (var (kind, node) in nodes)
+            foreach (var pair in node.Branches.Where(b => (string?)b.Atom["kind"] is "army_move" or "attack")
+                         .Select(b => ((string?)b.Atom["from"], (string?)b.Atom["to"])).Distinct())
+            {
+                var answer = kind == CommandKind.AttackArmy ? "attack" : "move";
+                var atom = ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", answer), ("from", pair.Item1),
+                    ("to", pair.Item2), ("region", pair.Item2));
+                var only = node;
+                yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", atom,
+                    (answer == "move" ? "Move from " : "Attack from ") + pair.Item1 + " to " + pair.Item2, question),
+                    () => new ProtocolNode(only.Question, only.Context, only.Branches.Where(b =>
+                        (string?)b.Atom["from"] == pair.Item1 && (string?)b.Atom["to"] == pair.Item2).ToList()));
+            }
+        if (finish is not null)
+            yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", ProtocolAtom.Of("card_choice", ("card", context.Card(card)),
+                ("answer", "skip"), ("skip", true)), "Neither", question), finish);
     }
 
     private static ProtocolNode Without(ProtocolNode node, string kind) =>

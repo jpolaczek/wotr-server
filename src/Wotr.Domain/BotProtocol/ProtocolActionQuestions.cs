@@ -138,8 +138,10 @@ public static class ProtocolActionQuestions
                 foreach (var region in entry.Targets.DefaultIfEmpty(""))
                 {
                     var fields = new List<(string, JsonNode?)> { ("character", context.Character(entry.CharacterId)) };
-                    if (region.Length > 0)
-                        fields.Add(("region", context.Region(region)));
+                    // AlphaWOTR compares a Minion's region even where it is fixed (Saruman enters at Orthanc).
+                    var shown = region.Length > 0 ? region : entry.CharacterId == "base.character.saruman" ? "orthanc" : "";
+                    if (shown.Length > 0)
+                        fields.Add(("region", context.Region(shown)));
                     foreach (var path in context.One(Question, UseDie(context, die, action, fields.ToArray()),
                                  DieText(context, die) + ": " + CharacterCatalog.Title(entry.CharacterId) + " enters" +
                                  (region.Length > 0 ? " at " + region : ""),
