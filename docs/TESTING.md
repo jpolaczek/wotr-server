@@ -633,8 +633,13 @@ On `expansions` at `4193fe7`:
   `main` and `expansions` alike and passes alone; its fix is a base change prepared on `main`.
 
 <a id="the-whole-suite--six-test-hosts-on-ci-too"></a>
-## The whole suite: six test hosts, on CI too (2026-11-06)
+## The whole suite: seven test hosts, on CI too (updated 2026-11-17)
 
-`scripts/test_parts.sh` runs the backend suite in the six disjoint test hosts of EXP-10 above and merges their results into `backend.trx`. CI uses it as well. Until now CI ran one host, which outgrows the runner's 16 GB: runs of the ranked line on 2026-11-06 ended with "The runner has received a shutdown signal" or `MSB4166: Child node exited prematurely` after about 40 minutes, with no test failing, and other runs passed, so it looked like chance. The memory growth itself is still not found; a heap dump of one host (`dotnet-gcdump`) should name it, as above.
+`scripts/test_parts.sh` runs the backend suite in seven disjoint test hosts: the original six EXP-10 groups, with bot tests separated from the miscellaneous group and merges their results into `backend.trx`. CI uses it as well. Until now CI ran one host, which outgrows the runner's 16 GB: runs of the ranked line on 2026-11-06 ended with "The runner has received a shutdown signal" or `MSB4166: Child node exited prematurely` after about 40 minutes, with no test failing, and other runs passed, so it looked like chance. The memory growth itself is still not found; a heap dump of one host (`dotnet-gcdump`) should name it, as above.
 
 CI also gives a test host 30 seconds rather than 5 for its first database connection (`WOTR_DB_POOL_WAIT_SECONDS`): "The operation has timed out" in `NpgsqlConnector.ConnectAsync` at a host's start comes from thread-pool starvation while a CPU-heavy test runs in the same process, not from the database. A part that fails does not stop the others, and a host that was aborted writes no results, which fails the merge rather than passing quietly.
+
+
+### Bot scheduler process isolation (2026-11-17)
+
+The backend now uses seven disjoint test hosts. Bot tests from the miscellaneous partition run in their own process before the remaining non-bot tests. PR 21 compiled and passed the avatar tests, but three scheduler tests timed out waiting for work in the large final partition. The scheduler memory gate measures the process-wide managed heap; unrelated retained test allocations can suppress scheduling even though the runtime fixture itself stays within bounds. Isolation preserves the production memory gate and the resource/work/deadline assertions rather than raising their limits. The historical six-part results above describe earlier runs.
