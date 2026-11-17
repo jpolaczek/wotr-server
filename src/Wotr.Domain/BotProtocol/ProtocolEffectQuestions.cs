@@ -34,13 +34,23 @@ public static class ProtocolEffectQuestions
     public static JsonObject Atom(ProtocolContext context, string card, string id, EffectChoiceView? view)
     {
         var atom = ProtocolAtom.Of("card_choice", ("card", card.Length > 0 ? context.Card(card) : null));
-        if (context.Unit(id) is { } unit)
+        if (context.Unit(id) is { } unit && !Regions.Contains(unit.Location))
         {
-            var region = Regions.Contains(unit.Location) ? context.Region(unit.Location) : unit.Location;
-            atom["answer"] = region + ":" + ProtocolVocabulary.Unit(unit.Kind).ToUpperInvariant();
-            atom["region"] = region;
+            // A reserve figure a card recruits: the bare unit word (AlphaWOTR matches it against the figures its engine
+            // placed), the destination as the region.
+            atom["answer"] = ProtocolVocabulary.Unit(unit.Kind).ToUpperInvariant();
+            if (view?.TargetId is { Length: > 0 } target && Regions.Contains(target))
+                atom["region"] = context.Region(target);
             atom["unit"] = ProtocolVocabulary.Unit(unit.Kind);
             atom["nation"] = context.Nation(unit.Nation);
+        }
+        else if (context.Unit(id) is { } placed)
+        {
+            var region = context.Region(placed.Location);
+            atom["answer"] = region + ":" + ProtocolVocabulary.Unit(placed.Kind).ToUpperInvariant();
+            atom["region"] = region;
+            atom["unit"] = ProtocolVocabulary.Unit(placed.Kind);
+            atom["nation"] = context.Nation(placed.Nation);
         }
         else if (CharacterCatalog.All.ContainsKey(id) || context.View.Characters.Any(c => c.Id == id))
         {
@@ -92,6 +102,7 @@ public static class ProtocolEffectQuestions
                     decline["count"] = 0;
                 branches.Add(new ProtocolBranch(decline, picked.Count == 0 ? "None" : "Done", Command(picked)));
             }
+            var seen = new HashSet<string>(StringComparer.Ordinal);
             if (picked.Count < Math.Max(1, option.Maximum))
                 foreach (var id in option.EligibleIds.Where(id => !picked.Contains(id)))
                 {
@@ -100,6 +111,9 @@ public static class ProtocolEffectQuestions
                         continue;
                     var view = option.EffectChoices.FirstOrDefault(c => c.Id == id);
                     var atom = Atom(context, card, id, view);
+                    // Figures alike (two Regulars of one Nation in the reserve) are one answer.
+                    if (!seen.Add(ProtocolJson.Write(atom)))
+                        continue;
                     var text = view?.Title is { Length: > 0 } title ? title + (view.Detail.Length > 0 ? ": " + view.Detail : "") : id;
                     var last = next.Count >= Math.Max(1, option.Maximum) || !Extendable(next);
                     branches.Add(last && Legal(next) ? new ProtocolBranch(atom, text, Command(next)) : new ProtocolBranch(atom, text, () => Node(next)));
@@ -107,6 +121,11 @@ public static class ProtocolEffectQuestions
             // The question names what the card asks in words (a retreat, a target), as the bot reads them.
             var words = string.Join(" ", new[] { context.View.Decision?.Presentation ?? "" }.Concat(option.EffectChoices
                 .Select(c => c.Title).Where(t => t.Length > 0).Distinct().Take(3))).ToLowerInvariant();
+            // A recruitment's destination and Nation as words of the question (AlphaWOTR reads them so).
+            var reserve = option.EligibleIds.Select(id => (Unit: context.Unit(id), View: option.EffectChoices.FirstOrDefault(c => c.Id == id)))
+                .FirstOrDefault(u => u.Unit is { } x && !Regions.Contains(x.Location) && u.View?.TargetId is { Length: > 0 } t && Regions.Contains(t));
+            if (reserve.Unit is { } recruit)
+                words += " in " + context.Region(reserve.View!.TargetId) + " for " + context.Nation(recruit.Nation);
             var frame = Question(context, card, CardCatalog.Title(card) + ": choose (" + words + ")");
             if (context.View.Battle is not null)
                 foreach (var (key, value) in ProtocolBattleQuestions.Context(context)!)
@@ -209,12 +228,16 @@ public static class ProtocolEffectQuestions
             yield return new ProtocolPath(new ProtocolStep(question, ProtocolAtom.Of("skip"), "Skip", frame), skip);
     }
 
-    // A bonus draw: the deck it draws from, or none.
+    // A bonus draw: the deck it draws from, or none. Gandalf the Grey's is a yes or no in AlphaWOTR's engine (a draw from the
+    // played card's deck), so it is a card_choice with yes; the Witch-king's stays a draw.
     private static IEnumerable<ProtocolPath> Draw(ProtocolContext context, string id, GameCommand use, GameCommand? skip)
     {
         var deck = id == "character.grey-draw" ? "character" : "strategy";
         var frame = new JsonObject { ["deck"] = deck, ["question"] = "Draw a bonus card?" };
-        yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", ProtocolAtom.Of("draw", ("deck", deck)), "Draw a " + deck + " card", frame), use);
+        var draw = id == "character.grey-draw"
+            ? ProtocolAtom.Of("card_choice", ("card", null), ("answer", "draw"), ("yes", true), ("deck", deck))
+            : ProtocolAtom.Of("draw", ("deck", deck));
+        yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", draw, "Draw a " + deck + " card", frame), use);
         if (skip is not null)
             yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", ProtocolAtom.Of("card_choice", ("card", null), ("answer", "skip"), ("skip", true)),
                 "Do not draw", frame), skip);

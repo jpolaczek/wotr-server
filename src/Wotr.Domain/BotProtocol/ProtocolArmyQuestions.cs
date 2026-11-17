@@ -94,13 +94,18 @@ public static class ProtocolArmyQuestions
                          .Select(b => ((string?)b.Atom["from"], (string?)b.Atom["to"])).Distinct())
             {
                 var answer = kind == CommandKind.AttackArmy ? "attack" : "move";
-                var atom = ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", answer), ("from", pair.Item1),
-                    ("to", pair.Item2), ("region", pair.Item2));
-                var only = node;
-                yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", atom,
-                    (answer == "move" ? "Move from " : "Attack from ") + pair.Item1 + " to " + pair.Item2, question),
-                    () => new ProtocolNode(only.Question, only.Context, only.Branches.Where(b =>
-                        (string?)b.Atom["from"] == pair.Item1 && (string?)b.Atom["to"] == pair.Item2).ToList()));
+                var text = (answer == "move" ? "Move from " : "Attack from ") + pair.Item1 + " to " + pair.Item2;
+                var branches = node.Branches.Where(b => (string?)b.Atom["from"] == pair.Item1 && (string?)b.Atom["to"] == pair.Item2).ToList();
+                // The whole Army at once (AlphaWOTR's engine moves or attacks with all of it), first; a part of it next.
+                foreach (var all in new[] { true, false })
+                {
+                    if (branches.FirstOrDefault(b => (bool?)b.Atom["all"] == all) is not { } branch)
+                        continue;
+                    var atom = ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", answer), ("from", pair.Item1),
+                        ("to", pair.Item2), ("region", pair.Item2), ("all", all));
+                    var step = new ProtocolStep("CARD_CHOICE", atom, all ? text : text + " with part of the Army", question);
+                    yield return branch.Terminal ? new ProtocolPath(step, branch.Command!) : new ProtocolPath(step, () => branch.Next);
+                }
             }
         if (finish is not null)
             yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", ProtocolAtom.Of("card_choice", ("card", context.Card(card)),
