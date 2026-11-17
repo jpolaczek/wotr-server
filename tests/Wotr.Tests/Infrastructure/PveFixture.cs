@@ -55,7 +55,7 @@ public sealed class PveFixture : IAsyncLifetime
     }
 
     public async Task<RoomView> Room(SessionView human, Side side = Side.FreePeoples) =>
-        await Rooms.Create(human.AccountId, new CreateRoomRequest { Name = "Saved PvE fixture", Side = side, Visibility = RoomVisibility.Public });
+        await Rooms.CreatePlayVsCpu(human.AccountId, new CreateRoomRequest { Name = "Saved PvE fixture", Side = side, Visibility = RoomVisibility.Public });
 
     public static AddRoomBotRequest Request(RoomView room) => new()
     {

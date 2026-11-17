@@ -25,7 +25,14 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
     public Task<RoomView> Create(string account, Side side, CancellationToken cancellation = default) =>
         Create(account, new CreateRoomRequest { Side = side }, cancellation);
 
-    public async Task<RoomView> Create(string account, CreateRoomRequest request, CancellationToken cancellation = default)
+    public Task<RoomView> Create(string account, CreateRoomRequest request, CancellationToken cancellation = default) =>
+        Create(account, request, false, cancellation);
+
+    // A room the CPU may join whatever its name (the seeder's and the tests' CPU rooms); players reach one by Play vs CPU.
+    public Task<RoomView> CreatePlayVsCpu(string account, CreateRoomRequest request, CancellationToken cancellation = default) =>
+        Create(account, request, true, cancellation);
+
+    private async Task<RoomView> Create(string account, CreateRoomRequest request, bool playVsCpu, CancellationToken cancellation)
     {
         if (!Enum.IsDefined(request.Side) || !Enum.IsDefined(request.Visibility) || request.Name is null ||
             (request.Name.Length > 0 && !RoomInput.ValidName(request.Name)))
@@ -39,7 +46,8 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
             Name = managed ? request.Name.Trim() : username + "'s game",
             HostAccount = account, HostName = username, Managed = managed,
             Visibility = managed ? request.Visibility : RoomVisibility.Private,
-            InvitationEnabled = !managed
+            InvitationEnabled = !managed,
+            PlayVsCpu = playVsCpu
         };
         TakeSeat(room, account, username, request.Side);
         await using var command = Database.Command(connection, null,

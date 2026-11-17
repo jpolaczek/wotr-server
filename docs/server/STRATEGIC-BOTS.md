@@ -40,6 +40,12 @@ base game. What changes against the sections below:
   an AlphaWOTR seat waits (`ProtocolDisabled`, `ProtocolConfiguration`) rather than be
   played by the runtime. A room whose CPU is AlphaWOTR refuses an expansion or a variant
   (`CpuBaseGameOnly`), and so does adding AlphaWOTR to such a room.
+- **The CPU only through Play vs CPU** (owner, 2026-11-17). Any CPU joins only a Play vs CPU
+  room; a game one hosts refuses it (`CpuOnlyInPlayVsCpu`). The server knows a Play vs CPU
+  room by what every client release sends for it (a private room named `Play vs CPU`,
+  `RoomRules.PlayVsCpu`), so older clients are held to it as well; the seeder's and the
+  tests' CPU rooms are made with `RoomStore.CreatePlayVsCpu`. A room's name and visibility
+  do not change after it is made.
 - **Versions.** AlphaWOTR is pinned by commit and file hashes; a newer version is a
   new task with its own acceptance.
 

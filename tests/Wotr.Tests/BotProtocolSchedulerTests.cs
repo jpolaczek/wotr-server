@@ -60,7 +60,7 @@ public sealed class BotProtocolSchedulerTests
         var (_, first, _) = await fixture.Reserve();
         Assert.Equal(ProtocolSeatHost.AlphaWotr, first.Bot!.Engine);
         var human = await MenuAccounts.Register(fixture.Host);
-        var room = await fixture.Rooms.Create(human.AccountId, new CreateRoomRequest { Side = Side.Shadow, Name = "Second" });
+        var room = await fixture.Rooms.CreatePlayVsCpu(human.AccountId, new CreateRoomRequest { Side = Side.Shadow, Name = "Second" });
         var second = await fixture.Rooms.AddBot(room.Id, human.AccountId, PveFixture.Request(room));
         Assert.Equal("CpuBusy", second.Error);
     }
