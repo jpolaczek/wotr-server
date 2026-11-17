@@ -15,6 +15,8 @@ internal sealed class ProtocolFakeBot : IDisposable
     public List<JsonObject> Received { get; } = new();
     public int Port => ((IPEndPoint)listener.LocalEndpoint).Port;
     public bool IllegalFirst { get; set; }
+    // BOT-225: how long each choice is held back (a bot thinking longer than the host's lease).
+    public TimeSpan Delay { get; set; }
     public int Connections { get; private set; }
 
     public ProtocolFakeBot(int seed)
@@ -48,6 +50,8 @@ internal sealed class ProtocolFakeBot : IDisposable
             lock (Received)
                 Received.Add(message);
             var reply = Reply(message);
+            if (Delay > TimeSpan.Zero && (string?)message["type"] == "decide")
+                await Task.Delay(Delay);
             if (reply is not null)
                 await writer.WriteLineAsync(reply.ToJsonString());
             if ((string?)message["type"] == "quit")

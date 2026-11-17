@@ -122,6 +122,25 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
         }
     }
 
+    private async Task KeepLease(BotWork work, CancellationToken cancellation)
+    {
+        var every = TimeSpan.FromSeconds(Math.Max(1, options.Lease.TotalSeconds / 3));
+        try
+        {
+            while (!cancellation.IsCancellationRequested)
+            {
+                await Task.Delay(every, cancellation);
+                if (!await jobs.Renew(work, cancellation))
+                    return;
+            }
+        }
+        catch (OperationCanceledException) { }
+        catch (NpgsqlException)
+        {
+            logger.LogWarning("The protocol seat's lease renewal failed; the work may be taken again after its lease.");
+        }
+    }
+
     private async Task Release(BotWork work, string error, CancellationToken cancellation)
     {
         // BOT-224: a protocol seat's failed decision is asked again after a growing interval while the failure lasts.
@@ -169,7 +188,19 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
                 return protocol.Enabled ? "ProtocolConfiguration" : "ProtocolDisabled";
             }
             var state = await inputs.ReadState(work, stopping) ?? throw new BotWorkExpiredException();
-            var result = await protocol.Decide(request.Player, state, request.InvocationId, stopping);
+            // The lease is kept while AlphaWOTR thinks (a decision of several questions outlasts it): another worker must
+            // not take the same game meanwhile.
+            ProtocolSeatResult result;
+            using (var thinking = CancellationTokenSource.CreateLinkedTokenSource(stopping))
+            {
+                var renewal = KeepLease(work, thinking.Token);
+                try { result = await protocol.Decide(request.Player, state, request.InvocationId, stopping); }
+                finally
+                {
+                    thinking.Cancel();
+                    await renewal;
+                }
+            }
             if (result.Outcome == "Stale")
                 throw new BotWorkExpiredException();
             if (result.Command is not { } chosen)

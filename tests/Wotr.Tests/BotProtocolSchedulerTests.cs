@@ -127,7 +127,42 @@ public sealed class BotProtocolSchedulerTests
         Assert.Equal("SHADOW_MILITARY", (string?)over["how"]);
     }
 
-    private static ProtocolSeatHost Seat(int port) => new(new ProtocolSeatOptions(true, "127.0.0.1", port, TimeSpan.FromSeconds(5),
+    // AlphaWOTR may think longer than the host's lease (a decision of several questions): the lease is renewed meanwhile,
+    // so no other worker takes the same game.
+    [PostgresFact]
+    public async Task TheLeaseIsKeptWhileTheBotThinks()
+    {
+        using var package = new BotPackageFixture();
+        var settings = Settings(package);
+        settings["Wotr:Bots:RuntimeLeaseSeconds"] = "5";
+        await using var fixture = await BotHostFixture.Create(settings);
+        var (_, _, work) = await fixture.Game();
+        await fixture.Expire(work);
+        var options = package.Options(fixture.Settings) with { MemoryPressureBytes = 1024L * 1024 * 1024 };
+        using var bot = new ProtocolFakeBot(13) { Delay = TimeSpan.FromSeconds(9) };
+        using var metrics = new BotHostMetrics(options);
+        using var host = Seat(bot.Port);
+        using var scheduler = ActivatorUtilities.CreateInstance<BotScheduler>(fixture.Host.Services, options, metrics, host);
+        await scheduler.StartAsync(default);
+        try
+        {
+            for (var i = 0; i < 150; i++)
+            {
+                lock (bot.Received)
+                    if (bot.Received.Any(m => (string?)m["type"] == "decide"))
+                        break;
+                await Task.Delay(100);
+            }
+            var claimed = await fixture.Scalar("SELECT generation FROM bot_runtime_jobs WHERE assignment_id=$1", work.AssignmentId);
+            await Task.Delay(TimeSpan.FromSeconds(7));
+            Assert.Equal(true, await fixture.Scalar("SELECT lease_until > clock_timestamp() FROM bot_runtime_jobs WHERE assignment_id=$1", work.AssignmentId));
+            Assert.Equal(claimed, await fixture.Scalar("SELECT generation FROM bot_runtime_jobs WHERE assignment_id=$1", work.AssignmentId));
+        }
+        finally { await scheduler.StopAsync(default); }
+    }
+
+    private static ProtocolSeatHost Seat(int port) => new(
+new ProtocolSeatOptions(true, "127.0.0.1", port, TimeSpan.FromSeconds(5),
             TimeSpan.FromSeconds(30), new Dictionary<string, JsonNode?>()), GameRuntime.Engine(EffectCatalog.All),
         NullLogger<ProtocolSeatHost>.Instance);
 

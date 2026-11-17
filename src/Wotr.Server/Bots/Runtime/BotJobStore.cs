@@ -64,6 +64,18 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
         return work;
     }
 
+    // BOT-225: a protocol seat's decision can outlast the lease (AlphaWOTR asked several questions, each up to the seat's
+    // decision time), so the lease is extended while it thinks; false when the work is no longer this worker's.
+    public async Task<bool> Renew(BotWork work, CancellationToken cancellation = default)
+    {
+        await using var connection = await database.Source.OpenConnectionAsync(cancellation);
+        await using var renew = Database.Command(connection, null, """
+            UPDATE bot_runtime_jobs SET lease_until=clock_timestamp()+make_interval(secs => $4)
+            WHERE assignment_id=$1 AND generation=$2 AND owner_id=$3 AND lease_until>clock_timestamp()
+            """, work.AssignmentId, work.Generation, work.OwnerId, options.Lease.TotalSeconds);
+        return await renew.ExecuteNonQueryAsync(cancellation) == 1;
+    }
+
     internal static async Task Lock(NpgsqlConnection connection, NpgsqlTransaction transaction,
         BotWork work, CancellationToken cancellation)
     {
