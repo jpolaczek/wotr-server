@@ -8,8 +8,9 @@ SPEC §2: "a plain TCP stream is the same protocol"). The bot's stderr goes to a
     python3 scripts/protocol_sidecar.py --listen 127.0.0.1:7311 --cwd /srv/alphawotr --logs /srv/alphawotr/logs \
         --max-games 4 -- /srv/alphawotr/venv/bin/python -I protocol/wotr_protocol_bot.py
 
-The bot command follows "--". The sidecar listens on the loopback address only unless told otherwise, refuses connections
-beyond --max-games (the server then answers with its own runtime and counts it), and never reads or changes what passes.
+The bot command follows "--". The sidecar listens on the loopback address only unless told otherwise, lets a connection wait up
+to a minute for a free bot beyond --max-games (then refuses it: the server's decision waits with that error, no other
+engine plays), and never reads or changes what passes.
 """
 import argparse
 import datetime
@@ -100,7 +101,9 @@ def main():
     number = 0
     while True:
         conn, address = server.accept()
-        if not slots.acquire(blocking=False):
+        # A game waits for a free bot (one that ends releases its slot a moment after its game_over); after a minute
+        # the connection is refused and the server's decision waits with that error.
+        if not slots.acquire(timeout=60):
             conn.close()
             continue
         number += 1

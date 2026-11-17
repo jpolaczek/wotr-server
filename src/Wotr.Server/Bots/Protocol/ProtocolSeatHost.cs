@@ -38,6 +38,9 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
 
     public bool Enabled => options.Enabled;
 
+    // A trace of every question and answer (the arena's audit; null on a game server).
+    public Action<JsonObject>? Trace { get; set; }
+
     // A base game only (no expansion, no variant): protocol 0.1 knows nothing else.
     public bool Handles(PlayerView view) => options.Enabled && view.Configuration is
     {
@@ -101,6 +104,12 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
                 asked++;
                 // What the bot's own engine chose, where the options cannot say it (the Voice of Saruman).
                 var option = answer.Option is { } o ? ProtocolHints.Adjust(question, o, answer.Info) : (int?)null;
+                Trace?.Invoke(new JsonObject
+                {
+                    ["game"] = view.MatchId, ["turn"] = view.Turn, ["side"] = sideKey, ["decision"] = view.Decision?.Kind.ToString(),
+                    ["question"] = message, ["answer"] = answer.Option, ["taken"] = option, ["outcome"] = answer.Outcome,
+                    ["info"] = answer.Info?.DeepClone()
+                });
                 if (option is not null && option != answer.Option)
                     logger.LogInformation("The protocol seat took option {Option} for {Answer} after the bot's engine action.", option, answer.Option);
                 if (option is null || !decision.Answer(option.Value))

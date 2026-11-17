@@ -39,6 +39,11 @@ var demo = new DemoBot(engine, views);
 using var host = new ProtocolSeatHost(new ProtocolSeatOptions(true, Option("host", "127.0.0.1"), int.Parse(Option("port", "7311")),
     TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(int.Parse(Option("seconds", "120"))), botOptions), engine,
     logging.CreateLogger<ProtocolSeatHost>());
+if (options.TryGetValue("trace", out var tracePath))
+{
+    var writer = new StreamWriter(tracePath, append: true) { AutoFlush = true };
+    host.Trace = line => { lock (writer) writer.WriteLine(line.ToJsonString()); };
+}
 for (var game = 0; game < games; game++)
 {
     var gameSeed = seed + game;
