@@ -184,6 +184,9 @@ public static class ProtocolArmyQuestions
                 else
                     branches.Add(new ProtocolBranch(partial, words, () => Continue(selection, army, target, done)));
             }
+            // Moves alike in the protocol's terms (one target by two routes, a card's two Armies in one region) are one
+            // answer: the first legal one stands for them.
+            branches = branches.GroupBy(b => ProtocolJson.Write(b.Atom)).Select(g => g.First()).ToList();
             return new ProtocolNode(question, null, branches);
         }
 
