@@ -56,6 +56,18 @@ public static class ProtocolArmyQuestions
         // that target only.
         if (nodes.Count > 0 && nodes.All(n => (context.Option(n.Kind)?.Maximum ?? 1) <= 1))
         {
+            // A card's attack on its one target (Grond, The Fighting Uruk-hai at a single siege): AlphaWOTR's engine opens the
+            // battle with the whole Army and asks nothing, and its adapter has the rule for it on CHOOSE_ATTACK (the engine
+            // has no rearguard), so the attack's own question is asked.
+            if (!finished && nodes is [{ Kind: CommandKind.AttackArmy } only] &&
+                only.Node.Branches.Select(b => ((string?)b.Atom["from"], (string?)b.Atom["to"])).Distinct().Count() == 1)
+            {
+                foreach (var branch in only.Node.Branches)
+                    yield return branch.Terminal
+                        ? new ProtocolPath(new ProtocolStep(only.Node.Question, branch.Atom, branch.Text), branch.Command!)
+                        : new ProtocolPath(new ProtocolStep(only.Node.Question, branch.Atom, branch.Text), () => branch.Next);
+                yield break;
+            }
             foreach (var path in Targets(context, nodes, finished ? finish : null))
                 yield return path;
             yield break;
