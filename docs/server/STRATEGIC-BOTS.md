@@ -77,6 +77,34 @@ Public code in `src/Wotr.Domain/BotProtocol` (the rules side) and
   `Sims` (the bot's declared option), `DecisionSeconds` (AlphaWOTR's clock for one of
   our decisions, 60 until BOT-220's measurements set it), `ConnectSeconds`,
   `IdleSessionMinutes`. Only base games are asked (no expansion, no variant).
+- **AlphaWOTR's shapes (BOT-221 audit, 2026-11-17).** AlphaWOTR v0.2.0 was trained on games
+  recorded with the Gandalf Java client (a piece mover that does not enforce the rules);
+  its engine models some rules its own way and its protocol adapter matches our options
+  by exact fields and takes the first match. The seat asks in the shapes it reads:
+  - its engine's own action, which it reports in a choice's `info.engine`, settles what
+    the options cannot carry (`ProtocolHints`): the Voice of Saruman (a Muster recruit
+    with `saruman=settlements` or `swap2`, offered as `use_die recruit` marked by its
+    variant), a battle's losses (its adapter reads a retired `count` and would always
+    remove the first Regular; each hit is told apart in the context, `round` 1.01, 1.02,
+    so each reaches its engine, and the loss it named is taken), a card's single
+    Companion (named only inside `move_X`/`sep_X`);
+  - a card's recruitment is asked per figure as where (region and Nation) and then the
+    bare unit word, with the region and Nation as words of the question; a card's single
+    move or attack asks its target first (`card_choice` move/attack with from, to,
+    region); a card's Companion journey is one `card_choice` per group and destination;
+    a combat card's voluntary losses are first a count (0 declines); a Hunt reaction
+    carries the damage; a Minion's entry always names its region; the view's
+    `hunt.shadow_must_hunt` tells the allocation's minimum.
+  - Not reachable from the referee's side (AlphaWOTR's own adapter): its engine never
+    discards a die (`skip_die`), never chooses a rearguard, a Guide change in the
+    Fellowship phase or a partial Voice of Saruman; it answers REMOVE_EXCESS_UNIT,
+    JOIN_GROUP outside its own move, a forced separation, Lure of the Ring, Worn with
+    Sorrow and Toil, The Breaking of the Fellowship, Mithril Coat and Sting and the
+    Free Peoples' bonus draw by its fixed rules; a Mouth of Sauron's flight inside a
+    Nazgûl card chain is mapped as a Nazgûl's; Words of Power, Black Breath and Blade of
+    Westernesse targets and Rage of the Dunlendings' split take its default; a card's
+    chain cannot be stopped early. These are counted in the acceptance games (its own
+    `how` counters: `rule`, `default`) and go to the owner as AlphaWOTR's limits.
 - **Checks.** `BotProtocolVocabularyTests` (the vocabulary one to one against
   `vocabulary-0.1.json`, the fingerprint), `BotProtocolSeatTests` (whole base games
   answered at random through the seat on one side and on both: every command
