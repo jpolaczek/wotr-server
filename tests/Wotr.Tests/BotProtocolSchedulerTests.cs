@@ -65,6 +65,40 @@ public sealed class BotProtocolSchedulerTests
         Assert.Equal("CpuBusy", second.Error);
     }
 
+    // Owner, 2026-11-17 (sessions close after a few idle minutes to give their memory back): the limit counts the AlphaWOTR
+    // games played lately, not the open sessions. A started game with no session open still holds its place; one left
+    // alone longer than ActiveGameMinutes, or finished, gives it back.
+    [PostgresFact]
+    public async Task TheLimitCountsGamesPlayedLatelyNotOpenSessions()
+    {
+        using var package = new BotPackageFixture();
+        var settings = Settings(package);
+        settings["Wotr:Bots:Protocol:MaxGames"] = "1";
+        await using var fixture = await BotHostFixture.Create(settings);
+        var (_, game, _) = await fixture.Game();
+        Assert.Equal("alphawotr", await fixture.Scalar("SELECT state->'bot'->>'engine' FROM rooms WHERE id=$1", game.Id));
+        var human = await MenuAccounts.Register(fixture.Host);
+        var room = await fixture.Rooms.CreatePlayVsCpu(human.AccountId, new CreateRoomRequest { Side = Side.Shadow, Name = "Second" });
+        Assert.Equal("CpuBusy", (await fixture.Rooms.AddBot(room.Id, human.AccountId, PveFixture.Request(room))).Error);
+        await fixture.Execute("UPDATE matches SET updated_at = now() - interval '31 minutes' WHERE id=$1", game.MatchId);
+        Assert.Equal("", (await fixture.Rooms.AddBot(room.Id, human.AccountId, PveFixture.Request(room))).Error);
+    }
+
+    [PostgresFact]
+    public async Task AFinishedAlphaWotrGameGivesItsPlaceBack()
+    {
+        using var package = new BotPackageFixture();
+        var settings = Settings(package);
+        settings["Wotr:Bots:Protocol:MaxGames"] = "1";
+        await using var fixture = await BotHostFixture.Create(settings);
+        var (_, game, _) = await fixture.Game();
+        var human = await MenuAccounts.Register(fixture.Host);
+        var room = await fixture.Rooms.CreatePlayVsCpu(human.AccountId, new CreateRoomRequest { Side = Side.Shadow, Name = "Second" });
+        Assert.Equal("CpuBusy", (await fixture.Rooms.AddBot(room.Id, human.AccountId, PveFixture.Request(room))).Error);
+        await fixture.Execute("UPDATE matches SET state = jsonb_set(state, '{phase}', '\"Finished\"') WHERE id=$1", game.MatchId);
+        Assert.Equal("", (await fixture.Rooms.AddBot(room.Id, human.AccountId, PveFixture.Request(room))).Error);
+    }
+
     [PostgresFact]
     public async Task ASeatSavedBeforeAlphaWotrKeepsTheRuntime()
     {

@@ -45,7 +45,11 @@ services:
       Wotr__Bots__Protocol__DecisionSeconds: ${WOTR_ALPHAWOTR_DECISION_SECONDS:-60}
       Wotr__Bots__Protocol__MaxGames: ${WOTR_ALPHAWOTR_MAX_GAMES:-2}
       Wotr__Bots__Protocol__Accounts: ${WOTR_ALPHAWOTR_ACCOUNTS:-}
-      Wotr__Bots__Protocol__IdleSessionMinutes: ${WOTR_ALPHAWOTR_IDLE_MINUTES:-30}
+      # Owner, 2026-11-17: a session idle for WOTR_ALPHAWOTR_IDLE_MINUTES (2) closes and gives its memory back while its player
+      # thinks; the next CPU move opens it again and catches up (about 2 s more). The games limit counts the games played in
+      # the last WOTR_ALPHAWOTR_ACTIVE_MINUTES (30), not the open sessions.
+      Wotr__Bots__Protocol__IdleSessionMinutes: ${WOTR_ALPHAWOTR_IDLE_MINUTES:-2}
+      Wotr__Bots__Protocol__ActiveGameMinutes: ${WOTR_ALPHAWOTR_ACTIVE_MINUTES:-30}
     secrets: [db_connection, resend_api_key]
     networks:
       alphawotr:

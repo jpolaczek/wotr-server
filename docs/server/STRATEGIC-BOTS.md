@@ -106,7 +106,11 @@ Public code in `src/Wotr.Domain/BotProtocol` (the rules side) and
 - **Settings** (`Wotr:Bots:Protocol`): `Enabled`, `Host` (127.0.0.1), `Port` (7311),
   `Sims` (the bot's declared option), `DecisionSeconds` (AlphaWOTR's clock for one of
   our decisions, 60 until BOT-220's measurements set it), `ConnectSeconds`,
-  `IdleSessionMinutes`. Only base games are asked (no expansion, no variant).
+  `IdleSessionMinutes` (30; production 2: owner, 2026-11-17, a session idle that long closes
+  and gives its memory back while its player thinks, the next decision opens it and catches
+  up), `MaxGames` with `ActiveGameMinutes` (30: the limit counts the unfinished AlphaWOTR
+  games with a move that recent and the rooms about to start one, not the open sessions).
+  Only base games are asked (no expansion, no variant).
 - **AlphaWOTR's shapes (BOT-221 audit, 2026-11-17).** AlphaWOTR v0.2.0 was trained on games
   recorded with the Gandalf Java client (a piece mover that does not enforce the rules);
   its engine models some rules its own way and its protocol adapter matches our options

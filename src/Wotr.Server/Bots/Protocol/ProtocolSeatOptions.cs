@@ -10,6 +10,9 @@ public sealed record ProtocolSeatOptions(bool Enabled, string Host, int Port, Ti
     IReadOnlyDictionary<string, JsonNode?> BotOptions)
 {
     public TimeSpan IdleSession { get; init; } = TimeSpan.FromMinutes(30);
+    // The games limit counts an unfinished AlphaWOTR game whose last move is this recent (owner, 2026-11-17): its session may
+    // have closed while its player thinks (IdleSession), yet it still holds its place; one left alone longer gives it back.
+    public TimeSpan ActiveGame { get; init; } = TimeSpan.FromMinutes(30);
     // Release: the accounts that get AlphaWOTR for a new CPU game while it is not yet open to everyone (the owner's playtest);
     // empty = every account once the seat is enabled.
     public IReadOnlySet<string> Accounts { get; init; } = new HashSet<string>(StringComparer.Ordinal);
@@ -34,6 +37,7 @@ public sealed record ProtocolSeatOptions(bool Enabled, string Host, int Port, Ti
             TimeSpan.FromSeconds(section.GetValue("DecisionSeconds", 60)), options)
         {
             IdleSession = TimeSpan.FromMinutes(section.GetValue("IdleSessionMinutes", 30)),
+            ActiveGame = TimeSpan.FromMinutes(section.GetValue("ActiveGameMinutes", 30)),
             Accounts = (section["Accounts"] ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                 .ToHashSet(StringComparer.Ordinal),
             MaxGames = section.GetValue("MaxGames", 0),
@@ -42,6 +46,7 @@ public sealed record ProtocolSeatOptions(bool Enabled, string Host, int Port, Ti
         };
         if (seat.Port is < 1 or > 65535 || seat.ConnectTimeout.TotalSeconds is < 1 or > 120 ||
             seat.DecisionTimeout.TotalSeconds is < 1 or > 600 || seat.IdleSession.TotalMinutes is < 1 or > 1440 ||
+            seat.ActiveGame.TotalMinutes is < 1 or > 1440 ||
             seat.MaxGames is < 0 or > 64 || seat.StallAlert.TotalMinutes is < 1 or > 1440 ||
             seat.BotOptions.TryGetValue("sims", out var s) && s?.GetValue<int>() is < 1 or > 100_000)
             throw new InvalidOperationException("Invalid protocol seat settings.");

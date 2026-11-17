@@ -337,7 +337,11 @@ line after 5 minutes), and the game continues once AlphaWOTR answers.
 5. Capacity: `WOTR_ALPHAWOTR_MAX_GAMES` (2) games at once at `WOTR_ALPHAWOTR_SIMS` (300) and
    `WOTR_ALPHAWOTR_DECISION_SECONDS` (60): a further CPU game is refused with `CpuBusy` until one ends.
    `WOTR_ALPHAWOTR_SLOTS` (3, the sidecar's bots) stays above it for sessions still closing; each game takes 1-3 GiB
-   (`WOTR_ALPHAWOTR_MEMORY`, 9g).
+   (`WOTR_ALPHAWOTR_MEMORY`, 9g). Owner, 2026-11-17: a session idle `WOTR_ALPHAWOTR_IDLE_MINUTES` (2) closes and gives its
+   memory back while its player thinks; the next CPU move opens it again and catches up (about 2 s more). The limit
+   counts the unfinished AlphaWOTR games with a move in the last `WOTR_ALPHAWOTR_ACTIVE_MINUTES` (30), not the open
+   sessions, so closing them lets no extra game in; a game left alone longer gives its place back and, when its player
+   returns, opens a session again (a slot permitting).
 6. Watch: `infra/production.sh logs server | grep -i alphawotr` (a waiting decision: "AlphaWOTR could not answer …", a
    long wait: a critical line), `infra/production.sh logs alphawotr`.
 7. Rollback: `WOTR_ALPHAWOTR_ENABLED=false` and restart the server (new CPU games get the runtime again; a game already
