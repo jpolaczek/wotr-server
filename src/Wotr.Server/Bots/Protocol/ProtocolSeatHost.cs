@@ -38,6 +38,8 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
         }
     }
 
+    public const string AlphaWotr = "alphawotr";
+
     public bool Enabled => options.Enabled;
 
     // BOT-224: 5 s after a first failure, doubling while failures repeat, at most a minute; a success resets it.
@@ -48,11 +50,13 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
     public Action<JsonObject>? Trace { get; set; }
 
     // A base game only (no expansion, no variant): protocol 0.1 knows nothing else.
-    public bool Handles(PlayerView view) => options.Enabled && view.Configuration is
+    public bool Handles(PlayerView view) => options.Enabled && BaseGame(view.Configuration);
+
+    public static bool BaseGame(MatchConfiguration configuration) => configuration is
     {
         Lords: false, Kings: false, Fate: false, Council: false, VisibleCorruption: false, SequentialCorruption: false,
         RemovingRulerTokens: false, NewCities: false
-    } && view.Configuration.Dismay is null or false;
+    } && configuration.Dismay is null or false;
 
     public async Task<ProtocolSeatResult> Decide(PlayerView view, MatchState state, string invocationId, CancellationToken stopping)
     {

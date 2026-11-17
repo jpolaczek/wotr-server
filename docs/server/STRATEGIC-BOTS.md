@@ -33,7 +33,13 @@ base game. What changes against the sections below:
 - **Time.** AlphaWOTR has its own decision budget, set from measurements on the
   production host; the 3 s / 5 s budget below applies to the scripted runtime.
 - **Saves.** CPU games saved before the switch finish with the runtime that began
-  them; new games use AlphaWOTR.
+  them; new games use AlphaWOTR. BOT-226: the engine is fixed with the seat when the
+  CPU joins (`state.bot.engine` = `alphawotr` while the operator runs the protocol
+  seat, else empty for the runtime; a seat saved before reads empty) and the room view
+  carries it (`BotSeatView.Engine`); the scheduler plays a seat with its own engine, and
+  an AlphaWOTR seat waits (`ProtocolDisabled`, `ProtocolConfiguration`) rather than be
+  played by the runtime. A room whose CPU is AlphaWOTR refuses an expansion or a variant
+  (`CpuBaseGameOnly`), and so does adding AlphaWOTR to such a room.
 - **Versions.** AlphaWOTR is pinned by commit and file hashes; a newer version is a
   new task with its own acceptance.
 

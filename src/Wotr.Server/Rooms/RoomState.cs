@@ -66,6 +66,7 @@ public sealed class RoomState
         Bot = Bot is null ? null : new()
         {
             Side = Bot.Side, ProfileId = Bot.ProfileId, PolicyVersion = Bot.PolicyVersion, ThinkingMode = Bot.ThinkingMode,
+            Engine = Bot.Engine,
             Status = Closed ? BotSeatStatus.Unavailable :
                 (Bot.Side == Side.FreePeoples ? FreePeoplesAccepted : ShadowAccepted) == Version
                     ? BotSeatStatus.Ready : BotSeatStatus.Joining
@@ -99,6 +100,9 @@ public sealed class RoomBotState
     public string? RuntimeVersion { get; set; }
     // BOT-37: saved with the room and its game; a state written before it reads as Fast.
     public BotThinkingMode ThinkingMode { get; set; }
+    // BOT-226: the engine that plays this seat, fixed when the CPU joins and kept by its game: "alphawotr" (the operator's
+    // protocol sidecar) or "" (the scripted runtime; every seat saved before AlphaWOTR reads so and keeps it).
+    public string Engine { get; set; } = "";
     [System.Text.Json.Serialization.JsonIgnore]
     public bool? RuntimeHealthy { get; set; }
 }

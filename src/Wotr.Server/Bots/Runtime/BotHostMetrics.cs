@@ -21,7 +21,7 @@ public sealed class BotHostMetrics(BotHostOptions options) : IDisposable
         // BOT-225: the protocol seat's outcomes; every one but Answered and Forced leaves the decision waiting (owner,
         // 2026-11-17: the scripted runtime never plays for AlphaWOTR).
         "ProtocolAnswered", "ProtocolForced", "ProtocolNoQuestion", "ProtocolSidecarUnavailable", "ProtocolSidecarLost",
-        "ProtocolTimeout", "ProtocolIllegalAnswer", "ProtocolStale"];
+        "ProtocolTimeout", "ProtocolIllegalAnswer", "ProtocolStale", "ProtocolDisabled", "ProtocolConfiguration"];
     private Counter<long>? outcomeCounter;
     private Histogram<double>? queueHistogram;
     private Histogram<double>? computeHistogram;

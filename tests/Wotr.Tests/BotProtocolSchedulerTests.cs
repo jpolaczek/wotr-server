@@ -12,14 +12,54 @@ namespace Wotr.Tests;
 
 // BOT-225 (owner, 2026-11-17): the scripted runtime never plays for the protocol seat. Without the sidecar the CPU's decision
 // waits with its error recorded (the seat shows as unavailable, nothing is played); once the protocol bot answers, the same
-// decision is played through it and the runtime's memory is never written.
+// decision is played through it and the runtime's memory is never written. BOT-226: the engine is fixed with the seat when
+// the CPU joins (AlphaWOTR while the operator runs its sidecar), a seat saved before it keeps the runtime, and a room whose
+// CPU is AlphaWOTR is the base game only.
 public sealed class BotProtocolSchedulerTests
 {
+    private static Dictionary<string, string?> Settings(BotPackageFixture package)
+    {
+        var settings = package.Settings();
+        settings["Wotr:Bots:Protocol:Enabled"] = "true";
+        return settings;
+    }
+
+    [PostgresFact]
+    public async Task AnAlphaWotrRoomRecordsItsEngineAndRefusesExpansions()
+    {
+        using var package = new BotPackageFixture();
+        await using var fixture = await BotHostFixture.Create(Settings(package));
+        var (human, room, _) = await fixture.Reserve();
+        Assert.Equal(ProtocolSeatHost.AlphaWotr, room.Bot!.Engine);
+        Assert.Equal("alphawotr", await fixture.Scalar("SELECT state->'bot'->>'engine' FROM rooms WHERE id=$1", room.Id));
+        var lords = await fixture.Rooms.Configure(room.Id, human.AccountId,
+            new ConfigureRoomRequest { ExpectedVersion = room.Version, Configuration = new MatchConfiguration { Lords = true } });
+        Assert.Equal("CpuBaseGameOnly", lords.Error);
+    }
+
+    [PostgresFact]
+    public async Task ASeatSavedBeforeAlphaWotrKeepsTheRuntime()
+    {
+        using var package = new BotPackageFixture();
+        await using var fixture = await BotHostFixture.Create(Settings(package));
+        var (_, room, work) = await fixture.Game();
+        await fixture.Execute("UPDATE rooms SET state = state #- '{bot,engine}' WHERE id=$1", room.Id);
+        await fixture.Expire(work);
+        var options = package.Options(fixture.Settings) with { MemoryPressureBytes = 1024L * 1024 * 1024 };
+        using var metrics = new BotHostMetrics(options);
+        using var host = Seat(ClosedPort());
+        using var scheduler = ActivatorUtilities.CreateInstance<BotScheduler>(fixture.Host.Services, options, metrics, host);
+        await scheduler.StartAsync(default);
+        try { await fixture.Until("SELECT memory_version FROM bot_runtime_jobs WHERE assignment_id=$1", 1L, work.AssignmentId); }
+        finally { await scheduler.StopAsync(default); }
+        Assert.NotEqual(DBNull.Value, await fixture.Scalar("SELECT memory FROM bot_runtime_jobs WHERE assignment_id=$1", work.AssignmentId));
+    }
+
     [PostgresFact]
     public async Task WithoutTheSidecarTheGameWaitsAndTheRuntimeNeverPlays()
     {
         using var package = new BotPackageFixture();
-        await using var fixture = await BotHostFixture.Create(package.Settings());
+        await using var fixture = await BotHostFixture.Create(Settings(package));
         var (_, room, work) = await fixture.Game();
         await fixture.Expire(work);
         var revision = (long)(await fixture.Scalar("SELECT revision FROM matches WHERE id=$1", room.MatchId))!;

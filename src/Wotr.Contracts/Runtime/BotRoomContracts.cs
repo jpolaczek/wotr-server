@@ -30,5 +30,8 @@ namespace Wotr.Contracts
         public string PolicyVersion { get; set; } = "";
         public BotSeatStatus Status { get; set; }
         public BotThinkingMode ThinkingMode { get; set; }
+        // BOT-226: "alphawotr" when AlphaWOTR plays the seat (the client names and credits it, UI-540); "" for the scripted
+        // runtime of a game begun before it.
+        public string Engine { get; set; } = "";
     }
 }

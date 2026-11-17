@@ -119,8 +119,15 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
         // runtime never plays in its place. When the seat cannot answer, the decision is released with its error (the
         // seat shows as unavailable, the operator's log has the error) and the same decision is asked again until AlphaWOTR
         // answers it: the game waits, it is never played by another engine.
-        if (protocol.Handles(request.Player))
+        if (work.Engine == ProtocolSeatHost.AlphaWotr)
         {
+            // BOT-226: AlphaWOTR's seat waits while the operator's sidecar is switched off or the game is not a base game.
+            if (!protocol.Enabled || !protocol.Handles(request.Player))
+            {
+                logger.LogError("AlphaWOTR's seat in match {Match} cannot play: {Reason}; the game waits.", work.MatchId,
+                    protocol.Enabled ? "not a base game" : "the protocol seat is off");
+                return protocol.Enabled ? "ProtocolConfiguration" : "ProtocolDisabled";
+            }
             var state = await inputs.ReadState(work, stopping) ?? throw new BotWorkExpiredException();
             var result = await protocol.Decide(request.Player, state, request.InvocationId, stopping);
             if (result.Outcome == "Stale")

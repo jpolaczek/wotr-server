@@ -13,7 +13,8 @@ public sealed record RoomParticipant(RoomView Room, string Name, string Avatar);
 // OBS-01: a room has two seats and an audience of up to sixteen observers (ObserverOptions).
 public sealed partial class RoomStore(Database database, IRandomSource random, ReleaseScope? release = null,
     ObserverOptions? observerOptions = null, BotAccessOptions? bots = null, BotRoomOptions? botRooms = null,
-    BotRuntimeCapabilities? runtime = null, BotHostOptions? botHost = null, EmptyRoomOptions? emptyRooms = null)
+    BotRuntimeCapabilities? runtime = null, BotHostOptions? botHost = null, EmptyRoomOptions? emptyRooms = null,
+    ProtocolSeatOptions? protocolSeat = null)
 {
     private readonly ReleaseScope scope = release ?? ReleaseScope.Full;
     private readonly ObserverOptions audience = observerOptions ?? ObserverOptions.Default;
@@ -136,6 +137,9 @@ public sealed partial class RoomStore(Database database, IRandomSource random, R
                 return "HostRequired";
             if (room.State.Bot is { } bot)
             {
+                // BOT-226 (owner, 2026-11-16): a room whose CPU is AlphaWOTR is the base game only.
+                if (bot.Engine == ProtocolSeatHost.AlphaWotr && !ProtocolSeatHost.BaseGame(request.Configuration))
+                    return "CpuBaseGameOnly";
                 if (BotRoomUnavailable(request.Configuration, bot.PolicyVersion, bot.RuntimeVersion, bot.RuntimeVersion is not null) is { } error)
                     return error;
                 if (bot.RuntimeVersion is not null && !await BotRuntimeControl.Running(room.Connection, room.Transaction, bot.RuntimeVersion, cancellation, botHost?.ManifestSha256))
