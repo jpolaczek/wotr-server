@@ -104,6 +104,9 @@ public static class ProtocolEffectQuestions
         else
         {
             var word = id[(id.LastIndexOf('.') + 1)..];
+            // Worn with Sorrow and Toil in the words AlphaWOTR's adapter has its rule for: a card from the hand, or skip.
+            if (card == "base.sh.character.15")
+                word = word switch { "random-character" => "hand", "decline" => "skip", _ => word };
             atom["answer"] = word;
             if (view?.TargetId is { Length: > 0 } target && Regions.Contains(target))
                 atom["region"] = context.Region(target);
@@ -154,6 +157,9 @@ public static class ProtocolEffectQuestions
             // The question names what the card asks in words (a retreat, a target), as the bot reads them.
             var words = string.Join(" ", new[] { context.View.Decision?.Presentation ?? "" }.Concat(option.EffectChoices
                 .Select(c => c.Title).Where(t => t.Length > 0).Distinct().Take(3))).ToLowerInvariant();
+            // The Breaking of the Fellowship: the Companions who separate (the word AlphaWOTR's adapter has its rule for).
+            if (card == "base.sh.character.14")
+                words += " separate";
             // A recruitment's destination and Nation as words of the question (AlphaWOTR's board difference reads them so;
             // an option's region and Nation fields only cost it points against its engine's own choice, which names the unit).
             static bool Figure(ProtocolBranch b) => (string?)b.Atom["unit"] is not null && (string?)b.Atom["region"] is not null &&

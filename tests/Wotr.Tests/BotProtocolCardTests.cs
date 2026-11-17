@@ -118,6 +118,17 @@ public sealed class BotProtocolCardTests
         Assert.Equal("witch-king:leadership:1", paths[2].Command!.Payload.Ids[2]);
     }
 
+    // Worn with Sorrow and Toil answers in the words AlphaWOTR's adapter has its rule for.
+    [Fact]
+    public void WornWithSorrowAnswersHandOrSkip()
+    {
+        var context = new ProtocolContext(new PlayerView { You = Side.Shadow, Decision = new DecisionView { Kind = DecisionKind.EffectChoice } }, _ => true);
+        Assert.Equal("hand", (string?)ProtocolEffectQuestions.Atom(context, "base.sh.character.15", "worn.random-character", null)["answer"]);
+        var skip = ProtocolEffectQuestions.Atom(context, "base.sh.character.15", "worn.decline", null);
+        Assert.Equal("skip", (string?)skip["answer"]);
+        Assert.True((bool?)skip["skip"]);
+    }
+
     // The Palantír of Orthanc's deck is a draw with its deck (AlphaWOTR's engine decides it as its Palantír draw).
     [Fact]
     public void ThePalantirsDeckIsADraw()
