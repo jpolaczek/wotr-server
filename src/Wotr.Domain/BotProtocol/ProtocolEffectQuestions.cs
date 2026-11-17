@@ -18,11 +18,41 @@ public static class ProtocolEffectQuestions
             return Enumerable.Empty<ProtocolPath>();
         if (option.EventRecruitment is not null)
             return ProtocolCardRecruitQuestions.For(context, option);
+        if (context.View.Decision?.Presentation == "NazgulLeadership")
+            return Leadership(context, option);
         var plan = new ChoicePlan(context, option);
         var node = plan.First();
         return node.Branches.Select(b => b.Terminal
             ? new ProtocolPath(new ProtocolStep(node.Question, b.Atom, b.Text, node.Context), b.Command!)
             : new ProtocolPath(new ProtocolStep(node.Question, b.Atom, b.Text, node.Context), () => b.Next));
+    }
+
+    // A Combat card's forfeit of Nazgûl Leadership (Dread and Despair and its kin): how many points, as AlphaWOTR's engine
+    // asks it (its combat effect's counts). The points are alike for the round; the Witch-king's are given last.
+    private static IEnumerable<ProtocolPath> Leadership(ProtocolContext context, ActionOption option)
+    {
+        var card = context.View.Decision?.SourceId ?? "";
+        var points = option.EligibleIds
+            .OrderBy(id => option.EffectChoices.FirstOrDefault(c => c.Id == id)?.Title.StartsWith("Witch-king", StringComparison.Ordinal) == true)
+            .ToList();
+        var words = string.Join(" ", new[] { "nazgulleadership" }.Concat(option.EffectChoices.Select(c => c.Title).Where(t => t.Length > 0)
+            .Distinct().Take(3))).ToLowerInvariant();
+        var frame = Question(context, card, CardCatalog.Title(card) + ": choose (" + words + ")");
+        if (context.View.Battle is not null)
+            foreach (var (key, value) in ProtocolBattleQuestions.Context(context)!)
+                frame[key] = value?.DeepClone();
+        for (var count = 0; count <= points.Count; count++)
+        {
+            var command = context.Command(CommandKind.ChooseEffect, new CommandPayload { Ids = points.Take(count).ToList() });
+            if (!context.Legal(command))
+                continue;
+            var atom = ProtocolAtom.Of("card_choice", ("card", card.Length > 0 ? context.Card(card) : null),
+                ("answer", count == 0 ? "decline" : count.ToString(System.Globalization.CultureInfo.InvariantCulture)), ("count", count));
+            if (count == 0)
+                atom["skip"] = true;
+            yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", atom,
+                count == 0 ? "Forfeit no Leadership" : $"Forfeit {count} Leadership", frame), command);
+        }
     }
 
     public static JsonObject Question(ProtocolContext context, string card, string question) => new()

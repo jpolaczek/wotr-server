@@ -60,6 +60,26 @@ public sealed class BotProtocolCardTests
         Assert.Null(Engine.Validate(state, Side.Shadow, decision.Command!));
     }
 
+    // A forfeit of Nazgûl Leadership is a count of points (AlphaWOTR's Dread and Despair counts); the Witch-king's go last.
+    [Fact]
+    public void ANazgulLeadershipForfeitIsACount()
+    {
+        string[] ids = ["witch-king:leadership:1", "witch-king:leadership:2", "n1:leadership:1", "n2:leadership:1"];
+        var option = new ActionOption { Kind = CommandKind.ChooseEffect, Minimum = 1, Maximum = 4, EligibleIds = ids.ToList() };
+        foreach (var id in ids)
+            option.EffectChoices.Add(new EffectChoiceView { Id = id, Title = id.StartsWith("witch-king") ? "Witch-king ◆" : "Nazgûl ◆" });
+        var view = new PlayerView
+        {
+            You = Side.Shadow, Options = [option],
+            Decision = new DecisionView { Kind = DecisionKind.EffectChoice, Presentation = "NazgulLeadership", SourceId = "base.sh.character.05" }
+        };
+        var context = new ProtocolContext(view, c => c.Payload.Ids.Count >= 1);
+        var paths = ProtocolEffectQuestions.Choice(context).ToList();
+        Assert.Equal(new int?[] { 1, 2, 3, 4 }, paths.Select(p => (int?)p.Steps[0].Atom["count"]).ToArray());
+        Assert.Equal(new[] { "n1:leadership:1", "n2:leadership:1" }, paths[1].Command!.Payload.Ids);
+        Assert.Equal("witch-king:leadership:1", paths[2].Command!.Payload.Ids[2]);
+    }
+
     // The Palantír of Orthanc's deck is a draw with its deck (AlphaWOTR's engine decides it as its Palantír draw).
     [Fact]
     public void ThePalantirsDeckIsADraw()
