@@ -41,20 +41,14 @@ public sealed partial class RoomStore
                 return "CpuBaseGameOnly";
             if (engine.Length > 0 && protocolSeat!.MaxGames > 0)
             {
-                // The AlphaWOTR games played lately (unfinished, a move within ActiveGame), and the rooms about to start one
-                // (seen lately, not started). UI/ops, owner 2026-11-17: the games, not the sidecar's open sessions, since a
-                // session closes after a few idle minutes to give its memory back while its player thinks.
-                await using var active = Database.Command(room.Connection, room.Transaction, """
-                    SELECT
-                        (SELECT count(*) FROM rooms r JOIN matches m ON m.id = r.match_id
-                         WHERE r.id <> $1 AND r.state->'bot'->>'engine' = 'alphawotr' AND m.state->>'phase' <> 'Finished'
-                             AND m.updated_at > clock_timestamp() - make_interval(secs => $3))
-                      + (SELECT count(*) FROM rooms r
-                         WHERE NOT r.closed AND r.id <> $1 AND r.match_id IS NULL AND r.state->'bot'->>'engine' = 'alphawotr'
-                             AND r.seen_at > clock_timestamp() - make_interval(secs => $2))
-                    """, state.Id, (emptyRooms?.EmptyAfter ?? TimeSpan.FromSeconds(30)).TotalSeconds,
-                    protocolSeat.ActiveGame.TotalSeconds);
-                if ((long)(await active.ExecuteScalarAsync(cancellation))! >= protocolSeat.MaxGames)
+                // The games holding an AlphaWOTR session now, and the rooms about to start one (seen lately, not started).
+                await using var waiting = Database.Command(room.Connection, room.Transaction, """
+                    SELECT count(*) FROM rooms r
+                    WHERE NOT r.closed AND r.id <> $1 AND r.match_id IS NULL AND r.state->'bot'->>'engine' = 'alphawotr'
+                        AND r.seen_at > clock_timestamp() - make_interval(secs => $2)
+                    """, state.Id, (emptyRooms?.EmptyAfter ?? TimeSpan.FromSeconds(30)).TotalSeconds);
+                var playing = protocolHost?.OpenMatches().Count ?? 0;
+                if (playing + (long)(await waiting.ExecuteScalarAsync(cancellation))! >= protocolSeat.MaxGames)
                     return "CpuBusy";
             }
             if (runtime?.Enabled == true && !await BotRuntimeControl.Running(room.Connection, room.Transaction, runtime.Version!, cancellation, botHost?.ManifestSha256))
