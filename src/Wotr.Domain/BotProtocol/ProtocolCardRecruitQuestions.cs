@@ -91,17 +91,22 @@ public static class ProtocolCardRecruitQuestions
         private IReadOnlyList<string> Reserve(string nation, UnitKind kind) =>
             option.Recruitment.FirstOrDefault(r => r.Nation == nation && r.Kind == kind)?.ReserveIds ?? new List<string>();
 
-        // Filling the rest with the first figures allowed (or the last ones) makes a legal plan.
+        // Filling the rest makes a legal plan: with the first figures allowed or the last ones, each either anywhere or in
+        // the regions already chosen first (a card's "two in each of three settlements" is only completed so).
         private bool Completable(IReadOnlyList<Figure> placed)
         {
-            foreach (var last in new[] { false, true })
-            {
-                var plan = placed.ToList();
-                while (plan.Count < count && Figures(plan).ToList() is { Count: > 0 } open)
-                    plan.Add(last ? open[^1] : open[0]);
-                if (plan.Count >= option.Minimum && Legal(plan))
-                    return true;
-            }
+            foreach (var same in new[] { false, true })
+                foreach (var last in new[] { false, true })
+                {
+                    var plan = placed.ToList();
+                    while (plan.Count < count && Figures(plan).ToList() is { Count: > 0 } open)
+                    {
+                        var pool = same && open.Where(f => plan.Any(p => p.Region == f.Region)).ToList() is { Count: > 0 } kept ? kept : open;
+                        plan.Add(last ? pool[^1] : pool[0]);
+                    }
+                    if (plan.Count >= option.Minimum && Legal(plan))
+                        return true;
+                }
             return false;
         }
 
