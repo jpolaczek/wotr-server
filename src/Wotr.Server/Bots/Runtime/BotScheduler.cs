@@ -1,15 +1,55 @@
 using System.Diagnostics;
 using Npgsql;
+using Wotr.Contracts;
 
 namespace Wotr.Server;
 
 // Durable polling also recovers work without any player opening the match.
 public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities capabilities,
     BotJobStore jobs, BotInputStore inputs, RoomStore rooms, MatchStore matches, RevisionHub hub,
-    ILogger<BotScheduler> logger, BotHostMetrics metrics, ProtocolSeatHost protocol) : BackgroundService
+    ILogger<BotScheduler> logger, BotHostMetrics metrics, ProtocolSeatHost protocol, Database database) : BackgroundService
 {
     protected override Task ExecuteAsync(CancellationToken stopping) => !options.Enabled
-        ? Task.CompletedTask : Task.WhenAll(Enumerable.Range(0, options.Workers).Select(_ => Worker(stopping)));
+        ? Task.CompletedTask : Task.WhenAll(Enumerable.Range(0, options.Workers).Select(_ => Worker(stopping)).Append(Sweep(stopping)));
+
+    // BOT-225: a protocol game that ends on the other side's move gets no further CPU work (a finished match is not
+    // claimed), so its sessions are closed here: the bot hears game_over and the sidecar's slot is free again.
+    private async Task Sweep(CancellationToken stopping)
+    {
+        var interval = TimeSpan.FromMilliseconds(Math.Max(1000, options.Poll.TotalMilliseconds * 4));
+        try
+        {
+            while (!stopping.IsCancellationRequested)
+            {
+                await Task.Delay(interval, stopping);
+                var open = protocol.OpenMatches();
+                if (open.Count == 0)
+                    continue;
+                try
+                {
+                    var ended = new List<(string Match, Side? Winner, VictoryCondition? Victory, int Turn)>();
+                    await using (var connection = await database.Source.OpenConnectionAsync(stopping))
+                    await using (var query = Database.Command(connection, null,
+                        "SELECT id, state->>'winner', state->>'victory', COALESCE((state->>'turn')::int, 0) " +
+                        "FROM matches WHERE id = ANY($1) AND state->>'winner' IS NOT NULL", (object)open.ToArray()))
+                    await using (var row = await query.ExecuteReaderAsync(stopping))
+                        while (await row.ReadAsync(stopping))
+                            ended.Add((row.GetString(0),
+                                Enum.TryParse<Side>(row.IsDBNull(1) ? "" : row.GetString(1), out var side) ? side : null,
+                                Enum.TryParse<VictoryCondition>(row.IsDBNull(2) ? "" : row.GetString(2), out var how) ? how : null,
+                                row.GetInt32(3)));
+                    foreach (var game in ended)
+                        await protocol.Ended(game.Match, game.Winner, game.Victory, game.Turn, stopping);
+                    protocol.ExpireIdle();
+                }
+                catch (NpgsqlException)
+                {
+                    logger.LogWarning("The protocol seat's sweep of ended games will retry.");
+                }
+            }
+        }
+        catch (OperationCanceledException) when (stopping.IsCancellationRequested) { }
+    }
 
     private async Task Worker(CancellationToken stopping)
     {

@@ -93,6 +93,40 @@ public sealed class BotProtocolSchedulerTests
         Assert.Equal(1, bot.Connections);
     }
 
+    // A game that ends on the other side's move gets no further CPU work; the sweep still ends its session (the bot hears
+    // game_over) so the sidecar's slot is free for the next game.
+    [PostgresFact]
+    public async Task AGameThatEndsClosesItsSession()
+    {
+        using var package = new BotPackageFixture();
+        await using var fixture = await BotHostFixture.Create(Settings(package));
+        var (_, room, work) = await fixture.Game();
+        await fixture.Expire(work);
+        var options = package.Options(fixture.Settings) with { MemoryPressureBytes = 1024L * 1024 * 1024 };
+        using var bot = new ProtocolFakeBot(11);
+        using var metrics = new BotHostMetrics(options);
+        using var host = Seat(bot.Port);
+        using var scheduler = ActivatorUtilities.CreateInstance<BotScheduler>(fixture.Host.Services, options, metrics, host);
+        await scheduler.StartAsync(default);
+        try
+        {
+            await fixture.Until("SELECT memory_version FROM bot_runtime_jobs WHERE assignment_id=$1", 1L, work.AssignmentId);
+            Assert.Contains(room.MatchId, host.OpenMatches());
+            await fixture.Execute("UPDATE matches SET state = jsonb_set(jsonb_set(state, '{winner}', '\"Shadow\"'), '{victory}', " +
+                "'\"ShadowMilitary\"') WHERE id=$1", room.MatchId);
+            for (var i = 0; i < 100 && host.OpenMatches().Contains(room.MatchId); i++)
+                await Task.Delay(200);
+        }
+        finally { await scheduler.StopAsync(default); }
+        Assert.DoesNotContain(room.MatchId, host.OpenMatches());
+        JsonObject? over;
+        lock (bot.Received)
+            over = bot.Received.LastOrDefault(m => (string?)m["type"] == "game_over");
+        Assert.NotNull(over);
+        Assert.Equal("SHADOW", (string?)over!["winner"]);
+        Assert.Equal("SHADOW_MILITARY", (string?)over["how"]);
+    }
+
     private static ProtocolSeatHost Seat(int port) => new(new ProtocolSeatOptions(true, "127.0.0.1", port, TimeSpan.FromSeconds(5),
             TimeSpan.FromSeconds(30), new Dictionary<string, JsonNode?>()), GameRuntime.Engine(EffectCatalog.All),
         NullLogger<ProtocolSeatHost>.Instance);

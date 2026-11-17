@@ -195,6 +195,35 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
         }
     }
 
+    // The matches with a session open (the scheduler's sweep closes those that have ended).
+    public IReadOnlyList<string> OpenMatches() => seats.Keys.Select(k => k.Match).Distinct().ToList();
+
+    // A game ended without a further decision of the seat (on the other side's move): its bots hear the result and their
+    // sessions end, which frees the sidecar's slots for the next game.
+    public async Task Ended(string match, Side? winner, VictoryCondition? victory, int turn, CancellationToken cancellation)
+    {
+        foreach (var key in seats.Keys.Where(k => k.Match == match).ToList())
+        {
+            if (!seats.TryRemove(key, out var seat))
+                continue;
+            try
+            {
+                await seat.Session.End(winner is { } w ? ProtocolVocabulary.Side(w) : null, How(victory), turn, cancellation);
+            }
+            catch (Exception error) when (error is IOException or ObjectDisposedException or OperationCanceledException)
+            {
+            }
+            finally
+            {
+                seat.Dispose();
+            }
+            logger.LogInformation("The protocol seat closed game {Match} as {Side}: the game is over.", match, key.Side);
+        }
+    }
+
+    // Sessions idle past their limit end (a game abandoned without a result).
+    public void ExpireIdle() => Expire();
+
     public void Dispose()
     {
         foreach (var key in seats.Keys)
