@@ -1194,5 +1194,5 @@
     {"abilities": ["guide-first-move-to-fellowship-box", "combat-strength-plus-one", "may-transform-to-aragorn"], "id": "lords.character.strider", "side": "FreePeoples"},
     {"abilities": ["spear-of-terror", "he-sees-he-knows", "not-minion-for-gandalf-white"], "id": "lords.character.witch-king", "side": "Shadow"}
   ],
-  "sourceDigest": "61c60e86a098ca935d60e2db73f1c5ba1aa5aa44b0f831159bc8fbdfeef28618"
+  "sourceDigest": "131411cb4606bb09a9706cbf9360656d44827189ede4730ee79b14b3991a7b28"
 }
