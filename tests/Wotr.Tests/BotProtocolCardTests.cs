@@ -59,4 +59,22 @@ public sealed class BotProtocolCardTests
         Assert.Null(decision.Question);
         Assert.Null(Engine.Validate(state, Side.Shadow, decision.Command!));
     }
+
+    // The Palantír of Orthanc's deck is a draw with its deck (AlphaWOTR's engine decides it as its Palantír draw).
+    [Fact]
+    public void ThePalantirsDeckIsADraw()
+    {
+        var view = new PlayerView
+        {
+            You = Side.Shadow,
+            Decision = new DecisionView { Kind = DecisionKind.EffectChoice, Presentation = "Deck", SourceId = "base.sh.character.21" }
+        };
+        var context = new ProtocolContext(view, _ => true);
+        foreach (var deck in new[] { "character", "strategy" })
+        {
+            var atom = ProtocolEffectQuestions.Atom(context, "base.sh.character.21", deck, null);
+            Assert.Equal("draw", (string?)atom["kind"]);
+            Assert.Equal(deck, (string?)atom["deck"]);
+        }
+    }
 }

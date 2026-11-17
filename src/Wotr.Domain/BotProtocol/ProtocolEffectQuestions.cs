@@ -68,6 +68,9 @@ public static class ProtocolEffectQuestions
             atom["answer"] = context.Card(id);
             atom["target_card"] = context.Card(id);
         }
+        else if (context.View.Decision?.Presentation == "Deck" && id is "character" or "strategy")
+            // The Palantír of Orthanc's draw: a deck, as AlphaWOTR's engine asks it (its Palantír draw).
+            return ProtocolAtom.Of("draw", ("deck", id));
         else
         {
             var word = id[(id.LastIndexOf('.') + 1)..];
@@ -121,11 +124,13 @@ public static class ProtocolEffectQuestions
             // The question names what the card asks in words (a retreat, a target), as the bot reads them.
             var words = string.Join(" ", new[] { context.View.Decision?.Presentation ?? "" }.Concat(option.EffectChoices
                 .Select(c => c.Title).Where(t => t.Length > 0).Distinct().Take(3))).ToLowerInvariant();
-            // A recruitment's destination and Nation as words of the question (AlphaWOTR reads them so).
-            var reserve = option.EligibleIds.Select(id => (Unit: context.Unit(id), View: option.EffectChoices.FirstOrDefault(c => c.Id == id)))
-                .FirstOrDefault(u => u.Unit is { } x && !Regions.Contains(x.Location) && u.View?.TargetId is { Length: > 0 } t && Regions.Contains(t));
-            if (reserve.Unit is { } recruit)
-                words += " in " + context.Region(reserve.View!.TargetId) + " for " + context.Nation(recruit.Nation);
+            // A recruitment's destination and Nation as words of the question (AlphaWOTR reads them so), when the figures
+            // offered now share them.
+            var places = branches.Where(b => (string?)b.Atom["unit"] is not null && (string?)b.Atom["region"] is not null &&
+                    (string?)b.Atom["answer"] is { } answer && !answer.Contains(':'))
+                .Select(b => ((string?)b.Atom["region"], (string?)b.Atom["nation"])).Distinct().ToList();
+            if (places.Count == 1)
+                words += " in " + places[0].Item1 + " for " + places[0].Item2;
             var frame = Question(context, card, CardCatalog.Title(card) + ": choose (" + words + ")");
             if (context.View.Battle is not null)
                 foreach (var (key, value) in ProtocolBattleQuestions.Context(context)!)
