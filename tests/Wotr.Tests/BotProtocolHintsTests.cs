@@ -42,6 +42,25 @@ public sealed class BotProtocolHintsTests
     }
 
     [Fact]
+    public void ACardsSingleCompanionIsTheOneItsEngineNamed()
+    {
+        GameCommand Move(string id) => new() { Kind = CommandKind.MoveCompanions, Payload = new() { CardId = id } };
+        var question = new ProtocolNode("CARD_CHOICE", null, new[]
+        {
+            new ProtocolBranch(ProtocolAtom.Of("card_choice", ("answer", "legolas>rivendell"), ("character", "legolas"), ("to", "rivendell"),
+                ("region", "rivendell")), "a", Move("a")),
+            new ProtocolBranch(ProtocolAtom.Of("card_choice", ("answer", "strider>rivendell"), ("character", "strider"), ("to", "rivendell"),
+                ("region", "rivendell")), "b", Move("b")),
+            new ProtocolBranch(ProtocolAtom.Of("card_choice", ("answer", "strider>bree"), ("character", "strider"), ("to", "bree"),
+                ("region", "bree")), "c", Move("c"))
+        });
+        var engine = "{\"type\":\"card_option\",\"die\":-1,\"params\":{\"card_id\":\"FREE_PEOPLES_Character_Gwaihir\",\"choices\":[[\"companion_action\",\"move_Strider\"],[\"destination\",\"rivendell\"]]}}";
+        Assert.Equal(1, ProtocolHints.Adjust(question, 0, Info(engine)));
+        Assert.Equal(2, ProtocolHints.Adjust(question, 0, Info(engine.Replace("\"rivendell\"]]", "\"bree\"]]"))));
+        Assert.Equal(0, ProtocolHints.Adjust(question, 0, Info("{\"type\":\"card_option\",\"params\":{\"choices\":[[\"answer\",\"yes\"]]}}")));
+    }
+
+    [Fact]
     public void TheEnginesLossIsTheOneTakenWhateverItsAdapterAnswered()
     {
         GameCommand Loss(string id) => new() { Kind = CommandKind.TakeBattleLosses, Payload = new() { CardId = id } };

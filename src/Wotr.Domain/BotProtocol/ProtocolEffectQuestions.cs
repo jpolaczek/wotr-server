@@ -84,8 +84,14 @@ public static class ProtocolEffectQuestions
         {
             var branches = new List<ProtocolBranch>();
             if (picked.Count >= option.Minimum && (picked.Count > 0 || option.Minimum == 0) && Legal(picked))
-                branches.Add(new ProtocolBranch(ProtocolAtom.Of("card_choice", ("card", card.Length > 0 ? context.Card(card) : null),
-                    ("answer", picked.Count == 0 ? "skip" : "done"), ("skip", true)), picked.Count == 0 ? "None" : "Done", Command(picked)));
+            {
+                var decline = ProtocolAtom.Of("card_choice", ("card", card.Length > 0 ? context.Card(card) : null),
+                    ("answer", picked.Count == 0 ? "skip" : "done"), ("skip", true));
+                // Where the card's answers are counts, declining is the count 0 (AlphaWOTR needs a count on every option).
+                if (picked.Count == 0 && option.EligibleIds.Any(id => int.TryParse(id[(id.LastIndexOf('.') + 1)..], out _)))
+                    decline["count"] = 0;
+                branches.Add(new ProtocolBranch(decline, picked.Count == 0 ? "None" : "Done", Command(picked)));
+            }
             if (picked.Count < Math.Max(1, option.Maximum))
                 foreach (var id in option.EligibleIds.Where(id => !picked.Contains(id)))
                 {
@@ -98,8 +104,14 @@ public static class ProtocolEffectQuestions
                     var last = next.Count >= Math.Max(1, option.Maximum) || !Extendable(next);
                     branches.Add(last && Legal(next) ? new ProtocolBranch(atom, text, Command(next)) : new ProtocolBranch(atom, text, () => Node(next)));
                 }
-            var words = context.View.Decision?.Presentation ?? "";
-            return new ProtocolNode("CARD_CHOICE", Question(context, card, CardCatalog.Title(card) + ": choose (" + words + ")"), branches);
+            // The question names what the card asks in words (a retreat, a target), as the bot reads them.
+            var words = string.Join(" ", new[] { context.View.Decision?.Presentation ?? "" }.Concat(option.EffectChoices
+                .Select(c => c.Title).Where(t => t.Length > 0).Distinct().Take(3))).ToLowerInvariant();
+            var frame = Question(context, card, CardCatalog.Title(card) + ": choose (" + words + ")");
+            if (context.View.Battle is not null)
+                foreach (var (key, value) in ProtocolBattleQuestions.Context(context)!)
+                    frame[key] = value?.DeepClone();
+            return new ProtocolNode("CARD_CHOICE", frame, branches);
         }
 
         // The picks themselves, or with one or two more, make a legal choice.
@@ -144,6 +156,12 @@ public static class ProtocolEffectQuestions
             return Draw(context, reactions[0].Id, reactions[0].Command, declined ? decline : null);
         var paths = new List<ProtocolPath>();
         var question = Question(context, context.View.Decision?.SourceId ?? "", "Use a card's or a character's answer now?");
+        // A Hunt window's damage (Axe and Bow, Horn of Gondor, Mithril Coat and Sting read it).
+        if (context.View.Hunt is { } hunt)
+        {
+            question["damage"] = hunt.Damage;
+            question["tile"] = hunt.TileId.Length > 0 ? ProtocolVocabulary.HuntTile(hunt.TileId) : null;
+        }
         foreach (var (id, command) in reactions)
         {
             var view = respond!.EffectChoices.FirstOrDefault(c => c.Id == id);

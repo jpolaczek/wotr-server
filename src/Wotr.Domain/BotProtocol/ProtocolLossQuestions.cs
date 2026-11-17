@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using Wotr.Contracts;
+using Wotr.Domain.Content;
 
 namespace Wotr.Domain.BotProtocol;
 
@@ -15,6 +16,8 @@ public static class ProtocolLossQuestions
         var kind = context.Option(CommandKind.TakeBattleLosses) is not null ? CommandKind.TakeBattleLosses : CommandKind.TakeEventLosses;
         if (context.Option(kind) is not { } option)
             return Enumerable.Empty<ProtocolPath>();
+        if (context.View.Decision?.Presentation == "VoluntaryLosses")
+            return Voluntary(context, option, kind);
         var plan = new CasualtyPlan(context, option, kind);
         var node = plan.First();
         return node.Branches.Select(b => b.Terminal
@@ -22,9 +25,35 @@ public static class ProtocolLossQuestions
             : new ProtocolPath(new ProtocolStep(node.Question, b.Atom, b.Text, node.Context), () => b.Next));
     }
 
-    private sealed class CasualtyPlan(ProtocolContext context, ActionOption option, CommandKind kind)
+    // A combat card's voluntary losses (Onslaught, Relentless Assault): how many hits first, as CARD_CHOICE with an integer
+    // count on every option (0 declines) and the card in the context, the shape AlphaWOTR's engine answers a combat card's
+    // count with; then the losses one hit at a time.
+    private static IEnumerable<ProtocolPath> Voluntary(ProtocolContext context, ActionOption option, CommandKind kind)
     {
-        private readonly int hits = Math.Max(option.Maximum, context.View.Decision?.RequiredCount ?? 0);
+        var card = context.View.Decision?.SourceId ?? "";
+        var question = ProtocolEffectQuestions.Question(context, card, CardCatalog.Title(card) + ": how many hits does the army take?");
+        var battle = ProtocolBattleQuestions.Context(context);
+        if (battle is not null)
+            foreach (var (key, value) in battle)
+                question[key] = value?.DeepClone();
+        var none = context.Command(kind);
+        if (context.Legal(none))
+            yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", ProtocolAtom.Of("card_choice", ("card", context.Card(card)),
+                ("answer", "0"), ("count", 0), ("skip", true)), "No hits", question), none);
+        for (var count = 1; count <= option.Maximum; count++)
+        {
+            var plan = new CasualtyPlan(context, option, kind, count);
+            if (plan.First() is not { Branches.Count: > 0 } node)
+                continue;
+            yield return new ProtocolPath(new ProtocolStep("CARD_CHOICE", ProtocolAtom.Of("card_choice", ("card", context.Card(card)),
+                ("answer", count.ToString(System.Globalization.CultureInfo.InvariantCulture)), ("count", count)),
+                count == 1 ? "1 hit" : $"{count} hits", question), () => node);
+        }
+    }
+
+    private sealed class CasualtyPlan(ProtocolContext context, ActionOption option, CommandKind kind, int? budget = null)
+    {
+        private readonly int hits = budget ?? Math.Max(option.Maximum, context.View.Decision?.RequiredCount ?? 0);
         private readonly Dictionary<string, bool> judged = new(StringComparer.Ordinal);
 
         public ProtocolNode First() => Node(new List<Loss>());
@@ -33,7 +62,7 @@ public static class ProtocolLossQuestions
         {
             var left = hits - taken.Sum(l => l.Hits);
             var branches = new List<ProtocolBranch>();
-            if (option.Minimum == 0 && taken.Count == 0 && Legal(taken))
+            if (budget is null && option.Minimum == 0 && taken.Count == 0 && Legal(taken))
                 branches.Add(new ProtocolBranch(ProtocolAtom.Of("none"), "Take no losses", Command(taken)));
             foreach (var loss in Choices(taken, left).GroupBy(l => (l.Nation, l.Unit, l.Kind, l.Hits)).Select(g => g.First()))
             {

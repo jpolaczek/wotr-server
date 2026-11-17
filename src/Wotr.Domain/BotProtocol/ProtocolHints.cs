@@ -23,6 +23,8 @@ public static partial class ProtocolHints
             return chosen;
         if (question.Question == "CASUALTY")
             return Casualty(question, chosen, info);
+        if (question.Question == "CARD_CHOICE")
+            return Journey(question, chosen, info);
         if (question.Question != "ACTION")
             return chosen;
         var atom = question.Branches[chosen].Atom;
@@ -69,6 +71,32 @@ public static partial class ProtocolHints
         }
         return chosen;
     }
+
+    // A card's single Companion (Gwaihir the Windlord, We Prove the Swifter): AlphaWOTR's engine names it only inside its
+    // choice ("move_Strider", "sep_Meriadoc"), which its adapter does not read, so its answer is the first option with the
+    // right destination. The seat takes the option of that Companion and destination.
+    private static int Journey(ProtocolNode question, int chosen, JsonNode? info)
+    {
+        var text = info?["engine"] is JsonValue value && value.TryGetValue<string>(out var s) ? s : info?["engine"]?.ToJsonString();
+        if (text is null || CompanionAction().Match(text) is not { Success: true } who)
+            return chosen;
+        var character = ProtocolVocabulary.Slug(who.Groups[2].Value);
+        var where = Destination().Match(text);
+        var to = where.Success ? ProtocolVocabulary.Region(ProtocolVocabulary.Slug(where.Groups[2].Value)) : null;
+        for (var o = 0; o < question.Branches.Count; o++)
+        {
+            var atom = question.Branches[o].Atom;
+            if ((string?)atom["character"] == character && (to is null || (string?)atom["to"] == to || (string?)atom["region"] == to))
+                return o;
+        }
+        return chosen;
+    }
+
+    [GeneratedRegex("\"(move|sep)_([^\"]+)\"")]
+    private static partial Regex CompanionAction();
+
+    [GeneratedRegex("\"(destination|to_region)\"\\s*,\\s*\"([^\"]+)\"")]
+    private static partial Regex Destination();
 
     // The engine's action: an object, or the JSON text AlphaWOTR sends (cut at 240 characters: the variant is read from the
     // text when the cut leaves it unparsable).
