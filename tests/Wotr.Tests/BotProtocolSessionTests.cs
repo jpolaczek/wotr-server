@@ -104,6 +104,46 @@ public sealed class BotProtocolSessionTests(ITestOutputHelper output)
         }
     }
 
+    // BOT-224: a failing seat is asked again after a growing interval and writes each failed decision for replay.
+    [Fact]
+    public async Task AFailingSeatBacksOffAndWritesTheDecisionForReplay()
+    {
+        var folder = Path.Combine(Path.GetTempPath(), "protocol-dump-" + Guid.NewGuid().ToString("N"));
+        var listener = new System.Net.Sockets.TcpListener(System.Net.IPAddress.Loopback, 0);
+        listener.Start();
+        var port = ((System.Net.IPEndPoint)listener.LocalEndpoint).Port;
+        listener.Stop();
+        using var host = new ProtocolSeatHost(new ProtocolSeatOptions(true, "127.0.0.1", port, TimeSpan.FromSeconds(2),
+            TimeSpan.FromSeconds(10), new Dictionary<string, JsonNode?>()) { DumpDirectory = folder }, Engine, NullLogger<ProtocolSeatHost>.Instance);
+        try
+        {
+            // A position with a real question (the Shadow's Hunt allocation of the first turn).
+            var state = NewGame("protocol-backoff", 5);
+            for (var step = 0; step < 50 && state.Pending!.Kind != DecisionKind.AllocateHunt; step++)
+                state = Engine.Execute(state, state.Pending.Owner, Demo.Next(state, state.Pending.Owner)!, new SeededRandom(5)).State;
+            var view = Views.For(state, state.Pending!.Owner);
+            var delays = new List<TimeSpan>();
+            for (var attempt = 0; attempt < 5; attempt++)
+            {
+                var result = await host.Decide(view, state, Guid.NewGuid().ToString("N"), CancellationToken.None);
+                Assert.Equal("SidecarUnavailable", result.Outcome);
+                Assert.Null(result.Command);
+                delays.Add(host.RetryDelay(view.MatchId, view.You));
+            }
+            Assert.Equal(new[] { 5.0, 10, 20, 40, 60 }, delays.Select(d => d.TotalSeconds));
+            var dump = Assert.Single(Directory.GetFiles(folder));
+            Assert.Contains("SidecarUnavailable", Path.GetFileName(dump));
+            var record = JsonNode.Parse(File.ReadAllText(dump))!;
+            Assert.Equal("AllocateHunt", (string?)record["decision"]);
+            Assert.Equal(view.Revision, (long)record["view"]!["revision"]!);
+        }
+        finally
+        {
+            if (Directory.Exists(folder))
+                Directory.Delete(folder, recursive: true);
+        }
+    }
+
     // R11: the view a seat sends never holds a card of the opponent's hand, in any decision of a whole game.
     [Fact]
     public void TheViewNeverCarriesTheOpponentsHand()

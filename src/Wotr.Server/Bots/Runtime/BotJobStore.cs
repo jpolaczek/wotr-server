@@ -132,7 +132,7 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
         await transaction.CommitAsync(cancellation);
     }
 
-    public async Task Release(BotWork work, string error = "", CancellationToken cancellation = default)
+    public async Task Release(BotWork work, string error = "", CancellationToken cancellation = default, TimeSpan? delay = null)
     {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         await using var query = Database.Command(connection, null, """
@@ -141,7 +141,7 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
                 health_until=CASE WHEN $5='' THEN clock_timestamp()+make_interval(secs => $6) ELSE '-infinity' END
             WHERE assignment_id=$1 AND generation=$2 AND owner_id=$3
             """, work.AssignmentId, work.Generation, work.OwnerId,
-            (error.Length == 0 ? options.Poll : options.Retry).TotalSeconds, error, options.Lease.TotalSeconds);
+            (delay ?? (error.Length == 0 ? options.Poll : options.Retry)).TotalSeconds, error, options.Lease.TotalSeconds);
         await query.ExecuteNonQueryAsync(cancellation);
     }
 }

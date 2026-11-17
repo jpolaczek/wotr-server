@@ -10,6 +10,9 @@ public sealed record ProtocolSeatOptions(bool Enabled, string Host, int Port, Ti
     IReadOnlyDictionary<string, JsonNode?> BotOptions)
 {
     public TimeSpan IdleSession { get; init; } = TimeSpan.FromMinutes(30);
+    // BOT-224: where a decision the seat could not answer is written for replay (the CPU side's own view, the questions
+    // asked and the answers); off unless the operator names a folder.
+    public string? DumpDirectory { get; init; }
 
     public static ProtocolSeatOptions Read(IConfiguration configuration)
     {
@@ -21,7 +24,8 @@ public sealed record ProtocolSeatOptions(bool Enabled, string Host, int Port, Ti
             section.GetValue("Port", 7311), TimeSpan.FromSeconds(section.GetValue("ConnectSeconds", 20)),
             TimeSpan.FromSeconds(section.GetValue("DecisionSeconds", 60)), options)
         {
-            IdleSession = TimeSpan.FromMinutes(section.GetValue("IdleSessionMinutes", 30))
+            IdleSession = TimeSpan.FromMinutes(section.GetValue("IdleSessionMinutes", 30)),
+            DumpDirectory = section["DumpDirectory"] is { Length: > 0 } dump ? dump : null
         };
         if (seat.Port is < 1 or > 65535 || seat.ConnectTimeout.TotalSeconds is < 1 or > 120 ||
             seat.DecisionTimeout.TotalSeconds is < 1 or > 600 || seat.IdleSession.TotalMinutes is < 1 or > 1440 ||

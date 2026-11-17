@@ -6,6 +6,7 @@ using System.Text.Json.Nodes;
 using Wotr.Contracts;
 using Wotr.Domain;
 using Wotr.Domain.BotProtocol;
+using Wotr.Domain.Content;
 
 namespace Wotr.Server;
 
@@ -20,6 +21,7 @@ public sealed record ProtocolSeatResult(GameCommand? Command, string Outcome, in
 public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine engine, ILogger<ProtocolSeatHost> logger) : IDisposable
 {
     private readonly ConcurrentDictionary<(string Match, Side Side), Seat> seats = new();
+    private readonly ConcurrentDictionary<(string Match, Side Side), int> failures = new();
 
     private sealed class Seat(ProtocolSession session, ProtocolMemory memory) : IDisposable
     {
@@ -37,6 +39,10 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
     }
 
     public bool Enabled => options.Enabled;
+
+    // BOT-224: 5 s after a first failure, doubling while failures repeat, at most a minute; a success resets it.
+    public TimeSpan RetryDelay(string match, Side side) =>
+        TimeSpan.FromSeconds(Math.Min(60, 5 * Math.Pow(2, Math.Max(0, failures.GetValueOrDefault((match, side)) - 1))));
 
     // A trace of every question and answer (the arena's audit; null on a game server).
     public Action<JsonObject>? Trace { get; set; }
@@ -66,7 +72,10 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
             return new(null, "NoQuestion", 0, watch.Elapsed.TotalSeconds);
         }
         if (root is null)
+        {
+            Failed(view, "NoQuestion");
             return new(null, "NoQuestion", 0, watch.Elapsed.TotalSeconds);
+        }
         var decision = ProtocolDecision.Start(root);
         if (decision.Command is { } forced)
             return new(Identify(forced, view, invocationId), "Forced", 0, watch.Elapsed.TotalSeconds);
@@ -81,6 +90,7 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
             if (stopping.IsCancellationRequested)
                 throw;
             logger.LogWarning("The protocol sidecar did not open a game: {Error}.", error.GetType().Name);
+            Failed(view, "SidecarUnavailable");
             return new(null, "SidecarUnavailable", 0, watch.Elapsed.TotalSeconds);
         }
         await seat.Gate.WaitAsync(stopping);
@@ -116,6 +126,7 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
                     return Lost(view, seat, answer.Outcome switch { "timeout" => "Timeout", "illegal" => "IllegalAnswer", _ => "SidecarLost" },
                         asked, watch);
             }
+            failures.TryRemove((view.MatchId, side), out _);
             return new(Identify(decision.Command!, view, invocationId), "Answered", asked, watch.Elapsed.TotalSeconds);
         }
         catch (Exception error) when (error is IOException or ObjectDisposedException)
@@ -208,6 +219,30 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
         }
     }
 
+    // A failure counts toward the retry interval and, where the operator asked for it, is written for replay.
+    private void Failed(PlayerView view, string outcome)
+    {
+        failures.AddOrUpdate((view.MatchId, view.You), 1, (_, n) => n + 1);
+        if (options.DumpDirectory is not { } folder)
+            return;
+        try
+        {
+            Directory.CreateDirectory(folder);
+            var name = $"{view.MatchId}-r{view.Revision}-{view.You}-{outcome}.json";
+            var record = new JsonObject
+            {
+                ["outcome"] = outcome, ["revision"] = view.Revision, ["decision"] = view.Decision?.Kind.ToString(),
+                ["view"] = System.Text.Json.JsonSerializer.SerializeToNode(view, BoardCatalog.Json)
+            };
+            File.WriteAllText(Path.Combine(folder, string.Concat(name.Select(c => char.IsLetterOrDigit(c) || c is '-' or '.' ? c : '_'))),
+                record.ToJsonString());
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+            logger.LogWarning("The protocol seat could not write its failure: {Error}.", error.GetType().Name);
+        }
+    }
+
     private static Seat Discard(Seat extra, Seat kept)
     {
         extra.Dispose();
@@ -216,6 +251,7 @@ public sealed class ProtocolSeatHost(ProtocolSeatOptions options, GameEngine eng
 
     private ProtocolSeatResult Lost(PlayerView view, Seat seat, string outcome, int asked, Stopwatch watch)
     {
+        Failed(view, outcome);
         logger.LogWarning("The protocol seat lost decision {Kind} at revision {Revision}: {Outcome}.", view.Decision?.Kind, view.Revision, outcome);
         Close(view.MatchId, view.You, seat);
         return new(null, outcome, asked, watch.Elapsed.TotalSeconds);

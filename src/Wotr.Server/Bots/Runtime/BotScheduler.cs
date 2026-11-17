@@ -84,7 +84,9 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
 
     private async Task Release(BotWork work, string error, CancellationToken cancellation)
     {
-        try { await jobs.Release(work, error, cancellation); }
+        // BOT-224: a protocol seat's failed decision is asked again after a growing interval while the failure lasts.
+        var delay = error.StartsWith("Protocol", StringComparison.Ordinal) ? protocol.RetryDelay(work.MatchId, work.Side) : (TimeSpan?)null;
+        try { await jobs.Release(work, error, cancellation, delay); }
         catch (NpgsqlException)
         {
             logger.LogWarning("Embedded bot lease will recover after expiry.");
