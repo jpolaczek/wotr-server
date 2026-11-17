@@ -170,6 +170,10 @@ public static class ProtocolEffectQuestions
                 paths.Add(new ProtocolPath(new ProtocolStep("CARD_CHOICE", ProtocolAtom.Of("card_choice", ("card", null), ("answer", "skip"),
                     ("skip", true)), "Play none", ents), decline));
         }
+        // A window whose only answer is to decline (no reaction, no card that may be played): forced, asked of nobody.
+        if (paths.Count == 0 && declined)
+            paths.Add(new ProtocolPath(new ProtocolStep("CARD_CHOICE", ProtocolAtom.Of("card_choice", ("card", null), ("answer", "skip"),
+                ("skip", true)), "Decline", question), decline));
         return paths;
     }
 

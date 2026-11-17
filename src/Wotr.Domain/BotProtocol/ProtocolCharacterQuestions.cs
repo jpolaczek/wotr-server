@@ -26,6 +26,12 @@ public static class ProtocolCharacterQuestions
     // A forced or a card's separation and a card's Companion journey (CompanionSeparation).
     public static IEnumerable<ProtocolPath> Separation(ProtocolContext context)
     {
+        // A card's journey (Gwaihir the Windlord, We Prove the Swifter, The Book of Mazarbul, Fear! Fire! Foes!): AlphaWOTR
+        // settles a card's Companion moves inside its play and reads them back by token (the Companions' keys and the
+        // destination), so each group and destination is one CARD_CHOICE.
+        var source = context.View.Decision?.SourceId ?? "";
+        if (CardCatalog.All.ContainsKey(source) && context.Option(CommandKind.MoveCompanions) is { } journey)
+            return new JourneyPlan(context, context.Option(CommandKind.SeparateCompanions), journey, source).Paths();
         var separate = context.Option(CommandKind.SeparateCompanions) is { } s ? new SeparationPlan(context, s, "").First() : null;
         var move = context.Option(CommandKind.MoveCompanions) is { } m ? new CompanionPlan(context, m, "", requireOne: !m.AllowEmptySelection).First() : null;
         var nodes = new[] { separate, move }.Where(n => n is { Branches.Count: > 0 }).Select(n => n!).ToList();
@@ -50,6 +56,118 @@ public static class ProtocolCharacterQuestions
         context.Option(CommandKind.MoveShadowCharacters) is { } option
             ? Paths(new MinionPlan(context, option, "", requireOne: !option.AllowEmptySelection).First())
             : Enumerable.Empty<ProtocolPath>();
+
+    // A card's journey as CARD_CHOICE questions: a group (smallest first, so an exact group outranks a larger one in the bot's
+    // token scoring) and its destination per question, or a separation of Companions from the Fellowship, then done.
+    private sealed class JourneyPlan(ProtocolContext context, ActionOption? separate, ActionOption move, string card)
+    {
+        private readonly Dictionary<string, bool> judged = new(StringComparer.Ordinal);
+
+        public IEnumerable<ProtocolPath> Paths()
+        {
+            var node = Node(new List<CompanionMoveChoice>());
+            return node.Branches.Select(b => b.Terminal
+                ? new ProtocolPath(new ProtocolStep(node.Question, b.Atom, b.Text, node.Context), b.Command!)
+                : new ProtocolPath(new ProtocolStep(node.Question, b.Atom, b.Text, node.Context), () => b.Next));
+        }
+
+        private ProtocolNode Node(IReadOnlyList<CompanionMoveChoice> done)
+        {
+            var branches = new List<ProtocolBranch>();
+            if ((done.Count > 0 || move.AllowEmptySelection) && Legal(Move(done)))
+                branches.Add(new ProtocolBranch(Atom("done", null, null, null, skip: true), "Done", Move(done)));
+            if (done.Count == 0 && separate is not null)
+                foreach (var (group, target, command) in Separations())
+                    branches.Add(new ProtocolBranch(Atom(Answer(group, target), group[0], context.View.Fellowship.RegionId, target),
+                        "Separate " + string.Join(", ", group) + " to " + target, command));
+            if (move.MaximumGroups == 0 || done.Count < move.MaximumGroups)
+            {
+                var moved = done.SelectMany(g => g.Ids).ToHashSet(StringComparer.Ordinal);
+                foreach (var origin in move.Travel.Where(t => !moved.Contains(t.Id)).GroupBy(t => t.Origin))
+                    foreach (var group in Subsets(origin.Select(t => t.Id).ToList(), 4))
+                        foreach (var target in Targets(group))
+                        {
+                            var route = Route(done, group, target);
+                            if (route is null)
+                                continue;
+                            var after = done.Append(new CompanionMoveChoice { Ids = group.ToList(), Route = route }).ToList();
+                            var last = move.MaximumGroups != 0 && after.Count >= move.MaximumGroups;
+                            var atom = Atom(Answer(group, target), group[0], origin.Key, target);
+                            var text = string.Join(", ", group) + " to " + target;
+                            branches.Add(last ? new ProtocolBranch(atom, text, Move(after)) : new ProtocolBranch(atom, text, () => Node(after)));
+                        }
+            }
+            return new ProtocolNode("CARD_CHOICE", ProtocolEffectQuestions.Question(context, card,
+                CardCatalog.Title(card) + ": which Companions go where?"), branches);
+        }
+
+        private JsonObject Atom(string answer, string? character, string? from, string? to, bool skip = false)
+        {
+            var atom = ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", answer));
+            if (skip)
+                atom["skip"] = true;
+            if (character is not null)
+                atom["character"] = Key(context, character);
+            if (from is not null)
+                atom["from"] = context.Region(from);
+            if (to is not null)
+            {
+                atom["to"] = context.Region(to);
+                atom["region"] = context.Region(to);
+            }
+            return atom;
+        }
+
+        private string Answer(IReadOnlyList<string> group, string target) =>
+            string.Join(":", group.Select(id => Key(context, id))) + ">" + context.Region(target);
+
+        private IEnumerable<string> Targets(IReadOnlyList<string> group) =>
+            move.Travel.Where(t => group.Contains(t.Id)).SelectMany(t => t.Targets).Distinct();
+
+        private List<string>? Route(IReadOnlyList<CompanionMoveChoice> done, IReadOnlyList<string> group, string target)
+        {
+            var travels = move.Travel.Where(t => group.Contains(t.Id)).ToList();
+            var best = travels.OrderByDescending(t => t.Range).First();
+            foreach (var route in ProtocolRoutes.Between(best.Origin, target, travels.Max(t => Math.Max(t.Range, t.SmallGroupRange)),
+                         best.StopRegions, best.BlockedRegions))
+                if (Legal(Move(done.Append(new CompanionMoveChoice { Ids = group.ToList(), Route = route }).ToList())))
+                    return route;
+            return null;
+        }
+
+        private IEnumerable<(IReadOnlyList<string> Group, string Target, GameCommand Command)> Separations()
+        {
+            foreach (var group in Subsets(separate!.EligibleIds, Math.Min(3, Math.Max(1, separate.Maximum))))
+            {
+                var travels = separate.Travel.Where(t => group.Contains(t.Id)).ToList();
+                if (travels.Count == 0)
+                    continue;
+                var best = travels.OrderByDescending(t => t.Range).First();
+                foreach (var target in best.Targets)
+                {
+                    var command = ProtocolRoutes.For(best, target)
+                        .Select(route => context.Command(CommandKind.SeparateCompanions, new CommandPayload { Ids = group.ToList(), Route = route }))
+                        .FirstOrDefault(Legal);
+                    if (command is not null)
+                        yield return (group, target, command);
+                }
+            }
+        }
+
+        // Every non-empty group of the ids up to [limit] Companions, the smallest first.
+        private static IEnumerable<IReadOnlyList<string>> Subsets(IReadOnlyList<string> ids, int limit) =>
+            Enumerable.Range(1, Math.Min(limit, ids.Count)).SelectMany(size => ProtocolActionQuestions.Choose(ids, size));
+
+        private GameCommand Move(IReadOnlyList<CompanionMoveChoice> moves) => context.Command(CommandKind.MoveCompanions,
+            new CommandPayload { CompanionMoves = moves.Select(m => new CompanionMoveChoice { Ids = m.Ids.ToList(), Route = m.Route.ToList() }).ToList() });
+
+        private bool Legal(GameCommand command)
+        {
+            var key = command.Kind + "|" + string.Join(",", command.Payload.Ids) + "|" + string.Join(",", command.Payload.Route) + "|" +
+                string.Join(";", command.Payload.CompanionMoves.Select(m => string.Join(",", m.Ids) + ">" + string.Join(",", m.Route)));
+            return judged.TryGetValue(key, out var legal) ? legal : judged[key] = context.Legal(command);
+        }
+    }
 
     private static IEnumerable<ProtocolPath> Paths(ProtocolNode node) => node.Branches.Select(b => b.Terminal
         ? new ProtocolPath(new ProtocolStep(node.Question, b.Atom, b.Text, node.Context), b.Command!)
