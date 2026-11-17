@@ -22,6 +22,8 @@ public sealed partial class RoomStore
             var retry = await BotRetry(room, account, request, cancellation);
             if (retry is not null)
                 return retry.Length == 0 ? null : retry;
+            if (!RoomRules.PlayVsCpu(state))
+                return "CpuOnlyInPlayVsCpu";
             if (state.MatchId.Length > 0)
                 return "MatchAlreadyStarted";
             if (state.Version != request.ExpectedVersion)

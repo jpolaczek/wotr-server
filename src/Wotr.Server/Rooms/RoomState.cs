@@ -29,6 +29,9 @@ public sealed class RoomState
     // RANK-04 (R35): the room of a ranked match keeps only its chat. Nobody joins, watches, invites, changes role or
     // leaves it; a player ends the match only by conceding.
     public bool Ranked { get; set; }
+    // Owner, 2026-11-17: the CPU joins only a Play vs CPU room. Set for rooms the server makes as such (the seeder's
+    // and the tests' CPU rooms); a player's Play vs CPU room is known by its request (RoomRules.PlayVsCpu).
+    public bool PlayVsCpu { get; set; }
 
     // The two players; observers are kept apart (RoomObservers), so this never counts the audience.
     public bool Contains(string account) => account == FreePeoples || account == Shadow;
@@ -111,6 +114,15 @@ public sealed record RoomResult(RoomView? Room = null, string Error = "");
 
 public static class RoomRules
 {
+    // The name every client release gives the room Play vs CPU makes (a private room with that name).
+    public const string PlayVsCpuName = "Play vs CPU";
+
+    // Owner, 2026-11-17: the CPU only through Play vs CPU; a game one hosts never takes it. A room is a Play vs CPU room
+    // when the server made it so, or when it was made private with Play vs CPU's name, which is what every client sends
+    // (the name and the visibility do not change after the room is made).
+    public static bool PlayVsCpu(RoomState room) =>
+        room.PlayVsCpu || (room.Managed && room.Visibility == RoomVisibility.Private && room.Name == PlayVsCpuName);
+
     public static string? Configure(RoomState room, ConfigureRoomRequest request, ReleaseScope release)
     {
         var error = CanEdit(room, request.ExpectedVersion);

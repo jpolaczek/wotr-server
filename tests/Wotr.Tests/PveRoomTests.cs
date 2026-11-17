@@ -48,6 +48,35 @@ public sealed class PveRoomTests(PveFixture fixture)
         Assert.Equal(0L, await fixture.Scalar("SELECT count(*) FROM matches WHERE fp_account=$1", human.AccountId));
     }
 
+    // Owner, 2026-11-17: the CPU only through Play vs CPU. A game one hosts (named or not, public or private) refuses it, and
+    // so does a public room that merely bears the name; the room every client's Play vs CPU makes takes it.
+    [PostgresFact]
+    public async Task TheCpuJoinsOnlyAPlayVsCpuRoom()
+    {
+        var human = await fixture.Human();
+        using var client = fixture.HumanClient(human);
+        foreach (var hosted in new[]
+                 {
+                     new CreateRoomRequest { Name = "Friday game", Visibility = RoomVisibility.Public },
+                     new CreateRoomRequest { Name = "Friday game", Visibility = RoomVisibility.Private },
+                     new CreateRoomRequest { Name = RoomRules.PlayVsCpuName, Visibility = RoomVisibility.Public },
+                     new CreateRoomRequest()
+                 })
+        {
+            using var made = await client.PostAsJsonAsync("/api/rooms", hosted, BoardCatalog.Json);
+            var room = (await made.Content.ReadFromJsonAsync<RoomView>(BoardCatalog.Json))!;
+            using var refused = await client.PutAsJsonAsync($"/api/rooms/{room.Id}/bot", PveFixture.Request(room), BoardCatalog.Json);
+            Assert.Equal(HttpStatusCode.Conflict, refused.StatusCode);
+            Assert.Contains("CpuOnlyInPlayVsCpu", await refused.Content.ReadAsStringAsync());
+            Assert.Null((await fixture.Rooms.Read(room.Id, human.AccountId))!.Bot);
+        }
+        using var created = await client.PostAsJsonAsync("/api/rooms", new CreateRoomRequest
+            { Name = RoomRules.PlayVsCpuName, Side = Side.Shadow, Visibility = RoomVisibility.Private }, BoardCatalog.Json);
+        var cpuRoom = (await created.Content.ReadFromJsonAsync<RoomView>(BoardCatalog.Json))!;
+        var reserved = await fixture.Reserve(human, cpuRoom);
+        Assert.Equal(Side.FreePeoples, reserved.Bot!.Side);
+    }
+
     [PostgresFact]
     public async Task InvalidRequestAndHostLeavingTheSeatCannotLeaveALiveReservation()
     {

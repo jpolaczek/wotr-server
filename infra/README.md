@@ -330,7 +330,8 @@ line after 5 minutes), and the game continues once AlphaWOTR answers.
    `WOTR_ALPHAWOTR_ENABLED=true` with `WOTR_ALPHAWOTR_ACCOUNTS` empty, then `infra/production.sh up -d --wait server`.
    Every new CPU room gets AlphaWOTR; a CPU game begun before keeps the runtime. The client release that names AlphaWOTR
    and keeps CPU rooms to the base game (UI-540) follows; until then an older client reads AlphaWOTR as "CPU" and the
-   server's CpuBaseGameOnly/CpuBusy refusals as a generic refusal.
+   server's CpuBaseGameOnly/CpuBusy refusals as a generic refusal. Since 2026-11-17 the CPU joins only a Play vs CPU room
+   (`CpuOnlyInPlayVsCpu` elsewhere; client 0.11.0-rc.5 offers Add CPU only there).
 4. (Kept for later use) `WOTR_ALPHAWOTR_ACCOUNTS=<account ids>` opens it to those accounts only, everyone else keeping the
    runtime (`SELECT id FROM accounts WHERE name='…'` names an id).
 5. Capacity: `WOTR_ALPHAWOTR_MAX_GAMES` (2) games at once at `WOTR_ALPHAWOTR_SIMS` (300) and

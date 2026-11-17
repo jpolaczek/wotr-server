@@ -33,7 +33,7 @@ internal static class PveScenarios
             var scenario = Scenario(scenarioId);
             var humanSide = TurnFlow.Other(scenario.StartingSide);
             var human = humanSide == Side.FreePeoples ? fp : sh;
-            var room = await rooms.Create(human.AccountId, new CreateRoomRequest { Name = "CPU fixture " + key, Side = humanSide });
+            var room = await rooms.CreatePlayVsCpu(human.AccountId, new CreateRoomRequest { Name = "CPU fixture " + key, Side = humanSide });
             var reserved = await rooms.AddBot(room.Id, human.AccountId, new()
             { RequestId = Guid.NewGuid().ToString("N"), ExpectedVersion = room.Version });
             room = reserved.Room ?? throw new InvalidOperationException(reserved.Error);

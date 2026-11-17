@@ -52,7 +52,7 @@ internal sealed class BotHostFixture : IAsyncDisposable
         BotThinkingMode mode = BotThinkingMode.Fast)
     {
         var human = await MenuAccounts.Register(Host);
-        var room = await Rooms.Create(human.AccountId, new CreateRoomRequest { Side = TurnFlow.Other(bot), Name = "Runtime fixture" });
+        var room = await Rooms.CreatePlayVsCpu(human.AccountId, new CreateRoomRequest { Side = TurnFlow.Other(bot), Name = "Runtime fixture" });
         var request = PveFixture.Request(room);
         request.ThinkingMode = mode;
         var reserved = await Rooms.AddBot(room.Id, human.AccountId, request);

@@ -96,7 +96,7 @@ public sealed class BotRuntimeDrainTests
         Assert.False(await fixture.Rooms.ReadyRuntime(work));
         Assert.Equal("BotUnavailable", (await fixture.Rooms.Start(room.Id, human.AccountId, room.Version)).Error);
         var other = await MenuAccounts.Register(fixture.Host);
-        var empty = await fixture.Rooms.Create(other.AccountId, new Wotr.Contracts.CreateRoomRequest { Name = "Drain fixture" });
+        var empty = await fixture.Rooms.CreatePlayVsCpu(other.AccountId, new Wotr.Contracts.CreateRoomRequest { Name = "Drain fixture" });
         Assert.Equal("BotUnavailable", (await fixture.Rooms.AddBot(empty.Id, other.AccountId, PveFixture.Request(empty))).Error);
         await using (var host = await KestrelProcess.Start(fixture.Connection, fixture.Settings))
         {
