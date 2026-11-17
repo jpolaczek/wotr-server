@@ -71,6 +71,13 @@ Public code in `src/Wotr.Domain/BotProtocol` (the rules side) and
   decisions and opened again (`new_game`, then the turn's start) after a restart or a
   lost connection. The command is journalled like the runtime's, the runtime's memory
   unchanged.
+- **Install.** `scripts/install_alphawotr.sh [DIR]` (BOT-220) clones AlphaWOTR v0.2.0
+  at its commit, checks the clone against its `RELEASE_MANIFEST.tsv`, makes a Python
+  3.12 environment with the measured package versions (CPU torch 2.15.0) and proves the
+  bot answers `hello` directly and through the sidecar; it prints the sidecar's command.
+  Running it again re-verifies. Measured (omarchy, 2026-11-17): sims 300 p50 4.9-8.2 s
+  and max 14.8-30.7 s at 1-4 games at once, sims 100 p50 1.8-2.5 s and max 5.5-7.8 s;
+  1-3 GiB per bot process.
 - **No other engine.** When the seat cannot answer (no sidecar, a lost connection, its
   clock run out, a second illegal answer, a decision without a question) nothing is
   played: the host releases the decision with its error (`ProtocolSidecarUnavailable`,
