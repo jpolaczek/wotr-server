@@ -88,7 +88,7 @@ public sealed class BotProtocolSchedulerTests
     {
         using var package = new BotPackageFixture();
         await using var fixture = await BotHostFixture.Create(Settings(package));
-        var (_, room, work) = await fixture.Game();
+        var (human, room, work) = await fixture.Game();
         await fixture.Expire(work);
         var revision = (long)(await fixture.Scalar("SELECT revision FROM matches WHERE id=$1", room.MatchId))!;
         var options = package.Options(fixture.Settings) with { MemoryPressureBytes = 1024L * 1024 * 1024 };
@@ -105,6 +105,11 @@ public sealed class BotProtocolSchedulerTests
             finally { await scheduler.StopAsync(default); }
             var waiting = host.Waiting(room.MatchId, Side.FreePeoples);
             Assert.NotNull(waiting);
+            // The saved game's row reads the CPU unavailable, and names AlphaWOTR.
+            var saved = (await fixture.Host.Services.GetRequiredService<MatchIndexStore>().List(human.AccountId, null, "", 10))
+                .Matches.Single(m => m.MatchId == room.MatchId);
+            Assert.Equal(BotSeatStatus.Unavailable, saved.Bot!.Status);
+            Assert.Equal(ProtocolSeatHost.AlphaWotr, saved.Bot.Engine);
             Assert.True(waiting!.Waiting);
             Assert.Equal("Unavailable", waiting.Problem);
             Assert.NotNull(waiting.Since);
