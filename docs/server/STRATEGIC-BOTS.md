@@ -108,6 +108,20 @@ Public code in `src/Wotr.Domain/BotProtocol` (the rules side) and
     a combat card's voluntary losses are first a count (0 declines); a Hunt reaction
     carries the damage; a Minion's entry always names its region; the view's
     `hunt.shadow_must_hunt` tells the allocation's minimum.
+  - Its adapter reads a card's answer three ways, and the questions are shaped for them
+    (arena traces, 2026-11-17 night): its engine's own pending card option scored against
+    our options (`score_options`: each typed field its choice does not name costs a point,
+    so a field is given only where its choice names it); the board after its engine's play
+    (`diff_answer`: a unit answer matched against the figures added, the region and Nation
+    read from the QUESTION's words, a region by the figures it gained); and a few set-ups
+    (the Palantír's `draw`, combat effects whose options are all counts). So: reserve
+    figures are the bare unit word, destination first when several (Swords in Eriador);
+    Gandalf the Grey's draw is `card_choice` yes; a Nazgûl Leadership forfeit is a count;
+    The Lidless Eye is one choice of face multisets (`dice_count`, `dice_faces`); a card's
+    attack on its one target is CHOOSE_ATTACK (its rule: the whole Army); a side's own card
+    separating Companions is `card_choice` character then region; Worn with Sorrow and Toil
+    answers `hand`/`skip` and The Breaking of the Fellowship's question says `separate`
+    (its card rules); a card's recruitment keeps every legal plan open.
   - Not reachable from the referee's side (AlphaWOTR's own adapter): its engine never
     discards a die (`skip_die`), never chooses a rearguard, a Guide change in the
     Fellowship phase or a partial Voice of Saruman; it answers REMOVE_EXCESS_UNIT,
