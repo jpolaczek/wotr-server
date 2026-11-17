@@ -326,11 +326,13 @@ line after 5 minutes), and the game continues once AlphaWOTR answers.
 2. Start it: add `alphawotr` to `COMPOSE_PROFILES` in `infra/.env`, `infra/production.sh up -d --wait alphawotr`. It checks
    at start that the bot answers the protocol's hello, then listens; its health check asks the sidecar's own port and
    starts no bot.
-3. The owner's playtest: `WOTR_ALPHAWOTR_ENABLED=true` with `WOTR_ALPHAWOTR_ACCOUNTS=<the owner's account id>`, then
-   `infra/production.sh up -d --wait server`. Only that account's new CPU rooms get AlphaWOTR; everyone else's get the
-   runtime as before. (`SELECT id FROM accounts WHERE name='…'` names the id.)
-4. Open it to everyone: empty `WOTR_ALPHAWOTR_ACCOUNTS`, restart the server, together with the client release that names
-   AlphaWOTR and keeps CPU rooms to the base game (UI-540).
+3. Switch it on for everyone (owner, 2026-11-17: "at once for all accounts, not only for exceptions"):
+   `WOTR_ALPHAWOTR_ENABLED=true` with `WOTR_ALPHAWOTR_ACCOUNTS` empty, then `infra/production.sh up -d --wait server`.
+   Every new CPU room gets AlphaWOTR; a CPU game begun before keeps the runtime. The client release that names AlphaWOTR
+   and keeps CPU rooms to the base game (UI-540) follows; until then an older client reads AlphaWOTR as "CPU" and the
+   server's CpuBaseGameOnly/CpuBusy refusals as a generic refusal.
+4. (Kept for later use) `WOTR_ALPHAWOTR_ACCOUNTS=<account ids>` opens it to those accounts only, everyone else keeping the
+   runtime (`SELECT id FROM accounts WHERE name='…'` names an id).
 5. Capacity: `WOTR_ALPHAWOTR_MAX_GAMES` (2) games at once at `WOTR_ALPHAWOTR_SIMS` (300) and
    `WOTR_ALPHAWOTR_DECISION_SECONDS` (60): a further CPU game is refused with `CpuBusy` until one ends.
    `WOTR_ALPHAWOTR_SLOTS` (3, the sidecar's bots) stays above it for sessions still closing; each game takes 1-3 GiB
