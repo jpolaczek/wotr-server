@@ -130,7 +130,17 @@ public static class ProtocolEffectQuestions
                     (string?)b.Atom["answer"] is { } answer && !answer.Contains(':'))
                 .Select(b => ((string?)b.Atom["region"], (string?)b.Atom["nation"])).Distinct().ToList();
             if (places.Count == 1)
+            {
                 words += " in " + places[0].Item1 + " for " + places[0].Item2;
+                // Then the figures are told apart by their unit alone: AlphaWOTR scores an option's region and Nation
+                // against its engine's choice, which names only the unit (Faramir's Rangers' unit_type), so they go.
+                foreach (var branch in branches.Where(b => (string?)b.Atom["unit"] is not null && (string?)b.Atom["answer"] is { } answer &&
+                             !answer.Contains(':')))
+                {
+                    branch.Atom.Remove("region");
+                    branch.Atom.Remove("nation");
+                }
+            }
             var frame = Question(context, card, CardCatalog.Title(card) + ": choose (" + words + ")");
             if (context.View.Battle is not null)
                 foreach (var (key, value) in ProtocolBattleQuestions.Context(context)!)

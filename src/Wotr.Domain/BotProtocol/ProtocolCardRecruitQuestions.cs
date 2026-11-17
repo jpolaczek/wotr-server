@@ -60,8 +60,10 @@ public static class ProtocolCardRecruitQuestions
             {
                 var next = placed.Append(figure).ToList();
                 var unit = ProtocolVocabulary.Unit(figure.Kind);
+                // The region and Nation are the question's words (every figure here shares them), not the option's fields:
+                // AlphaWOTR scores an option's fields against its engine's choice, which names only the unit.
                 var atom = ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", unit.ToUpperInvariant()),
-                    ("unit", unit), ("region", context.Region(figure.Region)), ("nation", context.Nation(figure.Nation)));
+                    ("unit", unit));
                 var text = $"A {figure.Kind} of {figure.Nation} in {figure.Region}";
                 branches.Add(next.Count >= count ? new ProtocolBranch(atom, text, Command(next)) : new ProtocolBranch(atom, text, () => Node(next)));
             }
