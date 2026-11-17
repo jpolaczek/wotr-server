@@ -1216,9 +1216,10 @@ gate. `RankedMatches.Seat` decides at the start of a socket whether it serves a 
 <a id="avatars--avatar-02-web-02-2026-11-06"></a>
 ## Avatars — AVATAR-02, WEB-02 (2026-11-06)
 
-`accounts.avatar` holds one of the ten identifiers of `AvatarIds` (migration 022, which gave every existing account the Eye or
-the Ring). Registration draws one of those two from cryptographic entropy of its own, not from the injected random source, so a
-test's scripted dice are not spent on registrations.
+`accounts.avatar` holds one of the eight identifiers of `AvatarIds`, the nations' soldiers (AVATAR-03, owner 2026-11-17:
+migration 027 gave every account that had the retired Eye or Ring a soldier at random and narrowed the column's check; migration
+022 had added the column with ten). Registration draws one of the eight from cryptographic entropy of its own, not from the
+injected random source, so a test's scripted dice are not spent on registrations.
 
 An avatar is read when a view is built and never copied, unlike a room's names. `AccountRename` shows why: rewriting a room's
 JSON bumps its `version`, which the players' readiness is measured against, so a click in the browser would un-ready a table.

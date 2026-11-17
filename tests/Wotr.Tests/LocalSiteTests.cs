@@ -29,7 +29,7 @@ public sealed class LocalSiteTests
         Assert.Equal(HttpStatusCode.OK, bare.StatusCode);
         using var reset = await client.GetAsync("/account/reset");
         Assert.Contains("Choose a new password", await reset.Content.ReadAsStringAsync());
-        using var picture = await client.GetAsync("/assets/avatars/eye.png");
+        using var picture = await client.GetAsync("/assets/avatars/gondor.png");
         Assert.Equal("image/png", picture.Content.Headers.ContentType?.MediaType);
         using var api = await client.GetAsync("/api/account");
         Assert.Equal(HttpStatusCode.Unauthorized, api.StatusCode);
