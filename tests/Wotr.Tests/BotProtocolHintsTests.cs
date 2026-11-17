@@ -40,4 +40,24 @@ public sealed class BotProtocolHintsTests
         Assert.Equal(1, ProtocolHints.Adjust(question, 1, null));
         Assert.Equal(0, ProtocolHints.Adjust(question, 0, Info("{\"type\":\"muster_elite\",\"die\":4,\"params\":{\"saruman\":\"swap2\"}}")));
     }
+
+    [Fact]
+    public void TheEnginesLossIsTheOneTakenWhateverItsAdapterAnswered()
+    {
+        GameCommand Loss(string id) => new() { Kind = CommandKind.TakeBattleLosses, Payload = new() { CardId = id } };
+        var question = new ProtocolNode("CASUALTY", new JsonObject { ["hits"] = 2 }, new[]
+        {
+            new ProtocolBranch(ProtocolAtom.Of("casualty", ("nation", "GONDOR"), ("unit", "regular"), ("effect", "remove")), "a", Loss("a")),
+            new ProtocolBranch(ProtocolAtom.Of("casualty", ("nation", "NORTH"), ("unit", "regular"), ("effect", "remove")), "b", Loss("b")),
+            new ProtocolBranch(ProtocolAtom.Of("casualty", ("nation", "NORTH"), ("unit", "elite"), ("effect", "reduce")), "c", Loss("c")),
+            new ProtocolBranch(ProtocolAtom.Of("casualty", ("nation", "NORTH"), ("unit", "elite"), ("effect", "remove")), "d", Loss("d"))
+        });
+        string Engine(string nation, string operation) =>
+            $"{{\"type\":\"casualty_allocate\",\"die\":-1,\"params\":{{\"casualties\":2,\"nation\":\"{nation}\",\"operation\":\"{operation}\"}}}}";
+        Assert.Equal(2, ProtocolHints.Adjust(question, 0, Info(Engine("THE_NORTH", "reduce_elite"))));
+        Assert.Equal(3, ProtocolHints.Adjust(question, 0, Info(Engine("THE_NORTH", "remove_elite"))));
+        Assert.Equal(1, ProtocolHints.Adjust(question, 0, Info(Engine("THE_NORTH", "remove_regular"))));
+        Assert.Equal(0, ProtocolHints.Adjust(question, 1, Info(Engine("GONDOR", "remove_regular"))));
+        Assert.Equal(1, ProtocolHints.Adjust(question, 1, Info(Engine("ROHAN", "remove_regular"))));
+    }
 }

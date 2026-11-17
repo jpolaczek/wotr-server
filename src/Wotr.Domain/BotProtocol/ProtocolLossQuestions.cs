@@ -47,6 +47,11 @@ public static class ProtocolLossQuestions
             }
             var question = ProtocolBattleQuestions.Context(context) ?? new JsonObject();
             question["hits"] = left;
+            // AlphaWOTR's engine allocates one loss per decision, but its adapter answers every further hit of a round from a
+            // plan keyed on (region, round, attacker); a round told apart per hit (1.01, 1.02, ...; its whole part is the
+            // battle's round) lets each hit reach its engine, whose choice ProtocolHints then reads.
+            if (question["round"] is JsonValue round && round.TryGetValue<int>(out var number))
+                question["round"] = number + (taken.Count + 1) / 100.0;
             return new ProtocolNode("CASUALTY", question, branches);
         }
 

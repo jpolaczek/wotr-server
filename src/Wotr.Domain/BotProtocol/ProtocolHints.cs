@@ -11,9 +11,19 @@ namespace Wotr.Domain.BotProtocol;
 // plain recruitment when the engine's action has none). Every option is still a legal command the engine judged.
 public static partial class ProtocolHints
 {
+    private static readonly Dictionary<string, string> EngineNations = new(StringComparer.Ordinal)
+    {
+        ["THE_NORTH"] = "NORTH",
+        ["SOUTHRON_EASTERLINGS"] = "SOUTHRONS_EASTERLINGS"
+    };
+
     public static int Adjust(ProtocolNode question, int chosen, JsonNode? info)
     {
-        if (question.Question != "ACTION" || chosen < 0 || chosen >= question.Branches.Count)
+        if (chosen < 0 || chosen >= question.Branches.Count)
+            return chosen;
+        if (question.Question == "CASUALTY")
+            return Casualty(question, chosen, info);
+        if (question.Question != "ACTION")
             return chosen;
         var atom = question.Branches[chosen].Atom;
         if ((string?)atom["kind"] != "use_die" || (string?)atom["action"] != "recruit" || Engine(info) is not { } engine)
@@ -28,6 +38,33 @@ public static partial class ProtocolHints
             var other = question.Branches[o].Atom;
             if ((string?)other["kind"] == "use_die" && (string?)other["action"] == "recruit" && other["die"]?.ToJsonString() == die &&
                 (string?)other["saruman"] == variant)
+                return o;
+        }
+        return chosen;
+    }
+
+    // AlphaWOTR's engine names one loss (casualty_allocate: a Nation and remove_regular, reduce_elite or remove_elite); its
+    // adapter answers with the first Regular offered whatever the engine chose. The seat takes the loss the engine named.
+    private static int Casualty(ProtocolNode question, int chosen, JsonNode? info)
+    {
+        if (Engine(info) is not { } engine || (string?)engine["type"] != "casualty_allocate")
+            return chosen;
+        var nation = (string?)engine["params"]?["nation"];
+        var (unit, effect) = (string?)engine["params"]?["operation"] switch
+        {
+            "remove_regular" => ("regular", "remove"),
+            "reduce_elite" => ("elite", "reduce"),
+            "remove_elite" => ("elite", "remove"),
+            _ => ("", "")
+        };
+        if (nation is null || unit.Length == 0)
+            return chosen;
+        nation = EngineNations.GetValueOrDefault(nation, nation);
+        for (var o = 0; o < question.Branches.Count; o++)
+        {
+            var atom = question.Branches[o].Atom;
+            if ((string?)atom["kind"] == "casualty" && (string?)atom["nation"] == nation && (string?)atom["unit"] == unit &&
+                (string?)atom["effect"] == effect)
                 return o;
         }
         return chosen;

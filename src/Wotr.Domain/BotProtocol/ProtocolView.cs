@@ -238,7 +238,8 @@ public static class ProtocolView
             ["ready"] = ready,
             ["drawn"] = new JsonArray(),
             ["removed"] = new JsonArray(),
-            ["shadow_must_hunt"] = false
+            // The Shadow must put a die in the Hunt Box (the Fellowship moved last turn): the allocation's minimum says so.
+            ["shadow_must_hunt"] = view.Options.Any(o => o.Enabled && o.Kind == CommandKind.AllocateHunt && o.Minimum > 0)
         };
     }
 
