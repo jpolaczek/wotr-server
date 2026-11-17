@@ -32,7 +32,11 @@ public static class ProtocolCharacterQuestions
         var source = context.View.Decision?.SourceId ?? "";
         if (CardCatalog.All.ContainsKey(source) && context.Option(CommandKind.MoveCompanions) is { } journey)
             return new JourneyPlan(context, context.Option(CommandKind.SeparateCompanions), journey, source).Paths();
-        var separate = context.Option(CommandKind.SeparateCompanions) is { } s ? new SeparationPlan(context, s, "").First() : null;
+        // The Free Peoples' own card (I Will Go Alone): AlphaWOTR's engine picks the group and its destination inside the
+        // card's play and its adapter reads them back by token, so the picks are CARD_CHOICE with character and region.
+        var own = CardCatalog.All.ContainsKey(source) &&
+            source.StartsWith(context.View.You == Side.FreePeoples ? "base.fp." : "base.sh.", StringComparison.Ordinal) ? source : "";
+        var separate = context.Option(CommandKind.SeparateCompanions) is { } s ? new SeparationPlan(context, s, "", own).First() : null;
         var move = context.Option(CommandKind.MoveCompanions) is { } m ? new CompanionPlan(context, m, "", requireOne: !m.AllowEmptySelection).First() : null;
         var nodes = new[] { separate, move }.Where(n => n is { Branches.Count: > 0 }).Select(n => n!).ToList();
         if (nodes.Count == 2)
@@ -275,9 +279,18 @@ public static class ProtocolCharacterQuestions
     }
 
     // Companions leaving the Fellowship: each one picked, then the group's destination.
-    private sealed class SeparationPlan(ProtocolContext context, ActionOption option, string die)
+    private sealed class SeparationPlan(ProtocolContext context, ActionOption option, string die, string card = "")
     {
         private readonly Dictionary<string, bool> judged = new(StringComparer.Ordinal);
+
+        private JsonObject Pick(string id) => card.Length == 0
+            ? ProtocolAtom.Of("separate", ("character", Key(context, id)))
+            : ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", Key(context, id)), ("character", Key(context, id)));
+
+        private JsonObject To(string target) => card.Length == 0
+            ? ProtocolAtom.Of("separate_to", ("to", context.Region(target)))
+            : ProtocolAtom.Of("card_choice", ("card", context.Card(card)), ("answer", context.Region(target)), ("to", context.Region(target)),
+                ("region", context.Region(target)));
 
         public ProtocolNode First() => Node(new List<string>());
 
@@ -289,13 +302,15 @@ public static class ProtocolCharacterQuestions
                 var next = picked.Append(id).ToList();
                 if (option.Maximum > 0 && next.Count > option.Maximum || !Possible(next, option.EligibleIds.Except(next).ToList()))
                     continue;
-                branches.Add(new ProtocolBranch(ProtocolAtom.Of("separate", ("character", Key(context, id))),
-                    CharacterCatalog.Title(id) + " leaves the Fellowship", () => Node(next)));
+                branches.Add(new ProtocolBranch(Pick(id), CharacterCatalog.Title(id) + " leaves the Fellowship", () => Node(next)));
             }
             if (picked.Count > 0)
                 foreach (var (target, command) in Destinations(picked))
-                    branches.Add(new ProtocolBranch(ProtocolAtom.Of("separate_to", ("to", context.Region(target))), "They go to " + target, command));
-            return new ProtocolNode("SEPARATE_COMPANIONS", null, branches);
+                    branches.Add(new ProtocolBranch(To(target), "They go to " + target, command));
+            return card.Length == 0
+                ? new ProtocolNode("SEPARATE_COMPANIONS", null, branches)
+                : new ProtocolNode("CARD_CHOICE", ProtocolEffectQuestions.Question(context, card,
+                    CardCatalog.Title(card) + ": which Companions separate, and where to?"), branches);
         }
 
         // Some group containing [picked] (with none or some of the others) has a legal destination.

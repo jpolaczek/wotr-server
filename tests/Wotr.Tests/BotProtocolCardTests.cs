@@ -98,6 +98,40 @@ public sealed class BotProtocolCardTests
         Assert.Null(Engine.Validate(state, Side.FreePeoples, decision.Command!));
     }
 
+    // The Free Peoples' own card separating Companions (I Will Go Alone) asks CARD_CHOICE: each Companion with its character
+    // key, then the destination as a region (AlphaWOTR's adapter reads its engine's choice back by these fields).
+    [Fact]
+    public void IWillGoAloneAsksCardChoices()
+    {
+        const string alone = "base.fp.character.11";
+        var state = TestScenarioCatalog.Find("card-" + alone + "-event")!.Create("protocol-alone");
+        var view = Views.For(state, Side.FreePeoples);
+        var play = view.Options.Single(o => o.Kind == CommandKind.PlayEvent).Events.Single(e => e.CardId == alone);
+        var cost = play.Costs.First();
+        var die = state.Dice.Single(d => d.Id == cost.DieId);
+        var played = Engine.Execute(state, Side.FreePeoples, new GameCommand
+        {
+            MatchId = state.Id, CommandId = "alone", ExpectedRevision = state.Revision, DecisionId = view.Decision!.Id,
+            Kind = CommandKind.PlayEvent, Payload = new() { CardId = alone, DieId = die.Id, CardCost = die.Face }
+        }, new SeededRandom(7));
+        Assert.True(played.Receipt.Accepted, played.Receipt.Error);
+        state = played.State;
+        view = Views.For(state, Side.FreePeoples);
+        Assert.Equal(DecisionKind.CompanionSeparation, view.Decision!.Kind);
+        var snapshot = state;
+        var decision = ProtocolDecision.Start(ProtocolQuestions.For(view, c => Engine.Validate(snapshot, Side.FreePeoples, c) is null)!);
+        var first = decision.Question!;
+        Assert.Equal("CARD_CHOICE", first.Question);
+        Assert.All(first.Branches, b => Assert.NotNull(b.Atom["character"]));
+        Assert.True(decision.Answer(0));
+        var next = decision.Question!;
+        var to = next.Branches.ToList().FindIndex(b => b.Atom["region"] is not null);
+        Assert.True(to >= 0);
+        Assert.True(decision.Answer(to));
+        Assert.Null(decision.Question);
+        Assert.Null(Engine.Validate(state, Side.FreePeoples, decision.Command!));
+    }
+
     // A forfeit of Nazgûl Leadership is a count of points (AlphaWOTR's Dread and Despair counts); the Witch-king's go last.
     [Fact]
     public void ANazgulLeadershipForfeitIsACount()
