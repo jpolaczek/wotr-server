@@ -9,7 +9,7 @@ namespace Wotr.Server;
 public sealed record BotWork(string AssignmentId, string RoomId, int RoomVersion, string MatchId,
     string ParticipantId, Side Side, string PolicyVersion, string RuntimeVersion, long Generation,
     string OwnerId, long MemoryVersion, long HistoryPosition, string? Memory, BotRuntimeIdentity? Compatibility = null,
-    double QueueSeconds = 0, string? ManifestSha256 = null, BotThinkingMode ThinkingMode = BotThinkingMode.Fast)
+    double QueueSeconds = 0, string? ManifestSha256 = null, BotThinkingMode ThinkingMode = BotThinkingMode.Fast, string Engine = "")
 {
     public override string ToString() => "BotWork [private]";
 }
@@ -30,7 +30,7 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
                 a.policy_version,a.runtime_version,j.generation,j.memory_version,j.history_position,j.memory,
                 j.compatibility::text,CASE WHEN j.available_at='-infinity' THEN 0 ELSE
                     GREATEST(0,extract(epoch FROM clock_timestamp()-j.available_at))::double precision END,
-                COALESCE(r.state->'bot'->>'thinkingMode','Fast')
+                COALESCE(r.state->'bot'->>'thinkingMode','Fast'),COALESCE(r.state->'bot'->>'engine','')
             FROM bot_runtime_jobs j JOIN bot_assignments a ON a.id=j.assignment_id
             JOIN rooms r ON r.id=a.room_id LEFT JOIN matches m ON m.id=a.match_id
             WHERE a.status<>'cancelled' AND a.runtime_version=$1 AND NOT r.closed
@@ -51,7 +51,9 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
                 row.IsDBNull(12) ? null : JsonSerializer.Deserialize<BotRuntimeIdentity>(row.GetString(12), BotRuntimeProtocol.Json),
                 row.GetDouble(13), options.ManifestSha256,
                 // BOT-37: the room's saved pace; anything unknown is the default.
-                Enum.TryParse<BotThinkingMode>(row.GetString(14), out var mode) && Enum.IsDefined(mode) ? mode : BotThinkingMode.Fast);
+                Enum.TryParse<BotThinkingMode>(row.GetString(14), out var mode) && Enum.IsDefined(mode) ? mode : BotThinkingMode.Fast,
+                // BOT-226: the engine fixed with the seat.
+                row.GetString(15));
         }
         await using var claim = Database.Command(connection, transaction, """
             UPDATE bot_runtime_jobs SET generation=$2,owner_id=$3,
@@ -60,6 +62,18 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
         await claim.ExecuteNonQueryAsync(cancellation);
         await transaction.CommitAsync(cancellation);
         return work;
+    }
+
+    // BOT-225: a protocol seat's decision can outlast the lease (AlphaWOTR asked several questions, each up to the seat's
+    // decision time), so the lease is extended while it thinks; false when the work is no longer this worker's.
+    public async Task<bool> Renew(BotWork work, CancellationToken cancellation = default)
+    {
+        await using var connection = await database.Source.OpenConnectionAsync(cancellation);
+        await using var renew = Database.Command(connection, null, """
+            UPDATE bot_runtime_jobs SET lease_until=clock_timestamp()+make_interval(secs => $4)
+            WHERE assignment_id=$1 AND generation=$2 AND owner_id=$3 AND lease_until>clock_timestamp()
+            """, work.AssignmentId, work.Generation, work.OwnerId, options.Lease.TotalSeconds);
+        return await renew.ExecuteNonQueryAsync(cancellation) == 1;
     }
 
     internal static async Task Lock(NpgsqlConnection connection, NpgsqlTransaction transaction,
@@ -89,12 +103,24 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
             ? JsonSerializer.Deserialize<GameCommand>(json, BoardCatalog.Json) : null;
     }
 
+    // BOT-225: a protocol seat's decision is journalled like the runtime's, its memory left as it was (the runtime that
+    // may answer later continues from its own last memory).
+    public Task StageProtocol(BotWork work, BotRuntimeRequest input, GameCommand command, long historyPosition,
+        CancellationToken cancellation = default)
+    {
+        if (command.CommandId != input.InvocationId || command.MatchId != work.MatchId || command.ExpectedRevision != input.Player.Revision ||
+            command.DecisionId != input.Player.Decision?.Id || !CommandShape.IsValid(command))
+            throw new ArgumentException("Invalid protocol proposal.");
+        return Stage(work, input, new BotRuntimeResponse(BotRuntimeProtocol.Version, input.InvocationId, "Proposal", "Protocol",
+            [], work.PolicyVersion, command, work.Memory), historyPosition, cancellation, protocol: true);
+    }
+
     public async Task Stage(BotWork work, BotRuntimeRequest input, BotRuntimeResponse proposal,
-        long historyPosition, CancellationToken cancellation = default)
+        long historyPosition, CancellationToken cancellation = default, bool protocol = false)
     {
         if (input.MatchId != work.MatchId || input.Side != work.Side || input.Memory != work.Memory ||
             proposal.Status != "Proposal" || proposal.PolicyVersion != work.PolicyVersion ||
-            !BotRuntimeProtocol.Valid(proposal, input) || !CommandShape.IsValid(proposal.Command!))
+            !protocol && !BotRuntimeProtocol.Valid(proposal, input) || !CommandShape.IsValid(proposal.Command!))
             throw new ArgumentException("Invalid bot proposal.");
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         await using var transaction = await connection.BeginTransactionAsync(cancellation);
@@ -114,13 +140,13 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
             WHERE bot_runtime_proposals.status<>'pending'
             """, work.AssignmentId, input.InvocationId, work.MemoryVersion, historyPosition,
             JsonSerializer.Serialize(proposal.Command, BoardCatalog.Json), CommandFingerprint.Create(proposal.Command!),
-            proposal.ProposedMemory!, work.MatchId, work.RuntimeVersion, work.PolicyVersion, work.ParticipantId);
+            (object?)proposal.ProposedMemory ?? DBNull.Value, work.MatchId, work.RuntimeVersion, work.PolicyVersion, work.ParticipantId);
         if (await stage.ExecuteNonQueryAsync(cancellation) != 1)
             throw new BotWorkExpiredException();
         await transaction.CommitAsync(cancellation);
     }
 
-    public async Task Release(BotWork work, string error = "", CancellationToken cancellation = default)
+    public async Task Release(BotWork work, string error = "", CancellationToken cancellation = default, TimeSpan? delay = null)
     {
         await using var connection = await database.Source.OpenConnectionAsync(cancellation);
         await using var query = Database.Command(connection, null, """
@@ -129,7 +155,7 @@ public sealed partial class BotJobStore(Database database, BotHostOptions option
                 health_until=CASE WHEN $5='' THEN clock_timestamp()+make_interval(secs => $6) ELSE '-infinity' END
             WHERE assignment_id=$1 AND generation=$2 AND owner_id=$3
             """, work.AssignmentId, work.Generation, work.OwnerId,
-            (error.Length == 0 ? options.Poll : options.Retry).TotalSeconds, error, options.Lease.TotalSeconds);
+            (delay ?? (error.Length == 0 ? options.Poll : options.Retry)).TotalSeconds, error, options.Lease.TotalSeconds);
         await query.ExecuteNonQueryAsync(cancellation);
     }
 }

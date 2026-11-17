@@ -1,15 +1,55 @@
 using System.Diagnostics;
 using Npgsql;
+using Wotr.Contracts;
 
 namespace Wotr.Server;
 
 // Durable polling also recovers work without any player opening the match.
 public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities capabilities,
     BotJobStore jobs, BotInputStore inputs, RoomStore rooms, MatchStore matches, RevisionHub hub,
-    ILogger<BotScheduler> logger, BotHostMetrics metrics) : BackgroundService
+    ILogger<BotScheduler> logger, BotHostMetrics metrics, ProtocolSeatHost protocol, Database database) : BackgroundService
 {
     protected override Task ExecuteAsync(CancellationToken stopping) => !options.Enabled
-        ? Task.CompletedTask : Task.WhenAll(Enumerable.Range(0, options.Workers).Select(_ => Worker(stopping)));
+        ? Task.CompletedTask : Task.WhenAll(Enumerable.Range(0, options.Workers).Select(_ => Worker(stopping)).Append(Sweep(stopping)));
+
+    // BOT-225: a protocol game that ends on the other side's move gets no further CPU work (a finished match is not
+    // claimed), so its sessions are closed here: the bot hears game_over and the sidecar's slot is free again.
+    private async Task Sweep(CancellationToken stopping)
+    {
+        var interval = TimeSpan.FromMilliseconds(Math.Max(1000, options.Poll.TotalMilliseconds * 4));
+        try
+        {
+            while (!stopping.IsCancellationRequested)
+            {
+                await Task.Delay(interval, stopping);
+                var open = protocol.OpenMatches();
+                if (open.Count == 0)
+                    continue;
+                try
+                {
+                    var ended = new List<(string Match, Side? Winner, VictoryCondition? Victory, int Turn)>();
+                    await using (var connection = await database.Source.OpenConnectionAsync(stopping))
+                    await using (var query = Database.Command(connection, null,
+                        "SELECT id, state->>'winner', state->>'victory', COALESCE((state->>'turn')::int, 0) " +
+                        "FROM matches WHERE id = ANY($1) AND state->>'winner' IS NOT NULL", (object)open.ToArray()))
+                    await using (var row = await query.ExecuteReaderAsync(stopping))
+                        while (await row.ReadAsync(stopping))
+                            ended.Add((row.GetString(0),
+                                Enum.TryParse<Side>(row.IsDBNull(1) ? "" : row.GetString(1), out var side) ? side : null,
+                                Enum.TryParse<VictoryCondition>(row.IsDBNull(2) ? "" : row.GetString(2), out var how) ? how : null,
+                                row.GetInt32(3)));
+                    foreach (var game in ended)
+                        await protocol.Ended(game.Match, game.Winner, game.Victory, game.Turn, stopping);
+                    protocol.ExpireIdle();
+                }
+                catch (NpgsqlException)
+                {
+                    logger.LogWarning("The protocol seat's sweep of ended games will retry.");
+                }
+            }
+        }
+        catch (OperationCanceledException) when (stopping.IsCancellationRequested) { }
+    }
 
     private async Task Worker(CancellationToken stopping)
     {
@@ -82,9 +122,30 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
         }
     }
 
+    private async Task KeepLease(BotWork work, CancellationToken cancellation)
+    {
+        var every = TimeSpan.FromSeconds(Math.Max(1, options.Lease.TotalSeconds / 3));
+        try
+        {
+            while (!cancellation.IsCancellationRequested)
+            {
+                await Task.Delay(every, cancellation);
+                if (!await jobs.Renew(work, cancellation))
+                    return;
+            }
+        }
+        catch (OperationCanceledException) { }
+        catch (NpgsqlException)
+        {
+            logger.LogWarning("The protocol seat's lease renewal failed; the work may be taken again after its lease.");
+        }
+    }
+
     private async Task Release(BotWork work, string error, CancellationToken cancellation)
     {
-        try { await jobs.Release(work, error, cancellation); }
+        // BOT-224: a protocol seat's failed decision is asked again after a growing interval while the failure lasts.
+        var delay = error.StartsWith("Protocol", StringComparison.Ordinal) ? protocol.RetryDelay(work.MatchId, work.Side) : (TimeSpan?)null;
+        try { await jobs.Release(work, error, cancellation, delay); }
         catch (NpgsqlException)
         {
             logger.LogWarning("Embedded bot lease will recover after expiry.");
@@ -109,8 +170,57 @@ public sealed class BotScheduler(BotHostOptions options, BotRuntimeCapabilities 
         // Re-submit an exact journal entry before asking for any new decision, even after a turn changed.
         if (pending is not null)
             return await Apply(work, pending, stopping);
+        if (request.Player.Winner is not null)
+            await protocol.Finished(request.Player, stopping);
         if (request.Player.Winner is not null || request.Player.DecisionOwner != work.Side || request.Player.Decision is null)
             return "";
+        // BOT-225: a base game's CPU seat plays through the protocol sidecar (AlphaWOTR). Owner, 2026-11-17: the scripted
+        // runtime never plays in its place. When the seat cannot answer, the decision is released with its error (the
+        // seat shows as unavailable, the operator's log has the error) and the same decision is asked again until AlphaWOTR
+        // answers it: the game waits, it is never played by another engine.
+        if (work.Engine == ProtocolSeatHost.AlphaWotr)
+        {
+            // BOT-226: AlphaWOTR's seat waits while the operator's sidecar is switched off or the game is not a base game.
+            if (!protocol.Enabled || !protocol.Handles(request.Player))
+            {
+                logger.LogError("AlphaWOTR's seat in match {Match} cannot play: {Reason}; the game waits.", work.MatchId,
+                    protocol.Enabled ? "not a base game" : "the protocol seat is off");
+                var outcome = protocol.Enabled ? "ProtocolConfiguration" : "ProtocolDisabled";
+                protocol.Unavailable(work.MatchId, work.Side, outcome);
+                return outcome;
+            }
+            var state = await inputs.ReadState(work, stopping) ?? throw new BotWorkExpiredException();
+            // The lease is kept while AlphaWOTR thinks (a decision of several questions outlasts it): another worker must
+            // not take the same game meanwhile.
+            ProtocolSeatResult result;
+            using (var thinking = CancellationTokenSource.CreateLinkedTokenSource(stopping))
+            {
+                var renewal = KeepLease(work, thinking.Token);
+                try { result = await protocol.Decide(request.Player, state, request.InvocationId, stopping); }
+                finally
+                {
+                    thinking.Cancel();
+                    await renewal;
+                }
+            }
+            if (result.Outcome == "Stale")
+                throw new BotWorkExpiredException();
+            if (result.Command is not { } chosen)
+            {
+                logger.LogError("AlphaWOTR could not answer {Kind} at revision {Revision} of match {Match} ({Outcome}); the game waits.",
+                    request.Player.Decision.Kind, request.Player.Revision, work.MatchId, result.Outcome);
+                return "Protocol" + result.Outcome;
+            }
+            metrics.Outcome("Protocol" + result.Outcome);
+            await jobs.StageProtocol(work, request, chosen, input.HistoryPosition, stopping);
+            var applied = await Apply(work, chosen, stopping);
+            if (applied.Length == 0)
+            {
+                protocol.Recovered(work.MatchId, work.Side);
+                await protocol.Applied(request.Player, chosen, stopping);
+            }
+            return applied;
+        }
         var compute = TimeSpan.Zero;
         metrics.QueueWait(work.QueueSeconds);
         for (var round = 0; round < 3; round++)

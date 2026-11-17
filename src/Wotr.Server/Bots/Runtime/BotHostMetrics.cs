@@ -17,7 +17,11 @@ public sealed class BotHostMetrics(BotHostOptions options) : IDisposable
     private readonly HashSet<string> allowed = ["Accepted", "NotReady", "BotUnavailable", "BotVersionUnsupported",
         "BotConfigurationUnsupported", "MemoryIncompatible", "RuntimeTimeout", "RuntimeRefused", "PreviewLimit",
         "CommandRejected", "HostFailure", "ContextTooLarge", "StaleWork", "Drained", "MemoryPressure",
-        "NotConfigured", "Unavailable", "Incompatible", "LoadFailed", "PackageRequired", "PackageInvalid", "PolicyUnavailable"];
+        "NotConfigured", "Unavailable", "Incompatible", "LoadFailed", "PackageRequired", "PackageInvalid", "PolicyUnavailable",
+        // BOT-225: the protocol seat's outcomes; every one but Answered and Forced leaves the decision waiting (owner,
+        // 2026-11-17: the scripted runtime never plays for AlphaWOTR).
+        "ProtocolAnswered", "ProtocolForced", "ProtocolNoQuestion", "ProtocolSidecarUnavailable", "ProtocolSidecarLost",
+        "ProtocolTimeout", "ProtocolIllegalAnswer", "ProtocolStale", "ProtocolDisabled", "ProtocolConfiguration"];
     private Counter<long>? outcomeCounter;
     private Histogram<double>? queueHistogram;
     private Histogram<double>? computeHistogram;

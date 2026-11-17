@@ -1,0 +1,163 @@
+#!/usr/bin/env python3
+"""BOT-225: the operator's protocol sidecar.
+
+Listens on a local TCP port and, for every connection the game server opens (one per CPU game), starts one protocol bot
+as a child process and joins the connection to the bot's standard streams, one JSON line each way (WotR Bot Protocol,
+SPEC §2: "a plain TCP stream is the same protocol"). The bot's stderr goes to a log file per connection.
+
+    python3 scripts/protocol_sidecar.py --listen 127.0.0.1:7311 --cwd /srv/alphawotr --logs /srv/alphawotr/logs \
+        --max-games 4 -- /srv/alphawotr/venv/bin/python -I protocol/wotr_protocol_bot.py
+
+The bot command follows "--". The sidecar listens on the loopback address only unless told otherwise, lets a connection wait up
+to a minute for a free bot beyond --max-games (then refuses it: the server's decision waits with that error, no other
+engine plays), and never reads or changes what passes.
+
+DIST-20 (the container): --check starts the bot once and requires its hello before listening; --health HOST:PORT answers
+"ok <free bots>" on a connection without starting a bot (the container's health check); --logs - sends the bots' stderr to
+the sidecar's own (the container's log).
+"""
+import argparse
+import datetime
+import os
+import socket
+import subprocess
+import sys
+import threading
+
+
+def pump_to_bot(conn, proc, done):
+    try:
+        while True:
+            data = conn.recv(65536)
+            if not data:
+                break
+            proc.stdin.write(data)
+            proc.stdin.flush()
+    except (OSError, ValueError):
+        pass
+    finally:
+        done.set()
+        try:
+            proc.stdin.close()
+        except OSError:
+            pass
+
+
+def pump_to_server(conn, proc, done):
+    try:
+        while True:
+            data = proc.stdout.read1(65536)
+            if not data:
+                break
+            conn.sendall(data)
+    except (OSError, ValueError):
+        pass
+    finally:
+        done.set()
+
+
+def bot_log(args, number):
+    if args.logs == "-":
+        return None
+    stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    return open(os.path.join(args.logs, f"bot-{stamp}-{number}.log") if args.logs else os.devnull, "ab")
+
+
+def serve(conn, address, args, slots, number):
+    log = bot_log(args, number)
+    try:
+        proc = subprocess.Popen(args.command, cwd=args.cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                stderr=log if log is not None else None, env=dict(os.environ, MPLBACKEND="Agg"))
+        done = threading.Event()
+        threads = [threading.Thread(target=pump_to_bot, args=(conn, proc, done), daemon=True),
+                   threading.Thread(target=pump_to_server, args=(conn, proc, done), daemon=True)]
+        for thread in threads:
+            thread.start()
+        done.wait()
+        try:
+            conn.shutdown(socket.SHUT_RDWR)
+        except OSError:
+            pass
+        conn.close()
+        try:
+            proc.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait()
+    finally:
+        if log is not None:
+            log.close()
+        slots.release()
+
+
+def check(args):
+    """The bot answers the protocol's hello (DIST-20: before the container listens)."""
+    proc = subprocess.run(args.command, cwd=args.cwd, input=b'{"type":"hello","id":"check","protocol":"0.2"}\n{"type":"quit"}\n',
+                          stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, env=dict(os.environ, MPLBACKEND="Agg"), timeout=600)
+    line = proc.stdout.decode("utf-8", "replace").splitlines()[:1]
+    if not line or '"hello"' not in line[0].replace(" ", ""):
+        print("protocol sidecar: the bot did not answer hello", flush=True)
+        return False
+    print("protocol sidecar: the bot answers: " + line[0][:160], flush=True)
+    return True
+
+
+def health(listen, slots, limit):
+    host, port = listen.rsplit(":", 1)
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server.bind((host, int(port)))
+    server.listen(4)
+    while True:
+        conn, _ = server.accept()
+        try:
+            free = slots._value if hasattr(slots, "_value") else limit
+            conn.sendall(f"ok {free}\n".encode())
+        except OSError:
+            pass
+        finally:
+            conn.close()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--listen", default="127.0.0.1:7311")
+    parser.add_argument("--cwd", default=".")
+    parser.add_argument("--logs", default="")
+    parser.add_argument("--max-games", type=int, default=4)
+    parser.add_argument("--check", action="store_true")
+    parser.add_argument("--health", default="")
+    parser.add_argument("command", nargs=argparse.REMAINDER)
+    args = parser.parse_args()
+    if args.command and args.command[0] == "--":
+        args.command = args.command[1:]
+    if not args.command:
+        parser.error("the bot command follows --")
+    if args.logs and args.logs != "-":
+        os.makedirs(args.logs, exist_ok=True)
+    if args.check and not check(args):
+        return 1
+    host, port = args.listen.rsplit(":", 1)
+    slots = threading.BoundedSemaphore(args.max_games)
+    if args.health:
+        threading.Thread(target=health, args=(args.health, slots, args.max_games), daemon=True).start()
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server.bind((host, int(port)))
+    server.listen(16)
+    print(f"protocol sidecar on {host}:{port}, at most {args.max_games} games: {' '.join(args.command)}", flush=True)
+    number = 0
+    while True:
+        conn, address = server.accept()
+        # A game waits for a free bot (one that ends releases its slot a moment after its game_over); after a minute
+        # the connection is refused and the server's decision waits with that error.
+        if not slots.acquire(timeout=60):
+            conn.close()
+            continue
+        number += 1
+        conn.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        threading.Thread(target=serve, args=(conn, address, args, slots, number), daemon=True).start()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -32,6 +32,23 @@ public sealed partial class RoomStore
             var error = RoomRules.Unavailable(state.Configuration, scope) ?? BotRoomUnavailable(state.Configuration);
             if (error is not null)
                 return error;
+            // BOT-226 (owner, 2026-11-16): a new CPU is AlphaWOTR when the operator runs its sidecar (for the accounts it is
+            // open to: the owner's playtest first), in a base game only, while fewer than the operator's limit play it.
+            var engine = protocolSeat?.For(account) == true ? ProtocolSeatHost.AlphaWotr : "";
+            if (engine.Length > 0 && !ProtocolSeatHost.BaseGame(state.Configuration))
+                return "CpuBaseGameOnly";
+            if (engine.Length > 0 && protocolSeat!.MaxGames > 0)
+            {
+                // The games holding an AlphaWOTR session now, and the rooms about to start one (seen lately, not started).
+                await using var waiting = Database.Command(room.Connection, room.Transaction, """
+                    SELECT count(*) FROM rooms r
+                    WHERE NOT r.closed AND r.id <> $1 AND r.match_id IS NULL AND r.state->'bot'->>'engine' = 'alphawotr'
+                        AND r.seen_at > clock_timestamp() - make_interval(secs => $2)
+                    """, state.Id, (emptyRooms?.EmptyAfter ?? TimeSpan.FromSeconds(30)).TotalSeconds);
+                var playing = protocolHost?.OpenMatches().Count ?? 0;
+                if (playing + (long)(await waiting.ExecuteScalarAsync(cancellation))! >= protocolSeat.MaxGames)
+                    return "CpuBusy";
+            }
             if (runtime?.Enabled == true && !await BotRuntimeControl.Running(room.Connection, room.Transaction, runtime.Version!, cancellation, botHost?.ManifestSha256))
                 return "BotUnavailable";
             var assignment = Guid.NewGuid().ToString("N");
@@ -45,7 +62,8 @@ public sealed partial class RoomStore
                 ProfileId = side == Side.Shadow ? "shadow-strong" : "free-peoples-strong",
                 PolicyVersion = botRooms!.PolicyVersion,
                 RuntimeVersion = runtime?.Enabled == true ? runtime.Version : null,
-                ThinkingMode = request.ThinkingMode
+                ThinkingMode = request.ThinkingMode,
+                Engine = engine
             };
             await using var insert = Database.Command(room.Connection, room.Transaction, """
                 INSERT INTO bot_assignments(id,room_id,host_account,participant_id,request_id,requested_version,
@@ -130,6 +148,10 @@ public sealed partial class RoomStore
             if (room.MatchId.Length == 0)
                 view.StartUnavailableReason = error;
         }
+        // BOT-226: an AlphaWOTR seat whose decision waits with an error shows as unavailable (the saved game's row too).
+        if (room.Bot is { Engine: ProtocolSeatHost.AlphaWotr } && room.MatchId.Length > 0 && view.Bot is not null &&
+            protocolHost?.Waiting(room.MatchId, room.Bot.Side) is not null)
+            view.Bot.Status = BotSeatStatus.Unavailable;
         if (room.Bot is { RuntimeVersion: not null, RuntimeHealthy: false } && view.Bot is not null)
         {
             view.Bot.Status = BotSeatStatus.Unavailable;

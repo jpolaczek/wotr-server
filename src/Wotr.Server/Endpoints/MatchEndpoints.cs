@@ -9,7 +9,8 @@ public static class MatchEndpoints
     public static void Map(WebApplication app)
     {
         var api = app.MapGroup("/api/matches").RequireAuthorization();
-        api.MapGet("/{id}", async (string id, HttpContext context, MatchStore store, Projection projection, DemoBotRunner demos, MatchPresence presence) =>
+        api.MapGet("/{id}", async (string id, HttpContext context, MatchStore store, Projection projection, DemoBotRunner demos, MatchPresence presence,
+            ProtocolSeatHost protocol) =>
         {
             var match = await store.Read(id, Account(context), context.RequestAborted);
             // DEMO-03: opening a demo resumes its CPU, also after a server restart; other matches are not affected.
@@ -21,6 +22,8 @@ public static class MatchEndpoints
             view.Clock = store.ClockView(match);
             if (view.Clock is not null)
                 view.Clock.OpponentOnline = match.Clock!.Preset == Wotr.Contracts.RankedPreset.Rehearsal || presence.Online(id, TurnFlow.Other(match.Side));
+            // BOT-226: an AlphaWOTR opponent whose decision waits with an error (no other engine plays it) is shown as such.
+            view.Cpu = protocol.Waiting(id, TurnFlow.Other(match.Side));
             return Results.Ok(view);
         }).RequireRateLimiting(GameRateLimits.Reads).ForMatch().AllowBot(BotOperation.Match);
         api.MapPost("/{id}/commands", async (string id, Wotr.Contracts.GameCommand request, HttpContext context, MatchStore store, RevisionHub hub,

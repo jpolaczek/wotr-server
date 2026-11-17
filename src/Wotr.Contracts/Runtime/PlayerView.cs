@@ -7,6 +7,8 @@ namespace Wotr.Contracts
         // RANK-06: the move clock of a ranked match, attached by the server when it answers a player; the engine's
         // projection, and so every replay frame, leaves it null.
         public MoveClockView? Clock { get; set; }
+        // BOT-226: the CPU opponent's waiting state, attached by the server when it answers a player; null otherwise.
+        public CpuSeatState? Cpu { get; set; }
         public MatchConfiguration Configuration { get; set; } = new MatchConfiguration();
         public List<SovereignView> Sovereigns { get; set; } = new List<SovereignView>();
         public List<RulerTokenView> RulerTokens { get; set; } = new List<RulerTokenView>();

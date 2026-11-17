@@ -6,6 +6,150 @@ by the game server, not another server or network worker. Two scripted policies,
 Shadow and Free Peoples, share modular mechanics. The legacy CPU remains separate
 in [DEMO-MODE](DEMO-MODE.md). Neither strategic policy is ready for play yet.
 
+## AlphaWOTR — owner update 2026-11-16
+
+The owner's decisions (registry BOT-219): the CPU opponent becomes AlphaWOTR
+(github.com/Weyoun5/AlphaWOTR, MIT, Sarvesh Sadana), a neural search bot for the
+base game. What changes against the sections below:
+
+- **Rooms.** A vs-CPU room is the base game only: no expansion and no variant can be
+  chosen; the human chooses the faction. The client names the CPU and credits
+  AlphaWOTR and its licence. There is no choice between CPU opponents.
+- **Process.** The operator runs a pinned, unmodified AlphaWOTR as a local sidecar
+  (its own container on the internal network, no internet, licences kept). The game
+  server talks to it through a public WotR Bot Protocol seat
+  (github.com/behindmedia/wotr-protocol): the seat writes the server's own legal
+  options as the protocol's questions, step by step, and sends its answer back as an
+  ordinary command for validation. The seat is public code; it builds its questions
+  from the server's options, not from private code.
+- **Information.** The seat sends only the CPU side's own projection, options and
+  visible history (R11), as the runtime receives today.
+- **Coverage.** AlphaWOTR makes every decision of its seat. Owner, 2026-11-17: the
+  scripted runtime never plays in its place. When the seat cannot answer, the game
+  waits: the player sees the CPU's error, the operator's log has it, and the same
+  decision is asked again until AlphaWOTR answers it. Such a stop should never happen;
+  each one is a defect (dumped for replay, a regression test and a fix). A decision
+  with a single legal option (a reroll the rules make) is not a decision.
+- **Time.** AlphaWOTR has its own decision budget, set from measurements on the
+  production host; the 3 s / 5 s budget below applies to the scripted runtime.
+- **Saves.** CPU games saved before the switch finish with the runtime that began
+  them; new games use AlphaWOTR. BOT-226: the engine is fixed with the seat when the
+  CPU joins (`state.bot.engine` = `alphawotr` while the operator runs the protocol
+  seat, else empty for the runtime; a seat saved before reads empty) and the room view
+  carries it (`BotSeatView.Engine`); the scheduler plays a seat with its own engine, and
+  an AlphaWOTR seat waits (`ProtocolDisabled`, `ProtocolConfiguration`) rather than be
+  played by the runtime. A room whose CPU is AlphaWOTR refuses an expansion or a variant
+  (`CpuBaseGameOnly`), and so does adding AlphaWOTR to such a room.
+- **Versions.** AlphaWOTR is pinned by commit and file hashes; a newer version is a
+  new task with its own acceptance.
+
+### The protocol seat (BOT-225)
+
+Public code in `src/Wotr.Domain/BotProtocol` (the rules side) and
+`src/Wotr.Server/Bots/Protocol` (the host side), written from the protocol's SPEC
+(draft 0.2, base game of 0.1) and the server's own options.
+
+- **Questions.** `ProtocolQuestions` writes the CPU's current decision as the
+  protocol's atomic questions (SPEC §4-§5). Every option is a prefix of a complete
+  command the engine accepts: complete commands and witnesses of partial ones are
+  judged by `GameEngine.Validate` on the match's own state, so a bot can never answer
+  into a dead end. Larger families are built only for the option the bot takes:
+  RECRUIT figure by figure; ARMY_MOVE/CHOOSE_ATTACK Army by Army with ARMY_SELECTION
+  per Nation and unit kind (absolute counts) and per Character; MOVE_COMPANIONS with
+  JOIN_GROUP; SEPARATE_COMPANIONS; MOVE_MINIONS (select, then move); CASUALTY one hit
+  at a time; card effects, card recruitments and the table cards' reactions as
+  CARD_CHOICE; WHITE_RIDER, GUIDE_ABILITY and the bonus draws. Routes the options leave
+  open are searched on the base map. A decision with one legal answer asks nothing;
+  rerolls follow the rule (every miss allowed is rolled again), as protocol 0.1's
+  referee does.
+- **View and events.** `ProtocolView` writes SPEC §7 from the CPU side's projection
+  only (R11). The host sends the events the bot follows: `turn_started`, `die_used`
+  for the seat's own dice, the Fellowship's move, hiding and entry to Mordor, and
+  `game_over`.
+- **Sessions.** One TCP session per game and side with the operator's sidecar
+  (`scripts/protocol_sidecar.py` starts one bot process per connection), kept between
+  decisions and opened again (`new_game`, then the turn's start) after a restart or a
+  lost connection. The command is journalled like the runtime's, the runtime's memory
+  unchanged.
+- **Opening and capacity (release).** `Wotr:Bots:Protocol:Accounts` (comma-separated
+  account ids) opens AlphaWOTR to those accounts only while it is not yet for everyone
+  (the owner's playtest): any other account's new CPU is the runtime; empty means every
+  account. `MaxGames` (0 = no limit) refuses a new AlphaWOTR game (`CpuBusy`) while that
+  many hold a session or wait to start; the sidecar's `--max-games` must cover it.
+  A decision waiting longer than `StallAlertMinutes` (5) is a critical log line. While
+  a decision waits, a player's match view carries `Cpu` (`CpuSeatState`: waiting, since,
+  the kind of failure: Unavailable, Timeout, Error) and the room shows the CPU seat
+  unavailable; both clear when AlphaWOTR answers. A session opened in mid-turn (after a
+  restart) hears the turn's Mouth of Sauron Muster-as-Army and the Fellowship's act in
+  Mordor again, which the bot keeps from events.
+- **Install.** `scripts/install_alphawotr.sh [DIR]` (BOT-220) clones AlphaWOTR v0.2.0
+  at its commit, checks the clone against its `RELEASE_MANIFEST.tsv`, makes a Python
+  3.12 environment with the measured package versions (CPU torch 2.15.0) and proves the
+  bot answers `hello` directly and through the sidecar; it prints the sidecar's command.
+  Running it again re-verifies. Measured (omarchy, 2026-11-17): sims 300 p50 4.9-8.2 s
+  and max 14.8-30.7 s at 1-4 games at once, sims 100 p50 1.8-2.5 s and max 5.5-7.8 s;
+  1-3 GiB per bot process.
+- **No other engine.** When the seat cannot answer (no sidecar, a lost connection, its
+  clock run out, a second illegal answer, a decision without a question) nothing is
+  played: the host releases the decision with its error (`ProtocolSidecarUnavailable`,
+  `ProtocolSidecarLost`, `ProtocolTimeout`, `ProtocolIllegalAnswer`,
+  `ProtocolNoQuestion` in the job's last error and the host's counters), the CPU seat
+  shows as unavailable, the operator's log has the error, and the same decision is
+  asked again after the retry interval (owner, 2026-11-17: the scripted runtime never
+  plays for AlphaWOTR). The player-facing message during a game is UI-540's.
+- **Settings** (`Wotr:Bots:Protocol`): `Enabled`, `Host` (127.0.0.1), `Port` (7311),
+  `Sims` (the bot's declared option), `DecisionSeconds` (AlphaWOTR's clock for one of
+  our decisions, 60 until BOT-220's measurements set it), `ConnectSeconds`,
+  `IdleSessionMinutes`. Only base games are asked (no expansion, no variant).
+- **AlphaWOTR's shapes (BOT-221 audit, 2026-11-17).** AlphaWOTR v0.2.0 was trained on games
+  recorded with the Gandalf Java client (a piece mover that does not enforce the rules);
+  its engine models some rules its own way and its protocol adapter matches our options
+  by exact fields and takes the first match. The seat asks in the shapes it reads:
+  - its engine's own action, which it reports in a choice's `info.engine`, settles what
+    the options cannot carry (`ProtocolHints`): the Voice of Saruman (a Muster recruit
+    with `saruman=settlements` or `swap2`, offered as `use_die recruit` marked by its
+    variant), a battle's losses (its adapter reads a retired `count` and would always
+    remove the first Regular; each hit is told apart in the context, `round` 1.01, 1.02,
+    so each reaches its engine, and the loss it named is taken), a card's single
+    Companion (named only inside `move_X`/`sep_X`);
+  - a card's recruitment is asked per figure as where (region and Nation) and then the
+    bare unit word, with the region and Nation as words of the question; a card's single
+    move or attack asks its target first (`card_choice` move/attack with from, to,
+    region); a card's Companion journey is one `card_choice` per group and destination;
+    a combat card's voluntary losses are first a count (0 declines); a Hunt reaction
+    carries the damage; a Minion's entry always names its region; the view's
+    `hunt.shadow_must_hunt` tells the allocation's minimum.
+  - Its adapter reads a card's answer three ways, and the questions are shaped for them
+    (arena traces, 2026-11-17 night): its engine's own pending card option scored against
+    our options (`score_options`: each typed field its choice does not name costs a point,
+    so a field is given only where its choice names it); the board after its engine's play
+    (`diff_answer`: a unit answer matched against the figures added, the region and Nation
+    read from the QUESTION's words, a region by the figures it gained); and a few set-ups
+    (the Palantír's `draw`, combat effects whose options are all counts). So: reserve
+    figures are the bare unit word, destination first when several (Swords in Eriador);
+    Gandalf the Grey's draw is `card_choice` yes; a Nazgûl Leadership forfeit is a count;
+    The Lidless Eye is one choice of face multisets (`dice_count`, `dice_faces`); a card's
+    attack on its one target is CHOOSE_ATTACK (its rule: the whole Army); a side's own card
+    separating Companions is `card_choice` character then region; Worn with Sorrow and Toil
+    answers `hand`/`skip` and The Breaking of the Fellowship's question says `separate`
+    (its card rules); a card's recruitment keeps every legal plan open.
+  - Not reachable from the referee's side (AlphaWOTR's own adapter): its engine never
+    discards a die (`skip_die`), never chooses a rearguard, a Guide change in the
+    Fellowship phase or a partial Voice of Saruman; it answers REMOVE_EXCESS_UNIT,
+    JOIN_GROUP outside its own move, a forced separation, Lure of the Ring, Worn with
+    Sorrow and Toil, The Breaking of the Fellowship, Mithril Coat and Sting and the
+    Free Peoples' bonus draw by its fixed rules; a Mouth of Sauron's flight inside a
+    Nazgûl card chain is mapped as a Nazgûl's; Words of Power, Black Breath and Blade of
+    Westernesse targets and Rage of the Dunlendings' split take its default; a card's
+    chain cannot be stopped early. These are counted in the acceptance games (its own
+    `how` counters: `rule`, `default`) and go to the owner as AlphaWOTR's limits.
+- **Checks.** `BotProtocolVocabularyTests` (the vocabulary one to one against
+  `vocabulary-0.1.json`, the fingerprint), `BotProtocolSeatTests` (whole base games
+  answered at random through the seat on one side and on both: every command
+  accepted, no decision without a question), `BotProtocolSessionTests` (the session
+  over TCP, whole games through `ProtocolSeatHost` behind a socket, the view never
+  carrying the opponent's hand).
+
 ## Product and ownership
 
 - The operator installs the private runtime beside the game server. Public source,

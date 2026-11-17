@@ -309,6 +309,39 @@ docker compose --env-file infra/.env -f infra/compose.yaml logs --tail 100 serve
 Liveness `/health` identifies the protocol, readiness `/health/ready` checks the database with a time limit. Only local probe can use HTTP; other production requests require HTTPS and openly trusted proxy. Logs rotate with 10 MB, up to three files per service. Do not enable the login of the request bodies, SQL with data or headers Authorization. Built-in warning ASP.NET with ephemeric keys Data Protection does not apply to WoTR session: authentication uses random tokens and their hashys in the database, without cookies encrypted with this mechanism.
 
 <a id="kopia-i-odtworzenie"></a>
+## AlphaWOTR, the CPU of base-game CPU rooms — DIST-20/21
+
+AlphaWOTR v0.2.0 (MIT, its author's https://github.com/Weyoun5/AlphaWOTR) plays the CPU seat of new base-game CPU rooms
+through the WotR Bot Protocol (BOT-225, docs/server/STRATEGIC-BOTS.md). It runs in its own container, `alphawotr`, built
+here from `infra/alphawotr/Dockerfile`: Python 3.12 slim pinned by digest, CPU torch 2.15.0 and the measured packages
+(`infra/alphawotr/requirements.txt`), the release's commit 3dd68746 with every file checked against its manifest, no
+WOTR-Gandalf client; its LICENSE and the packages' licences stay in the image. Only the server reaches it, on the internal
+network `alphawotr`: no published port, no route out. Our scripted runtime never plays an AlphaWOTR game: when AlphaWOTR
+cannot answer, the game waits, the player sees that the CPU is unavailable, the operator's log has the error (a critical
+line after 5 minutes), and the game continues once AlphaWOTR answers.
+
+1. Build on the host (no registry): `infra/production.sh build alphawotr`. Two builds give one content hash:
+   `docker run --rm --entrypoint python3 wotr-alphawotr:0.2.0 /opt/sidecar/content_hash.py`
+   (1f60dd0e46a870f6… for 0.2.0, 2026-11-17).
+2. Start it: add `alphawotr` to `COMPOSE_PROFILES` in `infra/.env`, `infra/production.sh up -d --wait alphawotr`. It checks
+   at start that the bot answers the protocol's hello, then listens; its health check asks the sidecar's own port and
+   starts no bot.
+3. Switch it on for everyone (owner, 2026-11-17: "at once for all accounts, not only for exceptions"):
+   `WOTR_ALPHAWOTR_ENABLED=true` with `WOTR_ALPHAWOTR_ACCOUNTS` empty, then `infra/production.sh up -d --wait server`.
+   Every new CPU room gets AlphaWOTR; a CPU game begun before keeps the runtime. The client release that names AlphaWOTR
+   and keeps CPU rooms to the base game (UI-540) follows; until then an older client reads AlphaWOTR as "CPU" and the
+   server's CpuBaseGameOnly/CpuBusy refusals as a generic refusal.
+4. (Kept for later use) `WOTR_ALPHAWOTR_ACCOUNTS=<account ids>` opens it to those accounts only, everyone else keeping the
+   runtime (`SELECT id FROM accounts WHERE name='…'` names an id).
+5. Capacity: `WOTR_ALPHAWOTR_MAX_GAMES` (2) games at once at `WOTR_ALPHAWOTR_SIMS` (300) and
+   `WOTR_ALPHAWOTR_DECISION_SECONDS` (60): a further CPU game is refused with `CpuBusy` until one ends.
+   `WOTR_ALPHAWOTR_SLOTS` (3, the sidecar's bots) stays above it for sessions still closing; each game takes 1-3 GiB
+   (`WOTR_ALPHAWOTR_MEMORY`, 9g).
+6. Watch: `infra/production.sh logs server | grep -i alphawotr` (a waiting decision: "AlphaWOTR could not answer …", a
+   long wait: a critical line), `infra/production.sh logs alphawotr`.
+7. Rollback: `WOTR_ALPHAWOTR_ENABLED=false` and restart the server (new CPU games get the runtime again; a game already
+   begun with AlphaWOTR waits until it is back), then `infra/production.sh stop alphawotr` once no such game is running.
+
 ## Copy and reproduction
 
 ```sh

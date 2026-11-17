@@ -3,6 +3,16 @@ namespace Wotr.Contracts
     public enum SeatOccupantKind { Empty, Human, Cpu }
     public enum BotSeatStatus { Joining, Ready, Unavailable }
 
+    // BOT-226 (owner, 2026-11-17): while the CPU's decision waits with an error (AlphaWOTR cannot answer; no other engine
+    // plays it), a player's view of the match carries it: since when, and the kind of failure only (Unavailable, Timeout,
+    // Error). Null while the CPU plays normally.
+    public sealed class CpuSeatState
+    {
+        public bool Waiting { get; set; }
+        public System.DateTimeOffset? Since { get; set; }
+        public string Problem { get; set; } = "";
+    }
+
     // BOT-37: the CPU's pace, chosen in the room before the game and saved with it. Fast answers
     // in about three seconds (at most five); Thorough looks further ahead in about ten (at most
     // fifteen). Both are the same opponent; a room or save without a pace is Fast.
@@ -30,5 +40,8 @@ namespace Wotr.Contracts
         public string PolicyVersion { get; set; } = "";
         public BotSeatStatus Status { get; set; }
         public BotThinkingMode ThinkingMode { get; set; }
+        // BOT-226: "alphawotr" when AlphaWOTR plays the seat (the client names and credits it, UI-540); "" for the scripted
+        // runtime of a game begun before it.
+        public string Engine { get; set; } = "";
     }
 }

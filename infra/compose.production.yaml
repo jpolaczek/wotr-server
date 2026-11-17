@@ -34,7 +34,45 @@ services:
       Wotr__PublicUrl: https://${WOTR_DOMAIN:?Set WOTR_DOMAIN}
       # ADMIN-01: account names that may sign in to /admin (comma-separated); empty keeps the panel closed.
       Wotr__Admin__Accounts: ${WOTR_ADMIN_ACCOUNTS:-}
+      # DIST-20/21: AlphaWOTR, the CPU of new base-game CPU rooms (BOT-225), behind the alphawotr service. Off until the
+      # operator sets WOTR_ALPHAWOTR_ENABLED=true; WOTR_ALPHAWOTR_ACCOUNTS (account ids, comma-separated) opens it to
+      # those accounts only (the owner's playtest), empty to everyone. WOTR_ALPHAWOTR_MAX_GAMES games at once; keep
+      # WOTR_ALPHAWOTR_SLOTS (the sidecar's bots) above it for sessions still closing.
+      Wotr__Bots__Protocol__Enabled: ${WOTR_ALPHAWOTR_ENABLED:-false}
+      Wotr__Bots__Protocol__Host: alphawotr
+      Wotr__Bots__Protocol__Port: "7311"
+      Wotr__Bots__Protocol__Sims: ${WOTR_ALPHAWOTR_SIMS:-300}
+      Wotr__Bots__Protocol__DecisionSeconds: ${WOTR_ALPHAWOTR_DECISION_SECONDS:-60}
+      Wotr__Bots__Protocol__MaxGames: ${WOTR_ALPHAWOTR_MAX_GAMES:-2}
+      Wotr__Bots__Protocol__Accounts: ${WOTR_ALPHAWOTR_ACCOUNTS:-}
+      Wotr__Bots__Protocol__IdleSessionMinutes: ${WOTR_ALPHAWOTR_IDLE_MINUTES:-30}
     secrets: [db_connection, resend_api_key]
+    networks:
+      alphawotr:
+
+  # DIST-20: AlphaWOTR v0.2.0 (MIT) behind the protocol sidecar (infra/alphawotr/Dockerfile); profile alphawotr
+  # (COMPOSE_PROFILES=public,alphawotr). Only the server reaches it, on the internal network alphawotr: no published
+  # port, no route out. Measured 1-3 GiB per game (BOT-220). Rollback: WOTR_ALPHAWOTR_ENABLED=false, then stop it.
+  alphawotr:
+    <<: *hardened
+    image: wotr-alphawotr:${WOTR_ALPHAWOTR_IMAGE:-0.2.0}
+    build:
+      context: ..
+      dockerfile: infra/alphawotr/Dockerfile
+    profiles: [alphawotr]
+    command: ["--max-games", "${WOTR_ALPHAWOTR_SLOTS:-3}", "--", "python3", "-I", "protocol/wotr_protocol_bot.py"]
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    networks: [alphawotr]
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import socket; s=socket.create_connection(('127.0.0.1', 7312), 3); assert s.recv(8).startswith(b'ok')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 3m
+    deploy:
+      resources:
+        limits: {cpus: "${WOTR_ALPHAWOTR_CPUS:-4}", memory: "${WOTR_ALPHAWOTR_MEMORY:-9g}", pids: 512}
 
   web:
     <<: *hardened
@@ -153,3 +191,6 @@ networks:
     name: ${WOTR_INGRESS_NETWORK:-portfolio-ingress-wotr}
   # The downloads host, its certificate and the DNS updater: no route to the server or the database.
   downloads: {}
+  # DIST-20: the server and the AlphaWOTR sidecar only; no route out.
+  alphawotr:
+    internal: true

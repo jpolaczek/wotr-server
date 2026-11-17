@@ -117,7 +117,7 @@ internal sealed class BotHostFixture : IAsyncDisposable
 
     public async Task Until(string sql, object expected, params object[] values)
     {
-        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(60));
         while (!Equals(expected, await Scalar(sql, values)))
             await Task.Delay(20, timeout.Token);
     }

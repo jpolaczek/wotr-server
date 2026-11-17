@@ -52,7 +52,11 @@ public sealed class MatchIndexStore(Database database)
                 COALESCE(NOT fa.technical AND NOT sa.technical, false) AS people,
                 EXISTS (SELECT 1 FROM match_ledger l WHERE l.match_id=m.id AND l.kind='pve') AS pve,
                 (SELECT jsonb_build_object('side',b.side,'profileId',b.profile_id,'policyVersion',b.policy_version,
-                    'status','Ready') FROM bot_assignments b WHERE b.match_id=m.id) AS bot
+                    -- BOT-226: a CPU whose decision waits with an error (AlphaWOTR cannot answer) reads as unavailable.
+                    'status',CASE WHEN COALESCE(j.last_error,'') LIKE 'Protocol%' THEN 'Unavailable' ELSE 'Ready' END,
+                    'engine',COALESCE(ro.state->'bot'->>'engine',''))
+                    FROM bot_assignments b LEFT JOIN bot_runtime_jobs j ON j.assignment_id=b.id
+                    LEFT JOIN rooms ro ON ro.id=b.room_id WHERE b.match_id=m.id) AS bot
             FROM matches m
             LEFT JOIN match_reads r ON r.match_id=m.id AND r.account_id=$1
             LEFT JOIN accounts fa ON fa.id=m.fp_account

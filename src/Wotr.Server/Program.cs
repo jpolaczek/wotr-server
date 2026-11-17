@@ -54,6 +54,8 @@ builder.Services.AddSingleton<BotJobStore>();
 builder.Services.AddSingleton<BotInputStore>();
 builder.Services.AddSingleton<BotRuntimeControl>();
 builder.Services.AddSingleton<BotHostMetrics>();
+builder.Services.AddSingleton(services => ProtocolSeatOptions.Read(services.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton<ProtocolSeatHost>();
 builder.Services.AddHostedService<BotScheduler>();
 builder.Services.AddSingleton<ISessionResolver>(services => services.GetRequiredService<SessionStore>());
 builder.Services.AddSingleton(services => ReleaseScope.Read(services.GetRequiredService<IConfiguration>(), services.GetRequiredService<IHostEnvironment>()));
