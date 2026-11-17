@@ -11,6 +11,10 @@ SPEC §2: "a plain TCP stream is the same protocol"). The bot's stderr goes to a
 The bot command follows "--". The sidecar listens on the loopback address only unless told otherwise, lets a connection wait up
 to a minute for a free bot beyond --max-games (then refuses it: the server's decision waits with that error, no other
 engine plays), and never reads or changes what passes.
+
+DIST-20 (the container): --check starts the bot once and requires its hello before listening; --health HOST:PORT answers
+"ok <free bots>" on a connection without starting a bot (the container's health check); --logs - sends the bots' stderr to
+the sidecar's own (the container's log).
 """
 import argparse
 import datetime
@@ -52,12 +56,18 @@ def pump_to_server(conn, proc, done):
         done.set()
 
 
-def serve(conn, address, args, slots, number):
+def bot_log(args, number):
+    if args.logs == "-":
+        return None
     stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    log_path = os.path.join(args.logs, f"bot-{stamp}-{number}.log") if args.logs else os.devnull
-    with open(log_path, "ab") as log:
-        proc = subprocess.Popen(args.command, cwd=args.cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=log,
-                                env=dict(os.environ, MPLBACKEND="Agg"))
+    return open(os.path.join(args.logs, f"bot-{stamp}-{number}.log") if args.logs else os.devnull, "ab")
+
+
+def serve(conn, address, args, slots, number):
+    log = bot_log(args, number)
+    try:
+        proc = subprocess.Popen(args.command, cwd=args.cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                stderr=log if log is not None else None, env=dict(os.environ, MPLBACKEND="Agg"))
         done = threading.Event()
         threads = [threading.Thread(target=pump_to_bot, args=(conn, proc, done), daemon=True),
                    threading.Thread(target=pump_to_server, args=(conn, proc, done), daemon=True)]
@@ -74,7 +84,39 @@ def serve(conn, address, args, slots, number):
         except subprocess.TimeoutExpired:
             proc.kill()
             proc.wait()
-    slots.release()
+    finally:
+        if log is not None:
+            log.close()
+        slots.release()
+
+
+def check(args):
+    """The bot answers the protocol's hello (DIST-20: before the container listens)."""
+    proc = subprocess.run(args.command, cwd=args.cwd, input=b'{"type":"hello","id":"check","protocol":"0.2"}\n{"type":"quit"}\n',
+                          stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, env=dict(os.environ, MPLBACKEND="Agg"), timeout=600)
+    line = proc.stdout.decode("utf-8", "replace").splitlines()[:1]
+    if not line or '"hello"' not in line[0].replace(" ", ""):
+        print("protocol sidecar: the bot did not answer hello", flush=True)
+        return False
+    print("protocol sidecar: the bot answers: " + line[0][:160], flush=True)
+    return True
+
+
+def health(listen, slots, limit):
+    host, port = listen.rsplit(":", 1)
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server.bind((host, int(port)))
+    server.listen(4)
+    while True:
+        conn, _ = server.accept()
+        try:
+            free = slots._value if hasattr(slots, "_value") else limit
+            conn.sendall(f"ok {free}\n".encode())
+        except OSError:
+            pass
+        finally:
+            conn.close()
 
 
 def main():
@@ -83,16 +125,22 @@ def main():
     parser.add_argument("--cwd", default=".")
     parser.add_argument("--logs", default="")
     parser.add_argument("--max-games", type=int, default=4)
+    parser.add_argument("--check", action="store_true")
+    parser.add_argument("--health", default="")
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     if args.command and args.command[0] == "--":
         args.command = args.command[1:]
     if not args.command:
         parser.error("the bot command follows --")
-    if args.logs:
+    if args.logs and args.logs != "-":
         os.makedirs(args.logs, exist_ok=True)
+    if args.check and not check(args):
+        return 1
     host, port = args.listen.rsplit(":", 1)
     slots = threading.BoundedSemaphore(args.max_games)
+    if args.health:
+        threading.Thread(target=health, args=(args.health, slots, args.max_games), daemon=True).start()
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind((host, int(port)))

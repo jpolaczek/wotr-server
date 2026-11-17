@@ -7,3 +7,7 @@
 !content/*.json
 src/**/bin/
 src/**/obj/
+# DIST-20: the AlphaWOTR sidecar image (infra/alphawotr/Dockerfile).
+!infra/alphawotr/
+!infra/alphawotr/**
+!scripts/protocol_sidecar.py
