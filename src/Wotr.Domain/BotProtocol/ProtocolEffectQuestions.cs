@@ -154,24 +154,41 @@ public static class ProtocolEffectQuestions
             // The question names what the card asks in words (a retreat, a target), as the bot reads them.
             var words = string.Join(" ", new[] { context.View.Decision?.Presentation ?? "" }.Concat(option.EffectChoices
                 .Select(c => c.Title).Where(t => t.Length > 0).Distinct().Take(3))).ToLowerInvariant();
-            // A recruitment's destination and Nation as words of the question (AlphaWOTR reads them so), when the figures
-            // offered now share them.
-            var places = branches.Where(b => (string?)b.Atom["unit"] is not null && (string?)b.Atom["region"] is not null &&
-                    (string?)b.Atom["answer"] is { } answer && !answer.Contains(':'))
-                .Select(b => ((string?)b.Atom["region"], (string?)b.Atom["nation"])).Distinct().ToList();
+            // A recruitment's destination and Nation as words of the question (AlphaWOTR's board difference reads them so;
+            // an option's region and Nation fields only cost it points against its engine's own choice, which names the unit).
+            static bool Figure(ProtocolBranch b) => (string?)b.Atom["unit"] is not null && (string?)b.Atom["region"] is not null &&
+                (string?)b.Atom["answer"] is { } answer && !answer.Contains(':');
+            var places = branches.Where(Figure).GroupBy(b => ((string?)b.Atom["region"], (string?)b.Atom["nation"])).ToList();
+            var where = "";
             if (places.Count == 1)
             {
-                words += " in " + places[0].Item1 + " for " + places[0].Item2;
-                // Then the figures are told apart by their unit alone: AlphaWOTR scores an option's region and Nation
-                // against its engine's choice, which names only the unit (Faramir's Rangers' unit_type), so they go.
-                foreach (var branch in branches.Where(b => (string?)b.Atom["unit"] is not null && (string?)b.Atom["answer"] is { } answer &&
-                             !answer.Contains(':')))
+                where = " in " + places[0].Key.Item1 + " for " + places[0].Key.Item2;
+                foreach (var branch in places[0])
                 {
                     branch.Atom.Remove("region");
                     branch.Atom.Remove("nation");
                 }
             }
-            var frame = Question(context, card, CardCatalog.Title(card) + ": choose (" + words + ")");
+            else if (places.Count > 1)
+            {
+                // Figures for several destinations (Swords in Eriador: the North in the Shire, the Dwarves in Ered Luin): the
+                // destination first, then the unit with the destination in the question's words.
+                var others = branches.Where(b => !Figure(b)).ToList();
+                branches = others.Concat(places.Select(place =>
+                {
+                    var units = place.ToList();
+                    foreach (var unit in units)
+                    {
+                        unit.Atom.Remove("region");
+                        unit.Atom.Remove("nation");
+                    }
+                    var atom = ProtocolAtom.Of("card_choice", ("card", card.Length > 0 ? context.Card(card) : null),
+                        ("answer", place.Key.Item1), ("region", place.Key.Item1), ("nation", place.Key.Item2));
+                    var unitQuestion = Question(context, card, $"Which unit is recruited in {place.Key.Item1} for {place.Key.Item2} ?");
+                    return new ProtocolBranch(atom, $"A figure in {place.Key.Item1}", () => new ProtocolNode("CARD_CHOICE", unitQuestion, units));
+                })).ToList();
+            }
+            var frame = Question(context, card, CardCatalog.Title(card) + ": choose (" + words + ")" + where);
             if (context.View.Battle is not null)
                 foreach (var (key, value) in ProtocolBattleQuestions.Context(context)!)
                     frame[key] = value?.DeepClone();

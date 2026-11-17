@@ -60,6 +60,44 @@ public sealed class BotProtocolCardTests
         Assert.Null(Engine.Validate(state, Side.Shadow, decision.Command!));
     }
 
+    // Figures for two destinations (Swords in Eriador: the North in the Shire, the Dwarves in Ered Luin) are asked
+    // destination first, then the unit with the destination as the question's words and the unit alone as the option.
+    [Fact]
+    public void SwordsInEriadorAsksTheDestinationFirst()
+    {
+        var state = TestScenarioCatalog.Find("fp-event-play")!.Create("protocol-swords");
+        var player = state.Players.Single(p => p.Side == Side.FreePeoples);
+        const string swords = "base.fp.strategy.20";
+        if (!player.Hand.Contains(swords))
+        {
+            (player.Decks.Values.FirstOrDefault(d => d.Contains(swords)) ?? player.Discard).Remove(swords);
+            player.Hand.Add(swords);
+            player.HandVersion++;
+        }
+        var view = Views.For(state, Side.FreePeoples);
+        var die = state.Dice.First(d => d.Owner == Side.FreePeoples && d.Location == DieLocation.Available && d.Face == DieFace.Event);
+        var played = Engine.Execute(state, Side.FreePeoples, new GameCommand
+        {
+            MatchId = state.Id, CommandId = "swords", ExpectedRevision = state.Revision, DecisionId = view.Decision!.Id,
+            Kind = CommandKind.PlayEvent, Payload = new() { CardId = swords, DieId = die.Id, CardCost = die.Face }
+        }, new SeededRandom(7));
+        Assert.True(played.Receipt.Accepted, played.Receipt.Error);
+        state = played.State;
+        view = Views.For(state, Side.FreePeoples);
+        var snapshot = state;
+        var decision = ProtocolDecision.Start(ProtocolQuestions.For(view, c => Engine.Validate(snapshot, Side.FreePeoples, c) is null)!);
+        var first = decision.Question!;
+        Assert.Equal(new[] { "ered-luin", "the-shire" }, first.Branches.Select(b => (string?)b.Atom["region"]).Where(r => r is not null).Order().ToArray());
+        Assert.True(decision.Answer(first.Branches.ToList().FindIndex(b => (string?)b.Atom["answer"] == "the-shire")));
+        var unit = decision.Question!;
+        Assert.Equal("Which unit is recruited in the-shire for NORTH ?", (string?)unit.Context!["question"]);
+        Assert.All(unit.Branches, b => Assert.Null(b.Atom["region"]));
+        Assert.True(decision.Answer(unit.Branches.ToList().FindIndex(b => (string?)b.Atom["answer"] == "REGULAR")));
+        while (decision.Question is { } next)
+            Assert.True(decision.Answer(0));
+        Assert.Null(Engine.Validate(state, Side.FreePeoples, decision.Command!));
+    }
+
     // A forfeit of Nazgûl Leadership is a count of points (AlphaWOTR's Dread and Despair counts); the Witch-king's go last.
     [Fact]
     public void ANazgulLeadershipForfeitIsACount()
