@@ -35,6 +35,9 @@ public class ExpansionPersistenceTests
             var state = ExpansionInteractionTests.Book(cities);
             await LordsPersistenceTests.Restart(state, CommandKind.MoveCompanions, new());
             state = KingsFixture.Do(state, CommandKind.MoveCompanions);
+            // UI-547 (owner, 2026-11-18): the only legal region is still clicked, and restored.
+            await LordsPersistenceTests.Restart(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, "iron-hills"));
+            state = FateCardsFixture.Choose(state, "iron-hills");
             var elite = FateCardsFixture.Option(state).EligibleIds
                 .Single(id => state.Units.Single(unit => unit.Id == id).Kind == UnitKind.Elite);
             await LordsPersistenceTests.Restart(state, CommandKind.ChooseEffect, new() { Ids = [elite] });

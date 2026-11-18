@@ -174,6 +174,9 @@ namespace Wotr.Contracts
         public UnitKind Kind { get; set; }
         public List<string> ReserveIds { get; set; } = new List<string>();
         public List<string> Targets { get; set; } = new List<string>();
+        // Owner, 2026-11-18: the effect itself names one region for these figures, so a click on one places it there. When
+        // the effect allows several regions and only one is legal now, this stays false and the region is clicked on the map.
+        public bool RegionFixed { get; set; }
     }
     public sealed class ActionPreview
     {

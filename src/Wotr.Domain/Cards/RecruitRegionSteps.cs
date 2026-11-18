@@ -5,6 +5,7 @@ namespace Wotr.Domain;
 public abstract record RecruitRegionStep(string Nation, bool IncludeLeaders = false, bool AllowBesieged = true) : EffectChoiceStep
 {
     public override string Presentation => "Region";
+    protected override bool ChosenEvenAlone => true;
     protected abstract bool Eligible(MatchState state, RegionDefinition region);
 
     public override IReadOnlyList<string> Candidates(MatchState state, EffectExecution execution)

@@ -1,6 +1,11 @@
 <a id="kontrakty-i-maszyny-stanów"></a>
 # Contracts and State machinery
 
+Contracts 0.78.0 (UI-547, owner 2026-11-18, not yet released) add `RecruitmentOption.RegionFixed`: the effect
+itself names one region for that nation and kind, so the client places the figure with its click; when the effect allows
+several regions and only one is legal now it stays false and the region is clicked on the map. Public content 1.0.78
+pins contracts 0.78.0 (its files unchanged). Rules, protocol and save schema do not change.
+
 Contracts 0.77.0 (BOT-226, not yet released) add `PlayerView.Cpu` (`CpuSeatState`: while AlphaWOTR's
 decision waits with an error, since when and the kind of failure only; null otherwise) and the room
 error `CpuBusy` (the operator's limit of AlphaWOTR games at once). They add `BotSeatView.Engine`: `alphawotr` when AlphaWOTR
@@ -870,6 +875,8 @@ Riders use `RecruitmentPlan` and `Placements`: one R/E and Leader figurine in on
 ## T30-CARDS-02 — different nations and the Corruption test from the event
 
 `EventRecruitmentOption.DistinctNations > 0` means one figure per nation, to the printed limit. `ActionOption.Minimum/Maximum` gives the maximum feasible result after taking into account the reserves and targets. Default zero retains the current quota model. The client controls the entire prefix of the plan, the server independently checks the `Placements` set, types, regions and different nations. One command is approved; the change of the selection refreshes existing controls.
+
+`RecruitmentOption.RegionFixed` (UI-547, owner 2026-11-18) is true when the effect itself names one region for that nation and kind, so the client places the figure there with its click. It stays false when the effect allows several regions, even when only one of them is legal now (`Targets` holds that one): the player clicks it on the map. The server places a plan without asking only when every figure's region is fixed and no figure is to be chosen, or when the effect's own quotas leave no choice (`RecruitmentPlan.Automatic`). Older clients ignore the field.
 
 `DiscardWelcome` is added at the end of `CommandKind`; it does not change the older command numbers. The server returns only the legal dice in `EligibleDice`, re-verifies the tho-presence of figures and atomicly releases die/rejects card. Service saves the target in `EffectExecution.TargetIds`, nation in `NationId` and region in `RegionId`; these data do not open access to the tile value.
 

@@ -84,6 +84,8 @@ public class ShadowStrategy03EventTests
         BattleFixture.Put(state, "gondor", UnitKind.Regular, "minas-tirith").Garrison = !inside;
         state.Control["minas-tirith"] = inside ? Side.Shadow : Side.FreePeoples;
         state = Play(state, card);
+        // UI-547 (owner, 2026-11-18): the card lets its player choose the region, so the only legal one is still clicked.
+        state = Do(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, "minas-tirith"));
         var id = state.Units.Single(u => u.Nation == nation && u.Kind == UnitKind.Elite && state.Pending!.PrivateChoices.Contains(u.Id)).Id;
         state = Do(state, CommandKind.ChooseEffect, new() { Ids = [id] });
         Assert.Equal(DecisionKind.RemoveExcess, state.Pending!.Kind);
@@ -107,6 +109,9 @@ public class ShadowStrategy03EventTests
         Reserve(state, nation, UnitKind.Regular, remaining);
         Reserve(state, nation, UnitKind.Elite, 0);
         state = Play(state, card);
+        // UI-547 (owner, 2026-11-18): the only legal region is still clicked; with no figure left no choice opens at all.
+        if (remaining > 0)
+            state = Do(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, "westemnet"));
         Assert.Equal(remaining, state.Events.Count(e => e.Kind == "EventRecruited"));
         Assert.Empty(state.Resolution.Frames);
     }

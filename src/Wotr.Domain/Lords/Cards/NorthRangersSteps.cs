@@ -33,6 +33,7 @@ public sealed record NorthRangersAttackStep : EffectChoiceStep
 public sealed record NorthRangersRegionStep : EffectChoiceStep
 {
     public override string Presentation => "Region";
+    protected override bool ChosenEvenAlone => true;
     public override IReadOnlyList<string> Candidates(MatchState state, EffectExecution execution)
     {
         if (!BoardRules.Regions.TryGetValue(execution.RegionId, out var origin) ||

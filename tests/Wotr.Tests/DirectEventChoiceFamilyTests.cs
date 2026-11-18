@@ -656,6 +656,8 @@ public sealed class DirectEventChoiceFamilyTests
         state = EventTests.Execute(state, EventTests.Play(state, FateCards.Book, DieFace.Muster));
         Assert.Equal(DecisionKind.CompanionSeparation, state.Pending!.Kind);
         state = CharacterFixture.Do(state, CommandKind.MoveCompanions, new());
+        // UI-547 (owner, 2026-11-18): the Iron Hills, the only legal region, is still clicked.
+        state = CharacterFixture.Do(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, "iron-hills"));
 
         Assert.Equal(DecisionKind.EffectChoice, state.Pending!.Kind);
         Assert.Equal("ReserveFigures", state.Pending.Presentation);

@@ -66,6 +66,9 @@ public class FateShadowRecruitmentTests
         var beforeDol = state.Units.Count(u => u.Location == "dol-guldur");
         var beforeMount = state.Units.Count(u => u.Location == "mount-gundabad");
         state = Play(state, FateCards.Orcs);
+        // UI-547 (owner, 2026-11-18): Mount Gundabad alone is still clicked; with both blocked no region is asked.
+        if (!both)
+            state = Choose(state, RecruitRegionFixture.Only(state, "mount-gundabad").Ids[0]);
         Assert.Equal(beforeDol + 3, state.Units.Count(u => u.Location == "dol-guldur"));
         Assert.Equal(beforeMount + (both ? 0 : 3), state.Units.Count(u => u.Location == "mount-gundabad"));
         Assert.DoesNotContain(state.Units, u => u.Location == "erebor");

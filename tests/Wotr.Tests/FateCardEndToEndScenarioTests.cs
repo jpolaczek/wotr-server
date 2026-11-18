@@ -43,15 +43,17 @@ public class FateCardEndToEndScenarioTests
         Assert.Equal("iron-hills", state.Units.Single(u => u.Id == unit).Location);
     }
 
-    // EXP-15 D8: with Legolas moved out of Ered Luin only the Iron Hills remain, so the next choice is the unit.
+    // EXP-15 D8, UI-547 (owner, 2026-11-18): with Legolas moved out of Ered Luin only the Iron Hills remain; the card lets the
+    // Free Peoples choose the region, so it is still clicked, then the unit is chosen.
     [Fact]
-    public void BookOfMazarbulTakesTheOnlyCompanionRegionWithoutAClick()
+    public void BookOfMazarbulAsksForTheOnlyCompanionRegion()
     {
         var state = Play(Create(Event(FateCards.Book)), FateCards.Book);
         state = Do(state, CommandKind.MoveCompanions, new()
         {
             CompanionMoves = [new() { Ids = ["base.character.legolas"], Route = ["ered-luin", "grey-havens"] }]
         });
+        state = Do(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, "iron-hills"));
         var units = Option(state, CommandKind.ChooseEffect).EligibleIds;
         Assert.All(units, id => Assert.Contains(state.Units, u => u.Id == id && u.Nation == "dwarves" && u.Location == "reserve"));
         state = Do(state, CommandKind.ChooseEffect, new() { Ids = [units[0]] });
@@ -198,12 +200,14 @@ public class FateCardEndToEndScenarioTests
     }
 
     [Fact]
-    public void OrcsMultiplyingAgainTakesMountGundabadWithoutAClickWhileTheFreePeoplesHoldErebor()
+    // UI-547 (owner, 2026-11-18): Mount Gundabad or Erebor is the card's own choice, so Mount Gundabad alone is still clicked.
+    public void OrcsMultiplyingAgainAsksForMountGundabadWhileTheFreePeoplesHoldErebor()
     {
         var state = Create("fate-card-orcs-erebor-held");
         Assert.Equal(Side.FreePeoples, state.Control[Erebor]);
         var before = Regulars(state);
         state = Play(state, FateCards.Orcs);
+        state = Do(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, "mount-gundabad"));
         Assert.Equal(DecisionKind.Action, state.Pending!.Kind);
         var after = Regulars(state);
         Assert.Equal((3, 3, 0), (after["dol-guldur"] - before["dol-guldur"], after["mount-gundabad"] - before["mount-gundabad"],

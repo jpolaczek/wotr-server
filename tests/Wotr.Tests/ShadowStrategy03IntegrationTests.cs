@@ -22,6 +22,9 @@ public class ShadowStrategy03IntegrationTests
         EventTests.GiveCard(state, Side.Shadow, card);
         Assert.True(RegionProtection.Blocks(state, Side.Shadow, "lorien"));
         state = Play(state, card);
+        // UI-547 (owner, 2026-11-18): the card lets its player choose the region, so the only legal one is still clicked.
+        if (state.Pending?.Presentation == "Region")
+            state = Do(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, "lorien"));
         if (state.Pending!.Kind == DecisionKind.EffectChoice)
         {
             var id = state.Units.Single(u => state.Pending.PrivateChoices.Contains(u.Id) && u.Kind == UnitKind.Elite).Id;

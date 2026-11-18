@@ -28,6 +28,9 @@ public class Strategy03RecruitmentTests
         state.Nations.Single(n => n.Id == nation).Active = false;
         var drawn = state.Player(Side.FreePeoples).Decks["strategy"][0];
         state = Play(state, card);
+        // UI-547 (owner, 2026-11-18): the card lets its player choose the region, so the only legal one is still clicked.
+        if (card == RidersOfTheoden)
+            state = Do(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, region));
         Assert.Equal("ReserveFigures", state.Pending!.Presentation);
         Reject(state, CommandKind.ChooseEffect, new() { Ids = [state.Units.First(u => u.Nation == "sauron").Id] });
         var recruit = Recruits(state, kind).Single();
@@ -108,6 +111,8 @@ public class Strategy03RecruitmentTests
         BattleFixture.Put(state, "sauron", UnitKind.Regular, "dol-amroth").Garrison = !fpInside;
         state.Control["dol-amroth"] = fpInside ? Side.FreePeoples : Side.Shadow;
         state = Play(state, CirdansShips);
+        // UI-547 (owner, 2026-11-18): the card lets its player choose the region, so the only legal one is still clicked.
+        state = Do(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, "dol-amroth"));
         state = Do(state, CommandKind.ChooseEffect, new() { Ids = Recruits(state, UnitKind.Elite, UnitKind.Elite) });
         Assert.All(state.Units.Where(u => u.Location == "dol-amroth" && u.Nation == "elves"), u => Assert.Equal(fpInside, u.Garrison));
         Assert.Equal(DecisionKind.RemoveExcess, state.Pending!.Kind);
@@ -146,6 +151,8 @@ public class Strategy03RecruitmentTests
         state = Play(state, RidersOfTheoden);
         if (!companion)
         {
+            // UI-547 (owner, 2026-11-18): the card lets its player choose the region, so the only legal one is still clicked.
+            state = Do(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, "edoras"));
             Assert.Equal("ReserveFigures", state.Pending!.Presentation);
             Assert.Equal("edoras", new EffectOptions().GetOptions(state, Side.FreePeoples).Single().EffectChoices[0].TargetId);
             return;
@@ -182,6 +189,9 @@ public class Strategy03RecruitmentTests
             unit.Location = "casualties";
         BattleFixture.Put(state, "elves", UnitKind.Regular, region);
         state = Play(state, card);
+        // UI-547 (owner, 2026-11-18): the card lets its player choose the region, so the only legal one is still clicked.
+        if (card == RidersOfTheoden)
+            state = Do(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, region));
         Assert.Single(state.Units, u => u.Location == region && u.Kind == UnitKind.Leader && u.Nation == nation);
         Assert.Single(state.Events, e => e.Kind == "EventRecruited");
         Assert.Empty(state.Resolution.Frames);
