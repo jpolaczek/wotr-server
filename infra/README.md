@@ -344,6 +344,15 @@ line after 5 minutes), and the game continues once AlphaWOTR answers.
    soon as an idle session closes and frees its slot.
 6. Watch: `infra/production.sh logs server | grep -i alphawotr` (a waiting decision: "AlphaWOTR could not answer …", a
    long wait: a critical line), `infra/production.sh logs alphawotr`.
+   Its reasoning (owner, 2026-11-18) stays in the volume `alphawotr-logs`, mounted at `/var/log/alphawotr`:
+   `decisions.jsonl`, one JSON line per decision of every game (`game` is the match id,
+   then `turn`, `kind`, the option `o`, `how` (search, single, plan, default…), `secs`, and in `info` the search's
+   `sims`, the `value` it gave the move played and the engine's own move), and `bot-<time>-<n>.log` per session, the
+   same decisions as text lines after its `game <n>: <game id> as <side>` line. A game whose session closed while
+   its player thought goes on in a new file. Find a game, then copy the logs out:
+   `infra/production.sh exec alphawotr grep -l '<game id>' -r /var/log/alphawotr`,
+   `infra/production.sh cp alphawotr:/var/log/alphawotr ./alphawotr-logs`. A game leaves well under a megabyte;
+   nothing is pruned (remove old session files by hand with `exec alphawotr find /var/log/alphawotr -mtime +N -delete`).
 7. Rollback: `WOTR_ALPHAWOTR_ENABLED=false` and restart the server (new CPU games get the runtime again; a game already
    begun with AlphaWOTR waits until it is back), then `infra/production.sh stop alphawotr` once no such game is running.
 

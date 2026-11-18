@@ -23,7 +23,10 @@ RUN pip install --index-url https://pypi.org/simple --extra-index-url https://do
 COPY --from=source /opt/alphawotr /opt/alphawotr
 COPY scripts/protocol_sidecar.py /opt/sidecar/protocol_sidecar.py
 COPY infra/alphawotr/content_hash.py /opt/sidecar/content_hash.py
-RUN useradd --uid 1655 --no-create-home --shell /usr/sbin/nologin alphawotr
+# Owner, 2026-11-18: AlphaWOTR keeps its reasoning. /var/log/alphawotr is its user's, so a named volume mounted there
+# starts writable (production: the volume alphawotr-logs); an empty folder leaves the content hash unchanged.
+RUN useradd --uid 1655 --no-create-home --shell /usr/sbin/nologin alphawotr \
+    && mkdir -p /var/log/alphawotr && chown 1655:1655 /var/log/alphawotr
 USER 1655
 WORKDIR /opt/alphawotr
 EXPOSE 7311

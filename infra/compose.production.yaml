@@ -63,7 +63,15 @@ services:
       context: ..
       dockerfile: infra/alphawotr/Dockerfile
     profiles: [alphawotr]
-    command: ["--max-games", "${WOTR_ALPHAWOTR_SLOTS:-3}", "--", "python3", "-I", "protocol/wotr_protocol_bot.py"]
+    # Owner, 2026-11-18: AlphaWOTR keeps its reasoning in the volume alphawotr-logs. The sidecar's --logs (the later one
+    # wins over the image's "--logs -") writes each session's stderr to bot-<time>-<n>.log, with --verbose one line per
+    # decision (turn, side, question, the option chosen, how, seconds, the engine's move); --log adds one JSON line per
+    # decision of every session to decisions.jsonl, with the game id, the search's simulations and the value it gave the
+    # move played. Reading them: infra/README.md, AlphaWOTR step 6.
+    command: ["--logs", "/var/log/alphawotr", "--max-games", "${WOTR_ALPHAWOTR_SLOTS:-3}", "--",
+              "python3", "-I", "protocol/wotr_protocol_bot.py", "--verbose", "--log", "/var/log/alphawotr/decisions.jsonl"]
+    volumes:
+      - alphawotr-logs:/var/log/alphawotr
     tmpfs: [/tmp]
     cap_drop: [ALL]
     networks: [alphawotr]
@@ -187,6 +195,7 @@ secrets:
 
 volumes:
   letsencrypt:
+  alphawotr-logs:
 
 networks:
   # Created by this stack; the portfolio tunnel joins it as an external network (portfolio: tunnel.wotr.yaml).

@@ -77,6 +77,12 @@ Public code in `src/Wotr.Domain/BotProtocol` (the rules side) and
   decisions and opened again (`new_game`, then the turn's start) after a restart or a
   lost connection. The command is journalled like the runtime's, the runtime's memory
   unchanged.
+- **Reasoning log (production).** Owner, 2026-11-18: AlphaWOTR keeps its reasoning. The
+  sidecar writes each session's stderr to a file (`--logs`), the bot runs with
+  `--verbose` (one line per decision) and `--log` (one JSON line per decision: the
+  `game` sent in `new_game`, turn, question, option, how it was found, seconds, the
+  search's simulations and the value of the move played). They live in the volume
+  `alphawotr-logs`; infra/README.md (AlphaWOTR, step 6) says how to read them.
 - **Opening and capacity (release).** `Wotr:Bots:Protocol:Accounts` (comma-separated
   account ids) opens AlphaWOTR to those accounts only while it is not yet for everyone
   (the owner's playtest): any other account's new CPU is the runtime; empty means every
