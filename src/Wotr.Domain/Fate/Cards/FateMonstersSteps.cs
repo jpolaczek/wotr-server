@@ -23,6 +23,7 @@ public sealed record FateMonstersBranchStep : EffectChoiceStep
 
 public sealed record FateMonstersEliteStep : EffectChoiceStep
 {
+    protected override bool ChosenEvenAlone => true;
     public static IReadOnlyList<string> Regions { get; } = ["western-mirkwood", "northern-mirkwood", "withered-heath"];
     public override string Presentation => "Region";
     public override IReadOnlyList<string> Candidates(MatchState state, EffectExecution execution) =>

@@ -27,6 +27,32 @@ public class ShadowStrategy03BatchTests
         Assert.Empty(state.Resolution.Frames);
     }
 
+    // UI-547 (owner, 2026-11-18): a figure whose region the card itself names is placed by its click; any other figure's
+    // region is chosen. A New Power is Rising names Orthanc alone for the Isengard Elite and three regions for the Regulars,
+    // and a Regular still chooses when only Orthanc is free.
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void NewPowerTellsTheFixedOrthancEliteFromTheRegularsChoice(bool dunlandHeld)
+    {
+        var state = State(NewPower);
+        if (dunlandHeld)
+            foreach (var region in new[] { "north-dunland", "south-dunland" })
+            {
+                BattleFixture.Put(state, "rohan", UnitKind.Regular, region);
+                state.Control[region] = Side.FreePeoples;
+            }
+        state = Play(state, NewPower);
+        Assert.Equal("RecruitmentPlan", state.Pending!.Presentation);
+        var groups = Option(state).Recruitment;
+        var elite = groups.Single(g => g.Kind == UnitKind.Elite);
+        var regular = groups.Single(g => g.Kind == UnitKind.Regular);
+        Assert.Equal(["orthanc"], elite.Targets);
+        Assert.True(elite.RegionFixed, "The card names Orthanc alone for the Elite.");
+        Assert.Equal(dunlandHeld ? ["orthanc"] : ["north-dunland", "south-dunland", "orthanc"], regular.Targets);
+        Assert.False(regular.RegionFixed, "The card names three regions for the Regulars, whatever is free now.");
+    }
+
     [Theory]
     [InlineData("north-dunland", "north-dunland")]
     [InlineData("south-dunland", "south-dunland")]
@@ -169,6 +195,12 @@ public class ShadowStrategy03BatchTests
         foreach (var region in new[] { "near-harad", "north-rhun", "south-rhun" })
             state.Control[region] = Side.FreePeoples;
         state = Play(state, ManyKings);
+        // UI-547 (owner, 2026-11-18): the card lets the Shadow choose its settlements, so the two left free are placed by
+        // its player, and nothing else is offered.
+        Assert.Equal(DecisionKind.EffectChoice, state.Pending!.Kind);
+        Assert.DoesNotContain(state.Events, e => e.Kind == "EventRecruited");
+        state = Do(state, CommandKind.ChooseEffect, Plan(state, ("southrons", UnitKind.Regular, "umbar", 2),
+            ("southrons", UnitKind.Regular, "far-harad", 2)));
         Assert.Equal(4, state.Events.Count(e => e.Kind == "EventRecruited"));
         Assert.Empty(state.Resolution.Frames);
         Assert.Equal(2, state.Units.Count(u => u.Location == "umbar"));

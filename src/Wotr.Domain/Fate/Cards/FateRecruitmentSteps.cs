@@ -19,6 +19,7 @@ public sealed record FateDaleRecruitStep(string Nation) : RecruitmentBatchStep([
 
 public sealed record FateOrcsRegionStep : EffectChoiceStep
 {
+    protected override bool ChosenEvenAlone => true;
     public override string Presentation => "Region";
     public override IReadOnlyList<string> Candidates(MatchState state, EffectExecution execution) =>
         state.Units.Any(u => u.Nation == "sauron" && u.Kind == UnitKind.Regular && u.Location == "reserve")

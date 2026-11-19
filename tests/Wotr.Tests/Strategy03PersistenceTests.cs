@@ -27,6 +27,9 @@ public class Strategy03PersistenceTests
         foreach (var card in new[] { GuardsOfCitadel, CelebornsGaladhrim, RidersOfTheoden, Grimbeorn, Imrahil })
         {
             var state = Play(BattleFixture.State(), card);
+            // UI-547 (owner, 2026-11-18): the Riders' Edoras, the only legal region, is still clicked and restored.
+            if (card == RidersOfTheoden)
+                state = await RestartDecision(state, CommandKind.ChooseEffect, RecruitRegionFixture.Only(state, "edoras"), new SequenceRandom());
             state = await RestartDecision(state, CommandKind.ChooseEffect,
                 new() { Ids = Recruits(state, UnitKind.Elite) }, new SequenceRandom());
             Assert.Equal(card == CelebornsGaladhrim ? 1 : 2, state.Events.Count(e => e.Kind == "EventRecruited"));

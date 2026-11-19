@@ -27,7 +27,8 @@ public class ExpansionInteractionTests
         Assert.Empty(gimli.NationIcon);
         state = KingsFixture.Do(ExpansionFixture.Reload(state), CommandKind.MoveCompanions);
         Assert.Equal(0, state.Nations.Single(nation => nation.Id == "dwarves").StepsToWar);
-        // Iron Hills is the only legal region and is resolved automatically; the unit remains a choice.
+        // UI-547 (owner, 2026-11-18): the Iron Hills, the only legal region, is still clicked; then the unit is chosen.
+        state = FateCardsFixture.Choose(ExpansionFixture.Reload(state), RecruitRegionFixture.Only(state, "iron-hills").Ids[0]);
         var elite = FateCardsFixture.Option(state).EligibleIds.Single(id => state.Units.Single(unit => unit.Id == id).Kind == UnitKind.Elite);
         state = FateCardsFixture.Choose(ExpansionFixture.Reload(state), elite);
         Assert.Equal("iron-hills", state.Units.Single(unit => unit.Id == elite).Location);

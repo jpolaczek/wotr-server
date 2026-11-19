@@ -44,13 +44,18 @@ public abstract record EffectChoiceStep : EffectStep
         };
     }
 
+    // Owner, 2026-11-18: a recruitment region the effect lets its player choose is chosen on the map even when only one is
+    // legal now; the choice is made for the player only when the effect itself leaves none.
+    protected virtual bool ChosenEvenAlone => false;
+
     public override void Apply(EffectContext context)
     {
         var choices = Candidates(context.State, context.Execution);
         if (choices.Count == 0)
             return;
         var minimum = Minimum(context.State, context.Execution);
-        if (minimum == Maximum(context.State, context.Execution) && choices.Count == minimum && ValidSelection(context.State, context.Execution, choices))
+        if (!ChosenEvenAlone && minimum == Maximum(context.State, context.Execution) && choices.Count == minimum &&
+            ValidSelection(context.State, context.Execution, choices))
         {
             ChooseSelection(context, choices);
             return;

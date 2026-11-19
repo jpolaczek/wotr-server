@@ -9,6 +9,8 @@ internal sealed class RecruitmentPlan
     public int Maximum { get; }
     private readonly int maximumRegions;
     private readonly int distinctNations;
+    // The quotas the effect defines, before the regions that cannot take a recruit now are left out.
+    private readonly IReadOnlyList<RecruitmentQuota> defined;
     private readonly Dictionary<string, UnitState> unitsById;
     private readonly Dictionary<(string Nation, string Region, UnitKind Kind), RecruitmentQuota> quotasByTarget;
 
@@ -17,6 +19,7 @@ internal sealed class RecruitmentPlan
         RecruitmentCapacity.Validate(quotas, maximumRegions, distinctNations);
         this.maximumRegions = maximumRegions;
         this.distinctNations = distinctNations;
+        defined = quotas;
         Quotas = quotas.Where(q => RecruitmentRules.EventGarrison(state, owner, q.Region) is not null).ToArray();
         var kinds = Quotas.SelectMany(q => q.Kinds.Select(kind => (q.Nation, kind))).ToHashSet();
         var reserve = state.Units.Where(u => u.Location == "reserve" && BoardRules.Owner(u) == owner && kinds.Contains((u.Nation, u.Kind))).ToArray();
@@ -55,16 +58,23 @@ internal sealed class RecruitmentPlan
         Nation = g.Key.Nation,
         Kind = g.Key.Kind,
         ReserveIds = g.Select(u => u.Id).ToList(),
-        Targets = Quotas.Where(q => q.Nation == g.Key.Nation && q.Kinds.Contains(g.Key.Kind)).Select(q => q.Region).Distinct().ToList()
+        Targets = Quotas.Where(q => q.Nation == g.Key.Nation && q.Kinds.Contains(g.Key.Kind)).Select(q => q.Region).Distinct().ToList(),
+        RegionFixed = DefinedRegions(g.Key.Nation, g.Key.Kind) == 1
     }).ToList();
 
+    // How many regions the effect itself names for figures of this nation and kind, whether or not they are legal now.
+    private int DefinedRegions(string nation, UnitKind kind) =>
+        defined.Where(q => q.Nation == nation && q.Kinds.Contains(kind)).Select(q => q.Region).Distinct().Count();
+
+    // Owner, 2026-11-18: the recruits are placed without a choice only when the effect itself leaves none. When the effect
+    // allows several regions and only one is legal now, the player still clicks that region on the map.
     public List<UnitPlacementChoice>? Automatic()
     {
         var groups = Options();
-        if (groups.All(g => g.Targets.Count == 1) && Units.Count == Maximum)
+        if (groups.All(g => g.RegionFixed) && Units.Count == Maximum)
             return groups.SelectMany(g => g.ReserveIds.Select(id => new UnitPlacementChoice { UnitId = id, RegionId = g.Targets[0] })).ToList();
-        if (Quotas.Any(q => q.Kinds.Count != 1) || Maximum != Quotas.Sum(q => q.Maximum) ||
-            maximumRegions > 0 && Quotas.Select(q => q.Region).Distinct().Count() > maximumRegions)
+        if (defined.Any(q => q.Kinds.Count != 1) || Maximum != Quotas.Sum(q => q.Maximum) ||
+            maximumRegions > 0 && defined.Select(q => q.Region).Distinct().Count() > maximumRegions)
             return null;
         var reserve = Units.GroupBy(u => (u.Nation, u.Kind)).ToDictionary(g => g.Key, g => new Queue<UnitState>(g));
         return Quotas.SelectMany(q => Enumerable.Range(0, q.Maximum).Select(_ => new UnitPlacementChoice
