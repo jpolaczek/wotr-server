@@ -71,6 +71,10 @@ public class Shadow03EventTests
         Assert.Equal(Side.FreePeoples, state.Pending!.Owner);
         Assert.Equal("LureCompanion", state.Pending.Presentation);
         Assert.Null(HuntRuntime.Active(state));
+        // UI-565: the draw names its Companion as a public fact, for the window that shows the draw to both sides.
+        var drawn = state.Events.Single(e => e.Kind == "CompanionSelected");
+        Assert.Null(drawn.OnlyFor);
+        Assert.Equal([id], drawn.Activity!.Facts.Targets);
         state = Do(state, CommandKind.ChooseEffect, new() { Ids = [eliminate ? LureChoiceStep.Eliminate : LureChoiceStep.Corruption] });
         state = ResolveGuide(state);
         Assert.Equal(eliminate ? 0 : 2, state.Fellowship.Corruption);
