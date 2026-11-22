@@ -15,7 +15,8 @@ public sealed record LureCompanionStep : EffectStep
         var companions = context.State.Fellowship.Companions;
         var id = companions[context.Random.Next(companions.Count)];
         context.Execution.TargetIds = [id];
-        context.Record("CompanionSelected", $"Lure of the Ring: selected {id}.");
+        // UI-565: the Companion drawn is a fact of the step, so both players' clients can show the draw.
+        context.Record("CompanionSelected", $"Lure of the Ring: selected {id}.", targets: [id]);
     }
 }
 
