@@ -2,6 +2,6 @@
   <PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup>
   <ItemGroup><ProjectReference Include="../Wotr.Domain/Wotr.Domain.csproj" /></ItemGroup>
   <ItemGroup><ProjectReference Include="../Wotr.Releases/Wotr.Releases.csproj" /></ItemGroup>
-  <ItemGroup><PackageReference Include="Npgsql" Version="10.0.3" /></ItemGroup>
+  <ItemGroup><PackageReference Include="Npgsql" Version="11.0.0" /></ItemGroup>
   <ItemGroup><EmbeddedResource Include="Migrations/*.sql" /></ItemGroup>
 </Project>
